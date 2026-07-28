@@ -15,17 +15,21 @@ export default function VendorsPage() {
   const visibleVendors = useMemo(
     () =>
       vendors.filter((vendor) => {
-        const matchesCategory =
-          category === "全部" || vendor.category === category;
         const matchesLetter = letter === "全部" || vendor.initial === letter;
-        const productText = vendor.products
-          .map((product) => product.name)
-          .join(" ");
+        const productsInCategory = vendor.products.filter(
+          (product) =>
+            category === "全部" || product.category === category,
+        );
+        const matchesCategory = productsInCategory.length > 0;
+        const vendorText = `${vendor.name} ${vendor.description}`.toLowerCase();
         const matchesQuery =
           !initialQuery ||
-          `${vendor.name} ${vendor.description} ${productText}`
-            .toLowerCase()
-            .includes(initialQuery);
+          vendorText.includes(initialQuery) ||
+          productsInCategory.some((product) =>
+            `${product.name} ${product.description}`
+              .toLowerCase()
+              .includes(initialQuery),
+          );
         return matchesCategory && matchesLetter && matchesQuery;
       }),
     [category, initialQuery, letter],
@@ -91,17 +95,31 @@ export default function VendorsPage() {
               >
                 {vendor.mark}
               </span>
-              <span className="vendorCategory">{vendor.category}</span>
+              <span className="vendorCategory">
+                {category === "全部" ? vendor.category : category}
+              </span>
             </div>
             <h2>{vendor.name}</h2>
             <p>{vendor.description}</p>
             <div className="productNames">
-              {vendor.products.map((product) => (
-                <span key={product.name}>{product.name}</span>
-              ))}
+              {vendor.products
+                .filter(
+                  (product) =>
+                    category === "全部" || product.category === category,
+                )
+                .map((product) => (
+                  <span key={product.name}>{product.name}</span>
+                ))}
             </div>
             <div className="vendorCardFooter">
-              <span>{vendor.products.length} 个产品</span>
+              <span>
+                {category === "全部"
+                  ? vendor.products.length
+                  : vendor.products.filter(
+                      (product) => product.category === category,
+                    ).length}{" "}
+                个产品
+              </span>
               <b>查看厂商 →</b>
             </div>
           </Link>

@@ -1,6 +1,13 @@
 export type HubProduct = {
   name: string;
   type: "桌面端" | "CLI" | "其他产品";
+  category:
+    | "AI 对话"
+    | "编程开发"
+    | "图像创作"
+    | "视频创作"
+    | "智能体"
+    | "本地模型";
   description: string;
   platforms: string[];
   website: string;
@@ -13,7 +20,7 @@ export type HubVendor = {
   mark: string;
   color: string;
   initial: string;
-  category: string;
+  category: HubProduct["category"];
   description: string;
   website: string;
   products: HubProduct[];
@@ -33,6 +40,7 @@ export const vendors: HubVendor[] = [
       {
         name: "Claude Desktop",
         type: "桌面端",
+        category: "AI 对话",
         description: "Claude 的桌面客户端。",
         platforms: ["Windows", "macOS"],
         website: "https://claude.ai/download",
@@ -40,6 +48,7 @@ export const vendors: HubVendor[] = [
       {
         name: "Claude Code",
         type: "CLI",
+        category: "编程开发",
         description: "在终端中协助理解、修改和运行代码。",
         platforms: ["CLI"],
         website: "https://claude.ai/code",
@@ -48,6 +57,7 @@ export const vendors: HubVendor[] = [
       {
         name: "Claude",
         type: "其他产品",
+        category: "AI 对话",
         description: "通过浏览器使用 Claude。",
         platforms: ["Web"],
         website: "https://claude.ai",
@@ -60,13 +70,14 @@ export const vendors: HubVendor[] = [
     mark: "字",
     color: "#111827",
     initial: "B",
-    category: "视频",
+    category: "视频创作",
     description: "提供内容创作、视频处理与人工智能产品。",
     website: "https://www.bytedance.com",
     products: [
       {
         name: "剪映专业版",
         type: "桌面端",
+        category: "视频创作",
         description: "覆盖剪辑、字幕、配音和智能成片的视频创作工具。",
         platforms: ["Windows", "macOS"],
         website: "https://www.capcut.cn",
@@ -74,6 +85,7 @@ export const vendors: HubVendor[] = [
       {
         name: "豆包",
         type: "其他产品",
+        category: "AI 对话",
         description: "面向日常使用的 AI 助手。",
         platforms: ["Web"],
         website: "https://www.doubao.com",
@@ -86,13 +98,14 @@ export const vendors: HubVendor[] = [
     mark: "C",
     color: "#20242b",
     initial: "C",
-    category: "图像",
+    category: "图像创作",
     description: "围绕节点式生成工作流开发开源图像工具。",
     website: "https://www.comfy.org",
     products: [
       {
         name: "ComfyUI Desktop",
         type: "桌面端",
+        category: "图像创作",
         description: "通过节点连接构建 AI 图像生成工作流。",
         platforms: ["Windows"],
         website: "https://www.comfy.org/download",
@@ -113,6 +126,7 @@ export const vendors: HubVendor[] = [
       {
         name: "DeepSeek",
         type: "其他产品",
+        category: "AI 对话",
         description: "提供推理、写作、翻译和代码能力的在线 AI 助手。",
         platforms: ["Web"],
         website: "https://chat.deepseek.com",
@@ -132,6 +146,7 @@ export const vendors: HubVendor[] = [
       {
         name: "Gemini",
         type: "其他产品",
+        category: "AI 对话",
         description: "Google 的多模态 AI 助手。",
         platforms: ["Web"],
         website: "https://gemini.google.com",
@@ -139,6 +154,7 @@ export const vendors: HubVendor[] = [
       {
         name: "Gemini CLI",
         type: "CLI",
+        category: "编程开发",
         description: "在终端中使用 Gemini。",
         platforms: ["CLI"],
         website: "https://github.com/google-gemini/gemini-cli",
@@ -159,6 +175,7 @@ export const vendors: HubVendor[] = [
       {
         name: "Dify",
         type: "其他产品",
+        category: "智能体",
         description: "可视化构建 AI 应用和智能体工作流。",
         platforms: ["Web", "开源"],
         website: "https://dify.ai",
@@ -178,6 +195,7 @@ export const vendors: HubVendor[] = [
       {
         name: "Ollama",
         type: "CLI",
+        category: "本地模型",
         description: "下载、运行和管理本地大语言模型。",
         platforms: ["Windows", "CLI"],
         website: "https://ollama.com/download",
@@ -198,6 +216,7 @@ export const vendors: HubVendor[] = [
       {
         name: "ChatGPT",
         type: "桌面端",
+        category: "AI 对话",
         description: "ChatGPT 的桌面客户端。",
         platforms: ["Windows", "macOS"],
         website: "https://chatgpt.com/download",
@@ -205,6 +224,7 @@ export const vendors: HubVendor[] = [
       {
         name: "Codex CLI",
         type: "CLI",
+        category: "编程开发",
         description: "在终端中使用 Codex 完成开发任务。",
         platforms: ["CLI"],
         website: "https://github.com/openai/codex",
@@ -213,6 +233,7 @@ export const vendors: HubVendor[] = [
       {
         name: "ChatGPT Web",
         type: "其他产品",
+        category: "AI 对话",
         description: "通过浏览器使用 ChatGPT。",
         platforms: ["Web"],
         website: "https://chatgpt.com",
@@ -224,10 +245,9 @@ export const vendors: HubVendor[] = [
 export const vendorCategories = [
   "全部",
   "AI 对话",
-  "编程",
-  "视频",
-  "音频",
-  "图像",
+  "编程开发",
+  "图像创作",
+  "视频创作",
   "智能体",
   "本地模型",
 ];
