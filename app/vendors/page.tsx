@@ -1,36 +1,62 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { HubShell } from "../components/HubShell";
 import { vendorCategories, vendors } from "../data";
 
 export default function VendorsPage() {
   const params = useSearchParams();
+  const router = useRouter();
   const initialQuery = params.get("q")?.trim().toLowerCase() || "";
   const [category, setCategory] = useState("全部");
   const [letter, setLetter] = useState("全部");
 
-  const visibleVendors = useMemo(
+  const visibleVendorEntries = useMemo(
     () =>
-      vendors.filter((vendor) => {
-        const matchesLetter = letter === "全部" || vendor.initial === letter;
+      vendors.flatMap((vendor) => {
+        if (letter !== "全部" && vendor.initial !== letter) {
+          return [];
+        }
+
         const productsInCategory = vendor.products.filter(
           (product) =>
             category === "全部" || product.category === category,
         );
-        const matchesCategory = productsInCategory.length > 0;
+        if (!productsInCategory.length) {
+          return [];
+        }
+
         const vendorText = `${vendor.name} ${vendor.description}`.toLowerCase();
-        const matchesQuery =
-          !initialQuery ||
-          vendorText.includes(initialQuery) ||
-          productsInCategory.some((product) =>
-            `${product.name} ${product.description}`
-              .toLowerCase()
-              .includes(initialQuery),
-          );
-        return matchesCategory && matchesLetter && matchesQuery;
+        const matchingProducts =
+          !initialQuery || vendorText.includes(initialQuery)
+            ? productsInCategory
+            : productsInCategory.filter((product) =>
+                `${product.name} ${product.description}`
+                  .toLowerCase()
+                  .includes(initialQuery),
+              );
+
+        if (!matchingProducts.length) {
+          return [];
+        }
+
+        return [
+          {
+            vendor,
+            products: matchingProducts,
+            category:
+              category !== "全部"
+                ? category
+                : initialQuery &&
+                    new Set(
+                      matchingProducts.map((product) => product.category),
+                    ).size === 1
+                  ? matchingProducts[0].category
+                  : vendor.category,
+          },
+        ];
       }),
     [category, initialQuery, letter],
   );
@@ -78,11 +104,11 @@ export default function VendorsPage() {
 
       <div className="directorySummary">
         <b>{initialQuery ? `“${params.get("q")}” 的搜索结果` : "厂商目录"}</b>
-        <span>{visibleVendors.length} 个厂商</span>
+        <span>{visibleVendorEntries.length} 个厂商</span>
       </div>
 
       <div className="vendorGrid">
-        {visibleVendors.map((vendor) => (
+        {visibleVendorEntries.map(({ vendor, products, category: cardCategory }) => (
           <Link
             href={`/vendors/${vendor.slug}`}
             className="vendorCard"
@@ -95,47 +121,34 @@ export default function VendorsPage() {
               >
                 {vendor.mark}
               </span>
-              <span className="vendorCategory">
-                {category === "全部" ? vendor.category : category}
-              </span>
+              <span className="vendorCategory">{cardCategory}</span>
             </div>
             <h2>{vendor.name}</h2>
             <p>{vendor.description}</p>
             <div className="productNames">
-              {vendor.products
-                .filter(
-                  (product) =>
-                    category === "全部" || product.category === category,
-                )
-                .map((product) => (
-                  <span key={product.name}>{product.name}</span>
-                ))}
+              {products.map((product) => (
+                <span key={product.name}>{product.name}</span>
+              ))}
             </div>
             <div className="vendorCardFooter">
-              <span>
-                {category === "全部"
-                  ? vendor.products.length
-                  : vendor.products.filter(
-                      (product) => product.category === category,
-                    ).length}{" "}
-                个产品
-              </span>
+              <span>{products.length} 个产品</span>
               <b>查看厂商 →</b>
             </div>
           </Link>
         ))}
       </div>
 
-      {!visibleVendors.length && (
+      {!visibleVendorEntries.length && (
         <div className="emptyState">
           <h2>没有找到符合条件的厂商</h2>
           <button
             onClick={() => {
               setCategory("全部");
               setLetter("全部");
+              router.push("/vendors");
             }}
           >
-            清除分类
+            清除搜索与筛选
           </button>
         </div>
       )}

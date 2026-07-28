@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 
 const navigation = [
@@ -13,20 +13,13 @@ const navigation = [
 
 export function HubShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const [query, setQuery] = useState("");
+  const params = useSearchParams();
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("aihub-theme");
     document.documentElement.dataset.theme =
       savedTheme === "dark" ? "dark" : "light";
   }, []);
-
-  const submitSearch = (event: FormEvent) => {
-    event.preventDefault();
-    const value = query.trim();
-    router.push(value ? `/vendors?q=${encodeURIComponent(value)}` : "/vendors");
-  };
 
   return (
     <main className="site">
@@ -37,16 +30,10 @@ export function HubShell({ children }: { children: ReactNode }) {
           <small>AI 工具商店</small>
         </Link>
 
-        <form className="search" onSubmit={submitSearch}>
-          <span aria-hidden="true">⌕</span>
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="精准搜索厂商或者产品"
-            aria-label="精准搜索厂商或者产品"
-          />
-          <button type="submit">搜索</button>
-        </form>
+        <SearchBar
+          key={params.get("q") || ""}
+          initialQuery={params.get("q") || ""}
+        />
 
         <Link className="loginButton" href="/login">
           登录
@@ -91,5 +78,29 @@ export function HubShell({ children }: { children: ReactNode }) {
         <span>DEMO · 2026</span>
       </footer>
     </main>
+  );
+}
+
+function SearchBar({ initialQuery }: { initialQuery: string }) {
+  const router = useRouter();
+  const [query, setQuery] = useState(initialQuery);
+
+  const submitSearch = (event: FormEvent) => {
+    event.preventDefault();
+    const value = query.trim();
+    router.push(value ? `/vendors?q=${encodeURIComponent(value)}` : "/vendors");
+  };
+
+  return (
+    <form className="search" onSubmit={submitSearch}>
+      <span aria-hidden="true">⌕</span>
+      <input
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        placeholder="精准搜索厂商或者产品"
+        aria-label="精准搜索厂商或者产品"
+      />
+      <button type="submit">搜索</button>
+    </form>
   );
 }
