@@ -19,6 +19,10 @@ export default async function VendorPage({
     notFound();
   }
 
+  if (vendor.slug === "openai") {
+    return <OpenAIVendorPage />;
+  }
+
   const groups = ["桌面端", "CLI", "其他产品"] as const;
 
   return (
@@ -105,6 +109,211 @@ export default async function VendorPage({
           <h2>{vendor.name} 产品使用教学</h2>
         </div>
         <button>前往教学页面 →</button>
+      </section>
+    </HubShell>
+  );
+}
+
+function OpenAIVendorPage() {
+  return (
+    <HubShell>
+      <Link className="backLink" href="/vendors">
+        ← 返回全部厂商
+      </Link>
+
+      <section className="vendorHero openaiHero">
+        <span className="vendorMark hero openaiMark">O</span>
+        <div>
+          <p>AI 对话 · 编程开发</p>
+          <h1>OpenAI</h1>
+          <span>
+            OpenAI 研发并提供人工智能模型、消费级产品和开发者工具。
+          </span>
+        </div>
+        <a href="https://openai.com" target="_blank" rel="noreferrer">
+          厂商官网 ↗
+        </a>
+      </section>
+
+      <nav className="vendorSectionNav" aria-label="OpenAI 产品导航">
+        <a href="#desktop">桌面端</a>
+        <a href="#cli">CLI</a>
+        <a href="#other">其他产品</a>
+        <a href="#tutorials">使用教学</a>
+      </nav>
+
+      <section className="openaiSection" id="desktop">
+        <div className="openaiSectionHeading">
+          <div>
+            <p>桌面端</p>
+            <h2>ChatGPT 桌面应用</h2>
+          </div>
+          <span>Windows · macOS</span>
+        </div>
+
+        <article className="openaiProductCard">
+          <div className="openaiProductMain">
+            <span className="productGlyph">C</span>
+            <div>
+              <h3>ChatGPT</h3>
+              <p>
+                在桌面端使用 ChatGPT。当前桌面应用包含 Chat、Work 和
+                Codex，并支持 Windows 与 macOS。
+              </p>
+            </div>
+          </div>
+          <div className="openaiProductFacts">
+            <div>
+              <small>产品官网</small>
+              <a
+                href="https://chatgpt.com/download/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                chatgpt.com/download ↗
+              </a>
+            </div>
+            <div>
+              <small>支持平台</small>
+              <b>Windows、macOS</b>
+            </div>
+            <div>
+              <small>环境要求</small>
+              <b>根据操作系统检测</b>
+            </div>
+          </div>
+          <div className="openaiProductActions">
+            <button disabled>检测环境</button>
+            <a
+              href="https://chatgpt.com/download/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              打开下载页
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <section className="openaiSection" id="cli">
+        <div className="openaiSectionHeading">
+          <div>
+            <p>CLI</p>
+            <h2>Codex CLI</h2>
+          </div>
+          <span>Windows · macOS · Linux</span>
+        </div>
+
+        <article className="openaiProductCard">
+          <div className="openaiProductMain">
+            <span className="productGlyph terminal">›_</span>
+            <div>
+              <h3>Codex CLI</h3>
+              <p>
+                运行在终端中的编程智能体，可在本地代码目录中阅读、修改和运行代码。
+              </p>
+            </div>
+          </div>
+          <div className="openaiProductFacts">
+            <div>
+              <small>CLI 官网</small>
+              <a
+                href="https://github.com/openai/codex"
+                target="_blank"
+                rel="noreferrer"
+              >
+                github.com/openai/codex ↗
+              </a>
+            </div>
+            <div>
+              <small>安装方式</small>
+              <b>官方脚本、npm、Homebrew 或安装包</b>
+            </div>
+            <div>
+              <small>启动命令</small>
+              <code>codex</code>
+            </div>
+          </div>
+          <div className="openaiProductActions">
+            <button disabled>检测环境</button>
+            <button disabled>一键安装部署</button>
+            <a
+              href="https://github.com/openai/codex"
+              target="_blank"
+              rel="noreferrer"
+            >
+              查看官方说明
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <section className="openaiSection" id="other">
+        <div className="openaiSectionHeading">
+          <div>
+            <p>其他产品</p>
+            <h2>ChatGPT Web</h2>
+          </div>
+          <span>Web</span>
+        </div>
+
+        <article className="openaiProductCard compact">
+          <div className="openaiProductMain">
+            <span className="productGlyph web">W</span>
+            <div>
+              <h3>ChatGPT Web</h3>
+              <p>通过浏览器使用 ChatGPT，无需下载安装桌面程序。</p>
+            </div>
+          </div>
+          <div className="openaiProductActions">
+            <a href="https://chatgpt.com" target="_blank" rel="noreferrer">
+              打开产品官网
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <section className="openaiTutorials" id="tutorials">
+        <div className="sectionHeading">
+          <div>
+            <p>使用教学</p>
+            <h2>OpenAI 产品使用教学</h2>
+          </div>
+        </div>
+        <div className="tutorialList">
+          <a
+            href="https://help.openai.com"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>01</span>
+            <div>
+              <b>ChatGPT 帮助中心</b>
+              <small>查看 ChatGPT 的使用说明</small>
+            </div>
+            <i>→</i>
+          </a>
+          <a
+            href="https://github.com/openai/codex"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>02</span>
+            <div>
+              <b>Codex CLI 入门</b>
+              <small>查看安装与启动方式</small>
+            </div>
+            <i>→</i>
+          </a>
+          <a href="https://openai.com" target="_blank" rel="noreferrer">
+            <span>03</span>
+            <div>
+              <b>OpenAI 官方网站</b>
+              <small>了解厂商与其他产品</small>
+            </div>
+            <i>→</i>
+          </a>
+        </div>
       </section>
     </HubShell>
   );
