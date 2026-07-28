@@ -3,6 +3,7 @@ export type HubProduct = {
   type: "桌面端" | "CLI" | "其他产品";
   description: string;
   platforms: string[];
+  website: string;
   requires?: string[];
 };
 
@@ -34,12 +35,14 @@ export const vendors: HubVendor[] = [
         type: "桌面端",
         description: "Claude 的桌面客户端。",
         platforms: ["Windows", "macOS"],
+        website: "https://claude.ai/download",
       },
       {
         name: "Claude Code",
         type: "CLI",
         description: "在终端中协助理解、修改和运行代码。",
         platforms: ["CLI"],
+        website: "https://claude.ai/code",
         requires: ["Node.js"],
       },
       {
@@ -47,6 +50,7 @@ export const vendors: HubVendor[] = [
         type: "其他产品",
         description: "通过浏览器使用 Claude。",
         platforms: ["Web"],
+        website: "https://claude.ai",
       },
     ],
   },
@@ -65,12 +69,14 @@ export const vendors: HubVendor[] = [
         type: "桌面端",
         description: "覆盖剪辑、字幕、配音和智能成片的视频创作工具。",
         platforms: ["Windows", "macOS"],
+        website: "https://www.capcut.cn",
       },
       {
         name: "豆包",
         type: "其他产品",
         description: "面向日常使用的 AI 助手。",
         platforms: ["Web"],
+        website: "https://www.doubao.com",
       },
     ],
   },
@@ -89,6 +95,7 @@ export const vendors: HubVendor[] = [
         type: "桌面端",
         description: "通过节点连接构建 AI 图像生成工作流。",
         platforms: ["Windows"],
+        website: "https://www.comfy.org/download",
         requires: ["显卡驱动", "Python"],
       },
     ],
@@ -108,6 +115,7 @@ export const vendors: HubVendor[] = [
         type: "其他产品",
         description: "提供推理、写作、翻译和代码能力的在线 AI 助手。",
         platforms: ["Web"],
+        website: "https://chat.deepseek.com",
       },
     ],
   },
@@ -126,12 +134,14 @@ export const vendors: HubVendor[] = [
         type: "其他产品",
         description: "Google 的多模态 AI 助手。",
         platforms: ["Web"],
+        website: "https://gemini.google.com",
       },
       {
         name: "Gemini CLI",
         type: "CLI",
         description: "在终端中使用 Gemini。",
         platforms: ["CLI"],
+        website: "https://github.com/google-gemini/gemini-cli",
         requires: ["Node.js"],
       },
     ],
@@ -151,6 +161,7 @@ export const vendors: HubVendor[] = [
         type: "其他产品",
         description: "可视化构建 AI 应用和智能体工作流。",
         platforms: ["Web", "开源"],
+        website: "https://dify.ai",
       },
     ],
   },
@@ -169,6 +180,7 @@ export const vendors: HubVendor[] = [
         type: "CLI",
         description: "下载、运行和管理本地大语言模型。",
         platforms: ["Windows", "CLI"],
+        website: "https://ollama.com/download",
         requires: ["Windows 10 或更高版本"],
       },
     ],
@@ -188,12 +200,14 @@ export const vendors: HubVendor[] = [
         type: "桌面端",
         description: "ChatGPT 的桌面客户端。",
         platforms: ["Windows", "macOS"],
+        website: "https://chatgpt.com/download",
       },
       {
         name: "Codex CLI",
         type: "CLI",
         description: "在终端中使用 Codex 完成开发任务。",
         platforms: ["CLI"],
+        website: "https://github.com/openai/codex",
         requires: ["Node.js"],
       },
       {
@@ -201,6 +215,7 @@ export const vendors: HubVendor[] = [
         type: "其他产品",
         description: "通过浏览器使用 ChatGPT。",
         platforms: ["Web"],
+        website: "https://chatgpt.com",
       },
     ],
   },

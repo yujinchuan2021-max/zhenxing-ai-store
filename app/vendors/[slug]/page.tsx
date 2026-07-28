@@ -77,24 +77,13 @@ export default async function VendorPage({
                         <span key={platform}>{platform}</span>
                       ))}
                     </div>
-                    {product.requires?.length ? (
-                      <div className="requirements">
-                        <small>所需环境</small>
-                        <b>{product.requires.join("、")}</b>
-                      </div>
-                    ) : (
-                      <div className="requirements">
-                        <small>使用方式</small>
-                        <b>打开产品官网</b>
-                      </div>
-                    )}
-                    <button>
-                      {group === "桌面端"
-                        ? "检测环境"
-                        : group === "CLI"
-                          ? "检测并安装"
-                          : "打开产品"}
-                    </button>
+                    <a
+                      href={product.website}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      打开产品网站
+                    </a>
                   </article>
                 ))}
               </div>
@@ -178,18 +167,17 @@ function OpenAIVendorPage() {
               <b>Windows、macOS</b>
             </div>
             <div>
-              <small>环境要求</small>
-              <b>根据操作系统检测</b>
+              <small>Web 端操作</small>
+              <b>跳转官方产品页面</b>
             </div>
           </div>
           <div className="openaiProductActions">
-            <button disabled>检测环境</button>
             <a
               href="https://chatgpt.com/download/"
               target="_blank"
               rel="noreferrer"
             >
-              打开下载页
+              打开产品网站
             </a>
           </div>
         </article>
@@ -235,14 +223,12 @@ function OpenAIVendorPage() {
             </div>
           </div>
           <div className="openaiProductActions">
-            <button disabled>检测环境</button>
-            <button disabled>一键安装部署</button>
             <a
               href="https://github.com/openai/codex"
               target="_blank"
               rel="noreferrer"
             >
-              查看官方说明
+              打开产品网站
             </a>
           </div>
         </article>

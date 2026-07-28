@@ -647,7 +647,7 @@ button {
 
 .productRow {
   display: grid;
-  grid-template-columns: minmax(220px, 1.5fr) 0.8fr 0.8fr auto;
+  grid-template-columns: minmax(220px, 1.5fr) 0.8fr auto;
   align-items: center;
   gap: 18px;
   padding: 18px;
@@ -688,8 +688,10 @@ button {
   font-size: 10px;
 }
 
-.productRow > button {
+.productRow > a {
   min-height: 35px;
+  display: inline-flex;
+  align-items: center;
   padding: 0 13px;
   border: 0;
   border-radius: 9px;
@@ -697,6 +699,7 @@ button {
   background: var(--accent);
   font-size: 10px;
   font-weight: 800;
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -903,8 +906,7 @@ button {
   border-top: 1px solid var(--line);
 }
 
-.openaiProductActions a,
-.openaiProductActions button {
+.openaiProductActions a {
   min-height: 36px;
   display: inline-flex;
   align-items: center;
@@ -922,12 +924,6 @@ button {
   border-color: var(--deep);
   color: var(--surface);
   background: var(--deep);
-}
-
-.openaiProductActions button:disabled {
-  color: var(--muted);
-  cursor: not-allowed;
-  opacity: 0.68;
 }
 
 .openaiProductCard.compact {
