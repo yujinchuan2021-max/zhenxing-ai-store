@@ -7,9 +7,9 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 const temporaryOutput = fs.mkdtempSync(
-  path.join(os.tmpdir(), "aihub-local-package-")
+  path.join(os.tmpdir(), "aihub-windows-package-")
 );
-const artifactOutput = path.join(root, "release-local-server-client");
+const artifactOutput = path.join(root, "release");
 
 function resolveCommand(command, args) {
   if (process.platform !== "win32" || !/^(npm|npx)\.cmd$/i.test(command)) {
@@ -49,8 +49,6 @@ try {
   run("npm.cmd", ["run", "build"]);
   run("npx.cmd", [
     "electron-builder",
-    "--config",
-    "electron-builder.local-release.cjs",
     "--win",
     "portable",
     "nsis",
@@ -68,10 +66,10 @@ try {
           entry.name.endsWith(".yml"))
     );
   if (!artifacts.some((entry) => /-Setup\.exe$/i.test(entry.name))) {
-    throw new Error("本地验收安装包未生成");
+    throw new Error("Windows Setup package was not generated");
   }
   if (!artifacts.some((entry) => /-Portable\.exe$/i.test(entry.name))) {
-    throw new Error("本地验收便携包未生成");
+    throw new Error("Windows Portable package was not generated");
   }
   for (const artifact of artifacts) {
     fs.copyFileSync(
