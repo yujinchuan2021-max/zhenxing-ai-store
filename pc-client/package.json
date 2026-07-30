@@ -16,6 +16,7 @@
     "test:windows-upgrade": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/test-windows-upgrade.ps1",
     "test:managed-cli-uninstall": "node scripts/test-managed-cli-uninstall.cjs",
     "test:claude-code-postinstall": "node scripts/test-claude-code-postinstall.cjs",
+    "test:official-cli-packages": "node scripts/test-official-cli-packages.cjs",
     "test:identity-community": "node scripts/test-flarum-community.mjs",
     "test": "node --test tests/*.test.cjs",
     "catalog:seed": "node scripts/seed-admin-catalog.mjs",
