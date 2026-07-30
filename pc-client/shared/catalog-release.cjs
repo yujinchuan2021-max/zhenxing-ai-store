@@ -59,7 +59,7 @@ function catalogReleaseSha256(catalog) {
   return sha256(canonicalize(catalog));
 }
 
-function validateCatalogReleasePayload(payload) {
+function validateCatalogReleasePayloadIntegrity(payload) {
   if (
     !hasExactFields(payload, PAYLOAD_FIELDS) ||
     payload.schemaVersion !== 1 ||
@@ -77,15 +77,15 @@ function validateCatalogReleasePayload(payload) {
     payload.notes.length > 500 ||
     typeof payload.catalogSha256 !== "string" ||
     !/^[a-f0-9]{64}$/.test(payload.catalogSha256) ||
-    !hasExactFields(payload.rollout, new Set(["percentage", "salt"]))
+    !hasExactFields(payload.rollout, new Set(["percentage", "salt"])) ||
+    !isPlainObject(payload.catalog)
   ) {
     throw new Error("目录发布内容结构无效");
   }
 
   const publishedAt = canonicalTimestamp(payload.publishedAt, "目录发布时间");
   const rollout = validateRollout(payload.rollout);
-  const catalog = validateCatalog(payload.catalog);
-  const digest = catalogReleaseSha256(catalog);
+  const digest = catalogReleaseSha256(payload.catalog);
   if (digest !== payload.catalogSha256) {
     throw new Error("目录内容摘要与签名发布记录不一致");
   }
@@ -101,8 +101,25 @@ function validateCatalogReleasePayload(payload) {
     notes: payload.notes,
     rollout,
     catalogSha256: digest,
-    catalog
+    catalog: payload.catalog
   };
+}
+
+function validateCatalogReleasePayload(payload) {
+  const release = validateCatalogReleasePayloadIntegrity(payload);
+  return {
+    ...release,
+    catalog: validateCatalog(release.catalog)
+  };
+}
+
+function verifyCatalogReleaseIntegrity(envelope, { trustedKeys }) {
+  return validateCatalogReleasePayloadIntegrity(
+    verifySignedEnvelope(envelope, {
+      kind: "catalog",
+      trustedKeys
+    })
+  );
 }
 
 function normalizeHighestVersion(value) {
@@ -222,6 +239,7 @@ function verifyCatalogReleaseCache(
 module.exports = {
   catalogReleaseSha256,
   validateCatalogReleasePayload,
+  verifyCatalogReleaseIntegrity,
   verifyCatalogRelease,
   verifyCatalogReleaseCache
 };

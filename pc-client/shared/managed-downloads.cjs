@@ -1,15 +1,15 @@
 const MANAGED_DOWNLOADS = Object.freeze({
   "chatgpt-desktop": Object.freeze({
     url: "https://get.microsoft.com/installer/download/9PLM9XGG6VKS?cid=website_cta_psi",
-    fileName: "ChatGPT-Installer.exe",
+    fileName: "ChatGPT Installer.exe",
     allowedHosts: Object.freeze(["get.microsoft.com"]),
     expectedSigner: /^CN=Microsoft Corporation(?:,|$)/i,
     safetyReserveBytes: 512 * 1024 * 1024,
     installDiskBytes: 2 * 1024 * 1024 * 1024
   }),
   "claude-desktop": Object.freeze({
-    url: "https://claude.ai/api/desktop/win32/x64/msix/latest/redirect",
-    fileName: "Claude-x64.msix",
+    url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+    fileName: "Claude-Setup-x64.exe",
     allowedHosts: Object.freeze(["claude.ai", "downloads.claude.ai"]),
     expectedSigner: /^CN="?Anthropic, PBC"?(?:,|$)/i,
     safetyReserveBytes: 512 * 1024 * 1024,

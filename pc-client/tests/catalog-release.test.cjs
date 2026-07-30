@@ -7,6 +7,7 @@ const test = require("node:test");
 const {
   catalogReleaseSha256,
   validateCatalogReleasePayload,
+  verifyCatalogReleaseIntegrity,
   verifyCatalogRelease,
   verifyCatalogReleaseCache
 } = require("../shared/catalog-release.cjs");
@@ -146,6 +147,33 @@ test("rejects catalog digest mismatch and an invalid catalog", () => {
         catalogSha256: catalogReleaseSha256(invalidCatalog)
       }),
     /目录/
+  );
+});
+
+test("integrity-only verification can archive a signed legacy policy release", () => {
+  const keyFixture = keys();
+  const legacyCatalog = catalog();
+  legacyCatalog.vendors[0].products[0].download = {
+    url: "https://example.com/legacy.exe",
+    fileName: "legacy.exe"
+  };
+  const envelope = signed(keyFixture, {
+    catalog: legacyCatalog,
+    catalogSha256: catalogReleaseSha256(legacyCatalog)
+  });
+  assert.throws(
+    () =>
+      verifyCatalogRelease(envelope, {
+        trustedKeys: keyFixture.trustedKeys,
+        clientId: "client-catalog-1234"
+      }),
+    /目录|托管安装包/
+  );
+  assert.equal(
+    verifyCatalogReleaseIntegrity(envelope, {
+      trustedKeys: keyFixture.trustedKeys
+    }).catalogVersion,
+    3
   );
 });
 

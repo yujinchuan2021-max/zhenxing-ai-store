@@ -77,7 +77,7 @@ const INSTALL_REGISTRY = Object.freeze({
     })
   }),
   "comfy-desktop": Object.freeze({
-    label: "ComfyUI Desktop",
+    label: "Comfy Desktop",
     profileId: "desktop.comfy",
     moduleId: "desktop-managed",
     vendorId: "comfy",

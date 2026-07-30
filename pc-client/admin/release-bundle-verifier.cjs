@@ -3,7 +3,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const {
-  verifyCatalogRelease
+  verifyCatalogRelease,
+  verifyCatalogReleaseIntegrity
 } = require("../shared/catalog-release.cjs");
 const {
   readReleaseChannel
@@ -36,7 +37,11 @@ function resolvePublicFile(publicDirectory, relativePath) {
   return target;
 }
 
-function verifyReleaseBundle({ bundleDirectory, allowLocalhost = false }) {
+function verifyReleaseBundle({
+  bundleDirectory,
+  allowLocalhost = false,
+  allowCatalogPolicyDrift = false
+}) {
   if (!path.isAbsolute(bundleDirectory)) {
     throw new Error("发布包目录必须是绝对路径");
   }
@@ -91,13 +96,29 @@ function verifyReleaseBundle({ bundleDirectory, allowLocalhost = false }) {
   ) {
     throw new Error("发布包通道与清单地址不一致");
   }
-  const catalog = verifyCatalogRelease(
-    readJson(path.join(publicDirectory, "catalog-release.json")),
-    {
+  const catalogEnvelope = readJson(
+    path.join(publicDirectory, "catalog-release.json")
+  );
+  let catalog;
+  let catalogPolicyCompatible = true;
+  if (allowCatalogPolicyDrift) {
+    catalog = verifyCatalogReleaseIntegrity(catalogEnvelope, {
+      trustedKeys: catalogChannel.trustedKeys
+    });
+    try {
+      verifyCatalogRelease(catalogEnvelope, {
+        trustedKeys: catalogChannel.trustedKeys,
+        clientId: "bundle-verifier-2026"
+      });
+    } catch {
+      catalogPolicyCompatible = false;
+    }
+  } else {
+    catalog = verifyCatalogRelease(catalogEnvelope, {
       trustedKeys: catalogChannel.trustedKeys,
       clientId: "bundle-verifier-2026"
-    }
-  );
+    });
+  }
   const update = validateSignedUpdateRelease(
     readJson(path.join(publicDirectory, "update-release.json")),
     {
@@ -122,7 +143,8 @@ function verifyReleaseBundle({ bundleDirectory, allowLocalhost = false }) {
     updateVersion: update.version,
     artifactUrl: update.downloadUrl,
     catalogKeyId: catalogChannel.trustedKeys[0].keyId,
-    updateKeyId: updateChannel.trustedKeys[0].keyId
+    updateKeyId: updateChannel.trustedKeys[0].keyId,
+    catalogPolicyCompatible
   };
 }
 

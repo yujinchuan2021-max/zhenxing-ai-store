@@ -307,7 +307,7 @@ const DESKTOP_PROBES = Object.freeze({
   "comfy-desktop": {
     names: ["Comfy Desktop", "ComfyUI Desktop"],
     signer: /^CN=Drip Artificial Inc(?:,|$)/i,
-    executableNames: ["ComfyUI.exe", "ComfyUI Desktop.exe", "Comfy Desktop.exe"],
+    executableNames: ["Comfy Desktop.exe", "ComfyUI Desktop.exe", "ComfyUI.exe"],
     uninstall: {
       displayName:
         /^(?:ComfyUI|ComfyUI Desktop|Comfy Desktop)(?:\s+\d+(?:\.\d+){1,3}(?:[-+][0-9a-z.-]+)?)?$/i,
@@ -5124,6 +5124,9 @@ function registerIpc() {
         title: "运行安装程序",
         message: `即将运行 ${path.basename(resolvedFile)}`,
         detail: [
+          productId === "chatgpt-desktop"
+            ? "类型：Microsoft Store 官方安装引导器（不是完整 ChatGPT 安装包）"
+            : "类型：厂商官方安装程序",
           `签发者：${signature.signer || "未知"}`,
           `SHA-256：${digest}`,
           "Windows 接收打开请求不代表软件已经安装成功。"

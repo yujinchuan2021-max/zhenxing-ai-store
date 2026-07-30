@@ -44,10 +44,10 @@
 
 首批产品：
 
-- [ ] ChatGPT Desktop
-- [ ] Claude Desktop
-- [ ] ComfyUI Desktop
-- [ ] Ollama
+- [ ] ChatGPT Desktop：确认下载并打开的是 Microsoft 签名的 Store 官方安装引导器；Store 安装后识别为当前主应用 `9PLM9XGG6VKS` / `OpenAI.Codex`，不能把引导器本身误判为已安装。
+- [ ] Claude Desktop：确认普通用户 x64 EXE 下载、`Anthropic, PBC` 签名、安装后 `Claude` 探针和厂商自动更新；不得误用企业 MSIX。
+- [ ] Comfy Desktop：确认当前 NSIS 启动器与 `Comfy Desktop` 探针；卸载后 `%USERPROFILE%\ComfyUI-Installs`、`%USERPROFILE%\ComfyUI-Shared` 和 `%APPDATA%\Comfy Desktop` 仍保留。
+- [ ] Ollama：确认 `OllamaSetup.exe`、用户级安装、版本探针和交互式卸载；模型目录是否删除必须由用户明确选择。
 
 ## 五、CLI 产品
 

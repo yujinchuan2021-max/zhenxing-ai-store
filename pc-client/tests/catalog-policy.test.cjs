@@ -4,7 +4,8 @@ const test = require("node:test");
 const { validateCatalog } = require("../shared/catalog.cjs");
 const {
   getManagedDownload,
-  isAllowedManagedDownloadUrl
+  isAllowedManagedDownloadUrl,
+  matchesManagedDownload
 } = require("../shared/managed-downloads.cjs");
 const {
   resolveProductBehavior
@@ -100,7 +101,7 @@ test("accepts only the reviewed Comfy Desktop installer identity and policy", ()
   };
   const product = {
     id: "comfy-desktop",
-    name: "ComfyUI Desktop",
+    name: "Comfy Desktop",
     kind: "桌面端",
     category: "图像创作",
     description: "节点式图像工作流。",
@@ -126,6 +127,49 @@ test("accepts only the reviewed Comfy Desktop installer identity and policy", ()
   assert.equal(isAllowedManagedDownloadUrl("comfy-desktop", download.url), true);
 });
 
+test("locks reviewed desktop downloads to the current consumer distributions", () => {
+  const chatgpt = getManagedDownload("chatgpt-desktop");
+  assert.equal(
+    chatgpt.url,
+    "https://get.microsoft.com/installer/download/9PLM9XGG6VKS?cid=website_cta_psi"
+  );
+  assert.equal(chatgpt.fileName, "ChatGPT Installer.exe");
+  assert.deepEqual(chatgpt.allowedHosts, ["get.microsoft.com"]);
+  assert.match(chatgpt.expectedSigner.source, /Microsoft Corporation/);
+
+  const claude = getManagedDownload("claude-desktop");
+  assert.equal(
+    claude.url,
+    "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect"
+  );
+  assert.equal(claude.fileName, "Claude-Setup-x64.exe");
+  assert.deepEqual(claude.allowedHosts, [
+    "claude.ai",
+    "downloads.claude.ai"
+  ]);
+  assert.equal(
+    matchesManagedDownload("claude-desktop", {
+      url: "https://claude.ai/api/desktop/win32/x64/msix/latest/redirect",
+      fileName: "Claude-x64.msix"
+    }),
+    false
+  );
+  assert.equal(
+    isAllowedManagedDownloadUrl(
+      "claude-desktop",
+      "https://downloads.claude.ai/releases/win32/x64/Claude.exe"
+    ),
+    true
+  );
+  assert.equal(
+    isAllowedManagedDownloadUrl(
+      "claude-desktop",
+      "https://downloads.claude.ai.attacker.example/Claude.exe"
+    ),
+    false
+  );
+});
+
 test("accepts the reviewed ChatGPT and Claude desktop installer identities", () => {
   const products = [
     {
@@ -137,7 +181,7 @@ test("accepts the reviewed ChatGPT and Claude desktop installer identities", () 
         tutorial: "https://help.openai.com",
         download: {
           url: "https://get.microsoft.com/installer/download/9PLM9XGG6VKS?cid=website_cta_psi",
-          fileName: "ChatGPT-Installer.exe"
+          fileName: "ChatGPT Installer.exe"
         }
       },
       signer: /Microsoft Corporation/
@@ -150,8 +194,8 @@ test("accepts the reviewed ChatGPT and Claude desktop installer identities", () 
         website: "https://claude.com/download",
         tutorial: "https://support.claude.com",
         download: {
-          url: "https://claude.ai/api/desktop/win32/x64/msix/latest/redirect",
-          fileName: "Claude-x64.msix"
+          url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+          fileName: "Claude-Setup-x64.exe"
         }
       },
       signer: /Anthropic/
@@ -191,7 +235,7 @@ test("accepts the reviewed ChatGPT and Claude desktop installer identities", () 
 test("rejects an approved installer ID moved to another vendor or type", () => {
   const product = {
     id: "comfy-desktop",
-    name: "ComfyUI Desktop",
+    name: "Comfy Desktop",
     kind: "桌面端",
     category: "图像创作",
     description: "节点式图像工作流。",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-30T17:08:03.225Z",
+  "updatedAt": "2026-07-30T18:10:11.209Z",
   "brand": {
     "name": "AI 商店",
     "mark": "AI",
@@ -52,7 +52,7 @@
           "name": "ChatGPT Desktop",
           "kind": "桌面端",
           "category": "AI 对话",
-          "description": "ChatGPT 的 Windows 桌面客户端，包含 Codex 桌面模式。",
+          "description": "通过 Microsoft Store 官方安装引导器获取的 ChatGPT Windows 客户端，包含 Codex 桌面模式。",
           "website": "https://chatgpt.com/download",
           "requirements": [],
           "tutorial": "https://help.openai.com/en/collections/3742473-chatgpt",
@@ -63,7 +63,7 @@
           "uninstallPolicy": "client-managed",
           "download": {
             "url": "https://get.microsoft.com/installer/download/9PLM9XGG6VKS?cid=website_cta_psi",
-            "fileName": "ChatGPT-Installer.exe"
+            "fileName": "ChatGPT Installer.exe"
           },
           "enabled": true,
           "order": 0,
@@ -130,7 +130,7 @@
           "name": "Claude Desktop",
           "kind": "桌面端",
           "category": "AI 对话",
-          "description": "Claude 的 Windows 桌面客户端，包含 Claude Code 桌面模式。",
+          "description": "面向个人用户的 Claude Windows 桌面客户端，包含 Claude Code 和 Cowork 桌面能力。",
           "website": "https://claude.com/download",
           "requirements": [],
           "tutorial": "https://support.claude.com/en/collections/16163169-claude-desktop",
@@ -140,8 +140,8 @@
           "signaturePolicy": "client-reviewed",
           "uninstallPolicy": "client-managed",
           "download": {
-            "url": "https://claude.ai/api/desktop/win32/x64/msix/latest/redirect",
-            "fileName": "Claude-x64.msix"
+            "url": "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+            "fileName": "Claude-Setup-x64.exe"
           },
           "enabled": true,
           "order": 0,
@@ -316,10 +316,10 @@
       "products": [
         {
           "id": "comfy-desktop",
-          "name": "ComfyUI Desktop",
+          "name": "Comfy Desktop",
           "kind": "桌面端",
           "category": "图像创作",
-          "description": "使用节点连接构建 AI 图像生成工作流。",
+          "description": "Comfy 官方桌面启动器，用于管理本地 ComfyUI 实例与工作流。",
           "website": "https://www.comfy.org/download",
           "requirements": [
             "python"

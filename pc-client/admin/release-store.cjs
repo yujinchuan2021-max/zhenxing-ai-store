@@ -247,6 +247,22 @@ function createReleaseStore({
     return validateState(JSON.parse(fs.readFileSync(statePath, "utf8")));
   };
 
+  const readStateForDraftReplacement = () => {
+    if (!fs.existsSync(statePath)) return initialState();
+    const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
+    if (
+      !state ||
+      state.schemaVersion !== STATE_SCHEMA_VERSION ||
+      (state.draft !== null &&
+        (!state.draft ||
+          !Number.isSafeInteger(state.draft.revision) ||
+          state.draft.revision < 1))
+    ) {
+      throw new Error("目录发布状态无效");
+    }
+    return state;
+  };
+
   const writeState = (state) => {
     validateState(state);
     atomicWrite(statePath, `${JSON.stringify(state, null, 2)}\n`);
@@ -368,7 +384,10 @@ function createReleaseStore({
 
     saveDraft({ catalog, expectedRevision }) {
       return enqueue(() => {
-        const state = readInternalState();
+        // A newer client policy may intentionally reject the previous draft.
+        // Permit an exact-revision replacement, then validate the entire state
+        // with the new draft before writing anything.
+        const state = readStateForDraftReplacement();
         const currentRevision = state.draft?.revision || 0;
         if (
           !Number.isSafeInteger(expectedRevision) ||

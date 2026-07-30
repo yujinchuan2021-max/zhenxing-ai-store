@@ -118,6 +118,32 @@ test("saves revisioned drafts and rejects stale writers", async (t) => {
   assert.equal((await store.readState()).draft.catalog.brand.slogan, "第二版草稿");
 });
 
+test("an exact-revision save can replace a draft rejected by a newer policy", async (t) => {
+  const { rootDirectory, store } = fixture(t);
+  await store.saveDraft({
+    catalog: validCatalog("旧策略草稿"),
+    expectedRevision: 0
+  });
+  const statePath = path.join(rootDirectory, "state.json");
+  const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
+  state.draft.catalog.vendors[0].products[0].download = {
+    url: "https://example.com/unreviewed.exe",
+    fileName: "unreviewed.exe"
+  };
+  fs.writeFileSync(statePath, `${JSON.stringify(state, null, 2)}\n`, "utf8");
+
+  await assert.rejects(store.readState(), /托管安装包未通过客户端策略审核/);
+  const repaired = await store.saveDraft({
+    catalog: validCatalog("新策略草稿"),
+    expectedRevision: 1
+  });
+  assert.equal(repaired.revision, 2);
+  assert.equal(
+    (await store.readState()).draft.catalog.brand.slogan,
+    "新策略草稿"
+  );
+});
+
 test("publishes immutable signed releases and preserves history", async (t) => {
   const { rootDirectory, store, trustedKeys } = fixture(t);
   await store.saveDraft({ catalog: validCatalog("版本一"), expectedRevision: 0 });

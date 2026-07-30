@@ -71,7 +71,11 @@ function uniqueNamedDirectory(parent, baseName, pattern) {
   throw new Error("无法创建唯一的发布目录名称");
 }
 
-function copyVerifiedBundle(source, destination) {
+function copyVerifiedBundle(
+  source,
+  destination,
+  { allowCatalogPolicyDrift = false } = {}
+) {
   if (fs.existsSync(destination)) {
     throw new Error("目标备份已存在");
   }
@@ -81,20 +85,27 @@ function copyVerifiedBundle(source, destination) {
     force: false
   });
   try {
-    verifyReleaseBundle({ bundleDirectory: destination });
+    verifyReleaseBundle({
+      bundleDirectory: destination,
+      allowCatalogPolicyDrift
+    });
   } catch (error) {
     fs.rmSync(destination, { recursive: true, force: true });
     throw error;
   }
 }
 
-function moveVerifiedBundle(source, destination) {
-  verifyReleaseBundle({ bundleDirectory: source });
+function moveVerifiedBundle(
+  source,
+  destination,
+  { allowCatalogPolicyDrift = false } = {}
+) {
+  verifyReleaseBundle({ bundleDirectory: source, allowCatalogPolicyDrift });
   try {
     fs.renameSync(source, destination);
   } catch (error) {
     if (!["EPERM", "EXDEV"].includes(error?.code)) throw error;
-    copyVerifiedBundle(source, destination);
+    copyVerifiedBundle(source, destination, { allowCatalogPolicyDrift });
     fs.rmSync(source, { recursive: true, force: true });
   }
 }
@@ -102,7 +113,10 @@ function moveVerifiedBundle(source, destination) {
 function archiveCurrent(runtimeDirectory, prefix, now) {
   const current = path.join(runtimeDirectory, "current");
   if (!fs.existsSync(current)) return null;
-  verifyReleaseBundle({ bundleDirectory: current });
+  verifyReleaseBundle({
+    bundleDirectory: current,
+    allowCatalogPolicyDrift: true
+  });
   const backups = path.join(runtimeDirectory, "backups");
   const target = uniqueNamedDirectory(
     backups,
@@ -110,7 +124,7 @@ function archiveCurrent(runtimeDirectory, prefix, now) {
     BACKUP_NAME
   );
   const { name: backupName, directory: backup } = target;
-  moveVerifiedBundle(current, backup);
+  moveVerifiedBundle(current, backup, { allowCatalogPolicyDrift: true });
   return { backup, backupName };
 }
 
@@ -130,7 +144,9 @@ function activateStagedBundle({
   } catch (error) {
     const current = path.join(runtime, "current");
     if (!fs.existsSync(current) && archived?.backup) {
-      moveVerifiedBundle(archived.backup, current);
+      moveVerifiedBundle(archived.backup, current, {
+        allowCatalogPolicyDrift: true
+      });
     }
     throw error;
   }
@@ -171,7 +187,10 @@ function listBackups(runtimeDirectory) {
       return {
         name: entry.name,
         directory,
-        ...verifyReleaseBundle({ bundleDirectory: directory })
+        ...verifyReleaseBundle({
+          bundleDirectory: directory,
+          allowCatalogPolicyDrift: true
+        })
       };
     })
     .sort((left, right) => right.name.localeCompare(left.name));

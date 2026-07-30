@@ -80,14 +80,14 @@ test("approved profiles expose identity but no executable command", () => {
     profiles.find((profile) => profile.id === "desktop.chatgpt").download,
     {
       url: "https://get.microsoft.com/installer/download/9PLM9XGG6VKS?cid=website_cta_psi",
-      fileName: "ChatGPT-Installer.exe"
+      fileName: "ChatGPT Installer.exe"
     }
   );
   assert.deepEqual(
     profiles.find((profile) => profile.id === "desktop.claude").download,
     {
-      url: "https://claude.ai/api/desktop/win32/x64/msix/latest/redirect",
-      fileName: "Claude-x64.msix"
+      url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+      fileName: "Claude-Setup-x64.exe"
     }
   );
   assert.equal(PRODUCT_MODULES["desktop-managed"].requiresProfile, true);
