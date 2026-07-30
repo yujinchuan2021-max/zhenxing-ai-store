@@ -12,7 +12,7 @@ Windows 上的实时扫描、索引或同步组件可能短暂占用“文档”
 
 ## 修复
 
-正式配置版与本地验收版统一采用两段式打包：
+正式配置版、本地验收版和 `0.1.1` 升级夹具统一采用两段式打包：
 
 1. 在系统临时目录中完成 Electron 解包、Portable 和 NSIS 构建。
 2. 只将最终 EXE、blockmap 和 YML 产物复制到项目的 `release` 目录。
@@ -23,5 +23,6 @@ Windows 上的实时扫描、索引或同步组件可能短暂占用“文档”
 ## 回归门槛
 
 - `npm.cmd run package:win` 必须生成 Portable 和 Setup。
+- `npm.cmd run package:win:upgrade-fixture` 必须生成 `0.1.1` Setup。
 - 正式配置版不得包含本地发布 channel 或本地 TLS 指纹。
 - Setup 必须通过隔离安装、启动、托盘驻留、卸载和残留检查。

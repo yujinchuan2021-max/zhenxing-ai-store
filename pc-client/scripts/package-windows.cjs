@@ -6,10 +6,21 @@ const os = require("node:os");
 const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
+const upgradeFixture = process.argv.slice(2).includes("--upgrade-fixture");
+if (
+  process.argv
+    .slice(2)
+    .some((argument) => argument !== "--upgrade-fixture")
+) {
+  throw new Error("Unknown Windows packaging option");
+}
 const temporaryOutput = fs.mkdtempSync(
   path.join(os.tmpdir(), "aihub-windows-package-")
 );
-const artifactOutput = path.join(root, "release");
+const artifactOutput = path.join(
+  root,
+  upgradeFixture ? "release-upgrade-0.1.1" : "release"
+);
 
 function resolveCommand(command, args) {
   if (process.platform !== "win32" || !/^(npm|npx)\.cmd$/i.test(command)) {
@@ -47,13 +58,16 @@ function run(command, args) {
 
 try {
   run("npm.cmd", ["run", "build"]);
-  run("npx.cmd", [
+  const builderArgs = [
     "electron-builder",
     "--win",
-    "portable",
-    "nsis",
+    ...(upgradeFixture ? ["nsis"] : ["portable", "nsis"]),
+    ...(upgradeFixture
+      ? ["--config.extraMetadata.version=0.1.1"]
+      : []),
     `--config.directories.output=${temporaryOutput}`
-  ]);
+  ];
+  run("npx.cmd", builderArgs);
 
   fs.mkdirSync(artifactOutput, { recursive: true });
   const artifacts = fs
@@ -68,7 +82,10 @@ try {
   if (!artifacts.some((entry) => /-Setup\.exe$/i.test(entry.name))) {
     throw new Error("Windows Setup package was not generated");
   }
-  if (!artifacts.some((entry) => /-Portable\.exe$/i.test(entry.name))) {
+  if (
+    !upgradeFixture &&
+    !artifacts.some((entry) => /-Portable\.exe$/i.test(entry.name))
+  ) {
     throw new Error("Windows Portable package was not generated");
   }
   for (const artifact of artifacts) {
@@ -81,6 +98,7 @@ try {
     `${JSON.stringify(
       {
         ok: true,
+        upgradeFixture,
         artifactOutput,
         artifacts: artifacts.map((entry) => entry.name)
       },
