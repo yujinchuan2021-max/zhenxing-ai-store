@@ -1,0 +1,266 @@
+services:
+  identity-database:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: aihub
+      POSTGRES_USER: aihub
+      POSTGRES_PASSWORD: ${AIHUB_IDENTITY_DB_PASSWORD:-aihub-local-only}
+    volumes:
+      - identity_database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aihub -d aihub"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+    restart: unless-stopped
+    pids_limit: 256
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mailpit:
+    image: axllent/mailpit:v1.27.8
+    ports:
+      - "127.0.0.1:8025:8025"
+    restart: unless-stopped
+    pids_limit: 128
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD", "/mailpit", "readyz"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 3s
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  identity-community:
+    build:
+      context: ../..
+      dockerfile: deployment/local/identity.Dockerfile
+    environment:
+      AIHUB_IDENTITY_HOST: 0.0.0.0
+      AIHUB_IDENTITY_PORT: 4180
+      AIHUB_IDENTITY_DATABASE_URL: postgres://aihub:${AIHUB_IDENTITY_DB_PASSWORD:-aihub-local-only}@identity-database:5432/aihub
+      AIHUB_SMTP_HOST: mailpit
+      AIHUB_SMTP_PORT: 1025
+      AIHUB_LOCAL_MAIL_VIEWER_URL: http://127.0.0.1:8025
+      AIHUB_CATALOG_FILE: /app/catalog/catalog-v1.json
+      AIHUB_COMMUNITY_PUBLIC_ORIGIN: http://127.0.0.1:8088
+      AIHUB_COMMUNITY_INTERNAL_SECRET: ${AIHUB_COMMUNITY_INTERNAL_SECRET:-aihub-local-community-internal-secret-change-before-production}
+    ports:
+      - "127.0.0.1:4180:4180"
+    volumes:
+      - ../../admin/published:/app/catalog:ro
+    depends_on:
+      identity-database:
+        condition: service_healthy
+      mailpit:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4180/ready').then(r=>{if(!r.ok)process.exit(1)})"
+        ]
+      interval: 3s
+      timeout: 2s
+      retries: 30
+      start_period: 5s
+    restart: unless-stopped
+    pids_limit: 128
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  community-database:
+    image: mariadb:11.8
+    environment:
+      MARIADB_DATABASE: aihub_forum
+      MARIADB_USER: aihub_forum
+      MARIADB_PASSWORD: ${AIHUB_FORUM_DB_PASSWORD:-aihub-forum-local-only}
+      MARIADB_ROOT_PASSWORD: ${AIHUB_FORUM_DB_ROOT_PASSWORD:-aihub-forum-root-local-only}
+    volumes:
+      - community_database:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    restart: unless-stopped
+    init: true
+    pids_limit: 512
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  community:
+    build:
+      context: ../../community/flarum
+      dockerfile: Dockerfile
+      args:
+        FLARUM_VERSION: 2.0.0-rc.5
+    environment:
+      AIHUB_FORUM_PUBLIC_ORIGIN: http://127.0.0.1:8088
+      AIHUB_FORUM_INTERNAL_ORIGIN: http://127.0.0.1
+      AIHUB_FORUM_DB_HOST: community-database
+      AIHUB_FORUM_DB_PORT: 3306
+      AIHUB_FORUM_DB_NAME: aihub_forum
+      AIHUB_FORUM_DB_USER: aihub_forum
+      AIHUB_FORUM_DB_PASSWORD: ${AIHUB_FORUM_DB_PASSWORD:-aihub-forum-local-only}
+      AIHUB_FORUM_ADMIN_USER: aihub_admin
+      AIHUB_FORUM_ADMIN_PASSWORD: ${AIHUB_FORUM_ADMIN_PASSWORD:-AIHub-Forum-Local-Admin-2026}
+      AIHUB_FORUM_ADMIN_EMAIL: admin@aihub.local
+      AIHUB_FORUM_API_KEY: ${AIHUB_FORUM_API_KEY:-aihub-local-forum-api-key-change-before-production}
+      AIHUB_FORUM_PASSWORD_TOKEN: ${AIHUB_FORUM_PASSWORD_TOKEN:-aihub-local-forum-password-token-change-before-production}
+      AIHUB_IDENTITY_INTERNAL_URL: http://identity-community:4180
+      AIHUB_COMMUNITY_INTERNAL_SECRET: ${AIHUB_COMMUNITY_INTERNAL_SECRET:-aihub-local-community-internal-secret-change-before-production}
+    ports:
+      - "127.0.0.1:8088:80"
+    volumes:
+      - community_config:/var/lib/flarum
+      - community_storage:/var/www/html/storage
+      - community_assets:/var/www/html/public/assets
+    depends_on:
+      community-database:
+        condition: service_healthy
+      identity-community:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "php",
+          "-r",
+          "exit(@file_get_contents('http://127.0.0.1/') === false ? 1 : 0);"
+        ]
+      interval: 5s
+      timeout: 4s
+      retries: 30
+      start_period: 20s
+    restart: unless-stopped
+    init: true
+    pids_limit: 256
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  admin:
+    build:
+      context: ../..
+      dockerfile: deployment/local/admin.Dockerfile
+    environment:
+      AIHUB_ADMIN_HOST: 0.0.0.0
+      AIHUB_ADMIN_PORT: 4173
+      AIHUB_ADMIN_PUBLIC_ORIGIN: http://127.0.0.1:4173
+    ports:
+      - "127.0.0.1:4173:4173"
+    volumes:
+      - ../../admin/data:/app/admin/data
+      - ../../admin/published:/app/admin/published
+      - ../../catalog:/app/catalog
+      - ../../updates:/app/updates
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4173/ready').then(r=>{if(!r.ok)process.exit(1)})"
+        ]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+      start_period: 5s
+    restart: unless-stopped
+    pids_limit: 128
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  release-server:
+    image: caddy:2.10-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d
+    init: true
+    ports:
+      - "127.0.0.1:4443:4443"
+    volumes:
+      - ./runtime:/srv:ro
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "--no-check-certificate", "https://localhost:4443/health"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+      start_period: 3s
+    restart: unless-stopped
+    # Go runtime threads plus Docker health probes exceed 128 on this host.
+    pids_limit: 512
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    tmpfs:
+      - /tmp
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  caddy_data:
+  caddy_config:
+  identity_database:
+  community_database:
+  community_config:
+  community_storage:
+  community_assets:

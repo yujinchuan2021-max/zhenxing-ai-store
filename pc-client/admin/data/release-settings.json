@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "catalog": {
+    "notes": "",
+    "rolloutPercentage": 100,
+    "rolloutSalt": "catalog-stable-2026"
+  },
+  "update": {
+    "version": "0.1.1",
+    "downloadUrl": "",
+    "sha256": "",
+    "fileSize": 0,
+    "notes": [],
+    "rolloutPercentage": 0,
+    "rolloutSalt": "update-stable-2026",
+    "enabled": false
+  }
+}

@@ -1,0 +1,127 @@
+const { contextBridge, ipcRenderer } = require("electron");
+
+contextBridge.exposeInMainWorld("aihubPC", {
+  getCatalog: () => ipcRenderer.invoke("catalog:get"),
+  checkForUpdate: () => ipcRenderer.invoke("update:check"),
+  openUpdateDownload: () => ipcRenderer.invoke("update:open-download"),
+  getIdentity: () => ipcRenderer.invoke("identity:current"),
+  requestRegistrationCode: (email) =>
+    ipcRenderer.invoke("identity:request-code", email),
+  register: (input) => ipcRenderer.invoke("identity:register", input),
+  login: (input) => ipcRenderer.invoke("identity:login", input),
+  logout: () => ipcRenderer.invoke("identity:logout"),
+  listIdentitySessions: () => ipcRenderer.invoke("identity:list-sessions"),
+  revokeIdentitySession: (sessionId) =>
+    ipcRenderer.invoke("identity:revoke-session", sessionId),
+  updateIdentityProfile: (input) =>
+    ipcRenderer.invoke("identity:update-profile", input),
+  openCommunity: () => ipcRenderer.invoke("community:open"),
+  getSettings: () => ipcRenderer.invoke("settings:get"),
+  chooseDownloadDirectory: () =>
+    ipcRenderer.invoke("settings:choose-download-directory"),
+  chooseCliDirectory: () =>
+    ipcRenderer.invoke("settings:choose-cli-directory"),
+  openDownloadDirectory: () =>
+    ipcRenderer.invoke("settings:open-download-directory"),
+  clearDownloadDirectory: () =>
+    ipcRenderer.invoke("settings:clear-download-directory"),
+  scanEnvironment: () => ipcRenderer.invoke("environment:scan"),
+  openEnvironmentLocation: (environmentId) =>
+    ipcRenderer.invoke("environment:open-location", environmentId),
+  installEnvironment: (environmentId) =>
+    ipcRenderer.invoke("environment:install", environmentId),
+  getEnvironmentPackage: (environmentId) =>
+    ipcRenderer.invoke("environment:package-get", environmentId),
+  openEnvironmentInstaller: (environmentId) =>
+    ipcRenderer.invoke("environment:open-installer", environmentId),
+  getEnvironmentOperation: (environmentId) =>
+    ipcRenderer.invoke("environment:operation-get", environmentId),
+  checkEnvironmentOperation: (environmentId, generation, operationId) =>
+    ipcRenderer.invoke(
+      "environment:operation-check",
+      environmentId,
+      generation,
+      operationId
+    ),
+  uninstallEnvironment: (environmentId) =>
+    ipcRenderer.invoke("environment:uninstall", environmentId),
+  startDownload: (productId) =>
+    ipcRenderer.invoke("download:start", productId),
+  pauseDownload: (productId) =>
+    ipcRenderer.invoke("download:pause", productId),
+  cancelDownload: (productId) =>
+    ipcRenderer.invoke("download:discard", productId),
+  getDownloadTask: (productId) =>
+    ipcRenderer.invoke("download:get-task", productId),
+  getPartialDownload: (productId) =>
+    ipcRenderer.invoke("download:get-partial", productId),
+  getDownloadRecord: (productId) =>
+    ipcRenderer.invoke("download:get-record", productId),
+  showDownloadInFolder: (productId) =>
+    ipcRenderer.invoke("download:show-in-folder", productId),
+  clearDownloadHistory: (productId) =>
+    ipcRenderer.invoke("download:clear-history", productId),
+  clearCompletedDownloads: () =>
+    ipcRenderer.invoke("download:clear-completed"),
+  inspectInstaller: (productId) =>
+    ipcRenderer.invoke("installer:inspect", productId),
+  launchInstaller: (productId) =>
+    ipcRenderer.invoke("installer:launch", productId),
+  getDesktopOperation: (productId) =>
+    ipcRenderer.invoke("desktop:operation-get", productId),
+  checkDesktopOperation: (productId, generation, operationId) =>
+    ipcRenderer.invoke(
+      "desktop:operation-check",
+      productId,
+      generation,
+      operationId
+    ),
+  getDesktopStatus: (productId) =>
+    ipcRenderer.invoke("desktop:status", productId),
+  uninstallDesktopProduct: (productId) =>
+    ipcRenderer.invoke("desktop:uninstall", productId),
+  openDesktopApp: (productId) =>
+    ipcRenderer.invoke("desktop:open", productId),
+  openDesktopLocation: (productId) =>
+    ipcRenderer.invoke("desktop:open-location", productId),
+  getCliStatus: (productId) => ipcRenderer.invoke("cli:status", productId),
+  deployCli: (productId) => ipcRenderer.invoke("cli:deploy", productId),
+  uninstallCli: (productId) => ipcRenderer.invoke("cli:uninstall", productId),
+  notifyCliTask: (payload) =>
+    ipcRenderer.invoke("task-notification:cli", payload),
+  updateCliTrayTask: (payload) =>
+    ipcRenderer.invoke("tray:update-cli-task", payload),
+  onDownloadProgress: (callback) => {
+    const listener = (_event, progress) => callback(progress);
+    ipcRenderer.on("download:progress", listener);
+    return () => ipcRenderer.removeListener("download:progress", listener);
+  },
+  onDownloadTask: (callback) => {
+    const listener = (_event, task) => callback(task);
+    ipcRenderer.on("download:task", listener);
+    return () => ipcRenderer.removeListener("download:task", listener);
+  },
+  onEnvironmentOperation: (callback) => {
+    const listener = (_event, task) => callback(task);
+    ipcRenderer.on("environment:operation", listener);
+    return () =>
+      ipcRenderer.removeListener("environment:operation", listener);
+  },
+  onDesktopOperation: (callback) => {
+    const listener = (_event, task) => callback(task);
+    ipcRenderer.on("desktop:operation", listener);
+    return () =>
+      ipcRenderer.removeListener("desktop:operation", listener);
+  },
+  onCliLog: (callback) => {
+    const listener = (_event, entry) => callback(entry);
+    ipcRenderer.on("cli:log", listener);
+    return () => ipcRenderer.removeListener("cli:log", listener);
+  },
+  onTaskNotificationOpen: (callback) => {
+    const listener = (_event, target) => callback(target);
+    ipcRenderer.on("task-notification:open", listener);
+    return () =>
+      ipcRenderer.removeListener("task-notification:open", listener);
+  }
+});

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-07-28T00:00:00.000Z",
+  "brand": {
+    "name": "AI Hub",
+    "mark": "A",
+    "slogan": "一个地方，找到并安装你的 AI 工具"
+  },
+  "extraSections": [],
+  "community": {
+    "title": "AI Hub 社区",
+    "description": "交流 AI 工具的安装、使用经验与工作流。",
+    "provider": "Flarum",
+    "url": "",
+    "enabled": false
+  },
+  "home": {
+    "banners": [
+      {
+        "eyebrow": "AI HUB · PC",
+        "title": "一个地方，找到并安装你的 AI 工具",
+        "description": "从厂商进入，查看桌面端、CLI 与其他产品。",
+        "action": "查看全部厂商"
+      }
+    ],
+    "featuredVendorIds": ["anthropic"]
+  },
+  "vendors": [
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "initial": "A",
+      "mark": "A",
+      "color": "#c66d3d",
+      "description": "构建可靠、可解释和可控的人工智能系统。",
+      "website": "https://www.anthropic.com",
+      "tutorial": "https://support.claude.com",
+      "products": [
+        {
+          "id": "claude-desktop",
+          "name": "Claude Desktop",
+          "kind": "桌面端",
+          "category": "AI 对话",
+          "description": "Claude 的 Windows 桌面客户端。",
+          "website": "https://claude.com/download",
+          "tutorial": "https://support.claude.com/en/collections/16163169-claude-desktop",
+          "productType": "desktop-official",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+https://localhost:4443 {
+  tls internal
+  root * /srv/current/public
+
+  header {
+    -Server
+    X-Frame-Options "DENY"
+    Referrer-Policy "no-referrer"
+  }
+
+  @health path /health
+  handle @health {
+    header Content-Type application/json
+    header Cache-Control no-store
+    respond `{"status":"ok"}` 200 {
+      close
+    }
+  }
+
+  @current path /catalog-release.json /update-release.json
+  header @current {
+    Cache-Control "public, max-age=0, must-revalidate"
+    X-Content-Type-Options "nosniff"
+  }
+
+  @manifest path /release-manifest.json
+  header @manifest {
+    Cache-Control "no-store"
+    X-Content-Type-Options "nosniff"
+  }
+
+  @artifacts path /artifacts/*
+  header @artifacts {
+    Cache-Control "public, max-age=31536000, immutable"
+    X-Content-Type-Options "nosniff"
+    Accept-Ranges "bytes"
+  }
+
+  @allowedFiles path /catalog-release.json /update-release.json /release-manifest.json /artifacts/AI-Hub-*-Windows-x64-Setup.exe
+  handle @allowedFiles {
+    file_server
+  }
+
+  handle {
+    respond "not found" 404
+  }
+}
