@@ -66,4 +66,4 @@ npm.cmd run test:windows-installer
 - “安装器已打开”不等于“软件已安装”，必须通过固定探针重新检测。
 - 正式发布仍需要生产 HTTPS 域名、正式邮件服务、独立密钥、Windows 代码签名、监控告警和外部安全评估。
 
-当前完成度与待验收项见 [开发状态](docs/development-status.md)。
+当前完成度见 [开发状态](docs/development-status.md)，真实 Windows 与产品行为见 [用户验收清单](docs/user-acceptance-checklist.md)。
