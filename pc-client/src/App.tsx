@@ -3323,6 +3323,7 @@ export default function App() {
           ) : (
             <FlarumCommunityPage
               identity={identity}
+              theme={theme}
               onLogin={() => setAuthOpen(true)}
               targetPath={communityTargetPath}
               onTargetConsumed={() => setCommunityTargetPath("")}
@@ -4820,6 +4821,115 @@ type EmbeddedCommunityWebview = HTMLElement & {
   executeJavaScript<T = unknown>(code: string): Promise<T>;
 };
 
+const COMMUNITY_THEME_PALETTES = {
+  light: {
+    "color-scheme": "light",
+    "--body-bg": "#f3f7f4",
+    "--body-bg-shaded": "#e7efea",
+    "--body-bg-light": "#ffffff",
+    "--body-bg-faded": "rgba(243,247,244,0.93)",
+    "--text-color": "#18211f",
+    "--heading-color": "#18211f",
+    "--muted-color": "#6d7874",
+    "--muted-color-light": "#8a9691",
+    "--muted-color-dark": "#17362d",
+    "--shadow-color": "rgba(20,60,50,0.18)",
+    "--control-bg": "#e8efeb",
+    "--control-bg-light": "#ffffff",
+    "--control-bg-shaded": "#dce5e0",
+    "--control-color": "#6d7874",
+    "--control-body-bg-mix": "#edf3ef",
+    "--header-bg": "#f3f7f4",
+    "--header-color": "#17362d",
+    "--header-control-bg": "#e8efeb",
+    "--header-control-color": "#6d7874",
+    "--button-color": "#17362d",
+    "--button-bg": "#e8efeb",
+    "--button-bg-hover": "#dce5e0",
+    "--button-bg-active": "#cddad3",
+    "--button-bg-disabled": "#e8efeb",
+    "--button-primary-color": "#17362d",
+    "--button-primary-bg": "#a8ff56",
+    "--button-primary-bg-hover": "#98ef49",
+    "--button-primary-bg-active": "#88dc3d",
+    "--button-primary-bg-disabled": "#a8ff56",
+    "--primary-color": "#a8ff56",
+    "--secondary-color": "#17362d",
+    "--link-color": "#367a2a"
+  },
+  dark: {
+    "color-scheme": "dark",
+    "--body-bg": "#0e1916",
+    "--body-bg-shaded": "#0a1311",
+    "--body-bg-light": "#182823",
+    "--body-bg-faded": "rgba(14,25,22,0.93)",
+    "--text-color": "#eef6f2",
+    "--heading-color": "#eef6f2",
+    "--muted-color": "#9fafaa",
+    "--muted-color-light": "#b7c5c0",
+    "--muted-color-dark": "#eef6f2",
+    "--shadow-color": "rgba(0,0,0,0.5)",
+    "--control-bg": "#182823",
+    "--control-bg-light": "#21342e",
+    "--control-bg-shaded": "#0b1512",
+    "--control-color": "#9fafaa",
+    "--control-body-bg-mix": "#13201c",
+    "--header-bg": "#0e1916",
+    "--header-color": "#9df04f",
+    "--header-control-bg": "#182823",
+    "--header-control-color": "#9fafaa",
+    "--button-color": "#eef6f2",
+    "--button-bg": "#182823",
+    "--button-bg-hover": "#21342e",
+    "--button-bg-active": "#2b4039",
+    "--button-bg-disabled": "#182823",
+    "--button-primary-color": "#17362d",
+    "--button-primary-bg": "#a8ff56",
+    "--button-primary-bg-hover": "#b5ff70",
+    "--button-primary-bg-active": "#91e848",
+    "--button-primary-bg-disabled": "#a8ff56",
+    "--primary-color": "#a8ff56",
+    "--secondary-color": "#eef6f2",
+    "--link-color": "#9df04f"
+  }
+} as const;
+
+function buildCommunityThemeScript(theme: "light" | "dark") {
+  const declarations = Object.entries(COMMUNITY_THEME_PALETTES[theme])
+    .map(([property, value]) => `${property}:${value}`)
+    .join(";");
+  const heroBackground = theme === "light" ? "#e7fbd7" : "#143c32";
+  const heroColor = theme === "light" ? "#17362d" : "#eef6f2";
+  const themeSelector = `html[data-aihub-theme="${theme}"]`;
+  const css = [
+    `${themeSelector}{${declarations}}`,
+    `${themeSelector} .DiscussionHero{--hero-bg:${heroBackground};background:${heroBackground}!important;color:${heroColor}!important}`,
+    `${themeSelector} .DiscussionHero a{color:${heroColor}!important}`
+  ].join("");
+  return `
+    (() => {
+      document.documentElement.setAttribute("data-theme", ${JSON.stringify(theme)});
+      document.documentElement.setAttribute("data-aihub-theme", ${JSON.stringify(theme)});
+      let style = document.getElementById("aihub-community-theme-style");
+      if (!style) {
+        style = document.createElement("style");
+        style.id = "aihub-community-theme-style";
+        document.head.appendChild(style);
+      }
+      style.textContent = ${JSON.stringify(css)};
+      return {
+        theme: document.documentElement.getAttribute("data-aihub-theme"),
+        bodyBackground: getComputedStyle(document.documentElement)
+          .getPropertyValue("--body-bg")
+          .trim(),
+        primaryColor: getComputedStyle(document.documentElement)
+          .getPropertyValue("--primary-color")
+          .trim()
+      };
+    })()
+  `;
+}
+
 const COMMUNITY_REFRESH_CONTROL_SCRIPT = String.raw`
 (() => {
   const itemId = "aihub-community-refresh-item";
@@ -4840,9 +4950,9 @@ const COMMUNITY_REFRESH_CONTROL_SCRIPT = String.raw`
       style.id = styleId;
       style.textContent = [
         "#" + itemId + "{display:flex;align-items:center;margin-left:6px}",
-        "#" + buttonId + "{display:grid;place-items:center;width:36px;min-width:36px;height:36px;padding:0;border:0;border-radius:8px;color:#8da2ba;background:#1b2430;cursor:pointer}",
-        "#" + buttonId + ":hover{color:#dbe8f6;background:#263342}",
-        "#" + buttonId + ":focus-visible{outline:2px solid #91ff48;outline-offset:2px}",
+        "#" + buttonId + "{display:grid;place-items:center;width:36px;min-width:36px;height:36px;padding:0;border:0;border-radius:8px;color:var(--header-control-color);background:var(--header-control-bg);cursor:pointer}",
+        "#" + buttonId + ":hover{color:var(--header-color);background:var(--control-bg-shaded)}",
+        "#" + buttonId + ":focus-visible{outline:2px solid var(--primary-color);outline-offset:2px}",
         "#" + buttonId + " .aihub-refresh-glyph{font-size:20px;line-height:1;transform:translateY(-1px)}"
       ].join("");
       document.head.appendChild(style);
@@ -4882,11 +4992,13 @@ const COMMUNITY_REFRESH_CONTROL_SCRIPT = String.raw`
 
 function FlarumCommunityPage({
   identity,
+  theme,
   onLogin,
   targetPath,
   onTargetConsumed
 }: {
   identity: IdentitySnapshot;
+  theme: "light" | "dark";
   onLogin: () => void;
   targetPath: string;
   onTargetConsumed: () => void;
@@ -4945,10 +5057,16 @@ function FlarumCommunityPage({
         void webview.loadURL(new URL(nextPath, `${embed.origin}/`).href);
       }
     };
-    const installRefreshControl = () => {
-      void webview
-        .executeJavaScript<boolean>(COMMUNITY_REFRESH_CONTROL_SCRIPT)
-        .catch(() => undefined);
+    const installCommunityChrome = () => {
+      const runScript = (script: string) => {
+        try {
+          void webview.executeJavaScript(script).catch(() => undefined);
+        } catch {
+          // The first React effect can run before Electron emits dom-ready.
+        }
+      };
+      runScript(buildCommunityThemeScript(theme));
+      runScript(COMMUNITY_REFRESH_CONTROL_SCRIPT);
     };
     const failed = (event: Event) => {
       const detail = event as Event & {
@@ -4960,17 +5078,18 @@ function FlarumCommunityPage({
     };
     webview.addEventListener("did-navigate", updateLocation);
     webview.addEventListener("did-navigate-in-page", updateLocation);
-    webview.addEventListener("dom-ready", installRefreshControl);
-    webview.addEventListener("did-stop-loading", installRefreshControl);
+    webview.addEventListener("dom-ready", installCommunityChrome);
+    webview.addEventListener("did-stop-loading", installCommunityChrome);
     webview.addEventListener("did-fail-load", failed);
+    installCommunityChrome();
     return () => {
       webview.removeEventListener("did-navigate", updateLocation);
       webview.removeEventListener("did-navigate-in-page", updateLocation);
-      webview.removeEventListener("dom-ready", installRefreshControl);
-      webview.removeEventListener("did-stop-loading", installRefreshControl);
+      webview.removeEventListener("dom-ready", installCommunityChrome);
+      webview.removeEventListener("did-stop-loading", installCommunityChrome);
       webview.removeEventListener("did-fail-load", failed);
     };
-  }, [embed, onTargetConsumed]);
+  }, [embed, onTargetConsumed, theme]);
 
   if (identity.status !== "authenticated") {
     return (

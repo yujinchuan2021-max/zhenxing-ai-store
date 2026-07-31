@@ -134,8 +134,12 @@ try {
   });
   let sequence = 0;
   const pending = new Map();
+  const runtimeEvents = [];
   socket.addEventListener("message", (event) => {
     const message = JSON.parse(event.data);
+    if (message.method?.startsWith("Runtime.")) {
+      runtimeEvents.push(message);
+    }
     const request = pending.get(message.id);
     if (!request) return;
     pending.delete(message.id);
@@ -287,10 +291,29 @@ try {
   await evaluate(
     "[...document.querySelectorAll('.sidebar button')].find((button) => button.textContent.includes('社区')).click()"
   );
-  await waitFor(
-    "Boolean(document.querySelector('webview.communityWebview'))",
-    "embedded Flarum webview did not attach"
-  );
+  try {
+    await waitFor(
+      "Boolean(document.querySelector('webview.communityWebview'))",
+      "embedded Flarum webview did not attach"
+    );
+  } catch (cause) {
+    const communityDebug = await evaluate(`({
+      href: location.href,
+      title: document.title,
+      bodyText: document.body.innerText,
+      rootHtml: document.querySelector('#root')?.innerHTML || '',
+      appText: document.querySelector('.pcApp')?.innerText || '',
+      communityText: document.querySelector('.communityContent')?.innerText || '',
+      hasCommunityShell: Boolean(document.querySelector('.embeddedCommunity')),
+      hasLoginPrompt: Boolean(document.querySelector('.communityLoginRequired')),
+      hasAuthModal: Boolean(document.querySelector('.authModal'))
+    })`);
+    throw new Error(
+      `${cause instanceof Error ? cause.message : String(cause)}: ${JSON.stringify(
+        communityDebug
+      )}; runtime=${JSON.stringify(runtimeEvents.slice(-5))}`
+    );
+  }
   await waitFor(
     `(() => {
       const view = document.querySelector('webview.communityWebview');
@@ -359,11 +382,19 @@ try {
         const buttonRect = button?.getBoundingClientRect();
         const searchRect = search?.getBoundingClientRect();
         const pageText = document.body.innerText;
+        const rootStyle = getComputedStyle(document.documentElement);
+        const refreshStyle = button ? getComputedStyle(button) : null;
+        const hero = document.querySelector(".DiscussionHero");
         return {
           exists: Boolean(button),
           searchExists: Boolean(search),
           followsSearch: Boolean(anchor && item && anchor.nextElementSibling === item),
           label: button?.getAttribute("aria-label") || "",
+          theme: document.documentElement.getAttribute("data-aihub-theme"),
+          bodyBackground: rootStyle.getPropertyValue("--body-bg").trim(),
+          primaryColor: rootStyle.getPropertyValue("--primary-color").trim(),
+          refreshBackground: refreshStyle?.backgroundColor || "",
+          heroBackground: hero ? getComputedStyle(hero).backgroundColor : "",
           buttonRect: buttonRect
             ? {
                 left: buttonRect.left,
@@ -408,6 +439,13 @@ try {
   assert.equal(community.refreshPlacement.followsSearch, true);
   assert.equal(community.refreshPlacement.label, "刷新");
   assert.equal(community.refreshPlacement.hasNativePostActions, true);
+  assert.equal(community.refreshPlacement.theme, "light");
+  assert.equal(community.refreshPlacement.bodyBackground, "#f3f7f4");
+  assert.equal(community.refreshPlacement.primaryColor, "#a8ff56");
+  assert.equal(
+    community.refreshPlacement.heroBackground,
+    "rgb(231, 251, 215)"
+  );
   const communityLayoutExpression = `(() => {
     const content = document.querySelector('.communityContent');
     const embedded = document.querySelector('.embeddedCommunity');
@@ -478,6 +516,68 @@ try {
     "personal-center-embedded-community.png"
   );
   fs.writeFileSync(screenshotPath, Buffer.from(screenshot.data, "base64"));
+
+  await evaluate(
+    "[...document.querySelectorAll('.topActions button')].find((button) => button.textContent.includes('设置')).click()"
+  );
+  await waitFor(
+    "Boolean(document.querySelector('.settingsPanel'))",
+    "settings panel did not open for community theme test"
+  );
+  await evaluate(
+    "[...document.querySelectorAll('.settingsPanel .segmented button')].find((button) => button.textContent.trim() === '黑色').click()"
+  );
+  await waitFor(
+    "document.querySelector('.pcApp').dataset.theme === 'dark'",
+    "PC theme did not switch to dark"
+  );
+  await waitFor(
+    `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(
+      "document.documentElement.getAttribute('data-aihub-theme') === 'dark'"
+    )})`,
+    "embedded community did not follow the PC dark theme"
+  );
+  await evaluate("document.querySelector('.settingsPanel header > button').click()");
+  await waitFor(
+    "!document.querySelector('.settingsPanel')",
+    "settings panel did not close"
+  );
+
+  const darkCommunityTheme = await evaluate(
+    `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(`
+      (() => {
+        const rootStyle = getComputedStyle(document.documentElement);
+        const refresh = document.getElementById("aihub-community-refresh");
+        const hero = document.querySelector(".DiscussionHero");
+        return {
+          theme: document.documentElement.getAttribute("data-aihub-theme"),
+          bodyBackground: rootStyle.getPropertyValue("--body-bg").trim(),
+          primaryColor: rootStyle.getPropertyValue("--primary-color").trim(),
+          refreshBackground: refresh
+            ? getComputedStyle(refresh).backgroundColor
+            : "",
+          heroBackground: hero ? getComputedStyle(hero).backgroundColor : ""
+        };
+      })()
+    `)})`
+  );
+  assert.equal(darkCommunityTheme.theme, "dark");
+  assert.equal(darkCommunityTheme.bodyBackground, "#0e1916");
+  assert.equal(darkCommunityTheme.primaryColor, "#a8ff56");
+  assert.equal(darkCommunityTheme.heroBackground, "rgb(20, 60, 50)");
+
+  const darkScreenshot = await send("Page.captureScreenshot", {
+    format: "png",
+    captureBeyondViewport: false
+  });
+  const darkScreenshotPath = path.join(
+    output,
+    "personal-center-embedded-community-dark.png"
+  );
+  fs.writeFileSync(
+    darkScreenshotPath,
+    Buffer.from(darkScreenshot.data, "base64")
+  );
   socket.close();
 
   process.stdout.write(
@@ -486,11 +586,13 @@ try {
         ok: true,
         personalCenter,
         community,
+        darkCommunityTheme,
         communityLayout,
         compactCommunityLayout,
         screenshots: {
           personalCenter: personalScreenshotPath,
-          embeddedCommunity: screenshotPath
+          embeddedCommunity: screenshotPath,
+          embeddedCommunityDark: darkScreenshotPath
         }
       },
       null,
