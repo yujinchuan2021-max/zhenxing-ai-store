@@ -56,12 +56,12 @@ CREATE INDEX IF NOT EXISTS email_change_challenges_user_created
   ON email_change_challenges(user_id, created_at DESC);
 
 CREATE TABLE IF NOT EXISTS devices (
-  id uuid PRIMARY KEY,
   user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  id uuid NOT NULL,
   name text NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now(),
   last_seen_at timestamptz NOT NULL DEFAULT now(),
-  UNIQUE(user_id, id)
+  PRIMARY KEY (user_id, id)
 );
 
 CREATE TABLE IF NOT EXISTS sessions (
@@ -81,6 +81,32 @@ CREATE TABLE IF NOT EXISTS sessions (
 
 CREATE INDEX IF NOT EXISTS sessions_user_active
   ON sessions(user_id, revoked_at, last_seen_at DESC);
+
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = 'devices_pkey'
+      AND conrelid = 'devices'::regclass
+      AND pg_get_constraintdef(oid) = 'PRIMARY KEY (id)'
+  ) THEN
+    ALTER TABLE sessions
+      DROP CONSTRAINT IF EXISTS sessions_user_id_device_id_fkey;
+    ALTER TABLE sessions
+      DROP CONSTRAINT IF EXISTS sessions_device_id_fkey;
+    ALTER TABLE devices
+      DROP CONSTRAINT IF EXISTS devices_user_id_id_key;
+    ALTER TABLE devices
+      DROP CONSTRAINT devices_pkey;
+    ALTER TABLE devices
+      ADD CONSTRAINT devices_pkey PRIMARY KEY (user_id, id);
+    ALTER TABLE sessions
+      ADD CONSTRAINT sessions_user_id_device_id_fkey
+      FOREIGN KEY (user_id, device_id)
+      REFERENCES devices(user_id, id) ON DELETE CASCADE;
+  END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS community_handoffs (
   credential_hash text PRIMARY KEY,

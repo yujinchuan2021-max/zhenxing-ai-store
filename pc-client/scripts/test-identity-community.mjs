@@ -65,6 +65,50 @@ const registered = await request("/v1/registration/complete", {
   }
 });
 assert.equal(registered.user.email, email);
+
+const secondEmail = `switch-${suffix}@aihub.local`;
+const secondChallenge = await request("/v1/registration/challenges", {
+  method: "POST",
+  body: { email: secondEmail }
+});
+let secondCode = "";
+for (let attempt = 0; attempt < 40 && !secondCode; attempt += 1) {
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  const mailbox = await (await fetch(`${mailOrigin}/api/v1/messages`)).json();
+  const message = mailbox.messages.find((candidate) =>
+    candidate.To?.some(
+      (recipient) =>
+        recipient.Address.toLowerCase() === secondEmail.toLowerCase()
+    )
+  );
+  secondCode = message?.Snippet?.match(/(\d{6})/)?.[1] || "";
+}
+assert.match(secondCode, /^\d{6}$/);
+const secondPassword = `AIHub-${suffix}-Switch8`;
+const secondRegistration = await request("/v1/registration/complete", {
+  method: "POST",
+  body: {
+    challengeId: secondChallenge.challengeId,
+    code: secondCode,
+    email: secondEmail,
+    username: `switch_${suffix}`,
+    nickname: "Account switch acceptance",
+    password: secondPassword,
+    deviceId: crypto.randomUUID(),
+    deviceName: "Second registration device"
+  }
+});
+const switchedLogin = await request("/v1/sessions/login", {
+  method: "POST",
+  body: {
+    identifier: secondEmail,
+    password: secondPassword,
+    deviceId,
+    deviceName: "AI Hub Acceptance"
+  }
+});
+assert.equal(switchedLogin.user.id, secondRegistration.user.id);
+
 assert.equal(registered.user.profile.nickname, "验收用户");
 
 const sessions = await request("/v1/sessions", {
@@ -121,6 +165,7 @@ process.stdout.write(
     {
       ok: true,
       userId: registered.user.id,
+      accountSwitch: "verified",
       sessionRotation: "verified",
       refreshReuse: "revoked",
       discussionId: discussion.id,

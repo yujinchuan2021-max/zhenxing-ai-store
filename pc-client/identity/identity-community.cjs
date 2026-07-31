@@ -122,19 +122,12 @@ function createIdentityCommunity({
     const device = await client.query(
       `INSERT INTO devices (id, user_id, name)
        VALUES ($1, $2, $3)
-       ON CONFLICT (id) DO UPDATE
+       ON CONFLICT (user_id, id) DO UPDATE
        SET name = EXCLUDED.name, last_seen_at = now()
-       WHERE devices.user_id = EXCLUDED.user_id
        RETURNING id`,
       [deviceId, userId, deviceName]
     );
-    if (device.rowCount !== 1) {
-      throw new DomainError(
-        "DEVICE_OWNERSHIP_CONFLICT",
-        "设备标识已经属于其他账号，请重启客户端后重试",
-        409
-      );
-    }
+    if (device.rowCount !== 1) throw new Error("Device session was not saved");
     const accessToken = randomCredential();
     const refreshToken = randomCredential();
     const sessionId = uuid();
@@ -457,8 +450,10 @@ function createIdentityCommunity({
         ]
       );
       await client.query(
-        `UPDATE devices SET last_seen_at = now() WHERE id = $1`,
-        [session.device_id]
+        `UPDATE devices
+         SET last_seen_at = now()
+         WHERE user_id = $1 AND id = $2`,
+        [session.user_id, session.device_id]
       );
       const user = await userView(client, session.user_id);
       await audit(client, "session.refreshed", context, session.user_id, session.id);
@@ -514,7 +509,7 @@ function createIdentityCommunity({
       `SELECT s.id, s.device_id, d.name AS device_name,
               s.created_at, s.last_seen_at
        FROM sessions s
-       JOIN devices d ON d.id = s.device_id
+       JOIN devices d ON d.user_id = s.user_id AND d.id = s.device_id
        WHERE s.user_id = $1 AND s.revoked_at IS NULL
          AND s.refresh_expires_at > now()
        ORDER BY s.last_seen_at DESC`,
