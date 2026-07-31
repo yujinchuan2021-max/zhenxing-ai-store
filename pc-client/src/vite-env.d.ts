@@ -254,6 +254,7 @@ type DesktopStatus = {
   appId: string;
   canOpen: boolean;
   canUninstall: boolean;
+  uninstallMode?: "automatic" | "interactive";
   detection: "installed" | "absent" | "unknown";
 };
 
@@ -263,6 +264,7 @@ type DesktopUninstallResult = {
   busy?: boolean;
   exitCode?: number | null;
   operationTask?: DesktopOperationTask | null;
+  uninstallMode?: "automatic" | "interactive";
   warning?: string;
   message?: string;
   error?: string;

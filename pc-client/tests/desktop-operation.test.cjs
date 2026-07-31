@@ -421,6 +421,35 @@ test("install and uninstall complete only on their opposite trusted evidence", a
   assert.equal(uninstallHarness.controller.get(uninstall.productId), null);
 });
 
+test("desktop operations preserve the adapter uninstall interaction mode", async () => {
+  const automaticStatus = {
+    ...installed,
+    uninstallMode: "automatic"
+  };
+  const harness = createHarness({
+    statuses: [automaticStatus]
+  });
+  const operation = harness.controller.begin(
+    "comfy-desktop",
+    "uninstall"
+  );
+  harness.controller.finishLaunch(
+    operation.productId,
+    operation.generation,
+    operation.operationId,
+    true
+  );
+
+  const monitoring = await harness.runNext();
+  assert.equal(monitoring.phase, "monitoring");
+  assert.equal(monitoring.desktopStatus.uninstallMode, "automatic");
+  assert.equal(
+    harness.records.products[operation.productId].operation.desktopStatus
+      .uninstallMode,
+    "automatic"
+  );
+});
+
 test("resume converts a possibly spawned launching task to unknown monitoring", async () => {
   const first = createHarness();
   const launching = first.controller.begin("comfy-desktop", "install");

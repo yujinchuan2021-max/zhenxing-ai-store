@@ -23,14 +23,17 @@ function normalizeDesktopStatus(value, strict = false) {
   if (!isPlainObject(value) || typeof value.installed !== "boolean") return null;
   const stringFields = ["version", "location", "executable", "appId"];
   const booleanFields = ["canOpen", "canUninstall"];
+  const hasUninstallMode = value.uninstallMode !== undefined;
   const validDetection = ["installed", "absent", "unknown"].includes(
     value.detection
   );
   if (
     strict &&
-    (Object.keys(value).length !== 8 ||
+    (![8, 9].includes(Object.keys(value).length) ||
       stringFields.some((field) => typeof value[field] !== "string") ||
       booleanFields.some((field) => typeof value[field] !== "boolean") ||
+      (hasUninstallMode &&
+        !["automatic", "interactive"].includes(value.uninstallMode)) ||
       !validDetection)
   ) {
     return null;
@@ -41,7 +44,7 @@ function normalizeDesktopStatus(value, strict = false) {
       ? "installed"
       : "unknown";
   if (value.installed !== (detection === "installed")) return null;
-  return {
+  const normalized = {
     installed: value.installed,
     version: typeof value.version === "string" ? value.version : "",
     location: typeof value.location === "string" ? value.location : "",
@@ -51,6 +54,8 @@ function normalizeDesktopStatus(value, strict = false) {
     canUninstall: value.canUninstall === true,
     detection
   };
+  if (hasUninstallMode) normalized.uninstallMode = value.uninstallMode;
+  return normalized;
 }
 
 function normalizePersistedTask(

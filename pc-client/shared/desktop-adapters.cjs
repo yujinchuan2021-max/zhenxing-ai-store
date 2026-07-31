@@ -3,6 +3,8 @@
 const DESKTOP_ADAPTERS = Object.freeze({
   "appx.openai-codex": Object.freeze({
     names: Object.freeze(["ChatGPT", "OpenAI ChatGPT", "OpenAI.Codex"]),
+    presenceEvidence: "trusted-install-identity",
+    uninstallMode: "automatic",
     signer: /^CN=50BDFD77-8903-4850-9FFE-6E8522F64D5B$/i,
     appx: Object.freeze({
       identityName: "OpenAI.Codex",
@@ -11,6 +13,8 @@ const DESKTOP_ADAPTERS = Object.freeze({
   }),
   "squirrel.anthropic-claude": Object.freeze({
     names: Object.freeze(["Claude", "Claude Desktop"]),
+    presenceEvidence: "trusted-install-identity",
+    uninstallMode: "automatic",
     signer: /^CN="?Anthropic, PBC"?(?:,|$)/i,
     executableNames: Object.freeze(["Claude.exe"]),
     uninstall: Object.freeze({
@@ -31,6 +35,8 @@ const DESKTOP_ADAPTERS = Object.freeze({
   }),
   "nsis.comfy-desktop": Object.freeze({
     names: Object.freeze(["Comfy Desktop", "ComfyUI Desktop"]),
+    presenceEvidence: "trusted-install-identity",
+    uninstallMode: "interactive",
     signer: /^CN=Drip Artificial Inc(?:,|$)/i,
     executableNames: Object.freeze([
       "Comfy Desktop.exe",
@@ -53,6 +59,8 @@ const DESKTOP_ADAPTERS = Object.freeze({
   }),
   "inno.ollama": Object.freeze({
     names: Object.freeze(["Ollama"]),
+    presenceEvidence: "trusted-install-identity",
+    uninstallMode: "interactive",
     signer: /^CN=Ollama Inc\.(?:,|$)/i,
     executableNames: Object.freeze(["ollama app.exe"]),
     uninstall: Object.freeze({
@@ -69,7 +77,9 @@ const DESKTOP_ADAPTERS = Object.freeze({
     })
   }),
   "registry.jianying": Object.freeze({
-    names: Object.freeze(["剪映专业版", "CapCut"])
+    names: Object.freeze(["剪映专业版", "CapCut"]),
+    presenceEvidence: "discovery",
+    uninstallMode: "interactive"
   })
 });
 

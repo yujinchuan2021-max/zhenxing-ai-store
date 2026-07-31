@@ -107,6 +107,11 @@ test("managed desktop profiles resolve every advertised native capability", () =
     const registration = getInstallRegistration(productId);
     const adapter = getDesktopAdapter(registration.desktopAdapterId);
     assert.ok(adapter, `${productId} must resolve a desktop adapter`);
+    assert.equal(adapter.presenceEvidence, "trusted-install-identity");
+    assert.ok(
+      ["automatic", "interactive"].includes(adapter.uninstallMode),
+      `${productId} must declare its uninstall interaction mode`
+    );
     assert.equal(registration.capabilities.includes("install"), true);
     assert.equal(registration.capabilities.includes("open"), true);
     assert.equal(

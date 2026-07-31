@@ -19,7 +19,7 @@ function normalizeDesktopStatus(value) {
     return null;
   }
   if (value.installed !== (value.detection === "installed")) return null;
-  return {
+  const normalized = {
     installed: value.installed,
     version: typeof value.version === "string" ? value.version : "",
     location: typeof value.location === "string" ? value.location : "",
@@ -29,6 +29,13 @@ function normalizeDesktopStatus(value) {
     canUninstall: value.canUninstall === true,
     detection: value.detection
   };
+  if (value.uninstallMode !== undefined) {
+    if (!["automatic", "interactive"].includes(value.uninstallMode)) {
+      return null;
+    }
+    normalized.uninstallMode = value.uninstallMode;
+  }
+  return normalized;
 }
 
 function validTimestamp(value) {

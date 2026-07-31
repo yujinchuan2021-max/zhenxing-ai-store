@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { runEnvironmentInstall } from "@aihub-shared/environment-install-flow.cjs";
 import { resolveProductBehavior } from "@aihub-shared/product-policy.cjs";
+import { getUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
 import {
   categories,
   Product,
@@ -648,6 +649,10 @@ export default function App() {
       return;
     }
     if (task.operation === "uninstall") {
+      const uninstallCopy = getUninstallPresentation(
+        task.desktopStatus?.uninstallMode ??
+          desktopStatuses[task.productId]?.uninstallMode
+      );
       setProductStages((current) => ({
         ...current,
         [task.productId]: "awaiting-uninstall"
@@ -656,14 +661,14 @@ export default function App() {
         ...current,
         [task.productId]:
           task.phase === "timed-out"
-            ? "暂未确认卸载完成。若卸载向导仍在运行，请完成后点击“立即检测”。"
+            ? uninstallCopy.timedOut
             : task.phase === "launching"
-              ? "正在验证并打开厂商卸载程序…"
+              ? uninstallCopy.preparing
               : task.lastError
                 ? "Windows 应用信息扫描暂时失败，正在继续确认卸载结果"
                 : task.launchState === "unknown"
-                  ? "客户端已恢复卸载任务，正在确认厂商卸载程序的执行结果…"
-                  : "正在自动确认卸载结果…"
+                  ? `客户端已恢复卸载任务，${uninstallCopy.activeDetail}`
+                  : uninstallCopy.activeDetail
       }));
       return;
     }
@@ -2229,6 +2234,9 @@ export default function App() {
 
   const uninstallDesktopProduct = async (product: Product) => {
     if (!window.aihubPC || !desktopStatuses[product.id]?.canUninstall) return;
+    const uninstallCopy = getUninstallPresentation(
+      desktopStatuses[product.id]?.uninstallMode
+    );
     setProductErrors((current) => ({ ...current, [product.id]: "" }));
     setProductStages((current) => ({
       ...current,
@@ -2236,7 +2244,7 @@ export default function App() {
     }));
     setProductErrors((current) => ({
       ...current,
-      [product.id]: "正在验证并打开厂商卸载程序…"
+      [product.id]: uninstallCopy.preparing
     }));
     try {
       const result = await window.aihubPC.uninstallDesktopProduct(product.id);
@@ -2270,7 +2278,8 @@ export default function App() {
           ...current,
           [product.id]:
             result.warning ||
-            "卸载程序已打开，请完成厂商卸载向导，AI Hub 将继续检测。"
+            result.message ||
+            getUninstallPresentation(result.uninstallMode).launched
         }));
       }
     } catch (error) {
@@ -2332,7 +2341,7 @@ export default function App() {
       [product.id]:
         status.detection === "unknown"
           ? "Windows 应用信息扫描暂时失败，尚不能确认卸载完成"
-          : "仍检测到该产品，请先完成厂商卸载向导"
+          : getUninstallPresentation(status.uninstallMode).stillInstalled
     }));
     setProductStages((current) => ({
       ...current,
@@ -3559,6 +3568,9 @@ function ProductRow({
   onOpenEnvironmentInstaller: (environmentId: string) => void;
 }) {
   const behavior = resolveProductBehavior(product);
+  const uninstallCopy = getUninstallPresentation(
+    desktopStatus?.uninstallMode
+  );
   const installButtonLabel =
     behavior.primaryLabel ||
     (behavior.managedCli || behavior.managedDesktop
@@ -3807,7 +3819,7 @@ function ProductRow({
           )}
           {stage === "awaiting-uninstall" && (
             <div className="verificationState">
-              <span>卸载程序已打开，正在确认产品是否已移除</span>
+              <span>{uninstallCopy.activeTitle}</span>
               {error && <small>{error}</small>}
               <button onClick={onRecheckDesktopUninstall}>立即检测</button>
             </div>

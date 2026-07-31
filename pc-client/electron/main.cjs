@@ -37,6 +37,12 @@ const {
   desktopProbes
 } = require("../shared/desktop-adapters.cjs");
 const {
+  resolveDesktopPresence
+} = require("../shared/desktop-detection.cjs");
+const {
+  getUninstallPresentation
+} = require("../shared/uninstall-presentation.cjs");
+const {
   getManagedDownload: getStaticManagedDownload,
   isAllowedManagedDownloadUrl
 } = require("../shared/managed-downloads.cjs");
@@ -1516,6 +1522,7 @@ async function detectDesktopProduct(productId) {
       appId: "",
       canOpen: false,
       canUninstall: false,
+      uninstallMode: "interactive",
       detection: "unknown"
     };
   }
@@ -1569,9 +1576,16 @@ async function detectDesktopProduct(productId) {
     registryMatch?.installlocation ||
     packageMatch?.InstallLocation ||
     (executable ? path.dirname(executable) : "");
-  const installed = Boolean(registryMatch || packageMatch || startMatch);
+  const presence = resolveDesktopPresence({
+    evidencePolicy: probe.presenceEvidence,
+    registryMatched: Boolean(registryMatch),
+    packageMatched: Boolean(packageMatch),
+    startMatched: Boolean(startMatch),
+    registryScanSucceeded: registryScan.ok,
+    windowsAppsScanSucceeded: windowsApps.ok
+  });
   return {
-    installed,
+    installed: presence.installed,
     version: String(
       registryMatch?.displayversion || packageMatch?.Version || ""
     ),
@@ -1580,20 +1594,19 @@ async function detectDesktopProduct(productId) {
         ? installLocation
         : "",
     executable,
-    appId: String(startMatch?.AppID || ""),
-    canOpen: probe.uninstall
-      ? Boolean(executable)
-      : Boolean(executable || startMatch?.AppID),
+    appId: presence.installed ? String(startMatch?.AppID || "") : "",
+    canOpen:
+      presence.installed &&
+      (probe.uninstall
+        ? Boolean(executable)
+        : Boolean(executable || startMatch?.AppID)),
     canUninstall: Boolean(
       packageMatch && probe.appx
         ? true
         : uninstallRecord && uninstallSignature?.ok
     ),
-    detection: installed
-      ? "installed"
-      : registryScan.ok && windowsApps.ok
-        ? "absent"
-        : "unknown"
+    uninstallMode: probe.uninstallMode,
+    detection: presence.detection
   };
 }
 
@@ -1696,7 +1709,8 @@ async function uninstallTrustedAppxProduct(
     return {
       ...launchResult,
       operationTask: operationController.get(productId) || operationTask,
-      message: "卸载请求已提交，正在自动检测卸载结果"
+      uninstallMode: probe.uninstallMode,
+      message: getUninstallPresentation(probe.uninstallMode).launched
     };
   } catch (error) {
     if (operationTask && !processSpawned) {
@@ -5395,7 +5409,8 @@ function registerIpc() {
         ...launchResult,
         operationTask: operationController.get(productId) || operationTask,
         warning: persistenceWarning || undefined,
-        message: "卸载程序已打开，正在自动检测卸载结果"
+        uninstallMode: probe.uninstallMode,
+        message: getUninstallPresentation(probe.uninstallMode).launched
       };
     } catch (error) {
       if (operationTask && !processSpawned) {
