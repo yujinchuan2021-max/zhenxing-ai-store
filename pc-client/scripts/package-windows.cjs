@@ -7,6 +7,14 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 const upgradeFixture = process.argv.slice(2).includes("--upgrade-fixture");
+const upgradeVersion =
+  process.env.AIHUB_UPGRADE_FIXTURE_VERSION || "0.1.1";
+if (
+  upgradeFixture &&
+  !/^(?:0|[1-9]\d*)\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(upgradeVersion)
+) {
+  throw new Error("AIHUB_UPGRADE_FIXTURE_VERSION must be semantic");
+}
 if (
   process.argv
     .slice(2)
@@ -19,7 +27,7 @@ const temporaryOutput = fs.mkdtempSync(
 );
 const artifactOutput = path.join(
   root,
-  upgradeFixture ? "release-upgrade-0.1.1" : "release"
+  upgradeFixture ? `release-upgrade-${upgradeVersion}` : "release"
 );
 
 function resolveCommand(command, args) {
@@ -63,7 +71,7 @@ try {
     "--win",
     ...(upgradeFixture ? ["nsis"] : ["portable", "nsis"]),
     ...(upgradeFixture
-      ? ["--config.extraMetadata.version=0.1.1"]
+      ? [`--config.extraMetadata.version=${upgradeVersion}`]
       : []),
     `--config.directories.output=${temporaryOutput}`
   ];

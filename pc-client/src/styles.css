@@ -644,7 +644,7 @@ button {
 
 .productRow {
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) 118px minmax(340px, auto);
+  grid-template-columns: minmax(260px, 1fr) minmax(0, auto);
   align-items: center;
   gap: 16px;
   margin-top: 8px;
@@ -652,6 +652,15 @@ button {
   border: 1px solid var(--line);
   border-radius: 13px;
   background: var(--surface);
+}
+
+.productActions {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
 }
 
 .productRow:has(.downloadTaskLog[open]) {
@@ -1588,10 +1597,10 @@ button:disabled {
   }
 
   .productRow {
-    grid-template-columns: 1fr 110px;
+    grid-template-columns: 1fr;
   }
 
-  .installFlow {
-    grid-column: 1 / -1;
+  .productActions {
+    justify-content: flex-start;
   }
 }

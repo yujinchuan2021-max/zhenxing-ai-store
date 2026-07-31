@@ -14,6 +14,7 @@
     "package:win:upgrade-fixture": "node scripts/package-windows.cjs --upgrade-fixture",
     "test:windows-installer": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/test-windows-installer.ps1",
     "test:windows-upgrade": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/test-windows-upgrade.ps1",
+    "test:product-layout": "npm run build && node scripts/test-product-layout.mjs",
     "test:managed-cli-uninstall": "node scripts/test-managed-cli-uninstall.cjs",
     "test:claude-code-postinstall": "node scripts/test-claude-code-postinstall.cjs",
     "test:official-cli-packages": "node scripts/test-official-cli-packages.cjs",

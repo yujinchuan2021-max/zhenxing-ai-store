@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
   [string]$BaseInstallerPath = "",
-  [string]$UpgradeInstallerPath = ""
+  [string]$UpgradeInstallerPath = "",
+  [string]$ExpectedUpgradeVersion = "0.1.1"
 )
 
 $ErrorActionPreference = "Stop"
@@ -13,7 +14,7 @@ if (-not $BaseInstallerPath) {
 if (-not $UpgradeInstallerPath) {
   $UpgradeInstallerPath = Join-Path `
     $PSScriptRoot `
-    "..\release-upgrade-0.1.1\AI-Hub-0.1.1-Windows-x64-Setup.exe"
+    "..\release-upgrade-$ExpectedUpgradeVersion\AI-Hub-$ExpectedUpgradeVersion-Windows-x64-Setup.exe"
 }
 
 function Get-AIHubUninstallEntries {
@@ -198,14 +199,17 @@ try {
     throw "Upgrade removed the installed executable."
   }
   $upgradeEntries = @(Get-EntryAtDirectory -InstallDirectory $resolvedTarget)
-  if ($upgradeEntries.Count -ne 1 -or $upgradeEntries[0].version -ne "0.1.1") {
-    throw "Upgrade registry version is not exactly 0.1.1."
+  if (
+    $upgradeEntries.Count -ne 1 -or
+    $upgradeEntries[0].version -ne $ExpectedUpgradeVersion
+  ) {
+    throw "Upgrade registry version is not exactly $ExpectedUpgradeVersion."
   }
   $productVersion = [string](
     Get-Item -LiteralPath $installedExecutable
   ).VersionInfo.ProductVersion
-  if (-not $productVersion.StartsWith("0.1.1")) {
-    throw "Installed executable version is not 0.1.1."
+  if (-not $productVersion.StartsWith($ExpectedUpgradeVersion)) {
+    throw "Installed executable version is not $ExpectedUpgradeVersion."
   }
   if (
     -not (Test-Path -LiteralPath $markerPath) -or
@@ -267,7 +271,7 @@ $result = [ordered]@{
   upgradeInstaller = $upgradeInstaller
   installDirectory = $resolvedTarget
   baseVersion = "0.1.0"
-  upgradeVersion = "0.1.1"
+  upgradeVersion = $ExpectedUpgradeVersion
   baseLaunchProcessCount = $baseLaunchCount
   upgradeLaunchProcessCount = $upgradeLaunchCount
   userDataMarkerPreserved = $markerCreated -and -not $testError

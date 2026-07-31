@@ -3603,6 +3603,7 @@ function ProductRow({
         <h4>{product.name}</h4>
         <p>{product.description}</p>
       </div>
+      <div className="productActions">
       {behavior.canOpenWebsite && (
         <button
           className="websiteButton"
@@ -3898,6 +3899,7 @@ function ProductRow({
             )}
         </div>
       ) : null}
+      </div>
     </article>
   );
 }
