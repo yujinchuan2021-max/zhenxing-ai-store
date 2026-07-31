@@ -2,6 +2,12 @@ export type ProductBehavior = {
   productType: string;
   directUrl: string;
   opensDirectly: boolean;
+  capabilities: readonly string[];
+  canOpenWebsite: boolean;
+  canOpenTutorial: boolean;
+  canInstall: boolean;
+  canOpenInstalled: boolean;
+  canUninstall: boolean;
   requiresEnvironmentCheck: boolean;
   managedDownload: boolean;
   managedCli: boolean;
@@ -20,6 +26,8 @@ export function resolveProductBehavior(product: {
   productType: string;
   website: string;
   tutorial: string;
+  moduleId?: string;
+  capabilities?: string[];
   downloadPolicy: string;
   download?: { url: string; fileName: string };
 }): ProductBehavior;

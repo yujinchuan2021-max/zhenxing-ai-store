@@ -16,6 +16,10 @@ const INSTALL_REGISTRY = Object.freeze({
     productType: "desktop-reviewed",
     kind: "桌面端",
     mode: INSTALL_MODES.MANAGED_INSTALLER,
+    desktopAdapterId: "appx.openai-codex",
+    capabilities: Object.freeze([
+      "website", "tutorial", "install", "open", "uninstall"
+    ]),
     requirements: Object.freeze([])
   }),
   "claude-desktop": Object.freeze({
@@ -26,6 +30,10 @@ const INSTALL_REGISTRY = Object.freeze({
     productType: "desktop-reviewed",
     kind: "桌面端",
     mode: INSTALL_MODES.MANAGED_INSTALLER,
+    desktopAdapterId: "squirrel.anthropic-claude",
+    capabilities: Object.freeze([
+      "website", "tutorial", "install", "open", "uninstall"
+    ]),
     requirements: Object.freeze([])
   }),
   "codex-cli": Object.freeze({
@@ -36,6 +44,9 @@ const INSTALL_REGISTRY = Object.freeze({
     productType: "cli",
     kind: "CLI",
     mode: INSTALL_MODES.MANAGED_CLI,
+    capabilities: Object.freeze([
+      "website", "tutorial", "install", "open", "uninstall"
+    ]),
     requirements: Object.freeze(["node"]),
     cli: Object.freeze({
       name: "Codex CLI",
@@ -50,6 +61,9 @@ const INSTALL_REGISTRY = Object.freeze({
     productType: "cli",
     kind: "CLI",
     mode: INSTALL_MODES.MANAGED_CLI,
+    capabilities: Object.freeze([
+      "website", "tutorial", "install", "open", "uninstall"
+    ]),
     requirements: Object.freeze(["node", "git"]),
     cli: Object.freeze({
       name: "Claude Code",
@@ -70,6 +84,9 @@ const INSTALL_REGISTRY = Object.freeze({
     productType: "cli",
     kind: "CLI",
     mode: INSTALL_MODES.MANAGED_CLI,
+    capabilities: Object.freeze([
+      "website", "tutorial", "install", "open", "uninstall"
+    ]),
     requirements: Object.freeze(["node"]),
     cli: Object.freeze({
       name: "Gemini CLI",
@@ -84,6 +101,10 @@ const INSTALL_REGISTRY = Object.freeze({
     productType: "desktop-reviewed",
     kind: "桌面端",
     mode: INSTALL_MODES.MANAGED_INSTALLER,
+    desktopAdapterId: "nsis.comfy-desktop",
+    capabilities: Object.freeze([
+      "website", "tutorial", "install", "open", "uninstall"
+    ]),
     requirements: Object.freeze(["python"])
   }),
   "ollama-cli": Object.freeze({
@@ -94,6 +115,10 @@ const INSTALL_REGISTRY = Object.freeze({
     productType: "local-model",
     kind: "桌面端",
     mode: INSTALL_MODES.MANAGED_INSTALLER,
+    desktopAdapterId: "inno.ollama",
+    capabilities: Object.freeze([
+      "website", "tutorial", "install", "open", "uninstall"
+    ]),
     requirements: Object.freeze([])
   })
 });
@@ -121,6 +146,7 @@ function publicInstallProfiles() {
         productId,
         vendorId: entry.vendorId,
         requirements: entry.requirements,
+        capabilities: entry.capabilities,
         ...(download
           ? {
               download: Object.freeze({

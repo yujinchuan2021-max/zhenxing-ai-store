@@ -94,6 +94,26 @@ test("resolves web, official desktop, and tutorial products as direct links", ()
   );
 });
 
+test("backend may remove approved features but cannot invent capabilities", () => {
+  const product = webProduct({
+    capabilities: ["website"]
+  });
+  assert.doesNotThrow(() => validateCatalog(catalogWith(product)));
+  const behavior = resolveProductBehavior(product);
+  assert.equal(behavior.canOpenWebsite, true);
+  assert.equal(behavior.canOpenTutorial, false);
+  assert.throws(
+    () =>
+      validateCatalog(
+        catalogWith({
+          ...product,
+          capabilities: ["website", "uninstall"]
+        })
+      ),
+    /产品能力未通过模块白名单/
+  );
+});
+
 test("accepts only the reviewed Comfy Desktop installer identity and policy", () => {
   const download = {
     url: "https://download.comfy.org/windows/nsis/x64",

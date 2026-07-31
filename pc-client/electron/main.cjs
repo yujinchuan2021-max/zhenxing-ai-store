@@ -34,6 +34,9 @@ const {
   cliInstallPlans
 } = require("../shared/install-registry.cjs");
 const {
+  desktopProbes
+} = require("../shared/desktop-adapters.cjs");
+const {
   getManagedDownload: getStaticManagedDownload,
   isAllowedManagedDownloadUrl
 } = require("../shared/managed-downloads.cjs");
@@ -284,55 +287,7 @@ function nextEnvironmentDownloadPlan(plan) {
 }
 
 const CLI_INSTALL_PLANS = cliInstallPlans();
-const DESKTOP_PROBES = Object.freeze({
-  "chatgpt-desktop": {
-    names: ["ChatGPT", "OpenAI ChatGPT", "OpenAI.Codex"],
-    signer: /^CN=50BDFD77-8903-4850-9FFE-6E8522F64D5B$/i,
-    appx: {
-      identityName: "OpenAI.Codex",
-      publisher: /^CN=50BDFD77-8903-4850-9FFE-6E8522F64D5B$/i
-    }
-  },
-  "claude-desktop": {
-    names: ["Claude", "Claude Desktop"],
-    signer: /^CN="?Anthropic, PBC"?(?:,|$)/i,
-    appx: {
-      identityName: "Claude",
-      publisher: /^CN="?Anthropic, PBC"?(?:,|$)/i
-    }
-  },
-  jianying: {
-    names: ["剪映专业版", "CapCut"]
-  },
-  "comfy-desktop": {
-    names: ["Comfy Desktop", "ComfyUI Desktop"],
-    signer: /^CN=Drip Artificial Inc(?:,|$)/i,
-    executableNames: ["Comfy Desktop.exe", "ComfyUI Desktop.exe", "ComfyUI.exe"],
-    uninstall: {
-      displayName:
-        /^(?:ComfyUI|ComfyUI Desktop|Comfy Desktop)(?:\s+\d+(?:\.\d+){1,3}(?:[-+][0-9a-z.-]+)?)?$/i,
-      publisher: /^(?:Comfy Org|Drip Artificial(?: Intelligence, Inc\.)?)$/i,
-      executableName:
-        /^Uninstall (?:ComfyUI|ComfyUI Desktop|Comfy Desktop)\.exe$/i,
-      allowedArguments: [[], ["/currentuser"], ["/allusers"]],
-      allowMsi: false
-    }
-  },
-  "ollama-cli": {
-    names: ["Ollama"],
-    signer: /^CN=Ollama Inc\.(?:,|$)/i,
-    executableNames: ["ollama app.exe"],
-    uninstall: {
-      displayName:
-        /^Ollama(?:\s+(?:version\s+)?\d+(?:\.\d+){1,3}(?:[-+][0-9a-z.-]+)?)?$/i,
-      publisher: /^Ollama(?:,? Inc\.?)?$/i,
-      executableName: /^unins\d{3}\.exe$/i,
-      allowedArguments: [[], ["/SILENT"]],
-      launchWithoutArguments: true,
-      allowMsi: false
-    }
-  }
-});
+const DESKTOP_PROBES = desktopProbes();
 
 function configPath() {
   return path.join(app.getPath("userData"), "pc-settings.json");
@@ -5299,7 +5254,7 @@ function registerIpc() {
     let operationTask = null;
     let processSpawned = false;
     try {
-      if (probe.appx) {
+      if (probe.appx && !probe.uninstall) {
         return await uninstallTrustedAppxProduct(
           productId,
           probe,
@@ -5318,6 +5273,13 @@ function registerIpc() {
         registryScan.entries
       );
       if (!record) {
+        if (probe.appx) {
+          return await uninstallTrustedAppxProduct(
+            productId,
+            probe,
+            operationController
+          );
+        }
         return {
           launched: false,
           error: "未找到名称、发布者和安装位置均匹配的可信卸载项"

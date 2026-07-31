@@ -12,6 +12,9 @@ const {
   moduleIdForProductType,
   publicProductModules
 } = require("../shared/product-modules.cjs");
+const {
+  getDesktopAdapter
+} = require("../shared/desktop-adapters.cjs");
 
 test("each product type resolves to one reusable product module", () => {
   assert.equal(moduleIdForProductType("web"), "web-link");
@@ -55,7 +58,8 @@ test("approved profiles expose identity but no executable command", () => {
       moduleId: "cli-managed",
       productId: "codex-cli",
       vendorId: "openai",
-      requirements: ["node"]
+      requirements: ["node"],
+      capabilities: ["website", "tutorial", "install", "open", "uninstall"]
     }
   );
   assert.equal(
@@ -91,4 +95,23 @@ test("approved profiles expose identity but no executable command", () => {
     }
   );
   assert.equal(PRODUCT_MODULES["desktop-managed"].requiresProfile, true);
+});
+
+test("managed desktop profiles resolve every advertised native capability", () => {
+  for (const productId of [
+    "chatgpt-desktop",
+    "claude-desktop",
+    "comfy-desktop",
+    "ollama-cli"
+  ]) {
+    const registration = getInstallRegistration(productId);
+    const adapter = getDesktopAdapter(registration.desktopAdapterId);
+    assert.ok(adapter, `${productId} must resolve a desktop adapter`);
+    assert.equal(registration.capabilities.includes("install"), true);
+    assert.equal(registration.capabilities.includes("open"), true);
+    assert.equal(
+      registration.capabilities.includes("uninstall"),
+      Boolean(adapter.uninstall || adapter.appx)
+    );
+  }
 });

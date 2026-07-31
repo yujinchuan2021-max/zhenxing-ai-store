@@ -3566,7 +3566,12 @@ function ProductRow({
       : product.productType === "desktop-official"
         ? "获取官方安装包"
         : "打开产品");
-  const installable = behavior.requiresEnvironmentCheck;
+  const installable = behavior.canInstall;
+  const managedActionsAvailable =
+    (behavior.managedCli || behavior.managedDesktop) &&
+    (behavior.canInstall ||
+      behavior.canOpenInstalled ||
+      behavior.canUninstall);
   const cliDeployable = behavior.managedCli;
   const productOperationBusy = [
     "detecting",
@@ -3598,27 +3603,34 @@ function ProductRow({
         <h4>{product.name}</h4>
         <p>{product.description}</p>
       </div>
-      <button
-        className="websiteButton"
-        onClick={() =>
-          window.open(behavior.opensDirectly ? behavior.directUrl : product.website)
-        }
-      >
-        {product.productType === "web"
-          ? "打开网页"
-          : product.productType === "desktop-official"
-            ? "前往官方下载"
-            : product.productType === "tutorial"
-              ? "打开教程"
+      {behavior.canOpenWebsite && (
+        <button
+          className="websiteButton"
+          onClick={() => window.open(product.website)}
+        >
+          {product.productType === "web"
+            ? "打开网页"
+            : product.productType === "desktop-official"
+              ? "前往官方下载"
               : product.kind === "CLI"
                 ? "CLI 官网"
                 : product.kind === "桌面端"
                   ? "工具官网"
                   : "产品官网"} ↗
-      </button>
-      {installable ? (
+        </button>
+      )}
+      {behavior.canOpenTutorial &&
+        (!behavior.canOpenWebsite || product.tutorial !== product.website) && (
+          <button
+            className="websiteButton"
+            onClick={() => window.open(product.tutorial)}
+          >
+            打开教程 ↗
+          </button>
+        )}
+      {managedActionsAvailable ? (
         <div className="installFlow">
-          {stage === "idle" && (
+          {stage === "idle" && installable && (
             <button
               className="accentButton"
               disabled={productOperationBusy}
@@ -3846,24 +3858,26 @@ function ProductRow({
               </b>
               {desktopStatus && (
                 <>
-                  <button
+                  {behavior.canOpenInstalled && <button
                     disabled={!desktopStatus.canOpen}
                     onClick={onOpenDesktop}
                   >
                     打开软件
-                  </button>
-                  <button
+                  </button>}
+                  {behavior.canOpenInstalled && <button
                     disabled={!desktopStatus.location}
                     onClick={onOpenDesktopLocation}
                   >
                     打开安装位置
-                  </button>
-                  {desktopStatus.canUninstall && (
+                  </button>}
+                  {behavior.canUninstall && desktopStatus.canUninstall && (
                     <button onClick={onUninstallDesktop}>卸载</button>
                   )}
                 </>
               )}
-              {cliDeployable && cliStatus?.canUninstall && (
+              {behavior.canUninstall &&
+                cliDeployable &&
+                cliStatus?.canUninstall && (
                 <button onClick={onUninstallCli}>卸载</button>
               )}
               {cliDeployable && cliStatus?.installed && !cliStatus.managed && (

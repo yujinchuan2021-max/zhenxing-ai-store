@@ -16,6 +16,7 @@ const {
   publicInstallProfiles
 } = require("../shared/install-registry.cjs");
 const {
+  getProductModule,
   moduleIdForProductType,
   publicProductModules
 } = require("../shared/product-modules.cjs");
@@ -131,7 +132,8 @@ async function ensureDraft() {
             product.enabled === undefined ||
             product.order === undefined ||
             product.moduleId === undefined ||
-            product.installProfileId === undefined
+            product.installProfileId === undefined ||
+            product.capabilities === undefined
         )
     )
   ) {
@@ -151,6 +153,10 @@ async function ensureDraft() {
         product.moduleId ??= moduleIdForProductType(product.productType);
         product.installProfileId ??=
           getInstallRegistration(product.id)?.profileId || "";
+        product.capabilities ??=
+          getInstallRegistration(product.id)?.capabilities ||
+          getProductModule(product.moduleId)?.capabilities ||
+          [];
       });
     });
     validateCatalog(catalog);

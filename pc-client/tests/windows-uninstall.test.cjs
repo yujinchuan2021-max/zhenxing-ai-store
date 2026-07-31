@@ -23,6 +23,13 @@ const ollamaPolicy = {
   launchWithoutArguments: true,
   allowMsi: false
 };
+const claudePolicy = {
+  displayName: /^Claude(?:\s+\d+(?:\.\d+){1,3})?$/i,
+  publisher: /^Anthropic(?:,?\s+PBC)?$/i,
+  executableName: /^Update\.exe$/i,
+  allowedArguments: [["--uninstall"], ["--uninstall", "-s"]],
+  allowMsi: false
+};
 
 function fakeFileSystem(paths) {
   const known = new Set(paths.map((value) => value.toLowerCase()));
@@ -51,6 +58,28 @@ test("accepts a product-specific uninstaller inside its registered installation"
     kind: "executable",
     executable: "C:\\Users\\Tester\\AppData\\Local\\Programs\\ComfyUI\\Uninstall ComfyUI.exe",
     args: ["/currentuser"]
+  });
+});
+
+test("accepts Claude's reviewed Squirrel uninstaller", () => {
+  const installLocation =
+    "C:\\Users\\Tester\\AppData\\Local\\AnthropicClaude";
+  const update = `${installLocation}\\Update.exe`;
+  const fileSystem = fakeFileSystem([installLocation, update]);
+  const action = resolveTrustedUninstallAction({
+    entry: {
+      displayname: "Claude",
+      publisher: "Anthropic PBC",
+      installlocation: installLocation,
+      uninstallstring: `"${update}" --uninstall`
+    },
+    policy: claudePolicy,
+    ...fileSystem
+  });
+  assert.deepEqual(action, {
+    kind: "executable",
+    executable: update,
+    args: ["--uninstall"]
   });
 });
 

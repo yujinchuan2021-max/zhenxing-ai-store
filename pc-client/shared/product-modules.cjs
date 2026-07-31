@@ -11,6 +11,7 @@ const PRODUCT_MODULES = Object.freeze({
     downloadPolicy: "none",
     signaturePolicy: "not-applicable",
     uninstallPolicy: "not-managed",
+    capabilities: Object.freeze(["website", "tutorial"]),
     requiresProfile: false,
     allowsRequirements: false
   }),
@@ -24,6 +25,7 @@ const PRODUCT_MODULES = Object.freeze({
     downloadPolicy: "official-page",
     signaturePolicy: "vendor-controlled",
     uninstallPolicy: "vendor-managed",
+    capabilities: Object.freeze(["website", "tutorial"]),
     requiresProfile: false,
     allowsRequirements: false
   }),
@@ -37,6 +39,13 @@ const PRODUCT_MODULES = Object.freeze({
     downloadPolicy: "client-managed",
     signaturePolicy: "client-reviewed",
     uninstallPolicy: "client-managed",
+    capabilities: Object.freeze([
+      "website",
+      "tutorial",
+      "install",
+      "open",
+      "uninstall"
+    ]),
     requiresProfile: true,
     allowsRequirements: true
   }),
@@ -50,6 +59,13 @@ const PRODUCT_MODULES = Object.freeze({
     downloadPolicy: "none",
     signaturePolicy: "not-applicable",
     uninstallPolicy: "client-managed",
+    capabilities: Object.freeze([
+      "website",
+      "tutorial",
+      "install",
+      "open",
+      "uninstall"
+    ]),
     requiresProfile: true,
     allowsRequirements: true
   }),
@@ -63,6 +79,13 @@ const PRODUCT_MODULES = Object.freeze({
     downloadPolicy: "client-managed",
     signaturePolicy: "client-reviewed",
     uninstallPolicy: "client-managed",
+    capabilities: Object.freeze([
+      "website",
+      "tutorial",
+      "install",
+      "open",
+      "uninstall"
+    ]),
     requiresProfile: true,
     allowsRequirements: true
   }),
@@ -76,6 +99,7 @@ const PRODUCT_MODULES = Object.freeze({
     downloadPolicy: "none",
     signaturePolicy: "not-applicable",
     uninstallPolicy: "not-managed",
+    capabilities: Object.freeze(["tutorial"]),
     requiresProfile: false,
     allowsRequirements: false
   })
@@ -110,6 +134,7 @@ function applyProductModule(product, moduleId) {
     downloadPolicy: module.downloadPolicy,
     signaturePolicy: module.signaturePolicy,
     uninstallPolicy: module.uninstallPolicy,
+    capabilities: [...module.capabilities],
     requirements: module.allowsRequirements ? product.requirements || [] : [],
     installProfileId: module.requiresProfile
       ? product.installProfileId || ""

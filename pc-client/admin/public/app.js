@@ -158,6 +158,14 @@ function optionList(values, selected) {
     .join("");
 }
 
+const capabilityLabels = Object.freeze({
+  website: "官网",
+  tutorial: "教程",
+  install: "安装",
+  open: "打开已安装软件",
+  uninstall: "卸载"
+});
+
 function productModuleFor(product) {
   return state.productModules.modules.find(
     (module) =>
@@ -223,6 +231,9 @@ function applyModule(product, moduleId, vendorId) {
     ? matchingProfile?.id || ""
     : "";
   product.requirements = matchingProfile?.requirements || [];
+  product.capabilities = [
+    ...(matchingProfile?.capabilities || module.capabilities || [])
+  ];
   if (matchingProfile?.download) {
     product.download = { ...matchingProfile.download };
   } else {
@@ -391,6 +402,12 @@ function renderProducts() {
              ${productModule?.requiresProfile ? `
              <label class="wide">已审核安装配置<select data-install-profile>${installProfileOptions(product, record.vendor.id)}</select></label>` : ""}
              <label class="wide moduleNotice">模块说明<small>${escapeHtml(productModule?.description || "请选择产品模块")}</small></label>
+             <label class="wide">模块功能<div class="checks">${(productModule?.capabilities || [])
+               .map(
+                 (capability) => `<label><input type="checkbox" data-capability="${escapeHtml(capability)}"
+                 ${(product.capabilities || []).includes(capability) ? "checked" : ""}>${escapeHtml(capabilityLabels[capability] || capability)}</label>`
+               )
+               .join("")}</div><small>后台可以关闭或重新启用客户端已经审核的功能；不能下发命令或新增本地执行能力。</small></label>
              <label>工具特性<select data-product-field="category">${optionList(categories, product.category)}</select></label>
              <label>产品官网<input data-product-field="website" value="${escapeHtml(product.website)}"></label>
              <label class="wide">教程地址<input data-product-field="tutorial" value="${escapeHtml(product.tutorial)}"></label>
@@ -615,6 +632,7 @@ content.addEventListener("click", async (event) => {
       moduleId: "web-link", installProfileId: "",
       installPolicy: "open-product-website", downloadPolicy: "none",
       signaturePolicy: "not-applicable", uninstallPolicy: "not-managed"
+      , capabilities: ["website", "tutorial"]
     });
     state.selectedProductId = id; markDirty(); render();
   } else if (target.dataset.action === "delete-product") {
@@ -751,6 +769,9 @@ content.addEventListener("input", (event) => {
     );
     product.installProfileId = input.value;
     product.requirements = profile?.requirements || [];
+    product.capabilities = [
+      ...(profile?.capabilities || productModuleFor(product)?.capabilities || [])
+    ];
     if (profile?.download) {
       product.download = { ...profile.download };
     } else {
@@ -764,6 +785,13 @@ content.addEventListener("input", (event) => {
     product.requirements = input.checked
       ? [...new Set([...product.requirements, input.dataset.requirement])]
       : product.requirements.filter((item) => item !== input.dataset.requirement);
+  } else if (input.dataset.capability) {
+    const product = selectedProductRecord().product;
+    product.capabilities = input.checked
+      ? [...new Set([...(product.capabilities || []), input.dataset.capability])]
+      : (product.capabilities || []).filter(
+          (item) => item !== input.dataset.capability
+        );
   } else if (input.dataset.downloadField) {
     const product = selectedProductRecord().product;
     const urlInput = content.querySelector('[data-download-field="url"]').value.trim();

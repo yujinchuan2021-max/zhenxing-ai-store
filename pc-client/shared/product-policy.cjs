@@ -41,6 +41,13 @@ const UNINSTALL_POLICIES = new Set([
   "vendor-managed",
   "client-managed"
 ]);
+const PRODUCT_CAPABILITIES = new Set([
+  "website",
+  "tutorial",
+  "install",
+  "open",
+  "uninstall"
+]);
 
 const APPROVED_CLI_PRODUCTS = Object.freeze(
   Object.fromEntries(
@@ -76,6 +83,7 @@ const ALLOWED_PRODUCT_FIELDS = new Set([
   "downloadPolicy",
   "signaturePolicy",
   "uninstallPolicy",
+  "capabilities",
   "download"
 ]);
 const ALLOWED_DOWNLOAD_FIELDS = new Set(["url", "fileName"]);
@@ -111,6 +119,18 @@ function expectedPolicyFor(productType) {
     : null;
 }
 
+function resolvedProductCapabilities(product) {
+  const module = getProductModule(
+    product.moduleId || moduleIdForProductType(product.productType)
+  );
+  const registration = getInstallRegistration(product.id);
+  const approved = registration?.capabilities || module?.capabilities || [];
+  const requested = Array.isArray(product.capabilities)
+    ? product.capabilities
+    : approved;
+  return Object.freeze(requested.filter((item) => approved.includes(item)));
+}
+
 function validateProductPolicy(product, vendorId) {
   if (!hasOnlyAllowedFields(product, ALLOWED_PRODUCT_FIELDS)) {
     return "产品包含客户端不支持的策略字段";
@@ -126,6 +146,19 @@ function validateProductPolicy(product, vendorId) {
   }
   const expected = expectedPolicyFor(product.productType);
   const expectedModuleId = moduleIdForProductType(product.productType);
+  const module = getProductModule(expectedModuleId);
+  if (
+    product.capabilities !== undefined &&
+    (!Array.isArray(product.capabilities) ||
+      new Set(product.capabilities).size !== product.capabilities.length ||
+      product.capabilities.some(
+        (capability) =>
+          !PRODUCT_CAPABILITIES.has(capability) ||
+          !module?.capabilities.includes(capability)
+      ))
+  ) {
+    return "产品能力未通过模块白名单";
+  }
   if (
     product.moduleId !== undefined &&
     product.moduleId !== expectedModuleId
@@ -162,6 +195,10 @@ function validateProductPolicy(product, vendorId) {
       (product.installProfileId !== undefined &&
         product.installProfileId !== identity.profileId) ||
       !sameStringSet(product.requirements, identity.requirements) ||
+      (product.capabilities !== undefined &&
+        product.capabilities.some(
+          (capability) => !identity.capabilities.includes(capability)
+        )) ||
       !hasOnlyAllowedFields(product.download, ALLOWED_DOWNLOAD_FIELDS) ||
       typeof product.download.url !== "string" ||
       typeof product.download.fileName !== "string" ||
@@ -184,7 +221,11 @@ function validateProductPolicy(product, vendorId) {
       identity.vendorId !== vendorId ||
       (product.installProfileId !== undefined &&
         product.installProfileId !== identity.profileId) ||
-      !sameStringSet(product.requirements, identity.requirements)
+      !sameStringSet(product.requirements, identity.requirements) ||
+      (product.capabilities !== undefined &&
+        product.capabilities.some(
+          (capability) => !identity.capabilities.includes(capability)
+        ))
     ) {
       return "CLI 部署策略未通过客户端本地白名单";
     }
@@ -202,6 +243,7 @@ function resolveProductBehavior(product) {
   const managedDesktop =
     ["desktop-reviewed", "local-model"].includes(product.productType) &&
     registration?.mode === INSTALL_MODES.MANAGED_INSTALLER;
+  const capabilities = resolvedProductCapabilities(product);
   return Object.freeze({
     productType: product.productType,
     directUrl,
@@ -210,11 +252,15 @@ function resolveProductBehavior(product) {
       "desktop-official",
       "tutorial"
     ].includes(product.productType),
-    requiresEnvironmentCheck: [
-      "desktop-reviewed",
-      "cli",
-      "local-model"
-    ].includes(product.productType),
+    capabilities,
+    canOpenWebsite: capabilities.includes("website"),
+    canOpenTutorial: capabilities.includes("tutorial"),
+    canInstall: capabilities.includes("install"),
+    canOpenInstalled: capabilities.includes("open"),
+    canUninstall: capabilities.includes("uninstall"),
+    requiresEnvironmentCheck:
+      capabilities.includes("install") &&
+      ["desktop-reviewed", "cli", "local-model"].includes(product.productType),
     managedDownload:
       product.downloadPolicy === "client-managed" &&
       matchesManagedDownload(product.id, product.download),
@@ -245,6 +291,8 @@ module.exports = {
   PRODUCT_TYPES,
   SIGNATURE_POLICIES,
   UNINSTALL_POLICIES,
+  PRODUCT_CAPABILITIES,
+  resolvedProductCapabilities,
   resolveProductBehavior,
   validateProductPolicy
 };

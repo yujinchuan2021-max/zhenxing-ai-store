@@ -35,7 +35,7 @@ test("accepts only a short-lived exact localhost TLS fingerprint", () => {
     shouldTrustLocalReleaseCertificate(trust, {
       hostname: "localhost",
       certificate: { fingerprint: electronFingerprint }
-    }),
+    }, now),
     true
   );
   for (const candidate of [
@@ -58,7 +58,7 @@ test("never trusts another hostname or certificate", () => {
     shouldTrustLocalReleaseCertificate(trust, {
       hostname: "127.0.0.1",
       certificate: { fingerprint: electronFingerprint }
-    }),
+    }, now),
     false
   );
   assert.equal(
@@ -67,7 +67,7 @@ test("never trusts another hostname or certificate", () => {
       certificate: {
         fingerprint: `sha256/${Buffer.alloc(32, 0xbb).toString("base64")}`
       }
-    }),
+    }, now),
     false
   );
 });
@@ -83,7 +83,7 @@ test("normalizes Chromium certificate fingerprints and host ports", () => {
           "hex"
         ).toString("base64")}`
       }
-    }),
+    }, now),
     true
   );
 });

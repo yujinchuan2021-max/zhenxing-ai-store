@@ -64,7 +64,11 @@ function readLocalReleaseTrust({
   );
 }
 
-function shouldTrustLocalReleaseCertificate(trust, request) {
+function shouldTrustLocalReleaseCertificate(
+  trust,
+  request,
+  now = Date.now()
+) {
   const hostname = String(request?.hostname || "").toLowerCase();
   const electronFingerprint = String(
     request?.certificate?.fingerprint || ""
@@ -86,7 +90,7 @@ function shouldTrustLocalReleaseCertificate(trust, request) {
   ) {
     return false;
   }
-  return Date.parse(trust.expiresAt) > Date.now();
+  return Date.parse(trust.expiresAt) > now;
 }
 
 module.exports = {

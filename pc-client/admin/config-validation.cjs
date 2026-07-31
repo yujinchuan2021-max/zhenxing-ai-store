@@ -172,6 +172,17 @@ function validatePublication(catalog, rawSettings) {
       if (!module.requiresProfile && product.installProfileId) {
         throw new Error(`直达模块不能绑定安装配置：${product.id}`);
       }
+      const approvedCapabilities =
+        registration?.capabilities || module.capabilities;
+      if (
+        product.capabilities !== undefined &&
+        (!Array.isArray(product.capabilities) ||
+          product.capabilities.some(
+            (capability) => !approvedCapabilities.includes(capability)
+          ))
+      ) {
+        throw new Error(`产品能力未通过客户端本地白名单：${product.id}`);
+      }
     }
   }
   const disabledFeatured = validatedCatalog.home.featuredVendorIds.filter(

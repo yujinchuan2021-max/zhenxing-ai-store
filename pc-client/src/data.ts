@@ -29,6 +29,12 @@ export type ProductCategory =
   | "音频创作"
   | "智能体"
   | "本地模型";
+export type ProductCapability =
+  | "website"
+  | "tutorial"
+  | "install"
+  | "open"
+  | "uninstall";
 
 export type Product = {
   id: string;
@@ -48,6 +54,7 @@ export type Product = {
   downloadPolicy: DownloadPolicy;
   signaturePolicy: SignaturePolicy;
   uninstallPolicy: UninstallPolicy;
+  capabilities?: ProductCapability[];
   download?: {
     url: string;
     fileName: string;
