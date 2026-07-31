@@ -169,6 +169,57 @@ function createIdentityClient({
       snapshot = { ...snapshot, user: result.user };
       return snapshot;
     },
+    async updatePhone(input) {
+      const result = await bearerCall("/v1/me/phone", {
+        method: "PUT",
+        body: input
+      });
+      snapshot = { ...snapshot, user: result.user };
+      return snapshot;
+    },
+    async requestEmailChange(input) {
+      return bearerCall("/v1/me/email-change/challenges", {
+        method: "POST",
+        body: input
+      });
+    },
+    async completeEmailChange(input) {
+      const result = await bearerCall("/v1/me/email-change/complete", {
+        method: "POST",
+        body: input
+      });
+      snapshot = { ...snapshot, user: result.user };
+      return snapshot;
+    },
+    async changePassword(input) {
+      return bearerCall("/v1/me/password", {
+        method: "PUT",
+        body: input
+      });
+    },
+    async listMessages() {
+      return (await bearerCall("/v1/me/messages")).messages;
+    },
+    async markMessageRead(messageId) {
+      return bearerCall(`/v1/me/messages/${messageId}/read`, {
+        method: "PUT",
+        body: {}
+      });
+    },
+    async listCommunityInteractions() {
+      return (
+        await bearerCall("/v1/me/community-interactions")
+      ).interactions;
+    },
+    async setCommunityInteraction(discussionId, input) {
+      return bearerCall(
+        `/v1/me/community-interactions/${encodeURIComponent(discussionId)}`,
+        {
+          method: "PUT",
+          body: input
+        }
+      );
+    },
     async createCommunityHandoff() {
       return bearerCall("/v1/community/handoffs", {
         method: "POST",

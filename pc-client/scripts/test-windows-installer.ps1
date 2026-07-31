@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 if (-not $InstallerPath) {
   $InstallerPath = Join-Path `
     $PSScriptRoot `
-    "..\release\AI-Hub-0.1.0-Windows-x64-Setup.exe"
+    "..\release\AI-Hub-0.1.6-Windows-x64-Setup.exe"
 }
 
 function Get-AIHubUninstallEntries {

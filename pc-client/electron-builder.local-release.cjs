@@ -8,6 +8,7 @@ const root = __dirname;
 module.exports = {
   ...packageJson.build,
   extraMetadata: {
+    version: process.env.AIHUB_LOCAL_RELEASE_BASE_VERSION || "0.1.5",
     localReleaseAcceptance: true
   },
   directories: {

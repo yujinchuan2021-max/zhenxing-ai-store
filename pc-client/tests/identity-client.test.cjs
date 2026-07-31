@@ -89,3 +89,83 @@ test("rejects non-loopback plain HTTP identity services", () => {
     /HTTPS/
   );
 });
+
+test("keeps personal center and embedded community calls behind the main process", async () => {
+  const calls = [];
+  const client = createIdentityClient({
+    origin: "http://127.0.0.1:4180",
+    deviceId: "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    deviceName: "Test PC",
+    vault: {
+      read: () => null,
+      write: () => {},
+      clear: () => {}
+    },
+    request: async (url, options = {}) => {
+      const pathname = new URL(url).pathname;
+      calls.push({ pathname, options });
+      if (pathname === "/v1/sessions/login") return session();
+      if (pathname === "/v1/me/phone") {
+        return {
+          user: {
+            ...session().user,
+            phone: "+8613800000000"
+          }
+        };
+      }
+      if (pathname === "/v1/me/messages") {
+        return { messages: [{ id: "message-1" }] };
+      }
+      if (pathname === "/v1/me/community-interactions") {
+        return { interactions: [{ discussionId: "42" }] };
+      }
+      if (pathname === "/v1/community/handoffs") {
+        return {
+          launchUrl:
+            "http://127.0.0.1:8088/aihub-sso.php?ticket=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          expiresAt: new Date(Date.now() + 60_000).toISOString()
+        };
+      }
+      return { ok: true };
+    }
+  });
+
+  await client.login({
+    identifier: "user@example.com",
+    password: "secure-password-123"
+  });
+  const updated = await client.updatePhone({
+    phone: "+8613800000000",
+    currentPassword: "secure-password-123"
+  });
+  assert.equal(updated.user.phone, "+8613800000000");
+  assert.deepEqual(await client.listMessages(), [{ id: "message-1" }]);
+  assert.deepEqual(await client.listCommunityInteractions(), [
+    { discussionId: "42" }
+  ]);
+  await client.setCommunityInteraction("42", {
+    title: "Discussion",
+    path: "/d/42-discussion",
+    favorited: true,
+    liked: false
+  });
+  await client.createCommunityHandoff();
+
+  const protectedCalls = calls.filter(
+    (call) => call.pathname !== "/v1/sessions/login"
+  );
+  assert.equal(
+    protectedCalls.every(
+      (call) => call.options.accessToken === "access-1"
+    ),
+    true
+  );
+  assert.equal(
+    calls.some(
+      (call) =>
+        call.pathname === "/v1/me/community-interactions/42" &&
+        call.options.body.favorited === true
+    ),
+    true
+  );
+});

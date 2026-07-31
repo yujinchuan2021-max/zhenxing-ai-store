@@ -1687,6 +1687,269 @@ button:disabled {
   background: var(--paper);
 }
 
+.personalCenter {
+  display: grid;
+  gap: 18px;
+}
+
+.personalCenterHeader,
+.personalIdentity,
+.personalTabs,
+.personalList article,
+.embeddedCommunityToolbar {
+  display: flex;
+  align-items: center;
+}
+
+.personalCenterHeader {
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.personalCenterHeader > button,
+.personalCard button,
+.personalList button,
+.sessionList button,
+.embeddedCommunityToolbar button {
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--surface);
+  font-size: var(--font-small);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.personalIdentity {
+  gap: 14px;
+}
+
+.personalIdentity > div {
+  display: grid;
+  gap: 2px;
+}
+
+.personalIdentity p,
+.personalIdentity h1 {
+  margin: 0;
+}
+
+.personalIdentity p {
+  color: var(--accent-ink);
+  font-size: var(--font-caption);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.personalIdentity h1 {
+  font-size: 24px;
+}
+
+.accountAvatar {
+  overflow: hidden;
+}
+
+.accountAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.personalTabs {
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow-x: auto;
+}
+
+.personalTabs button {
+  min-height: 38px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--muted);
+  background: transparent;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.personalTabs button.active,
+.embeddedCommunityToolbar button.active {
+  color: var(--accent-ink);
+  background: var(--accent);
+  font-weight: 900;
+}
+
+.personalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: start;
+  gap: 14px;
+}
+
+.personalCard {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.personalCard h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.personalCard label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: var(--font-small);
+  font-weight: 800;
+}
+
+.personalCard input,
+.personalCard textarea {
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: none;
+  color: var(--ink);
+  background: var(--paper);
+  font: inherit;
+}
+
+.personalCard textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.personalCard .accentButton {
+  border-color: transparent;
+  color: var(--accent-ink);
+  background: var(--accent);
+}
+
+.personalList {
+  display: grid;
+  gap: 10px;
+}
+
+.personalList article {
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--surface);
+}
+
+.personalList article.unread {
+  border-left: 4px solid var(--accent);
+}
+
+.personalList article > div {
+  display: grid;
+  gap: 5px;
+}
+
+.personalList p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.personalList small,
+.personalCard small,
+.personalIdentity small,
+.embeddedCommunityToolbar small {
+  color: var(--muted);
+}
+
+.personalNotice {
+  position: sticky;
+  bottom: 14px;
+  width: fit-content;
+  margin: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.embeddedCommunity {
+  min-height: 620px;
+  height: calc(100vh - 136px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.embeddedCommunityToolbar {
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.embeddedCommunityToolbar > div:first-child {
+  display: grid;
+  gap: 2px;
+}
+
+.communityViewport,
+.communityWebview {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.communityViewport {
+  position: relative;
+  background: #fff;
+}
+
+.communityWebview {
+  display: flex;
+  border: 0;
+}
+
+.communityLoading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+
+.communityError {
+  padding: 8px 14px;
+  border-top: 1px solid var(--line);
+  color: #c45545;
+  background: var(--paper);
+  font-size: var(--font-small);
+  font-style: normal;
+}
+
+.communityLoginRequired,
+.accountEmpty {
+  min-height: calc(100vh - 136px);
+}
+
 @media (max-width: 1180px) {
   .topbar {
     grid-template-columns: 180px minmax(280px, 1fr) auto;

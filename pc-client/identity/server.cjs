@@ -93,12 +93,13 @@ const identity = createIdentityCommunity({
   catalogFile:
     process.env.AIHUB_CATALOG_FILE ||
     path.resolve(__dirname, "..", "admin", "published", "catalog-v1.json"),
-  sendVerification: async ({ email, code, expiresAt }) => {
+  sendVerification: async ({ email, code, expiresAt, purpose }) => {
+    const changingEmail = purpose === "email-change";
     await mailer.sendMail({
       from: process.env.AIHUB_MAIL_FROM || "AI Hub <no-reply@aihub.local>",
       to: email,
-      subject: "AI Hub 注册验证码",
-      text: `你的 AI Hub 注册验证码是 ${code}。验证码将在 ${expiresAt.toISOString()} 过期。`
+      subject: changingEmail ? "AI Hub 更换邮箱验证码" : "AI Hub 注册验证码",
+      text: `你的 AI Hub ${changingEmail ? "更换邮箱" : "注册"}验证码是 ${code}。验证码将在 ${expiresAt.toISOString()} 过期。`
     });
   }
 });
@@ -161,6 +162,108 @@ const server = http.createServer(async (request, response) => {
         response,
         200,
         await identity.updateProfile(accessToken(request), await readJson(request))
+      );
+      return;
+    }
+    if (request.method === "PUT" && url.pathname === "/v1/me/phone") {
+      sendJson(
+        response,
+        200,
+        await identity.updatePhone(
+          accessToken(request),
+          await readJson(request),
+          context
+        )
+      );
+      return;
+    }
+    if (
+      request.method === "POST" &&
+      url.pathname === "/v1/me/email-change/challenges"
+    ) {
+      sendJson(
+        response,
+        201,
+        await identity.requestEmailChange(
+          accessToken(request),
+          await readJson(request),
+          context
+        )
+      );
+      return;
+    }
+    if (
+      request.method === "POST" &&
+      url.pathname === "/v1/me/email-change/complete"
+    ) {
+      sendJson(
+        response,
+        200,
+        await identity.completeEmailChange(
+          accessToken(request),
+          await readJson(request),
+          context
+        )
+      );
+      return;
+    }
+    if (request.method === "PUT" && url.pathname === "/v1/me/password") {
+      sendJson(
+        response,
+        200,
+        await identity.changePassword(
+          accessToken(request),
+          await readJson(request),
+          context
+        )
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/v1/me/messages") {
+      sendJson(response, 200, {
+        messages: await identity.listSiteMessages(accessToken(request), {
+          limit: url.searchParams.get("limit")
+        })
+      });
+      return;
+    }
+    const messageMatch = url.pathname.match(
+      /^\/v1\/me\/messages\/([0-9a-f-]{36})\/read$/i
+    );
+    if (request.method === "PUT" && messageMatch) {
+      sendJson(
+        response,
+        200,
+        await identity.markSiteMessageRead(
+          accessToken(request),
+          messageMatch[1]
+        )
+      );
+      return;
+    }
+    if (
+      request.method === "GET" &&
+      url.pathname === "/v1/me/community-interactions"
+    ) {
+      sendJson(response, 200, {
+        interactions: await identity.listCommunityInteractions(
+          accessToken(request)
+        )
+      });
+      return;
+    }
+    const interactionMatch = url.pathname.match(
+      /^\/v1\/me\/community-interactions\/([0-9]{1,20})$/
+    );
+    if (request.method === "PUT" && interactionMatch) {
+      sendJson(
+        response,
+        200,
+        await identity.setCommunityInteraction(
+          accessToken(request),
+          interactionMatch[1],
+          await readJson(request)
+        )
       );
       return;
     }

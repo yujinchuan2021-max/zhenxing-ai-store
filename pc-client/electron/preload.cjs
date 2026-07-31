@@ -15,7 +15,27 @@ contextBridge.exposeInMainWorld("aihubPC", {
     ipcRenderer.invoke("identity:revoke-session", sessionId),
   updateIdentityProfile: (input) =>
     ipcRenderer.invoke("identity:update-profile", input),
-  openCommunity: () => ipcRenderer.invoke("community:open"),
+  updateIdentityPhone: (input) =>
+    ipcRenderer.invoke("identity:update-phone", input),
+  requestIdentityEmailChange: (input) =>
+    ipcRenderer.invoke("identity:request-email-change", input),
+  completeIdentityEmailChange: (input) =>
+    ipcRenderer.invoke("identity:complete-email-change", input),
+  changeIdentityPassword: (input) =>
+    ipcRenderer.invoke("identity:change-password", input),
+  listSiteMessages: () => ipcRenderer.invoke("identity:list-messages"),
+  markSiteMessageRead: (messageId) =>
+    ipcRenderer.invoke("identity:mark-message-read", messageId),
+  listCommunityInteractions: () =>
+    ipcRenderer.invoke("identity:list-community-interactions"),
+  setCommunityInteraction: (discussionId, input) =>
+    ipcRenderer.invoke(
+      "identity:set-community-interaction",
+      discussionId,
+      input
+    ),
+  createCommunityEmbedSession: () =>
+    ipcRenderer.invoke("community:create-embed-session"),
   getSettings: () => ipcRenderer.invoke("settings:get"),
   chooseDownloadDirectory: () =>
     ipcRenderer.invoke("settings:choose-download-directory"),

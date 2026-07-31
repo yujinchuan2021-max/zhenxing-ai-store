@@ -2,6 +2,8 @@
 
 状态：已采用
 
+进入方式已由 [ADR-0002](0002-embedded-community-and-personal-center.md) 更新为 PC 内的受限独立社区分区；统一身份源、单次凭据和 Flarum 职责边界继续有效。
+
 ## 决策
 
 AI Hub 自有身份服务是唯一账号与密码来源。社区采用开源 Flarum，不自研帖子、回复、通知和权限系统。

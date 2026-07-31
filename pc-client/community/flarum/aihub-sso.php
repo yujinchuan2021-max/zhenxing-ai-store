@@ -63,10 +63,10 @@ $flarum = new Flarum([
 ]);
 $user = $flarum->user($username);
 $user->attributes->password = hash('sha256', $username.$passwordToken);
+$user->attributes->email = $email;
+$user->attributes->isEmailConfirmed = true;
 if (empty($user->id)) {
     $user->attributes->username = $username;
-    $user->attributes->email = $email;
-    $user->attributes->isEmailConfirmed = true;
 }
 
 if (!$user->login()) {

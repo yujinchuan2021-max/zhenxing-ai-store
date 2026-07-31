@@ -2,6 +2,8 @@ CREATE TABLE IF NOT EXISTS users (
   id uuid PRIMARY KEY,
   email text NOT NULL,
   normalized_email text NOT NULL UNIQUE,
+  phone text,
+  normalized_phone text UNIQUE,
   username text NOT NULL,
   normalized_username text NOT NULL UNIQUE,
   password_hash text NOT NULL,
@@ -9,6 +11,11 @@ CREATE TABLE IF NOT EXISTS users (
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
+
+ALTER TABLE users ADD COLUMN IF NOT EXISTS phone text;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS normalized_phone text;
+CREATE UNIQUE INDEX IF NOT EXISTS users_normalized_phone_unique
+  ON users(normalized_phone) WHERE normalized_phone IS NOT NULL;
 
 CREATE TABLE IF NOT EXISTS community_profiles (
   user_id uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
@@ -32,6 +39,21 @@ CREATE TABLE IF NOT EXISTS registration_challenges (
 
 CREATE INDEX IF NOT EXISTS registration_challenges_email_created
   ON registration_challenges(normalized_email, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS email_change_challenges (
+  id uuid PRIMARY KEY,
+  user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  normalized_email text NOT NULL,
+  code_hash text NOT NULL,
+  attempts integer NOT NULL DEFAULT 0,
+  expires_at timestamptz NOT NULL,
+  consumed_at timestamptz,
+  created_ip text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS email_change_challenges_user_created
+  ON email_change_challenges(user_id, created_at DESC);
 
 CREATE TABLE IF NOT EXISTS devices (
   id uuid PRIMARY KEY,
@@ -106,6 +128,34 @@ CREATE TABLE IF NOT EXISTS discussion_replies (
 
 CREATE INDEX IF NOT EXISTS discussion_replies_discussion
   ON discussion_replies(discussion_id, created_at);
+
+CREATE TABLE IF NOT EXISTS site_messages (
+  id uuid PRIMARY KEY,
+  user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  title text NOT NULL,
+  body text NOT NULL,
+  action_path text,
+  read_at timestamptz,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS site_messages_user_created
+  ON site_messages(user_id, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS community_interactions (
+  user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  discussion_id text NOT NULL,
+  discussion_title text NOT NULL,
+  discussion_path text NOT NULL,
+  favorited boolean NOT NULL DEFAULT false,
+  liked boolean NOT NULL DEFAULT false,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (user_id, discussion_id)
+);
+
+CREATE INDEX IF NOT EXISTS community_interactions_user_updated
+  ON community_interactions(user_id, updated_at DESC);
 
 CREATE TABLE IF NOT EXISTS security_events (
   id uuid PRIMARY KEY,

@@ -34,8 +34,9 @@ npm.cmd run release:local:up
 - 已审核桌面软件支持下载、断点续传、SHA-256/Authenticode 校验、打开安装器和安装后复检。
 - Codex CLI、Claude Code、Gemini CLI 等 CLI 产品使用客户端固定模块部署。
 - 后台管理厂商、产品、排序、启停、首页内容、发布参数和目录历史版本。
-- 邮箱验证码注册、登录、刷新会话、退出、资料维护和设备会话撤销。
-- PC 账号通过 60 秒、单次使用票据进入 Flarum，无需再次输入社区密码。
+- 统一个人中心管理昵称、个签、头像、邮箱、手机号、密码、设备会话、站内信、收藏和喜欢。
+- Flarum 社区直接内嵌 PC，使用同一用户身份和独立社区分区，不再打开浏览器。
+- PC 用户通过 60 秒、单次使用票据建立 Flarum 会话，无需再次输入社区密码。
 - Docker 本地运行 PostgreSQL、身份服务、Mailpit、MariaDB、Flarum、后台和只读 HTTPS 发布源。
 - Windows Portable 与 NSIS 安装包、隔离安装/升级/卸载验收脚本。
 
@@ -45,6 +46,7 @@ npm.cmd run release:local:up
 npm.cmd test
 npm.cmd run build
 npm.cmd run test:identity-community
+npm.cmd run test:personal-center-community
 npm.cmd run release:local:test-server
 npm.cmd run release:local:pin-tls
 npm.cmd run package:win:local-release

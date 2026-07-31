@@ -145,6 +145,11 @@ const {
   shouldKeepAppAlive
 } = require("../shared/tray-lifecycle.cjs");
 const {
+  approvedCommunityOrigin,
+  isApprovedCommunityNavigation,
+  validateCommunityLaunchUrl
+} = require("../shared/community-embed.cjs");
+const {
   createIdentityClient
 } = require("./identity-client.cjs");
 const {
@@ -4401,24 +4406,45 @@ function registerIpc() {
   ipcMain.handle("identity:update-profile", (_event, input) =>
     getIdentityClient().updateProfile(input)
   );
-  ipcMain.handle("community:open", async () => {
+  ipcMain.handle("identity:update-phone", (_event, input) =>
+    getIdentityClient().updatePhone(input)
+  );
+  ipcMain.handle("identity:request-email-change", (_event, input) =>
+    getIdentityClient().requestEmailChange(input)
+  );
+  ipcMain.handle("identity:complete-email-change", (_event, input) =>
+    getIdentityClient().completeEmailChange(input)
+  );
+  ipcMain.handle("identity:change-password", (_event, input) =>
+    getIdentityClient().changePassword(input)
+  );
+  ipcMain.handle("identity:list-messages", () =>
+    getIdentityClient().listMessages()
+  );
+  ipcMain.handle("identity:mark-message-read", (_event, messageId) =>
+    getIdentityClient().markMessageRead(messageId)
+  );
+  ipcMain.handle("identity:list-community-interactions", () =>
+    getIdentityClient().listCommunityInteractions()
+  );
+  ipcMain.handle(
+    "identity:set-community-interaction",
+    (_event, discussionId, input) =>
+      getIdentityClient().setCommunityInteraction(discussionId, input)
+  );
+  ipcMain.handle("community:create-embed-session", async () => {
     const handoff = await getIdentityClient().createCommunityHandoff();
-    const launchUrl = new URL(handoff.launchUrl);
     const approvedOrigin =
       process.env.AIHUB_COMMUNITY_PUBLIC_ORIGIN ||
       "http://127.0.0.1:8088";
-    if (
-      launchUrl.origin !== new URL(approvedOrigin).origin ||
-      launchUrl.pathname !== "/aihub-sso.php" ||
-      !launchUrl.searchParams.get("ticket") ||
-      launchUrl.username ||
-      launchUrl.password ||
-      launchUrl.hash
-    ) {
-      throw new Error("社区登录地址未通过客户端校验");
-    }
-    await shell.openExternal(launchUrl.href);
-    return { ok: true, expiresAt: handoff.expiresAt };
+    return {
+      launchUrl: validateCommunityLaunchUrl(
+        handoff.launchUrl,
+        approvedOrigin
+      ),
+      origin: approvedCommunityOrigin(approvedOrigin),
+      expiresAt: handoff.expiresAt
+    };
   });
   ipcMain.handle("update:open-download", async (event) => {
     const offer = lastVerifiedUpdateOffer;
@@ -6123,6 +6149,7 @@ function createWindow() {
       nodeIntegration: false,
       sandbox: true,
       webSecurity: true,
+      webviewTag: true,
       allowRunningInsecureContent: false,
       spellcheck: false,
       devTools: !app.isPackaged
@@ -6131,6 +6158,51 @@ function createWindow() {
 
   window.removeMenu();
   const appPage = path.join(__dirname, "..", "dist", "index.html");
+  const communityOrigin = approvedCommunityOrigin(
+    process.env.AIHUB_COMMUNITY_PUBLIC_ORIGIN ||
+      "http://127.0.0.1:8088"
+  );
+  window.webContents.on(
+    "will-attach-webview",
+    (event, webPreferences, params) => {
+      const initialUrl = String(params.src || "");
+      if (
+        !isApprovedCommunityNavigation(initialUrl, communityOrigin) ||
+        params.partition !== "persist:aihub-community"
+      ) {
+        event.preventDefault();
+        return;
+      }
+      delete webPreferences.preload;
+      delete webPreferences.preloadURL;
+      webPreferences.nodeIntegration = false;
+      webPreferences.nodeIntegrationInSubFrames = false;
+      webPreferences.contextIsolation = true;
+      webPreferences.sandbox = true;
+      webPreferences.webSecurity = true;
+      webPreferences.allowRunningInsecureContent = false;
+      webPreferences.devTools = false;
+    }
+  );
+  window.webContents.on("did-attach-webview", (_event, contents) => {
+    contents.session.setPermissionCheckHandler(() => false);
+    contents.session.setPermissionRequestHandler(
+      (_webContents, _permission, callback) => callback(false)
+    );
+    contents.setWindowOpenHandler(({ url }) => {
+      if (/^https:\/\//i.test(url) && !isApprovedCommunityNavigation(url, communityOrigin)) {
+        void shell.openExternal(url);
+      } else if (isApprovedCommunityNavigation(url, communityOrigin)) {
+        void contents.loadURL(url);
+      }
+      return { action: "deny" };
+    });
+    contents.on("will-navigate", (event, url) => {
+      if (isApprovedCommunityNavigation(url, communityOrigin)) return;
+      event.preventDefault();
+      if (/^https:\/\//i.test(url)) void shell.openExternal(url);
+    });
+  });
   window.webContents.setWindowOpenHandler(({ url }) => {
     if (/^https:\/\//i.test(url)) {
       shell.openExternal(url);

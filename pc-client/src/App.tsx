@@ -1,10 +1,18 @@
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import {
+  createElement,
+  FormEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import { runEnvironmentInstall } from "@aihub-shared/environment-install-flow.cjs";
 import { runDownloadedPackageAction } from "@aihub-shared/downloaded-package-action.cjs";
 import { buildInstalledProductManagement } from "@aihub-shared/installed-product-management.cjs";
 import { getProductInstallPresentation } from "@aihub-shared/product-install-presentation.cjs";
 import { resolveProductBehavior } from "@aihub-shared/product-policy.cjs";
 import { getUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
+import { communityDiscussionLocation } from "@aihub-shared/community-embed.cjs";
 import {
   categories,
   Product,
@@ -14,7 +22,7 @@ import {
   vendors as builtInVendors
 } from "./data";
 
-type View = "home" | "vendors" | "community" | "management";
+type View = "home" | "vendors" | "community" | "management" | "account";
 type ProductStage =
   | "idle"
   | "blocked"
@@ -295,6 +303,7 @@ export default function App() {
   const [identity, setIdentity] = useState<IdentitySnapshot>({
     status: "anonymous"
   });
+  const [communityTargetPath, setCommunityTargetPath] = useState("");
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [language, setLanguage] = useState<Language>("zh");
   const [downloadDirectory, setDownloadDirectory] = useState("");
@@ -3149,7 +3158,14 @@ export default function App() {
           </button>
           <button
             className="accentButton"
-            onClick={() => setAuthOpen(true)}
+            onClick={() => {
+              if (identity.status === "authenticated") {
+                setSelectedVendor(null);
+                setView("account");
+              } else {
+                setAuthOpen(true);
+              }
+            }}
           >
             {identity.status === "authenticated"
               ? identity.user.profile.nickname
@@ -3275,10 +3291,26 @@ export default function App() {
                 void deleteManagedPackage(entry.id)
               }
             />
+          ) : view === "account" ? (
+            <PersonalCenterPage
+              identity={identity}
+              onIdentity={setIdentity}
+              onLogin={() => setAuthOpen(true)}
+              onLogout={() => {
+                setIdentity({ status: "anonymous" });
+                setView("home");
+              }}
+              onOpenCommunity={(path) => {
+                setCommunityTargetPath(path);
+                setView("community");
+              }}
+            />
           ) : (
             <FlarumCommunityPage
               identity={identity}
               onLogin={() => setAuthOpen(true)}
+              targetPath={communityTargetPath}
+              onTargetConsumed={() => setCommunityTargetPath("")}
             />
           )}
         </main>
@@ -4103,9 +4135,7 @@ function AuthModal({
   onClose: () => void;
   onIdentity: (identity: IdentitySnapshot) => void;
 }) {
-  const [mode, setMode] = useState<"login" | "register" | "account">(
-    identity.status === "authenticated" ? "account" : "login"
-  );
+  const [mode, setMode] = useState<"login" | "register">("login");
   const [identifier, setIdentifier] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -4115,19 +4145,8 @@ function AuthModal({
   const [challenge, setChallenge] = useState<RegistrationChallenge | null>(
     null
   );
-  const [sessions, setSessions] = useState<IdentityDeviceSession[]>([]);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    if (mode !== "account" || identity.status !== "authenticated") return;
-    window.aihubPC
-      ?.listIdentitySessions()
-      .then(setSessions)
-      .catch((error) =>
-        setMessage(error instanceof Error ? error.message : "无法读取设备会话")
-      );
-  }, [mode, identity]);
 
   const run = async (action: () => Promise<void>) => {
     setBusy(true);
@@ -4147,8 +4166,8 @@ function AuthModal({
       if (!window.aihubPC) return;
       const next = await window.aihubPC.login({ identifier, password });
       onIdentity(next);
-      setMode("account");
       setPassword("");
+      onClose();
     });
   };
 
@@ -4175,9 +4194,9 @@ function AuthModal({
         code
       });
       onIdentity(next);
-      setMode("account");
       setPassword("");
       setCode("");
+      onClose();
     });
   };
 
@@ -4191,11 +4210,7 @@ function AuthModal({
           <div>
             <p>AI Hub 统一账号</p>
             <h2>
-              {mode === "login"
-                ? "登录"
-                : mode === "register"
-                  ? "注册"
-                  : "个人中心"}
+              {mode === "login" ? "登录" : "注册"}
             </h2>
           </div>
           <button onClick={onClose}>×</button>
@@ -4304,19 +4319,387 @@ function AuthModal({
           </form>
         )}
 
-        {mode === "account" && identity.status === "authenticated" && (
-          <div className="accountPanel">
-            <div className="accountIdentity">
-              <span className="accountAvatar">
-                {identity.user.profile.nickname.slice(0, 1).toUpperCase()}
-              </span>
-              <div>
-                <b>{identity.user.profile.nickname}</b>
-                <small>{identity.user.email}</small>
-                <small>@{identity.user.username}</small>
-              </div>
+        {message && <p className="authMessage">{message}</p>}
+      </section>
+    </div>
+  );
+}
+
+type PersonalCenterTab =
+  | "profile"
+  | "security"
+  | "messages"
+  | "favorites"
+  | "likes";
+
+function PersonalCenterPage({
+  identity,
+  onIdentity,
+  onLogin,
+  onLogout,
+  onOpenCommunity
+}: {
+  identity: IdentitySnapshot;
+  onIdentity: (identity: IdentitySnapshot) => void;
+  onLogin: () => void;
+  onLogout: () => void;
+  onOpenCommunity: (path: string) => void;
+}) {
+  const [tab, setTab] = useState<PersonalCenterTab>("profile");
+  const [sessions, setSessions] = useState<IdentityDeviceSession[]>([]);
+  const [messages, setMessages] = useState<SiteMessage[]>([]);
+  const [interactions, setInteractions] = useState<CommunityInteraction[]>([]);
+  const [nickname, setNickname] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [bio, setBio] = useState("");
+  const [phone, setPhone] = useState("");
+  const [phonePassword, setPhonePassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailPassword, setEmailPassword] = useState("");
+  const [emailCode, setEmailCode] = useState("");
+  const [emailChallenge, setEmailChallenge] =
+    useState<RegistrationChallenge | null>(null);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [notice, setNotice] = useState("");
+
+  const authenticated =
+    identity.status === "authenticated" ? identity : null;
+
+  useEffect(() => {
+    if (!authenticated) return;
+    setNickname(authenticated.user.profile.nickname);
+    setAvatarUrl(authenticated.user.profile.avatarUrl);
+    setBio(authenticated.user.profile.bio);
+    setPhone(authenticated.user.phone || "");
+    setEmail(authenticated.user.email);
+  }, [authenticated?.user]);
+
+  const refreshPrivateData = async () => {
+    if (!window.aihubPC || !authenticated) return;
+    const [sessionResult, messageResult, interactionResult] =
+      await Promise.allSettled([
+        window.aihubPC.listIdentitySessions(),
+        window.aihubPC.listSiteMessages(),
+        window.aihubPC.listCommunityInteractions()
+      ]);
+    if (sessionResult.status === "fulfilled") {
+      setSessions(sessionResult.value);
+    }
+    if (messageResult.status === "fulfilled") {
+      setMessages(messageResult.value);
+    }
+    if (interactionResult.status === "fulfilled") {
+      setInteractions(interactionResult.value);
+    }
+    const failure = [sessionResult, messageResult, interactionResult].find(
+      (result) => result.status === "rejected"
+    );
+    if (failure?.status === "rejected") {
+      throw failure.reason;
+    }
+  };
+
+  useEffect(() => {
+    if (!authenticated) return;
+    void refreshPrivateData().catch((error) =>
+      setNotice(error instanceof Error ? error.message : "个人中心加载失败")
+    );
+  }, [authenticated?.user.id]);
+
+  const run = async (action: () => Promise<void>, success = "") => {
+    setBusy(true);
+    setNotice("");
+    try {
+      await action();
+      if (success) setNotice(success);
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "操作没有完成");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  if (!authenticated) {
+    return (
+      <section className="emptyPanel accountEmpty">
+        <span>◎</span>
+        <h1>个人中心</h1>
+        <small>登录后管理资料、安全、站内信、收藏和喜欢。</small>
+        <button className="accentButton" onClick={onLogin}>
+          登录
+        </button>
+      </section>
+    );
+  }
+
+  const submitProfile = (event: FormEvent) => {
+    event.preventDefault();
+    void run(async () => {
+      const next = await window.aihubPC!.updateIdentityProfile({
+        nickname,
+        avatarUrl,
+        bio
+      });
+      onIdentity(next);
+    }, "资料已保存");
+  };
+
+  const submitPhone = (event: FormEvent) => {
+    event.preventDefault();
+    void run(async () => {
+      const next = await window.aihubPC!.updateIdentityPhone({
+        phone,
+        currentPassword: phonePassword
+      });
+      onIdentity(next);
+      setPhonePassword("");
+      await refreshPrivateData();
+    }, phone ? "手机号已更新" : "手机号已移除");
+  };
+
+  const requestEmailCode = () =>
+    run(async () => {
+      const challenge = await window.aihubPC!.requestIdentityEmailChange({
+        email,
+        currentPassword: emailPassword
+      });
+      setEmailChallenge(challenge);
+      setNotice("验证码已发送到新邮箱");
+    });
+
+  const submitEmail = (event: FormEvent) => {
+    event.preventDefault();
+    void run(async () => {
+      if (!emailChallenge) {
+        throw new Error("请先获取新邮箱验证码");
+      }
+      const next = await window.aihubPC!.completeIdentityEmailChange({
+        challengeId: emailChallenge.challengeId,
+        code: emailCode
+      });
+      onIdentity(next);
+      setEmailPassword("");
+      setEmailCode("");
+      setEmailChallenge(null);
+      await refreshPrivateData();
+    }, "邮箱已更新");
+  };
+
+  const submitPassword = (event: FormEvent) => {
+    event.preventDefault();
+    void run(async () => {
+      await window.aihubPC!.changeIdentityPassword({
+        currentPassword,
+        newPassword
+      });
+      setCurrentPassword("");
+      setNewPassword("");
+      await refreshPrivateData();
+    }, "密码已更新，其他设备已退出");
+  };
+
+  const interactionList =
+    tab === "favorites"
+      ? interactions.filter((item) => item.favorited)
+      : interactions.filter((item) => item.liked);
+
+  return (
+    <section className="personalCenter">
+      <header className="personalCenterHeader">
+        <div className="personalIdentity">
+          <span className="accountAvatar">
+            {authenticated.user.profile.avatarUrl ? (
+              <img src={authenticated.user.profile.avatarUrl} alt="" />
+            ) : (
+              authenticated.user.profile.nickname.slice(0, 1).toUpperCase()
+            )}
+          </span>
+          <div>
+            <p>个人中心</p>
+            <h1>{authenticated.user.profile.nickname}</h1>
+            <small>@{authenticated.user.username}</small>
+          </div>
+        </div>
+        <button
+          onClick={() =>
+            void run(async () => {
+              await window.aihubPC?.logout();
+              onLogout();
+            })
+          }
+        >
+          退出登录
+        </button>
+      </header>
+
+      <nav className="personalTabs">
+        {(
+          [
+            ["profile", "资料"],
+            ["security", "账号安全"],
+            ["messages", `站内信${messages.some((item) => !item.read) ? " · 新" : ""}`],
+            ["favorites", "收藏"],
+            ["likes", "喜欢"]
+          ] as Array<[PersonalCenterTab, string]>
+        ).map(([id, label]) => (
+          <button
+            key={id}
+            className={tab === id ? "active" : ""}
+            onClick={() => setTab(id)}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+
+      {tab === "profile" && (
+        <div className="personalGrid">
+          <form className="personalCard" onSubmit={submitProfile}>
+            <h2>公开资料</h2>
+            <label>
+              昵称
+              <input
+                value={nickname}
+                onChange={(event) => setNickname(event.target.value)}
+                minLength={2}
+                maxLength={32}
+                required
+              />
+            </label>
+            <label>
+              个签
+              <textarea
+                value={bio}
+                onChange={(event) => setBio(event.target.value)}
+                maxLength={200}
+                placeholder="介绍一下你自己"
+              />
+            </label>
+            <label>
+              头像地址
+              <input
+                type="url"
+                value={avatarUrl}
+                onChange={(event) => setAvatarUrl(event.target.value)}
+                placeholder="https://"
+              />
+            </label>
+            <button className="accentButton" disabled={busy}>
+              保存资料
+            </button>
+          </form>
+
+          <form className="personalCard" onSubmit={submitPhone}>
+            <h2>手机号</h2>
+            <label>
+              手机号
+              <input
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                autoComplete="tel"
+                placeholder="+86 13800000000"
+              />
+            </label>
+            <label>
+              当前密码
+              <input
+                type="password"
+                value={phonePassword}
+                onChange={(event) => setPhonePassword(event.target.value)}
+                autoComplete="current-password"
+                required
+              />
+            </label>
+            <button disabled={busy}>{phone ? "更新手机号" : "移除手机号"}</button>
+          </form>
+
+          <form className="personalCard" onSubmit={submitEmail}>
+            <h2>登录邮箱</h2>
+            <label>
+              新邮箱
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                autoComplete="email"
+                required
+              />
+            </label>
+            <label>
+              当前密码
+              <input
+                type="password"
+                value={emailPassword}
+                onChange={(event) => setEmailPassword(event.target.value)}
+                autoComplete="current-password"
+                required
+              />
+            </label>
+            <div className="verificationRow">
+              <label>
+                验证码
+                <input
+                  value={emailCode}
+                  onChange={(event) => setEmailCode(event.target.value)}
+                  inputMode="numeric"
+                  maxLength={6}
+                  required
+                />
+              </label>
+              <button type="button" disabled={busy} onClick={requestEmailCode}>
+                获取验证码
+              </button>
             </div>
-            <h3>设备会话</h3>
+            {emailChallenge?.localMailViewerUrl && (
+              <button
+                type="button"
+                onClick={() => window.open(emailChallenge.localMailViewerUrl)}
+              >
+                打开本地邮件箱
+              </button>
+            )}
+            <button className="accentButton" disabled={busy}>
+              更换邮箱
+            </button>
+          </form>
+        </div>
+      )}
+
+      {tab === "security" && (
+        <div className="personalGrid">
+          <form className="personalCard" onSubmit={submitPassword}>
+            <h2>修改密码</h2>
+            <label>
+              当前密码
+              <input
+                type="password"
+                value={currentPassword}
+                onChange={(event) => setCurrentPassword(event.target.value)}
+                autoComplete="current-password"
+                required
+              />
+            </label>
+            <label>
+              新密码
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                autoComplete="new-password"
+                minLength={10}
+                required
+              />
+              <small>至少 10 位，同时包含字母和数字</small>
+            </label>
+            <button className="accentButton" disabled={busy}>
+              修改密码
+            </button>
+          </form>
+
+          <section className="personalCard sessionCard">
+            <h2>登录设备</h2>
             <div className="sessionList">
               {sessions.map((session) => (
                 <article key={session.id}>
@@ -4332,94 +4715,307 @@ function AuthModal({
                       disabled={busy}
                       onClick={() =>
                         void run(async () => {
-                          await window.aihubPC?.revokeIdentitySession(
-                            session.id
+                          await window.aihubPC!.revokeIdentitySession(session.id);
+                          setSessions((items) =>
+                            items.filter((item) => item.id !== session.id)
                           );
-                          setSessions((current) =>
-                            current.filter((item) => item.id !== session.id)
-                          );
-                        })
+                        }, "设备已退出")
                       }
                     >
-                      撤销
+                      退出此设备
                     </button>
                   )}
                 </article>
               ))}
             </div>
-            <button
-              disabled={busy}
-              onClick={() =>
-                void run(async () => {
-                  if (!window.aihubPC) return;
-                  onIdentity(await window.aihubPC.logout());
-                  setMode("login");
-                })
-              }
-            >
-              退出登录
-            </button>
-          </div>
-        )}
-        {message && <p className="authMessage">{message}</p>}
-      </section>
-    </div>
+          </section>
+        </div>
+      )}
+
+      {tab === "messages" && (
+        <div className="personalList">
+          {messages.map((item) => (
+            <article className={item.read ? "" : "unread"} key={item.id}>
+              <div>
+                <b>{item.title}</b>
+                <p>{item.body}</p>
+                <small>{new Date(item.createdAt).toLocaleString()}</small>
+              </div>
+              {!item.read && (
+                <button
+                  disabled={busy}
+                  onClick={() =>
+                    void run(async () => {
+                      await window.aihubPC!.markSiteMessageRead(item.id);
+                      setMessages((current) =>
+                        current.map((message) =>
+                          message.id === item.id
+                            ? {
+                                ...message,
+                                read: true,
+                                readAt: new Date().toISOString()
+                              }
+                            : message
+                        )
+                      );
+                    })
+                  }
+                >
+                  标为已读
+                </button>
+              )}
+            </article>
+          ))}
+          {!messages.length && <div className="emptyPanel">暂无站内信</div>}
+        </div>
+      )}
+
+      {(tab === "favorites" || tab === "likes") && (
+        <div className="personalList">
+          {interactionList.map((item) => (
+            <article key={item.discussionId}>
+              <div>
+                <b>{item.title}</b>
+                <small>
+                  {tab === "favorites" ? "已收藏" : "已喜欢"} ·{" "}
+                  {new Date(item.updatedAt).toLocaleString()}
+                </small>
+              </div>
+              <button onClick={() => onOpenCommunity(item.path)}>
+                在社区中查看
+              </button>
+            </article>
+          ))}
+          {!interactionList.length && (
+            <div className="emptyPanel">
+              {tab === "favorites" ? "还没有收藏讨论" : "还没有喜欢的讨论"}
+            </div>
+          )}
+        </div>
+      )}
+
+      {notice && <p className="personalNotice">{notice}</p>}
+    </section>
   );
 }
 
+type EmbeddedCommunityWebview = HTMLElement & {
+  getURL(): string;
+  getTitle(): string;
+  isLoading(): boolean;
+  loadURL(url: string): Promise<void>;
+  reload(): void;
+};
+
 function FlarumCommunityPage({
   identity,
-  onLogin
+  onLogin,
+  targetPath,
+  onTargetConsumed
 }: {
   identity: IdentitySnapshot;
   onLogin: () => void;
+  targetPath: string;
+  onTargetConsumed: () => void;
 }) {
-  const [busy, setBusy] = useState(false);
+  const webviewRef = useRef<EmbeddedCommunityWebview | null>(null);
+  const pendingTarget = useRef(targetPath);
+  const [embed, setEmbed] = useState<CommunityEmbedSession | null>(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [discussion, setDiscussion] = useState<{
+    discussionId: string;
+    path: string;
+  } | null>(null);
+  const [discussionTitle, setDiscussionTitle] = useState("");
+  const [interaction, setInteraction] =
+    useState<CommunityInteraction | null>(null);
 
-  const openCommunity = async () => {
-    if (identity.status !== "authenticated") {
-      onLogin();
+  useEffect(() => {
+    pendingTarget.current = targetPath;
+  }, [targetPath]);
+
+  useEffect(() => {
+    if (identity.status !== "authenticated" || !window.aihubPC) {
+      setEmbed(null);
       return;
     }
-    if (!window.aihubPC) return;
-    setBusy(true);
+    let canceled = false;
+    setLoading(true);
     setError("");
-    try {
-      await window.aihubPC.openCommunity();
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "暂时无法打开社区");
-    } finally {
-      setBusy(false);
-    }
+    window.aihubPC
+      .createCommunityEmbedSession()
+      .then((session) => {
+        if (!canceled) setEmbed(session);
+      })
+      .catch((cause) => {
+        if (!canceled) {
+          setError(cause instanceof Error ? cause.message : "社区加载失败");
+        }
+      })
+      .finally(() => {
+        if (!canceled) setLoading(false);
+      });
+    return () => {
+      canceled = true;
+    };
+  }, [identity.status === "authenticated" ? identity.user.id : "anonymous"]);
+
+  useEffect(() => {
+    const webview = webviewRef.current;
+    if (!webview || !embed) return;
+
+    const updateLocation = () => {
+      const url = webview.getURL();
+      const location = communityDiscussionLocation(url, embed.origin);
+      setDiscussion(location);
+      if (!location) {
+        setDiscussionTitle("");
+        setInteraction(null);
+      } else {
+        const title = webview
+          .getTitle()
+          .replace(/\s*[-–]\s*AI Hub.*$/i, "")
+          .trim()
+          .slice(0, 160);
+        setDiscussionTitle(title);
+        void window.aihubPC
+          ?.listCommunityInteractions()
+          .then((items) =>
+            setInteraction(
+              items.find(
+                (item) => item.discussionId === location.discussionId
+              ) || null
+            )
+          )
+          .catch(() => setInteraction(null));
+      }
+
+      const parsed = new URL(url);
+      const nextPath = pendingTarget.current;
+      if (
+        parsed.origin === embed.origin &&
+        parsed.pathname === "/" &&
+        /^\/d\/[0-9]+/.test(nextPath)
+      ) {
+        pendingTarget.current = "";
+        onTargetConsumed();
+        void webview.loadURL(new URL(nextPath, `${embed.origin}/`).href);
+      }
+    };
+    const failed = (event: Event) => {
+      const detail = event as Event & {
+        errorCode?: number;
+        errorDescription?: string;
+      };
+      if (detail.errorCode === -3) return;
+      setError(detail.errorDescription || "社区页面加载失败");
+    };
+    webview.addEventListener("did-navigate", updateLocation);
+    webview.addEventListener("did-navigate-in-page", updateLocation);
+    webview.addEventListener("page-title-updated", updateLocation);
+    webview.addEventListener("did-fail-load", failed);
+    return () => {
+      webview.removeEventListener("did-navigate", updateLocation);
+      webview.removeEventListener("did-navigate-in-page", updateLocation);
+      webview.removeEventListener("page-title-updated", updateLocation);
+      webview.removeEventListener("did-fail-load", failed);
+    };
+  }, [embed, onTargetConsumed]);
+
+  const toggleInteraction = (kind: "favorite" | "like") => {
+    if (!discussion || !window.aihubPC) return;
+    const favorited =
+      kind === "favorite"
+        ? !interaction?.favorited
+        : Boolean(interaction?.favorited);
+    const liked =
+      kind === "like" ? !interaction?.liked : Boolean(interaction?.liked);
+    setLoading(true);
+    setError("");
+    void window.aihubPC
+      .setCommunityInteraction(discussion.discussionId, {
+        title:
+          discussionTitle || `Flarum 讨论 #${discussion.discussionId}`,
+        path: discussion.path,
+        favorited,
+        liked
+      })
+      .then(setInteraction)
+      .catch((cause) =>
+        setError(cause instanceof Error ? cause.message : "互动状态保存失败")
+      )
+      .finally(() => setLoading(false));
   };
 
+  if (identity.status !== "authenticated") {
+    return (
+      <section className="emptyPanel communityLoginRequired">
+        <span>◎</span>
+        <p>FLARUM · OPEN SOURCE</p>
+        <h1>AI Hub 社区</h1>
+        <small>使用 PC 端用户登录后，社区会直接显示在这里。</small>
+        <button className="accentButton" onClick={onLogin}>
+          登录后进入社区
+        </button>
+      </section>
+    );
+  }
+
   return (
-    <section className="communityPage">
-      <header className="communityHeader">
+    <section className="embeddedCommunity">
+      <header className="embeddedCommunityToolbar">
         <div>
-          <p>FLARUM · OPEN SOURCE</p>
-          <h1>AI Hub 社区</h1>
-          <span>社区由 Flarum 驱动，账号与 AI Hub 统一。</span>
+          <b>AI Hub 社区</b>
+          <small>Flarum · 当前用户：{identity.user.profile.nickname}</small>
+        </div>
+        <div className="rowActions">
+          {discussion && (
+            <>
+              <button
+                className={interaction?.favorited ? "active" : ""}
+                disabled={loading}
+                onClick={() => toggleInteraction("favorite")}
+              >
+                {interaction?.favorited ? "已收藏" : "收藏"}
+              </button>
+              <button
+                className={interaction?.liked ? "active" : ""}
+                disabled={loading}
+                onClick={() => toggleInteraction("like")}
+              >
+                {interaction?.liked ? "已喜欢" : "喜欢"}
+              </button>
+            </>
+          )}
+          <button
+            disabled={!embed}
+            onClick={() => webviewRef.current?.reload()}
+          >
+            刷新
+          </button>
         </div>
       </header>
-      <div className="communityLaunchCard">
-        <div>
-          <b>在系统浏览器中进入社区</b>
-          <p>
-            发帖、回复、通知和社区权限由 Flarum 提供。已登录用户无需再次输入账号密码。
-          </p>
-          <small>本地预发布环境 · Flarum 2.0 RC</small>
-        </div>
-        <button className="accentButton" disabled={busy} onClick={openCommunity}>
-          {identity.status !== "authenticated"
-            ? "登录后进入"
-            : busy
-              ? "正在打开…"
-              : "进入社区 ↗"}
-        </button>
+      <div className="communityViewport">
+        {!embed ? (
+          <div className="communityLoading">
+            {loading ? "正在进入社区…" : error || "社区暂时不可用"}
+          </div>
+        ) : (
+          createElement("webview", {
+            ref: (element: EmbeddedCommunityWebview | null) => {
+              webviewRef.current = element;
+            },
+            className: "communityWebview",
+            src: embed.launchUrl,
+            partition: "persist:aihub-community",
+            allowpopups: "false",
+            webpreferences:
+              "contextIsolation=yes,nodeIntegration=no,sandbox=yes"
+          })
+        )}
       </div>
-      {error && <em>{error}</em>}
+      {error && <em className="communityError">{error}</em>}
     </section>
   );
 }

@@ -344,6 +344,7 @@ type UpdateInstallResult = {
 type IdentityUser = {
   id: string;
   email: string;
+  phone: string;
   username: string;
   profile: {
     nickname: string;
@@ -364,6 +365,31 @@ type RegistrationChallenge = {
   challengeId: string;
   expiresAt: string;
   localMailViewerUrl?: string;
+};
+
+type SiteMessage = {
+  id: string;
+  title: string;
+  body: string;
+  actionPath: string;
+  read: boolean;
+  readAt: string | null;
+  createdAt: string;
+};
+
+type CommunityInteraction = {
+  discussionId: string;
+  title: string;
+  path: string;
+  favorited: boolean;
+  liked: boolean;
+  updatedAt: string;
+};
+
+type CommunityEmbedSession = {
+  launchUrl: string;
+  origin: string;
+  expiresAt: string;
 };
 
 type IdentityDeviceSession = {
@@ -481,7 +507,37 @@ interface Window {
       avatarUrl?: string;
       bio?: string;
     }): Promise<IdentitySnapshot>;
-    openCommunity(): Promise<{ ok: boolean; expiresAt: string }>;
+    updateIdentityPhone(input: {
+      phone: string;
+      currentPassword: string;
+    }): Promise<IdentitySnapshot>;
+    requestIdentityEmailChange(input: {
+      email: string;
+      currentPassword: string;
+    }): Promise<RegistrationChallenge>;
+    completeIdentityEmailChange(input: {
+      challengeId: string;
+      code: string;
+    }): Promise<IdentitySnapshot>;
+    changeIdentityPassword(input: {
+      currentPassword: string;
+      newPassword: string;
+    }): Promise<{ ok: boolean }>;
+    listSiteMessages(): Promise<SiteMessage[]>;
+    markSiteMessageRead(
+      messageId: string
+    ): Promise<{ ok: boolean; readAt: string }>;
+    listCommunityInteractions(): Promise<CommunityInteraction[]>;
+    setCommunityInteraction(
+      discussionId: string,
+      input: {
+        title: string;
+        path: string;
+        favorited: boolean;
+        liked: boolean;
+      }
+    ): Promise<CommunityInteraction>;
+    createCommunityEmbedSession(): Promise<CommunityEmbedSession>;
     getSettings(): Promise<PCSettings>;
     chooseDownloadDirectory(): Promise<PCSettings>;
     chooseCliDirectory(): Promise<PCSettings>;

@@ -57,6 +57,8 @@ npm.cmd run release:local:test-client
 
 Windows 有时会锁住“文档”目录里的 Electron 临时解包目录，因此本地验收打包会在系统临时目录完成解包，再只把 Portable、Setup 和 blockmap 复制到 `release-local-server-client`。
 
+`release:local:test-client` 会自行启动上一版本的专用 Portable 客户端，使用随机调试端口和独立临时用户目录验证签名目录与新版更新，完成后自动结束该隔离客户端并清理测试数据，不会连接或关闭用户正在使用的 AI Hub。
+
 正式生产 channel 仍保持禁用。本地证书信任只进入带 `localReleaseAcceptance=true` 标记的专用验收包，不修改 Windows 系统证书库，也不会进入正式包。
 
 ## 客户端更新行为

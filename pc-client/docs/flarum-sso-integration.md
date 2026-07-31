@@ -4,6 +4,8 @@
 研究范围：Flarum 官方文档、Flarum 官方源码仓库、FriendsOfFlarum OAuth 官方仓库。  
 本文件是技术决策与落地说明，不包含实现代码。
 
+> 当前进入方式已由 [ADR-0002](adr/0002-embedded-community-and-personal-center.md) 更新为 PC 内的受限独立社区分区。本文中“系统浏览器”描述保留为最初研究基线；当前实现仍使用同样的单次 handoff，并且不会在内嵌容器中复用 PC 主会话。
+
 ## 结论
 
 AI Hub 当前可以在本地 Docker 环境使用 Flarum 2.0 RC 搭建社区，并与 AI Hub 账号形成统一登录，但需要接受两项边界：
