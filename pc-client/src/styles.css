@@ -845,6 +845,127 @@ button {
   gap: 7px;
 }
 
+.installedManagementPage {
+  display: grid;
+  gap: 30px;
+}
+
+.managementHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.managementHeader h2,
+.managementHeader p,
+.sectionHeading h2 {
+  margin: 5px 0 0;
+}
+
+.managementHeader > button,
+.managementActions button {
+  min-height: 40px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--surface);
+  font-size: var(--font-small);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.managementHeader > button:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+.managementList {
+  display: grid;
+  gap: 10px;
+}
+
+.managementCard {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--surface);
+}
+
+.managementInfo {
+  min-width: 0;
+}
+
+.managementInfo > span,
+.sectionHeading > span {
+  color: #6da23f;
+  font-size: var(--font-caption);
+  font-weight: 900;
+}
+
+.managementInfo h3 {
+  margin: 5px 0;
+  font-size: var(--font-subtitle);
+}
+
+.managementInfo p {
+  margin: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--font-small);
+  line-height: 1.55;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.managementInfo small {
+  display: block;
+  margin-top: 6px;
+  color: #bd5e4c;
+  font-size: var(--font-small);
+}
+
+.managementActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.managementActions .accentButton {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.managementActions .dangerButton {
+  color: #bd4c4c;
+  border-color: color-mix(in srgb, #bd4c4c 35%, var(--line));
+}
+
+.packageManagement {
+  display: grid;
+  gap: 14px;
+}
+
+.packageCard .managementInfo p {
+  max-width: 680px;
+}
+
+.emptyManagement {
+  padding: 34px 18px;
+  border: 1px dashed var(--line);
+  border-radius: 13px;
+  color: var(--muted);
+  background: var(--surface);
+  text-align: center;
+}
+
 .verifiedPackage {
   flex-wrap: wrap;
 }
@@ -1584,6 +1705,14 @@ button:disabled {
   }
 
   .productActions {
+    justify-content: flex-start;
+  }
+
+  .managementCard {
+    grid-template-columns: 1fr;
+  }
+
+  .managementActions {
     justify-content: flex-start;
   }
 }

@@ -83,6 +83,34 @@ test("accepts Claude's reviewed Squirrel uninstaller", () => {
   });
 });
 
+test("accepts Docker's quoted reviewed uninstall argument", () => {
+  const installLocation =
+    "C:\\Users\\Tester\\AppData\\Local\\Programs\\DockerDesktop";
+  const installer = `${installLocation}\\Docker Desktop Installer.exe`;
+  const fileSystem = fakeFileSystem([installLocation, installer]);
+  const action = resolveTrustedUninstallAction({
+    entry: {
+      displayname: "Docker Desktop",
+      publisher: "Docker Inc.",
+      installlocation: installLocation,
+      uninstallstring: `"${installer}" "uninstall"`
+    },
+    policy: {
+      displayName: /^Docker Desktop$/i,
+      publisher: /^Docker Inc\.?$/i,
+      executableName: /^Docker Desktop Installer\.exe$/i,
+      allowedArguments: [["uninstall"]],
+      allowMsi: false
+    },
+    ...fileSystem
+  });
+  assert.deepEqual(action, {
+    kind: "executable",
+    executable: installer,
+    args: ["uninstall"]
+  });
+});
+
 test("uses the display icon directory when InstallLocation is omitted", () => {
   const fileSystem = fakeFileSystem([
     "C:\\Users\\Tester\\AppData\\Local\\Programs\\Ollama",

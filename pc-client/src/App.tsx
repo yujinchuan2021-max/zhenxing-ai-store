@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { runEnvironmentInstall } from "@aihub-shared/environment-install-flow.cjs";
 import { runDownloadedPackageAction } from "@aihub-shared/downloaded-package-action.cjs";
+import { buildInstalledProductManagement } from "@aihub-shared/installed-product-management.cjs";
 import { getProductInstallPresentation } from "@aihub-shared/product-install-presentation.cjs";
 import { resolveProductBehavior } from "@aihub-shared/product-policy.cjs";
 import { getUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
@@ -13,7 +14,7 @@ import {
   vendors as builtInVendors
 } from "./data";
 
-type View = "home" | "vendors" | "community";
+type View = "home" | "vendors" | "community" | "management";
 type ProductStage =
   | "idle"
   | "blocked"
@@ -336,6 +337,9 @@ export default function App() {
   const [cliManagedTasks, setCliManagedTasks] = useState<
     Record<string, CliManagedTask>
   >({});
+  const [managementMessages, setManagementMessages] = useState<
+    Record<string, string>
+  >({});
   const productOperationGenerations = useRef<Record<string, number>>({});
   const downloadTaskRevisions = useRef<Record<string, number>>({});
   const desktopOperationRevisions = useRef<
@@ -379,6 +383,23 @@ export default function App() {
     }
     return names;
   }, [catalogVendors]);
+  const installedManagement = useMemo(
+    () =>
+      buildInstalledProductManagement({
+        vendors: catalogVendors,
+        desktopStatuses,
+        cliStatuses,
+        environmentChecks: environment?.checks || [],
+        downloadTasks
+      }),
+    [
+      catalogVendors,
+      desktopStatuses,
+      cliStatuses,
+      environment,
+      downloadTasks
+    ]
+  );
   const operationTaskNames = useMemo(() => {
     const names: Record<string, string> = {};
     for (const vendor of catalogVendors) {
@@ -2957,6 +2978,145 @@ export default function App() {
       uninstallDesktopProduct(product)
     );
 
+  const refreshInstalledManagement = async () => {
+    if (!window.aihubPC) return;
+    setScanning(true);
+    try {
+      const products = catalogVendors.flatMap((vendor) => vendor.products);
+      await Promise.allSettled([
+        refreshEnvironmentReport(false),
+        ...products
+          .filter(
+            (product) => resolveProductBehavior(product).managedDesktop
+          )
+          .map(async (product) => {
+            const status = await window.aihubPC!.getDesktopStatus(product.id);
+            setDesktopStatuses((current) => ({
+              ...current,
+              [product.id]: status
+            }));
+          }),
+        ...products
+          .filter((product) => resolveProductBehavior(product).managedCli)
+          .map(async (product) => {
+            const status = await window.aihubPC!.getCliStatus(product.id);
+            setCliStatuses((current) => ({
+              ...current,
+              [product.id]: status
+            }));
+          })
+      ]);
+    } finally {
+      setScanning(false);
+    }
+  };
+
+  const openInstalledManagement = () => {
+    navigate("management");
+    void refreshInstalledManagement();
+  };
+
+  const setManagementMessage = (id: string, message: string) =>
+    setManagementMessages((current) => ({ ...current, [id]: message }));
+
+  const openManagedProduct = async (
+    entry: (typeof installedManagement.products)[number]
+  ) => {
+    if (!window.aihubPC) return;
+    try {
+      if (entry.type === "cli") {
+        const result = await window.aihubPC.openCli(entry.id);
+        setManagementMessage(
+          entry.id,
+          result.ok ? "命令窗口已打开" : result.error || "无法打开命令窗口"
+        );
+        return;
+      }
+      const opened =
+        entry.type === "environment"
+          ? await window.aihubPC.openEnvironment(
+              entry.id.slice("environment:".length)
+            )
+          : await window.aihubPC.openDesktopApp(entry.id);
+      setManagementMessage(entry.id, opened ? "已打开" : "无法打开");
+    } catch (error) {
+      setManagementMessage(
+        entry.id,
+        error instanceof Error ? error.message : "无法打开"
+      );
+    }
+  };
+
+  const closeManagedProduct = async (
+    entry: (typeof installedManagement.products)[number]
+  ) => {
+    if (!window.aihubPC) return;
+    try {
+      const result =
+        entry.type === "environment"
+          ? await window.aihubPC.closeEnvironment(
+              entry.id.slice("environment:".length)
+            )
+          : await window.aihubPC.closeDesktopApp(entry.id);
+      setManagementMessage(
+        entry.id,
+        result.ok
+          ? result.closed
+            ? "已关闭"
+            : "当前未运行"
+          : result.error || "无法关闭"
+      );
+    } catch (error) {
+      setManagementMessage(
+        entry.id,
+        error instanceof Error ? error.message : "无法关闭"
+      );
+    }
+  };
+
+  const openManagedProductFiles = async (
+    entry: (typeof installedManagement.products)[number]
+  ) => {
+    if (!window.aihubPC) return;
+    const opened =
+      entry.type === "environment"
+        ? await window.aihubPC.openEnvironmentLocation(
+            entry.id.slice("environment:".length)
+          )
+        : entry.type === "cli"
+          ? await window.aihubPC.openCliLocation(entry.id)
+          : await window.aihubPC.openDesktopLocation(entry.id);
+    if (!opened) setManagementMessage(entry.id, "无法打开文件位置");
+  };
+
+  const uninstallManagedProduct = async (
+    entry: (typeof installedManagement.products)[number]
+  ) => {
+    if (entry.type === "environment") {
+      await uninstallEnvironment(entry.id.slice("environment:".length));
+      return;
+    }
+    const product = findCatalogProduct(entry.id);
+    if (!product) return;
+    if (entry.type === "cli") await requestCliUninstall(product);
+    else await requestDesktopUninstall(product);
+  };
+
+  const deleteManagedPackage = async (productId: string) => {
+    if (!window.aihubPC) return;
+    const result = await window.aihubPC.deleteDownloadedPackage(productId);
+    if (result.canceled) return;
+    if (!result.ok) {
+      setManagementMessage(
+        `package:${productId}`,
+        result.error || "无法删除安装包"
+      );
+      return;
+    }
+    removeClearedDownloadTask(productId);
+    setManagementMessage(`package:${productId}`, "");
+  };
+
   return (
     <div className="pcApp" data-theme={theme}>
       <header className="topbar">
@@ -2981,6 +3141,9 @@ export default function App() {
         </form>
 
         <div className="topActions">
+          <button className="quietButton" onClick={openInstalledManagement}>
+            已安装
+          </button>
           <button className="quietButton" onClick={() => setSettingsOpen(true)}>
             ⚙ {t.settings}
           </button>
@@ -3088,6 +3251,29 @@ export default function App() {
               onCategory={setCategory}
               onLetter={setLetter}
               onOpenVendor={setSelectedVendor}
+            />
+          ) : view === "management" ? (
+            <InstalledProductsPage
+              management={installedManagement}
+              messages={managementMessages}
+              scanning={scanning}
+              onRefresh={refreshInstalledManagement}
+              onOpen={openManagedProduct}
+              onClose={closeManagedProduct}
+              onOpenFiles={openManagedProductFiles}
+              onReinstall={(entry) =>
+                void openCompletedDownloadTask(entry.id)
+              }
+              onUninstall={uninstallManagedProduct}
+              onInstallPackage={(entry) =>
+                void openCompletedDownloadTask(entry.id)
+              }
+              onShowPackage={(entry) =>
+                void showDownloadInFolder(entry.id)
+              }
+              onDeletePackage={(entry) =>
+                void deleteManagedPackage(entry.id)
+              }
             />
           ) : (
             <FlarumCommunityPage
@@ -3700,9 +3886,9 @@ function ProductRow({
               {installButtonLabel}
             </button>
           )}
-          {(stage === "deploying" || stage === "removing-cli") && (
+          {stage === "removing-cli" && (
             <div className="cliLog">
-              <b>{stage === "removing-cli" ? "正在安全卸载…" : "正在部署…"}</b>
+              <b>正在安全卸载…</b>
               {logs.length ? (
                 logs.map((entry, index) => (
                   <span className={entry.stream} key={`${index}-${entry.line}`}>
@@ -3711,9 +3897,7 @@ function ProductRow({
                 ))
               ) : (
                 <span>
-                  {stage === "removing-cli"
-                    ? "正在移除 AI Hub 管理的软件包"
-                    : "正在启动官方安装方案"}
+                  正在移除 AI Hub 管理的软件包
                 </span>
               )}
             </div>
@@ -3805,7 +3989,12 @@ function ProductRow({
             </div>
           )}
           {installPresentation &&
-            ["launching-installer", "awaiting-verification"].includes(stage) && (
+            [
+              "detecting",
+              "deploying",
+              "launching-installer",
+              "awaiting-verification"
+            ].includes(stage) && (
             <div className="installingState">
               <button className="accentButton" disabled={installPresentation.disabled}>
                 {installPresentation.buttonLabel}
@@ -4429,6 +4618,175 @@ function CommunityPage({ community }: { community: CatalogCommunity }) {
       ) : (
         <b>预发布环境尚未对外开放</b>
       )}
+    </section>
+  );
+}
+
+function InstalledProductsPage({
+  management,
+  messages,
+  scanning,
+  onRefresh,
+  onOpen,
+  onClose,
+  onOpenFiles,
+  onReinstall,
+  onUninstall,
+  onInstallPackage,
+  onShowPackage,
+  onDeletePackage
+}: {
+  management: ReturnType<typeof buildInstalledProductManagement>;
+  messages: Record<string, string>;
+  scanning: boolean;
+  onRefresh: () => Promise<void>;
+  onOpen: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["products"][number]
+  ) => Promise<void>;
+  onClose: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["products"][number]
+  ) => Promise<void>;
+  onOpenFiles: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["products"][number]
+  ) => Promise<void>;
+  onReinstall: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["products"][number]
+  ) => void;
+  onUninstall: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["products"][number]
+  ) => Promise<void>;
+  onInstallPackage: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["packages"][number]
+  ) => void;
+  onShowPackage: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["packages"][number]
+  ) => void;
+  onDeletePackage: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["packages"][number]
+  ) => void;
+}) {
+  return (
+    <section className="installedManagementPage">
+      <header className="pageHeader managementHeader">
+        <div>
+          <span>本机管理</span>
+          <h2>已安装的产品</h2>
+          <p>打开、关闭、管理文件和卸载本机产品。</p>
+        </div>
+        <button disabled={scanning} onClick={() => void onRefresh()}>
+          {scanning ? "正在刷新…" : "刷新状态"}
+        </button>
+      </header>
+
+      <div className="managementList">
+        {management.products.length ? (
+          management.products.map((entry) => (
+            <article className="managementCard" key={entry.id}>
+              <div className="managementInfo">
+                <span>
+                  {entry.vendorName} ·{" "}
+                  {entry.type === "cli"
+                    ? "CLI"
+                    : entry.type === "environment"
+                      ? "运行环境"
+                      : "桌面端"}
+                </span>
+                <h3>{entry.name}</h3>
+                <p>
+                  {entry.version ? `v${entry.version}` : "已安装"}
+                  {entry.location ? ` · ${entry.location}` : ""}
+                </p>
+                {messages[entry.id] && <small>{messages[entry.id]}</small>}
+              </div>
+              <div className="managementActions">
+                {entry.canOpen && (
+                  <button onClick={() => void onOpen(entry)}>打开</button>
+                )}
+                {entry.canClose && (
+                  <button onClick={() => void onClose(entry)}>关闭</button>
+                )}
+                {entry.canManageFiles && (
+                  <button onClick={() => void onOpenFiles(entry)}>
+                    文件管理
+                  </button>
+                )}
+                {entry.canReinstall && (
+                  <button onClick={() => onReinstall(entry)}>重新安装</button>
+                )}
+                {entry.canUninstall && (
+                  <button
+                    className="dangerButton"
+                    onClick={() => void onUninstall(entry)}
+                  >
+                    卸载
+                  </button>
+                )}
+              </div>
+            </article>
+          ))
+        ) : (
+          <div className="emptyManagement">暂未检测到已安装产品。</div>
+        )}
+      </div>
+
+      <section className="packageManagement">
+        <div className="sectionHeading">
+          <span>本地文件</span>
+          <h2>安装包管理</h2>
+        </div>
+        {management.packages.length ? (
+          <div className="managementList">
+            {management.packages.map((entry) => (
+              <article className="managementCard packageCard" key={entry.id}>
+                <div className="managementInfo">
+                  <h3>{entry.name}</h3>
+                  <p title={entry.filePath}>{entry.filePath}</p>
+                  {messages[`package:${entry.id}`] && (
+                    <small>{messages[`package:${entry.id}`]}</small>
+                  )}
+                </div>
+                <div className="managementActions">
+                  {entry.canInstall && (
+                    <button
+                      className="accentButton"
+                      onClick={() => onInstallPackage(entry)}
+                    >
+                      立即安装
+                    </button>
+                  )}
+                  <button onClick={() => onShowPackage(entry)}>
+                    打开文件夹
+                  </button>
+                  <button
+                    className="dangerButton"
+                    onClick={() => onDeletePackage(entry)}
+                  >
+                    删除安装包
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="emptyManagement">暂无已下载的安装包。</div>
+        )}
+      </section>
     </section>
   );
 }

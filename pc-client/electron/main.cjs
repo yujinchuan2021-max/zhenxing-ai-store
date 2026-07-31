@@ -34,8 +34,12 @@ const {
   cliInstallPlans
 } = require("../shared/install-registry.cjs");
 const {
-  desktopProbes
+  desktopProbes,
+  getDesktopAdapterForProduct
 } = require("../shared/desktop-adapters.cjs");
+const {
+  createManagedCliTerminalAction
+} = require("../shared/cli-terminal.cjs");
 const {
   resolveDesktopPresence
 } = require("../shared/desktop-detection.cjs");
@@ -243,6 +247,9 @@ const ENVIRONMENT_UNINSTALL_POLICIES = Object.freeze({
     allowMsi: false,
     signer: ENVIRONMENT_PLANS.docker.installedSigner
   }
+});
+const ENVIRONMENT_CLOSE_PROCESSES = Object.freeze({
+  docker: Object.freeze(["Docker Desktop.exe"])
 });
 
 function getEnvironmentPlan(environmentId) {
@@ -1486,7 +1493,9 @@ async function scanEnvironment() {
         id,
         name: plan.name,
         installed: status.installed,
+        version: status.version,
         location: status.location,
+        canOpen: status.canOpen,
         canUninstall: status.canUninstall,
         detection: status.detection
       };
@@ -2361,6 +2370,112 @@ function getCliStatus(productId) {
     receipt: records[productId] || null,
     configuredPrefix: readSettings().cliInstallDirectory || ""
   });
+}
+
+function systemCommandPath(fileName) {
+  return path.join(
+    process.env.SystemRoot || "C:\\Windows",
+    "System32",
+    fileName
+  );
+}
+
+async function openManagedCliTerminal(productId) {
+  const plan = CLI_INSTALL_PLANS[productId];
+  if (!plan) {
+    return { ok: false, error: "该产品不在客户端 CLI 启动白名单中" };
+  }
+  const status = getCliStatus(productId);
+  const action = createManagedCliTerminalAction({
+    productId,
+    plan,
+    status,
+    commandExecutable: systemCommandPath("cmd.exe"),
+    exists: fs.existsSync,
+    realpath: fs.realpathSync.native
+  });
+  if (!action) {
+    return {
+      ok: false,
+      error: status.installed
+        ? "CLI 启动入口与 AI Hub 管理记录不一致"
+        : "该 CLI 尚未安装"
+    };
+  }
+  return await new Promise((resolve) => {
+    let settled = false;
+    const finish = (result) => {
+      if (settled) return;
+      settled = true;
+      resolve(result);
+    };
+    try {
+      const child = spawn(action.executable, action.args, action.options);
+      child.once("spawn", () => {
+        child.unref();
+        finish({ ok: true });
+      });
+      child.once("error", (error) =>
+        finish({
+          ok: false,
+          error: `无法打开 CLI 命令窗口：${error.message}`
+        })
+      );
+    } catch (error) {
+      finish({
+        ok: false,
+        error:
+          error instanceof Error
+            ? `无法打开 CLI 命令窗口：${error.message}`
+            : "无法打开 CLI 命令窗口"
+      });
+    }
+  });
+}
+
+async function closeReviewedProcesses(processNames) {
+  const names = Array.isArray(processNames)
+    ? [...new Set(processNames)]
+    : [];
+  if (
+    !names.length ||
+    names.some(
+      (name) =>
+        typeof name !== "string" ||
+        path.win32.basename(name) !== name ||
+        !/^[a-z0-9 ._-]+\.exe$/i.test(name)
+    )
+  ) {
+    return { ok: false, error: "该产品没有经过审核的关闭策略" };
+  }
+  let closed = false;
+  for (const name of names) {
+    try {
+      await execFileAsync(
+        systemCommandPath("taskkill.exe"),
+        ["/IM", name, "/T"],
+        {
+          windowsHide: true,
+          shell: false,
+          timeout: 15_000,
+          maxBuffer: 1024 * 1024
+        }
+      );
+      closed = true;
+    } catch (error) {
+      const output = `${error?.stdout || ""}\n${error?.stderr || ""}`;
+      if (!/not found|没有运行|找不到/i.test(output)) {
+        return {
+          ok: false,
+          error:
+            error instanceof Error
+              ? `无法关闭产品：${error.message}`
+              : "无法关闭产品"
+        };
+      }
+    }
+  }
+  return { ok: true, closed };
 }
 
 function runCliInstall(sender, productId, directory, plan) {
@@ -5040,6 +5155,65 @@ function registerIpc() {
   ipcMain.handle("download:clear-completed", () =>
     clearAllCompletedDownloadHistories()
   );
+  ipcMain.handle("download:delete-package", async (_event, productId) => {
+    if (typeof productId !== "string") {
+      return { ok: false, error: "安装包产品 ID 无效" };
+    }
+    if (activeDownloads.has(productId)) {
+      return { ok: false, error: "下载仍在进行，不能删除安装包" };
+    }
+    const inspected = await inspectCompletedDownloadRecord(productId);
+    if (!inspected.ok || !inspected.record) {
+      return {
+        ok: false,
+        error: inspected.error || "本地安装包不存在或不可信"
+      };
+    }
+    const record = inspected.record;
+    const confirmation = await dialog.showMessageBox({
+      type: "warning",
+      title: "删除安装包",
+      message: "确认删除这个本地安装包？",
+      detail: record.filePath,
+      buttons: ["取消", "删除安装包"],
+      defaultId: 0,
+      cancelId: 0,
+      noLink: true
+    });
+    if (confirmation.response !== 1) {
+      return { ok: false, canceled: true };
+    }
+    try {
+      const stat = fs.lstatSync(record.filePath);
+      if (!stat.isFile() || stat.isSymbolicLink()) {
+        return { ok: false, error: "安装包文件类型发生变化，已拒绝删除" };
+      }
+      fs.unlinkSync(record.filePath);
+      const records = readDownloadRecords();
+      delete records[productId];
+      writeDownloadRecords(records);
+      loadManagedDownloadTasks();
+      managedDownloadTasks.delete(productId);
+      writeManagedDownloadTasks();
+      const environmentId = environmentIdFromManagedDownload(productId);
+      if (environmentId) {
+        const legacyRecords = readEnvironmentDownloadRecords();
+        delete legacyRecords[environmentId];
+        writeEnvironmentDownloadRecords(legacyRecords);
+      }
+      downloadTaskLastPersistedAt.delete(productId);
+      downloadTaskLastEmittedAt.delete(productId);
+      return { ok: true, filePath: record.filePath };
+    } catch (error) {
+      return {
+        ok: false,
+        error:
+          error instanceof Error
+            ? `无法删除安装包：${error.message}`
+            : "无法删除安装包"
+      };
+    }
+  });
 
   ipcMain.handle("installer:inspect", async (_event, productId) => {
     if (typeof productId !== "string") {
@@ -5532,6 +5706,22 @@ function registerIpc() {
     return (await shell.openPath(status.location)) === "";
   });
 
+  ipcMain.handle("desktop:close", async (_event, productId) => {
+    const adapter = getDesktopAdapterForProduct(productId);
+    return await closeReviewedProcesses(adapter?.closeProcessNames);
+  });
+
+  ipcMain.handle("environment:open", async (_event, environmentId) => {
+    if (environmentId !== "docker") return false;
+    const status = await detectEnvironmentOperationStatus(environmentId);
+    if (!status.installed || !status.canOpen || !status.executable) return false;
+    return (await shell.openPath(status.executable)) === "";
+  });
+
+  ipcMain.handle("environment:close", async (_event, environmentId) =>
+    closeReviewedProcesses(ENVIRONMENT_CLOSE_PROCESSES[environmentId])
+  );
+
   ipcMain.handle("desktop:open", async (_event, productId) => {
     const probe = DESKTOP_PROBES[productId];
     const status = await detectDesktopProduct(productId);
@@ -5571,6 +5761,22 @@ function registerIpc() {
   ipcMain.handle("cli:status", (_event, productId) =>
     getCliStatus(productId)
   );
+  ipcMain.handle("cli:open", (_event, productId) =>
+    openManagedCliTerminal(productId)
+  );
+  ipcMain.handle("cli:open-location", async (_event, productId) => {
+    const status = getCliStatus(productId);
+    if (!status.installed || !status.directory) return false;
+    try {
+      const location = fs.realpathSync.native(status.directory);
+      if (!path.isAbsolute(location) || !fs.statSync(location).isDirectory()) {
+        return false;
+      }
+      return (await shell.openPath(location)) === "";
+    } catch {
+      return false;
+    }
+  });
 
   ipcMain.handle("task-notification:cli", (_event, payload) => {
     const normalized = normalizeCliTaskNotification(
@@ -5739,11 +5945,14 @@ function registerIpc() {
               : "CLI 已安装，但管理收据写入失败"
         };
       }
+      const terminal = await openManagedCliTerminal(productId);
       return {
         ok: true,
         version: receipt.version,
         directory: receipt.prefix,
-        managed: true
+        managed: true,
+        terminalOpened: terminal.ok,
+        warning: terminal.ok ? undefined : terminal.error
       };
     } finally {
       activeCliProducts.delete(productId);

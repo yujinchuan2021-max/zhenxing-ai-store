@@ -12,6 +12,8 @@ type EnvironmentCheck = {
   installed: boolean;
   location: string;
   canUninstall?: boolean;
+  canOpen?: boolean;
+  version?: string;
   detection?: "installed" | "absent" | "unknown";
 };
 
@@ -409,6 +411,7 @@ type CliDeployResult = {
   version?: string;
   directory?: string;
   managed?: boolean;
+  terminalOpened?: boolean;
   warning?: string;
   error?: string;
 };
@@ -519,6 +522,9 @@ interface Window {
       productId: string
     ): Promise<DownloadTaskCommandResult>;
     clearCompletedDownloads(): Promise<ClearCompletedDownloadsResult>;
+    deleteDownloadedPackage(
+      productId: string
+    ): Promise<DownloadTaskCommandResult>;
     inspectInstaller(productId: string): Promise<InstallerInspection>;
     launchInstaller(productId: string): Promise<InstallerLaunchResult>;
     getDesktopOperation(
@@ -535,7 +541,18 @@ interface Window {
     ): Promise<DesktopUninstallResult>;
     openDesktopApp(productId: string): Promise<boolean>;
     openDesktopLocation(productId: string): Promise<boolean>;
+    closeDesktopApp(
+      productId: string
+    ): Promise<{ ok: boolean; closed?: boolean; error?: string }>;
+    openEnvironment(environmentId: string): Promise<boolean>;
+    closeEnvironment(
+      environmentId: string
+    ): Promise<{ ok: boolean; closed?: boolean; error?: string }>;
     getCliStatus(productId: string): Promise<CliStatus>;
+    openCli(
+      productId: string
+    ): Promise<{ ok: boolean; error?: string }>;
+    openCliLocation(productId: string): Promise<boolean>;
     deployCli(productId: string): Promise<CliDeployResult>;
     uninstallCli(productId: string): Promise<CliUninstallResult>;
     notifyCliTask(payload: CliTaskNotification): Promise<boolean>;

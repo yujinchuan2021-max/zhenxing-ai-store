@@ -63,6 +63,8 @@ contextBridge.exposeInMainWorld("aihubPC", {
     ipcRenderer.invoke("download:clear-history", productId),
   clearCompletedDownloads: () =>
     ipcRenderer.invoke("download:clear-completed"),
+  deleteDownloadedPackage: (productId) =>
+    ipcRenderer.invoke("download:delete-package", productId),
   inspectInstaller: (productId) =>
     ipcRenderer.invoke("installer:inspect", productId),
   launchInstaller: (productId) =>
@@ -84,7 +86,16 @@ contextBridge.exposeInMainWorld("aihubPC", {
     ipcRenderer.invoke("desktop:open", productId),
   openDesktopLocation: (productId) =>
     ipcRenderer.invoke("desktop:open-location", productId),
+  closeDesktopApp: (productId) =>
+    ipcRenderer.invoke("desktop:close", productId),
+  openEnvironment: (environmentId) =>
+    ipcRenderer.invoke("environment:open", environmentId),
+  closeEnvironment: (environmentId) =>
+    ipcRenderer.invoke("environment:close", environmentId),
   getCliStatus: (productId) => ipcRenderer.invoke("cli:status", productId),
+  openCli: (productId) => ipcRenderer.invoke("cli:open", productId),
+  openCliLocation: (productId) =>
+    ipcRenderer.invoke("cli:open-location", productId),
   deployCli: (productId) => ipcRenderer.invoke("cli:deploy", productId),
   uninstallCli: (productId) => ipcRenderer.invoke("cli:uninstall", productId),
   notifyCliTask: (payload) =>

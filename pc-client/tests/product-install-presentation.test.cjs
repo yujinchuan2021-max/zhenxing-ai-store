@@ -7,7 +7,11 @@ const {
 } = require("../shared/product-install-presentation.cjs");
 
 test("installing is one disabled button without explanatory copy", () => {
-  for (const stage of ["launching-installer", "awaiting-verification"]) {
+  for (const stage of [
+    "deploying",
+    "launching-installer",
+    "awaiting-verification"
+  ]) {
     assert.deepEqual(getProductInstallPresentation({ stage }), {
       filePath: "",
       buttonLabel: "正在安装",
@@ -16,6 +20,16 @@ test("installing is one disabled button without explanatory copy", () => {
       showTaskLog: false
     });
   }
+});
+
+test("preparing an install keeps one disabled button visible", () => {
+  assert.deepEqual(getProductInstallPresentation({ stage: "detecting" }), {
+    filePath: "",
+    buttonLabel: "正在准备",
+    disabled: true,
+    showHash: false,
+    showTaskLog: false
+  });
 });
 
 test("a downloaded package shows only its path and immediate install", () => {

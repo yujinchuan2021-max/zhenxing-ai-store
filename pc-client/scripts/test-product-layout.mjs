@@ -119,7 +119,7 @@ try {
     "[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Anthropic')).click()"
   );
   await new Promise((resolve) => setTimeout(resolve, 150));
-  const result = await evaluate(`(() => {
+  const productResult = await evaluate(`(() => {
     const row = [...document.querySelectorAll('.productRow')].find((item) =>
       item.textContent.includes('Claude Desktop')
     );
@@ -151,7 +151,83 @@ try {
       centers
     };
   })()`);
+  await evaluate(
+    "[...document.querySelectorAll('.topActions button')].find((button) => button.textContent.trim() === '已安装').click()"
+  );
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    const ready = await evaluate(
+      "Boolean([...document.querySelectorAll('.managementCard')].find((item) => item.textContent.includes('Docker')))"
+    );
+    if (ready) break;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  const managementResult = await evaluate(`(() => {
+    const cards = [...document.querySelectorAll('.managementCard')];
+    const docker = cards.find((item) =>
+      item.textContent.includes('Docker') &&
+      item.textContent.includes('运行环境')
+    );
+    const installer = cards.find((item) =>
+      item.textContent.includes('Claude Desktop') &&
+      item.textContent.includes('Claude-Setup-x64.exe')
+    );
+    const dockerButtons = docker
+      ? [...docker.querySelectorAll('button')].map((button) => ({
+          text: button.textContent.trim(),
+          disabled: button.disabled
+        }))
+      : [];
+    const installerButtons = installer
+      ? [...installer.querySelectorAll('button')].map((button) =>
+          button.textContent.trim()
+        )
+      : [];
+    return {
+      ok:
+        Boolean(docker) &&
+        dockerButtons.some((button) => button.text === '打开') &&
+        dockerButtons.some((button) => button.text === '关闭') &&
+        dockerButtons.some(
+          (button) => button.text === '卸载' && !button.disabled
+        ) &&
+        Boolean(installer) &&
+        installerButtons.includes('立即安装') &&
+        installerButtons.includes('打开文件夹') &&
+        installerButtons.includes('删除安装包'),
+      dockerButtons,
+      installerButtons
+    };
+  })()`);
+  await evaluate(
+    "[...document.querySelectorAll('.topActions button')].find((button) => button.textContent.includes('设置')).click()"
+  );
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    const ready = await evaluate(
+      "Boolean(document.querySelector('.settingsPanel .environmentList'))"
+    );
+    if (ready) break;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  const settingsResult = await evaluate(`(() => {
+    const docker = [...document.querySelectorAll('.environmentList > div')]
+      .find((item) => item.textContent.includes('Docker'));
+    const uninstall = docker
+      ? [...docker.querySelectorAll('button')]
+          .find((button) => button.textContent.includes('卸载'))
+      : null;
+    return {
+      ok: Boolean(docker && uninstall && !uninstall.disabled),
+      uninstallText: uninstall?.textContent.trim() || '',
+      disabled: uninstall?.disabled ?? null
+    };
+  })()`);
   socket.close();
+  const result = {
+    ok: productResult.ok && managementResult.ok && settingsResult.ok,
+    product: productResult,
+    management: managementResult,
+    settings: settingsResult
+  };
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
   if (!result.ok) process.exitCode = 1;
 } finally {

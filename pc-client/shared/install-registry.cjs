@@ -50,7 +50,8 @@ const INSTALL_REGISTRY = Object.freeze({
     requirements: Object.freeze(["node"]),
     cli: Object.freeze({
       name: "Codex CLI",
-      packageName: "@openai/codex"
+      packageName: "@openai/codex",
+      commandName: "codex"
     })
   }),
   "claude-code": Object.freeze({
@@ -68,6 +69,7 @@ const INSTALL_REGISTRY = Object.freeze({
     cli: Object.freeze({
       name: "Claude Code",
       packageName: "@anthropic-ai/claude-code",
+      commandName: "claude",
       postInstall: Object.freeze({
         manifestCommand: "node install.cjs",
         scriptFile: "install.cjs",
@@ -90,7 +92,8 @@ const INSTALL_REGISTRY = Object.freeze({
     requirements: Object.freeze(["node"]),
     cli: Object.freeze({
       name: "Gemini CLI",
-      packageName: "@google/gemini-cli"
+      packageName: "@google/gemini-cli",
+      commandName: "gemini"
     })
   }),
   "comfy-desktop": Object.freeze({

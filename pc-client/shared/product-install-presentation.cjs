@@ -10,7 +10,22 @@ function getProductInstallPresentation({ stage, filePath }) {
       showTaskLog: false
     };
   }
-  if (["launching-installer", "awaiting-verification"].includes(stage)) {
+  if (stage === "detecting") {
+    return {
+      filePath: "",
+      buttonLabel: "正在准备",
+      disabled: true,
+      showHash: false,
+      showTaskLog: false
+    };
+  }
+  if (
+    [
+      "deploying",
+      "launching-installer",
+      "awaiting-verification"
+    ].includes(stage)
+  ) {
     return {
       filePath: "",
       buttonLabel: "正在安装",

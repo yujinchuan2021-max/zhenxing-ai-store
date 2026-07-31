@@ -6,6 +6,7 @@ const DESKTOP_ADAPTERS = Object.freeze({
     presenceEvidence: "trusted-install-identity",
     uninstallMode: "automatic",
     signer: /^CN=50BDFD77-8903-4850-9FFE-6E8522F64D5B$/i,
+    closeProcessNames: Object.freeze(["ChatGPT.exe"]),
     appx: Object.freeze({
       identityName: "OpenAI.Codex",
       publisher: /^CN=50BDFD77-8903-4850-9FFE-6E8522F64D5B$/i
@@ -16,6 +17,7 @@ const DESKTOP_ADAPTERS = Object.freeze({
     presenceEvidence: "trusted-install-identity",
     uninstallMode: "automatic",
     signer: /^CN="?Anthropic, PBC"?(?:,|$)/i,
+    closeProcessNames: Object.freeze(["Claude.exe"]),
     executableNames: Object.freeze(["Claude.exe"]),
     uninstall: Object.freeze({
       displayName:
@@ -38,6 +40,11 @@ const DESKTOP_ADAPTERS = Object.freeze({
     presenceEvidence: "trusted-install-identity",
     uninstallMode: "interactive",
     signer: /^CN=Drip Artificial Inc(?:,|$)/i,
+    closeProcessNames: Object.freeze([
+      "Comfy Desktop.exe",
+      "ComfyUI Desktop.exe",
+      "ComfyUI.exe"
+    ]),
     executableNames: Object.freeze([
       "Comfy Desktop.exe",
       "ComfyUI Desktop.exe",
@@ -62,6 +69,7 @@ const DESKTOP_ADAPTERS = Object.freeze({
     presenceEvidence: "trusted-install-identity",
     uninstallMode: "interactive",
     signer: /^CN=Ollama Inc\.(?:,|$)/i,
+    closeProcessNames: Object.freeze(["ollama app.exe"]),
     executableNames: Object.freeze(["ollama app.exe"]),
     uninstall: Object.freeze({
       displayName:

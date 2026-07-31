@@ -3,6 +3,7 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const {
+  cliInstallPlans,
   getInstallRegistration,
   publicInstallProfiles
 } = require("../shared/install-registry.cjs");
@@ -114,9 +115,30 @@ test("managed desktop profiles resolve every advertised native capability", () =
     );
     assert.equal(registration.capabilities.includes("install"), true);
     assert.equal(registration.capabilities.includes("open"), true);
+    assert.ok(
+      Array.isArray(adapter.closeProcessNames) &&
+        adapter.closeProcessNames.length > 0,
+      `${productId} must declare its local close process names`
+    );
     assert.equal(
       registration.capabilities.includes("uninstall"),
       Boolean(adapter.uninstall || adapter.appx)
     );
   }
+});
+
+test("every managed CLI declares one fixed local terminal command", () => {
+  assert.deepEqual(
+    Object.fromEntries(
+      Object.entries(cliInstallPlans()).map(([productId, plan]) => [
+        productId,
+        plan.commandName
+      ])
+    ),
+    {
+      "codex-cli": "codex",
+      "claude-code": "claude",
+      "gemini-cli": "gemini"
+    }
+  );
 });

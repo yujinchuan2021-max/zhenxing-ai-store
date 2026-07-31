@@ -44,14 +44,40 @@ function pathIsInside(candidate, root) {
 function parseExecutableCommand(command) {
   const raw = String(command || "").trim();
   if (!raw || raw.length > 4096 || /[\0\r\n]/.test(raw)) return null;
-  const quoted = raw.match(/^"([^"]+)"(?:\s+([^"\r\n]+))?$/);
+  const quoted = raw.match(/^"([^"]+)"(?:\s+(.+))?$/);
   const bare = quoted ? null : raw.match(/^(\S+)(?:\s+([^"\r\n]+))?$/);
   const executable = normalizedWindowsPath(quoted?.[1] || bare?.[1]);
   if (!executable) return null;
   const argumentText = String(quoted?.[2] || bare?.[2] || "").trim();
+  const args = [];
+  let offset = 0;
+  while (offset < argumentText.length) {
+    while (/\s/.test(argumentText[offset] || "")) offset += 1;
+    if (offset >= argumentText.length) break;
+    if (argumentText[offset] === '"') {
+      const closing = argumentText.indexOf('"', offset + 1);
+      if (
+        closing < 0 ||
+        (closing + 1 < argumentText.length &&
+          !/\s/.test(argumentText[closing + 1]))
+      ) {
+        return null;
+      }
+      args.push(argumentText.slice(offset + 1, closing));
+      offset = closing + 1;
+      continue;
+    }
+    const nextSpace = argumentText.slice(offset).search(/\s/);
+    const end =
+      nextSpace < 0 ? argumentText.length : offset + nextSpace;
+    const value = argumentText.slice(offset, end);
+    if (value.includes('"')) return null;
+    args.push(value);
+    offset = end;
+  }
   return {
     executable,
-    args: argumentText ? argumentText.split(/\s+/) : []
+    args
   };
 }
 
