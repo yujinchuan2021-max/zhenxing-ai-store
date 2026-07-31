@@ -150,6 +150,9 @@ function validatePublication(catalog, rawSettings) {
   const enabledProducts = enabledVendors.flatMap((vendor) =>
     vendor.products.filter((product) => product.enabled !== false)
   );
+  const enabledExtensions = enabledProducts.flatMap((product) =>
+    (product.extensions || []).filter((extension) => extension.enabled !== false)
+  );
   for (const vendor of validatedCatalog.vendors) {
     for (const product of vendor.products) {
       const module = getProductModule(product.moduleId);
@@ -210,6 +213,7 @@ function validatePublication(catalog, rawSettings) {
     summary: {
       vendors: enabledVendors.length,
       products: enabledProducts.length,
+      extensions: enabledExtensions.length,
       banners: validatedCatalog.home.banners.length,
       featuredVendors: validatedCatalog.home.featuredVendorIds.length,
       approvedDownloadSources: validatedCatalog.environmentDownloads.sources.filter(

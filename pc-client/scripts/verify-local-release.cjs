@@ -7,6 +7,7 @@ const {
 
 const result = verifyReleaseBundle({
   bundleDirectory: path.resolve(__dirname, "..", "deployment", "local")
-    + path.sep + "runtime" + path.sep + "current"
+    + path.sep + "runtime" + path.sep + "current",
+  allowLocalRuntimeTrust: true
 });
 process.stdout.write(`${JSON.stringify({ ok: true, ...result }, null, 2)}\n`);

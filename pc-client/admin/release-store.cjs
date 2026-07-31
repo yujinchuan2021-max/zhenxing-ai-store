@@ -396,10 +396,12 @@ function createReleaseStore({
           throw new Error("目录草稿版本冲突");
         }
         const normalizedCatalog = validateCatalog(clone(catalog));
+        const updatedAt = timestamp(clock);
+        normalizedCatalog.updatedAt = updatedAt;
         const nextState = clone(state);
         nextState.draft = {
           revision: currentRevision + 1,
-          updatedAt: timestamp(clock),
+          updatedAt,
           catalog: normalizedCatalog
         };
         writeState(nextState);

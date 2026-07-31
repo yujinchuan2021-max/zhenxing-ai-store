@@ -192,6 +192,7 @@ services:
       AIHUB_ADMIN_HOST: 0.0.0.0
       AIHUB_ADMIN_PORT: 4173
       AIHUB_ADMIN_PUBLIC_ORIGIN: http://127.0.0.1:4173
+      AIHUB_DISCOVERY_SCAN_INTERVAL_HOURS: 24
     ports:
       - "127.0.0.1:4173:4173"
     volumes:
@@ -199,6 +200,7 @@ services:
       - ../../admin/published:/app/admin/published
       - ../../catalog:/app/catalog
       - ../../updates:/app/updates
+      - ../../output:/app/output
     healthcheck:
       test:
         [

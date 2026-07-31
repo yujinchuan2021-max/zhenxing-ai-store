@@ -18,12 +18,12 @@ npm.cmd run release:local:upgrade
 
 该命令依次执行：
 
-1. 生成并签名新发布包。
-2. 验证目录、更新清单和安装包完整性。
-3. 自动备份当前发布版本并原子切换 `runtime/current`。
-4. 启动或更新 Docker 服务。
-5. 验证 TLS、Range 下载、文件大小和 SHA-256。
-6. 重新生成本地验收客户端的短期证书指纹。
+1. 只重建本地 HTTPS 发布容器，刷新 Docker 端口映射和本地验收证书指纹。
+2. 从当前源码生成 Setup、Portable、校验文件和 `BUILD.json`。
+3. 核对版本、安装包 SHA-256、Git 提交和工作区状态。
+4. 生成并签名新发布包，原子切换 `runtime/current`。
+5. 验证目录、更新清单、TLS、Range 下载、文件大小和 SHA-256。
+6. 启动隔离 Portable 客户端，验证远程目录、更新、扩展安装/卸载与真实托管下载暂停门禁。
 
 运行数据位于 `deployment/local/runtime`：
 
@@ -46,18 +46,25 @@ npm.cmd run release:local:restore -- <backup-name>
 ## 单步命令
 
 ```powershell
+npm.cmd run release:local:recreate-server
+npm.cmd run release:local:pin-tls
+npm.cmd run package:win:local-release
 npm.cmd run release:local:prepare
 npm.cmd run release:local:verify
+npm.cmd run release:local:recreate-server
 npm.cmd run release:local:up
 npm.cmd run release:local:test-server
 npm.cmd run release:local:pin-tls
-npm.cmd run package:win:local-release
 npm.cmd run release:local:test-client
 ```
 
-Windows 有时会锁住“文档”目录里的 Electron 临时解包目录，因此本地验收打包会在系统临时目录完成解包，再只把 Portable、Setup 和 blockmap 复制到 `release-local-server-client`。
+先让现有本地发布源可用并刷新证书指纹，再运行 `package:win:local-release`；打包前会拒绝过期或无效的本地证书配置。随后运行 `release:local:prepare`。`BUILD.json` 会把安装包字节绑定到 Git 提交和工作区状态；发布时再生成由更新密钥签名的 `build-provenance.json`。本地候选允许明确标记为 dirty，正式生产发布则拒绝 dirty 来源并要求精确的 `v<version>` 标签。
 
-`release:local:test-client` 会自行启动上一版本的专用 Portable 客户端，使用随机调试端口和独立临时用户目录验证签名目录与新版更新，完成后自动结束该隔离客户端并清理测试数据，不会连接或关闭用户正在使用的 AI Hub。
+Windows 有时会锁住“文档”目录里的 Electron 临时解包目录，因此本地验收打包会在系统临时目录完成解包，再只把发布文件复制到 `release-local-server-client`。
+
+`release:local:test-client` 会自行启动专用 Portable 客户端，使用随机回环 CDP 端口、独立 APPDATA/LOCALAPPDATA、下载目录和 Codex Home，验证签名目录、更新和扩展资源，并从批准产品源真实下载至少 1 MiB 后确认暂停。运行前如发现用户正在使用 AI Hub，它会直接拒绝验收，不会连接、复用或关闭用户会话；完成后只终止带本次临时用户目录参数的进程。
+
+需要单独复现托管下载时可运行 `npm.cmd run test:packaged-managed-download -- <product-id>`；该命令同样禁止使用真实用户配置。
 
 正式生产 channel 仍保持禁用。本地证书信任只进入带 `localReleaseAcceptance=true` 标记的专用验收包，不修改 Windows 系统证书库，也不会进入正式包。
 

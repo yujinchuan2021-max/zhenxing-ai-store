@@ -1,6 +1,6 @@
 {
   "name": "aihub-pc-client",
-  "version": "0.1.12",
+  "version": "0.1.22",
   "private": true,
   "description": "AI Hub PC client rebuilt from the product mind map",
   "author": "AI Hub",
@@ -18,10 +18,14 @@
     "test:managed-cli-uninstall": "node scripts/test-managed-cli-uninstall.cjs",
     "test:claude-code-postinstall": "node scripts/test-claude-code-postinstall.cjs",
     "test:official-cli-packages": "node scripts/test-official-cli-packages.cjs",
+    "test:packaged-managed-download": "node scripts/reproduce-packaged-managed-download.mjs",
     "test:identity-community": "node scripts/test-identity-community.mjs && node scripts/test-flarum-community.mjs",
     "test:personal-center-community": "npm run build && node scripts/test-personal-center-community.mjs",
     "test": "node --test tests/*.test.cjs",
     "catalog:seed": "node scripts/seed-admin-catalog.mjs",
+    "catalog:discover": "node scripts/discover-official-products.mjs",
+    "catalog:publish:local": "node scripts/publish-local-catalog.cjs",
+    "audit:desktop-sources": "node scripts/audit-managed-desktop-sources.cjs",
     "admin": "npm run catalog:seed && node admin/server.cjs",
     "release:local:prepare": "node scripts/prepare-local-release.cjs",
     "release:local:verify": "node scripts/verify-local-release.cjs",
@@ -30,6 +34,7 @@
     "release:local:restore": "node scripts/restore-local-release.cjs",
     "release:local:upgrade": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/upgrade-local-release.ps1",
     "release:local:up": "docker compose -f deployment/local/compose.yaml up -d --wait",
+    "release:local:recreate-server": "docker compose -f deployment/local/compose.yaml up -d --force-recreate --wait release-server",
     "release:local:test-server": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/test-local-release-server.ps1",
     "release:local:pin-tls": "node scripts/pin-local-release-tls.cjs",
     "release:local:test-client": "node scripts/verify-local-release-client.mjs",
@@ -70,6 +75,10 @@
       "package.json"
     ],
     "extraResources": [
+      {
+        "from": "extension-resources",
+        "to": "extensions"
+      },
       {
         "from": "catalog/channel.production.json",
         "to": "catalog/channel.json"

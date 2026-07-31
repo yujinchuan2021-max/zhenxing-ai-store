@@ -16,6 +16,9 @@ const {
 const {
   verifyReleaseBundle
 } = require("../admin/release-bundle-verifier.cjs");
+const {
+  createArtifactBuildMetadata
+} = require("../shared/release-provenance.cjs");
 
 function signingKey() {
   const { privateKey } = crypto.generateKeyPairSync("ed25519");
@@ -50,7 +53,17 @@ function fixture() {
       catalog
     }
   };
-  return { root, installer, catalogEnvelope };
+  const buildProvenance = createArtifactBuildMetadata({
+    version: "0.1.1",
+    source: {
+      revision: "a".repeat(40),
+      dirty: false,
+      versionTag: "v0.1.1"
+    },
+    artifactPaths: [installer],
+    builtAt: "2026-07-30T00:30:00.000Z"
+  });
+  return { root, installer, catalogEnvelope, buildProvenance };
 }
 
 test("builds and verifies a server-migratable signed release bundle", () => {
@@ -63,6 +76,7 @@ test("builds and verifies a server-migratable signed release bundle", () => {
       catalogEnvelope: value.catalogEnvelope,
       installerPath: value.installer,
       version: "0.1.1",
+      buildProvenance: value.buildProvenance,
       signingKeys: {
         catalog: signingKey(),
         update: signingKey()
@@ -73,6 +87,7 @@ test("builds and verifies a server-migratable signed release bundle", () => {
     assert.equal(verified.catalogVersion, 1);
     assert.equal(verified.updateVersion, "0.1.1");
     assert.notEqual(verified.catalogKeyId, verified.updateKeyId);
+    assert.equal(verified.source.revision, "a".repeat(40));
     assert.equal(result.update.sha256.length, 64);
 
     const allPublicText = fs
@@ -89,6 +104,73 @@ test("builds and verifies a server-migratable signed release bundle", () => {
   }
 });
 
+test("rejects source provenance changed outside the signed build attestation", () => {
+  const value = fixture();
+  try {
+    const outputDirectory = path.join(value.root, "bundle");
+    prepareReleaseBundle({
+      outputDirectory,
+      baseUrl: "https://localhost:4443/",
+      catalogEnvelope: value.catalogEnvelope,
+      installerPath: value.installer,
+      version: "0.1.1",
+      buildProvenance: value.buildProvenance,
+      signingKeys: { catalog: signingKey(), update: signingKey() },
+      publishedAt: "2026-07-30T01:00:00.000Z"
+    });
+    const manifestPath = path.join(
+      outputDirectory,
+      "public",
+      "release-manifest.json"
+    );
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    manifest.build.source.revision = "f".repeat(40);
+    fs.writeFileSync(manifestPath, JSON.stringify(manifest), "utf8");
+    assert.throws(
+      () => verifyReleaseBundle({ bundleDirectory: outputDirectory }),
+      /签名内容/
+    );
+  } finally {
+    fs.rmSync(value.root, { recursive: true, force: true });
+  }
+});
+
+test("accepts only the fixed local Docker installer name variant", () => {
+  const value = fixture();
+  try {
+    const localInstaller = path.join(
+      value.root,
+      "AI-Hub-Local-0.1.1-Windows-x64-Setup.exe"
+    );
+    fs.copyFileSync(value.installer, localInstaller);
+    const localBuildProvenance = createArtifactBuildMetadata({
+      version: "0.1.1",
+      source: value.buildProvenance.source,
+      artifactPaths: [localInstaller],
+      builtAt: value.buildProvenance.builtAt
+    });
+    const result = prepareReleaseBundle({
+      outputDirectory: path.join(value.root, "local-bundle"),
+      baseUrl: "https://localhost:4443/",
+      catalogEnvelope: value.catalogEnvelope,
+      installerPath: localInstaller,
+      version: "0.1.1",
+      buildProvenance: localBuildProvenance,
+      publishedAt: "2026-08-01T00:00:00.000Z",
+      signingKeys: { catalog: signingKey(), update: signingKey() },
+      notes: [],
+      rollout: { percentage: 100, salt: "local-release-2026" },
+      allowLocalhost: true
+    });
+    assert.equal(
+      path.basename(new URL(result.update.downloadUrl).pathname),
+      "AI-Hub-Local-0.1.1-Windows-x64-Setup.exe"
+    );
+  } finally {
+    fs.rmSync(value.root, { recursive: true, force: true });
+  }
+});
+
 test("detects a modified installer before accepting a release bundle", () => {
   const value = fixture();
   try {
@@ -99,6 +181,7 @@ test("detects a modified installer before accepting a release bundle", () => {
       catalogEnvelope: value.catalogEnvelope,
       installerPath: value.installer,
       version: "0.1.1",
+      buildProvenance: value.buildProvenance,
       signingKeys: {
         catalog: signingKey(),
         update: signingKey()
@@ -134,9 +217,31 @@ test("rejects one signing key reused for catalog and update", () => {
           catalogEnvelope: value.catalogEnvelope,
           installerPath: value.installer,
           version: "0.1.1",
+          buildProvenance: value.buildProvenance,
           signingKeys: { catalog: shared, update: shared }
         }),
       /不同/
+    );
+  } finally {
+    fs.rmSync(value.root, { recursive: true, force: true });
+  }
+});
+
+test("rejects an installer whose filename version differs from the release", () => {
+  const value = fixture();
+  try {
+    assert.throws(
+      () =>
+        prepareReleaseBundle({
+          outputDirectory: path.join(value.root, "bundle"),
+          baseUrl: "https://localhost:4443/",
+          catalogEnvelope: value.catalogEnvelope,
+          installerPath: value.installer,
+          version: "0.1.2",
+          buildProvenance: value.buildProvenance,
+          signingKeys: { catalog: signingKey(), update: signingKey() }
+        }),
+      /文件名版本/
     );
   } finally {
     fs.rmSync(value.root, { recursive: true, force: true });

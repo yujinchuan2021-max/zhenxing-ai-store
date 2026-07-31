@@ -7,6 +7,7 @@ const path = require("node:path");
 const test = require("node:test");
 
 const {
+  resolveCertificateVerificationCode,
   readLocalReleaseTrust,
   shouldTrustLocalReleaseCertificate,
   validateLocalReleaseTrust
@@ -85,6 +86,50 @@ test("normalizes Chromium certificate fingerprints and host ports", () => {
       }
     }, now),
     true
+  );
+});
+
+test("overrides only the pinned localhost certificate and delegates every other certificate to Chromium", () => {
+  const trust = validateLocalReleaseTrust(value(), now);
+  const electronFingerprint = `sha256/${Buffer.from(
+    fingerprint.replaceAll(":", ""),
+    "hex"
+  ).toString("base64")}`;
+
+  assert.equal(
+    resolveCertificateVerificationCode(
+      trust,
+      {
+        hostname: "localhost",
+        certificate: { fingerprint: electronFingerprint }
+      },
+      now
+    ),
+    0
+  );
+  assert.equal(
+    resolveCertificateVerificationCode(
+      trust,
+      {
+        hostname: "github.com",
+        verificationResult: "net::OK",
+        certificate: { fingerprint: "sha256/public-certificate" }
+      },
+      now
+    ),
+    -3
+  );
+  assert.equal(
+    resolveCertificateVerificationCode(
+      trust,
+      {
+        hostname: "localhost",
+        verificationResult: "net::ERR_CERT_AUTHORITY_INVALID",
+        certificate: { fingerprint: "sha256/untrusted-certificate" }
+      },
+      now
+    ),
+    -3
   );
 });
 

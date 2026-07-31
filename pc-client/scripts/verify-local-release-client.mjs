@@ -1,11 +1,17 @@
-import { spawn, spawnSync } from "node:child_process";
 import fs from "node:fs";
-import net from "node:net";
-import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  createIsolatedAcceptanceProfile,
+  launchPackagedClientCdp,
+  removeIsolatedAcceptanceProfile,
+  verifyManagedDownloadPause
+} from "./lib/packaged-client-cdp.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const packageJson = JSON.parse(
+  fs.readFileSync(path.join(root, "package.json"), "utf8")
+);
 const manifest = JSON.parse(
   fs.readFileSync(
     path.join(
@@ -21,15 +27,17 @@ const manifest = JSON.parse(
   )
 );
 const baseVersion =
-  process.env.AIHUB_LOCAL_RELEASE_BASE_VERSION || "0.1.5";
+  process.env.AIHUB_LOCAL_RELEASE_BASE_VERSION || packageJson.version;
 const portablePath = path.resolve(
   process.env.AIHUB_LOCAL_RELEASE_CLIENT ||
     path.join(
       root,
       "release-local-server-client",
-      `AI-Hub-${baseVersion}-Windows-x64-Portable.exe`
+      `AI-Hub-Local-${baseVersion}-Windows-x64-Portable.exe`
     )
 );
+const downloadProductId =
+  process.env.AIHUB_RELEASE_DOWNLOAD_PRODUCT || "openclaw-windows-hub";
 
 if (process.platform !== "win32") {
   throw new Error("本地发布客户端验收当前仅支持 Windows");
@@ -37,143 +45,38 @@ if (process.platform !== "win32") {
 if (!fs.existsSync(portablePath)) {
   throw new Error(`本地发布验收客户端不存在：${portablePath}`);
 }
-
-async function availablePort() {
-  if (process.env.AIHUB_CDP_PORT) return Number(process.env.AIHUB_CDP_PORT);
-  const server = net.createServer();
-  await new Promise((resolve, reject) => {
-    server.once("error", reject);
-    server.listen(0, "127.0.0.1", resolve);
-  });
-  const address = server.address();
-  const port = typeof address === "object" && address ? address.port : 0;
-  await new Promise((resolve, reject) => {
-    server.close((error) => (error ? reject(error) : resolve()));
-  });
-  if (!port) throw new Error("无法分配本地发布验收端口");
-  return port;
+if (
+  manifest?.schemaVersion !== 2 ||
+  typeof manifest.build?.source?.revision !== "string" ||
+  manifest.update?.version !== packageJson.version
+) {
+  throw new Error("本地发布清单没有绑定当前版本和源码来源");
 }
 
-function stopAcceptanceProcesses(userData) {
-  const command = [
-    "$target=[Environment]::GetEnvironmentVariable('AIHUB_TEST_USER_DATA')",
-    "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -and $_.CommandLine.Contains($target) } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"
-  ].join("; ");
-  return spawnSync(
-    "powershell.exe",
-    ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
-    {
-      env: { ...process.env, AIHUB_TEST_USER_DATA: userData },
-      stdio: "ignore",
-      windowsHide: true
-    }
-  );
-}
-
-async function removeAcceptanceDirectory(userData) {
-  const temporaryRoot = path.resolve(os.tmpdir());
-  const resolvedUserData = path.resolve(userData);
-  if (
-    !resolvedUserData.startsWith(
-      `${temporaryRoot}${path.sep}`,
-      process.platform === "win32" ? 0 : undefined
-    )
-  ) {
-    throw new Error("本地发布验收目录超出系统临时目录");
-  }
-  for (let attempt = 0; attempt < 10; attempt += 1) {
-    try {
-      fs.rmSync(resolvedUserData, { recursive: true, force: true });
-      return;
-    } catch (error) {
-      if (attempt === 9) throw error;
-      await new Promise((resolve) => setTimeout(resolve, 250));
-    }
-  }
-}
-
-const cdpPort = await availablePort();
-const userData = fs.mkdtempSync(
-  path.join(os.tmpdir(), "aihub-local-release-client-")
-);
-let socket;
-
+const profile = createIsolatedAcceptanceProfile("aihub-local-release-client-");
+let client;
 try {
-  const launcher = spawn(
-    portablePath,
-    [
-      `--remote-debugging-port=${cdpPort}`,
-      `--user-data-dir=${userData}`
-    ],
-    {
-      detached: true,
-      stdio: "ignore",
-      windowsHide: true
-    }
-  );
-  launcher.unref();
-
-  const deadline = Date.now() + 30_000;
-  let target;
-  while (Date.now() < deadline) {
-    try {
-      const targets = await (
-        await fetch(`http://127.0.0.1:${cdpPort}/json`)
-      ).json();
-      target = targets.find((item) => item.type === "page");
-      if (target) break;
-    } catch {
-      // The isolated packaged client is still starting.
-    }
-    await new Promise((resolve) => setTimeout(resolve, 250));
-  }
-  if (!target) throw new Error("本地发布验收客户端没有开放 CDP 页面");
-
-  socket = new WebSocket(target.webSocketDebuggerUrl);
-  await new Promise((resolve, reject) => {
-    socket.addEventListener("open", resolve, { once: true });
-    socket.addEventListener("error", reject, { once: true });
+  client = await launchPackagedClientCdp({
+    executable: portablePath,
+    profile
   });
+  const { evaluate, target } = client;
 
-  let sequence = 0;
-  const pending = new Map();
-  socket.addEventListener("message", (event) => {
-    const message = JSON.parse(event.data);
-    if (!message.id || !pending.has(message.id)) return;
-    const callbacks = pending.get(message.id);
-    pending.delete(message.id);
-    if (message.error) callbacks.reject(new Error(message.error.message));
-    else callbacks.resolve(message.result);
-  });
-
-  function send(method, params = {}) {
-    const id = ++sequence;
-    socket.send(JSON.stringify({ id, method, params }));
-    return new Promise((resolve, reject) => {
-      pending.set(id, { resolve, reject });
-    });
-  }
-
-  async function evaluate(expression) {
-    const result = await send("Runtime.evaluate", {
-      expression,
-      awaitPromise: true,
-      returnByValue: true
-    });
-    if (result.exceptionDetails) {
-      throw new Error(
-        result.exceptionDetails.exception?.description || "客户端页面执行失败"
-      );
-    }
-    return result.result.value;
-  }
-
-  await send("Runtime.enable");
+  let rendererReady = false;
   for (let attempt = 0; attempt < 80; attempt += 1) {
     if (await evaluate("Boolean(window.aihubPC && document.body.innerText)")) {
+      rendererReady = true;
       break;
     }
     await new Promise((resolve) => setTimeout(resolve, 250));
+  }
+  if (!rendererReady) throw new Error("本地发布客户端主界面没有就绪");
+
+  const settings = await evaluate("window.aihubPC.getSettings()");
+  if (settings?.downloadDirectory !== profile.downloadDirectory) {
+    throw new Error(
+      `Portable acceptance escaped its isolated Windows profile: ${JSON.stringify(settings)}`
+    );
   }
 
   const catalog = await evaluate("window.aihubPC.getCatalog()");
@@ -188,13 +91,22 @@ try {
   }
 
   const update = await evaluate("window.aihubPC.checkForUpdate()");
-  if (
-    update?.status !== "available" ||
-    update.version !== manifest.update.version ||
-    update.fileSize !== manifest.update.fileSize ||
-    update.sha256 !== manifest.update.sha256
+  const testsUpgradeFixture = baseVersion !== manifest.update.version;
+  if (testsUpgradeFixture) {
+    if (
+      update?.status !== "available" ||
+      update.version !== manifest.update.version ||
+      update.fileSize !== manifest.update.fileSize ||
+      update.sha256 !== manifest.update.sha256
+    ) {
+      throw new Error(`客户端没有接受签名更新：${JSON.stringify(update)}`);
+    }
+  } else if (
+    update?.status !== "current" ||
+    update.currentVersion !== manifest.update.version ||
+    update.version !== manifest.update.version
   ) {
-    throw new Error(`客户端没有接受签名更新：${JSON.stringify(update)}`);
+    throw new Error(`客户端版本与签名更新不一致：${JSON.stringify(update)}`);
   }
 
   const bodyText = await evaluate("document.body.innerText");
@@ -202,25 +114,72 @@ try {
     throw new Error("客户端主界面没有完成渲染");
   }
 
+  const extensionProfileId = "skill.codex.chatgpt-apps";
+  const extensionBefore = await evaluate(
+    `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
+  );
+  if (extensionBefore?.state !== "not-installed") {
+    throw new Error(
+      `Packaged extension did not start cleanly: ${JSON.stringify(extensionBefore)}`
+    );
+  }
+  const extensionInstalled = await evaluate(
+    `window.aihubPC.installExtension(${JSON.stringify(extensionProfileId)})`
+  );
+  const installedSkill = path.join(
+    profile.codexHome,
+    "skills",
+    "chatgpt-apps",
+    "SKILL.md"
+  );
+  if (extensionInstalled?.state !== "installed" || !fs.existsSync(installedSkill)) {
+    throw new Error(
+      `Packaged extension installation failed: ${JSON.stringify(extensionInstalled)}`
+    );
+  }
+  const extensionRemoved = await evaluate(
+    `window.aihubPC.uninstallExtension(${JSON.stringify(extensionProfileId)})`
+  );
+  if (
+    extensionRemoved?.state !== "not-installed" ||
+    fs.existsSync(path.dirname(installedSkill))
+  ) {
+    throw new Error(
+      `Packaged extension uninstall failed: ${JSON.stringify(extensionRemoved)}`
+    );
+  }
+
+  const managedDownload = await verifyManagedDownloadPause({
+    evaluate,
+    productId: downloadProductId,
+    minimumBytes: 1024 * 1024,
+    timeoutMs: 120_000
+  });
+
   process.stdout.write(
     `${JSON.stringify(
       {
         ok: true,
         clientVersion: baseVersion,
         page: target.url,
+        isolatedProfile: true,
+        source: manifest.build.source,
         catalog: {
           source: catalog.source,
           catalogVersion: catalog.catalogVersion,
           vendors: catalog.catalog.vendors.length
         },
-        update
+        update,
+        managedDownload
       },
       null,
       2
     )}\n`
   );
 } finally {
-  socket?.close();
-  stopAcceptanceProcesses(userData);
-  await removeAcceptanceDirectory(userData);
+  try {
+    await client?.close();
+  } finally {
+    await removeIsolatedAcceptanceProfile(profile);
+  }
 }

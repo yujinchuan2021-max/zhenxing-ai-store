@@ -2,8 +2,15 @@ const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("aihubPC", {
   getCatalog: () => ipcRenderer.invoke("catalog:get"),
+  scanManagedInventory: () => ipcRenderer.invoke("inventory:scan"),
   checkForUpdate: () => ipcRenderer.invoke("update:check"),
   openUpdateDownload: () => ipcRenderer.invoke("update:open-download"),
+  getExtensionStatus: (profileId) =>
+    ipcRenderer.invoke("extension:status", profileId),
+  installExtension: (profileId) =>
+    ipcRenderer.invoke("extension:install", profileId),
+  uninstallExtension: (profileId) =>
+    ipcRenderer.invoke("extension:uninstall", profileId),
   getIdentity: () => ipcRenderer.invoke("identity:current"),
   requestRegistrationCode: (email) =>
     ipcRenderer.invoke("identity:request-code", email),

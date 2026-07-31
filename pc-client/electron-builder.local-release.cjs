@@ -8,14 +8,27 @@ const root = __dirname;
 module.exports = {
   ...packageJson.build,
   extraMetadata: {
-    version: process.env.AIHUB_LOCAL_RELEASE_BASE_VERSION || "0.1.5",
+    version:
+      process.env.AIHUB_LOCAL_RELEASE_BASE_VERSION || packageJson.version,
     localReleaseAcceptance: true
   },
   directories: {
     ...packageJson.build.directories,
     output: "release-local-server-client"
   },
+  portable: {
+    ...packageJson.build.portable,
+    artifactName: "AI-Hub-Local-${version}-Windows-${arch}-Portable.${ext}"
+  },
+  nsis: {
+    ...packageJson.build.nsis,
+    artifactName: "AI-Hub-Local-${version}-Windows-${arch}-Setup.${ext}"
+  },
   extraResources: [
+    {
+      from: path.join(root, "extension-resources"),
+      to: "extensions"
+    },
     {
       from: path.join(
         root,

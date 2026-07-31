@@ -3,6 +3,7 @@ const {
 } = require("./managed-downloads.cjs");
 const {
   INSTALL_MODES,
+  getProductIntakeDossier,
   INSTALL_REGISTRY,
   getInstallRegistration
 } = require("./install-registry.cjs");
@@ -15,6 +16,7 @@ const PRODUCT_TYPES = new Set([
   "web",
   "desktop-official",
   "desktop-reviewed",
+  "cli-official",
   "cli",
   "local-model",
   "tutorial"
@@ -22,6 +24,7 @@ const PRODUCT_TYPES = new Set([
 const INSTALL_POLICIES = new Set([
   "open-product-website",
   "open-official-download",
+  "open-official-install",
   "client-managed-installer",
   "client-managed-cli",
   "open-tutorial"
@@ -84,7 +87,9 @@ const ALLOWED_PRODUCT_FIELDS = new Set([
   "signaturePolicy",
   "uninstallPolicy",
   "capabilities",
-  "download"
+  "download",
+  "componentProductIds",
+  "extensions"
 ]);
 const ALLOWED_DOWNLOAD_FIELDS = new Set(["url", "fileName"]);
 
@@ -134,6 +139,20 @@ function resolvedProductCapabilities(product) {
 function validateProductPolicy(product, vendorId) {
   if (!hasOnlyAllowedFields(product, ALLOWED_PRODUCT_FIELDS)) {
     return "产品包含客户端不支持的策略字段";
+  }
+  if (
+    product.componentProductIds !== undefined &&
+    (!Array.isArray(product.componentProductIds) ||
+      product.componentProductIds.length > 20 ||
+      new Set(product.componentProductIds).size !==
+        product.componentProductIds.length ||
+      product.componentProductIds.some(
+        (productId) =>
+          typeof productId !== "string" ||
+          !/^[a-z0-9][a-z0-9-]{0,99}$/.test(productId)
+      ))
+  ) {
+    return "产品组件目录无效";
   }
   if (
     !PRODUCT_TYPES.has(product.productType) ||
@@ -188,6 +207,7 @@ function validateProductPolicy(product, vendorId) {
     const identity = getInstallRegistration(product.id);
     if (
       !identity ||
+      !getProductIntakeDossier(product.id) ||
       identity.mode !== INSTALL_MODES.MANAGED_INSTALLER ||
       identity.vendorId !== vendorId ||
       identity.productType !== product.productType ||
@@ -217,6 +237,7 @@ function validateProductPolicy(product, vendorId) {
     const identity = getInstallRegistration(product.id);
     if (
       !identity ||
+      !getProductIntakeDossier(product.id) ||
       identity.mode !== INSTALL_MODES.MANAGED_CLI ||
       identity.vendorId !== vendorId ||
       (product.installProfileId !== undefined &&
@@ -250,6 +271,7 @@ function resolveProductBehavior(product) {
     opensDirectly: [
       "web",
       "desktop-official",
+      "cli-official",
       "tutorial"
     ].includes(product.productType),
     capabilities,
@@ -271,12 +293,16 @@ function resolveProductBehavior(product) {
       registration?.mode ||
       (product.productType === "desktop-official"
         ? "official-installer-page"
+        : product.productType === "cli-official"
+          ? "official-cli-install-page"
         : "direct-open"),
     primaryLabel:
       managedCli || managedDesktop
         ? "一键安装"
         : product.productType === "desktop-official"
           ? "获取官方安装包"
+          : product.productType === "cli-official"
+            ? "查看官方安装说明"
           : product.productType === "tutorial"
             ? "打开教程"
             : "打开产品"

@@ -1,5 +1,9 @@
 "use strict";
 
+const {
+  WINDOWS_DESKTOP_PRODUCTS
+} = require("./windows-desktop-catalog.cjs");
+
 const DESKTOP_ADAPTERS = Object.freeze({
   "appx.openai-codex": Object.freeze({
     names: Object.freeze(["ChatGPT", "OpenAI ChatGPT", "OpenAI.Codex"]),
@@ -84,16 +88,15 @@ const DESKTOP_ADAPTERS = Object.freeze({
       allowMsi: false
     })
   }),
-  "registry.jianying": Object.freeze({
-    names: Object.freeze(["剪映专业版", "CapCut"]),
-    presenceEvidence: "discovery",
-    uninstallMode: "interactive"
-  })
+  ...Object.fromEntries(
+    Object.values(WINDOWS_DESKTOP_PRODUCTS).map((product) => [
+      product.adapterId,
+      product.adapter
+    ])
+  )
 });
 
-const OFFICIAL_DESKTOP_ADAPTERS = Object.freeze({
-  jianying: "registry.jianying"
-});
+const OFFICIAL_DESKTOP_ADAPTERS = Object.freeze({});
 
 function productDesktopAdapters() {
   const { INSTALL_REGISTRY } = require("./install-registry.cjs");

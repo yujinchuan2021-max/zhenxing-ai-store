@@ -67,7 +67,7 @@ async function waitFor(expression, message, timeoutMs = 20_000) {
 await command("Runtime.enable");
 
 const catalog = await evaluate("window.aihubPC.getCatalog()");
-assert.equal(catalog.catalog.vendors.length, 22);
+assert.equal(catalog.catalog.vendors.length, 49);
 
 let identity = await evaluate("window.aihubPC.getIdentity()");
 if (identity.status !== "authenticated") {

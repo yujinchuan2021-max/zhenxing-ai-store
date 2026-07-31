@@ -384,4 +384,9 @@ export const generatedEnglishMessages = {
   "auto.fe31585819ad": "Download and install updates",
   "auto.fe828ca72bd3": "Command window is open",
   "auto.ffce5549645d": "Safely uninstalling...",
+  "auto.5d99c0cf7688": "{value1} download failed",
+  "auto.68d6219c04fb": "{value1} installer could not be started",
+  "auto.a13ad2d64b34": "{value1} installation did not finish. Please try again.",
+  "auto.f48a5c1296de": "Installing {value1}",
+  "auto.ffa5be06b050": "Automatic environment installation failed",
 } as const;

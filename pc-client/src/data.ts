@@ -3,12 +3,14 @@ export type ProductType =
   | "web"
   | "desktop-official"
   | "desktop-reviewed"
+  | "cli-official"
   | "cli"
   | "local-model"
   | "tutorial";
 export type InstallPolicy =
   | "open-product-website"
   | "open-official-download"
+  | "open-official-install"
   | "client-managed-installer"
   | "client-managed-cli"
   | "open-tutorial";
@@ -21,20 +23,36 @@ export type UninstallPolicy =
   | "not-managed"
   | "vendor-managed"
   | "client-managed";
-export type ProductCategory =
-  | "AI 对话"
-  | "编程开发"
-  | "图像创作"
-  | "视频创作"
-  | "音频创作"
-  | "智能体"
-  | "本地模型";
+export type ProductCategory = string;
 export type ProductCapability =
   | "website"
   | "tutorial"
   | "install"
   | "open"
   | "uninstall";
+
+export type ProductExtension = {
+  id: string;
+  enabled?: boolean;
+  order?: number;
+  name: string;
+  extensionType: "skill" | "mcp";
+  description: string;
+  website: string;
+  tutorial: string;
+  moduleId: "skill-link" | "mcp-link" | "skill-managed" | "mcp-managed";
+  installProfileId: string;
+  capabilities: Array<"website" | "install" | "uninstall">;
+  publisher?: string;
+  sourceKind?: "official" | "reviewed-community" | "community";
+  versionRef?: string;
+  requestedPermissions?: string[];
+  credentialRequirements?: string[];
+  installScope?: string;
+  uninstallPlan?: string;
+  provenanceEvidence?: string[];
+  lastVerifiedAt?: string;
+};
 
 export type Product = {
   id: string;
@@ -55,6 +73,8 @@ export type Product = {
   signaturePolicy: SignaturePolicy;
   uninstallPolicy: UninstallPolicy;
   capabilities?: ProductCapability[];
+  componentProductIds?: string[];
+  extensions?: ProductExtension[];
   download?: {
     url: string;
     fileName: string;
@@ -75,17 +95,6 @@ export type Vendor = {
   tutorial: string;
   products: Product[];
 };
-
-export const categories: Array<"全部" | ProductCategory> = [
-  "全部",
-  "AI 对话",
-  "编程开发",
-  "图像创作",
-  "视频创作",
-  "音频创作",
-  "智能体",
-  "本地模型"
-];
 
 export const vendors: Vendor[] = [
   {

@@ -3,6 +3,7 @@
 const path = require("node:path");
 
 const COMMAND_NAME = /^[a-z0-9][a-z0-9-]{0,31}$/i;
+const COMMAND_ARGUMENT = /^(?:--?[a-z0-9][a-z0-9-]{0,63}|[a-z0-9][a-z0-9._:-]{0,63})$/i;
 
 function canonicalLocalPath(value, exists, realpath) {
   if (
@@ -45,6 +46,13 @@ function createManagedCliTerminalAction({
     !productId ||
     !plan ||
     !COMMAND_NAME.test(String(plan.commandName || "")) ||
+    (plan.launchArgs !== undefined &&
+      (!Array.isArray(plan.launchArgs) ||
+        plan.launchArgs.length > 8 ||
+        plan.launchArgs.some(
+          (argument) =>
+            typeof argument !== "string" || !COMMAND_ARGUMENT.test(argument)
+        ))) ||
     !status?.installed ||
     !status?.managed
   ) {
@@ -69,7 +77,7 @@ function createManagedCliTerminalAction({
   }
   return {
     executable: command,
-    args: ["/d", "/k", "call", launcher],
+    args: ["/d", "/k", "call", launcher, ...(plan.launchArgs || [])],
     options: {
       cwd: prefix,
       detached: true,

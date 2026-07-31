@@ -1,6 +1,15 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-30T17:08:03.225Z",
+  "updatedAt": "2026-07-31T20:54:33.441Z",
+  "categories": [
+    "AI 对话",
+    "编程开发",
+    "图像创作",
+    "视频创作",
+    "音频创作",
+    "智能体",
+    "本地模型"
+  ],
   "brand": {
     "name": "AI 商店",
     "mark": "AI",
@@ -33,7 +42,10 @@
       "openai",
       "anthropic",
       "bytedance",
-      "comfy"
+      "comfy",
+      "deepseek",
+      "google",
+      "moonshot"
     ]
   },
   "vendors": [
@@ -75,7 +87,8 @@
             "install",
             "open",
             "uninstall"
-          ]
+          ],
+          "extensions": []
         },
         {
           "id": "codex-cli",
@@ -103,6 +116,92 @@
             "install",
             "open",
             "uninstall"
+          ],
+          "extensions": [
+            {
+              "id": "openai-codex-skills-catalog",
+              "name": "OpenAI Codex Skills",
+              "extensionType": "skill",
+              "description": "官方仓库明确区分 system、curated、experimental；AI Hub 默认只允许 system/curated，实验项需额外确认。",
+              "website": "https://github.com/openai/skills",
+              "tutorial": "https://github.com/openai/skills",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://github.com/openai/skills"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "OpenAI"
+            },
+            {
+              "id": "openai-codex-mcp-config",
+              "name": "Codex MCP 配置",
+              "extensionType": "mcp",
+              "description": "这是宿主适配器，不是一个通用 MCP 包；逐 server 审核。",
+              "website": "https://developers.openai.com/codex/mcp/",
+              "tutorial": "https://developers.openai.com/codex/mcp/",
+              "moduleId": "mcp-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 1,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://developers.openai.com/codex/mcp/"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "OpenAI"
+            },
+            {
+              "id": "openai-chatgpt-apps-skill",
+              "name": "ChatGPT Apps Skill",
+              "extensionType": "skill",
+              "description": "OpenAI 官方 curated Skill，用于设计、搭建和检查基于 Apps SDK 的 ChatGPT 应用。AI Hub 固定安装经过审核的目录快照。",
+              "website": "https://github.com/openai/skills/tree/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/chatgpt-apps",
+              "tutorial": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/chatgpt-apps/SKILL.md",
+              "moduleId": "skill-managed",
+              "installProfileId": "skill.codex.chatgpt-apps",
+              "capabilities": [
+                "website",
+                "install",
+                "uninstall"
+              ],
+              "enabled": true,
+              "order": 2,
+              "sourceKind": "official",
+              "versionRef": "49f948faa9258a0c61caceaf225e179651397431",
+              "requestedPermissions": [
+                "写入 Codex 用户级 skills 目录"
+              ],
+              "credentialRequirements": [],
+              "installScope": "Codex 用户级 skills/chatgpt-apps 目录",
+              "uninstallPlan": "仅删除 AI Hub 回执记录的 chatgpt-apps 目录；保留 Codex skills 根目录和其他 Skill。",
+              "provenanceEvidence": [
+                "https://github.com/openai/skills",
+                "https://github.com/openai/skills/commit/49f948faa9258a0c61caceaf225e179651397431",
+                "https://github.com/openai/skills/tree/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/chatgpt-apps"
+              ],
+              "lastVerifiedAt": "2026-07-31T11:23:00.000Z",
+              "publisher": "OpenAI"
+            }
           ]
         },
         {
@@ -126,7 +225,56 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
+        },
+        {
+          "id": "openai-codex",
+          "name": "Codex",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "OpenAI 说明 Codex 可跨 app、CLI、IDE 和 Web 使用；Windows 独立 Codex 已迁移进统一 ChatGPT 应用。迁移证据",
+          "website": "https://openai.com/codex/",
+          "tutorial": "https://developers.openai.com/codex/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 3,
+          "extensions": []
+        },
+        {
+          "id": "chatgpt-work",
+          "name": "ChatGPT Work",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "OpenAI 面向工作场景的智能体，可在 ChatGPT 网页端和桌面端处理文档、表格、演示文稿及跨工具任务。",
+          "website": "https://openai.com/chatgpt-work/",
+          "tutorial": "https://openai.com/academy/how-to-use-chatgpt-work-for-everyday-tasks/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 4,
+          "extensions": []
         }
       ],
       "enabled": true,
@@ -171,14 +319,15 @@
             "install",
             "open",
             "uninstall"
-          ]
+          ],
+          "extensions": []
         },
         {
           "id": "claude-code",
           "name": "Claude Code",
           "kind": "CLI",
           "category": "编程开发",
-          "description": "在终端中协助理解、修改和运行代码。",
+          "description": "Anthropic 官方 Claude Code。AI Hub 使用固定版本 npm 专用模块安装，并关闭未经审核的依赖脚本。",
           "website": "https://docs.anthropic.com/en/docs/claude-code/getting-started",
           "requirements": [
             "node",
@@ -200,6 +349,60 @@
             "install",
             "open",
             "uninstall"
+          ],
+          "extensions": [
+            {
+              "id": "anthropic-official-plugin-marketplace",
+              "name": "Claude Code 官方插件市场",
+              "extensionType": "skill",
+              "description": "官方 marketplace 自动可用；文档也明确提醒 Anthropic 不控制所有插件包含的第三方代码，仍需逐项审核。 原始形态为 skill/mcp/plugin，当前按最接近的 skill 子目录展示。",
+              "website": "https://code.claude.com/docs/en/discover-plugins",
+              "tutorial": "https://code.claude.com/docs/en/discover-plugins",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://code.claude.com/docs/en/discover-plugins"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Anthropic"
+            },
+            {
+              "id": "anthropic-claude-code-mcp",
+              "name": "Claude Code MCP",
+              "extensionType": "mcp",
+              "description": "远程 OAuth 与本地 stdio 分开；不要把 Claude Desktop Chat 的配置误认为 Code tab 配置。",
+              "website": "https://code.claude.com/docs/en/mcp",
+              "tutorial": "https://code.claude.com/docs/en/mcp",
+              "moduleId": "mcp-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 1,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://code.claude.com/docs/en/mcp"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Anthropic"
+            }
           ]
         },
         {
@@ -223,7 +426,79 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
+        },
+        {
+          "id": "anthropic-agent-sdk",
+          "name": "Claude Agent SDK",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "开发库，不作为普通终端应用。",
+          "website": "https://platform.claude.com/docs/en/agent-sdk/overview",
+          "tutorial": "https://platform.claude.com/docs/en/agent-sdk/overview",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 3,
+          "extensions": []
+        },
+        {
+          "id": "claude-cowork",
+          "name": "Claude Cowork",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "Claude Desktop 内的协作工作空间，用于跨文件、工具和长流程任务开展本地工作。",
+          "website": "https://claude.com/product/cowork",
+          "tutorial": "https://www.anthropic.com/product/claude-cowork",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 4,
+          "extensions": []
+        },
+        {
+          "id": "claude-tag",
+          "name": "Claude Tag",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "在 Slack 频道和讨论串中通过 @Claude 持续处理、分流并推进团队任务的协作智能体。",
+          "website": "https://claude.com/product/tag",
+          "tutorial": "https://www.anthropic.com/news/introducing-claude-tag",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 5,
+          "extensions": []
         }
       ],
       "enabled": true,
@@ -249,23 +524,31 @@
           "website": "https://www.capcut.cn",
           "requirements": [],
           "tutorial": "https://www.capcut.cn/learning",
-          "productType": "desktop-official",
-          "installPolicy": "open-official-download",
-          "downloadPolicy": "official-page",
-          "signaturePolicy": "vendor-controlled",
-          "uninstallPolicy": "vendor-managed",
+          "productType": "desktop-reviewed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
           "enabled": true,
           "order": 0,
-          "moduleId": "desktop-official",
-          "installProfileId": "",
+          "moduleId": "desktop-managed",
+          "installProfileId": "desktop.jianying.windows",
           "capabilities": [
             "website",
-            "tutorial"
-          ]
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "extensions": [],
+          "download": {
+            "url": "https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_11_1_0_14287_jianyingpro_0_creatortool.exe",
+            "fileName": "Jianying-11.1.0.14287-Windows-x64.exe"
+          }
         },
         {
           "id": "doubao",
-          "name": "豆包",
+          "name": "豆包网页版",
           "kind": "其他产品",
           "category": "AI 对话",
           "description": "面向日常使用的 AI 助手。",
@@ -284,30 +567,39 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
         },
         {
           "id": "trae-desktop",
           "name": "TRAE",
           "category": "编程开发",
-          "productType": "desktop-official",
+          "productType": "desktop-reviewed",
           "description": "字节跳动旗下的 AI 原生代码编辑器。",
           "website": "https://www.trae.ai/download",
           "tutorial": "https://www.trae.ai/",
           "kind": "桌面端",
-          "installPolicy": "open-official-download",
-          "downloadPolicy": "official-page",
-          "signaturePolicy": "vendor-controlled",
-          "uninstallPolicy": "vendor-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
           "requirements": [],
           "enabled": true,
           "order": 2,
-          "moduleId": "desktop-official",
-          "installProfileId": "",
+          "moduleId": "desktop-managed",
+          "installProfileId": "desktop.trae-cn.windows",
           "capabilities": [
             "website",
-            "tutorial"
-          ]
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "extensions": [],
+          "download": {
+            "url": "https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.62837/win32/Trae_CN-Setup-x64.exe",
+            "fileName": "TRAE-CN-3.3.83-Windows-x64.exe"
+          }
         },
         {
           "id": "jimeng-web",
@@ -330,7 +622,8 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
         },
         {
           "id": "coze-web",
@@ -353,7 +646,69 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
+        },
+        {
+          "id": "bytedance-doubao",
+          "name": "豆包桌面版",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "AI 对话",
+          "description": "桌面版只打开官方入口。",
+          "website": "https://www.doubao.com/",
+          "tutorial": "https://www.doubao.com/download/desktop",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.doubao.windows",
+          "enabled": true,
+          "order": 5,
+          "extensions": [],
+          "download": {
+            "url": "https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao_pc/2.20.9/Doubao_installer_2.20.9.exe",
+            "fileName": "Doubao-2.20.9-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "trae-solo-cn",
+          "name": "TRAE SOLO CN",
+          "category": "编程开发",
+          "description": "TRAE 官方 Windows 智能开发客户端，提供独立的 SOLO 工作模式。",
+          "website": "https://www.trae.cn/solo",
+          "tutorial": "https://docs.trae.cn/solo",
+          "enabled": true,
+          "order": 6,
+          "requirements": [],
+          "kind": "桌面端",
+          "productType": "desktop-reviewed",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "installProfileId": "desktop.trae-solo-cn.windows",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "download": {
+            "url": "https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.62834/win32/TRAE_Work_CN-Setup-x64.exe",
+            "fileName": "TRAE-SOLO-CN-0.1.43-Windows-x64.exe"
+          }
         }
       ],
       "enabled": true,
@@ -400,7 +755,87 @@
             "install",
             "open",
             "uninstall"
+          ],
+          "extensions": [
+            {
+              "id": "comfy-custom-nodes",
+              "name": "Comfy Custom Nodes",
+              "extensionType": "skill",
+              "description": "安装命令清楚，但 Custom Node 是可执行 Python；需依赖冲突、供应链、许可证、快照与回滚审核。 原始形态为 plugin，当前按最接近的 skill 子目录展示。",
+              "website": "https://registry.comfy.org/",
+              "tutorial": "https://github.com/Comfy-Org/comfy-cli",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://registry.comfy.org/"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Comfy Org"
+            }
           ]
+        },
+        {
+          "id": "comfy-cli",
+          "name": "comfy-cli",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "编程开发",
+          "description": "Comfy 官方命令行管理工具。AI Hub 会自动检测 Python，并安装到独立虚拟环境。",
+          "website": "https://github.com/Comfy-Org/comfy-cli",
+          "tutorial": "https://github.com/Comfy-Org/comfy-cli",
+          "productType": "cli",
+          "requirements": [
+            "python"
+          ],
+          "installProfileId": "cli.comfy",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "comfy-registry",
+          "name": "Comfy Registry / Custom Nodes",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "是 Comfy 子目录，不进入主页；只有经来源、版本、依赖和恶意代码审核的节点可一键安装。",
+          "website": "https://registry.comfy.org/",
+          "tutorial": "https://docs.comfy.org/registry/overview",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
         }
       ],
       "enabled": true,
@@ -438,7 +873,54 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
+        },
+        {
+          "id": "deepseek-api",
+          "name": "DeepSeek API",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "密钥与计费由用户完成。",
+          "website": "https://platform.deepseek.com/",
+          "tutorial": "https://api-docs.deepseek.com/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "deepseek-open-models",
+          "name": "DeepSeek Open Models",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "本地模型",
+          "description": "通过 Ollama、Comfy、本地推理框架等宿主安装时要记录真实分发者，不能声称第三方量化包是 DeepSeek 官方包。",
+          "website": "https://github.com/deepseek-ai",
+          "tutorial": "https://github.com/deepseek-ai",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
         }
       ],
       "enabled": true,
@@ -476,7 +958,8 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
         },
         {
           "id": "gemini-cli",
@@ -504,7 +987,332 @@
             "install",
             "open",
             "uninstall"
+          ],
+          "extensions": [
+            {
+              "id": "google-gemini-cli-extensions",
+              "name": "Gemini CLI Extensions",
+              "extensionType": "skill",
+              "description": "每个 extension 的来源、版本、MCP 和 hook 权限需单独展示。 原始形态为 skill/mcp，当前按最接近的 skill 子目录展示。",
+              "website": "https://geminicli.com/docs/extensions/",
+              "tutorial": "https://github.com/google-gemini/gemini-cli",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://geminicli.com/docs/extensions/"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Google"
+            }
           ]
+        },
+        {
+          "id": "google-jules",
+          "name": "Jules",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "云端编码 Agent，不下载到本机。",
+          "website": "https://jules.google/",
+          "tutorial": "https://jules.google/docs/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        },
+        {
+          "id": "google-notebooklm",
+          "name": "Gemini Notebook",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "原 NotebookLM，Google 独立的资料研究与学习产品，可基于来源生成分析和多种内容。",
+          "website": "https://notebooklm.google.com/",
+          "tutorial": "https://blog.google/innovation-and-ai/products/gemini-notebook/notebooklm-gemini-notebook/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 3,
+          "extensions": []
+        },
+        {
+          "id": "google-ai-studio",
+          "name": "Google AI Studio",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "开发者控制台；API Key 由用户管理。",
+          "website": "https://aistudio.google.com/",
+          "tutorial": "https://ai.google.dev/gemini-api/docs",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 4,
+          "extensions": []
+        },
+        {
+          "id": "google-antigravity-desktop",
+          "name": "Google Antigravity 2.0",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "Google 的独立桌面智能体平台，用于并行编排多个智能体并管理其任务与产物。",
+          "website": "https://antigravity.google/",
+          "tutorial": "https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.google-antigravity.windows",
+          "enabled": true,
+          "order": 5,
+          "extensions": [],
+          "download": {
+            "url": "https://storage.googleapis.com/antigravity-public/antigravity-hub/2.4.3-4510119262814208/windows-x64/Antigravity-x64.exe",
+            "fileName": "Google-Antigravity-2.4.3-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "google-antigravity-cli",
+          "name": "Antigravity CLI",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "编程开发",
+          "description": "Google Antigravity 的终端产品形态，用于快速创建和运行智能体。",
+          "website": "https://antigravity.google/",
+          "tutorial": "https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/",
+          "productType": "cli",
+          "requirements": [],
+          "installProfileId": "cli.antigravity",
+          "enabled": true,
+          "order": 6,
+          "extensions": []
+        },
+        {
+          "id": "google-antigravity-sdk",
+          "name": "Antigravity SDK",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "用于定制 Antigravity 智能体行为并部署到自有基础设施的官方 SDK。",
+          "website": "https://antigravity.google/",
+          "tutorial": "https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 7,
+          "extensions": []
+        },
+        {
+          "id": "google-gemini-spark",
+          "name": "Gemini Spark",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "Gemini 应用内可在云端持续运行的个人智能体，用于在用户授权下执行长流程任务。",
+          "website": "https://gemini.google.com/",
+          "tutorial": "https://blog.google/innovation-and-ai/sundar-pichai-io-2026/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 8,
+          "extensions": []
+        },
+        {
+          "id": "google-flow",
+          "name": "Google Flow",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "视频创作",
+          "description": "Google Labs 面向视频和图像生成、编辑及创作流程的 AI 创意工作室。",
+          "website": "https://flow.google/",
+          "tutorial": "https://blog.google/innovation-and-ai/models-and-research/google-labs/flow-updates/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 9,
+          "extensions": []
+        },
+        {
+          "id": "google-flow-music",
+          "name": "Google Flow Music",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "音频创作",
+          "description": "Google Labs 面向音乐人、制作人和词曲作者的 AI 音乐创作与编辑产品。",
+          "website": "https://labs.google/fx/",
+          "tutorial": "https://blog.google/innovation-and-ai/models-and-research/google-labs/flow-updates/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 10,
+          "extensions": []
+        },
+        {
+          "id": "google-stitch",
+          "name": "Google Stitch",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "图像创作",
+          "description": "Google Labs 的实时协作式 AI 设计产品，可从文字、语音、代码和设计文件生成并迭代界面。",
+          "website": "https://stitch.withgoogle.com/",
+          "tutorial": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 11,
+          "extensions": []
+        },
+        {
+          "id": "google-project-genie",
+          "name": "Project Genie",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "视频创作",
+          "description": "Google Labs 用于创建和探索可交互生成世界的实验性 AI 产品。",
+          "website": "https://labs.google/fx/",
+          "tutorial": "https://labs.google/fx/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 12,
+          "extensions": []
+        },
+        {
+          "id": "google-musicfx",
+          "name": "MusicFX",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "音频创作",
+          "description": "Google Labs 用于探索和生成音乐创意的在线 AI 工具。",
+          "website": "https://labs.google/fx/",
+          "tutorial": "https://labs.google/fx/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 13,
+          "extensions": []
         }
       ],
       "enabled": true,
@@ -542,7 +1350,8 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
         }
       ],
       "enabled": true,
@@ -587,7 +1396,31 @@
             "install",
             "open",
             "uninstall"
-          ]
+          ],
+          "extensions": []
+        },
+        {
+          "id": "ollama-model-library",
+          "name": "Ollama Model Library",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "本地模型",
+          "description": "可做宿主内“一键拉取模型”，但每个模型需记录上游来源、大小、许可、量化和磁盘预算；不是厂商桌面软件安装。",
+          "website": "https://ollama.com/search",
+          "tutorial": "https://docs.ollama.com/cli",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
         }
       ],
       "enabled": true,
@@ -625,11 +1458,12 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
         },
         {
           "id": "microsoft-copilot-desktop",
-          "name": "Microsoft Copilot for Windows",
+          "name": "Microsoft Copilot Windows 客户端",
           "category": "AI 对话",
           "productType": "desktop-official",
           "description": "通过 Microsoft 官方入口获取的 Windows AI 助手。",
@@ -648,7 +1482,157 @@
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "extensions": []
+        },
+        {
+          "id": "microsoft-copilot-studio",
+          "name": "Copilot Studio",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "低代码 Agent 构建平台。",
+          "website": "https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio",
+          "tutorial": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        },
+        {
+          "id": "microsoft-foundry",
+          "name": "Microsoft Foundry",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "需要 Azure 账户、订阅与资源权限。",
+          "website": "https://azure.microsoft.com/en-us/products/ai-foundry/",
+          "tutorial": "https://learn.microsoft.com/en-us/azure/ai-foundry/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 3,
+          "extensions": [
+            {
+              "id": "microsoft-azure-mcp",
+              "name": "Microsoft Azure MCP",
+              "extensionType": "mcp",
+              "description": "需要 Azure 登录与资源权限；默认不得自动批准写操作。",
+              "website": "https://github.com/microsoft/mcp",
+              "tutorial": "https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/",
+              "moduleId": "mcp-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://github.com/microsoft/mcp"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Microsoft"
+            }
           ]
+        },
+        {
+          "id": "microsoft-agent-framework",
+          "name": "Microsoft Agent Framework",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "2026 年的一方继任框架；AutoGen 已进入维护模式、Semantic Kernel 正迁移，不能把三者并列成同等新装推荐。",
+          "website": "https://learn.microsoft.com/en-us/agent-framework/overview/",
+          "tutorial": "https://github.com/microsoft/agent-framework",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 4,
+          "extensions": [
+            {
+              "id": "microsoft-playwright-mcp",
+              "name": "Microsoft Playwright MCP",
+              "extensionType": "mcp",
+              "description": "一方仓库；浏览器控制权限高，必须显示访问页面与本地浏览器权限。",
+              "website": "https://github.com/microsoft/playwright-mcp",
+              "tutorial": "https://github.com/microsoft/playwright-mcp",
+              "moduleId": "mcp-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://github.com/microsoft/playwright-mcp"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Microsoft"
+            }
+          ]
+        },
+        {
+          "id": "microsoft-agent-365",
+          "name": "Microsoft Agent 365",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "Microsoft 面向组织的智能体控制平面，用于统一观察、治理和保护企业智能体。",
+          "website": "https://www.microsoft.com/microsoft-agent-365",
+          "tutorial": "https://learn.microsoft.com/en-us/microsoft-agent-365/overview",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 5,
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -685,7 +1669,64 @@
           "installProfileId": "",
           "capabilities": [
             "tutorial"
+          ],
+          "extensions": [
+            {
+              "id": "github-copilot-mcp",
+              "name": "GitHub Copilot MCP",
+              "extensionType": "mcp",
+              "description": "GitHub 官方 server 可标“官方发布者”；其他 Marketplace 项仍是第三方。",
+              "website": "https://docs.github.com/en/copilot/customizing-copilot/extending-copilot-chat-with-mcp",
+              "tutorial": "https://github.com/github/github-mcp-server",
+              "moduleId": "mcp-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://docs.github.com/en/copilot/customizing-copilot/extending-copilot-chat-with-mcp"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "GitHub"
+            }
           ]
+        },
+        {
+          "id": "github-copilot-cli",
+          "name": "GitHub Copilot CLI",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "GitHub 官方 Copilot 终端智能体。AI Hub 使用固定版本官方 npm 包部署，首次打开后由用户登录 GitHub。",
+          "website": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-in-the-cli",
+          "tutorial": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-in-the-cli",
+          "productType": "cli",
+          "requirements": [
+            "node"
+          ],
+          "installProfileId": "cli.github-copilot",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -706,24 +1747,56 @@
           "id": "cursor-desktop",
           "name": "Cursor",
           "category": "编程开发",
-          "productType": "desktop-official",
+          "productType": "desktop-reviewed",
           "description": "以 AI 协作为核心的跨平台代码编辑器。",
           "website": "https://cursor.com/download",
           "tutorial": "https://docs.cursor.com/get-started/installation",
           "kind": "桌面端",
-          "installPolicy": "open-official-download",
-          "downloadPolicy": "official-page",
-          "signaturePolicy": "vendor-controlled",
-          "uninstallPolicy": "vendor-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
           "requirements": [],
           "enabled": true,
           "order": 0,
-          "moduleId": "desktop-official",
-          "installProfileId": "",
+          "moduleId": "desktop-managed",
+          "installProfileId": "desktop.cursor.windows",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "extensions": [],
+          "download": {
+            "url": "https://downloads.cursor.com/production/31e8d61c448c7472e371505838a0fe34083dad55/win32/x64/user-setup/CursorUserSetup-x64-3.13.25.exe",
+            "fileName": "Cursor-3.13.25-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "cursor-cli",
+          "name": "Cursor CLI",
+          "kind": "CLI",
+          "moduleId": "cli-official",
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "category": "编程开发",
+          "description": "Cursor 的终端智能体，可在交互式终端或自动化脚本中读取、修改和审查代码。",
+          "website": "https://cursor.com/cli",
+          "tutorial": "https://docs.cursor.com/en/cli/installation",
+          "productType": "cli-official",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -761,7 +1834,189 @@
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "extensions": []
+        },
+        {
+          "id": "moonshot-kimi-code-cli",
+          "name": "Kimi Code CLI",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "编程开发",
+          "description": "Moonshot AI 的原生终端智能体，支持 Windows x64 与 ARM64；由 AI Hub 固定版本下载、校验并管理。",
+          "website": "https://code.kimi.com/",
+          "tutorial": "https://moonshotai.github.io/kimi-code/en/guides/getting-started.html",
+          "productType": "cli",
+          "requirements": [
+            "git"
+          ],
+          "installProfileId": "cli.kimi-code",
+          "enabled": true,
+          "order": 1,
+          "extensions": [
+            {
+              "id": "moonshot-kimi-plugins",
+              "name": "Kimi Code 插件",
+              "extensionType": "skill",
+              "description": "插件可包含 Skills 与 MCP；只通过 Kimi 当前插件机制安装，不能写旧 ~/.kimi 目录。 原始形态为 skill/mcp/plugin，当前按最接近的 skill 子目录展示。",
+              "website": "https://www.kimi.com/code/docs/en/kimi-code-cli/customization/plugins.html",
+              "tutorial": "https://www.kimi.com/code/docs/en/kimi-code-cli/customization/plugins.html",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://www.kimi.com/code/docs/en/kimi-code-cli/customization/plugins.html"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "月之暗面"
+            }
           ]
+        },
+        {
+          "id": "moonshot-open-platform",
+          "name": "Kimi Open Platform",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "api.kimi.com 与 api.moonshot.cn 是独立账户/Key 体系，安装引导需避免混用。",
+          "website": "https://platform.moonshot.cn/",
+          "tutorial": "https://platform.moonshot.cn/docs/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        },
+        {
+          "id": "kimi-work-desktop",
+          "name": "Kimi Windows 客户端",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "Kimi 官方 Windows 与 macOS 桌面客户端，可在本机处理文件、操作浏览器并执行自动化任务。",
+          "website": "https://www.kimi.com/zh-cn/products/kimi-work",
+          "tutorial": "https://www.kimi.com/zh-cn/resources/kimi-work-introduction",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.kimi.windows",
+          "enabled": true,
+          "order": 3,
+          "extensions": [],
+          "download": {
+            "url": "https://kimi-img.moonshot.cn/app/upgrade/Kimi-Setup-3.1.5.exe",
+            "fileName": "Kimi-3.1.5-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "kimi-claw",
+          "name": "Kimi Claw",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "Kimi 集成的 OpenClaw 智能体，支持云端一键创建，也可通过 Kimi 桌面端部署到本机。",
+          "website": "https://www.kimi.com/zh-cn/resources/kimi-claw-introduction",
+          "tutorial": "https://www.kimi.com/help/kimi-claw",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 4,
+          "extensions": []
+        },
+        {
+          "id": "kimi-claw-desktop",
+          "name": "Kimi Claw 本地部署",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "在 Kimi Work 内点击部署到本机，由 Kimi 桌面端自动配置 OpenClaw、模型和搜索能力。",
+          "website": "https://www.kimi.com/zh-cn/products/kimi-work",
+          "tutorial": "https://www.kimi.com/help/kimi-claw/desktop-deployment-guide",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 5,
+          "extensions": []
+        },
+        {
+          "id": "kimi-webbridge",
+          "name": "Kimi WebBridge",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "连接 Kimi Work 或本地智能体与浏览器的官方扩展，让智能体在授权后操作当前浏览器。",
+          "website": "https://www.kimi.com/zh-cn/features/webbridge",
+          "tutorial": "https://www.kimi.com/zh-cn/features/webbridge",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 6,
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -780,7 +2035,7 @@
       "products": [
         {
           "id": "qianwen-web",
-          "name": "千问",
+          "name": "千问网页版",
           "category": "AI 对话",
           "productType": "web",
           "description": "阿里巴巴面向个人用户的通用在线 AI 助手。",
@@ -799,7 +2054,249 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
+        },
+        {
+          "id": "alibaba-qwen-studio",
+          "name": "千问桌面版",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "编程开发",
+          "description": "官方页面当前明确列出 Windows/macOS 下载；桌面入口仍按 B 处理。",
+          "website": "https://qwen.ai/",
+          "tutorial": "https://chat.qwen.ai/",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.qwen.windows",
+          "enabled": true,
+          "order": 1,
+          "extensions": [],
+          "download": {
+            "url": "https://qianwen-portal-cdn.tongyi.com/native/app/2.3.1/win32/x64/qwenclient_setup_2.3.1.2602272243.exe",
+            "fileName": "Qwen-2.3.1-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "alibaba-qwen-code",
+          "name": "Qwen Code",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "Qwen 官方终端编程智能体。AI Hub 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。",
+          "website": "https://github.com/QwenLM/qwen-code",
+          "tutorial": "https://qwen.ai/blog?id=qwen3-coder",
+          "productType": "cli",
+          "requirements": [
+            "node"
+          ],
+          "installProfileId": "cli.qwen-code",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        },
+        {
+          "id": "alibaba-model-studio",
+          "name": "Alibaba Cloud Model Studio",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "中国站与国际站账户、Base URL、计费独立。",
+          "website": "https://www.alibabacloud.com/help/en/model-studio/",
+          "tutorial": "https://www.alibabacloud.com/help/en/model-studio/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 3,
+          "extensions": []
+        },
+        {
+          "id": "alibaba-qwen-models",
+          "name": "Qwen Open Models",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "本地模型",
+          "description": "由本地模型运行器承载；AI Hub 不直接把权重当应用安装。",
+          "website": "https://github.com/QwenLM",
+          "tutorial": "https://qwen.ai/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 4,
+          "extensions": []
+        },
+        {
+          "id": "alibaba-qoder-cn-ide",
+          "name": "Qoder CN IDE",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "编程开发",
+          "description": "阿里云 Qoder CN 系列的独立 AI 编程 IDE，可配合 JetBrains 插件覆盖软件开发流程。",
+          "website": "https://qoder.com.cn/",
+          "tutorial": "https://www.alibabacloud.com/help/en/lingma/introduction-of-lingma",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.qoder-cn.windows",
+          "enabled": true,
+          "order": 5,
+          "extensions": [],
+          "download": {
+            "url": "https://qoder-ide.oss-accelerate.aliyuncs.com/release/1.20.1/QoderUserSetup-x64.exe",
+            "fileName": "Qoder-1.106.3-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "alibaba-qoderwork-cn",
+          "name": "QoderWork CN",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "阿里云面向日常办公的桌面 AI 助手，可处理本地文件、浏览器自动化和桌面操作。",
+          "website": "https://qoder.com.cn/",
+          "tutorial": "https://www.alibabacloud.com/help/en/lingma/qoderwork-cn/product-overview/what-is-qoderwork-cn",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.qoderwork-cn.windows",
+          "enabled": true,
+          "order": 6,
+          "extensions": [],
+          "download": {
+            "url": "https://download.qoder.com.cn/qoder-work/releases/latest/QoderWork-Setup-User-x64.exe",
+            "fileName": "QoderWork-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "alibaba-qoder-cn-cli",
+          "name": "Qoder CN CLI",
+          "kind": "CLI",
+          "moduleId": "cli-official",
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "Qoder 中国版 CLI。现有国际版安装身份已移除；待中国版官方 postinstall 与平台依赖完成审核后再开放一键安装。",
+          "website": "https://qoder.com.cn/",
+          "tutorial": "https://www.alibabacloud.com/help/en/lingma/qodercli-cn/user-guide/qoder-cli-cn-get-started-quickly",
+          "productType": "cli-official",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 7,
+          "extensions": []
+        },
+        {
+          "id": "alibaba-qoderwake-cn",
+          "name": "QoderWake CN",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "阿里云 Qoder CN 系列的数字员工产品，可在本地或云端持续运行角色化智能体团队。",
+          "website": "https://qoder.com.cn/",
+          "tutorial": "https://www.alibabacloud.com/help/en/lingma/introduction-of-lingma",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 8,
+          "extensions": []
+        },
+        {
+          "id": "alibaba-qoder-cloud-agents-cn",
+          "name": "Qoder Cloud Agents CN",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "阿里云托管的智能体平台，可在隔离云环境中执行长时间、异步和批量并行任务。",
+          "website": "https://qoder.com.cn/agents",
+          "tutorial": "https://www.alibabacloud.com/help/en/lingma/cloud-agents-cn/user-guide/quickstart",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 9,
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -837,30 +2334,235 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
         },
         {
           "id": "tencent-yuanbao-desktop",
           "name": "腾讯元宝电脑版",
           "category": "AI 对话",
-          "productType": "desktop-official",
+          "productType": "desktop-reviewed",
           "description": "由腾讯官方页面提供的元宝桌面客户端入口。",
           "website": "https://yuanbao.tencent.com/evt/dl",
           "tutorial": "https://yuanbao.tencent.com/evt/dl",
           "kind": "桌面端",
-          "installPolicy": "open-official-download",
-          "downloadPolicy": "official-page",
-          "signaturePolicy": "vendor-controlled",
-          "uninstallPolicy": "vendor-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
           "requirements": [],
           "enabled": true,
           "order": 1,
-          "moduleId": "desktop-official",
-          "installProfileId": "",
+          "moduleId": "desktop-managed",
+          "installProfileId": "desktop.tencent-yuanbao.windows",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "extensions": [],
+          "download": {
+            "url": "https://cdn-hybrid-prod.hunyuan.tencent.com/Desktop/official/dc75c2246b0b13c1ef8a120d56b297cf/yuanbao_2.77.1.612_x64.exe",
+            "fileName": "Tencent-Yuanbao-2.77.1-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "tencent-codebuddy",
+          "name": "CodeBuddy",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "各 surface 分开建记录；CLI 只有取得稳定官方包身份后才能升 A。",
+          "website": "https://www.codebuddy.ai/",
+          "tutorial": "https://www.codebuddy.ai/docs",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.tencent-codebuddy.windows",
+          "enabled": true,
+          "order": 2,
+          "extensions": [],
+          "download": {
+            "url": "https://codebuddy-1328495429.cos.accelerate.myqcloud.com/aiide/win32-x64-user/CodeBuddy-win32-x64-user-4.10.4.33993995-1ba59196.exe",
+            "fileName": "CodeBuddy-1.106.1-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "tencent-workbuddy",
+          "name": "WorkBuddy",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "腾讯全场景 AI 办公工作台，可在授权范围内读写本地文件、调用工具并完成多智能体任务。",
+          "website": "https://cloud.tencent.com/product/workbuddy",
+          "tutorial": "https://cloud.tencent.com/product/workbuddy",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.tencent-workbuddy.windows",
+          "enabled": true,
+          "order": 3,
+          "extensions": [],
+          "download": {
+            "url": "https://download.codebuddy.cn/workbuddy/saas/win32-x64-user/WorkBuddy-win32-x64-user-5.3.5.34189228-8044e898.exe",
+            "fileName": "WorkBuddy-5.3.5-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "tencent-hunyuan-platform",
+          "name": "腾讯混元",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "category": "本地模型",
+          "description": "不与元宝客户端合并。",
+          "website": "https://cloud.tencent.com/product/hunyuan",
+          "tutorial": "https://cloud.tencent.com/document/product/1729",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 4,
+          "extensions": []
+        },
+        {
+          "id": "tencent-qclaw",
+          "name": "QClaw",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "腾讯面向个人用户的本地 AI 智能体桌面产品，提供 OpenClaw 的本地部署和使用体验。",
+          "website": "https://qclaw.qq.com/",
+          "tutorial": "https://www.tencent.com/tencent-launches-qclaw-globally-lowering-barriers-to-ai-agent-deployment/",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.tencent-qclaw.windows",
+          "enabled": true,
+          "order": 5,
+          "extensions": [],
+          "download": {
+            "url": "https://package-cdn.qclaw.qq.com/qclaw/win/0.2.35-5001-624/QClaw-Setup-0.2.35-5001-624.exe",
+            "fileName": "QClaw-0.2.35-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "tencent-ima",
+          "name": "ima",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "腾讯面向知识管理、资料阅读和内容创作的 AI 工作台，提供网页端与客户端入口。",
+          "website": "https://ima.qq.com/",
+          "tutorial": "https://ima.qq.com/",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.tencent-ima.windows",
+          "enabled": true,
+          "order": 6,
+          "extensions": [],
+          "download": {
+            "url": "https://app-dl.ima.qq.com/win_channel/ima.copilot_win_x64_1018_2.6.3_4813.exe",
+            "fileName": "ima-2.6.3-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "tencent-clawpro",
+          "name": "ClawPro",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "腾讯云面向企业的 AI 智能体管控台，用于部署和管理服务器侧智能体。",
+          "website": "https://cloud.tencent.com/document/product/213/129694",
+          "tutorial": "https://cloud.tencent.com/document/product/1759/128832",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 7,
+          "extensions": []
+        },
+        {
+          "id": "tencent-ardot",
+          "name": "腾讯设计 Ardot",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "图像创作",
+          "description": "腾讯 AI 原生智能设计协作平台，覆盖设计生成、团队协作、开发交付和资产管理。",
+          "website": "https://cloud.tencent.com/product/adt",
+          "tutorial": "https://cloud.tencent.com/product/adt",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 8,
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -898,7 +2600,55 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
+        },
+        {
+          "id": "zhipu-glm-coding-plan",
+          "name": "GLM Coding Plan",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "它是模型服务计划，不是一个可独立安装的 CLI。",
+          "website": "https://docs.bigmodel.cn/cn/coding-plan/overview",
+          "tutorial": "https://docs.bigmodel.cn/cn/coding-plan/overview",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "zhipu-bigmodel-platform",
+          "name": "BigModel 开放平台",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "账户和密钥由用户管理。",
+          "website": "https://open.bigmodel.cn/",
+          "tutorial": "https://docs.bigmodel.cn/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -936,7 +2686,8 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -974,7 +2725,32 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
+        },
+        {
+          "id": "runway-agent",
+          "name": "Runway Agent",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "2026 年官方发布的创意 Agent，是 Runway 的子产品，不是独立 CLI。",
+          "website": "https://runwayml.com/news/introducing-runway-agent",
+          "tutorial": "https://runwayml.com/news/introducing-runway-agent",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -1012,7 +2788,56 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
+        },
+        {
+          "id": "elevenlabs-agents",
+          "name": "ElevenLabs Agents",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "ElevenLabs 用于构建、测试和部署语音对话智能体的在线产品。",
+          "website": "https://elevenlabs.io/agents",
+          "tutorial": "https://elevenlabs.io/docs/agents-platform/overview",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "elevenlabs-studio",
+          "name": "ElevenLabs Studio",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "音频创作",
+          "description": "ElevenLabs 面向长音频、配音和多轨内容制作的在线创作工作区。",
+          "website": "https://elevenlabs.io/studio",
+          "tutorial": "https://elevenlabs.io/docs/creative-platform/products/studio",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -1050,7 +2875,8 @@
           "capabilities": [
             "website",
             "tutorial"
-          ]
+          ],
+          "extensions": []
         }
       ],
       "iconUrl": "",
@@ -1071,24 +2897,32 @@
           "id": "lm-studio-desktop",
           "name": "LM Studio",
           "category": "本地模型",
-          "productType": "desktop-official",
+          "productType": "desktop-reviewed",
           "description": "在个人电脑上发现、下载和运行开放模型的桌面工具。",
           "website": "https://lmstudio.ai/download",
           "tutorial": "https://lmstudio.ai/docs/app/basics/download-model",
           "kind": "桌面端",
-          "installPolicy": "open-official-download",
-          "downloadPolicy": "official-page",
-          "signaturePolicy": "vendor-controlled",
-          "uninstallPolicy": "vendor-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
           "requirements": [],
           "enabled": true,
           "order": 0,
-          "moduleId": "desktop-official",
-          "installProfileId": "",
+          "moduleId": "desktop-managed",
+          "installProfileId": "desktop.lm-studio.windows",
           "capabilities": [
             "website",
-            "tutorial"
-          ]
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "extensions": [],
+          "download": {
+            "url": "https://installers.lmstudio.ai/win32/x64/0.4.20-1/LM-Studio-0.4.20-1-x64.exe",
+            "fileName": "LM-Studio-0.4.20-1-Windows-x64.exe"
+          }
         }
       ],
       "iconUrl": "",
@@ -1109,24 +2943,32 @@
           "id": "gpt4all-desktop",
           "name": "GPT4All Desktop",
           "category": "本地模型",
-          "productType": "desktop-official",
+          "productType": "desktop-reviewed",
           "description": "在普通桌面设备上本地下载并运行语言模型。",
           "website": "https://gpt4all.io/",
           "tutorial": "https://docs.gpt4all.io/gpt4all_desktop/quickstart.html",
           "kind": "桌面端",
-          "installPolicy": "open-official-download",
-          "downloadPolicy": "official-page",
-          "signaturePolicy": "vendor-controlled",
-          "uninstallPolicy": "vendor-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
           "requirements": [],
           "enabled": true,
           "order": 0,
-          "moduleId": "desktop-official",
-          "installProfileId": "",
+          "moduleId": "desktop-managed",
+          "installProfileId": "desktop.gpt4all.windows",
           "capabilities": [
             "website",
-            "tutorial"
-          ]
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "extensions": [],
+          "download": {
+            "url": "https://github.com/nomic-ai/gpt4all/releases/download/v3.10.0/gpt4all-installer-win64-v3.10.0.exe",
+            "fileName": "GPT4All-3.10.0-Windows-x64.exe"
+          }
         }
       ],
       "iconUrl": "",
@@ -1147,29 +2989,2233 @@
           "id": "anythingllm-desktop",
           "name": "AnythingLLM Desktop",
           "category": "智能体",
-          "productType": "desktop-official",
+          "productType": "desktop-reviewed",
           "description": "支持本地模型、知识库、RAG 和智能体的桌面工具。",
           "website": "https://anythingllm.com/desktop",
           "tutorial": "https://docs.anythingllm.com/installation-desktop/windows",
           "kind": "桌面端",
-          "installPolicy": "open-official-download",
-          "downloadPolicy": "official-page",
-          "signaturePolicy": "vendor-controlled",
-          "uninstallPolicy": "vendor-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
           "requirements": [],
           "enabled": true,
           "order": 0,
-          "moduleId": "desktop-official",
-          "installProfileId": "",
+          "moduleId": "desktop-managed",
+          "installProfileId": "desktop.anythingllm.windows",
           "capabilities": [
             "website",
-            "tutorial"
-          ]
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "extensions": [
+            {
+              "id": "anythingllm-agent-skills",
+              "name": "AnythingLLM Agent Skills 与 MCP",
+              "extensionType": "skill",
+              "description": "宿主内配置，Desktop 与 Docker 路径/权限不同；先做官方 API/配置协议核验。 原始形态为 skill/mcp，当前按最接近的 skill 子目录展示。",
+              "website": "https://github.com/Mintplex-Labs/anything-llm",
+              "tutorial": "https://docs.anythingllm.com/",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://github.com/Mintplex-Labs/anything-llm"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Mintplex Labs"
+            }
+          ],
+          "download": {
+            "url": "https://cdn.anythingllm.com/latest/AnythingLLMDesktop.exe",
+            "fileName": "AnythingLLM-Desktop-Windows-x64.exe"
+          }
         }
       ],
       "iconUrl": "",
       "enabled": true,
       "order": 21
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "initial": "M",
+      "mark": "M",
+      "iconUrl": "",
+      "color": "#ea3bd7",
+      "description": "Meta 的官方 AI 产品与开发工具目录。",
+      "website": "https://www.meta.ai/",
+      "tutorial": "https://ai.meta.com/meta-ai/",
+      "products": [
+        {
+          "id": "meta-ai-web",
+          "name": "Meta AI",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "PC 端使用官方 Web。",
+          "website": "https://www.meta.ai/",
+          "tutorial": "https://ai.meta.com/meta-ai/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "meta-llama-models",
+          "name": "Llama",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "本地模型",
+          "description": "模型下载可能需要许可接受与较大硬件；不作为普通一键应用。",
+          "website": "https://www.llama.com/",
+          "tutorial": "https://github.com/meta-llama/llama-models",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "meta-llama-stack",
+          "name": "Llama Stack",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "属开发栈；需隔离环境与 provider 配置。",
+          "website": "https://github.com/meta-llama/llama-stack",
+          "tutorial": "https://llama-stack.readthedocs.io/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 22
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon Web Services",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#cbc627",
+      "description": "Amazon Web Services 的官方 AI 产品与开发工具目录。",
+      "website": "https://kiro.dev/",
+      "tutorial": "https://kiro.dev/docs/",
+      "products": [
+        {
+          "id": "amazon-kiro-ide",
+          "name": "Kiro IDE",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "图形产品打开厂商官方下载。",
+          "website": "https://kiro.dev/",
+          "tutorial": "https://kiro.dev/docs/",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.amazon-kiro.windows",
+          "enabled": true,
+          "order": 0,
+          "extensions": [
+            {
+              "id": "amazon-kiro-powers",
+              "name": "Kiro Powers",
+              "extensionType": "skill",
+              "description": "Power 可打包 MCP、steering 和 hooks；一键装之前必须展开其全部组件和权限。 原始形态为 skill/mcp/plugin，当前按最接近的 skill 子目录展示。",
+              "website": "https://kiro.dev/docs/powers/",
+              "tutorial": "https://kiro.dev/docs/powers/",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://kiro.dev/docs/powers/"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Amazon Web Services"
+            },
+            {
+              "id": "aws-mcp-servers",
+              "name": "AWS MCP Servers",
+              "extensionType": "mcp",
+              "description": "AWS Labs 一方组织不等于所有 server 已生产支持；逐 server 标 experimental/preview。",
+              "website": "https://github.com/awslabs/mcp",
+              "tutorial": "https://github.com/awslabs/mcp",
+              "moduleId": "mcp-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 1,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://github.com/awslabs/mcp"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Amazon Web Services"
+            }
+          ],
+          "download": {
+            "url": "https://prod.download.desktop.kiro.dev/releases/stable/win32-x64/signed/1.0.242/kiro-ide-1.0.242-stable-win32-x64.exe",
+            "fileName": "Kiro-1.0.242-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "amazon-kiro-cli",
+          "name": "Kiro CLI",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "Amazon 官方 Kiro CLI。AI Hub 下载固定 Windows x64 MSI，校验哈希与数字签名后安装。",
+          "website": "https://kiro.dev/docs/cli/",
+          "tutorial": "https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/upgrade-to-kiro.html",
+          "productType": "cli",
+          "requirements": [],
+          "installProfileId": "cli.kiro",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "amazon-bedrock-agents",
+          "name": "Amazon Bedrock Agents / AgentCore",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "需要 AWS 身份、区域和付费资源。",
+          "website": "https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html",
+          "tutorial": "https://docs.aws.amazon.com/bedrock-agentcore/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        },
+        {
+          "id": "amazon-strands-agents",
+          "name": "Strands Agents SDK",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "pip install strands-agents 是开发环境依赖，不应直接装进全局 Python。",
+          "website": "https://github.com/strands-agents/sdk-python",
+          "tutorial": "https://strandsagents.com/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 3,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 23
+    },
+    {
+      "id": "xai",
+      "name": "xAI",
+      "initial": "X",
+      "mark": "x",
+      "iconUrl": "",
+      "color": "#6fcba5",
+      "description": "xAI 的官方 AI 产品与开发工具目录。",
+      "website": "https://grok.com/",
+      "tutorial": "https://x.ai/",
+      "products": [
+        {
+          "id": "xai-grok-web",
+          "name": "Grok",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "当前 PC 通用入口为 Web。",
+          "website": "https://grok.com/",
+          "tutorial": "https://x.ai/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "xai-api",
+          "name": "xAI API",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "密钥、计费和模型权限由用户管理。",
+          "website": "https://docs.x.ai/",
+          "tutorial": "https://console.x.ai/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 24
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral AI",
+      "initial": "M",
+      "mark": "M",
+      "iconUrl": "",
+      "color": "#920510",
+      "description": "Mistral AI 的官方 AI 产品与开发工具目录。",
+      "website": "https://chat.mistral.ai/",
+      "tutorial": "https://docs.mistral.ai/vibe/overview/",
+      "products": [
+        {
+          "id": "mistral-vibe",
+          "name": "Vibe",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "2026-06-05 起 Le Chat 政名为 Vibe；保留旧名仅作搜索别名。官方改名说明",
+          "website": "https://chat.mistral.ai/",
+          "tutorial": "https://docs.mistral.ai/vibe/overview/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "mistral-vibe-code-cli",
+          "name": "Vibe Code CLI",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "Mistral 官方 Vibe 编程智能体。AI Hub 会自动检测 Python，并安装到独立虚拟环境。",
+          "website": "https://docs.mistral.ai/vibe/code/overview",
+          "tutorial": "https://docs.mistral.ai/vibe/code/overview",
+          "productType": "cli",
+          "requirements": [
+            "python"
+          ],
+          "installProfileId": "cli.mistral-vibe",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "mistral-studio-api",
+          "name": "Mistral Studio & API",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "开发者平台。",
+          "website": "https://docs.mistral.ai/studio-api/overview",
+          "tutorial": "https://docs.mistral.ai/studio-api/overview",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 25
+    },
+    {
+      "id": "cohere",
+      "name": "Cohere",
+      "initial": "C",
+      "mark": "C",
+      "iconUrl": "",
+      "color": "#72e808",
+      "description": "Cohere 的官方 AI 产品与开发工具目录。",
+      "website": "https://cohere.com/north",
+      "tutorial": "https://docs.cohere.com/",
+      "products": [
+        {
+          "id": "cohere-north",
+          "name": "North",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "企业 Agent 工作平台；试用和部署条件需人工确认。",
+          "website": "https://cohere.com/north",
+          "tutorial": "https://docs.cohere.com/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "cohere-platform-api",
+          "name": "Cohere Platform",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "不是 PC 安装产品。",
+          "website": "https://dashboard.cohere.com/",
+          "tutorial": "https://docs.cohere.com/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 26
+    },
+    {
+      "id": "perplexity",
+      "name": "Perplexity",
+      "initial": "P",
+      "mark": "P",
+      "iconUrl": "",
+      "color": "#45d780",
+      "description": "Perplexity 的官方 AI 产品与开发工具目录。",
+      "website": "https://www.perplexity.ai/",
+      "tutorial": "https://www.perplexity.ai/help-center",
+      "products": [
+        {
+          "id": "perplexity-web",
+          "name": "Perplexity",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "搜索与回答产品。",
+          "website": "https://www.perplexity.ai/",
+          "tutorial": "https://www.perplexity.ai/help-center",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "perplexity-comet",
+          "name": "Comet",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "属完整浏览器/Agent surface，打开官方下载入口。",
+          "website": "https://www.perplexity.ai/comet",
+          "tutorial": "https://www.perplexity.ai/help-center/en/collections/11252744-comet",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.perplexity-comet.windows",
+          "enabled": true,
+          "order": 1,
+          "extensions": [],
+          "download": {
+            "url": "https://www.perplexity.ai/rest/browser/download?platform=win_x64&channel=stable",
+            "fileName": "Perplexity-Comet-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "perplexity-sonar-api",
+          "name": "Sonar API",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "需 API Key 与计费。",
+          "website": "https://docs.perplexity.ai/",
+          "tutorial": "https://docs.perplexity.ai/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 27
+    },
+    {
+      "id": "baidu",
+      "name": "百度",
+      "initial": "B",
+      "mark": "百",
+      "iconUrl": "",
+      "color": "#a89151",
+      "description": "百度 的官方 AI 产品与开发工具目录。",
+      "website": "https://yiyan.baidu.com/",
+      "tutorial": "https://yiyan.baidu.com/",
+      "products": [
+        {
+          "id": "baidu-wenxiaoyan",
+          "name": "文小言",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "发布前需再次核验 Windows 下载页和当前产品名；不使用第三方下载站。",
+          "website": "https://yiyan.baidu.com/",
+          "tutorial": "https://yiyan.baidu.com/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "baidu-comate",
+          "name": "Baidu Comate",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "通过 IDE 官方市场或厂商入口安装。",
+          "website": "https://comate.baidu.com/",
+          "tutorial": "https://comate.baidu.com/zh/docs",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "baidu-qianfan",
+          "name": "千帆大模型平台",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "需要百度智能云账号。",
+          "website": "https://cloud.baidu.com/product/wenxinworkshop",
+          "tutorial": "https://cloud.baidu.com/doc/WENXINWORKSHOP/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 28
+    },
+    {
+      "id": "minimax",
+      "name": "MiniMax",
+      "initial": "M",
+      "mark": "M",
+      "iconUrl": "",
+      "color": "#e1517b",
+      "description": "MiniMax 的官方 AI 产品与开发工具目录。",
+      "website": "https://chat.minimax.io/",
+      "tutorial": "https://www.minimax.io/",
+      "products": [
+        {
+          "id": "minimax-chat",
+          "name": "MiniMax Chat",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "全球产品入口。",
+          "website": "https://chat.minimax.io/",
+          "tutorial": "https://www.minimax.io/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "minimax-agent",
+          "name": "MiniMax Agent",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "官方组织与公司资料可确认产品名。",
+          "website": "https://agent.minimax.io/",
+          "tutorial": "https://github.com/MiniMax-AI",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "minimax-hailuo",
+          "name": "Hailuo AI",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "视频创作",
+          "description": "视频生成产品。",
+          "website": "https://hailuoai.video/",
+          "tutorial": "https://hailuoai.video/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        },
+        {
+          "id": "minimax-cli",
+          "name": "MiniMax CLI",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "编程开发",
+          "description": "MiniMax 官方终端智能体。AI Hub 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。",
+          "website": "https://github.com/MiniMax-AI/cli",
+          "tutorial": "https://github.com/MiniMax-AI/cli",
+          "productType": "cli",
+          "requirements": [
+            "node"
+          ],
+          "installProfileId": "cli.minimax",
+          "enabled": true,
+          "order": 3,
+          "extensions": [
+            {
+              "id": "minimax-official-skills",
+              "name": "MiniMax 官方 Skills",
+              "extensionType": "skill",
+              "description": "官方组织仓库；需要读取每个 skill 的许可证、脚本和 Key 要求后再批准。",
+              "website": "https://github.com/MiniMax-AI/skills",
+              "tutorial": "https://github.com/MiniMax-AI/skills",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://github.com/MiniMax-AI/skills"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "MiniMax"
+            },
+            {
+              "id": "minimax-official-mcp",
+              "name": "MiniMax MCP",
+              "extensionType": "mcp",
+              "description": "一方 MCP，调用图像/视频/TTS API；需用户 Key、计费提示和输出存储说明。",
+              "website": "https://github.com/MiniMax-AI/MiniMax-MCP",
+              "tutorial": "https://github.com/MiniMax-AI/MiniMax-MCP",
+              "moduleId": "mcp-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 1,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://github.com/MiniMax-AI/MiniMax-MCP"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "MiniMax"
+            }
+          ]
+        },
+        {
+          "id": "minimax-openroom",
+          "name": "OpenRoom",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "源码项目；是否有稳定签名 Windows 分发需二次审核。",
+          "website": "https://github.com/MiniMax-AI/OpenRoom",
+          "tutorial": "https://github.com/MiniMax-AI/OpenRoom",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 4,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 29
+    },
+    {
+      "id": "01ai",
+      "name": "01.AI",
+      "initial": "A",
+      "mark": "0",
+      "iconUrl": "",
+      "color": "#74d76e",
+      "description": "01.AI 的官方 AI 产品与开发工具目录。",
+      "website": "https://github.com/01-ai/Yi",
+      "tutorial": "https://www.01.ai/",
+      "products": [
+        {
+          "id": "01ai-yi-models",
+          "name": "Yi",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "本地模型",
+          "description": "官方仓库的本地路径需要 Python/显卡；不承诺通用一键安装。",
+          "website": "https://github.com/01-ai/Yi",
+          "tutorial": "https://www.01.ai/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "01ai-api-platform",
+          "name": "01.AI API Platform",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "本轮没有足够一方证据证明存在当前活跃、面向 PC 的官方客户端或 CLI。",
+          "website": "https://platform.01.ai/docs",
+          "tutorial": "https://platform.01.ai/docs",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 30
+    },
+    {
+      "id": "baichuan",
+      "name": "百川智能",
+      "initial": "B",
+      "mark": "百",
+      "iconUrl": "",
+      "color": "#2a6294",
+      "description": "百川智能 的官方 AI 产品与开发工具目录。",
+      "website": "https://ying.baichuan-ai.com/chat",
+      "tutorial": "https://policy.baichuan-ai.com/mobile/privacy/2025",
+      "products": [
+        {
+          "id": "baichuan-ying",
+          "name": "百小应",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "补充厂商；不用第三方下载。",
+          "website": "https://ying.baichuan-ai.com/chat",
+          "tutorial": "https://policy.baichuan-ai.com/mobile/privacy/2025",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "baichuan-platform",
+          "name": "百川开放平台",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "平台明确包含智能体平台与模型服务。",
+          "website": "https://platform.baichuan-ai.com/",
+          "tutorial": "https://www.baichuan-ai.com/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 31
+    },
+    {
+      "id": "kuaishou",
+      "name": "快手",
+      "initial": "K",
+      "mark": "快",
+      "iconUrl": "",
+      "color": "#8abe43",
+      "description": "快手 的官方 AI 产品与开发工具目录。",
+      "website": "https://klingai.kuaishou.com/",
+      "tutorial": "https://klingai.com/",
+      "products": [
+        {
+          "id": "kuaishou-kling",
+          "name": "可灵 AI / Kling AI",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "视频创作",
+          "description": "国内外账户与可用功能分开记录。",
+          "website": "https://klingai.kuaishou.com/",
+          "tutorial": "https://klingai.com/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 32
+    },
+    {
+      "id": "sensetime",
+      "name": "商汤科技",
+      "initial": "S",
+      "mark": "商",
+      "iconUrl": "",
+      "color": "#f95d5a",
+      "description": "商汤科技 的官方 AI 产品与开发工具目录。",
+      "website": "https://chat.sensetime.com/",
+      "tutorial": "https://platform.sensenova.cn/",
+      "products": [
+        {
+          "id": "sensetime-sensechat",
+          "name": "商量 / SenseChat",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "发布前需人工核验地域入口和当前个人开放状态。",
+          "website": "https://chat.sensetime.com/",
+          "tutorial": "https://platform.sensenova.cn/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 33
+    },
+    {
+      "id": "stability",
+      "name": "Stability AI",
+      "initial": "S",
+      "mark": "S",
+      "iconUrl": "",
+      "color": "#b1e795",
+      "description": "Stability AI 的官方 AI 产品与开发工具目录。",
+      "website": "https://assistant.stability.ai/about",
+      "tutorial": "https://assistant.stability.ai/about",
+      "products": [
+        {
+          "id": "stability-stable-assistant",
+          "name": "Stable Assistant",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "图像创作",
+          "description": "官方描述为图像生成与编辑工具。",
+          "website": "https://assistant.stability.ai/about",
+          "tutorial": "https://assistant.stability.ai/about",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "stability-dreamstudio",
+          "name": "DreamStudio",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "图像创作",
+          "description": "Stability 现有帮助内容存在 DreamStudio/Brand Studio 名称变化，发布前应再次核对展示名；不推断桌面客户端。",
+          "website": "https://dreamstudio.ai/",
+          "tutorial": "https://kb.stability.ai/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        },
+        {
+          "id": "stability-platform-api",
+          "name": "Stability Platform API",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "开发者入口。",
+          "website": "https://platform.stability.ai/docs",
+          "tutorial": "https://platform.stability.ai/docs",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 34
+    },
+    {
+      "id": "pika",
+      "name": "Pika",
+      "initial": "P",
+      "mark": "P",
+      "iconUrl": "",
+      "color": "#598277",
+      "description": "Pika 的官方 AI 产品与开发工具目录。",
+      "website": "https://pika.art/",
+      "tutorial": "https://pika.art/terms-of-service",
+      "products": [
+        {
+          "id": "pika-web",
+          "name": "Pika",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "视频创作",
+          "description": "官方服务包含文本/图像/视频输入到视频等输出。",
+          "website": "https://pika.art/",
+          "tutorial": "https://pika.art/terms-of-service",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "pika-agent",
+          "name": "Pika Agent",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "2026 官方页面已有 Agent 与 MCP skills 描述；具体公开范围变化快，需在发布时复核。",
+          "website": "https://experiment.pika.art/blog",
+          "tutorial": "https://experiment.pika.art/blog",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": [
+            {
+              "id": "pika-mcp-skills",
+              "name": "Pika MCP Skills",
+              "extensionType": "mcp",
+              "description": "官方已公开描述 Pika MCP skills，但本轮未取得稳定包 ID/安装协议；先展示教程，待官方 manifest 后再升 A。 原始形态为 skill/mcp，当前按最接近的 mcp 子目录展示。",
+              "website": "https://experiment.pika.art/blog",
+              "tutorial": "https://experiment.pika.art/blog",
+              "moduleId": "mcp-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://experiment.pika.art/blog"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Pika"
+            }
+          ]
+        }
+      ],
+      "enabled": true,
+      "order": 35
+    },
+    {
+      "id": "bfl",
+      "name": "Black Forest Labs",
+      "initial": "B",
+      "mark": "B",
+      "iconUrl": "",
+      "color": "#81b232",
+      "description": "Black Forest Labs 的官方 AI 产品与开发工具目录。",
+      "website": "https://playground.bfl.ai/",
+      "tutorial": "https://bfl.ai/legal/terms-of-service",
+      "products": [
+        {
+          "id": "bfl-playground",
+          "name": "FLUX Playground",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "图像创作",
+          "description": "官方条款明确涵盖 Playground、FLUX 模型和 API。",
+          "website": "https://playground.bfl.ai/",
+          "tutorial": "https://bfl.ai/legal/terms-of-service",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "bfl-flux-api-models",
+          "name": "FLUX Models & API",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "本地模型",
+          "description": "权重许可、模型大小与 API 计费分别处理。",
+          "website": "https://docs.bfl.ai/",
+          "tutorial": "https://bfl.ai/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 36
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "initial": "H",
+      "mark": "H",
+      "iconUrl": "",
+      "color": "#d203a2",
+      "description": "Hugging Face 的官方 AI 产品与开发工具目录。",
+      "website": "https://huggingface.co/",
+      "tutorial": "https://huggingface.co/docs/hub/",
+      "products": [
+        {
+          "id": "hf-hub",
+          "name": "Hugging Face Hub",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "模型、数据集、Spaces 与 Agent 资源平台。",
+          "website": "https://huggingface.co/",
+          "tutorial": "https://huggingface.co/docs/hub/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": [
+            {
+              "id": "hf-mcp-server",
+              "name": "Hugging Face MCP",
+              "extensionType": "mcp",
+              "description": "官方建议使用设置页生成精确配置，不手写猜测 URL 参数。",
+              "website": "https://huggingface.co/docs/hub/agents-overview",
+              "tutorial": "https://huggingface.co/docs/hub/agents-overview",
+              "moduleId": "mcp-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://huggingface.co/docs/hub/agents-overview"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Hugging Face"
+            }
+          ]
+        },
+        {
+          "id": "hf-cli",
+          "name": "Hugging Face CLI",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "编程开发",
+          "description": "Hugging Face 官方命令行工具。AI Hub 会自动检测 Python，并安装到独立虚拟环境。",
+          "website": "https://huggingface.co/docs/huggingface_hub/en/guides/cli",
+          "tutorial": "https://huggingface.co/docs/huggingface_hub/en/guides/cli",
+          "productType": "cli",
+          "requirements": [
+            "python"
+          ],
+          "installProfileId": "cli.hugging-face",
+          "enabled": true,
+          "order": 1,
+          "extensions": [
+            {
+              "id": "hf-agent-skills",
+              "name": "Hugging Face Agent Skills",
+              "extensionType": "skill",
+              "description": "官方 CLI 原生提供宿主定向安装，适合复用为 AI Hub 适配器。",
+              "website": "https://huggingface.co/docs/hub/agents-overview",
+              "tutorial": "https://huggingface.co/docs/hub/agents-overview",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://huggingface.co/docs/hub/agents-overview"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Hugging Face"
+            }
+          ]
+        }
+      ],
+      "enabled": true,
+      "order": 37
+    },
+    {
+      "id": "replicate",
+      "name": "Replicate",
+      "initial": "R",
+      "mark": "R",
+      "iconUrl": "",
+      "color": "#b23b06",
+      "description": "Replicate 的官方 AI 产品与开发工具目录。",
+      "website": "https://replicate.com/explore",
+      "tutorial": "https://replicate.com/docs/topics/models/",
+      "products": [
+        {
+          "id": "replicate-web",
+          "name": "Replicate Models",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "可在 Web 运行模型。",
+          "website": "https://replicate.com/explore",
+          "tutorial": "https://replicate.com/docs/topics/models/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "replicate-api-cog",
+          "name": "Replicate API / Cog",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "Cog 涉及 Docker 和模型构建，不列为普通用户一键安装。",
+          "website": "https://replicate.com/docs/reference/http",
+          "tutorial": "https://github.com/replicate/cog",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 38
+    },
+    {
+      "id": "together",
+      "name": "Together AI",
+      "initial": "T",
+      "mark": "T",
+      "iconUrl": "",
+      "color": "#0c2473",
+      "description": "Together AI 的官方 AI 产品与开发工具目录。",
+      "website": "https://api.together.ai/playground",
+      "tutorial": "https://docs.together.ai/",
+      "products": [
+        {
+          "id": "together-playground",
+          "name": "Together Playground",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "本轮未把第三方 CLI 当作 Together 官方产品。",
+          "website": "https://api.together.ai/playground",
+          "tutorial": "https://docs.together.ai/",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "together-api",
+          "name": "Together API",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "编程开发",
+          "description": "需要 API Key 与计费。",
+          "website": "https://docs.together.ai/docs/introduction",
+          "tutorial": "https://docs.together.ai/docs/introduction",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 39
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "initial": "G",
+      "mark": "G",
+      "iconUrl": "",
+      "color": "#0b79cf",
+      "description": "Groq 的官方 AI 产品与开发工具目录。",
+      "website": "https://console.groq.com/",
+      "tutorial": "https://console.groq.com/docs/overview",
+      "products": [
+        {
+          "id": "groq-console",
+          "name": "GroqCloud Console",
+          "kind": "其他产品",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "AI 对话",
+          "description": "推理云入口。",
+          "website": "https://console.groq.com/",
+          "tutorial": "https://console.groq.com/docs/overview",
+          "productType": "web",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "groq-api-agents",
+          "name": "Groq API Tools & MCP",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "这是服务端 Agent 能力，不是本地 MCP 安装包。",
+          "website": "https://console.groq.com/docs/tool-use/overview",
+          "tutorial": "https://console.groq.com/docs/tool-use/remote-mcp",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 1,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 40
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "initial": "N",
+      "mark": "N",
+      "iconUrl": "",
+      "color": "#8d4321",
+      "description": "NVIDIA 的官方 AI 产品与开发工具目录。",
+      "website": "https://developer.nvidia.com/nim",
+      "tutorial": "https://docs.nvidia.com/nim/",
+      "products": [
+        {
+          "id": "nvidia-nim",
+          "name": "NVIDIA NIM",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "本地模型",
+          "description": "需要支持的 GPU、驱动、容器与许可。",
+          "website": "https://developer.nvidia.com/nim",
+          "tutorial": "https://docs.nvidia.com/nim/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        },
+        {
+          "id": "nvidia-ai-workbench",
+          "name": "NVIDIA AI Workbench",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "编程开发",
+          "description": "图形工具打开官方分发入口；WSL/Docker/GPU 依赖不在浏览时探测。",
+          "website": "https://developer.nvidia.com/ai-workbench",
+          "tutorial": "https://docs.nvidia.com/ai-workbench/",
+          "productType": "desktop-reviewed",
+          "requirements": [
+            "wsl",
+            "docker",
+            "git"
+          ],
+          "installProfileId": "desktop.nvidia-ai-workbench.windows",
+          "enabled": true,
+          "order": 1,
+          "extensions": [],
+          "download": {
+            "url": "https://workbench.download.nvidia.com/stable/workbench-desktop/latest/NVIDIA-AI-Workbench-Setup.exe",
+            "fileName": "NVIDIA-AI-Workbench-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "nvidia-nemo-agent-toolkit",
+          "name": "NVIDIA NeMo Agent Toolkit",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "当前官方名为 NeMo Agent Toolkit，旧名 AgentIQ 只作搜索别名；稳定包为 nvidia-nat。它是开发框架，不能全局无隔离安装。官方安装与迁移说明",
+          "website": "https://github.com/NVIDIA/NeMo-Agent-Toolkit",
+          "tutorial": "https://docs.nvidia.com/nemo/agent-toolkit/latest/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 41
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "initial": "O",
+      "mark": "O",
+      "iconUrl": "",
+      "color": "#96a4bc",
+      "description": "OpenClaw 的官方 AI 产品与开发工具目录。",
+      "website": "https://openclaw.ai/",
+      "tutorial": "https://docs.openclaw.ai/",
+      "products": [
+        {
+          "id": "openclaw-agent",
+          "name": "OpenClaw",
+          "kind": "CLI",
+          "moduleId": "cli-managed",
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "由客户端本地白名单固定部署官方 OpenClaw 包；安装完成后直接打开官方 onboarding 并安装 Gateway 服务。",
+          "website": "https://openclaw.ai/",
+          "tutorial": "https://docs.openclaw.ai/install",
+          "productType": "cli",
+          "requirements": [
+            "node"
+          ],
+          "installProfileId": "cli.openclaw",
+          "enabled": true,
+          "order": 0,
+          "extensions": [
+            {
+              "id": "openclaw-clawhub-skills",
+              "name": "OpenClaw ClawHub Skills",
+              "extensionType": "skill",
+              "description": "ClawHub 是公共 registry；只有 @openclaw/* 等已核实发布者才能标官方。安装前可调用官方 openclaw skills verify 信任包络，但扫描通过不替代人工审计。",
+              "website": "https://docs.openclaw.ai/clawhub",
+              "tutorial": "https://docs.openclaw.ai/clawhub",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://docs.openclaw.ai/clawhub"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "OpenClaw"
+            },
+            {
+              "id": "openclaw-clawhub-plugins",
+              "name": "OpenClaw ClawHub 插件",
+              "extensionType": "skill",
+              "description": "插件可获得高权限，默认不自动批准工具调用。 原始形态为 plugin/mcp，当前按最接近的 skill 子目录展示。",
+              "website": "https://docs.openclaw.ai/clawhub/quickstart",
+              "tutorial": "https://docs.openclaw.ai/clawhub/quickstart",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 1,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://docs.openclaw.ai/clawhub/quickstart"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "OpenClaw"
+            }
+          ]
+        },
+        {
+          "id": "openclaw-windows-hub",
+          "name": "OpenClaw Windows Hub",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "OpenClaw 官方 Windows 桌面伴侣，提供安装引导、托盘状态、聊天、节点模式和本地 MCP。",
+          "website": "https://docs.openclaw.ai/windows",
+          "tutorial": "https://docs.openclaw.ai/windows",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.openclaw-windows-hub.windows",
+          "enabled": true,
+          "order": 1,
+          "componentProductIds": [
+            "openclaw-wsl-gateway"
+          ],
+          "extensions": [],
+          "download": {
+            "url": "https://github.com/openclaw/openclaw/releases/download/v2026.7.1/OpenClawCompanion-Setup-x64.exe",
+            "fileName": "OpenClawCompanion-0.6.12-Windows-x64.exe"
+          }
+        },
+        {
+          "id": "openclaw-wsl-gateway",
+          "name": "OpenClaw WSL Gateway",
+          "kind": "CLI",
+          "category": "智能体",
+          "description": "由 OpenClaw Windows Hub 官方配置流程创建并管理专属 OpenClawGateway；AI Hub 分别检测发行版、CLI、服务就绪和配对状态。",
+          "website": "https://docs.openclaw.ai/windows",
+          "tutorial": "https://docs.openclaw.ai/windows",
+          "productType": "cli",
+          "moduleId": "cli-managed",
+          "installProfileId": "cli.openclaw-wsl",
+          "requirements": [
+            "wsl"
+          ],
+          "installPolicy": "client-managed-cli",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "enabled": true,
+          "order": 2,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 42
+    },
+    {
+      "id": "nousresearch",
+      "name": "Nous Research",
+      "initial": "N",
+      "mark": "N",
+      "iconUrl": "",
+      "color": "#d63939",
+      "description": "Nous Research 的官方 AI 产品与开发工具目录。",
+      "website": "https://nousresearch.net/hermes-agent/",
+      "tutorial": "https://hermes-agent.nousresearch.com/docs/",
+      "products": [
+        {
+          "id": "nous-hermes-agent",
+          "name": "Hermes Agent",
+          "kind": "CLI",
+          "moduleId": "cli-official",
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "Nous Research 官方 Hermes Agent。Windows 原生支持仍为 beta，待多产物固定版本与完整性审核完成后再开放一键安装。",
+          "website": "https://nousresearch.net/hermes-agent/",
+          "tutorial": "https://hermes-agent.nousresearch.com/docs/",
+          "productType": "cli-official",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": [
+            {
+              "id": "hermes-agent-skills",
+              "name": "Hermes Agent Skills",
+              "extensionType": "skill",
+              "description": "Hermes 会从经验创建/改进 skills；AI Hub 只管理明确来源的外部 skill，不能把 Agent 自生成内容误标为官方。",
+              "website": "https://hermes-agent.nousresearch.com/docs/",
+              "tutorial": "https://github.com/NousResearch/hermes-agent",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://hermes-agent.nousresearch.com/docs/"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Nous Research"
+            }
+          ]
+        }
+      ],
+      "enabled": true,
+      "order": 43
+    },
+    {
+      "id": "cline",
+      "name": "Cline",
+      "initial": "C",
+      "mark": "C",
+      "iconUrl": "",
+      "color": "#84829d",
+      "description": "Cline 的官方 AI 产品与开发工具目录。",
+      "website": "https://github.com/cline/cline",
+      "tutorial": "https://docs.cline.bot/",
+      "products": [
+        {
+          "id": "cline-agent",
+          "name": "Cline",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "CLI 官方安装为 npm i -g cline；IDE 插件走官方市场。",
+          "website": "https://github.com/cline/cline",
+          "tutorial": "https://docs.cline.bot/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": [
+            {
+              "id": "cline-official-skills-plugins",
+              "name": "Cline Skills、Plugins 与 MCP",
+              "extensionType": "skill",
+              "description": "Cline 官方组织有 plugins、mcp-marketplace、skills 类资源；marketplace 收录项逐一保存发布者。 原始形态为 skill/mcp/plugin，当前按最接近的 skill 子目录展示。",
+              "website": "https://github.com/cline/cline",
+              "tutorial": "https://github.com/cline",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://github.com/cline/cline"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Cline"
+            }
+          ]
+        }
+      ],
+      "enabled": true,
+      "order": 44
+    },
+    {
+      "id": "anomalyco",
+      "name": "Anomaly",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#129f74",
+      "description": "Anomaly 的官方 AI 产品与开发工具目录。",
+      "website": "https://opencode.ai/docs",
+      "tutorial": "https://github.com/anomalyco/opencode",
+      "products": [
+        {
+          "id": "opencode",
+          "name": "OpenCode Desktop",
+          "kind": "桌面端",
+          "moduleId": "desktop-managed",
+          "installPolicy": "client-managed-installer",
+          "downloadPolicy": "client-managed",
+          "signaturePolicy": "client-reviewed",
+          "uninstallPolicy": "client-managed",
+          "capabilities": [
+            "website",
+            "tutorial",
+            "install",
+            "open",
+            "uninstall"
+          ],
+          "category": "智能体",
+          "description": "Windows 官方建议 WSL，但也列出 npm、Scoop、Chocolatey；每种安装源分别审核。",
+          "website": "https://opencode.ai/docs",
+          "tutorial": "https://github.com/anomalyco/opencode",
+          "productType": "desktop-reviewed",
+          "requirements": [],
+          "installProfileId": "desktop.opencode.windows",
+          "enabled": true,
+          "order": 0,
+          "extensions": [
+            {
+              "id": "opencode-agent-skills",
+              "name": "OpenCode Agent Skills",
+              "extensionType": "skill",
+              "description": "OpenCode 当前支持本地 .agents/skills 等目录发现，但没有一方稳定“任意 registry 一键装”协议；AI Hub 只能安装审核过的目录快照。",
+              "website": "https://opencode.ai/docs/skills",
+              "tutorial": "https://opencode.ai/docs/skills",
+              "moduleId": "skill-link",
+              "installProfileId": "",
+              "capabilities": [
+                "website"
+              ],
+              "enabled": true,
+              "order": 0,
+              "sourceKind": "official",
+              "versionRef": "rolling-directory",
+              "requestedPermissions": [],
+              "credentialRequirements": [],
+              "installScope": "产品内扩展目录",
+              "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
+              "provenanceEvidence": [
+                "https://opencode.ai/docs/skills"
+              ],
+              "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+              "publisher": "Anomaly"
+            }
+          ],
+          "download": {
+            "url": "https://github.com/anomalyco/opencode/releases/download/v1.18.10/opencode-desktop-win-x64.exe",
+            "fileName": "OpenCode-Desktop-1.18.10-Windows-x64.exe"
+          }
+        }
+      ],
+      "enabled": true,
+      "order": 45
+    },
+    {
+      "id": "langchain",
+      "name": "LangChain",
+      "initial": "L",
+      "mark": "L",
+      "iconUrl": "",
+      "color": "#f3f218",
+      "description": "LangChain 的官方 AI 产品与开发工具目录。",
+      "website": "https://github.com/langchain-ai/langgraph",
+      "tutorial": "https://docs.langchain.com/oss/python/langgraph/overview",
+      "products": [
+        {
+          "id": "langgraph",
+          "name": "LangGraph",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "编排框架，不是最终用户 CLI；推荐项目级虚拟环境。",
+          "website": "https://github.com/langchain-ai/langgraph",
+          "tutorial": "https://docs.langchain.com/oss/python/langgraph/overview",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 46
+    },
+    {
+      "id": "crewai",
+      "name": "CrewAI",
+      "initial": "C",
+      "mark": "C",
+      "iconUrl": "",
+      "color": "#570900",
+      "description": "CrewAI 的官方 AI 产品与开发工具目录。",
+      "website": "https://docs.crewai.com/",
+      "tutorial": "https://github.com/crewAIInc/crewAI",
+      "products": [
+        {
+          "id": "crewai-framework",
+          "name": "CrewAI",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "有 CLI，但创建/运行 Agent 项目依赖 Python 环境、模型 Key 与代码执行；适合教程式项目安装，不适合全局无提示安装。",
+          "website": "https://docs.crewai.com/",
+          "tutorial": "https://github.com/crewAIInc/crewAI",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 47
+    },
+    {
+      "id": "openwebui",
+      "name": "Open WebUI",
+      "initial": "O",
+      "mark": "O",
+      "iconUrl": "",
+      "color": "#7bb2d1",
+      "description": "Open WebUI 的官方 AI 产品与开发工具目录。",
+      "website": "https://github.com/open-webui/open-webui",
+      "tutorial": "https://docs.openwebui.com/",
+      "products": [
+        {
+          "id": "open-webui",
+          "name": "Open WebUI",
+          "kind": "其他产品",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ],
+          "category": "智能体",
+          "description": "工具/Functions 可执行用户提供的 Python；只对信任管理员开放，不能作为普通插件无审核安装。",
+          "website": "https://github.com/open-webui/open-webui",
+          "tutorial": "https://docs.openwebui.com/",
+          "productType": "tutorial",
+          "requirements": [],
+          "installProfileId": "",
+          "enabled": true,
+          "order": 0,
+          "extensions": []
+        }
+      ],
+      "enabled": true,
+      "order": 48
     }
   ],
   "environmentDownloads": {

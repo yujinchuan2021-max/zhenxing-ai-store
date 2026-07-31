@@ -8,6 +8,8 @@
 !admin/data/release-settings.json
 !shared/
 !shared/**
+!scripts/
+!scripts/discover-official-products.mjs
 !identity/
 !identity/**
 !package.json

@@ -26,6 +26,20 @@ const updateEnvelope = JSON.parse(
   )
 );
 const expected = updateEnvelope.payload;
+const releaseManifest = JSON.parse(
+  fs.readFileSync(
+    path.join(
+      root,
+      "deployment",
+      "local",
+      "runtime",
+      "current",
+      "public",
+      "release-manifest.json"
+    ),
+    "utf8"
+  )
+);
 
 function request(relativeUrl, headers = {}) {
   return new Promise((resolve, reject) => {
@@ -109,11 +123,18 @@ async function verifyArtifact() {
 }
 
 async function main() {
-  const [catalog, update, artifact] = await Promise.all([
+  const [catalog, update, build, artifact] = await Promise.all([
     verifyJson("/catalog-release.json", "catalog"),
     verifyJson("/update-release.json", "update"),
+    verifyJson("/build-provenance.json", "build-provenance"),
     verifyArtifact()
   ]);
+  if (
+    build.payload?.version !== update.payload.version ||
+    build.payload?.source?.revision !== releaseManifest.build?.source?.revision
+  ) {
+    throw new Error("HTTPS 构建来源证明与发布清单不一致");
+  }
   process.stdout.write(
     `${JSON.stringify(
       {
@@ -121,6 +142,7 @@ async function main() {
         tls: "validated-with-caddy-root-ca",
         catalogVersion: catalog.payload.catalogVersion,
         updateVersion: update.payload.version,
+        sourceRevision: build.payload.source.revision,
         artifact
       },
       null,

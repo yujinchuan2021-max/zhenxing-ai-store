@@ -16,6 +16,7 @@ function launchProcessWithGrace({
   env,
   graceMs = 2_000,
   onSpawn = () => {},
+  onProcessExit = null,
   verifyLaunch = async () => ({ ok: true }),
   processLabel = "安装程序",
   spawnProcess = spawn
@@ -28,6 +29,7 @@ function launchProcessWithGrace({
     !Number.isSafeInteger(graceMs) ||
     graceMs < 1 ||
     typeof onSpawn !== "function" ||
+    (onProcessExit !== null && typeof onProcessExit !== "function") ||
     typeof verifyLaunch !== "function" ||
     typeof processLabel !== "string" ||
     !processLabel.trim() ||
@@ -57,7 +59,7 @@ function launchProcessWithGrace({
       settled = true;
       if (timer) clearTimeout(timer);
       child?.removeListener("error", onError);
-      child?.removeListener("exit", onExit);
+      if (!onProcessExit) child?.removeListener("exit", onExit);
       child?.unref?.();
       resolve(withWarning(result));
     };
@@ -74,6 +76,18 @@ function launchProcessWithGrace({
     };
 
     const onExit = (exitCode, signal) => {
+      if (onProcessExit) {
+        try {
+          Promise.resolve(
+            onProcessExit({
+              exitCode: Number.isInteger(exitCode) ? exitCode : null,
+              signal: typeof signal === "string" ? signal : null
+            })
+          ).catch(() => {});
+        } catch {
+          // Process-exit observers are advisory and cannot change launch proof.
+        }
+      }
       if (exitCode === 0) {
         cleanExitCode = 0;
         return;

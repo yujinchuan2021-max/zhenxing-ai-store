@@ -3,8 +3,24 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const {
+  getDownloadTaskPreparation,
+  getProductDownloadRecoveryPresentation,
   getProductInstallPresentation
 } = require("../shared/product-install-presentation.cjs");
+
+test("a failed recovered task re-enters the shared download action", () => {
+  assert.equal(
+    getDownloadTaskPreparation({ phase: "failed", resumable: false }),
+    "ready"
+  );
+  assert.equal(
+    getDownloadTaskPreparation({ phase: "failed", resumable: true }),
+    "ready"
+  );
+  assert.equal(getDownloadTaskPreparation({ phase: "completed" }), "downloaded");
+  assert.equal(getDownloadTaskPreparation({ phase: "downloading" }), "active");
+  assert.equal(getDownloadTaskPreparation({ phase: "canceled" }), null);
+});
 
 test("installing is one disabled button without explanatory copy", () => {
   for (const stage of [
@@ -44,6 +60,57 @@ test("a downloaded package shows only its path and immediate install", () => {
       disabled: false,
       showHash: false,
       showTaskLog: false
+    }
+  );
+});
+
+test("a failed desktop download exposes one clear retry action", () => {
+  assert.deepEqual(
+    getProductDownloadRecoveryPresentation({
+      stage: "error",
+      downloadTask: {
+        phase: "failed",
+        resumable: false,
+        errorMessage: "net::ERR_FAILED"
+      }
+    }),
+    {
+      messageKey: "download.connectionFailed",
+      actions: ["retry"]
+    }
+  );
+});
+
+test("a failed desktop download with a verified partial exposes one resume action", () => {
+  assert.deepEqual(
+    getProductDownloadRecoveryPresentation({
+      stage: "error",
+      downloadTask: {
+        phase: "failed",
+        resumable: true,
+        errorMessage: "下载连接失败"
+      }
+    }),
+    {
+      messageKey: null,
+      actions: ["resume"]
+    }
+  );
+});
+
+test("a paused desktop download keeps pause-specific recovery actions", () => {
+  assert.deepEqual(
+    getProductDownloadRecoveryPresentation({
+      stage: "paused",
+      downloadTask: {
+        phase: "paused",
+        resumable: true,
+        errorMessage: ""
+      }
+    }),
+    {
+      messageKey: null,
+      actions: ["resume", "relocate", "cancel"]
     }
   );
 });

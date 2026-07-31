@@ -7,22 +7,30 @@ import {
   useState
 } from "react";
 import { runEnvironmentInstall } from "@aihub-shared/environment-install-flow.cjs";
+import { createEnvironmentInstallOrchestrator } from "@aihub-shared/environment-install-orchestrator.cjs";
 import { runDownloadedPackageAction } from "@aihub-shared/downloaded-package-action.cjs";
+import { loadDevelopmentCatalog } from "@aihub-shared/development-catalog.cjs";
 import { buildInstalledProductManagement } from "@aihub-shared/installed-product-management.cjs";
-import { getProductInstallPresentation } from "@aihub-shared/product-install-presentation.cjs";
+import {
+  getDownloadTaskPreparation,
+  getProductDownloadRecoveryPresentation,
+  getProductInstallPresentation
+} from "@aihub-shared/product-install-presentation.cjs";
 import { resolveProductBehavior } from "@aihub-shared/product-policy.cjs";
 import { getUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
+import { buildProductDirectory } from "@aihub-shared/product-components.cjs";
 import {
   createLanguage,
   normalizeLanguage,
+  runtimeMessage,
   setActiveLanguage,
   uiText,
   type Language
 } from "./language";
 import {
-  categories,
   Product,
   ProductCategory,
+  ProductExtension,
   ProductKind,
   Vendor,
   vendors as builtInVendors
@@ -164,12 +172,25 @@ function managedDownloadPhaseLabel(task: ManagedDownloadTask) {
   }
 }
 
+function managedDownloadErrorLabel(task: ManagedDownloadTask) {
+  return task.errorCode === "DOWNLOAD_CONNECTION_FAILED" ||
+    /(?:net::)?ERR_/i.test(task.errorMessage || "")
+    ? uiText("download.connectionFailed")
+    : runtimeMessage(
+        task.errorMessage,
+        task.errorCode,
+        "auto.8a03e35ad323"
+      );
+}
+
 function operationTaskPhaseLabel(
   operation: "install" | "uninstall",
   phase: DesktopOperationTask["phase"] | EnvironmentOperationTask["phase"]
 ) {
   if (phase === "installed") return uiText("auto.57cf47f232a8");
   if (phase === "uninstalled") return uiText("auto.caa61a1470e1");
+  if (phase === "canceled") return uiText("desktop.installCanceled");
+  if (phase === "failed") return uiText("desktop.installFailed");
   if (phase === "launching") {
     return operation === "install"
       ? uiText("auto.343372e2f5fa")
@@ -231,7 +252,8 @@ const ENVIRONMENT_NAMES: Record<string, string> = {
   node: "Node.js",
   git: "Git",
   python: "Python",
-  docker: "Docker"
+  docker: "Docker",
+  wsl: "WSL"
 };
 
 async function prepareAvatarImage(file: File) {
@@ -293,34 +315,82 @@ const browserEnvironmentFallback: EnvironmentReport = {
     { id: "node", name: "Node.js", installed: false, location: "" },
     { id: "git", name: "Git", installed: false, location: "" },
     { id: "python", name: "Python", installed: false, location: "" },
-    { id: "docker", name: "Docker", installed: false, location: "" }
+    { id: "docker", name: "Docker", installed: false, location: "" },
+    { id: "wsl", name: "WSL", installed: false, location: "" }
   ]
 };
 
 const builtInBanners: CatalogBanner[] = [
   {
-    eyebrow: "AI HUB · PC",
-    title: "一个地方，找到并安装你的 AI 工具",
-    description:
-      "从厂商进入，查看桌面端、CLI 与其他产品；只有点击安装后才进行环境检测。",
-    action: "查看全部厂商"
+    eyebrow: createLanguage("zh").text("home.primaryBannerEyebrow"),
+    title: createLanguage("zh").text("home.primaryBannerTitle"),
+    description: createLanguage("zh").text("home.primaryBannerDescription"),
+    action: createLanguage("zh").text("home.primaryBannerAction")
   },
   {
-    eyebrow: "厂商优先",
-    title: "先选厂商，再看它旗下的全部产品",
-    description:
-      "按 A–Z 和工具特性筛选厂商，进入厂商页后统一查看产品、官网与使用教程。",
-    action: "进入厂商目录"
+    eyebrow: createLanguage("zh").text("home.vendorBannerEyebrow"),
+    title: createLanguage("zh").text("home.vendorBannerTitle"),
+    description: createLanguage("zh").text("home.vendorDirectoryDescription"),
+    action: createLanguage("zh").text("home.vendorDirectoryAction")
   }
 ];
 const builtInBrand: CatalogBrand = {
   name: "AI Hub",
   mark: "A",
-  slogan: "一个地方，找到并安装你的 AI 工具"
+  slogan: createLanguage("zh").text("brand.defaultSlogan")
 };
+
+const CATALOG_REFRESH_TTL_MS = 60_000;
+
+function sortCatalogVendors(vendors: Vendor[]) {
+  return vendors
+    .map((vendor) => ({
+      ...vendor,
+      products: [...vendor.products].sort(
+        (left, right) =>
+          (left.order ?? 0) - (right.order ?? 0) ||
+          left.name.localeCompare(right.name, "zh-CN")
+      )
+    }))
+    .sort(
+      (left, right) =>
+        (left.order ?? 0) - (right.order ?? 0) ||
+        left.name.localeCompare(right.name, "zh-CN")
+    );
+}
+
+function visibleCatalogVendors(vendors: Vendor[]) {
+  return vendors
+    .filter((vendor) => vendor.enabled !== false)
+    .map((vendor) => ({
+      ...vendor,
+      products: vendor.products.filter((product) => product.enabled !== false)
+    }));
+}
+
+function inferCatalogCategories(vendors: Vendor[]) {
+  return [
+    ...new Set(
+      vendors.flatMap((vendor) =>
+        vendor.products.map((product) => product.category)
+      )
+    )
+  ];
+}
+
+const builtInCatalogVendors = sortCatalogVendors(builtInVendors);
+
 export default function App() {
+  const [catalogAllVendors, setCatalogAllVendors] =
+    useState<Vendor[]>(() => (window.aihubPC ? [] : builtInCatalogVendors));
   const [catalogVendors, setCatalogVendors] =
-    useState<Vendor[]>(builtInVendors);
+    useState<Vendor[]>(() =>
+      window.aihubPC ? [] : visibleCatalogVendors(builtInCatalogVendors)
+    );
+  const [catalogCategories, setCatalogCategories] = useState<ProductCategory[]>(() =>
+    inferCatalogCategories(window.aihubPC ? [] : builtInCatalogVendors)
+  );
+  const [catalogError, setCatalogError] = useState("");
   const [homeBanners, setHomeBanners] =
     useState<CatalogBanner[]>(builtInBanners);
   const [brand, setBrand] = useState<CatalogBrand>(builtInBrand);
@@ -376,6 +446,9 @@ export default function App() {
   const [desktopStatuses, setDesktopStatuses] = useState<
     Record<string, DesktopStatus>
   >({});
+  const [localInventory, setLocalInventory] = useState<
+    ClientInstallProfile[]
+  >([]);
   const [productErrors, setProductErrors] = useState<Record<string, string>>({});
   const [cliLogs, setCliLogs] = useState<Record<string, CliLogEntry[]>>({});
   const [cliVersions, setCliVersions] = useState<Record<string, string>>({});
@@ -408,9 +481,15 @@ export default function App() {
   const installedEvidenceProducts = useRef<Set<string>>(new Set());
   const recoveredProductIds = useRef<Set<string>>(new Set());
   const recoveredEnvironmentIds = useRef<Set<string>>(new Set());
-  const recoveredCliIds = useRef<Set<string>>(new Set());
+  const initialInventoryRecovered = useRef(false);
   const activeProductActions = useRef<Set<string>>(new Set());
   const autoLaunchInstallerProducts = useRef<Set<string>>(new Set());
+  const automaticEnvironmentFlow = useRef(
+    createEnvironmentInstallOrchestrator()
+  );
+  const pendingEnvironmentProducts = useRef<Map<string, Product>>(new Map());
+  const autoOpenEnvironmentInstallers = useRef<Set<string>>(new Set());
+  const advancingEnvironmentFlow = useRef(false);
 
   const languageModule = useMemo(() => createLanguage(language), [language]);
   const t = {
@@ -429,7 +508,7 @@ export default function App() {
   ];
   const downloadTaskNames = useMemo(() => {
     const names: Record<string, string> = {};
-    for (const vendor of catalogVendors) {
+    for (const vendor of catalogAllVendors) {
       for (const product of vendor.products) {
         names[product.id] = product.name;
       }
@@ -438,18 +517,21 @@ export default function App() {
       names[`environment:${environmentId}`] = uiText("auto.07990042ef55", { value1: name });
     }
     return names;
-  }, [catalogVendors]);
+  }, [catalogAllVendors]);
   const installedManagement = useMemo(
     () =>
       buildInstalledProductManagement({
-        vendors: catalogVendors,
+        vendors: catalogAllVendors,
+        localInventory,
         desktopStatuses,
         cliStatuses,
         environmentChecks: environment?.checks || [],
+        wslDistributions: environment?.wslDistributions || [],
         downloadTasks
       }),
     [
-      catalogVendors,
+      catalogAllVendors,
+      localInventory,
       desktopStatuses,
       cliStatuses,
       environment,
@@ -458,7 +540,7 @@ export default function App() {
   );
   const operationTaskNames = useMemo(() => {
     const names: Record<string, string> = {};
-    for (const vendor of catalogVendors) {
+    for (const vendor of catalogAllVendors) {
       for (const product of vendor.products) {
         names[product.id] = product.name;
       }
@@ -467,7 +549,7 @@ export default function App() {
       names[`environment:${environmentId}`] = uiText("auto.2201a196b4ed", { value1: name });
     }
     return names;
-  }, [catalogVendors]);
+  }, [catalogAllVendors]);
 
   const updateCliManagedTask = (
     productId: string,
@@ -549,6 +631,21 @@ export default function App() {
                   ? ""
                   : uiText("auto.51323b31d536", { value1: name, value2: percent })
       }));
+      if (
+        task.phase === "completed" &&
+        autoOpenEnvironmentInstallers.current.delete(environmentId)
+      ) {
+        void openEnvironmentInstaller(environmentId);
+      } else if (
+        task.phase === "failed" &&
+        automaticEnvironmentFlow.current.snapshot().activeEnvironmentId ===
+          environmentId
+      ) {
+        failAutomaticEnvironmentSetup(
+          environmentId,
+          task.errorMessage || uiText("auto.5d99c0cf7688", { value1: name })
+        );
+      }
       return;
     }
 
@@ -645,7 +742,7 @@ export default function App() {
       autoLaunchInstallerProducts.current.delete(task.productId);
       setProductErrors((current) => ({
         ...current,
-        [task.productId]: task.errorMessage || uiText("auto.8a03e35ad323")
+        [task.productId]: managedDownloadErrorLabel(task)
       }));
       setProductStages((current) => ({
         ...current,
@@ -707,6 +804,36 @@ export default function App() {
       installedEvidenceProducts.current.delete(task.productId);
       setProductErrors((current) => ({ ...current, [task.productId]: "" }));
       void restoreDownloadedOrReady(task.productId, () => true, true);
+      return;
+    }
+    if (task.phase === "canceled" || task.phase === "failed") {
+      if (task.operation === "uninstall") {
+        installedEvidenceProducts.current.add(task.productId);
+        setProductErrors((current) => ({
+          ...current,
+          [task.productId]:
+            task.phase === "failed"
+              ? task.lastError || uiText("desktop.uninstallFailed")
+              : ""
+        }));
+        setProductStages((current) => ({
+          ...current,
+          [task.productId]: "installed"
+        }));
+        return;
+      }
+      installedEvidenceProducts.current.delete(task.productId);
+      setProductErrors((current) => ({
+        ...current,
+        [task.productId]:
+          task.phase === "failed"
+            ? task.lastError || uiText("desktop.installFailed")
+            : ""
+      }));
+      setProductStages((current) => ({
+        ...current,
+        [task.productId]: "downloaded"
+      }));
       return;
     }
     if (task.operation === "uninstall") {
@@ -790,7 +917,7 @@ export default function App() {
         .filter((check) => check.installed)
         .map((check) => check.id)
     );
-    const products = catalogVendors.flatMap((vendor) => vendor.products);
+    const products = catalogAllVendors.flatMap((vendor) => vendor.products);
     setProductMissing((current) => {
       const next = { ...current };
       for (const product of products) {
@@ -876,7 +1003,10 @@ export default function App() {
     return snapshot;
   };
 
-  const applyEnvironmentOperationTask = (task: EnvironmentOperationTask) => {
+  const applyEnvironmentOperationTask = (
+    task: EnvironmentOperationTask,
+    allowGeneralProbe = true
+  ) => {
     const known = environmentOperationRevisions.current[task.environmentId];
     if (
       known &&
@@ -927,7 +1057,7 @@ export default function App() {
     const name = ENVIRONMENT_NAMES[task.environmentId] || task.environmentId;
     if (task.phase === "installed" || task.phase === "uninstalled") {
       delete environmentOperations.current[task.environmentId];
-      for (const product of catalogVendors.flatMap(
+      for (const product of catalogAllVendors.flatMap(
         (vendor) => vendor.products
       )) {
         if (product.requirements.includes(task.environmentId)) {
@@ -945,6 +1075,13 @@ export default function App() {
           ...current,
           [task.environmentId]: uiText("auto.59f68a10399b", { value1: name })
         }));
+        automaticEnvironmentFlow.current.complete(task.environmentId);
+        autoOpenEnvironmentInstallers.current.delete(task.environmentId);
+        if (allowGeneralProbe) {
+          window.setTimeout(() => {
+            void continueAutomaticEnvironmentInstalls();
+          }, 0);
+        }
       } else {
         installedEnvironmentEvidence.current.delete(task.environmentId);
         setEnvironmentPackageStages((current) => ({
@@ -957,7 +1094,7 @@ export default function App() {
         }));
         void restoreEnvironmentPackage(task.environmentId, false);
       }
-      void refreshEnvironmentReport(false);
+      if (allowGeneralProbe) void refreshEnvironmentReport(false);
       return true;
     }
 
@@ -995,6 +1132,17 @@ export default function App() {
                 ? uiText("auto.59697449b2f9", { value1: name, value2: task.operation === "install" ? uiText("auto.e8f88f51ccb0") : uiText("auto.06bc14b60f35") })
                 : uiText("auto.637f9cedf44d", { value1: name, value2: task.operation === "install" ? uiText("auto.e8f88f51ccb0") : uiText("auto.06bc14b60f35") })
     }));
+    if (
+      task.operation === "install" &&
+      task.phase === "timed-out" &&
+      automaticEnvironmentFlow.current.snapshot().activeEnvironmentId ===
+        task.environmentId
+    ) {
+      failAutomaticEnvironmentSetup(
+        task.environmentId,
+        uiText("auto.a13ad2d64b34", { value1: name })
+      );
+    }
     return true;
   };
 
@@ -1029,6 +1177,55 @@ export default function App() {
     return true;
   };
 
+  const applyManagedInventory = (
+    snapshot: ManagedProductInventorySnapshot
+  ) => {
+    setLocalInventory(snapshot.profiles || []);
+    setDesktopStatuses((current) => ({
+      ...current,
+      ...snapshot.desktopStatuses
+    }));
+    setCliStatuses((current) => ({ ...current, ...snapshot.cliStatuses }));
+    setCliVersions((current) => {
+      const next = { ...current };
+      for (const [productId, status] of Object.entries(snapshot.cliStatuses)) {
+        next[productId] = status.installed ? status.version : "";
+      }
+      return next;
+    });
+    for (const [productId, status] of Object.entries(
+      snapshot.desktopStatuses
+    )) {
+      if (status.installed) installedEvidenceProducts.current.add(productId);
+    }
+    setProductStages((current) => {
+      const next = { ...current };
+      for (const [productId, status] of Object.entries(
+        snapshot.desktopStatuses
+      )) {
+        if (status.installed) next[productId] = "installed";
+        else if (
+          status.detection === "unknown" &&
+          !["downloading", "launching-installer", "awaiting-verification"].includes(
+            current[productId]
+          )
+        ) {
+          next[productId] = "detection-error";
+        }
+      }
+      for (const [productId, status] of Object.entries(snapshot.cliStatuses)) {
+        if (["deploying", "removing-cli"].includes(current[productId])) {
+          continue;
+        }
+        if (status.installed) next[productId] = "installed";
+        else if (status.detection === "unknown") {
+          next[productId] = "detection-error";
+        }
+      }
+      return next;
+    });
+  };
+
   useEffect(() => {
     window.aihubPC?.getSettings().then((settings) => {
       setDownloadDirectory(settings.downloadDirectory);
@@ -1046,6 +1243,17 @@ export default function App() {
       ?.getIdentity()
       .then(setIdentity)
       .catch(() => setIdentity({ status: "anonymous" }));
+  }, []);
+
+  useEffect(() => {
+    if (!window.aihubPC || initialInventoryRecovered.current) return;
+    initialInventoryRecovered.current = true;
+    void window.aihubPC
+      .scanManagedInventory()
+      .then(applyManagedInventory)
+      .catch(() => {
+        initialInventoryRecovered.current = false;
+      });
   }, []);
 
   useEffect(() => {
@@ -1111,22 +1319,18 @@ export default function App() {
             (await window.aihubPC?.getEnvironmentOperation?.(environmentId)) ||
             null;
           if (operationTask) {
-            applyEnvironmentOperationTask(operationTask);
+            applyEnvironmentOperationTask(operationTask, false);
           }
         } catch {
           recoveredEnvironmentIds.current.delete(environmentId);
         }
       })();
     }
-    // A completion event may have fired before this renderer subscribed.
-    // One trusted startup scan reconciles a tombstoned operation without
-    // reopening any installer.
-    void refreshEnvironmentReport(false);
   }, []);
 
   useEffect(() => {
     if (!window.aihubPC) return;
-    catalogVendors
+    catalogAllVendors
       .flatMap((vendor) => vendor.products)
       .filter((product) => product.download)
       .forEach((product) => {
@@ -1198,133 +1402,111 @@ export default function App() {
             if (!resolveProductBehavior(product).managedDesktop) return;
             const operationTask =
               (await window.aihubPC?.getDesktopOperation?.(product.id)) || null;
-            let desktopStatus: DesktopStatus | null = null;
-            try {
-              desktopStatus = await window.aihubPC!.getDesktopStatus(product.id);
-            } catch {
-              desktopStatus = null;
-            }
-            if (operationTask?.operation === "uninstall") {
-              applyDesktopOperationTask(operationTask);
-            } else if (desktopStatus?.installed) {
-              installedEvidenceProducts.current.add(product.id);
-              setDesktopStatuses((current) => ({
-                ...current,
-                [product.id]: desktopStatus!
-              }));
-              setProductErrors((current) => ({
-                ...current,
-                [product.id]: ""
-              }));
-              setProductStages((current) => ({
-                ...current,
-                [product.id]: "installed"
-              }));
-            } else if (operationTask) {
-              applyDesktopOperationTask(operationTask);
-            } else if (desktopStatus) {
-              setDesktopStatuses((current) => ({
-                ...current,
-                [product.id]: desktopStatus!
-              }));
-            }
+            if (operationTask) applyDesktopOperationTask(operationTask);
           } catch {
             // A damaged local record must not block recovery for other products.
             recoveredProductIds.current.delete(product.id);
           }
         })();
       });
-  }, [catalogVendors]);
+  }, [catalogAllVendors]);
 
   useEffect(() => {
-    if (!window.aihubPC) return;
-    catalogVendors
-      .flatMap((vendor) => vendor.products)
-      .filter((product) => resolveProductBehavior(product).managedCli)
-      .forEach((product) => {
-        if (recoveredCliIds.current.has(product.id)) return;
-        recoveredCliIds.current.add(product.id);
-        void window.aihubPC!
-          .getCliStatus(product.id)
-          .then((status) => {
-            if (
-              !status ||
-              !["installed", "absent", "unknown"].includes(status.detection)
-            ) {
-              recoveredCliIds.current.delete(product.id);
-              return;
-            }
-            setCliStatuses((current) => ({
-              ...current,
-              [product.id]: status
-            }));
-            setCliVersions((current) => ({
-              ...current,
-              [product.id]: status.installed ? status.version : ""
-            }));
-            setProductStages((current) => {
-              if (
-                current[product.id] === "deploying" ||
-                current[product.id] === "removing-cli"
-              ) {
-                return current;
-              }
-              return {
-                ...current,
-                [product.id]:
-                  status.detection === "unknown"
-                    ? "detection-error"
-                    : status.installed
-                      ? "installed"
-                      : current[product.id] === "installed" ||
-                          current[product.id] === "detection-error"
-                        ? "ready"
-                        : current[product.id] || "idle"
-              };
-            });
-            setProductErrors((current) => ({
-              ...current,
-              [product.id]:
-                status.detection === "unknown"
-                  ? uiText("auto.365fe0e4894c")
-                  : ""
-            }));
-          })
-          .catch(() => {
-            recoveredCliIds.current.delete(product.id);
-          });
-      });
-  }, [catalogVendors]);
+    let disposed = false;
+    let hasCatalogSnapshot = false;
+    let lastSuccessfulRefreshAt = 0;
+    let pendingRefresh: Promise<void> | null = null;
 
-  useEffect(() => {
-    window.aihubPC?.getCatalog().then((result) => {
-      if (!result.catalog) return;
-      setCatalogVendors(
-        result.catalog.vendors
-          .filter((vendor) => vendor.enabled !== false)
-          .map((vendor) => ({
-            ...vendor,
-            products: vendor.products
-              .filter((product) => product.enabled !== false)
-              .sort(
-                (left, right) =>
-                  (left.order ?? 0) - (right.order ?? 0) ||
-                  left.name.localeCompare(right.name, "zh-CN")
-              )
-          }))
-          .sort(
-            (left, right) =>
-              (left.order ?? 0) - (right.order ?? 0) ||
-              left.name.localeCompare(right.name, "zh-CN")
-          )
-      );
-      if (result.catalog.brand) setBrand(result.catalog.brand);
-      setExtraSections(result.catalog.extraSections || []);
-      if (result.catalog.home) {
-        setHomeBanners(result.catalog.home.banners);
-        setFeaturedVendorIds(result.catalog.home.featuredVendorIds);
+    const refreshCatalog = (force = false) => {
+      if (
+        !force &&
+        Date.now() - lastSuccessfulRefreshAt < CATALOG_REFRESH_TTL_MS
+      ) {
+        return Promise.resolve();
       }
-    });
+      if (pendingRefresh) return pendingRefresh;
+
+      const request =
+        window.aihubPC?.getCatalog() ??
+        (import.meta.env.DEV
+          ? loadDevelopmentCatalog(window.fetch.bind(window))
+          : undefined);
+      if (!request) return Promise.resolve();
+
+      pendingRefresh = request
+        .then((result: CatalogResult) => {
+          if (disposed) return;
+          if (!result.catalog) {
+            if (!hasCatalogSnapshot) {
+              setCatalogAllVendors([]);
+              setCatalogVendors([]);
+              setCatalogCategories([]);
+              setCatalogError(
+                result.error || uiText("catalog.unavailableDescription")
+              );
+            }
+            return;
+          }
+
+          const catalog = result.catalog as NonNullable<
+            CatalogResult["catalog"]
+          > & { categories?: ProductCategory[] };
+          const allVendors = sortCatalogVendors(catalog.vendors);
+          const visibleVendors = visibleCatalogVendors(allVendors);
+          const nextCategories =
+            Array.isArray(catalog.categories) && catalog.categories.length
+              ? [...catalog.categories]
+              : inferCatalogCategories(allVendors);
+
+          hasCatalogSnapshot = true;
+          lastSuccessfulRefreshAt = Date.now();
+          setCatalogError("");
+          setCatalogAllVendors(allVendors);
+          setCatalogVendors(visibleVendors);
+          setCatalogCategories(nextCategories);
+          setCategory((current) =>
+            current === "全部" || nextCategories.includes(current)
+              ? current
+              : "全部"
+          );
+          setSelectedVendor((current) =>
+            current
+              ? visibleVendors.find((vendor) => vendor.id === current.id) || null
+              : null
+          );
+          setBrand(catalog.brand || builtInBrand);
+          setExtraSections(catalog.extraSections || []);
+          setHomeBanners(catalog.home?.banners || builtInBanners);
+          setFeaturedVendorIds(catalog.home?.featuredVendorIds || []);
+        })
+        .catch((error: unknown) => {
+          if (disposed || hasCatalogSnapshot) return;
+          setCatalogAllVendors([]);
+          setCatalogVendors([]);
+          setCatalogCategories([]);
+          setCatalogError(
+            error instanceof Error
+              ? error.message
+              : uiText("catalog.unavailableDescription")
+          );
+        })
+        .finally(() => {
+          pendingRefresh = null;
+        });
+      return pendingRefresh;
+    };
+
+    void refreshCatalog(true);
+    const refreshOnFocus = () => void refreshCatalog(false);
+    window.addEventListener("focus", refreshOnFocus);
+    const refreshTimer = window.setInterval(() => {
+      if (document.visibilityState === "visible") void refreshCatalog(false);
+    }, CATALOG_REFRESH_TTL_MS);
+    return () => {
+      disposed = true;
+      window.clearInterval(refreshTimer);
+      window.removeEventListener("focus", refreshOnFocus);
+    };
   }, []);
 
   useEffect(() => {
@@ -1532,6 +1714,22 @@ export default function App() {
     if (result.operationTask) {
       applyEnvironmentOperationTask(result.operationTask);
     }
+    if (
+      result.downloaded &&
+      autoOpenEnvironmentInstallers.current.delete(environmentId)
+    ) {
+      await openEnvironmentInstaller(environmentId);
+      return;
+    }
+    if (
+      result.error &&
+      !result.task &&
+      !result.operationTask &&
+      automaticEnvironmentFlow.current.snapshot().activeEnvironmentId ===
+        environmentId
+    ) {
+      failAutomaticEnvironmentSetup(environmentId, result.error);
+    }
   };
 
   const setDownloadTaskError = (productId: string, message: string) => {
@@ -1613,7 +1811,7 @@ export default function App() {
       else await installEnvironment(environmentId);
       return;
     }
-    const product = catalogVendors
+    const product = catalogAllVendors
       .flatMap((vendor) => vendor.products)
       .find((candidate) => candidate.id === productId);
     if (!product) {
@@ -1785,6 +1983,15 @@ export default function App() {
         }));
       } else {
         await restoreEnvironmentPackage(environmentId, false);
+        if (
+          automaticEnvironmentFlow.current.snapshot().activeEnvironmentId ===
+          environmentId
+        ) {
+          failAutomaticEnvironmentSetup(
+            environmentId,
+            result.error || uiText("auto.68d6219c04fb", { value1: name })
+          );
+        }
       }
       setEnvironmentMessages((current) => ({
         ...current,
@@ -1795,12 +2002,114 @@ export default function App() {
       }));
     } catch (error) {
       await restoreEnvironmentPackage(environmentId, false);
+      if (
+        automaticEnvironmentFlow.current.snapshot().activeEnvironmentId ===
+        environmentId
+      ) {
+        failAutomaticEnvironmentSetup(
+          environmentId,
+          error instanceof Error ? error.message : uiText("auto.68d6219c04fb", { value1: name })
+        );
+      }
       setEnvironmentMessages((current) => ({
         ...current,
         [environmentId]:
           error instanceof Error ? error.message : uiText("auto.633a7cff13e6")
       }));
     }
+  };
+
+  const failAutomaticEnvironmentSetup = (
+    environmentId: string,
+    message: string
+  ) => {
+    autoOpenEnvironmentInstallers.current.delete(environmentId);
+    const productIds = automaticEnvironmentFlow.current.fail(environmentId);
+    for (const productId of productIds) {
+      pendingEnvironmentProducts.current.delete(productId);
+      setProductErrors((current) => ({
+        ...current,
+        [productId]: message
+      }));
+      setProductStages((current) => ({
+        ...current,
+        [productId]: "error"
+      }));
+    }
+  };
+
+  const continueAutomaticEnvironmentInstalls = async () => {
+    if (!window.aihubPC || advancingEnvironmentFlow.current) return;
+    advancingEnvironmentFlow.current = true;
+    try {
+      const report = await refreshEnvironmentReport(false);
+      const installedIds = report.checks
+        .filter((check) => check.installed)
+        .map((check) => check.id);
+      const readyProductIds =
+        automaticEnvironmentFlow.current.readyProducts(installedIds);
+      for (const productId of readyProductIds) {
+        const product = pendingEnvironmentProducts.current.get(productId);
+        pendingEnvironmentProducts.current.delete(productId);
+        if (!product) continue;
+        setProductMissing((current) => ({ ...current, [productId]: [] }));
+        window.setTimeout(() => {
+          void runExclusiveProductAction(
+            product.id,
+            uiText("auto.e8f88f51ccb0"),
+            () => installUsingUnifiedRule(product)
+          );
+        }, 0);
+      }
+
+      const nextEnvironmentId =
+        automaticEnvironmentFlow.current.next(installedIds);
+      if (!nextEnvironmentId) return;
+      autoOpenEnvironmentInstallers.current.add(nextEnvironmentId);
+      for (const productId of automaticEnvironmentFlow.current.snapshot()
+        .pendingProductIds) {
+        setProductStages((current) => ({
+          ...current,
+          [productId]: "detecting"
+        }));
+        setProductErrors((current) => ({
+          ...current,
+          [productId]: uiText("auto.f48a5c1296de", { value1: ENVIRONMENT_NAMES[nextEnvironmentId] || nextEnvironmentId })
+        }));
+      }
+      await installEnvironment(nextEnvironmentId);
+    } catch (error) {
+      const activeEnvironmentId =
+        automaticEnvironmentFlow.current.snapshot().activeEnvironmentId;
+      if (activeEnvironmentId) {
+        failAutomaticEnvironmentSetup(
+          activeEnvironmentId,
+          error instanceof Error ? error.message : uiText("auto.ffa5be06b050")
+        );
+      }
+    } finally {
+      advancingEnvironmentFlow.current = false;
+    }
+  };
+
+  const beginAutomaticEnvironmentSetup = async (product: Product) => {
+    const report = await refreshEnvironmentReport(false);
+    const installedIds = new Set(
+      report.checks
+        .filter((check) => check.installed)
+        .map((check) => check.id)
+    );
+    const missing = product.requirements.filter(
+      (environmentId) => !installedIds.has(environmentId)
+    );
+    if (!missing.length) {
+      await installUsingUnifiedRule(product);
+      return;
+    }
+    pendingEnvironmentProducts.current.set(product.id, product);
+    automaticEnvironmentFlow.current.enqueue(product.id, missing);
+    setProductMissing((current) => ({ ...current, [product.id]: missing }));
+    await continueAutomaticEnvironmentInstalls();
   };
 
   const openEnvironmentLocation = async (environmentId: string) => {
@@ -1878,15 +2187,16 @@ export default function App() {
       task = null;
     }
     if (!isCurrent()) return "active";
-    if (task && task.phase !== "canceled") {
+    const taskPreparation = getDownloadTaskPreparation(task);
+    if (task && taskPreparation) {
       applyManagedDownloadTask(task);
-      if (forceOperationCompletion && task.phase === "completed") {
+      if (forceOperationCompletion && taskPreparation === "downloaded") {
         setProductStages((current) => ({
           ...current,
           [productId]: "downloaded"
         }));
       }
-      return task.phase === "completed" ? "downloaded" : "active";
+      return taskPreparation;
     }
     let record: DownloadRecord | null = null;
     try {
@@ -2291,14 +2601,14 @@ export default function App() {
       ) {
         continue;
       }
-      const product = catalogVendors
+      const product = catalogAllVendors
         .flatMap((vendor) => vendor.products)
         .find((candidate) => candidate.id === task.productId);
       if (product) {
         void installProduct(product);
       }
     }
-  }, [catalogVendors, downloadTasks]);
+  }, [catalogAllVendors, downloadTasks]);
 
   const recheckDesktopInstall = async (product: Product) => {
     if (!window.aihubPC) return;
@@ -2471,7 +2781,7 @@ export default function App() {
   };
 
   const checkDesktopOperationTask = async (productId: string) => {
-    const product = catalogVendors
+    const product = catalogAllVendors
       .flatMap((vendor) => vendor.products)
       .find((candidate) => candidate.id === productId);
     if (!product) {
@@ -2504,7 +2814,7 @@ export default function App() {
   };
 
   const findCatalogProduct = (productId: string) => {
-    for (const vendor of catalogVendors) {
+    for (const vendor of catalogAllVendors) {
       const product = vendor.products.find((item) => item.id === productId);
       if (product) return product;
     }
@@ -2521,8 +2831,12 @@ export default function App() {
 
   const deployCli = async (product: Product) => {
     let directory = cliInstallDirectory;
-    if (!directory) directory = await chooseCliDirectory();
-    if (!directory || !window.aihubPC) return;
+    const requiresInstallDirectory =
+      cliStatuses[product.id]?.requiresInstallDirectory !== false;
+    if (requiresInstallDirectory && !directory) {
+      directory = await chooseCliDirectory();
+    }
+    if ((requiresInstallDirectory && !directory) || !window.aihubPC) return;
 
     const generation = beginProductOperation(product.id);
     updateCliManagedTask(
@@ -3057,7 +3371,12 @@ export default function App() {
       await downloadProduct(product, true);
       return;
     }
-    await continueInstall(await detectForProduct(product));
+    const preparation = await detectForProduct(product);
+    if (preparation === "blocked") {
+      await beginAutomaticEnvironmentSetup(product);
+      return;
+    }
+    await continueInstall(preparation);
   };
 
   const requestUnifiedInstall = (product: Product) =>
@@ -3078,30 +3397,19 @@ export default function App() {
     if (!window.aihubPC) return;
     setScanning(true);
     try {
-      const products = catalogVendors.flatMap((vendor) => vendor.products);
-      await Promise.allSettled([
+      const [environmentResult, inventoryResult] = await Promise.allSettled([
         refreshEnvironmentReport(false),
-        ...products
-          .filter(
-            (product) => resolveProductBehavior(product).managedDesktop
-          )
-          .map(async (product) => {
-            const status = await window.aihubPC!.getDesktopStatus(product.id);
-            setDesktopStatuses((current) => ({
-              ...current,
-              [product.id]: status
-            }));
-          }),
-        ...products
-          .filter((product) => resolveProductBehavior(product).managedCli)
-          .map(async (product) => {
-            const status = await window.aihubPC!.getCliStatus(product.id);
-            setCliStatuses((current) => ({
-              ...current,
-              [product.id]: status
-            }));
-          })
+        window.aihubPC.scanManagedInventory()
       ]);
+      if (inventoryResult.status === "fulfilled") {
+        applyManagedInventory(inventoryResult.value);
+      }
+      if (environmentResult.status === "rejected") {
+        setManagementMessage(
+          "environment:scan",
+          runtimeMessage(environmentResult.reason)
+        );
+      }
     } finally {
       setScanning(false);
     }
@@ -3403,6 +3711,8 @@ export default function App() {
           ) : view === "vendors" ? (
             <VendorsPage
               vendors={visibleVendors}
+              catalogError={catalogError}
+              categoryOptions={["全部", ...catalogCategories]}
               category={category}
               letter={letter}
               letters={letters}
@@ -3427,6 +3737,12 @@ export default function App() {
                 void openCompletedDownloadTask(entry.id)
               }
               onUninstall={uninstallManagedProduct}
+              onRepairWslEnvironment={async (entry) => {
+                const product = findCatalogProduct(entry.ownerProductId);
+                if (!product) return;
+                await deployCli(product);
+                await refreshInstalledManagement();
+              }}
               onInstallPackage={(entry) =>
                 void openCompletedDownloadTask(entry.id)
               }
@@ -3646,6 +3962,8 @@ function HomePage({
 
 function VendorsPage({
   vendors: visible,
+  catalogError,
+  categoryOptions,
   category,
   letter,
   letters,
@@ -3655,6 +3973,8 @@ function VendorsPage({
   onOpenVendor
 }: {
   vendors: Vendor[];
+  catalogError: string;
+  categoryOptions: Array<"全部" | ProductCategory>;
   category: "全部" | ProductCategory;
   letter: string;
   letters: string[];
@@ -3674,7 +3994,7 @@ function VendorsPage({
       <section className="filters">
         <FilterRow
           label={uiText("auto.a74a788ef2ea")}
-          values={categories}
+          values={categoryOptions}
           active={category}
           onChange={(value) => onCategory(value as "全部" | ProductCategory)}
         />
@@ -3691,8 +4011,20 @@ function VendorsPage({
         <span>{visible.length} {uiText("auto.cad10bb229ea")}</span>
       </div>
 
-      <div className="vendorGrid">
-        {visible.map((vendor) => (
+      {catalogError ? (
+        <section className="catalogUnavailable" role="status">
+          <b>{uiText("catalog.unavailableTitle")}</b>
+          <span>
+            {runtimeMessage(
+              catalogError,
+              "CATALOG_UNAVAILABLE",
+              "catalog.unavailableDescription"
+            )}
+          </span>
+        </section>
+      ) : (
+        <div className="vendorGrid">
+          {visible.map((vendor) => (
           <button
             className="vendorCard"
             key={vendor.id}
@@ -3714,8 +4046,9 @@ function VendorsPage({
               <b>{uiText("auto.0eca81598063")}</b>
             </footer>
           </button>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }
@@ -3806,6 +4139,60 @@ function VendorPage({
   onOpenEnvironmentInstaller: (environmentId: string) => void;
 }) {
   const groups: ProductKind[] = ["桌面端", "CLI", "其他产品"];
+  const productDirectory = buildProductDirectory(vendor.products);
+  const renderProduct = (product: Product, nested = false) => {
+    const components = productDirectory.childrenByProductId[product.id] || [];
+    return (
+      <div
+        className={nested ? "productDirectoryEntry nested" : "productDirectoryEntry"}
+        key={product.id}
+      >
+        <ProductRow
+          product={product}
+          stage={productStages[product.id] || "idle"}
+          missing={productMissing[product.id] || []}
+          progress={productProgress[product.id] ?? null}
+          downloadDetail={productDownloadDetails[product.id]}
+          downloadTask={downloadTasks[product.id]}
+          error={
+            productErrors[product.id]
+              ? runtimeMessage(productErrors[product.id])
+              : ""
+          }
+          filePath={productFiles[product.id] || ""}
+          desktopStatus={desktopStatuses[product.id]}
+          logs={cliLogs[product.id] || []}
+          version={cliVersions[product.id] || ""}
+          cliStatus={cliStatuses[product.id]}
+          environmentMessages={environmentMessages}
+          environmentPackageStages={environmentPackageStages}
+          onInstallProduct={() => onInstallProduct(product)}
+          onPauseDownload={() => onPauseDownload(product)}
+          onCancelDownload={() => onCancelDownload(product)}
+          onRelocateDownload={() => onRelocateDownload(product)}
+          onUninstallCli={() => onUninstallCli(product)}
+          onUninstallDesktop={() => onUninstallDesktop(product)}
+          onRecheckDesktopUninstall={() =>
+            onRecheckDesktopUninstall(product)
+          }
+          onOpenDesktop={() => onOpenDesktop(product)}
+          onOpenDesktopLocation={() => onOpenDesktopLocation(product)}
+          onInstallEnvironment={onInstallEnvironment}
+          onOpenEnvironmentInstaller={onOpenEnvironmentInstaller}
+        />
+        {components.length > 0 ? (
+          <details className="productComponents">
+            <summary>
+              {uiText("products.components", { count: components.length })}
+            </summary>
+            <div className="productComponentList">
+              {components.map((component) => renderProduct(component, true))}
+            </div>
+          </details>
+        ) : null}
+      </div>
+    );
+  };
   return (
     <>
       <button className="backButton" onClick={onBack}>{uiText("auto.897b497715a6")}</button>
@@ -3828,43 +4215,14 @@ function VendorPage({
           </div>
         </div>
         {groups.map((group) => {
-          const products = vendor.products.filter((product) => product.kind === group);
+          const products = productDirectory.roots.filter(
+            (product) => product.kind === group
+          );
           if (!products.length) return null;
           return (
             <section className="productGroup" key={group}>
               <h3>{group}</h3>
-              {products.map((product) => (
-                <ProductRow
-                  key={product.id}
-                  product={product}
-                  stage={productStages[product.id] || "idle"}
-                  missing={productMissing[product.id] || []}
-                  progress={productProgress[product.id] ?? null}
-                  downloadDetail={productDownloadDetails[product.id]}
-                  downloadTask={downloadTasks[product.id]}
-                  error={productErrors[product.id] || ""}
-                  filePath={productFiles[product.id] || ""}
-                  desktopStatus={desktopStatuses[product.id]}
-                  logs={cliLogs[product.id] || []}
-                  version={cliVersions[product.id] || ""}
-                  cliStatus={cliStatuses[product.id]}
-                  environmentMessages={environmentMessages}
-                  environmentPackageStages={environmentPackageStages}
-                  onInstallProduct={() => onInstallProduct(product)}
-                  onPauseDownload={() => onPauseDownload(product)}
-                  onCancelDownload={() => onCancelDownload(product)}
-                  onRelocateDownload={() => onRelocateDownload(product)}
-                  onUninstallCli={() => onUninstallCli(product)}
-                  onUninstallDesktop={() => onUninstallDesktop(product)}
-                  onRecheckDesktopUninstall={() =>
-                    onRecheckDesktopUninstall(product)
-                  }
-                  onOpenDesktop={() => onOpenDesktop(product)}
-                  onOpenDesktopLocation={() => onOpenDesktopLocation(product)}
-                  onInstallEnvironment={onInstallEnvironment}
-                  onOpenEnvironmentInstaller={onOpenEnvironmentInstaller}
-                />
-              ))}
+              {products.map((product) => renderProduct(product))}
             </section>
           );
         })}
@@ -3879,6 +4237,147 @@ function VendorPage({
           {uiText("auto.08f7d323aada")}</button>
       </section>
     </>
+  );
+}
+
+function ExtensionResourceRow({
+  extension
+}: {
+  extension: ProductExtension;
+}) {
+  const canInstall =
+    extension.capabilities.includes("install") &&
+    Boolean(extension.installProfileId);
+  const canUninstall =
+    extension.capabilities.includes("uninstall") &&
+    Boolean(extension.installProfileId);
+  const managed = canInstall || canUninstall;
+  const [status, setStatus] = useState<ExtensionRuntimeResult | null>(null);
+  const [busyAction, setBusyAction] = useState<
+    "status" | "install" | "uninstall" | null
+  >(null);
+
+  useEffect(() => {
+    if (!managed || !extension.installProfileId) {
+      setStatus(null);
+      setBusyAction(null);
+      return;
+    }
+    let disposed = false;
+    const api = window.aihubPC;
+    if (!api) {
+      setStatus({
+        ok: false,
+        state: "unavailable",
+        managed: false,
+        error: uiText("extensions.unavailable")
+      });
+      return;
+    }
+    setBusyAction("status");
+    void api
+      .getExtensionStatus(extension.installProfileId)
+      .then((result) => {
+        if (!disposed) setStatus(result);
+      })
+      .catch(() => {
+        if (!disposed) {
+          setStatus({
+            ok: false,
+            state: "error",
+            managed: false,
+            error: uiText("extensions.failed")
+          });
+        }
+      })
+      .finally(() => {
+        if (!disposed) setBusyAction(null);
+      });
+    return () => {
+      disposed = true;
+    };
+  }, [extension.installProfileId, managed]);
+
+  const runAction = async (action: "install" | "uninstall") => {
+    const api = window.aihubPC;
+    if (!api || !extension.installProfileId || busyAction) return;
+    setBusyAction(action);
+    try {
+      const result =
+        action === "install"
+          ? await api.installExtension(extension.installProfileId)
+          : await api.uninstallExtension(extension.installProfileId);
+      setStatus(result);
+    } catch {
+      setStatus({
+        ok: false,
+        state: "error",
+        managed: false,
+        error: uiText("extensions.failed")
+      });
+    } finally {
+      setBusyAction(null);
+    }
+  };
+
+  const shouldUninstall =
+    canUninstall &&
+    (status?.state === "installed" || status?.state === "stale");
+  const shouldInstall = canInstall && status?.state === "not-installed";
+  const statusLabel =
+    busyAction === "status"
+      ? uiText("extensions.checking")
+      : status?.state === "installed"
+        ? uiText("extensions.installed")
+        : status?.state === "not-installed"
+          ? uiText("extensions.notInstalled")
+          : status?.state === "external"
+            ? uiText("extensions.external")
+            : status?.state === "stale"
+              ? uiText("extensions.stale")
+              : status?.error || "";
+
+  return (
+    <article className="productExtension">
+      <span>
+        {extension.extensionType === "skill"
+          ? uiText("extensions.skill")
+          : uiText("extensions.mcp")}
+      </span>
+      <div>
+        <b>{extension.name}</b>
+        <small>{extension.description}</small>
+        {managed && statusLabel && (
+          <small className={status?.ok === false ? "extensionError" : ""}>
+            {statusLabel}
+          </small>
+        )}
+      </div>
+      <div className="extensionActions">
+        {extension.capabilities.includes("website") && (
+          <button onClick={() => window.open(extension.website)}>
+            {uiText("extensions.openWebsite")} ↗
+          </button>
+        )}
+        {(shouldInstall || shouldUninstall) && (
+          <button
+            className={shouldInstall ? "accentButton" : ""}
+            disabled={busyAction !== null}
+            onClick={() => void runAction(shouldInstall ? "install" : "uninstall")}
+          >
+            {busyAction === "install"
+              ? uiText("extensions.installing")
+              : busyAction === "uninstall"
+                ? uiText("extensions.uninstalling")
+                : shouldInstall
+                  ? uiText("extensions.install")
+                  : status?.state === "stale"
+                    ? uiText("extensions.cleanup")
+                    : uiText("extensions.uninstall")}
+          </button>
+        )}
+      </div>
+    </article>
   );
 }
 
@@ -3940,6 +4439,8 @@ function ProductRow({
     stage,
     filePath
   });
+  const downloadRecoveryPresentation =
+    getProductDownloadRecoveryPresentation({ stage, downloadTask });
   const uninstallCopy = getUninstallPresentation(
     desktopStatus?.uninstallMode
   );
@@ -3980,12 +4481,16 @@ function ProductRow({
   const environmentStatus = missing
     .map((environmentId) => environmentMessages[environmentId])
     .find(Boolean);
+  const extensions = (product.extensions || [])
+    .filter((extension) => extension.enabled !== false)
+    .sort((left, right) => (left.order || 0) - (right.order || 0));
   return (
     <article className="productRow">
       <div className="productInfo">
         <span>{product.kind}</span>
         <h4>{product.name}</h4>
         <p>{product.description}</p>
+        {cliStatus?.summary && <small>{runtimeMessage(cliStatus.summary)}</small>}
       </div>
       <div className="productActions">
       {behavior.canOpenWebsite && (
@@ -4055,8 +4560,9 @@ function ProductRow({
                 })}
               </div>
               <small>
-                {environmentStatus ||
-                  uiText("auto.b7d7fb13afb6")}
+                {environmentStatus
+                  ? runtimeMessage(environmentStatus)
+                  : uiText("auto.b7d7fb13afb6")}
               </small>
             </div>
           )}
@@ -4137,7 +4643,11 @@ function ProductRow({
           )}
           {stage === "paused" && (
             <div className="blockedState">
-              <span>{error || uiText("auto.d5cd56f6c0aa")}</span>
+              <span>
+                {error
+                  ? runtimeMessage(error)
+                  : uiText("auto.d5cd56f6c0aa")}
+              </span>
               {downloadDetail && downloadDetail.receivedBytes > 0 && (
                 <small>
                   {uiText("auto.e309f2263e75")}{formatBytes(downloadDetail.receivedBytes)}
@@ -4147,12 +4657,18 @@ function ProductRow({
                 </small>
               )}
               <div className="missingEnvironmentActions">
-                <button onClick={onInstallProduct}>
-                  {downloadTask?.resumable ? uiText("auto.c3c6d7017082") : uiText("auto.cc92cb4b8980")}
-                </button>
-                <button onClick={onRelocateDownload}>
-                  {uiText("auto.16d7a29d9fbb")}</button>
-                <button onClick={onCancelDownload}>{uiText("auto.537d17f1c531")}</button>
+                {downloadRecoveryPresentation?.actions.includes("resume") && (
+                  <button onClick={onInstallProduct}>
+                    {uiText("auto.c3c6d7017082")}
+                  </button>
+                )}
+                {downloadRecoveryPresentation?.actions.includes("relocate") && (
+                  <button onClick={onRelocateDownload}>
+                    {uiText("auto.16d7a29d9fbb")}</button>
+                )}
+                {downloadRecoveryPresentation?.actions.includes("cancel") && (
+                  <button onClick={onCancelDownload}>{uiText("auto.537d17f1c531")}</button>
+                )}
               </div>
             </div>
           )}
@@ -4161,7 +4677,9 @@ function ProductRow({
               <span className="packagePath" title={installPresentation?.filePath}>
                 {installPresentation?.filePath}
               </span>
-              {error && <small className="launchError">{error}</small>}
+              {error && (
+                <small className="launchError">{runtimeMessage(error)}</small>
+              )}
               <button className="accentButton" onClick={onInstallProduct}>
                 {installPresentation?.buttonLabel}
               </button>
@@ -4183,7 +4701,7 @@ function ProductRow({
           {stage === "awaiting-uninstall" && (
             <div className="verificationState">
               <span>{uninstallCopy.activeTitle}</span>
-              {error && <small>{error}</small>}
+              {error && <small>{runtimeMessage(error)}</small>}
               <button onClick={onRecheckDesktopUninstall}>{uiText("auto.14ca09ce1fd2")}</button>
             </div>
           )}
@@ -4194,29 +4712,28 @@ function ProductRow({
                   ? uiText("auto.215fc25c9b31")
                   : uiText("auto.d1f06ca3ba4f")}
               </span>
-              {error && <small>{error}</small>}
+              {error && <small>{runtimeMessage(error)}</small>}
               <button onClick={onInstallProduct}>{uiText("auto.2ee26e222f2c")}</button>
             </div>
           )}
           {stage === "error" && (
             <div className="blockedState">
-              <span>{error}</span>
+              <span>
+                {downloadRecoveryPresentation?.messageKey
+                  ? uiText(downloadRecoveryPresentation.messageKey)
+                  : error}
+              </span>
               <div className="missingEnvironmentActions">
-                <button onClick={onInstallProduct}>
-                  {cliDeployable
-                    ? uiText("auto.453ad482ccef")
-                    : downloadTask?.resumable
-                      ? uiText("auto.b80b97d6351b")
-                      : uiText("auto.453ad482ccef")}
-                </button>
-                {product.download &&
-                  downloadTask &&
-                  downloadTask.phase !== "completed" && (
-                  <button onClick={onCancelDownload}>{uiText("auto.537d17f1c531")}</button>
-                )}
-                {product.download && (
-                  <button onClick={onRelocateDownload}>
-                    {uiText("auto.16d7a29d9fbb")}</button>
+                {downloadRecoveryPresentation ? (
+                  <button onClick={onInstallProduct}>
+                    {downloadRecoveryPresentation.actions.includes("resume")
+                      ? uiText("auto.c3c6d7017082")
+                      : uiText("download.retry")}
+                  </button>
+                ) : (
+                  <button onClick={onInstallProduct}>
+                    {uiText("auto.453ad482ccef")}
+                  </button>
                 )}
               </div>
             </div>
@@ -4259,12 +4776,29 @@ function ProductRow({
                     : uiText("auto.f6f82f2d112e")}
                 </small>
               )}
-              {error && <small className="installedError">{error}</small>}
+              {error && (
+                <small className="installedError">{runtimeMessage(error)}</small>
+              )}
             </div>
           )}
         </div>
       ) : null}
       </div>
+      {extensions.length > 0 && (
+        <details className="productExtensions">
+          <summary>
+            {uiText("extensions.directory")} · {extensions.length}
+          </summary>
+          <div className="productExtensionList">
+            {extensions.map((extension) => (
+              <ExtensionResourceRow
+                extension={extension}
+                key={extension.id}
+              />
+            ))}
+          </div>
+        </details>
+      )}
     </article>
   );
 }
@@ -4451,7 +4985,7 @@ function AuthModal({
           </form>
         )}
 
-        {message && <p className="authMessage">{message}</p>}
+        {message && <p className="authMessage">{runtimeMessage(message)}</p>}
       </section>
     </div>
   );
@@ -5077,7 +5611,7 @@ function PersonalCenterPage({
         </div>
       )}
 
-      {notice && <p className="personalNotice">{notice}</p>}
+      {notice && <p className="personalNotice">{runtimeMessage(notice)}</p>}
     </section>
   );
 }
@@ -5228,23 +5762,21 @@ function buildCommunityLanguageScript(language: Language) {
   `;
 }
 
-function buildCommunityRefreshControlScript(language: Language) {
-  const refreshLabel = createLanguage(language).text("community.refresh");
+function buildCommunityChromeControlsScript(language: Language) {
+  const module = createLanguage(language);
+  const refreshLabel = module.text("community.refresh");
+  const discussionHintLabel = module.text("community.discussionListHint");
+  const discussionHintTitle = module.text(
+    "community.discussionListHintTitle"
+  );
   return String.raw`
 (() => {
   const itemId = "aihub-community-refresh-item";
   const buttonId = "aihub-community-refresh";
   const styleId = "aihub-community-refresh-style";
+  const discussionHintId = "aihub-discussion-list-hint";
 
   const install = () => {
-    const existing = document.getElementById(buttonId);
-    if (existing) return true;
-
-    const search = document.querySelector(
-      "#header-secondary .Search, .Header-secondary .Search, .Search"
-    );
-    if (!search || !search.parentElement) return false;
-
     if (!document.getElementById(styleId)) {
       const style = document.createElement("style");
       style.id = styleId;
@@ -5257,35 +5789,86 @@ function buildCommunityRefreshControlScript(language: Language) {
         "#" + buttonId + ":hover{color:var(--header-color);background:var(--control-bg-shaded)}",
         "#" + buttonId + ":active{transform:translateY(2px) scale(.96);filter:brightness(.92)}",
         "#" + buttonId + ":focus-visible{outline:2px solid var(--primary-color);outline-offset:2px}",
-        "#" + buttonId + " .aihub-refresh-glyph{font-size:20px;line-height:1;transform:translateY(-1px)}"
+        "#" + buttonId + " .aihub-refresh-glyph{font-size:20px;line-height:1;transform:translateY(-1px)}",
+        "#" + discussionHintId + "{display:none}",
+        "@media (min-width:768px){.App.App--discussion>#" + discussionHintId + "{box-sizing:border-box;display:flex;position:fixed;left:0;top:50%;z-index:999;width:32px;padding:12px 7px;align-items:center;gap:5px;writing-mode:vertical-rl;font-size:13px;font-weight:700;line-height:1.15;letter-spacing:1px;color:var(--button-primary-color);background:var(--button-primary-bg);border-radius:0 10px 10px 0;box-shadow:0 4px 14px var(--shadow-color);pointer-events:none;opacity:.92;transform:translateY(-50%);transition:opacity .16s ease}.App.paneShowing>#" + discussionHintId + ",.App.panePinned>#" + discussionHintId + "{opacity:0}}",
+        "#" + discussionHintId + " .aihub-discussion-list-glyph{font-size:18px;line-height:1;writing-mode:horizontal-tb}",
+        "@media (prefers-reduced-motion:reduce){#" + discussionHintId + "{transition:none!important}}"
       ].join("");
       document.head.appendChild(style);
     }
 
-    const anchor = search.closest("li") || search;
-    const wrapper = document.createElement(
-      anchor.parentElement?.tagName === "UL" ? "li" : "span"
-    );
-    wrapper.id = itemId;
-    wrapper.className = "item-aihub-community-refresh";
+    const appRoot = document.getElementById("app");
+    let discussionHint = document.getElementById(discussionHintId);
+    if (!discussionHint && appRoot) {
+      discussionHint = document.createElement("div");
+      discussionHint.id = discussionHintId;
+      discussionHint.setAttribute("role", "note");
+      appRoot.appendChild(discussionHint);
+    }
+    if (discussionHint) {
+      discussionHint.title = ${JSON.stringify(discussionHintTitle)};
+      discussionHint.setAttribute(
+        "aria-label",
+        ${JSON.stringify(discussionHintTitle)}
+      );
+      let discussionHintText = discussionHint.querySelector(
+        ".aihub-discussion-list-label"
+      );
+      if (!discussionHintText) {
+        discussionHintText = document.createElement("span");
+        discussionHintText.className = "aihub-discussion-list-label";
+        discussionHint.appendChild(discussionHintText);
+      }
+      if (
+        discussionHintText.textContent !==
+        ${JSON.stringify(discussionHintLabel)}
+      ) {
+        discussionHintText.textContent = ${JSON.stringify(discussionHintLabel)};
+      }
+      if (!discussionHint.querySelector(".aihub-discussion-list-glyph")) {
+        const glyph = document.createElement("span");
+        glyph.className = "aihub-discussion-list-glyph";
+        glyph.setAttribute("aria-hidden", "true");
+        glyph.textContent = "›";
+        discussionHint.appendChild(glyph);
+      }
+    }
 
-    const button = document.createElement("button");
-    button.id = buttonId;
-    button.className = "Button Button--icon Button--flat";
-    button.type = "button";
-    button.title = ${JSON.stringify(refreshLabel)};
-    button.setAttribute("aria-label", ${JSON.stringify(refreshLabel)});
-    button.innerHTML =
-      '<span class="aihub-refresh-glyph" aria-hidden="true">&#8635;</span>';
-    button.addEventListener("click", () => window.location.reload());
-    wrapper.appendChild(button);
-    anchor.insertAdjacentElement("afterend", wrapper);
-    return true;
+    let button = document.getElementById(buttonId);
+    if (!button) {
+      const search = document.querySelector(
+        "#header-secondary .Search, .Header-secondary .Search, .Search"
+      );
+      if (search?.parentElement) {
+        const anchor = search.closest("li") || search;
+        const wrapper = document.createElement(
+          anchor.parentElement?.tagName === "UL" ? "li" : "span"
+        );
+        wrapper.id = itemId;
+        wrapper.className = "item-aihub-community-refresh";
+
+        button = document.createElement("button");
+        button.id = buttonId;
+        button.className = "Button Button--icon Button--flat";
+        button.type = "button";
+        button.innerHTML =
+          '<span class="aihub-refresh-glyph" aria-hidden="true">&#8635;</span>';
+        button.addEventListener("click", () => window.location.reload());
+        wrapper.appendChild(button);
+        anchor.insertAdjacentElement("afterend", wrapper);
+      }
+    }
+    if (button) {
+      button.title = ${JSON.stringify(refreshLabel)};
+      button.setAttribute("aria-label", ${JSON.stringify(refreshLabel)});
+    }
+    return Boolean(button && discussionHint);
   };
 
   install();
   if (!window.__aihubCommunityRefreshObserver) {
-    const root = document.querySelector("#header-secondary") || document.body;
+    const root = document.body;
     const observer = new MutationObserver(install);
     observer.observe(root, { childList: true, subtree: true });
     window.__aihubCommunityRefreshObserver = observer;
@@ -5312,9 +5895,14 @@ function FlarumCommunityPage({
 }) {
   const webviewRef = useRef<EmbeddedCommunityWebview | null>(null);
   const pendingTarget = useRef(targetPath);
+  const webviewReadyRef = useRef(false);
+  const webviewRecoveringRef = useRef(false);
+  const webviewRecoveryCountRef = useRef(0);
   const [embed, setEmbed] = useState<CommunityEmbedSession | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [webviewReady, setWebviewReady] = useState(false);
+  const [embedAttempt, setEmbedAttempt] = useState(0);
   const communityText = createLanguage(language);
 
   useEffect(() => {
@@ -5324,18 +5912,29 @@ function FlarumCommunityPage({
   useEffect(() => {
     if (identity.status !== "authenticated" || !window.aihubPC) {
       setEmbed(null);
+      setWebviewReady(false);
+      webviewReadyRef.current = false;
+      webviewRecoveringRef.current = false;
+      webviewRecoveryCountRef.current = 0;
       return;
     }
     let canceled = false;
+    setEmbed(null);
     setLoading(true);
     setError("");
+    setWebviewReady(false);
+    webviewReadyRef.current = false;
     window.aihubPC
       .createCommunityEmbedSession()
       .then((session) => {
-        if (!canceled) setEmbed(session);
+        if (!canceled) {
+          webviewRecoveringRef.current = false;
+          setEmbed(session);
+        }
       })
       .catch((cause) => {
         if (!canceled) {
+          webviewRecoveringRef.current = false;
           setError(
             cause instanceof Error
               ? cause.message
@@ -5349,7 +5948,10 @@ function FlarumCommunityPage({
     return () => {
       canceled = true;
     };
-  }, [identity.status === "authenticated" ? identity.user.id : "anonymous"]);
+  }, [
+    embedAttempt,
+    identity.status === "authenticated" ? identity.user.id : "anonymous"
+  ]);
 
   useEffect(() => {
     const webview = webviewRef.current;
@@ -5379,7 +5981,42 @@ function FlarumCommunityPage({
       };
       runScript(buildCommunityThemeScript(theme));
       runScript(buildCommunityLanguageScript(language));
-      runScript(buildCommunityRefreshControlScript(language));
+      runScript(buildCommunityChromeControlsScript(language));
+    };
+    const markReady = () => {
+      webviewReadyRef.current = true;
+      webviewRecoveringRef.current = false;
+      webviewRecoveryCountRef.current = 0;
+      setWebviewReady(true);
+      setLoading(false);
+      installCommunityChrome();
+    };
+    const recoverWebview = () => {
+      if (webviewRecoveringRef.current) return;
+      try {
+        const current = new URL(webview.getURL());
+        if (
+          current.origin === embed.origin &&
+          /^\/d\/[0-9]+/.test(current.pathname)
+        ) {
+          pendingTarget.current = `${current.pathname}${current.search}${current.hash}`;
+        }
+      } catch {
+        // A guest that never attached has no readable URL to preserve.
+      }
+      webviewReadyRef.current = false;
+      setWebviewReady(false);
+      if (webviewRecoveryCountRef.current >= 1) {
+        setLoading(false);
+        setError(communityText.text("community.loadFailed"));
+        return;
+      }
+      webviewRecoveryCountRef.current += 1;
+      webviewRecoveringRef.current = true;
+      setError("");
+      setLoading(true);
+      setEmbed(null);
+      setEmbedAttempt((attempt) => attempt + 1);
     };
     const failed = (event: Event) => {
       const detail = event as Event & {
@@ -5393,16 +6030,24 @@ function FlarumCommunityPage({
     };
     webview.addEventListener("did-navigate", updateLocation);
     webview.addEventListener("did-navigate-in-page", updateLocation);
-    webview.addEventListener("dom-ready", installCommunityChrome);
-    webview.addEventListener("did-stop-loading", installCommunityChrome);
+    webview.addEventListener("dom-ready", markReady);
+    webview.addEventListener("did-stop-loading", markReady);
     webview.addEventListener("did-fail-load", failed);
+    webview.addEventListener("render-process-gone", recoverWebview);
+    webview.addEventListener("crashed", recoverWebview);
     installCommunityChrome();
+    const attachWatchdog = window.setTimeout(() => {
+      if (!webviewReadyRef.current) recoverWebview();
+    }, 8_000);
     return () => {
+      window.clearTimeout(attachWatchdog);
       webview.removeEventListener("did-navigate", updateLocation);
       webview.removeEventListener("did-navigate-in-page", updateLocation);
-      webview.removeEventListener("dom-ready", installCommunityChrome);
-      webview.removeEventListener("did-stop-loading", installCommunityChrome);
+      webview.removeEventListener("dom-ready", markReady);
+      webview.removeEventListener("did-stop-loading", markReady);
       webview.removeEventListener("did-fail-load", failed);
+      webview.removeEventListener("render-process-gone", recoverWebview);
+      webview.removeEventListener("crashed", recoverWebview);
     };
   }, [embed, language, onTargetConsumed, theme]);
 
@@ -5427,7 +6072,9 @@ function FlarumCommunityPage({
           <div className="communityLoading">
             {loading
               ? communityText.text("community.loading")
-              : error || communityText.text("community.unavailable")}
+              : error
+                ? runtimeMessage(error)
+                : communityText.text("community.unavailable")}
           </div>
         ) : (
           createElement("webview", {
@@ -5442,7 +6089,18 @@ function FlarumCommunityPage({
               "contextIsolation=yes,nodeIntegration=no,sandbox=yes"
           })
         )}
-        {error && <em className="communityError">{error}</em>}
+        {embed && !webviewReady && (
+          <div className="communityLoading communityLoadingOverlay">
+            {loading
+              ? communityText.text("community.loading")
+              : error
+                ? runtimeMessage(error)
+                : communityText.text("community.unavailable")}
+          </div>
+        )}
+        {error && (
+          <em className="communityError">{runtimeMessage(error)}</em>
+        )}
       </div>
     </section>
   );
@@ -5544,7 +6202,7 @@ function CommunityWorkspace({
           <button className="accentButton" onClick={onLogin}>
             {uiText("auto.7dac936fe9f0")}</button>
         )}
-        {actionError && <em>{actionError}</em>}
+        {actionError && <em>{runtimeMessage(actionError)}</em>}
       </section>
     );
   }
@@ -5616,7 +6274,9 @@ function CommunityWorkspace({
           </div>
         )}
       </div>
-      {(error || actionError) && <em>{error || actionError}</em>}
+      {(error || actionError) && (
+        <em>{runtimeMessage(error || actionError)}</em>
+      )}
     </section>
   );
 }
@@ -5652,6 +6312,7 @@ function InstalledProductsPage({
   onReinstall,
   onReinstallEnvironment,
   onUninstall,
+  onRepairWslEnvironment,
   onInstallPackage,
   onShowPackage,
   onDeletePackage
@@ -5690,6 +6351,9 @@ function InstalledProductsPage({
       typeof buildInstalledProductManagement
     >["products"][number]
   ) => Promise<void>;
+  onRepairWslEnvironment: (entry: {
+    ownerProductId: string;
+  }) => Promise<void>;
   onInstallPackage: (
     entry: ReturnType<
       typeof buildInstalledProductManagement
@@ -5737,7 +6401,9 @@ function InstalledProductsPage({
                   {entry.version ? `v${entry.version}` : uiText("auto.a8b6c39dcabf")}
                   {entry.location ? ` · ${entry.location}` : ""}
                 </p>
-                {messages[entry.id] && <small>{messages[entry.id]}</small>}
+                {messages[entry.id] && (
+                  <small>{runtimeMessage(messages[entry.id])}</small>
+                )}
               </div>
               <div className="managementActions">
                 {entry.canOpen && (
@@ -5761,6 +6427,55 @@ function InstalledProductsPage({
                     {uiText("auto.06bc14b60f35")}</button>
                 )}
               </div>
+              {entry.children?.length ? (
+                <details className="managementChildren">
+                  <summary>{uiText("wsl.directory", { count: entry.children.length })}</summary>
+                  <div className="managementChildList">
+                    {entry.children.map((distribution) => (
+                      <section key={distribution.id}>
+                        <header>
+                          <b>{distribution.name}</b>
+                          <span>{uiText("wsl.distribution")}</span>
+                        </header>
+                        {distribution.environments.length ? (
+                          distribution.environments.map((environment) => (
+                            <div className="managementChild" key={environment.id}>
+                              <div>
+                                <b>{environment.name}</b>
+                                <small>
+                                  {environment.installed
+                                    ? environment.version
+                                      ? `v${environment.version}`
+                                      : uiText("extensions.installed")
+                                    : uiText("extensions.notInstalled")}
+                                  {` · ${environment.ownerProductName}`}
+                                </small>
+                                {environment.location ? (
+                                  <small>{environment.location}</small>
+                                ) : null}
+                              </div>
+                              {!environment.installed && environment.canRepair ? (
+                                <button
+                                  className="accentButton"
+                                  onClick={() =>
+                                    void onRepairWslEnvironment(environment)
+                                  }
+                                >
+                                  {uiText("wsl.repair")}
+                                </button>
+                              ) : null}
+                            </div>
+                          ))
+                        ) : (
+                          <small className="managementChildEmpty">
+                            {uiText("wsl.noManagedEnvironment")}
+                          </small>
+                        )}
+                      </section>
+                    ))}
+                  </div>
+                </details>
+              ) : null}
             </article>
           ))
         ) : (
@@ -5940,7 +6655,9 @@ function SettingsPanel({
   const desktopTaskState = (task: DesktopOperationTask): TaskFilter =>
     task.phase === "installed" || task.phase === "uninstalled"
       ? "completed"
-      : task.phase === "timed-out"
+      : task.phase === "timed-out" ||
+          task.phase === "failed" ||
+          task.phase === "canceled"
         ? "failed"
         : "active";
   const environmentTaskState = (
@@ -6107,7 +6824,9 @@ function SettingsPanel({
                 {filteredDesktopOperations.map((task) => {
                   const terminal =
                     task.phase === "installed" ||
-                    task.phase === "uninstalled";
+                    task.phase === "uninstalled" ||
+                    task.phase === "canceled" ||
+                    task.phase === "failed";
                   return (
                     <div
                       className="managedOperationTask"
@@ -6216,7 +6935,7 @@ function SettingsPanel({
                             {uiText("auto.bce2377283c2")}</button>
                         </div>
                       )}
-                      {task.message && <em>{task.message}</em>}
+                      {task.message && <em>{runtimeMessage(task.message)}</em>}
                       {logs.length > 0 && (
                         <details className="managedCliTaskLog">
                           <summary>{uiText("auto.72c17219da64")}{logs.length}）</summary>
@@ -6241,7 +6960,9 @@ function SettingsPanel({
                   const canPause =
                     task.phase === "starting" || task.phase === "downloading";
                   const canResume =
-                    task.phase === "paused" || task.phase === "failed";
+                    task.phase === "paused" ||
+                    (task.phase === "failed" && task.resumable);
+                  const canRetry = task.phase === "failed" && !task.resumable;
                   const percent =
                     task.progress.percent === null
                       ? ""
@@ -6261,7 +6982,7 @@ function SettingsPanel({
                           {percent}
                         </small>
                       </div>
-                      {(canPause || canResume) && (
+                      {(canPause || canResume || canRetry) && (
                         <button
                           disabled={changing}
                           onClick={() =>
@@ -6270,10 +6991,14 @@ function SettingsPanel({
                               : onResumeDownloadTask(task.productId)
                           }
                         >
-                          {canPause ? uiText("auto.8d12fc0d4eb2") : uiText("auto.7c9691192f1b")}
+                          {canPause
+                            ? uiText("auto.8d12fc0d4eb2")
+                            : canRetry
+                              ? uiText("download.retry")
+                              : uiText("auto.7c9691192f1b")}
                         </button>
                       )}
-                      {!["completed", "canceled"].includes(task.phase) && (
+                      {!["completed", "canceled", "failed"].includes(task.phase) && (
                         <button
                           disabled={changing}
                           onClick={() => onCancelDownloadTask(task.productId)}
@@ -6318,7 +7043,7 @@ function SettingsPanel({
                             />
                           </div>
                         )}
-                      {task.errorMessage && <em>{task.errorMessage}</em>}
+                      {task.errorMessage && <em>{managedDownloadErrorLabel(task)}</em>}
                     </div>
                   );
                 })}
@@ -6434,7 +7159,7 @@ function SettingsPanel({
                         </button>
                       )}
                     {environmentMessages[check.id] && (
-                      <em>{environmentMessages[check.id]}</em>
+                      <em>{runtimeMessage(environmentMessages[check.id])}</em>
                     )}
                   </div>
                 );
@@ -6460,8 +7185,8 @@ function SettingsPanel({
               {installingUpdate ? uiText("auto.f324661ed993") : uiText("auto.fe31585819ad")}
             </button>
           </div>
-          {updateResult && <em>{updateResult.message}</em>}
-          {updateInstallMessage && <em>{updateInstallMessage}</em>}
+          {updateResult && <em>{runtimeMessage(updateResult.message)}</em>}
+          {updateInstallMessage && <em>{runtimeMessage(updateInstallMessage)}</em>}
           {updateResult?.notes?.length ? (
             <ul className="updateNotes">
               {updateResult.notes.map((note) => <li key={note}>{note}</li>)}

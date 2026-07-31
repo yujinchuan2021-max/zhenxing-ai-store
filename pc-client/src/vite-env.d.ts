@@ -23,6 +23,20 @@ type EnvironmentReport = {
   architecture: string;
   checkedAt: string;
   checks: EnvironmentCheck[];
+  wslDistributions?: Array<{
+    name: string;
+    environments: Array<{
+      id: string;
+      name: string;
+      installed: boolean;
+      version: string;
+      location: string;
+      ownerProductId: string;
+      ownerProductName: string;
+      scope: "product-private" | "distribution-shared";
+      canRepair: boolean;
+    }>;
+  }>;
 };
 
 type EnvironmentInstallResult = {
@@ -228,7 +242,9 @@ type DesktopOperationTask = {
     | "monitoring"
     | "timed-out"
     | "installed"
-    | "uninstalled";
+    | "uninstalled"
+    | "canceled"
+    | "failed";
   attempts: number;
   startedAt: string;
   updatedAt: string;
@@ -305,6 +321,7 @@ type CatalogCommunity = {
 type RemoteCatalog = {
   schemaVersion: 1;
   updatedAt?: string;
+  categories?: import("./data").ProductCategory[];
   brand?: CatalogBrand;
   extraSections?: CatalogExtraSection[];
   community?: CatalogCommunity;
@@ -315,8 +332,29 @@ type RemoteCatalog = {
   vendors: import("./data").Vendor[];
 };
 
+type ClientInstallProfile = {
+  id: string;
+  label: string;
+  moduleId: string;
+  productId: string;
+  vendorId: string;
+  productType: string;
+  kind: string;
+  mode: "managed-installer" | "managed-cli";
+  requirements: string[];
+  capabilities: string[];
+  download?: { url: string; fileName: string };
+};
+
+type ManagedProductInventorySnapshot = {
+  checkedAt: string;
+  profiles: ClientInstallProfile[];
+  desktopStatuses: Record<string, DesktopStatus>;
+  cliStatuses: Record<string, CliStatus>;
+};
+
 type CatalogResult = {
-  source: "remote" | "cache" | "built-in";
+  source: "remote" | "cache" | "built-in" | "unavailable";
   catalog: RemoteCatalog | null;
   catalogVersion?: number;
   error: string;
@@ -339,6 +377,7 @@ type UpdateInstallResult = {
   canceled?: boolean;
   filePath?: string;
   warning?: string;
+  errorCode?: string;
   error?: string;
 };
 
@@ -478,7 +517,18 @@ type CliStatus = {
   detection: "installed" | "absent" | "unknown";
   managed: boolean;
   canUninstall: boolean;
-  ownership: "managed" | "external" | "mismatch" | "stale" | "none" | "unknown";
+  ownership: "managed" | "adopted" | "external" | "mismatch" | "stale" | "none" | "unknown";
+  requiresInstallDirectory?: boolean;
+  hubInstalled?: boolean;
+  hubRunning?: boolean;
+  gatewayDistributionInstalled?: boolean;
+  gatewayCliInstalled?: boolean;
+  gatewayRunning?: boolean;
+  gatewayReady?: boolean;
+  gatewayPaired?: boolean;
+  setupPhase?: string;
+  setupDetail?: string;
+  summary?: string;
 };
 
 type CliUninstallResult = {
@@ -507,11 +557,30 @@ type TaskNotificationTarget = {
   productId: string;
 };
 
+type ExtensionRuntimeResult = {
+  ok: boolean;
+  state:
+    | "not-installed"
+    | "external"
+    | "stale"
+    | "unsafe"
+    | "installed"
+    | "invalid-receipt"
+    | "unavailable"
+    | "error";
+  managed: boolean;
+  error?: string;
+};
+
 interface Window {
   aihubPC?: {
     getCatalog(): Promise<CatalogResult>;
+    scanManagedInventory(): Promise<ManagedProductInventorySnapshot>;
     checkForUpdate(): Promise<UpdateCheckResult>;
     openUpdateDownload(): Promise<UpdateInstallResult>;
+    getExtensionStatus(profileId: string): Promise<ExtensionRuntimeResult>;
+    installExtension(profileId: string): Promise<ExtensionRuntimeResult>;
+    uninstallExtension(profileId: string): Promise<ExtensionRuntimeResult>;
     getIdentity(): Promise<IdentitySnapshot>;
     requestRegistrationCode(email: string): Promise<RegistrationChallenge>;
     register(input: {

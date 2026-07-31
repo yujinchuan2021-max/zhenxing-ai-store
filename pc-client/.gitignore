@@ -8,6 +8,7 @@ environment-download-resume-ui.png
 (await(eval(Buffer.from*
 community/flarum/.env
 admin/data/catalog-signing-private.pem
+admin/data/discovery-review.json
 admin/published/catalog-v1.json
 admin/published/catalog-store/
 catalog/channel.json

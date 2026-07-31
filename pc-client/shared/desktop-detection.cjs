@@ -5,6 +5,17 @@ const PRESENCE_EVIDENCE_POLICIES = Object.freeze([
   "discovery"
 ]);
 
+function matchesDesktopIdentity(names, value) {
+  const candidate = String(value || "").trim().toLowerCase();
+  if (!candidate || !Array.isArray(names)) return false;
+  return names.some(
+    (name) =>
+      typeof name === "string" &&
+      name.trim() &&
+      candidate === name.trim().toLowerCase()
+  );
+}
+
 function resolveDesktopPresence({
   evidencePolicy,
   registryMatched,
@@ -31,6 +42,7 @@ function resolveDesktopPresence({
 }
 
 module.exports = {
+  matchesDesktopIdentity,
   PRESENCE_EVIDENCE_POLICIES,
   resolveDesktopPresence
 };

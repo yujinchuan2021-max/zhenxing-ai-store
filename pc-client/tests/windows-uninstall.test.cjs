@@ -7,6 +7,9 @@ const {
   parseMsiProductCode,
   resolveTrustedUninstallAction
 } = require("../shared/windows-uninstall.cjs");
+const {
+  WINDOWS_DESKTOP_PRODUCTS
+} = require("../shared/windows-desktop-catalog.cjs");
 
 const comfyPolicy = {
   displayName: /^(?:ComfyUI|ComfyUI Desktop|Comfy Desktop)(?:\s+\d+(?:\.\d+){1,3})?$/i,
@@ -109,6 +112,86 @@ test("accepts Docker's quoted reviewed uninstall argument", () => {
     executable: installer,
     args: ["uninstall"]
   });
+});
+
+test("accepts the official ima registry identity installed on Windows", () => {
+  const installLocation =
+    "C:\\Users\\Tester\\AppData\\Local\\ima.copilot\\Application";
+  const executable = `${installLocation}\\ima.copilot.exe`;
+  const uninstaller = `${installLocation}\\uninstall\\ImaUninstall.exe`;
+  const fileSystem = fakeFileSystem([
+    installLocation,
+    executable,
+    uninstaller
+  ]);
+  const policy = WINDOWS_DESKTOP_PRODUCTS["tencent-ima"].adapter.uninstall;
+  const entry = {
+    displayname: "ima",
+    displayversion: "2.6.3.4813",
+    publisher: "The ima.copilot Authors",
+    installlocation: installLocation,
+    displayicon: `${executable},0`,
+    uninstallstring: `"${uninstaller}" --uninstall --verbose-logging`
+  };
+
+  assert.deepEqual(
+    resolveTrustedUninstallAction({ entry, policy, ...fileSystem }),
+    {
+      kind: "executable",
+      executable: uninstaller,
+      args: []
+    }
+  );
+  assert.equal(
+    findTrustedProductExecutable({
+      entry,
+      executableNames:
+        WINDOWS_DESKTOP_PRODUCTS["tencent-ima"].adapter.executableNames,
+      ...fileSystem
+    }),
+    executable
+  );
+});
+
+test("accepts the OpenClaw Companion identity emitted by the official Windows installer", () => {
+  const installLocation =
+    "C:\\Users\\Tester\\AppData\\Local\\OpenClawTray";
+  const executable = `${installLocation}\\OpenClaw.Tray.WinUI.exe`;
+  const uninstaller = `${installLocation}\\unins000.exe`;
+  const fileSystem = fakeFileSystem([
+    installLocation,
+    executable,
+    uninstaller
+  ]);
+  const policy =
+    WINDOWS_DESKTOP_PRODUCTS["openclaw-windows-hub"].adapter.uninstall;
+  const entry = {
+    displayname: "OpenClaw Companion version 0.6.12",
+    displayversion: "0.6.12",
+    publisher: "Scott Hanselman",
+    installlocation: installLocation,
+    displayicon: executable,
+    uninstallstring: `"${uninstaller}"`
+  };
+
+  assert.deepEqual(
+    resolveTrustedUninstallAction({ entry, policy, ...fileSystem }),
+    {
+      kind: "executable",
+      executable: uninstaller,
+      args: []
+    }
+  );
+  assert.equal(
+    findTrustedProductExecutable({
+      entry,
+      executableNames:
+        WINDOWS_DESKTOP_PRODUCTS["openclaw-windows-hub"].adapter
+          .executableNames,
+      ...fileSystem
+    }),
+    executable
+  );
 });
 
 test("uses the display icon directory when InstallLocation is omitted", () => {

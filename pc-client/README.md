@@ -1,5 +1,15 @@
 # AI Hub PC
 
+## 官方产品自动发现
+
+从后台草稿目录读取已登记的厂商官网和产品入口，扫描官方页面并生成只供审核的候选报告：
+
+```powershell
+npm.cmd run catalog:discover -- --max-pages=3 --timeout-ms=3500 --concurrency=8 --resume
+```
+
+报告生成到 `output/catalog-research/`。脚本不会修改或发布后台目录；后台“产品候选”页面可以忽略、恢复或把已确认候选加入默认停用的产品草稿，补齐资料并主动启用后仍须走签名目录发布流程。本地 Docker 后台每 24 小时执行一次固定参数扫描，也可从页面手动重新扫描。
+
 AI Hub 是一个以厂商为第一层的 Windows AI 产品目录与安装管理客户端。页面内容由后台目录驱动，本机探测、下载、校验、安装和卸载能力由客户端固定白名单控制。
 
 ## 本地运行
@@ -15,6 +25,12 @@ npm.cmd run desktop
 
 ```powershell
 npm.cmd run release:local:up
+```
+
+客户端本地白名单或目录发生变化后，统一使用下面的命令重建后台、替换草稿并发布。不要再手工调整发布顺序：
+
+```powershell
+npm.cmd run catalog:publish:local
 ```
 
 本地入口：
@@ -47,11 +63,19 @@ npm.cmd test
 npm.cmd run build
 npm.cmd run test:identity-community
 npm.cmd run test:personal-center-community
-npm.cmd run release:local:test-server
+npm.cmd run release:local:recreate-server
 npm.cmd run release:local:pin-tls
 npm.cmd run package:win:local-release
+npm.cmd run release:local:prepare
+npm.cmd run release:local:verify
+npm.cmd run release:local:up
+npm.cmd run release:local:test-server
+npm.cmd run release:local:pin-tls
 npm.cmd run release:local:test-client
+npm.cmd run test:packaged-managed-download -- openclaw-windows-hub
 ```
+
+也可以直接运行 `npm.cmd run release:local:upgrade` 完成以上发布链路。本地打包会先校验短期证书配置，再生成 `BUILD.json`，把版本、安装包哈希和源码提交绑定在一起；发布包再用更新密钥签名这份来源证明。`release:local:test-client` 使用隔离 Windows 配置运行，并把真实下载达到 1 MiB 后可暂停作为发布门禁；不会复用或终止用户正在运行的 AI Hub。
 
 Windows 安装生命周期：
 

@@ -20,12 +20,33 @@ const {
 test("each product type resolves to one reusable product module", () => {
   assert.equal(moduleIdForProductType("web"), "web-link");
   assert.equal(moduleIdForProductType("desktop-reviewed"), "desktop-managed");
+  assert.equal(moduleIdForProductType("cli-official"), "cli-official");
   assert.equal(moduleIdForProductType("cli"), "cli-managed");
-  assert.equal(publicProductModules().length, 6);
+  assert.equal(publicProductModules().length, 7);
   assert.equal(
     new Set(publicProductModules().map((module) => module.productType)).size,
-    6
+    7
   );
+});
+
+test("official CLI module cannot request local execution", () => {
+  const product = applyProductModule(
+    {
+      id: "example-cli",
+      requirements: ["node"],
+      installProfileId: "unreviewed-profile"
+    },
+    "cli-official"
+  );
+  assert.equal(product.productType, "cli-official");
+  assert.equal(product.kind, "CLI");
+  assert.equal(product.installPolicy, "open-official-install");
+  assert.equal(product.downloadPolicy, "none");
+  assert.equal(product.signaturePolicy, "not-applicable");
+  assert.equal(product.uninstallPolicy, "not-managed");
+  assert.deepEqual(product.capabilities, ["website", "tutorial"]);
+  assert.equal(product.installProfileId, "");
+  assert.deepEqual(product.requirements, []);
 });
 
 test("a module derives every low-level product policy", () => {
@@ -50,7 +71,7 @@ test("a module derives every low-level product policy", () => {
 
 test("approved profiles expose identity but no executable command", () => {
   const profiles = publicInstallProfiles();
-  assert.equal(profiles.length, 7);
+  assert.equal(profiles.length, 41);
   assert.deepEqual(
     profiles.find((profile) => profile.id === "cli.codex"),
     {
@@ -59,6 +80,9 @@ test("approved profiles expose identity but no executable command", () => {
       moduleId: "cli-managed",
       productId: "codex-cli",
       vendorId: "openai",
+      productType: "cli",
+      kind: "CLI",
+      mode: "managed-cli",
       requirements: ["node"],
       capabilities: ["website", "tutorial", "install", "open", "uninstall"]
     }
@@ -67,6 +91,58 @@ test("approved profiles expose identity but no executable command", () => {
     Object.hasOwn(
       profiles.find((profile) => profile.id === "cli.codex"),
       "packageName"
+    ),
+    false
+  );
+  assert.deepEqual(
+    profiles.find((profile) => profile.id === "cli.openclaw"),
+    {
+      id: "cli.openclaw",
+      label: "OpenClaw",
+      moduleId: "cli-managed",
+      productId: "openclaw-agent",
+      vendorId: "openclaw",
+      productType: "cli",
+      kind: "CLI",
+      mode: "managed-cli",
+      requirements: ["node"],
+      capabilities: ["website", "tutorial", "install", "open", "uninstall"]
+    }
+  );
+  assert.deepEqual(
+    profiles.find((profile) => profile.id === "cli.openclaw-wsl"),
+    {
+      id: "cli.openclaw-wsl",
+      label: "OpenClaw WSL Gateway",
+      moduleId: "cli-managed",
+      productId: "openclaw-wsl-gateway",
+      vendorId: "openclaw",
+      productType: "cli",
+      kind: "CLI",
+      mode: "managed-cli",
+      requirements: ["wsl"],
+      capabilities: ["website", "tutorial", "install", "open", "uninstall"]
+    }
+  );
+  assert.deepEqual(
+    profiles.find((profile) => profile.id === "cli.antigravity"),
+    {
+      id: "cli.antigravity",
+      label: "Antigravity CLI",
+      moduleId: "cli-managed",
+      productId: "google-antigravity-cli",
+      vendorId: "google",
+      productType: "cli",
+      kind: "CLI",
+      mode: "managed-cli",
+      requirements: [],
+      capabilities: ["website", "tutorial", "install", "open", "uninstall"]
+    }
+  );
+  assert.equal(
+    Object.hasOwn(
+      profiles.find((profile) => profile.id === "cli.antigravity"),
+      "artifacts"
     ),
     false
   );
@@ -138,7 +214,18 @@ test("every managed CLI declares one fixed local terminal command", () => {
     {
       "codex-cli": "codex",
       "claude-code": "claude",
-      "gemini-cli": "gemini"
+      "gemini-cli": "gemini",
+      "google-antigravity-cli": "agy",
+      "moonshot-kimi-code-cli": "kimi",
+      "openclaw-agent": "openclaw",
+      "openclaw-wsl-gateway": "openclaw",
+      "alibaba-qwen-code": "qwen",
+      "amazon-kiro-cli": "kiro-cli",
+      "github-copilot-cli": "copilot",
+      "minimax-cli": "mmx",
+      "comfy-cli": "comfy",
+      "hf-cli": "hf",
+      "mistral-vibe-code-cli": "vibe"
     }
   );
 });

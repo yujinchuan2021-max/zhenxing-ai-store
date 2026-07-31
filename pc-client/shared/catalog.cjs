@@ -9,9 +9,15 @@ const {
 const {
   normalizeSourcePreferences
 } = require("./environment-download.cjs");
+const {
+  validateProductExtension
+} = require("./product-extensions.cjs");
+const {
+  validateProductComponentLinks
+} = require("./product-components.cjs");
 
 const PRODUCT_KINDS = new Set(["桌面端", "CLI", "其他产品"]);
-const PRODUCT_CATEGORIES = new Set([
+const DEFAULT_PRODUCT_CATEGORIES = Object.freeze([
   "AI 对话",
   "编程开发",
   "图像创作",
@@ -20,15 +26,18 @@ const PRODUCT_CATEGORIES = new Set([
   "智能体",
   "本地模型"
 ]);
+const PRODUCT_CATEGORIES = new Set(DEFAULT_PRODUCT_CATEGORIES);
 const ENVIRONMENT_REQUIREMENTS = new Set([
   "node",
   "git",
   "python",
-  "docker"
+  "docker",
+  "wsl"
 ]);
 const CATALOG_FIELDS = new Set([
   "schemaVersion",
   "updatedAt",
+  "categories",
   "brand",
   "extraSections",
   "community",
@@ -79,6 +88,11 @@ function isShortText(value, max = 300) {
   return typeof value === "string" && value.length > 0 && value.length <= max;
 }
 
+function resolveCatalogCategories(catalog) {
+  if (catalog?.categories === undefined) return [...DEFAULT_PRODUCT_CATEGORIES];
+  return Array.isArray(catalog.categories) ? [...catalog.categories] : [];
+}
+
 function validateCatalog(catalog) {
   if (
     !catalog ||
@@ -91,8 +105,23 @@ function validateCatalog(catalog) {
     throw new Error("目录结构无效");
   }
 
+  const productCategories = resolveCatalogCategories(catalog);
+  if (
+    productCategories.length < 1 ||
+    productCategories.length > 50 ||
+    productCategories.some(
+      (category) =>
+        !isShortText(category, 40) || category.trim() !== category
+    ) ||
+    new Set(productCategories).size !== productCategories.length
+  ) {
+    throw new Error("产品类别配置无效");
+  }
+  const allowedProductCategories = new Set(productCategories);
+
   const vendorIds = new Set();
   const productIds = new Set();
+  const extensionIds = new Set();
   for (const vendor of catalog.vendors) {
     if (
       !hasOnlyFields(vendor, VENDOR_FIELDS) ||
@@ -132,7 +161,7 @@ function validateCatalog(catalog) {
             product.order < 0 ||
             product.order > 100000)) ||
         !PRODUCT_KINDS.has(product.kind) ||
-        !PRODUCT_CATEGORIES.has(product.category) ||
+        !allowedProductCategories.has(product.category) ||
         !isShortText(product.description, 500) ||
         !isAllowedUrl(product.website) ||
         !Array.isArray(product.requirements) ||
@@ -144,6 +173,40 @@ function validateCatalog(catalog) {
       }
       if (!isAllowedUrl(product.tutorial)) {
         throw new Error(`产品教程地址无效：${product.id}`);
+      }
+      if (
+        product.extensions !== undefined &&
+        (!Array.isArray(product.extensions) || product.extensions.length > 200)
+      ) {
+        throw new Error(`产品扩展目录无效：${product.id}`);
+      }
+      for (const extension of product.extensions || []) {
+        if (
+          !isShortText(extension.id, 120) ||
+          extensionIds.has(extension.id) ||
+          !isShortText(extension.name, 150) ||
+          !isShortText(extension.description, 500) ||
+          !isAllowedUrl(extension.website) ||
+          !isAllowedUrl(extension.tutorial) ||
+          (extension.enabled !== undefined &&
+            typeof extension.enabled !== "boolean") ||
+          (extension.order !== undefined &&
+            (!Number.isInteger(extension.order) ||
+              extension.order < 0 ||
+              extension.order > 100000)) ||
+          typeof extension.installProfileId !== "string" ||
+          extension.installProfileId.length > 120
+        ) {
+          throw new Error(`扩展资源数据无效：${extension?.id || "unknown"}`);
+        }
+        const extensionPolicyError = validateProductExtension(
+          extension,
+          product.id
+        );
+        if (extensionPolicyError) {
+          throw new Error(`${extensionPolicyError}：${extension.id}`);
+        }
+        extensionIds.add(extension.id);
       }
       if (
         product.download &&
@@ -169,6 +232,11 @@ function validateCatalog(catalog) {
       }
       productIds.add(product.id);
     }
+  }
+
+  const componentLinkError = validateProductComponentLinks(catalog.vendors);
+  if (componentLinkError) {
+    throw new Error(`产品组件目录无效：${componentLinkError}`);
   }
 
   if (catalog.environmentDownloads) {
@@ -257,10 +325,12 @@ function sha256(raw) {
 }
 
 module.exports = {
+  DEFAULT_PRODUCT_CATEGORIES,
   ENVIRONMENT_REQUIREMENTS,
   PRODUCT_CATEGORIES,
   PRODUCT_KINDS,
   isAllowedUrl,
+  resolveCatalogCategories,
   sha256,
   validateCatalog
 };

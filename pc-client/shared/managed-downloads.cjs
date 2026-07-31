@@ -1,3 +1,7 @@
+const {
+  WINDOWS_DESKTOP_PRODUCTS
+} = require("./windows-desktop-catalog.cjs");
+
 const MANAGED_DOWNLOADS = Object.freeze({
   "chatgpt-desktop": Object.freeze({
     url: "https://get.microsoft.com/installer/download/9PLM9XGG6VKS?cid=website_cta_psi",
@@ -37,7 +41,13 @@ const MANAGED_DOWNLOADS = Object.freeze({
     expectedSigner: /^CN=Ollama Inc\.(?:,|$)/i,
     safetyReserveBytes: 512 * 1024 * 1024,
     installDiskBytes: 4 * 1024 * 1024 * 1024
-  })
+  }),
+  ...Object.fromEntries(
+    Object.entries(WINDOWS_DESKTOP_PRODUCTS).map(([productId, product]) => [
+      productId,
+      product.download
+    ])
+  )
 });
 
 function getManagedDownload(productId) {
@@ -48,6 +58,7 @@ function getManagedDownload(productId) {
     fileName: plan.fileName,
     allowedHosts: [...plan.allowedHosts],
     expectedSigner: plan.expectedSigner,
+    expectedSha256: plan.expectedSha256 || "",
     safetyReserveBytes: plan.safetyReserveBytes,
     installDiskBytes: plan.installDiskBytes
   };

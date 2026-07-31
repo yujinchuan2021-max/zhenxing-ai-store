@@ -173,3 +173,114 @@ test("keeps an absent environment reinstallable with a cached installer", () => 
     }
   ]);
 });
+
+test("exposes every installed environment's reviewed open action instead of special-casing Docker", () => {
+  const result = buildInstalledProductManagement({
+    environmentChecks: [
+      {
+        id: "wsl",
+        name: "Windows Subsystem for Linux",
+        installed: true,
+        version: "2.7.10.0",
+        location: "C:\\Windows\\System32\\wsl.exe",
+        canOpen: true,
+        canUninstall: true
+      }
+    ],
+    wslDistributions: [
+      {
+        name: "Ubuntu-24.04",
+        environments: [
+          {
+            id: "node",
+            name: "Node.js",
+            installed: true,
+            version: "24.18.0",
+            location: "/home/user/.openclaw/tools/node/bin/node",
+            ownerProductId: "openclaw-wsl-gateway",
+            ownerProductName: "OpenClaw WSL Gateway",
+            scope: "product-private",
+            canRepair: true
+          }
+        ]
+      }
+    ]
+  });
+
+  assert.deepEqual(result.products, [
+    {
+      id: "environment:wsl",
+      name: "Windows Subsystem for Linux",
+      vendorName: "运行环境",
+      type: "environment",
+      version: "2.7.10.0",
+      location: "C:\\Windows\\System32\\wsl.exe",
+      canOpen: true,
+      canClose: false,
+      canManageFiles: true,
+      canReinstall: false,
+      canUninstall: true,
+      children: [
+        {
+          id: "wsl:Ubuntu-24.04",
+          name: "Ubuntu-24.04",
+          environments: [
+            {
+              id: "wsl:Ubuntu-24.04:node:openclaw-wsl-gateway",
+              name: "Node.js",
+              installed: true,
+              version: "24.18.0",
+              location: "/home/user/.openclaw/tools/node/bin/node",
+              distribution: "Ubuntu-24.04",
+              ownerProductId: "openclaw-wsl-gateway",
+              ownerProductName: "OpenClaw WSL Gateway",
+              scope: "product-private",
+              canRepair: true
+            }
+          ]
+        }
+      ]
+    }
+  ]);
+});
+
+test("keeps a locally approved installed product manageable after its backend card is removed", () => {
+  const result = buildInstalledProductManagement({
+    vendors: [],
+    localInventory: [
+      {
+        productId: "retired-desktop-card",
+        label: "Reviewed Desktop",
+        vendorId: "reviewed-vendor",
+        productType: "desktop-reviewed",
+        mode: "managed-installer",
+        capabilities: ["install", "open", "uninstall"]
+      }
+    ],
+    desktopStatuses: {
+      "retired-desktop-card": {
+        installed: true,
+        version: "2.4.0",
+        location: "C:\\Program Files\\Reviewed Desktop",
+        canOpen: true,
+        canUninstall: true
+      }
+    }
+  });
+
+  assert.deepEqual(result.products, [
+    {
+      id: "retired-desktop-card",
+      name: "Reviewed Desktop",
+      vendorName: "reviewed-vendor",
+      type: "desktop",
+      version: "2.4.0",
+      location: "C:\\Program Files\\Reviewed Desktop",
+      canOpen: true,
+      canClose: true,
+      canManageFiles: true,
+      canReinstall: false,
+      canUninstall: true
+    }
+  ]);
+});

@@ -103,6 +103,8 @@ test("saves revisioned drafts and rejects stale writers", async (t) => {
     expectedRevision: 0
   });
   assert.equal(first.revision, 1);
+  assert.equal(first.catalog.updatedAt, first.updatedAt);
+  assert.equal((await store.readState()).draft.catalog.updatedAt, first.updatedAt);
   await assert.rejects(
     store.saveDraft({
       catalog: validCatalog("陈旧写入"),

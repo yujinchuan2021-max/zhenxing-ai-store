@@ -93,7 +93,12 @@ function shouldTrustLocalReleaseCertificate(
   return Date.parse(trust.expiresAt) > now;
 }
 
+function resolveCertificateVerificationCode(trust, request, now = Date.now()) {
+  return shouldTrustLocalReleaseCertificate(trust, request, now) ? 0 : -3;
+}
+
 module.exports = {
+  resolveCertificateVerificationCode,
   readLocalReleaseTrust,
   shouldTrustLocalReleaseCertificate,
   validateLocalReleaseTrust

@@ -23,7 +23,7 @@ https://localhost:4443 {
     X-Content-Type-Options "nosniff"
   }
 
-  @manifest path /release-manifest.json
+  @manifest path /release-manifest.json /build-provenance.json
   header @manifest {
     Cache-Control "no-store"
     X-Content-Type-Options "nosniff"
@@ -36,7 +36,7 @@ https://localhost:4443 {
     Accept-Ranges "bytes"
   }
 
-  @allowedFiles path /catalog-release.json /update-release.json /release-manifest.json /artifacts/AI-Hub-*-Windows-x64-Setup.exe
+  @allowedFiles path /catalog-release.json /update-release.json /release-manifest.json /build-provenance.json /artifacts/AI-Hub-*-Windows-x64-Setup.exe
   handle @allowedFiles {
     file_server
   }

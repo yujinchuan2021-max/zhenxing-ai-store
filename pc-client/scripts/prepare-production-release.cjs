@@ -8,6 +8,10 @@ const {
 const {
   loadSigningKey
 } = require("../admin/signing-key.cjs");
+const {
+  inspectGitReleaseSource,
+  readArtifactBuildMetadata
+} = require("../shared/release-provenance.cjs");
 
 const root = path.resolve(__dirname, "..");
 const baseUrl = String(process.env.AIHUB_RELEASE_BASE_URL || "").trim();
@@ -19,6 +23,28 @@ if (!baseUrl || !version || !installerInput) {
   );
 }
 const installerPath = path.resolve(installerInput);
+const packageVersion = JSON.parse(
+  fs.readFileSync(path.join(root, "package.json"), "utf8")
+).version;
+if (version !== packageVersion) {
+  throw new Error("生产发布版本必须与 package.json 完全一致");
+}
+const buildProvenance = readArtifactBuildMetadata({ installerPath, version });
+if (buildProvenance.source.dirty) {
+  throw new Error("生产发布拒绝使用包含未提交源码的安装包");
+}
+if (buildProvenance.source.versionTag !== `v${version}`) {
+  throw new Error(`生产发布安装包必须来自标签 v${version}`);
+}
+const currentSource = inspectGitReleaseSource({
+  root,
+  version,
+  requireClean: true,
+  requireVersionTag: true
+});
+if (currentSource.revision !== buildProvenance.source.revision) {
+  throw new Error("生产发布安装包与当前源码提交不一致");
+}
 const state = JSON.parse(
   fs.readFileSync(
     path.join(root, "admin", "published", "catalog-store", "state.json"),
@@ -49,6 +75,7 @@ const result = prepareReleaseBundle({
   catalogEnvelope,
   installerPath,
   version,
+  buildProvenance,
   signingKeys: {
     catalog: loadSigningKey({
       dataDirectory: path.join(root, "admin", "data"),
@@ -82,6 +109,8 @@ process.stdout.write(
       outputDirectory: result.outputDirectory,
       catalogUrl: result.catalogUrl,
       updateUrl: result.updateUrl,
+      buildUrl: result.buildUrl,
+      source: result.source,
       catalogKeyId: result.signingKeys.catalog.keyId,
       updateKeyId: result.signingKeys.update.keyId,
       artifact: {

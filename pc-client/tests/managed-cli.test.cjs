@@ -4,6 +4,7 @@ const path = require("node:path");
 const test = require("node:test");
 
 const {
+  createManagedCliBeforeUninstallAction,
   createManagedCliReceipt,
   createManagedCliInstallAction,
   createManagedCliPostInstallAction,
@@ -36,7 +37,16 @@ const runtime = {
   nodeSha256: "1".repeat(64),
   npmCliSha256: "2".repeat(64),
   npmTreeSha256: "4".repeat(64),
-  npmVersion: "11.6.2"
+  npmVersion: "11.6.2",
+  nodeVersion: "24.9.0"
+};
+const recordedRuntime = {
+  nodeExecutable,
+  npmCli,
+  nodeSha256: runtime.nodeSha256,
+  npmCliSha256: runtime.npmCliSha256,
+  npmTreeSha256: runtime.npmTreeSha256,
+  npmVersion: runtime.npmVersion
 };
 
 function errorWithCode(code) {
@@ -56,6 +66,7 @@ function fakeFileSystem({
   includeMarker = true,
   markerManagementId = managementId,
   manifestScripts = null,
+  manifestBin = null,
   extraRealpaths = []
 } = {}) {
   const normalizedPrefix = path.win32.normalize(packagePrefix);
@@ -72,7 +83,8 @@ function fakeFileSystem({
   const manifestText = JSON.stringify({
     name: packageName,
     version,
-    ...(manifestScripts ? { scripts: manifestScripts } : {})
+    ...(manifestScripts ? { scripts: manifestScripts } : {}),
+    ...(manifestBin ? { bin: manifestBin } : {})
   });
   const manifestSha256 = crypto
     .createHash("sha256")
@@ -146,7 +158,7 @@ function receiptFor(overrides = {}) {
     version: "1.2.3",
     managementId,
     manifestSha256: crypto.createHash("sha256").update(manifestText).digest("hex"),
-    runtime,
+    runtime: recordedRuntime,
     installedAt: "2026-07-29T12:00:00.000Z",
     ...overrides
   };
@@ -182,6 +194,47 @@ test("does not claim a manually installed package without a receipt", () => {
     canUninstall: false,
     ownership: "external"
   });
+});
+
+test("takes over an exact allowlisted package found in the configured AI Hub prefix", () => {
+  const fixedPlan = {
+    ...plan,
+    expectedVersion: "1.2.3",
+    installSpec: `${plan.packageName}@1.2.3`
+  };
+  const fileSystem = fakeFileSystem({ includeMarker: false });
+  const status = inspectManagedCli({
+    productId,
+    plan: fixedPlan,
+    receipt: null,
+    configuredPrefix: prefix,
+    ...fileSystem
+  });
+
+  assert.deepEqual(status, {
+    installed: true,
+    version: "1.2.3",
+    directory: prefix,
+    detection: "installed",
+    managed: true,
+    canUninstall: true,
+    ownership: "adopted"
+  });
+
+  const action = createManagedCliUninstallAction({
+    productId,
+    plan: fixedPlan,
+    receipt: null,
+    configuredPrefix: prefix,
+    runtime,
+    executionContext,
+    ...fileSystem
+  });
+  assert.equal(action.packageName, plan.packageName);
+  assert.equal(action.prefix, prefix);
+  assert.equal(action.version, "1.2.3");
+  assert.equal(action.ownership, "adopted");
+  assert.equal(action.manifestSha256.length, 64);
 });
 
 test("allows uninstall only when receipt, package, prefix and version match", () => {
@@ -396,6 +449,34 @@ test("builds one isolated official-registry install action", () => {
   });
 });
 
+test("enforces the reviewed minimum Node.js major before installation", () => {
+  const qoderPlan = {
+    packageName: "@qoder-ai/qodercli",
+    expectedVersion: "1.1.9",
+    installSpec: "@qoder-ai/qodercli@1.1.9",
+    minimumNodeMajor: 20
+  };
+  const accepted = createManagedCliInstallAction({
+    productId: "alibaba-qoder-cn-cli",
+    plan: qoderPlan,
+    prefix,
+    runtime,
+    executionContext,
+    ...fakeFileSystem()
+  });
+  assert.equal(accepted?.args.at(-1), "@qoder-ai/qodercli@1.1.9");
+
+  const rejected = createManagedCliInstallAction({
+    productId: "alibaba-qoder-cn-cli",
+    plan: qoderPlan,
+    prefix,
+    runtime: { ...runtime, nodeVersion: "18.20.8" },
+    executionContext,
+    ...fakeFileSystem()
+  });
+  assert.equal(rejected, null);
+});
+
 test("allows only the reviewed package-local Claude postinstall action", () => {
   const claudePlan = {
     packageName: "@anthropic-ai/claude-code",
@@ -437,6 +518,7 @@ test("allows only the reviewed package-local Claude postinstall action", () => {
     packageName: claudePlan.packageName,
     version: "1.2.3",
     expectedExecutable: path.win32.join(claudePackage, "bin", "claude.exe"),
+    verificationWithNode: false,
     verificationArgs: ["--version"]
   });
 
@@ -453,6 +535,119 @@ test("allows only the reviewed package-local Claude postinstall action", () => {
     })
   });
   assert.equal(changedManifest, null);
+});
+
+test("pins OpenClaw and verifies its reviewed package-local entry with Node", () => {
+  const openClawPlan = {
+    packageName: "openclaw",
+    expectedVersion: "2026.7.1-2",
+    installSpec: "openclaw@2026.7.1-2",
+    postInstall: {
+      manifestCommand: "node scripts/postinstall-bundled-plugins.mjs",
+      scriptFile: "scripts\\postinstall-bundled-plugins.mjs",
+      executableFile: "openclaw.mjs",
+      verificationWithNode: true,
+      verificationArgs: ["--version"]
+    }
+  };
+  const packageDirectory = path.win32.join(prefix, "node_modules", "openclaw");
+  const scriptFile = path.win32.join(
+    packageDirectory,
+    "scripts",
+    "postinstall-bundled-plugins.mjs"
+  );
+  const action = createManagedCliPostInstallAction({
+    productId: "openclaw-agent",
+    plan: openClawPlan,
+    prefix,
+    runtime,
+    ...fakeFileSystem({
+      packageName: "openclaw",
+      packagePathName: "openclaw",
+      version: "2026.7.1-2",
+      manifestScripts: {
+        postinstall: "node scripts/postinstall-bundled-plugins.mjs"
+      },
+      extraRealpaths: [[scriptFile, scriptFile]]
+    })
+  });
+  assert.equal(action?.verificationWithNode, true);
+  assert.equal(action?.expectedExecutable, path.win32.join(packageDirectory, "openclaw.mjs"));
+
+  const installAction = createManagedCliInstallAction({
+    productId: "openclaw-agent",
+    plan: openClawPlan,
+    prefix,
+    runtime,
+    executionContext,
+    ...fakeFileSystem()
+  });
+  assert.equal(installAction?.args.at(-1), "openclaw@2026.7.1-2");
+});
+
+test("builds only the reviewed OpenClaw service cleanup before package removal", () => {
+  const openClawPlan = {
+    packageName: "openclaw",
+    expectedVersion: "2026.7.1-2",
+    installSpec: "openclaw@2026.7.1-2",
+    commandName: "openclaw",
+    beforeUninstall: {
+      executableFile: "openclaw.mjs",
+      args: ["uninstall", "--service", "--yes", "--non-interactive"]
+    }
+  };
+  const packageDirectory = path.win32.join(prefix, "node_modules", "openclaw");
+  const entryFile = path.win32.join(packageDirectory, "openclaw.mjs");
+  const openClawReceipt = {
+    ...receiptFor(),
+    productId: "openclaw-agent",
+    packageName: "openclaw",
+    version: "2026.7.1-2"
+  };
+  const fileSystem = fakeFileSystem({
+    packageName: "openclaw",
+    packagePathName: "openclaw",
+    version: "2026.7.1-2",
+    manifestBin: { openclaw: "openclaw.mjs" },
+    includeMarker: false,
+    extraRealpaths: [[entryFile, entryFile]]
+  });
+  const manifestText = fileSystem.readFile(
+    path.win32.join(packageDirectory, "package.json")
+  );
+  const receipt = {
+    ...openClawReceipt,
+    manifestSha256: crypto.createHash("sha256").update(manifestText).digest("hex")
+  };
+  const markerPath = path.win32.join(packageDirectory, ".aihub-managed.json");
+  const markerText = JSON.stringify({
+    managementId,
+    productId: "openclaw-agent",
+    packageName: "openclaw",
+    version: "2026.7.1-2",
+    manifestSha256: receipt.manifestSha256
+  });
+  const readFile = fileSystem.readFile;
+  fileSystem.readFile = (value) =>
+    path.win32.normalize(value).toLowerCase() === markerPath.toLowerCase()
+      ? markerText
+      : readFile(value);
+
+  const action = createManagedCliBeforeUninstallAction({
+    productId: "openclaw-agent",
+    plan: openClawPlan,
+    receipt,
+    configuredPrefix: prefix,
+    runtime,
+    ...fileSystem
+  });
+  assert.deepEqual(action?.args, [
+    entryFile,
+    "uninstall",
+    "--service",
+    "--yes",
+    "--non-interactive"
+  ]);
 });
 
 test("refuses an uninstall action when the npm runtime fingerprint changed", () => {

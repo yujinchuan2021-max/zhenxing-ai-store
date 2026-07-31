@@ -94,6 +94,24 @@ test("resolves web, official desktop, and tutorial products as direct links", ()
   );
 });
 
+test("official CLI entry opens vendor instructions without local probing", () => {
+  const product = webProduct({
+    id: "example-cli-official",
+    name: "Example CLI",
+    kind: "CLI",
+    productType: "cli-official",
+    installPolicy: "open-official-install"
+  });
+  assert.doesNotThrow(() => validateCatalog(catalogWith(product)));
+  const behavior = resolveProductBehavior(product);
+  assert.equal(behavior.opensDirectly, true);
+  assert.equal(behavior.requiresEnvironmentCheck, false);
+  assert.equal(behavior.clientManagedInstall, false);
+  assert.equal(behavior.installMode, "official-cli-install-page");
+  assert.equal(behavior.primaryLabel, "查看官方安装说明");
+  assert.deepEqual(behavior.capabilities, ["website", "tutorial"]);
+});
+
 test("backend may remove approved features but cannot invent capabilities", () => {
   const product = webProduct({
     capabilities: ["website"]
@@ -345,15 +363,40 @@ test("accepts only the reviewed CLI identity and exact dependencies", () => {
 test("one local installation registry drives every managed product adapter", () => {
   const plans = cliInstallPlans();
   assert.deepEqual(Object.keys(plans).sort(), [
+    "alibaba-qwen-code",
+    "amazon-kiro-cli",
     "claude-code",
     "codex-cli",
-    "gemini-cli"
+    "comfy-cli",
+    "gemini-cli",
+    "github-copilot-cli",
+    "google-antigravity-cli",
+    "hf-cli",
+    "minimax-cli",
+    "mistral-vibe-code-cli",
+    "moonshot-kimi-code-cli",
+    "openclaw-agent",
+    "openclaw-wsl-gateway"
   ]);
   assert.equal(plans["codex-cli"].packageName, "@openai/codex");
   assert.equal(
     plans["claude-code"].packageName,
     "@anthropic-ai/claude-code"
   );
+  assert.equal(plans["openclaw-agent"].packageName, "openclaw");
+  assert.equal(plans["openclaw-agent"].installSpec, "openclaw@2026.7.1-2");
+  assert.equal(plans["amazon-kiro-cli"].driver, "managed-msi");
+  assert.equal(plans["amazon-kiro-cli"].version, "2.16.0");
+  assert.equal(plans["google-antigravity-cli"].driver, "portable-binary");
+  assert.equal(plans["google-antigravity-cli"].version, "1.1.9");
+  assert.equal(plans["moonshot-kimi-code-cli"].driver, "portable-binary");
+  assert.equal(plans["moonshot-kimi-code-cli"].version, "0.31.1");
+  assert.equal(plans["alibaba-qwen-code"].installSpec, "@qwen-code/qwen-code@0.21.2");
+  assert.equal(plans["github-copilot-cli"].installSpec, "@github/copilot@1.0.77");
+  assert.equal(plans["minimax-cli"].installSpec, "mmx-cli@1.0.18");
+  assert.equal(plans["comfy-cli"].driver, "python-venv");
+  assert.equal(plans["hf-cli"].version, "1.26.0");
+  assert.equal(plans["mistral-vibe-code-cli"].lockedRequirements.length, 96);
   assert.equal(
     getInstallRegistration("comfy-desktop").mode,
     INSTALL_MODES.MANAGED_INSTALLER

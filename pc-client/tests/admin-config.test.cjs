@@ -28,8 +28,9 @@ function catalogFixture() {
 test("validates the complete phase-four catalog before publication", () => {
   const report = validatePublication(catalogFixture(), defaultReleaseSettings());
   assert.equal(report.ok, true);
-  assert.equal(report.summary.vendors, 22);
-  assert.equal(report.summary.products, 33);
+  assert.equal(report.summary.vendors, 49);
+  assert.equal(report.summary.products, 148);
+  assert.equal(report.summary.extensions, 24);
   assert.equal(report.summary.enabledChinaMirrors, 2);
 });
 

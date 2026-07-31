@@ -653,6 +653,52 @@ function createDesktopOperationController({
     scheduleTask(monitoring, 0);
     return clone(monitoring);
   };
+  const finishProcess = async (
+    productId,
+    generation,
+    operationId,
+    result
+  ) => {
+    const current = envelope.products[productId]?.operation || null;
+    if (
+      !currentMatches(productId, generation, operationId) ||
+      !isPlainObject(result) ||
+      (result.exitCode !== null && !Number.isInteger(result.exitCode)) ||
+      (result.signal !== null && typeof result.signal !== "string")
+    ) {
+      return clone(current);
+    }
+
+    const checked = await checkNow(productId, generation, operationId);
+    if (
+      checked?.phase === "installed" ||
+      checked?.phase === "uninstalled" ||
+      !currentMatches(productId, generation, operationId)
+    ) {
+      return clone(checked);
+    }
+    const latest = envelope.products[productId]?.operation || null;
+    if (!latest) return clone(checked);
+
+    cancelScheduled(productId);
+    const updatedAtMs = Math.max(Number(now()), Date.parse(latest.updatedAt));
+    const failed = result.exitCode !== 0 || result.signal !== null;
+    const processLabel = latest.operation === "uninstall" ? "卸载程序" : "安装程序";
+    const terminal = {
+      ...latest,
+      phase: failed ? "failed" : "canceled",
+      revision: latest.revision + 1,
+      updatedAt: new Date(updatedAtMs).toISOString(),
+      lastError: failed
+        ? result.signal
+          ? `${processLabel}被信号 ${result.signal} 终止`
+          : `${processLabel}退出代码 ${result.exitCode}`
+        : null
+    };
+    clearOperationTask(latest);
+    safeEmit(terminal);
+    return clone(terminal);
+  };
   checkNow = async (
     productId,
     expectedGeneration = null,
@@ -825,6 +871,7 @@ function createDesktopOperationController({
   return {
     begin,
     finishLaunch,
+    finishProcess,
     get,
     checkNow,
     resume,

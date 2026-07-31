@@ -1,6 +1,10 @@
 const fs = require("node:fs");
 const crypto = require("node:crypto");
 const path = require("node:path");
+const {
+  nodeVersionSatisfiesPlan,
+  validSupportedNodeRanges
+} = require("./node-runtime-policy.cjs");
 
 const RECEIPT_VERSION_PATTERN = /^[0-9A-Za-z][0-9A-Za-z._+-]{0,127}$/;
 const PACKAGE_NAME_PATTERN = /^(?:@[a-z0-9._-]+\/)?[a-z0-9._-]+$/;
@@ -115,7 +119,17 @@ function validPlan(productId, plan) {
       productId &&
       plan &&
       typeof plan.packageName === "string" &&
-      PACKAGE_NAME_PATTERN.test(plan.packageName)
+      PACKAGE_NAME_PATTERN.test(plan.packageName) &&
+      (plan.expectedVersion === undefined ||
+        (typeof plan.expectedVersion === "string" &&
+          RECEIPT_VERSION_PATTERN.test(plan.expectedVersion))) &&
+      (plan.installSpec === undefined ||
+        plan.installSpec === `${plan.packageName}@${plan.expectedVersion}`) &&
+      (plan.minimumNodeMajor === undefined ||
+        (Number.isInteger(plan.minimumNodeMajor) &&
+          plan.minimumNodeMajor >= 1 &&
+          plan.minimumNodeMajor <= 999)) &&
+      validSupportedNodeRanges(plan.supportedNodeRanges)
   );
 }
 
@@ -337,6 +351,7 @@ function validReceiptShape(receipt, productId, plan) {
       localWindowsPath(receipt.prefix) &&
       typeof receipt.version === "string" &&
       RECEIPT_VERSION_PATTERN.test(receipt.version) &&
+      (!plan.expectedVersion || receipt.version === plan.expectedVersion) &&
       typeof receipt.managementId === "string" &&
       MANAGEMENT_ID_PATTERN.test(receipt.managementId) &&
       typeof receipt.manifestSha256 === "string" &&
@@ -348,15 +363,27 @@ function validReceiptShape(receipt, productId, plan) {
 }
 
 function statusFromPackage(packageStatus, ownership) {
+  const managed = ownership === "managed" || ownership === "adopted";
   return {
     installed: packageStatus.detection === "installed",
     version: packageStatus.version,
     directory: packageStatus.directory,
     detection: packageStatus.detection,
-    managed: ownership === "managed",
-    canUninstall: ownership === "managed",
+    managed,
+    canUninstall: managed,
     ownership
   };
+}
+
+function adoptablePackage(plan, packageStatus) {
+  return Boolean(
+    packageStatus?.detection === "installed" &&
+      typeof plan?.expectedVersion === "string" &&
+      plan.expectedVersion &&
+      packageStatus.version === plan.expectedVersion &&
+      plan.installSpec === `${plan.packageName}@${plan.expectedVersion}` &&
+      SHA256_PATTERN.test(String(packageStatus.manifestSha256 || ""))
+  );
 }
 
 function inspectManagedCli({
@@ -441,7 +468,10 @@ function inspectManagedCli({
         readFile
       });
       if (configured.detection === "installed") {
-        return statusFromPackage(configured, "external");
+        return statusFromPackage(
+          configured,
+          adoptablePackage(plan, configured) ? "adopted" : "external"
+        );
       }
       if (configured.detection === "unknown") {
         return statusFromPackage(configured, "unknown");
@@ -470,7 +500,9 @@ function inspectManagedCli({
   return statusFromPackage(
     configured,
     configured.detection === "installed"
-      ? "external"
+      ? adoptablePackage(plan, configured)
+        ? "adopted"
+        : "external"
       : configured.detection === "unknown"
         ? "unknown"
         : "none"
@@ -496,6 +528,7 @@ function createManagedCliReceipt({
     readFile
   });
   if (installed.detection !== "installed") return null;
+  if (plan.expectedVersion && installed.version !== plan.expectedVersion) return null;
   const installedAt = now();
   if (
     typeof installedAt !== "string" ||
@@ -572,7 +605,8 @@ function createManagedCliInstallAction({
     prefixPath.detection !== "installed" ||
     prefixPath.value.toLowerCase() !== path.win32.normalize(prefix).toLowerCase() ||
     !runtimePaths ||
-    !context
+    !context ||
+    !nodeVersionSatisfiesPlan(runtime.nodeVersion, plan)
   ) {
     return null;
   }
@@ -593,7 +627,7 @@ function createManagedCliInstallAction({
       "--ignore-scripts",
       "--no-audit",
       "--no-fund",
-      plan.packageName
+      plan.installSpec || plan.packageName
     ],
     options: {
       cwd: context.directory,
@@ -621,6 +655,8 @@ function createManagedCliPostInstallAction({
     typeof policy.manifestCommand !== "string" ||
     typeof policy.scriptFile !== "string" ||
     typeof policy.executableFile !== "string" ||
+    (policy.verificationWithNode !== undefined &&
+      typeof policy.verificationWithNode !== "boolean") ||
     !Array.isArray(policy.verificationArgs) ||
     policy.verificationArgs.some((value) => typeof value !== "string")
   ) {
@@ -634,6 +670,7 @@ function createManagedCliPostInstallAction({
     readFile
   });
   if (!runtimePaths || installed.detection !== "installed") return null;
+  if (plan.expectedVersion && installed.version !== plan.expectedVersion) return null;
 
   const scriptCandidate = path.win32.join(
     installed.packageDirectory,
@@ -674,6 +711,7 @@ function createManagedCliPostInstallAction({
     packageName: plan.packageName,
     version: installed.version,
     expectedExecutable,
+    verificationWithNode: policy.verificationWithNode === true,
     verificationArgs: [...policy.verificationArgs]
   };
 }
@@ -698,9 +736,22 @@ function createManagedCliUninstallAction({
   });
   const runtimePaths = resolveRuntimePaths(runtime, realpath);
   const context = resolveExecutionContext(executionContext, realpath);
+  const adopted = status.ownership === "adopted";
+  const observed = status.canUninstall
+    ? inspectPackage({
+        prefix: status.directory,
+        packageName: plan.packageName,
+        realpath,
+        readFile
+      })
+    : null;
   if (
     !status.canUninstall ||
-    !runtimesMatch(receipt.runtime, runtime) ||
+    (!adopted &&
+      !runtimesMatch(receipt?.runtime, runtime) &&
+      !adoptablePackage(plan, observed)) ||
+    (adopted && !adoptablePackage(plan, observed)) ||
+    !nodeVersionSatisfiesPlan(runtime?.nodeVersion, plan) ||
     !runtimePaths ||
     !context
   ) {
@@ -735,12 +786,123 @@ function createManagedCliUninstallAction({
     packageName: plan.packageName,
     prefix: status.directory,
     version: status.version,
-    managementId: receipt.managementId
+    managementId: adopted ? "" : receipt.managementId,
+    ...(adopted
+      ? { ownership: "adopted", manifestSha256: observed.manifestSha256 }
+      : !runtimesMatch(receipt?.runtime, runtime)
+        ? { ownership: "managed", manifestSha256: observed.manifestSha256 }
+        : {})
+  };
+}
+
+function createManagedCliBeforeUninstallAction({
+  productId,
+  plan,
+  receipt,
+  configuredPrefix = "",
+  runtime,
+  realpath = defaultRealpath,
+  readFile = defaultReadFile
+}) {
+  const policy = plan?.beforeUninstall;
+  if (!policy) return null;
+  if (
+    !validPlan(productId, plan) ||
+    typeof policy.executableFile !== "string" ||
+    !Array.isArray(policy.args) ||
+    policy.args.length > 12 ||
+    policy.args.some(
+      (value) =>
+        typeof value !== "string" ||
+        !/^(?:--?[a-z0-9][a-z0-9-]{0,63}|[a-z0-9][a-z0-9._:-]{0,63})$/i.test(value)
+    )
+  ) {
+    return null;
+  }
+  const status = inspectManagedCli({
+    productId,
+    plan,
+    receipt,
+    configuredPrefix,
+    realpath,
+    readFile
+  });
+  const runtimePaths = resolveRuntimePaths(runtime, realpath);
+  const adopted = status.ownership === "adopted";
+  const observed = status.canUninstall
+    ? inspectPackage({
+        prefix: status.directory,
+        packageName: plan.packageName,
+        realpath,
+        readFile
+      })
+    : null;
+  if (
+    !status.canUninstall ||
+    (!adopted &&
+      !runtimesMatch(receipt?.runtime, runtime) &&
+      !adoptablePackage(plan, observed)) ||
+    (adopted && !adoptablePackage(plan, observed)) ||
+    !nodeVersionSatisfiesPlan(runtime?.nodeVersion, plan) ||
+    !runtimePaths
+  ) {
+    return null;
+  }
+  const packageDirectory = path.win32.join(
+    status.directory,
+    "node_modules",
+    ...plan.packageName.split("/")
+  );
+  const executableCandidate = path.win32.join(
+    packageDirectory,
+    policy.executableFile
+  );
+  const executablePath = resolveCanonicalPath(executableCandidate, realpath);
+  if (
+    executablePath.detection !== "installed" ||
+    executablePath.value.toLowerCase() !== executableCandidate.toLowerCase() ||
+    !pathIsInside(executablePath.value, packageDirectory)
+  ) {
+    return null;
+  }
+  try {
+    const manifest = JSON.parse(
+      readFile(path.win32.join(packageDirectory, "package.json"), "utf8")
+    );
+    if (
+      manifest?.name !== plan.packageName ||
+      manifest?.version !== status.version ||
+      manifest?.bin?.[plan.commandName] !== policy.executableFile
+    ) {
+      return null;
+    }
+  } catch {
+    return null;
+  }
+  return {
+    executable: runtimePaths.nodeExecutable,
+    args: [executablePath.value, ...policy.args],
+    options: {
+      cwd: packageDirectory,
+      windowsHide: true,
+      shell: false
+    },
+    productId,
+    packageName: plan.packageName,
+    prefix: status.directory,
+    version: status.version,
+    managementId: adopted ? "" : receipt.managementId,
+    ...(adopted
+      ? { ownership: "adopted", manifestSha256: observed.manifestSha256 }
+      : !runtimesMatch(receipt?.runtime, runtime)
+        ? { ownership: "managed", manifestSha256: observed.manifestSha256 }
+        : {})
   };
 }
 
 module.exports = {
   computeNpmTreeSha256,
+  createManagedCliBeforeUninstallAction,
   createManagedCliInstallAction,
   createManagedCliPostInstallAction,
   createManagedCliReceipt,

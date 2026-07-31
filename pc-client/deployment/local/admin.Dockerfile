@@ -3,6 +3,7 @@ FROM node:24-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432
 WORKDIR /app
 COPY --chown=node:node admin /app/admin
 COPY --chown=node:node shared /app/shared
+COPY --chown=node:node scripts /app/scripts
 COPY --chown=node:node catalog /app/catalog
 COPY --chown=node:node updates /app/updates
 

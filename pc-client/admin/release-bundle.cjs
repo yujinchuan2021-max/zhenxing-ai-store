@@ -13,6 +13,9 @@ const {
   validateUpdatePayload
 } = require("../shared/update-release.cjs");
 const {
+  verifyArtifactBuildMetadata
+} = require("../shared/release-provenance.cjs");
+const {
   publicKeyRecord
 } = require("./signing-key.cjs");
 
@@ -110,6 +113,7 @@ function prepareReleaseBundle({
   catalogEnvelope,
   installerPath,
   version,
+  buildProvenance,
   signingKeys,
   publishedAt = new Date().toISOString(),
   notes = [],
@@ -153,9 +157,20 @@ function prepareReleaseBundle({
   });
 
   const artifactName = path.basename(installerPath);
-  if (!/^AI-Hub-\d+\.\d+\.\d+-Windows-x64-Setup\.exe$/i.test(artifactName)) {
+  const artifactMatch = /^AI-Hub-(?:Local-)?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)-Windows-x64-Setup\.exe$/i.exec(
+    artifactName
+  );
+  if (!artifactMatch) {
     throw new Error("更新安装包文件名不符合 AI Hub Windows x64 规则");
   }
+  if (artifactMatch[1] !== version) {
+    throw new Error("更新安装包文件名版本与发布版本不一致");
+  }
+  const verifiedBuild = verifyArtifactBuildMetadata({
+    metadata: buildProvenance,
+    artifactPath: installerPath,
+    version
+  });
   const artifactUrl = new URL(`artifacts/${artifactName}`, root).href;
   const updatePayload = validateUpdatePayload(
     {
@@ -179,20 +194,45 @@ function prepareReleaseBundle({
     payload: updatePayload,
     privateKey: signingKeys.update.privateKey
   });
+  const buildPayload = {
+    schemaVersion: 1,
+    version,
+    builtAt: verifiedBuild.builtAt,
+    source: verifiedBuild.source,
+    artifact: {
+      name: artifactName,
+      sha256: updatePayload.sha256,
+      fileSize: updatePayload.fileSize
+    }
+  };
+  const signedBuild = createSignedEnvelope({
+    kind: "build-provenance",
+    keyId: updateKey.keyId,
+    payload: buildPayload,
+    privateKey: signingKeys.update.privateKey
+  });
 
   const catalogUrl = new URL("catalog-release.json", root).href;
   const updateUrl = new URL("update-release.json", root).href;
+  const buildUrl = new URL("build-provenance.json", root).href;
   const publicDirectory = path.join(outputDirectory, "public");
   copyAtomic(installerPath, path.join(publicDirectory, "artifacts", artifactName));
   const catalogPath = path.join(publicDirectory, "catalog-release.json");
   const updatePath = path.join(publicDirectory, "update-release.json");
+  const buildPath = path.join(publicDirectory, "build-provenance.json");
   const artifactPath = path.join(publicDirectory, "artifacts", artifactName);
   atomicJson(catalogPath, signedCatalog);
   atomicJson(updatePath, signedUpdate);
+  atomicJson(buildPath, signedBuild);
   atomicJson(path.join(publicDirectory, "release-manifest.json"), {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: publishedAt,
     baseUrl: root.href,
+    build: {
+      url: buildUrl,
+      builtAt: verifiedBuild.builtAt,
+      source: verifiedBuild.source
+    },
     signingKeys: {
       catalog: catalogKey,
       update: updateKey
@@ -219,6 +259,11 @@ function prepareReleaseBundle({
         path: "update-release.json",
         sha256: sha256File(updatePath),
         fileSize: fs.statSync(updatePath).size
+      },
+      {
+        path: "build-provenance.json",
+        sha256: sha256File(buildPath),
+        fileSize: fs.statSync(buildPath).size
       },
       {
         path: `artifacts/${artifactName}`,
@@ -255,6 +300,8 @@ function prepareReleaseBundle({
     },
     catalogUrl,
     updateUrl,
+    buildUrl,
+    source: verifiedBuild.source,
     update: updatePayload
   };
 }

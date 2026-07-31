@@ -154,7 +154,7 @@ try {
   await evaluate(
     "[...document.querySelectorAll('.topActions button')].find((button) => button.textContent.trim() === '已安装').click()"
   );
-  for (let attempt = 0; attempt < 100; attempt += 1) {
+  for (let attempt = 0; attempt < 300; attempt += 1) {
     const ready = await evaluate(
       "Boolean([...document.querySelectorAll('.managementCard')].find((item) => item.textContent.includes('Docker')))"
     );
@@ -213,7 +213,8 @@ try {
         installerButtons.includes('删除安装包'),
       dockerButtons,
       chatgptButtons,
-      installerButtons
+      installerButtons,
+      cardTexts: cards.map((item) => item.textContent.trim().replace(/\s+/g, ' '))
     };
   })()`);
   await evaluate(

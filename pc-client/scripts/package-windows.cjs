@@ -4,6 +4,14 @@ const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const packageJson = require("../package.json");
+const {
+  assertReleasePackageReady
+} = require("../shared/release-package-policy.cjs");
+const {
+  createArtifactBuildMetadata,
+  inspectGitReleaseSource
+} = require("../shared/release-provenance.cjs");
 
 const root = path.resolve(__dirname, "..");
 const upgradeFixture = process.argv.slice(2).includes("--upgrade-fixture");
@@ -29,6 +37,24 @@ const artifactOutput = path.join(
   root,
   upgradeFixture ? `release-upgrade-${upgradeVersion}` : "release"
 );
+
+function channelFromResources(destination) {
+  const resource = packageJson.build.extraResources.find(
+    (entry) => entry.to === destination
+  );
+  if (!resource) throw new Error(`Missing ${destination} package resource`);
+  return JSON.parse(
+    fs.readFileSync(path.resolve(root, resource.from), "utf8")
+  );
+}
+
+if (!upgradeFixture) {
+  assertReleasePackageReady({
+    variant: "production",
+    catalogChannel: channelFromResources("catalog/channel.json"),
+    updateChannel: channelFromResources("updates/channel.json")
+  });
+}
 
 function resolveCommand(command, args) {
   if (process.platform !== "win32" || !/^(npm|npx)\.cmd$/i.test(command)) {
@@ -102,13 +128,25 @@ try {
       path.join(artifactOutput, artifact.name)
     );
   }
+  const artifactVersion = upgradeFixture ? upgradeVersion : packageJson.version;
+  const buildMetadata = createArtifactBuildMetadata({
+    version: artifactVersion,
+    source: inspectGitReleaseSource({ root, version: artifactVersion }),
+    artifactPaths: artifacts.map((entry) => path.join(artifactOutput, entry.name))
+  });
+  const buildMetadataName = `AI-Hub-${artifactVersion}-BUILD.json`;
+  fs.writeFileSync(
+    path.join(artifactOutput, buildMetadataName),
+    `${JSON.stringify(buildMetadata, null, 2)}\n`,
+    "utf8"
+  );
   process.stdout.write(
     `${JSON.stringify(
       {
         ok: true,
         upgradeFixture,
         artifactOutput,
-        artifacts: artifacts.map((entry) => entry.name)
+        artifacts: [...artifacts.map((entry) => entry.name), buildMetadataName]
       },
       null,
       2

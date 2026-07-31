@@ -61,7 +61,7 @@ function unsignedEnvelope(envelope) {
 
 function createSignedEnvelope({ kind, keyId, payload, privateKey }) {
   if (
-    !["catalog", "update"].includes(kind) ||
+    !["build-provenance", "catalog", "update"].includes(kind) ||
     !validKeyId(keyId) ||
     !isPlainObject(payload)
   ) {

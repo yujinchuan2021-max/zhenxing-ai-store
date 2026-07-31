@@ -49,6 +49,20 @@ const PRODUCT_MODULES = Object.freeze({
     requiresProfile: true,
     allowsRequirements: true
   }),
+  "cli-official": Object.freeze({
+    id: "cli-official",
+    label: "CLI 官方安装入口",
+    description: "打开厂商官方安装说明，不由客户端执行命令或环境探测。",
+    productType: "cli-official",
+    kind: "CLI",
+    installPolicy: "open-official-install",
+    downloadPolicy: "none",
+    signaturePolicy: "not-applicable",
+    uninstallPolicy: "not-managed",
+    capabilities: Object.freeze(["website", "tutorial"]),
+    requiresProfile: false,
+    allowsRequirements: false
+  }),
   "cli-managed": Object.freeze({
     id: "cli-managed",
     label: "CLI 一键部署",

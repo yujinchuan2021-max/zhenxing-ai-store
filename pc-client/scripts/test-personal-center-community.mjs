@@ -407,6 +407,34 @@ try {
     "!document.querySelector('webview.communityWebview').isLoading()",
     "embedded Flarum did not finish loading"
   );
+  await evaluate(`(() => {
+    const view = document.querySelector('webview.communityWebview');
+    window.__aihubCommunityViewBeforeRecovery = view;
+    view.dispatchEvent(new Event('render-process-gone'));
+    return true;
+  })()`);
+  await waitFor(
+    `(() => {
+      const view = document.querySelector('webview.communityWebview');
+      return Boolean(
+        view &&
+        view !== window.__aihubCommunityViewBeforeRecovery
+      );
+    })()`,
+    "embedded Flarum webview was not rebuilt after its renderer disappeared"
+  );
+  await waitFor(
+    `(() => {
+      const view = document.querySelector('webview.communityWebview');
+      return Boolean(
+        view &&
+        !view.isLoading() &&
+        view.getURL().startsWith(${JSON.stringify(communityOrigin)})
+      );
+    })()`,
+    "embedded Flarum did not recover after its renderer disappeared",
+    30_000
+  );
   await waitFor(
     `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(
       "Boolean(document.getElementById('aihub-community-refresh'))"
@@ -443,6 +471,13 @@ try {
     "community refresh control was not restored after reload",
     20_000
   );
+  await waitFor(
+    `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(
+      "Boolean(document.getElementById('aihub-discussion-list-hint'))"
+    )})`,
+    "discussion page did not expose the hidden discussion-list hint",
+    2_000
+  );
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   const community = await evaluate(`(async () => {
@@ -469,6 +504,13 @@ try {
         const backControl = document.querySelector(".App-backControl");
         const appNavigation = document.querySelector("#app-navigation");
         const headerNavigation = document.querySelector("#header-navigation");
+        const discussionHint = document.getElementById(
+          "aihub-discussion-list-hint"
+        );
+        const discussionHintStyle = discussionHint
+          ? getComputedStyle(discussionHint)
+          : null;
+        const discussionHintRect = discussionHint?.getBoundingClientRect();
         return {
           exists: Boolean(button),
           searchExists: Boolean(search),
@@ -494,6 +536,19 @@ try {
             Boolean(appNavigation) && getComputedStyle(appNavigation).display !== "none",
           headerNavigationVisible:
             Boolean(headerNavigation) && getComputedStyle(headerNavigation).display !== "none",
+          discussionHint: discussionHint
+            ? {
+                text:
+                  discussionHint
+                    .querySelector(".aihub-discussion-list-label")
+                    ?.textContent.trim() || "",
+                title: discussionHint.title,
+                display: discussionHintStyle?.display || "",
+                pointerEvents: discussionHintStyle?.pointerEvents || "",
+                left: discussionHintRect?.left ?? null,
+                width: discussionHintRect?.width ?? null
+              }
+            : null,
           buttonRect: buttonRect
             ? {
                 left: buttonRect.left,
@@ -548,6 +603,14 @@ try {
   assert.equal(community.refreshPlacement.backControlVisible, false);
   assert.equal(community.refreshPlacement.appNavigationVisible, false);
   assert.equal(community.refreshPlacement.headerNavigationVisible, false);
+  assert.deepEqual(community.refreshPlacement.discussionHint, {
+    text: "全部讨论",
+    title: "移到这里查看全部讨论",
+    display: "flex",
+    pointerEvents: "none",
+    left: 0,
+    width: 32
+  });
   assert.equal(community.refreshPlacement.hasNativePostActions, true);
   assert.equal(community.refreshPlacement.theme, "light");
   assert.equal(community.refreshPlacement.bodyBackground, "#f3f7f4");
@@ -556,6 +619,28 @@ try {
     community.refreshPlacement.heroBackground,
     "rgb(231, 251, 215)"
   );
+  const discussionHintBehavior = await evaluate(
+    `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(`
+      (async () => {
+        const appRoot = document.getElementById("app");
+        const hint = document.getElementById("aihub-discussion-list-hint");
+        const originallyShowing = appRoot.classList.contains("paneShowing");
+        appRoot.classList.add("paneShowing");
+        await new Promise((resolve) => setTimeout(resolve, 220));
+        const paneShowingOpacity = getComputedStyle(hint).opacity;
+        if (!originallyShowing) appRoot.classList.remove("paneShowing");
+        await new Promise((resolve) => setTimeout(resolve, 220));
+        return {
+          paneShowingOpacity,
+          restoredOpacity: getComputedStyle(hint).opacity
+        };
+      })()
+    `)})`
+  );
+  assert.deepEqual(discussionHintBehavior, {
+    paneShowingOpacity: "0",
+    restoredOpacity: "0.92"
+  });
   const communityLayoutExpression = `(() => {
     const content = document.querySelector('.communityContent');
     const embedded = document.querySelector('.embeddedCommunity');
@@ -705,7 +790,7 @@ try {
   );
   await waitFor(
     `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(
-      "(typeof app !== 'undefined' && app.data.locale === 'en' && document.getElementById('aihub-community-refresh')?.getAttribute('aria-label') === 'Refresh')"
+      "(typeof app !== 'undefined' && app.data.locale === 'en' && document.getElementById('aihub-community-refresh')?.getAttribute('aria-label') === 'Refresh' && document.querySelector('#aihub-discussion-list-hint .aihub-discussion-list-label')?.textContent.trim() === 'Discussions')"
     )}).catch(() => false)`,
     "embedded community did not follow the PC English language",
     30_000
@@ -747,6 +832,7 @@ try {
         personalCenter,
         renderedAvatar,
         community,
+        discussionHintBehavior,
         darkCommunityTheme,
         englishLanguage,
         communityLayout,

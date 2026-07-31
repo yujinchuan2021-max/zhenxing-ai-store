@@ -54,6 +54,69 @@ const ollamaText = () =>
     ?.innerText || "")`);
 
 await send("Runtime.enable");
+if (process.argv.includes("--inspect-openclaw-ima")) {
+  const state = await evaluate(`Promise.all([
+    window.aihubPC.getDesktopStatus("openclaw-windows-hub"),
+    window.aihubPC.getCliStatus("openclaw-wsl-gateway"),
+    window.aihubPC.getDesktopStatus("tencent-ima"),
+    window.aihubPC.getDesktopOperation("tencent-ima"),
+    window.aihubPC.getDownloadRecord("tencent-ima"),
+    window.aihubPC.getCatalog()
+  ]).then(([hub, gateway, ima, imaOperation, imaPackage, catalog]) => ({
+    hub,
+    gateway,
+    ima,
+    imaOperation,
+    imaPackage,
+    catalogSource: catalog.source,
+    catalogVersion: catalog.catalogVersion,
+    vendorCount: catalog.catalog?.vendors?.length || 0,
+    productCount: (catalog.catalog?.vendors || []).reduce(
+      (total, vendor) => total + (vendor.products?.length || 0),
+      0
+    )
+  }))`);
+  if (!state.hub?.installed) {
+    throw new Error(`OpenClaw Windows Hub was not detected: ${JSON.stringify(state.hub)}`);
+  }
+  if (
+    state.gateway?.hubInstalled !== true ||
+    state.gateway?.requiresInstallDirectory !== false
+  ) {
+    throw new Error(`OpenClaw Gateway layers are incorrect: ${JSON.stringify(state.gateway)}`);
+  }
+  if (state.catalogVersion !== 28 || state.vendorCount !== 49 || state.productCount !== 148) {
+    throw new Error(`The client did not load catalog v28: ${JSON.stringify(state)}`);
+  }
+  await evaluate(`([...document.querySelectorAll("button")]
+    .find((button) => button.innerText.includes("全部厂商"))
+    ?.click())`);
+  await pause(250);
+  await evaluate(`([...document.querySelectorAll("button")]
+    .find((button) =>
+      button.innerText.includes("OpenClaw Windows Hub") &&
+      button.innerText.includes("OpenClaw WSL Gateway")
+    )
+    ?.click())`);
+  await pause(500);
+  await evaluate(`([...document.querySelectorAll("summary")]
+    .find((summary) => summary.innerText.includes("运行组件"))
+    ?.click())`);
+  await pause(2_500);
+  state.view = await evaluate(`(() => {
+    const articles = [...document.querySelectorAll("article")];
+    return {
+      hub: articles.find((item) => item.innerText.includes("OpenClaw Windows Hub"))?.innerText || "",
+      gateway: articles.find((item) => item.innerText.includes("OpenClaw WSL Gateway"))?.innerText || ""
+    };
+  })()`);
+  if (!state.view.hub.includes("卸载") || !state.view.gateway.includes("本地网关配置已取消")) {
+    throw new Error(`OpenClaw UI state is incorrect: ${JSON.stringify(state.view)}`);
+  }
+  console.log(JSON.stringify(state, null, 2));
+  socket.close();
+  process.exit(0);
+}
 if (process.argv.includes("--download-ollama")) {
   await evaluate(`([...document.querySelectorAll("button")]
     .find((button) => button.innerText.includes("全部厂商"))

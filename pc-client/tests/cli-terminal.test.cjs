@@ -52,3 +52,41 @@ test("refuses to open an external or untrusted CLI", () => {
     null
   );
 });
+
+test("opens OpenClaw directly in the reviewed onboarding flow", () => {
+  const prefix = "D:\\AI Hub\\CLI";
+  const launcher = `${prefix}\\openclaw.cmd`;
+  const command = "C:\\Windows\\System32\\cmd.exe";
+  assert.deepEqual(
+    createManagedCliTerminalAction({
+      productId: "openclaw-agent",
+      plan: {
+        commandName: "openclaw",
+        launchArgs: ["onboard", "--install-daemon"]
+      },
+      status: { installed: true, managed: true, directory: prefix },
+      commandExecutable: command,
+      exists: (candidate) => [prefix, launcher, command].includes(candidate),
+      realpath: (candidate) => candidate
+    })?.args,
+    ["/d", "/k", "call", launcher, "onboard", "--install-daemon"]
+  );
+});
+
+test("refuses renderer-shaped command arguments", () => {
+  assert.equal(
+    createManagedCliTerminalAction({
+      productId: "openclaw-agent",
+      plan: { commandName: "openclaw", launchArgs: ["& whoami"] },
+      status: {
+        installed: true,
+        managed: true,
+        directory: "D:\\AI Hub\\CLI"
+      },
+      commandExecutable: "C:\\Windows\\System32\\cmd.exe",
+      exists: () => true,
+      realpath: (candidate) => candidate
+    }),
+    null
+  );
+});

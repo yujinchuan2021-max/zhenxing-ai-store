@@ -217,6 +217,102 @@ test("finishLaunch confirms or clears only the matching launching operation", ()
   );
 });
 
+test("a foreground installer exit closes the operation instead of waiting for timeout", async () => {
+  const harness = createHarness({ statuses: [absent] });
+  const launching = harness.controller.begin("comfy-desktop", "install");
+  const monitoring = harness.controller.finishLaunch(
+    launching.productId,
+    launching.generation,
+    launching.operationId,
+    true
+  );
+
+  harness.advance(2_000);
+  const canceled = await harness.controller.finishProcess(
+    monitoring.productId,
+    monitoring.generation,
+    monitoring.operationId,
+    { exitCode: 0, signal: null }
+  );
+
+  assert.equal(canceled.phase, "canceled");
+  assert.equal(canceled.lastDetection, "absent");
+  assert.equal(harness.controller.get(monitoring.productId), null);
+  assert.equal(
+    harness.scheduled.filter((handle) => !handle.canceled).length,
+    0
+  );
+  assert.equal(harness.changes.at(-1).phase, "canceled");
+});
+
+test("a foreground installer exit still completes when installation evidence exists", async () => {
+  const harness = createHarness({ statuses: [installed] });
+  const launching = harness.controller.begin("comfy-desktop", "install");
+  const monitoring = harness.controller.finishLaunch(
+    launching.productId,
+    launching.generation,
+    launching.operationId,
+    true
+  );
+
+  const completed = await harness.controller.finishProcess(
+    monitoring.productId,
+    monitoring.generation,
+    monitoring.operationId,
+    { exitCode: 0, signal: null }
+  );
+
+  assert.equal(completed.phase, "installed");
+  assert.equal(harness.controller.get(monitoring.productId), null);
+});
+
+test("an uninstaller exit releases the operation when the product is still installed", async () => {
+  const harness = createHarness({ statuses: [installed] });
+  const launching = harness.controller.begin("comfy-desktop", "uninstall");
+  const monitoring = harness.controller.finishLaunch(
+    launching.productId,
+    launching.generation,
+    launching.operationId,
+    true
+  );
+
+  const canceled = await harness.controller.finishProcess(
+    monitoring.productId,
+    monitoring.generation,
+    monitoring.operationId,
+    { exitCode: 0, signal: null }
+  );
+
+  assert.equal(canceled.phase, "canceled");
+  assert.equal(canceled.lastDetection, "installed");
+  assert.equal(harness.controller.get(monitoring.productId), null);
+  assert.equal(
+    harness.scheduled.filter((handle) => !handle.canceled).length,
+    0
+  );
+});
+
+test("an uninstaller exit completes when uninstall evidence exists", async () => {
+  const harness = createHarness({ statuses: [absent] });
+  const launching = harness.controller.begin("comfy-desktop", "uninstall");
+  const monitoring = harness.controller.finishLaunch(
+    launching.productId,
+    launching.generation,
+    launching.operationId,
+    true
+  );
+
+  const completed = await harness.controller.finishProcess(
+    monitoring.productId,
+    monitoring.generation,
+    monitoring.operationId,
+    { exitCode: 0, signal: null }
+  );
+
+  assert.equal(completed.phase, "uninstalled");
+  assert.equal(harness.controller.get(monitoring.productId), null);
+});
+
 test("finishLaunch retries a failed launching commit without changing identity", async () => {
   const harness = createHarness({ statuses: [installed] });
   const launching = harness.controller.begin(

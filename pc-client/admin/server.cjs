@@ -1,6 +1,7 @@
 const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
+const { spawn } = require("node:child_process");
 const {
   validateCatalog
 } = require("../shared/catalog.cjs");
@@ -21,6 +22,12 @@ const {
   publicProductModules
 } = require("../shared/product-modules.cjs");
 const {
+  publicExtensionModules
+} = require("../shared/product-extensions.cjs");
+const {
+  publicExtensionInstallProfiles
+} = require("../shared/extension-install-registry.cjs");
+const {
   validateUpdatePayload
 } = require("../shared/update-release.cjs");
 const {
@@ -35,6 +42,7 @@ const {
   validatePublication,
   validateReleaseSettings
 } = require("./config-validation.cjs");
+const { createDiscoveryReview } = require("./discovery-review.cjs");
 
 const host = process.env.AIHUB_ADMIN_HOST || "127.0.0.1";
 const port = Number(process.env.AIHUB_ADMIN_PORT || 4173);
@@ -49,6 +57,17 @@ const releaseSettingsPath = path.join(__dirname, "data", "release-settings.json"
 const updateReleasePath = path.join(publishedDirectory, "update-release.json");
 const channelPath = path.join(root, "catalog", "channel.json");
 const updateChannelPath = path.join(root, "updates", "channel.json");
+const discoveryReportPath = path.join(
+  root,
+  "output",
+  "catalog-research",
+  "official-product-candidates.json"
+);
+const discoveryStatePath = path.join(
+  __dirname,
+  "data",
+  "discovery-review.json"
+);
 const signingKey = loadSigningKey({
   dataDirectory: path.join(__dirname, "data")
 });
@@ -99,6 +118,82 @@ function writeJsonAtomic(filePath, value) {
   const temporary = `${filePath}.tmp`;
   fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, "utf8");
   fs.renameSync(temporary, filePath);
+}
+
+async function saveCatalogDraft({ catalog, expectedRevision }) {
+  const validated = validateCatalog(catalog);
+  const saved = await releaseStore.saveDraft({
+    catalog: validated,
+    expectedRevision
+  });
+  writeJsonAtomic(draftPath, saved.catalog);
+  return {
+    revision: saved.revision,
+    updatedAt: saved.updatedAt,
+    catalog: saved.catalog
+  };
+}
+
+function runDiscoveryScan() {
+  const scriptPath = path.join(root, "scripts", "discover-official-products.mjs");
+  const argumentsList = [
+    scriptPath,
+    "--max-pages=3",
+    "--timeout-ms=3500",
+    "--concurrency=8"
+  ];
+  return new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, argumentsList, {
+      cwd: root,
+      env: process.env,
+      windowsHide: true,
+      stdio: ["ignore", "pipe", "pipe"]
+    });
+    let outputTail = "";
+    const append = (chunk) => {
+      outputTail = `${outputTail}${chunk.toString("utf8")}`.slice(-12000);
+    };
+    child.stdout.on("data", append);
+    child.stderr.on("data", append);
+    child.once("error", reject);
+    child.once("close", (code, signal) => {
+      if (code === 0) resolve();
+      else {
+        reject(
+          new Error(
+            `官方产品扫描失败（${signal || `退出码 ${code}`}）${
+              outputTail ? `：${outputTail.trim()}` : ""
+            }`
+          )
+        );
+      }
+    });
+  });
+}
+
+const discoveryReview = createDiscoveryReview({
+  reportPath: discoveryReportPath,
+  statePath: discoveryStatePath,
+  runScan: runDiscoveryScan,
+  commitCatalog: saveCatalogDraft
+});
+
+const discoveryIntervalHours = Number(
+  process.env.AIHUB_DISCOVERY_SCAN_INTERVAL_HOURS || 24
+);
+if (Number.isFinite(discoveryIntervalHours) && discoveryIntervalHours > 0) {
+  const timer = setInterval(
+    async () => {
+      try {
+        await ensureDraft();
+        discoveryReview.startScan();
+      } catch {
+        // Readiness and the review page expose configuration failures.
+      }
+    },
+    Math.max(1, discoveryIntervalHours) * 60 * 60 * 1000
+  );
+  timer.unref();
 }
 
 function readReleaseSettings() {
@@ -225,7 +320,52 @@ async function handleApi(request, response, pathname) {
   if (request.method === "GET" && pathname === "/api/product-modules") {
     sendJson(response, 200, {
       modules: publicProductModules(),
-      installProfiles: publicInstallProfiles()
+      installProfiles: publicInstallProfiles(),
+      extensionModules: publicExtensionModules(),
+      extensionInstallProfiles: publicExtensionInstallProfiles()
+    });
+    return true;
+  }
+
+  if (request.method === "GET" && pathname === "/api/discovery") {
+    const state = await ensureDraft();
+    sendJson(response, 200, discoveryReview.snapshot(state.draft.catalog));
+    return true;
+  }
+
+  if (request.method === "POST" && pathname === "/api/discovery/scan") {
+    await ensureDraft();
+    const result = discoveryReview.startScan();
+    sendJson(response, result.started ? 202 : 200, result);
+    return true;
+  }
+
+  if (request.method === "POST" && pathname === "/api/discovery/decision") {
+    const body = await readJson(request);
+    const state = await ensureDraft();
+    const snapshot = discoveryReview.decision({
+      catalog: state.draft.catalog,
+      candidateId: body.candidateId,
+      status: body.status
+    });
+    sendJson(response, 200, snapshot);
+    return true;
+  }
+
+  if (request.method === "POST" && pathname === "/api/discovery/accept") {
+    const body = await readJson(request);
+    const state = await ensureDraft();
+    const result = await discoveryReview.acceptCandidate({
+      catalog: state.draft.catalog,
+      candidateId: body.candidateId,
+      expectedRevision: body.expectedRevision,
+      product: body.product
+    });
+    sendJson(response, 200, {
+      ok: true,
+      revision: result.revision,
+      updatedAt: result.updatedAt,
+      product: result.product
     });
     return true;
   }
@@ -249,13 +389,10 @@ async function handleApi(request, response, pathname) {
 
   if (request.method === "PUT" && pathname === "/api/catalog") {
     const body = await readJson(request);
-    const catalog = validateCatalog(body.catalog);
-    const saved = await releaseStore.saveDraft({
-      catalog,
+    const saved = await saveCatalogDraft({
+      catalog: body.catalog,
       expectedRevision: body.expectedRevision
     });
-    catalog.updatedAt = saved.updatedAt;
-    writeJsonAtomic(draftPath, catalog);
     sendJson(response, 200, {
       ok: true,
       revision: saved.revision,

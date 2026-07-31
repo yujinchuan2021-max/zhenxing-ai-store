@@ -150,3 +150,26 @@ test("contains a spawn callback failure without changing process evidence", asyn
   assert.equal(result.exitCode, null);
   assert.match(result.warning, /verification disk full/);
 });
+
+test("reports a foreground installer exit after the launch grace result", async () => {
+  const child = new EventEmitter();
+  child.unref = () => {};
+  let observedExit = null;
+
+  const result = await launchProcessWithGrace({
+    command: "C:\\Trusted\\Setup.exe",
+    graceMs: 5,
+    onProcessExit: (exit) => {
+      observedExit = exit;
+    },
+    spawnProcess: () => {
+      queueMicrotask(() => child.emit("spawn"));
+      setTimeout(() => child.emit("exit", 0, null), 15);
+      return child;
+    }
+  });
+
+  assert.equal(result.launched, true);
+  await new Promise((resolve) => setTimeout(resolve, 25));
+  assert.deepEqual(observedExit, { exitCode: 0, signal: null });
+});
