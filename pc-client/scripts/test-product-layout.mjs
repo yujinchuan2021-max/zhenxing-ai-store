@@ -1,5 +1,6 @@
 import { spawn, spawnSync } from "node:child_process";
 import fs from "node:fs";
+import crypto from "node:crypto";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,6 +14,31 @@ const electron = path.join(
   "electron.exe"
 );
 const userData = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-layout-"));
+const fixtureDirectory = path.join(userData, "fixture-download");
+const fixturePath = path.join(fixtureDirectory, "Claude-Setup-x64.exe");
+fs.mkdirSync(fixtureDirectory);
+fs.writeFileSync(fixturePath, "AI Hub downloaded package layout fixture");
+const fixtureBytes = fs.statSync(fixturePath).size;
+const fixtureSha256 = crypto
+  .createHash("sha256")
+  .update(fs.readFileSync(fixturePath))
+  .digest("hex");
+fs.writeFileSync(
+  path.join(userData, "download-records.json"),
+  JSON.stringify({
+    "claude-desktop": {
+      productId: "claude-desktop",
+      filePath: fixturePath,
+      downloadRoot: fixtureDirectory,
+      sha256: fixtureSha256,
+      fileSize: fixtureBytes,
+      resumedFrom: 0,
+      downloadedAt: "2026-07-31T00:00:00.000Z",
+      url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+      source: ""
+    }
+  })
+);
 const port = 9226;
 const child = spawn(
   electron,
@@ -110,10 +136,18 @@ try {
     });
     const spread = Math.max(...centers.map((item) => item.centerY)) -
       Math.min(...centers.map((item) => item.centerY));
+    const packagePath = row.querySelector('.packagePath')?.textContent.trim() || '';
     return {
-      ok: buttons.length === 3 && spread <= 4,
+      ok:
+        buttons.length === 3 &&
+        spread <= 4 &&
+        packagePath.endsWith('Claude-Setup-x64.exe') &&
+        buttons.some((button) => button.textContent.trim() === '立即安装') &&
+        !row.textContent.includes('SHA-256') &&
+        !row.textContent.includes('任务记录'),
       width: Math.round(row.getBoundingClientRect().width),
       spread,
+      packagePath,
       centers
     };
   })()`);

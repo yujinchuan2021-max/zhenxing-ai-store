@@ -16,6 +16,7 @@ function launchProcessWithGrace({
   env,
   graceMs = 2_000,
   onSpawn = () => {},
+  verifyLaunch = async () => ({ ok: true }),
   processLabel = "安装程序",
   spawnProcess = spawn
 }) {
@@ -27,6 +28,7 @@ function launchProcessWithGrace({
     !Number.isSafeInteger(graceMs) ||
     graceMs < 1 ||
     typeof onSpawn !== "function" ||
+    typeof verifyLaunch !== "function" ||
     typeof processLabel !== "string" ||
     !processLabel.trim() ||
     typeof spawnProcess !== "function"
@@ -42,6 +44,9 @@ function launchProcessWithGrace({
     let child;
     let timer = null;
     let settled = false;
+    let verificationStarted = false;
+    let startedAtMs = 0;
+    let cleanExitCode = null;
     let spawnWarning = "";
 
     const withWarning = (result) =>
@@ -70,7 +75,7 @@ function launchProcessWithGrace({
 
     const onExit = (exitCode, signal) => {
       if (exitCode === 0) {
-        finish({ launched: true, exitCode: 0, error: "" });
+        cleanExitCode = 0;
         return;
       }
       finish({
@@ -82,7 +87,41 @@ function launchProcessWithGrace({
       });
     };
 
+    const finishVerifiedLaunch = async () => {
+      if (settled || verificationStarted) return;
+      verificationStarted = true;
+      let verification;
+      try {
+        verification = await verifyLaunch({
+          command,
+          args: [...args],
+          startedAtMs
+        });
+      } catch (error) {
+        spawnWarning = spawnWarning
+          ? `${spawnWarning}；启动结果检查失败`
+          : "启动结果检查失败";
+      }
+      if (verification?.ok === false) {
+        finish({
+          launched: false,
+          exitCode: cleanExitCode,
+          error:
+            typeof verification.error === "string" && verification.error
+              ? verification.error
+              : `${processLabel}启动后未能保持运行`
+        });
+        return;
+      }
+      finish({
+        launched: true,
+        exitCode: cleanExitCode,
+        error: ""
+      });
+    };
+
     try {
+      startedAtMs = Date.now();
       child = spawnProcess(command, args, {
         detached: true,
         stdio: "ignore",
@@ -102,7 +141,7 @@ function launchProcessWithGrace({
               : "进程已经启动，但启动状态保存失败";
         }
         timer = setTimeout(() => {
-          finish({ launched: true, exitCode: null, error: "" });
+          void finishVerifiedLaunch();
         }, graceMs);
       });
     } catch (error) {

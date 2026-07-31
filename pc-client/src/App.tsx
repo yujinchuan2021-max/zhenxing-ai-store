@@ -1,5 +1,7 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { runEnvironmentInstall } from "@aihub-shared/environment-install-flow.cjs";
+import { runDownloadedPackageAction } from "@aihub-shared/downloaded-package-action.cjs";
+import { getProductInstallPresentation } from "@aihub-shared/product-install-presentation.cjs";
 import { resolveProductBehavior } from "@aihub-shared/product-policy.cjs";
 import { getUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
 import {
@@ -324,10 +326,6 @@ export default function App() {
     Record<string, EnvironmentOperationTask>
   >({});
   const [productFiles, setProductFiles] = useState<Record<string, string>>({});
-  const [productChecksums, setProductChecksums] = useState<Record<string, string>>({});
-  const [installerInspections, setInstallerInspections] = useState<
-    Record<string, InstallerInspection>
-  >({});
   const [desktopStatuses, setDesktopStatuses] = useState<
     Record<string, DesktopStatus>
   >({});
@@ -490,16 +488,6 @@ export default function App() {
         delete next[task.productId];
         return next;
       });
-      setProductChecksums((current) => {
-        const next = { ...current };
-        delete next[task.productId];
-        return next;
-      });
-      setInstallerInspections((current) => {
-        const next = { ...current };
-        delete next[task.productId];
-        return next;
-      });
       setProductErrors((current) => ({ ...current, [task.productId]: "" }));
       setProductStages((current) => ({ ...current, [task.productId]: "ready" }));
       return;
@@ -553,10 +541,6 @@ export default function App() {
       setProductFiles((current) => ({
         ...current,
         [task.productId]: task.filePath || ""
-      }));
-      setProductChecksums((current) => ({
-        ...current,
-        [task.productId]: task.sha256 || ""
       }));
       setProductErrors((current) => ({ ...current, [task.productId]: "" }));
       setProductStages((current) => ({
@@ -673,6 +657,17 @@ export default function App() {
       return;
     }
     if (installedEvidenceProducts.current.has(task.productId)) return;
+    if (task.phase === "timed-out") {
+      setProductErrors((current) => ({
+        ...current,
+        [task.productId]: "安装未完成，请重试"
+      }));
+      setProductStages((current) => ({
+        ...current,
+        [task.productId]: "error"
+      }));
+      return;
+    }
     setProductStages((current) => ({
       ...current,
       [task.productId]: "awaiting-verification"
@@ -1043,10 +1038,6 @@ export default function App() {
                   setProductFiles((current) => ({
                     ...current,
                     [product.id]: record.filePath
-                  }));
-                  setProductChecksums((current) => ({
-                    ...current,
-                    [product.id]: record.sha256
                   }));
                   setProductStages((current) => ({
                     ...current,
@@ -1519,7 +1510,7 @@ export default function App() {
       setDownloadTaskError(productId, "当前目录中找不到该产品");
       return;
     }
-    await installProduct(product);
+    await installDownloadedProduct(product);
   };
 
   const showDownloadInFolder = async (productId: string) => {
@@ -1562,16 +1553,6 @@ export default function App() {
       return;
     }
     setProductFiles((current) => {
-      const next = { ...current };
-      delete next[productId];
-      return next;
-    });
-    setProductChecksums((current) => {
-      const next = { ...current };
-      delete next[productId];
-      return next;
-    });
-    setInstallerInspections((current) => {
       const next = { ...current };
       delete next[productId];
       return next;
@@ -1808,10 +1789,6 @@ export default function App() {
       setProductFiles((current) => ({
         ...current,
         [productId]: record!.filePath
-      }));
-      setProductChecksums((current) => ({
-        ...current,
-        [productId]: record!.sha256
       }));
       setProductStages((current) => ({
         ...current,
@@ -2087,10 +2064,6 @@ export default function App() {
     }));
     try {
       const inspection = await window.aihubPC.inspectInstaller(product.id);
-      setInstallerInspections((current) => ({
-        ...current,
-        [product.id]: inspection
-      }));
       if (!inspection.ok) {
         setProductErrors((current) => ({
           ...current,
@@ -2158,6 +2131,44 @@ export default function App() {
           current[product.id],
           "downloaded"
         )
+      }));
+    }
+  };
+
+  const installDownloadedProduct = async (product: Product) => {
+    if (!window.aihubPC) return;
+    try {
+      await runDownloadedPackageAction({
+        productId: product.id,
+        getDownloadRecord: (productId) =>
+          window.aihubPC!.getDownloadRecord(productId),
+        install: async (record) => {
+          setProductFiles((current) => ({
+            ...current,
+            [product.id]: record.filePath
+          }));
+          await installProduct(product);
+        },
+        download: async () => {
+          setProductFiles((current) => {
+            const next = { ...current };
+            delete next[product.id];
+            return next;
+          });
+          await downloadProduct(product, true);
+        }
+      });
+    } catch (error) {
+      setProductErrors((current) => ({
+        ...current,
+        [product.id]:
+          error instanceof Error
+            ? `无法检查本地安装包：${error.message}`
+            : "无法检查本地安装包"
+      }));
+      setProductStages((current) => ({
+        ...current,
+        [product.id]: "error"
       }));
     }
   };
@@ -2905,7 +2916,7 @@ export default function App() {
 
     const continueInstall = async (preparation: ProductPreparation) => {
       if (preparation === "downloaded") {
-        await installProduct(product);
+        await installDownloadedProduct(product);
         return;
       }
       if (preparation !== "ready") return;
@@ -2918,7 +2929,7 @@ export default function App() {
 
     const currentStage = productStages[product.id] || "idle";
     if (currentStage === "downloaded") {
-      await installProduct(product);
+      await installDownloadedProduct(product);
       return;
     }
     if (currentStage === "ready") {
@@ -3032,8 +3043,7 @@ export default function App() {
               productDownloadDetails={productDownloadDetails}
               downloadTasks={downloadTasks}
               productErrors={productErrors}
-              productChecksums={productChecksums}
-              installerInspections={installerInspections}
+              productFiles={productFiles}
               desktopStatuses={desktopStatuses}
               cliLogs={cliLogs}
               cliVersions={cliVersions}
@@ -3046,7 +3056,6 @@ export default function App() {
               onCancelDownload={cancelProductDownload}
               onRelocateDownload={relocateProductDownload}
               onUninstallCli={requestCliUninstall}
-              onRecheckDesktop={recheckDesktopInstall}
               onUninstallDesktop={requestDesktopUninstall}
               onRecheckDesktopUninstall={recheckDesktopUninstall}
               onOpenDesktop={(product) =>
@@ -3377,8 +3386,7 @@ function VendorPage({
   productDownloadDetails,
   downloadTasks,
   productErrors,
-  productChecksums,
-  installerInspections,
+  productFiles,
   desktopStatuses,
   cliLogs,
   cliVersions,
@@ -3391,7 +3399,6 @@ function VendorPage({
   onCancelDownload,
   onRelocateDownload,
   onUninstallCli,
-  onRecheckDesktop,
   onUninstallDesktop,
   onRecheckDesktopUninstall,
   onOpenDesktop,
@@ -3407,8 +3414,7 @@ function VendorPage({
   productDownloadDetails: Record<string, DownloadProgress>;
   downloadTasks: Record<string, ManagedDownloadTask>;
   productErrors: Record<string, string>;
-  productChecksums: Record<string, string>;
-  installerInspections: Record<string, InstallerInspection>;
+  productFiles: Record<string, string>;
   desktopStatuses: Record<string, DesktopStatus>;
   cliLogs: Record<string, CliLogEntry[]>;
   cliVersions: Record<string, string>;
@@ -3421,7 +3427,6 @@ function VendorPage({
   onCancelDownload: (product: Product) => void;
   onRelocateDownload: (product: Product) => void;
   onUninstallCli: (product: Product) => void;
-  onRecheckDesktop: (product: Product) => void;
   onUninstallDesktop: (product: Product) => void;
   onRecheckDesktopUninstall: (product: Product) => void;
   onOpenDesktop: (product: Product) => void;
@@ -3468,8 +3473,7 @@ function VendorPage({
                   downloadDetail={productDownloadDetails[product.id]}
                   downloadTask={downloadTasks[product.id]}
                   error={productErrors[product.id] || ""}
-                  checksum={productChecksums[product.id] || ""}
-                  inspection={installerInspections[product.id]}
+                  filePath={productFiles[product.id] || ""}
                   desktopStatus={desktopStatuses[product.id]}
                   logs={cliLogs[product.id] || []}
                   version={cliVersions[product.id] || ""}
@@ -3481,7 +3485,6 @@ function VendorPage({
                   onCancelDownload={() => onCancelDownload(product)}
                   onRelocateDownload={() => onRelocateDownload(product)}
                   onUninstallCli={() => onUninstallCli(product)}
-                  onRecheckDesktop={() => onRecheckDesktop(product)}
                   onUninstallDesktop={() => onUninstallDesktop(product)}
                   onRecheckDesktopUninstall={() =>
                     onRecheckDesktopUninstall(product)
@@ -3518,8 +3521,7 @@ function ProductRow({
   downloadDetail,
   downloadTask,
   error,
-  checksum,
-  inspection,
+  filePath,
   desktopStatus,
   logs,
   version,
@@ -3531,7 +3533,6 @@ function ProductRow({
   onCancelDownload,
   onRelocateDownload,
   onUninstallCli,
-  onRecheckDesktop,
   onUninstallDesktop,
   onRecheckDesktopUninstall,
   onOpenDesktop,
@@ -3546,8 +3547,7 @@ function ProductRow({
   downloadDetail?: DownloadProgress;
   downloadTask?: ManagedDownloadTask;
   error: string;
-  checksum: string;
-  inspection?: InstallerInspection;
+  filePath: string;
   desktopStatus?: DesktopStatus;
   logs: CliLogEntry[];
   version: string;
@@ -3559,7 +3559,6 @@ function ProductRow({
   onCancelDownload: () => void;
   onRelocateDownload: () => void;
   onUninstallCli: () => void;
-  onRecheckDesktop: () => void;
   onUninstallDesktop: () => void;
   onRecheckDesktopUninstall: () => void;
   onOpenDesktop: () => void;
@@ -3568,6 +3567,10 @@ function ProductRow({
   onOpenEnvironmentInstaller: (environmentId: string) => void;
 }) {
   const behavior = resolveProductBehavior(product);
+  const installPresentation = getProductInstallPresentation({
+    stage,
+    filePath
+  });
   const uninstallCopy = getUninstallPresentation(
     desktopStatus?.uninstallMode
   );
@@ -3792,29 +3795,21 @@ function ProductRow({
           )}
           {stage === "downloaded" && (
             <div className="verifiedPackage">
-              <span>
-                SHA-256 {checksum ? checksum.slice(0, 12) : "已记录"}…
+              <span className="packagePath" title={installPresentation?.filePath}>
+                {installPresentation?.filePath}
               </span>
-              {inspection?.signer && <small>{inspection.signer}</small>}
               {error && <small className="launchError">{error}</small>}
               <button className="accentButton" onClick={onInstallProduct}>
-                {error ? "重新打开安装包" : "点击安装"}
+                {installPresentation?.buttonLabel}
               </button>
             </div>
           )}
-          {stage === "launching-installer" && (
-            <div className="verifiedPackage">
-              <span>正在验证并启动安装程序…</span>
-              <button className="accentButton" disabled>
-                启动中…
+          {installPresentation &&
+            ["launching-installer", "awaiting-verification"].includes(stage) && (
+            <div className="installingState">
+              <button className="accentButton" disabled={installPresentation.disabled}>
+                {installPresentation.buttonLabel}
               </button>
-            </div>
-          )}
-          {stage === "awaiting-verification" && (
-            <div className="verificationState">
-              <span>安装程序已打开，正在自动检测安装结果</span>
-              {error && <small>{error}</small>}
-              <button onClick={onRecheckDesktop}>立即检测</button>
             </div>
           )}
           {stage === "awaiting-uninstall" && (
@@ -3903,31 +3898,10 @@ function ProductRow({
               {error && <small className="installedError">{error}</small>}
             </div>
           )}
-          {product.download &&
-            downloadTask &&
-            downloadTask.logs.length > 0 &&
-            ["downloading", "paused", "error", "downloaded"].includes(stage) && (
-              <DownloadTaskLog task={downloadTask} />
-            )}
         </div>
       ) : null}
       </div>
     </article>
-  );
-}
-
-function DownloadTaskLog({ task }: { task: ManagedDownloadTask }) {
-  return (
-    <details className="downloadTaskLog">
-      <summary>
-        任务记录 · 第 {task.attempt} 次尝试 · {task.logs.length} 条
-      </summary>
-      <div>
-        {task.logs.slice(-8).map((message, index) => (
-          <span key={`${task.revision}-${index}-${message}`}>{message}</span>
-        ))}
-      </div>
-    </details>
   );
 }
 

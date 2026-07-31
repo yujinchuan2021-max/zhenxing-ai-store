@@ -67,6 +67,13 @@ const {
   launchProcessWithGrace
 } = require("../shared/installer-launch.cjs");
 const {
+  prepareInstallerLaunchArtifact
+} = require("../shared/installer-launch-path.cjs");
+const {
+  applicationCrashMessage,
+  normalizeApplicationCrash
+} = require("../shared/windows-application-crash.cjs");
+const {
   createDesktopOperationController
 } = require("../shared/desktop-operation.cjs");
 const {
@@ -983,6 +990,46 @@ async function inspectSignature(filePath) {
       signer: "",
       error: "Windows 验签命令执行失败"
     };
+  }
+}
+
+async function inspectRecentWindowsApplicationCrash(filePath, startedAtMs) {
+  if (
+    typeof filePath !== "string" ||
+    !path.isAbsolute(filePath) ||
+    !Number.isFinite(startedAtMs)
+  ) {
+    return null;
+  }
+  const script = [
+    "$start=[DateTimeOffset]::FromUnixTimeMilliseconds([long]$env:AIHUB_LAUNCH_STARTED_MS).LocalDateTime.AddSeconds(-1)",
+    "$event=Get-WinEvent -FilterHashtable @{LogName='Application';Id=1000;StartTime=$start} -ErrorAction SilentlyContinue|Where-Object{$_.Properties.Count -gt 10 -and [string]$_.Properties[10].Value -ieq $env:AIHUB_LAUNCH_PATH}|Sort-Object TimeCreated -Descending|Select-Object -First 1",
+    "if($event){[pscustomobject]@{occurredAt=$event.TimeCreated.ToUniversalTime().ToString('o');applicationName=[string]$event.Properties[0].Value;moduleName=[string]$event.Properties[3].Value;exceptionCode=[string]$event.Properties[6].Value;applicationPath=[string]$event.Properties[10].Value}|ConvertTo-Json -Compress}"
+  ].join(";");
+  try {
+    const { stdout } = await execFileAsync(
+      "powershell.exe",
+      ["-NoProfile", "-NonInteractive", "-Command", script],
+      {
+        windowsHide: true,
+        timeout: 5_000,
+        env: {
+          ...isolatedThirdPartyEnvironment(),
+          AIHUB_LAUNCH_PATH: filePath,
+          AIHUB_LAUNCH_STARTED_MS: String(Math.trunc(startedAtMs))
+        }
+      }
+    );
+    const output = stdout.trim();
+    return output
+      ? normalizeApplicationCrash(
+          JSON.parse(output),
+          filePath,
+          startedAtMs
+        )
+      : null;
+  } catch {
+    return null;
   }
 }
 
@@ -5109,6 +5156,28 @@ function registerIpc() {
         return { launched: false, canceled: true };
       }
 
+      const downloadPolicy = getStaticManagedDownload(productId);
+      const launchArtifact = await prepareInstallerLaunchArtifact({
+        sourcePath: resolvedFile,
+        stagingRoot: path.join(
+          process.env.LOCALAPPDATA || app.getPath("temp"),
+          "AIHub",
+          "InstallerLaunch"
+        ),
+        stagedFileName: `${productId}-${downloadPolicy.fileName}`,
+        expectedSha256: digest,
+        hashFile: fileSha256,
+        verifySignature: async (candidate) =>
+          (
+            await verifyExpectedSignature(
+              candidate,
+              downloadPolicy.expectedSigner,
+              true
+            )
+          ).ok
+      });
+      const launchFilePath = launchArtifact.filePath;
+
       operationTask = operationController.begin(productId, "install");
       const identity = {
         generation: operationTask.generation,
@@ -5126,19 +5195,31 @@ function registerIpc() {
       };
 
       let launchResult;
-      if (/\.exe$/i.test(resolvedFile)) {
+      if (/\.exe$/i.test(launchFilePath)) {
         launchResult = await launchProcessWithGrace({
-          command: resolvedFile,
-          graceMs: 2_000,
+          command: launchFilePath,
+          graceMs: 3_000,
           env: isolatedThirdPartyEnvironment(),
           processLabel: "安装程序",
+          verifyLaunch: async ({ startedAtMs }) => {
+            const crash = await inspectRecentWindowsApplicationCrash(
+              launchFilePath,
+              startedAtMs
+            );
+            return crash
+              ? {
+                  ok: false,
+                  error: applicationCrashMessage(crash, "安装程序")
+                }
+              : { ok: true };
+          },
           onSpawn: () => {
             processSpawned = true;
             finishLaunch(true);
           }
         });
       } else {
-        const openError = await shell.openPath(resolvedFile);
+        const openError = await shell.openPath(launchFilePath);
         processSpawned = !openError;
         launchResult = openError
           ? { launched: false, error: openError }

@@ -46,6 +46,27 @@ test("accepts a bootstrapper that exits cleanly during launch", async () => {
   assert.equal(result.exitCode, 0);
 });
 
+test("rejects a clean bootstrapper exit when Windows reports its child crash", async () => {
+  let probes = 0;
+  const result = await launchProcessWithGrace({
+    command: process.execPath,
+    args: ["-e", "process.exit(0)"],
+    graceMs: 300,
+    verifyLaunch: async () => {
+      probes += 1;
+      return {
+        ok: false,
+        error: "安装程序启动后崩溃（0xc0000005）"
+      };
+    }
+  });
+
+  assert.equal(probes, 1);
+  assert.equal(result.launched, false);
+  assert.equal(result.exitCode, 0);
+  assert.match(result.error, /0xc0000005/);
+});
+
 test("reports spawn through the callback before the grace result", async () => {
   const child = new EventEmitter();
   child.unref = () => {};
