@@ -1556,9 +1556,12 @@ export default function App() {
 
   const openCompletedDownloadTask = async (productId: string) => {
     if (productId.startsWith("environment:")) {
-      await openEnvironmentInstaller(
-        productId.slice("environment:".length)
+      const environmentId = productId.slice("environment:".length);
+      const snapshot = await window.aihubPC?.getEnvironmentPackage?.(
+        environmentId
       );
+      if (snapshot?.ready) await openEnvironmentInstaller(environmentId);
+      else await installEnvironment(environmentId);
       return;
     }
     const product = catalogVendors
@@ -3363,6 +3366,9 @@ export default function App() {
               onClose={closeManagedProduct}
               onOpenFiles={openManagedProductFiles}
               onReinstall={(entry) =>
+                void openCompletedDownloadTask(entry.id)
+              }
+              onReinstallEnvironment={(entry) =>
                 void openCompletedDownloadTask(entry.id)
               }
               onUninstall={uninstallManagedProduct}
@@ -5440,6 +5446,7 @@ function InstalledProductsPage({
   onClose,
   onOpenFiles,
   onReinstall,
+  onReinstallEnvironment,
   onUninstall,
   onInstallPackage,
   onShowPackage,
@@ -5468,6 +5475,11 @@ function InstalledProductsPage({
     entry: ReturnType<
       typeof buildInstalledProductManagement
     >["products"][number]
+  ) => void;
+  onReinstallEnvironment: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["reinstallableEnvironments"][number]
   ) => void;
   onUninstall: (
     entry: ReturnType<
@@ -5553,6 +5565,35 @@ function InstalledProductsPage({
           <div className="emptyManagement">暂未检测到已安装产品。</div>
         )}
       </div>
+
+      {management.reinstallableEnvironments.length > 0 && (
+        <section className="packageManagement">
+          <div className="sectionHeading">
+            <span>运行环境</span>
+            <h2>可重新安装</h2>
+          </div>
+          <div className="managementList">
+            {management.reinstallableEnvironments.map((entry) => (
+              <article className="managementCard" key={entry.id}>
+                <div className="managementInfo">
+                  <span>{entry.vendorName}</span>
+                  <h3>{entry.name}</h3>
+                  <p>当前未安装</p>
+                  {messages[entry.id] && <small>{messages[entry.id]}</small>}
+                </div>
+                <div className="managementActions">
+                  <button
+                    className="accentButton"
+                    onClick={() => onReinstallEnvironment(entry)}
+                  >
+                    {entry.packageReady ? "打开安装程序" : "重新安装"}
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="packageManagement">
         <div className="sectionHeading">

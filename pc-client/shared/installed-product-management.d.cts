@@ -19,6 +19,15 @@ export type ManagedInstallerPackageEntry = {
   canInstall: boolean;
 };
 
+export type ReinstallableEnvironmentEntry = {
+  id: string;
+  environmentId: string;
+  name: string;
+  vendorName: string;
+  type: "environment";
+  packageReady: boolean;
+};
+
 export function buildInstalledProductManagement(input: {
   vendors?: unknown[];
   desktopStatuses?: Record<string, unknown>;
@@ -27,5 +36,6 @@ export function buildInstalledProductManagement(input: {
   downloadTasks?: Record<string, unknown>;
 }): {
   products: InstalledProductManagementEntry[];
+  reinstallableEnvironments: ReinstallableEnvironmentEntry[];
   packages: ManagedInstallerPackageEntry[];
 };

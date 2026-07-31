@@ -1,10 +1,8 @@
 "use strict";
 
-function capabilities(product) {
-  return new Set(
-    Array.isArray(product?.capabilities) ? product.capabilities : []
-  );
-}
+const {
+  resolvedProductCapabilities
+} = require("./product-policy.cjs");
 
 function buildInstalledProductManagement({
   vendors = [],
@@ -14,6 +12,7 @@ function buildInstalledProductManagement({
   downloadTasks = {}
 }) {
   const products = [];
+  const reinstallableEnvironments = [];
   const catalogProducts = new Map();
 
   for (const vendor of vendors) {
@@ -24,7 +23,7 @@ function buildInstalledProductManagement({
         product,
         vendorName: String(vendor.name || "")
       });
-      const allowed = capabilities(product);
+      const allowed = new Set(resolvedProductCapabilities(product));
       if (product.productType === "cli") {
         const status = cliStatuses[product.id];
         if (!status?.installed) continue;
@@ -66,7 +65,20 @@ function buildInstalledProductManagement({
   }
 
   for (const check of environmentChecks) {
-    if (!check?.installed) continue;
+    if (!check?.installed) {
+      if (check?.detection === "absent") {
+        reinstallableEnvironments.push({
+          id: `environment:${check.id}`,
+          environmentId: String(check.id),
+          name: String(check.name || check.id),
+          vendorName: "运行环境",
+          type: "environment",
+          packageReady:
+            downloadTasks[`environment:${check.id}`]?.phase === "completed"
+        });
+      }
+      continue;
+    }
     const isDesktopEnvironment = check.id === "docker";
     products.push({
       id: `environment:${check.id}`,
@@ -107,7 +119,7 @@ function buildInstalledProductManagement({
       canInstall: true
     }));
 
-  return { products, packages };
+  return { products, reinstallableEnvironments, packages };
 }
 
 module.exports = {

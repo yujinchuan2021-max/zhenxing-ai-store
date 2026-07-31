@@ -167,6 +167,10 @@ try {
       item.textContent.includes('Docker') &&
       item.textContent.includes('运行环境')
     );
+    const chatgpt = cards.find((item) =>
+      item.textContent.includes('ChatGPT Desktop') &&
+      item.textContent.includes('桌面端')
+    );
     const installer = cards.find((item) =>
       item.textContent.includes('Claude Desktop') &&
       item.textContent.includes('Claude-Setup-x64.exe')
@@ -182,6 +186,12 @@ try {
           button.textContent.trim()
         )
       : [];
+    const chatgptButtons = chatgpt
+      ? [...chatgpt.querySelectorAll('button')].map((button) => ({
+          text: button.textContent.trim(),
+          disabled: button.disabled
+        }))
+      : [];
     return {
       ok:
         Boolean(docker) &&
@@ -190,11 +200,19 @@ try {
         dockerButtons.some(
           (button) => button.text === '卸载' && !button.disabled
         ) &&
+        Boolean(chatgpt) &&
+        chatgptButtons.some(
+          (button) => button.text === '打开' && !button.disabled
+        ) &&
+        chatgptButtons.some(
+          (button) => button.text === '卸载' && !button.disabled
+        ) &&
         Boolean(installer) &&
         installerButtons.includes('立即安装') &&
         installerButtons.includes('打开文件夹') &&
         installerButtons.includes('删除安装包'),
       dockerButtons,
+      chatgptButtons,
       installerButtons
     };
   })()`);

@@ -15,8 +15,7 @@ test("builds one catalog-driven management model for desktop, CLI, environments 
           {
             id: "chatgpt-desktop",
             name: "ChatGPT Desktop",
-            productType: "desktop-reviewed",
-            capabilities: ["install", "open", "uninstall"]
+            productType: "desktop-reviewed"
           },
           {
             id: "codex-cli",
@@ -67,6 +66,16 @@ test("builds one catalog-driven management model for desktop, CLI, environments 
           "C:\\Users\\Tester\\AppData\\Local\\Programs\\DockerDesktop\\Docker Desktop.exe",
         canOpen: true,
         canUninstall: true
+      },
+      {
+        id: "python",
+        name: "Python",
+        installed: false,
+        version: "",
+        location: "",
+        detection: "absent",
+        canOpen: false,
+        canUninstall: false
       }
     ],
     downloadTasks: {
@@ -120,6 +129,47 @@ test("builds one catalog-driven management model for desktop, CLI, environments 
       name: "Comfy Desktop",
       filePath: "D:\\Downloads\\Comfy-Desktop-Setup-x64.exe",
       canInstall: true
+    }
+  ]);
+  assert.deepEqual(result.reinstallableEnvironments, [
+    {
+      id: "environment:python",
+      environmentId: "python",
+      name: "Python",
+      vendorName: "运行环境",
+      type: "environment",
+      packageReady: false
+    }
+  ]);
+});
+
+test("keeps an absent environment reinstallable with a cached installer", () => {
+  const result = buildInstalledProductManagement({
+    environmentChecks: [
+      {
+        id: "node",
+        name: "Node.js",
+        installed: false,
+        detection: "absent"
+      }
+    ],
+    downloadTasks: {
+      "environment:node": {
+        productId: "environment:node",
+        phase: "completed",
+        filePath: "D:\\Downloads\\node-v24.18.0-x64.msi"
+      }
+    }
+  });
+
+  assert.deepEqual(result.reinstallableEnvironments, [
+    {
+      id: "environment:node",
+      environmentId: "node",
+      name: "Node.js",
+      vendorName: "运行环境",
+      type: "environment",
+      packageReady: true
     }
   ]);
 });
