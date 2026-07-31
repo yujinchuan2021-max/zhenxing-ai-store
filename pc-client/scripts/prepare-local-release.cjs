@@ -83,6 +83,7 @@ const result = prepareReleaseBundle({
     )
   },
   notes: [
+    "修复本机头像上传成功后无法显示的问题",
     "优化个人中心联系方式修改与本地头像上传",
     "统一按钮按压反馈，并集中管理 PC 中英文文案",
     "PC 语言设置与内置 Flarum 社区同步"

@@ -22,6 +22,8 @@ const email = `pc-center-${suffix}@aihub.local`;
 const username = `pc_center_${suffix}`;
 const nickname = `验收用户${suffix.slice(-4)}`;
 const password = `AIHub-${suffix}-Secure9`;
+const avatarBase64 =
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=";
 const userData = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-personal-center-"));
 const port = 9228;
 
@@ -273,6 +275,46 @@ try {
   assert.equal(personalCenter.hasUsername, true);
   assert.equal(personalCenter.avatarUsesLocalFile, true);
   assert.equal(personalCenter.contactEditors, 0);
+
+  await evaluate(`(() => {
+    const bytes = Uint8Array.from(
+      atob(${JSON.stringify(avatarBase64)}),
+      (character) => character.charCodeAt(0)
+    );
+    const file = new File([bytes], 'avatar.png', { type: 'image/png' });
+    const transfer = new DataTransfer();
+    transfer.items.add(file);
+    const input = document.querySelector('.profileCard input[type="file"]');
+    Object.defineProperty(input, 'files', {
+      configurable: true,
+      value: transfer.files
+    });
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  })()`);
+  await waitFor(
+    `document.querySelector('.avatarPreviewButton img')?.src.startsWith(${JSON.stringify(
+      `${identityOrigin}/v1/avatars/`
+    )})`,
+    "avatar upload did not switch to the persisted identity URL"
+  );
+  await waitFor(
+    `(() => {
+      const image = document.querySelector('.avatarPreviewButton img');
+      return Boolean(image?.complete && image.naturalWidth > 0);
+    })()`,
+    "persisted avatar URL did not render in the Electron personal center"
+  );
+  const renderedAvatar = await evaluate(`(() => {
+    const image = document.querySelector('.avatarPreviewButton img');
+    return {
+      src: image?.src || '',
+      complete: Boolean(image?.complete),
+      naturalWidth: image?.naturalWidth || 0,
+      naturalHeight: image?.naturalHeight || 0
+    };
+  })()`);
+  assert.equal(renderedAvatar.complete, true);
+  assert.ok(renderedAvatar.naturalWidth > 0);
 
   const updatedNickname = `${nickname}新`;
   await evaluate(`(() => {
@@ -703,6 +745,7 @@ try {
       {
         ok: true,
         personalCenter,
+        renderedAvatar,
         community,
         darkCommunityTheme,
         englishLanguage,
