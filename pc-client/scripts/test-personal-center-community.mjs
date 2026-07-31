@@ -305,47 +305,169 @@ try {
     )})`
   );
   await waitFor(
-    "Boolean([...document.querySelectorAll('.embeddedCommunityToolbar button')].find((button) => button.textContent.trim() === '收藏'))",
-    "discussion interaction toolbar did not appear",
+    "!document.querySelector('webview.communityWebview').isLoading()",
+    "embedded Flarum did not finish loading"
+  );
+  await waitFor(
+    `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(
+      "Boolean(document.getElementById('aihub-community-refresh'))"
+    )})`,
+    "community refresh control did not appear beside the Flarum search",
     20_000
   );
-  await evaluate(
-    "[...document.querySelectorAll('.embeddedCommunityToolbar button')].find((button) => button.textContent.trim() === '收藏').click()"
-  );
+  await evaluate(`(() => {
+    const view = document.querySelector('webview.communityWebview');
+    window.__aihubCommunityRefreshNavigations = 0;
+    view.addEventListener(
+      'did-start-loading',
+      () => {
+        window.__aihubCommunityRefreshNavigations += 1;
+      },
+      { once: true }
+    );
+    return view.executeJavaScript(
+      "document.getElementById('aihub-community-refresh').click()"
+    );
+  })()`);
   await waitFor(
-    "Boolean([...document.querySelectorAll('.embeddedCommunityToolbar button')].find((button) => button.textContent.trim() === '已收藏'))",
-    "favorite state did not persist"
-  );
-  await evaluate(
-    "[...document.querySelectorAll('.embeddedCommunityToolbar button')].find((button) => button.textContent.trim() === '喜欢').click()"
-  );
-  await waitFor(
-    "Boolean([...document.querySelectorAll('.embeddedCommunityToolbar button')].find((button) => button.textContent.trim() === '已喜欢'))",
-    "like state did not persist"
+    "window.__aihubCommunityRefreshNavigations === 1",
+    "community refresh control did not reload the Flarum page"
   );
   await waitFor(
     "!document.querySelector('webview.communityWebview').isLoading()",
-    "embedded Flarum did not finish loading"
+    "embedded Flarum did not finish reloading"
+  );
+  await waitFor(
+    `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(
+      "Boolean(document.getElementById('aihub-community-refresh'))"
+    )})`,
+    "community refresh control was not restored after reload",
+    20_000
   );
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   const community = await evaluate(`(async () => {
     const view = document.querySelector('webview.communityWebview');
-    const interactions = await window.aihubPC.listCommunityInteractions();
+    const refreshPlacement = await view.executeJavaScript(${JSON.stringify(`
+      (() => {
+        const button = document.getElementById("aihub-community-refresh");
+        const item = document.getElementById("aihub-community-refresh-item");
+        const search = document.querySelector(
+          "#header-secondary .Search, .Header-secondary .Search, .Search"
+        );
+        const anchor = search?.closest("li") || search;
+        const buttonRect = button?.getBoundingClientRect();
+        const searchRect = search?.getBoundingClientRect();
+        const pageText = document.body.innerText;
+        return {
+          exists: Boolean(button),
+          searchExists: Boolean(search),
+          followsSearch: Boolean(anchor && item && anchor.nextElementSibling === item),
+          label: button?.getAttribute("aria-label") || "",
+          buttonRect: buttonRect
+            ? {
+                left: buttonRect.left,
+                top: buttonRect.top,
+                right: buttonRect.right,
+                bottom: buttonRect.bottom
+              }
+            : null,
+          searchRect: searchRect
+            ? {
+                left: searchRect.left,
+                top: searchRect.top,
+                right: searchRect.right,
+                bottom: searchRect.bottom
+              }
+            : null,
+          hasNativePostActions:
+            pageText.includes("Like") ||
+            pageText.includes("Unlike") ||
+            pageText.includes("Follow")
+        };
+      })()
+    `)});
     return {
       url: view.getURL(),
       partition: view.getAttribute('partition'),
       text: document.querySelector('.embeddedCommunity').innerText,
-      interaction: interactions.find(
-        (item) => item.discussionId === ${JSON.stringify(discussionId)}
-      ) || null
+      hasExternalInteractionControls: Boolean(
+        document.querySelector(
+          '.embeddedCommunityToolbar, .embeddedCommunityActions'
+        )
+      ),
+      refreshPlacement
     };
   })()`);
   assert.equal(community.partition, "persist:aihub-community");
   assert.equal(community.url.startsWith(`${communityOrigin}/d/`), true);
   assert.equal(community.text.includes("系统浏览器"), false);
-  assert.equal(community.interaction?.favorited, true);
-  assert.equal(community.interaction?.liked, true);
+  assert.equal(community.hasExternalInteractionControls, false);
+  assert.equal(community.refreshPlacement.exists, true);
+  assert.equal(community.refreshPlacement.searchExists, true);
+  assert.equal(community.refreshPlacement.followsSearch, true);
+  assert.equal(community.refreshPlacement.label, "刷新");
+  assert.equal(community.refreshPlacement.hasNativePostActions, true);
+  const communityLayoutExpression = `(() => {
+    const content = document.querySelector('.communityContent');
+    const embedded = document.querySelector('.embeddedCommunity');
+    const viewport = document.querySelector('.communityViewport');
+    const contentRect = content.getBoundingClientRect();
+    const embeddedRect = embedded.getBoundingClientRect();
+    const viewportRect = viewport.getBoundingClientRect();
+    const embeddedStyle = getComputedStyle(embedded);
+    return {
+      contentPadding: getComputedStyle(content).padding,
+      borderWidth: embeddedStyle.borderWidth,
+      borderRadius: embeddedStyle.borderRadius,
+      contentRect: {
+        left: contentRect.left,
+        top: contentRect.top,
+        right: contentRect.right,
+        bottom: contentRect.bottom
+      },
+      embeddedRect: {
+        left: embeddedRect.left,
+        top: embeddedRect.top,
+        right: embeddedRect.right,
+        bottom: embeddedRect.bottom
+      },
+      viewportRect: {
+        left: viewportRect.left,
+        top: viewportRect.top,
+        right: viewportRect.right,
+        bottom: viewportRect.bottom
+      }
+    };
+  })()`;
+  const assertCommunityFill = (layout, viewportName) => {
+    assert.equal(layout.contentPadding, "0px");
+    assert.equal(layout.borderWidth, "0px");
+    assert.equal(layout.borderRadius, "0px");
+    for (const edge of ["left", "top", "right", "bottom"]) {
+      assert.ok(
+        Math.abs(layout.contentRect[edge] - layout.embeddedRect[edge]) <= 1,
+        `${viewportName} community does not fill content ${edge} edge`
+      );
+      assert.ok(
+        Math.abs(layout.embeddedRect[edge] - layout.viewportRect[edge]) <= 1,
+        `${viewportName} webview does not fill embedded ${edge} edge`
+      );
+    }
+  };
+  const communityLayout = await evaluate(communityLayoutExpression);
+  assertCommunityFill(communityLayout, "desktop");
+  await send("Emulation.setDeviceMetricsOverride", {
+    width: 1024,
+    height: 720,
+    deviceScaleFactor: 1,
+    mobile: false
+  });
+  await new Promise((resolve) => setTimeout(resolve, 250));
+  const compactCommunityLayout = await evaluate(communityLayoutExpression);
+  assertCommunityFill(compactCommunityLayout, "compact");
+  await send("Emulation.clearDeviceMetricsOverride");
+  await new Promise((resolve) => setTimeout(resolve, 250));
 
   const screenshot = await send("Page.captureScreenshot", {
     format: "png",
@@ -364,6 +486,8 @@ try {
         ok: true,
         personalCenter,
         community,
+        communityLayout,
+        compactCommunityLayout,
         screenshots: {
           personalCenter: personalScreenshotPath,
           embeddedCommunity: screenshotPath

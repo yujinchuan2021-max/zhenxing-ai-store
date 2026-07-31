@@ -12,7 +12,6 @@ import { buildInstalledProductManagement } from "@aihub-shared/installed-product
 import { getProductInstallPresentation } from "@aihub-shared/product-install-presentation.cjs";
 import { resolveProductBehavior } from "@aihub-shared/product-policy.cjs";
 import { getUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
-import { communityDiscussionLocation } from "@aihub-shared/community-embed.cjs";
 import {
   categories,
   Product,
@@ -3174,7 +3173,15 @@ export default function App() {
         </div>
       </header>
 
-      <div className="workspace">
+      <div
+        className={`workspace${
+          view === "community" &&
+          identity.status === "authenticated" &&
+          !selectedVendor
+            ? " communityWorkspace"
+            : ""
+        }`}
+      >
         <aside className="sidebar">
           <p>{t.navigation}</p>
           <nav>
@@ -3211,7 +3218,15 @@ export default function App() {
           </nav>
         </aside>
 
-        <main className="content">
+        <main
+          className={`content${
+            view === "community" &&
+            identity.status === "authenticated" &&
+            !selectedVendor
+              ? " communityContent"
+              : ""
+          }`}
+        >
           {selectedVendor ? (
             <VendorPage
               vendor={selectedVendor}
@@ -4801,11 +4816,69 @@ function PersonalCenterPage({
 
 type EmbeddedCommunityWebview = HTMLElement & {
   getURL(): string;
-  getTitle(): string;
-  isLoading(): boolean;
   loadURL(url: string): Promise<void>;
-  reload(): void;
+  executeJavaScript<T = unknown>(code: string): Promise<T>;
 };
+
+const COMMUNITY_REFRESH_CONTROL_SCRIPT = String.raw`
+(() => {
+  const itemId = "aihub-community-refresh-item";
+  const buttonId = "aihub-community-refresh";
+  const styleId = "aihub-community-refresh-style";
+
+  const install = () => {
+    const existing = document.getElementById(buttonId);
+    if (existing) return true;
+
+    const search = document.querySelector(
+      "#header-secondary .Search, .Header-secondary .Search, .Search"
+    );
+    if (!search || !search.parentElement) return false;
+
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement("style");
+      style.id = styleId;
+      style.textContent = [
+        "#" + itemId + "{display:flex;align-items:center;margin-left:6px}",
+        "#" + buttonId + "{display:grid;place-items:center;width:36px;min-width:36px;height:36px;padding:0;border:0;border-radius:8px;color:#8da2ba;background:#1b2430;cursor:pointer}",
+        "#" + buttonId + ":hover{color:#dbe8f6;background:#263342}",
+        "#" + buttonId + ":focus-visible{outline:2px solid #91ff48;outline-offset:2px}",
+        "#" + buttonId + " .aihub-refresh-glyph{font-size:20px;line-height:1;transform:translateY(-1px)}"
+      ].join("");
+      document.head.appendChild(style);
+    }
+
+    const anchor = search.closest("li") || search;
+    const wrapper = document.createElement(
+      anchor.parentElement?.tagName === "UL" ? "li" : "span"
+    );
+    wrapper.id = itemId;
+    wrapper.className = "item-aihub-community-refresh";
+
+    const button = document.createElement("button");
+    button.id = buttonId;
+    button.className = "Button Button--icon Button--flat";
+    button.type = "button";
+    button.title = "刷新";
+    button.setAttribute("aria-label", "刷新");
+    button.innerHTML =
+      '<span class="aihub-refresh-glyph" aria-hidden="true">&#8635;</span>';
+    button.addEventListener("click", () => window.location.reload());
+    wrapper.appendChild(button);
+    anchor.insertAdjacentElement("afterend", wrapper);
+    return true;
+  };
+
+  install();
+  if (!window.__aihubCommunityRefreshObserver) {
+    const root = document.querySelector("#header-secondary") || document.body;
+    const observer = new MutationObserver(install);
+    observer.observe(root, { childList: true, subtree: true });
+    window.__aihubCommunityRefreshObserver = observer;
+  }
+  return install();
+})()
+`;
 
 function FlarumCommunityPage({
   identity,
@@ -4823,13 +4896,6 @@ function FlarumCommunityPage({
   const [embed, setEmbed] = useState<CommunityEmbedSession | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [discussion, setDiscussion] = useState<{
-    discussionId: string;
-    path: string;
-  } | null>(null);
-  const [discussionTitle, setDiscussionTitle] = useState("");
-  const [interaction, setInteraction] =
-    useState<CommunityInteraction | null>(null);
 
   useEffect(() => {
     pendingTarget.current = targetPath;
@@ -4867,30 +4933,6 @@ function FlarumCommunityPage({
 
     const updateLocation = () => {
       const url = webview.getURL();
-      const location = communityDiscussionLocation(url, embed.origin);
-      setDiscussion(location);
-      if (!location) {
-        setDiscussionTitle("");
-        setInteraction(null);
-      } else {
-        const title = webview
-          .getTitle()
-          .replace(/\s*[-–]\s*AI Hub.*$/i, "")
-          .trim()
-          .slice(0, 160);
-        setDiscussionTitle(title);
-        void window.aihubPC
-          ?.listCommunityInteractions()
-          .then((items) =>
-            setInteraction(
-              items.find(
-                (item) => item.discussionId === location.discussionId
-              ) || null
-            )
-          )
-          .catch(() => setInteraction(null));
-      }
-
       const parsed = new URL(url);
       const nextPath = pendingTarget.current;
       if (
@@ -4903,6 +4945,11 @@ function FlarumCommunityPage({
         void webview.loadURL(new URL(nextPath, `${embed.origin}/`).href);
       }
     };
+    const installRefreshControl = () => {
+      void webview
+        .executeJavaScript<boolean>(COMMUNITY_REFRESH_CONTROL_SCRIPT)
+        .catch(() => undefined);
+    };
     const failed = (event: Event) => {
       const detail = event as Event & {
         errorCode?: number;
@@ -4913,40 +4960,17 @@ function FlarumCommunityPage({
     };
     webview.addEventListener("did-navigate", updateLocation);
     webview.addEventListener("did-navigate-in-page", updateLocation);
-    webview.addEventListener("page-title-updated", updateLocation);
+    webview.addEventListener("dom-ready", installRefreshControl);
+    webview.addEventListener("did-stop-loading", installRefreshControl);
     webview.addEventListener("did-fail-load", failed);
     return () => {
       webview.removeEventListener("did-navigate", updateLocation);
       webview.removeEventListener("did-navigate-in-page", updateLocation);
-      webview.removeEventListener("page-title-updated", updateLocation);
+      webview.removeEventListener("dom-ready", installRefreshControl);
+      webview.removeEventListener("did-stop-loading", installRefreshControl);
       webview.removeEventListener("did-fail-load", failed);
     };
   }, [embed, onTargetConsumed]);
-
-  const toggleInteraction = (kind: "favorite" | "like") => {
-    if (!discussion || !window.aihubPC) return;
-    const favorited =
-      kind === "favorite"
-        ? !interaction?.favorited
-        : Boolean(interaction?.favorited);
-    const liked =
-      kind === "like" ? !interaction?.liked : Boolean(interaction?.liked);
-    setLoading(true);
-    setError("");
-    void window.aihubPC
-      .setCommunityInteraction(discussion.discussionId, {
-        title:
-          discussionTitle || `Flarum 讨论 #${discussion.discussionId}`,
-        path: discussion.path,
-        favorited,
-        liked
-      })
-      .then(setInteraction)
-      .catch((cause) =>
-        setError(cause instanceof Error ? cause.message : "互动状态保存失败")
-      )
-      .finally(() => setLoading(false));
-  };
 
   if (identity.status !== "authenticated") {
     return (
@@ -4964,38 +4988,6 @@ function FlarumCommunityPage({
 
   return (
     <section className="embeddedCommunity">
-      <header className="embeddedCommunityToolbar">
-        <div>
-          <b>AI Hub 社区</b>
-          <small>Flarum · 当前用户：{identity.user.profile.nickname}</small>
-        </div>
-        <div className="rowActions">
-          {discussion && (
-            <>
-              <button
-                className={interaction?.favorited ? "active" : ""}
-                disabled={loading}
-                onClick={() => toggleInteraction("favorite")}
-              >
-                {interaction?.favorited ? "已收藏" : "收藏"}
-              </button>
-              <button
-                className={interaction?.liked ? "active" : ""}
-                disabled={loading}
-                onClick={() => toggleInteraction("like")}
-              >
-                {interaction?.liked ? "已喜欢" : "喜欢"}
-              </button>
-            </>
-          )}
-          <button
-            disabled={!embed}
-            onClick={() => webviewRef.current?.reload()}
-          >
-            刷新
-          </button>
-        </div>
-      </header>
       <div className="communityViewport">
         {!embed ? (
           <div className="communityLoading">
@@ -5014,8 +5006,8 @@ function FlarumCommunityPage({
               "contextIsolation=yes,nodeIntegration=no,sandbox=yes"
           })
         )}
+        {error && <em className="communityError">{error}</em>}
       </div>
-      {error && <em className="communityError">{error}</em>}
     </section>
   );
 }

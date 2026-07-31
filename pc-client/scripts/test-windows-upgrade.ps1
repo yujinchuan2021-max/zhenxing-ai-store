@@ -2,7 +2,7 @@
 param(
   [string]$BaseInstallerPath = "",
   [string]$UpgradeInstallerPath = "",
-  [string]$ExpectedUpgradeVersion = "0.1.6"
+  [string]$ExpectedUpgradeVersion = "0.1.7"
 )
 
 $ErrorActionPreference = "Stop"
