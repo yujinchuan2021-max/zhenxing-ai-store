@@ -377,6 +377,17 @@ type SiteMessage = {
   createdAt: string;
 };
 
+type PersonalCenterNotification = {
+  id: string;
+  source: "account" | "community";
+  title: string;
+  body: string;
+  actionPath: string;
+  read: boolean;
+  readAt: string | null;
+  createdAt: string;
+};
+
 type CommunityInteraction = {
   discussionId: string;
   title: string;
@@ -384,6 +395,23 @@ type CommunityInteraction = {
   favorited: boolean;
   liked: boolean;
   updatedAt: string;
+};
+
+type PersonalCenterSnapshot = {
+  user: IdentityUser;
+  sessions: IdentityDeviceSession[];
+  notifications: PersonalCenterNotification[];
+  interactions: CommunityInteraction[];
+  summary: {
+    unreadNotifications: number;
+    favorites: number;
+    likes: number;
+  };
+  sources: {
+    account: "ready";
+    community: "ready" | "unavailable";
+  };
+  generatedAt: string;
 };
 
 type CommunityEmbedSession = {
@@ -523,6 +551,11 @@ interface Window {
       currentPassword: string;
       newPassword: string;
     }): Promise<{ ok: boolean }>;
+    getPersonalCenter(): Promise<PersonalCenterSnapshot>;
+    markPersonalCenterNotificationRead(
+      source: "account" | "community",
+      notificationId: string
+    ): Promise<{ ok: boolean; readAt?: string }>;
     listSiteMessages(): Promise<SiteMessage[]>;
     markSiteMessageRead(
       messageId: string

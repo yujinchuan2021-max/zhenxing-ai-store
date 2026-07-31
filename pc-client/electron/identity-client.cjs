@@ -197,6 +197,18 @@ function createIdentityClient({
         body: input
       });
     },
+    async getPersonalCenter() {
+      return bearerCall("/v1/me/personal-center");
+    },
+    async markPersonalCenterNotificationRead(source, notificationId) {
+      return bearerCall(
+        `/v1/me/notifications/${encodeURIComponent(source)}/${encodeURIComponent(notificationId)}/read`,
+        {
+          method: "PUT",
+          body: {}
+        }
+      );
+    },
     async listMessages() {
       return (await bearerCall("/v1/me/messages")).messages;
     },

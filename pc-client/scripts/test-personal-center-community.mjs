@@ -210,6 +210,32 @@ try {
     )) && !document.querySelector('.authModal')`,
     "PC login did not establish the unified session"
   );
+  await waitFor(
+    "Boolean(document.querySelector('.topActions .notificationButton')) && Boolean(document.querySelector('.topActions .accountButton'))",
+    "unified account controls did not render in the PC top right"
+  );
+  const unifiedCenter = await evaluate(`window.aihubPC.getPersonalCenter()`);
+  assert.equal(unifiedCenter.sources.account, "ready");
+  assert.equal(unifiedCenter.sources.community, "ready");
+  assert.equal(unifiedCenter.user.username, username);
+  assert.ok(Array.isArray(unifiedCenter.notifications));
+  assert.ok(Array.isArray(unifiedCenter.interactions));
+  assert.ok(Array.isArray(unifiedCenter.sessions));
+  const topRight = await evaluate(`(() => {
+    const notification = document.querySelector('.topActions .notificationButton');
+    const account = document.querySelector('.topActions .accountButton');
+    return {
+      notificationLabel: notification?.getAttribute('aria-label') || '',
+      accountText: account?.textContent || ''
+    };
+  })()`);
+  assert.match(topRight.notificationLabel, /^提醒/);
+  assert.equal(topRight.accountText.includes(nickname), true);
+  await evaluate("document.querySelector('.topActions .notificationButton').click()");
+  await waitFor(
+    "document.querySelector('.personalTabs button.active')?.textContent.includes('提醒')",
+    "top-right reminder control did not open unified notifications"
+  );
 
   await evaluate(
     "[...document.querySelectorAll('.topActions button')].find((button) => button.textContent.includes('验收用户')).click()"
@@ -232,8 +258,8 @@ try {
     };
   })()`);
   assert.deepEqual(
-    personalCenter.tabs.map((item) => item.replace(" · 新", "")),
-    ["资料", "账号安全", "站内信", "收藏", "喜欢"]
+    personalCenter.tabs.map((item) => item.replace(/\s*·\s*\d+$/, "")),
+    ["资料", "账号安全", "提醒", "收藏", "喜欢"]
   );
   assert.equal(personalCenter.hasProfile, true);
   assert.equal(personalCenter.hasEmail, true);
@@ -281,11 +307,11 @@ try {
     "security tab did not render"
   );
   await evaluate(
-    "[...document.querySelectorAll('.personalTabs button')].find((button) => button.textContent.includes('站内信')).click()"
+    "[...document.querySelectorAll('.personalTabs button')].find((button) => button.textContent.includes('提醒')).click()"
   );
   await waitFor(
     "Boolean(document.querySelector('.personalList article'))",
-    "site messages did not render"
+    "unified notifications did not render"
   );
 
   await evaluate(
@@ -385,6 +411,14 @@ try {
         const rootStyle = getComputedStyle(document.documentElement);
         const refreshStyle = button ? getComputedStyle(button) : null;
         const hero = document.querySelector(".DiscussionHero");
+        const visibleSecondaryItems = [
+          ...document.querySelectorAll("#header-secondary > ul > li")
+        ].filter((element) => getComputedStyle(element).display !== "none");
+        const headerTitle = document.querySelector(".Header-title");
+        const headerPrimary = document.querySelector("#header-primary");
+        const backControl = document.querySelector(".App-backControl");
+        const appNavigation = document.querySelector("#app-navigation");
+        const headerNavigation = document.querySelector("#header-navigation");
         return {
           exists: Boolean(button),
           searchExists: Boolean(search),
@@ -395,6 +429,19 @@ try {
           primaryColor: rootStyle.getPropertyValue("--primary-color").trim(),
           refreshBackground: refreshStyle?.backgroundColor || "",
           heroBackground: hero ? getComputedStyle(hero).backgroundColor : "",
+          visibleSecondaryItems: visibleSecondaryItems.map(
+            (element) => element.id || element.className
+          ),
+          headerTitleVisible:
+            Boolean(headerTitle) && getComputedStyle(headerTitle).display !== "none",
+          headerPrimaryVisible:
+            Boolean(headerPrimary) && getComputedStyle(headerPrimary).display !== "none",
+          backControlVisible:
+            Boolean(backControl) && getComputedStyle(backControl).display !== "none",
+          appNavigationVisible:
+            Boolean(appNavigation) && getComputedStyle(appNavigation).display !== "none",
+          headerNavigationVisible:
+            Boolean(headerNavigation) && getComputedStyle(headerNavigation).display !== "none",
           buttonRect: buttonRect
             ? {
                 left: buttonRect.left,
@@ -438,6 +485,12 @@ try {
   assert.equal(community.refreshPlacement.searchExists, true);
   assert.equal(community.refreshPlacement.followsSearch, true);
   assert.equal(community.refreshPlacement.label, "刷新");
+  assert.equal(community.refreshPlacement.visibleSecondaryItems.length, 2);
+  assert.equal(community.refreshPlacement.headerTitleVisible, false);
+  assert.equal(community.refreshPlacement.headerPrimaryVisible, false);
+  assert.equal(community.refreshPlacement.backControlVisible, false);
+  assert.equal(community.refreshPlacement.appNavigationVisible, false);
+  assert.equal(community.refreshPlacement.headerNavigationVisible, false);
   assert.equal(community.refreshPlacement.hasNativePostActions, true);
   assert.equal(community.refreshPlacement.theme, "light");
   assert.equal(community.refreshPlacement.bodyBackground, "#f3f7f4");

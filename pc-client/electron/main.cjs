@@ -4418,6 +4418,17 @@ function registerIpc() {
   ipcMain.handle("identity:change-password", (_event, input) =>
     getIdentityClient().changePassword(input)
   );
+  ipcMain.handle("identity:get-personal-center", () =>
+    getIdentityClient().getPersonalCenter()
+  );
+  ipcMain.handle(
+    "identity:mark-personal-center-notification-read",
+    (_event, source, notificationId) =>
+      getIdentityClient().markPersonalCenterNotificationRead(
+        source,
+        notificationId
+      )
+  );
   ipcMain.handle("identity:list-messages", () =>
     getIdentityClient().listMessages()
   );

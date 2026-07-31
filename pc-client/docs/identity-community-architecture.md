@@ -4,7 +4,7 @@
 
 - 用户只注册一个 AI Hub 用户。
 - Flarum 负责讨论、回复、通知、权限和社区管理，不重复开发论坛。
-- PC 个人中心统一管理私有资料、安全、站内信和互动记录。
+- PC 个人中心统一管理资料、安全、账号与社区提醒、收藏和喜欢。
 - PC 不保存社区密码，也不把长期刷新凭据交给渲染进程或社区容器。
 - 本地 Docker 与未来 HTTPS 部署沿用同一身份流。
 
@@ -16,15 +16,15 @@
 - 短期访问令牌与可轮换设备会话；
 - 昵称、头像、个签、邮箱和手机号；
 - 密码修改与设备会话撤销；
-- 站内信；
-- 讨论收藏与喜欢记录；
+- 账号提醒；
+- 聚合 Flarum 原生提醒、讨论关注与帖子喜欢；
 - 60 秒有效、仅能使用一次的社区跳转凭据。
 
 Flarum 只负责社区：
 
 - 用户映射；
 - 讨论和回复；
-- 通知、标签、权限与管理后台；
+- 原生通知、讨论关注、帖子喜欢、标签、权限与管理后台；
 - 内嵌社区会话。
 
 PC 客户端暴露窄接口：
@@ -34,19 +34,22 @@ requestRegistrationCode(email)
 register(...)
 login(...)
 getIdentitySnapshot()
+getPersonalCenter()
+markPersonalCenterNotificationRead(source, id)
 updateProfile(...)
 updatePhone(...)
 requestEmailChange(...)
 completeEmailChange(...)
 changePassword(...)
-listSiteMessages()
-listCommunityInteractions()
-setCommunityInteraction(...)
 logout()
 listDeviceSessions()
 revokeDeviceSession(sessionId)
 createCommunityEmbedSession()
 ```
+
+`getPersonalCenter()` 是 PC 当前使用的唯一读取接口。它在服务端合并身份服务中的账号提醒与 Flarum 中的社区提醒、关注和喜欢；旧的站内信与互动接口仅为兼容保留，不再驱动个人中心。
+
+身份服务通过 Docker 内网调用 Flarum 窄桥。窄桥要求独立共享密钥，只接受固定的读取和标记已读动作，并始终使用身份服务从 access token 得到的用户名；客户端无法提交 SQL、命令或任意用户名。
 
 ## 内嵌社区登录流程
 
@@ -82,7 +85,7 @@ Electron PC
 
 - 邮箱验证码、本地注册、登录、刷新轮换、旧刷新凭据重放撤销；
 - 昵称、个签、头像、手机号、邮箱和密码修改；
-- 站内信读取、收藏与喜欢；
+- 统一个人中心接口聚合账号提醒与 Flarum 原生提醒、关注和喜欢；
 - 一次性社区凭据签发、兑换和重放拒绝；
 - Flarum 自动建号、发帖和回复；
 - PC 在独立分区中加载精确社区来源；

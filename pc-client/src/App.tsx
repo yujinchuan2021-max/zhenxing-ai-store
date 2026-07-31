@@ -302,6 +302,10 @@ export default function App() {
   const [identity, setIdentity] = useState<IdentitySnapshot>({
     status: "anonymous"
   });
+  const [personalCenter, setPersonalCenter] =
+    useState<PersonalCenterSnapshot | null>(null);
+  const [accountInitialTab, setAccountInitialTab] =
+    useState<PersonalCenterTab>("profile");
   const [communityTargetPath, setCommunityTargetPath] = useState("");
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [language, setLanguage] = useState<Language>("zh");
@@ -994,6 +998,31 @@ export default function App() {
       .then(setIdentity)
       .catch(() => setIdentity({ status: "anonymous" }));
   }, []);
+
+  useEffect(() => {
+    if (identity.status !== "authenticated" || !window.aihubPC) {
+      setPersonalCenter(null);
+      return;
+    }
+    let active = true;
+    const refresh = () =>
+      window.aihubPC!
+        .getPersonalCenter()
+        .then((snapshot) => {
+          if (active) setPersonalCenter(snapshot);
+        })
+        .catch(() => {
+          // The account button remains usable while a refresh is retried.
+        });
+    void refresh();
+    const timer = window.setInterval(refresh, 30_000);
+    window.addEventListener("focus", refresh);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+      window.removeEventListener("focus", refresh);
+    };
+  }, [identity.status === "authenticated" ? identity.user.id : "anonymous"]);
 
 
   useEffect(() => {
@@ -3125,6 +3154,27 @@ export default function App() {
     setManagementMessage(`package:${productId}`, "");
   };
 
+  const refreshPersonalCenter = async () => {
+    if (!window.aihubPC || identity.status !== "authenticated") {
+      setPersonalCenter(null);
+      return null;
+    }
+    const snapshot = await window.aihubPC.getPersonalCenter();
+    setPersonalCenter(snapshot);
+    return snapshot;
+  };
+
+  const openPersonalCenter = (tab: PersonalCenterTab) => {
+    if (identity.status !== "authenticated") {
+      setAuthOpen(true);
+      return;
+    }
+    setSelectedVendor(null);
+    setAccountInitialTab(tab);
+    setView("account");
+    void refreshPersonalCenter().catch(() => undefined);
+  };
+
   return (
     <div className="pcApp" data-theme={theme}>
       <header className="topbar">
@@ -3155,20 +3205,40 @@ export default function App() {
           <button className="quietButton" onClick={() => setSettingsOpen(true)}>
             ⚙ {t.settings}
           </button>
+          {identity.status === "authenticated" && (
+            <button
+              className="notificationButton"
+              aria-label={`提醒${personalCenter?.summary.unreadNotifications ? `，${personalCenter.summary.unreadNotifications} 条未读` : ""}`}
+              onClick={() => openPersonalCenter("notifications")}
+            >
+              <span aria-hidden="true">🔔</span>
+              {Boolean(personalCenter?.summary.unreadNotifications) && (
+                <b>{Math.min(99, personalCenter!.summary.unreadNotifications)}</b>
+              )}
+            </button>
+          )}
           <button
-            className="accentButton"
-            onClick={() => {
-              if (identity.status === "authenticated") {
-                setSelectedVendor(null);
-                setView("account");
-              } else {
-                setAuthOpen(true);
-              }
-            }}
+            className={
+              identity.status === "authenticated"
+                ? "accountButton"
+                : "accentButton"
+            }
+            onClick={() => openPersonalCenter("profile")}
           >
-            {identity.status === "authenticated"
-              ? identity.user.profile.nickname
-              : t.login}
+            {identity.status === "authenticated" ? (
+              <>
+                <span className="topAccountAvatar">
+                  {identity.user.profile.avatarUrl ? (
+                    <img src={identity.user.profile.avatarUrl} alt="" />
+                  ) : (
+                    identity.user.profile.nickname.slice(0, 1).toUpperCase()
+                  )}
+                </span>
+                <span>{identity.user.profile.nickname}</span>
+              </>
+            ) : (
+              t.login
+            )}
           </button>
         </div>
       </header>
@@ -3309,10 +3379,15 @@ export default function App() {
           ) : view === "account" ? (
             <PersonalCenterPage
               identity={identity}
+              center={personalCenter}
+              initialTab={accountInitialTab}
               onIdentity={setIdentity}
+              onCenter={setPersonalCenter}
+              onRefresh={refreshPersonalCenter}
               onLogin={() => setAuthOpen(true)}
               onLogout={() => {
                 setIdentity({ status: "anonymous" });
+                setPersonalCenter(null);
                 setView("home");
               }}
               onOpenCommunity={(path) => {
@@ -4344,27 +4419,32 @@ function AuthModal({
 type PersonalCenterTab =
   | "profile"
   | "security"
-  | "messages"
+  | "notifications"
   | "favorites"
   | "likes";
 
 function PersonalCenterPage({
   identity,
+  center,
+  initialTab,
   onIdentity,
+  onCenter,
+  onRefresh,
   onLogin,
   onLogout,
   onOpenCommunity
 }: {
   identity: IdentitySnapshot;
+  center: PersonalCenterSnapshot | null;
+  initialTab: PersonalCenterTab;
   onIdentity: (identity: IdentitySnapshot) => void;
+  onCenter: (center: PersonalCenterSnapshot | null) => void;
+  onRefresh: () => Promise<PersonalCenterSnapshot | null>;
   onLogin: () => void;
   onLogout: () => void;
   onOpenCommunity: (path: string) => void;
 }) {
-  const [tab, setTab] = useState<PersonalCenterTab>("profile");
-  const [sessions, setSessions] = useState<IdentityDeviceSession[]>([]);
-  const [messages, setMessages] = useState<SiteMessage[]>([]);
-  const [interactions, setInteractions] = useState<CommunityInteraction[]>([]);
+  const [tab, setTab] = useState<PersonalCenterTab>(initialTab);
   const [nickname, setNickname] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [bio, setBio] = useState("");
@@ -4382,6 +4462,13 @@ function PersonalCenterPage({
 
   const authenticated =
     identity.status === "authenticated" ? identity : null;
+  const sessions = center?.sessions || [];
+  const notifications = center?.notifications || [];
+  const interactions = center?.interactions || [];
+
+  useEffect(() => {
+    setTab(initialTab);
+  }, [initialTab]);
 
   useEffect(() => {
     if (!authenticated) return;
@@ -4394,27 +4481,7 @@ function PersonalCenterPage({
 
   const refreshPrivateData = async () => {
     if (!window.aihubPC || !authenticated) return;
-    const [sessionResult, messageResult, interactionResult] =
-      await Promise.allSettled([
-        window.aihubPC.listIdentitySessions(),
-        window.aihubPC.listSiteMessages(),
-        window.aihubPC.listCommunityInteractions()
-      ]);
-    if (sessionResult.status === "fulfilled") {
-      setSessions(sessionResult.value);
-    }
-    if (messageResult.status === "fulfilled") {
-      setMessages(messageResult.value);
-    }
-    if (interactionResult.status === "fulfilled") {
-      setInteractions(interactionResult.value);
-    }
-    const failure = [sessionResult, messageResult, interactionResult].find(
-      (result) => result.status === "rejected"
-    );
-    if (failure?.status === "rejected") {
-      throw failure.reason;
-    }
+    await onRefresh();
   };
 
   useEffect(() => {
@@ -4442,7 +4509,7 @@ function PersonalCenterPage({
       <section className="emptyPanel accountEmpty">
         <span>◎</span>
         <h1>个人中心</h1>
-        <small>登录后管理资料、安全、站内信、收藏和喜欢。</small>
+        <small>登录后统一管理资料、安全、提醒、收藏和喜欢。</small>
         <button className="accentButton" onClick={onLogin}>
           登录
         </button>
@@ -4459,6 +4526,7 @@ function PersonalCenterPage({
         bio
       });
       onIdentity(next);
+      await refreshPrivateData();
     }, "资料已保存");
   };
 
@@ -4555,9 +4623,12 @@ function PersonalCenterPage({
           [
             ["profile", "资料"],
             ["security", "账号安全"],
-            ["messages", `站内信${messages.some((item) => !item.read) ? " · 新" : ""}`],
-            ["favorites", "收藏"],
-            ["likes", "喜欢"]
+            [
+              "notifications",
+              `提醒${notifications.some((item) => !item.read) ? ` · ${notifications.filter((item) => !item.read).length}` : ""}`
+            ],
+            ["favorites", `收藏${center?.summary.favorites ? ` · ${center.summary.favorites}` : ""}`],
+            ["likes", `喜欢${center?.summary.likes ? ` · ${center.summary.likes}` : ""}`]
           ] as Array<[PersonalCenterTab, string]>
         ).map(([id, label]) => (
           <button
@@ -4732,9 +4803,7 @@ function PersonalCenterPage({
                       onClick={() =>
                         void run(async () => {
                           await window.aihubPC!.revokeIdentitySession(session.id);
-                          setSessions((items) =>
-                            items.filter((item) => item.id !== session.id)
-                          );
+                          await refreshPrivateData();
                         }, "设备已退出")
                       }
                     >
@@ -4748,41 +4817,71 @@ function PersonalCenterPage({
         </div>
       )}
 
-      {tab === "messages" && (
+      {tab === "notifications" && (
         <div className="personalList">
-          {messages.map((item) => (
-            <article className={item.read ? "" : "unread"} key={item.id}>
+          {notifications.map((item) => (
+            <article
+              className={item.read ? "" : "unread"}
+              key={`${item.source}:${item.id}`}
+            >
               <div>
                 <b>{item.title}</b>
                 <p>{item.body}</p>
-                <small>{new Date(item.createdAt).toLocaleString()}</small>
+                <small>
+                  {item.source === "community" ? "社区" : "账号"} ·{" "}
+                  {new Date(item.createdAt).toLocaleString()}
+                </small>
               </div>
-              {!item.read && (
-                <button
-                  disabled={busy}
-                  onClick={() =>
-                    void run(async () => {
-                      await window.aihubPC!.markSiteMessageRead(item.id);
-                      setMessages((current) =>
-                        current.map((message) =>
-                          message.id === item.id
-                            ? {
-                                ...message,
-                                read: true,
-                                readAt: new Date().toISOString()
-                              }
-                            : message
-                        )
-                      );
-                    })
-                  }
-                >
-                  标为已读
-                </button>
-              )}
+              <div className="rowActions">
+                {item.actionPath.startsWith("/d/") && (
+                  <button onClick={() => onOpenCommunity(item.actionPath)}>
+                    查看
+                  </button>
+                )}
+                {!item.read && (
+                  <button
+                    disabled={busy}
+                    onClick={() =>
+                      void run(async () => {
+                        await window.aihubPC!.markPersonalCenterNotificationRead(
+                          item.source,
+                          item.id
+                        );
+                        if (!center) return;
+                        const notifications = center.notifications.map(
+                          (notification) =>
+                            notification.id === item.id &&
+                            notification.source === item.source
+                              ? {
+                                  ...notification,
+                                  read: true,
+                                  readAt: new Date().toISOString()
+                                }
+                              : notification
+                        );
+                        onCenter({
+                          ...center,
+                          notifications,
+                          summary: {
+                            ...center.summary,
+                            unreadNotifications: notifications.filter(
+                              (notification) => !notification.read
+                            ).length
+                          }
+                        });
+                      })
+                    }
+                  >
+                    标为已读
+                  </button>
+                )}
+              </div>
             </article>
           ))}
-          {!messages.length && <div className="emptyPanel">暂无站内信</div>}
+          {!notifications.length && <div className="emptyPanel">暂无提醒</div>}
+          {center?.sources.community === "unavailable" && (
+            <div className="emptyPanel">社区提醒暂时无法同步，账号提醒仍可使用</div>
+          )}
         </div>
       )}
 
@@ -4949,6 +5048,9 @@ const COMMUNITY_REFRESH_CONTROL_SCRIPT = String.raw`
       const style = document.createElement("style");
       style.id = styleId;
       style.textContent = [
+        ".Header-title,#header-primary,#app-navigation,#header-navigation,.App-backControl{display:none!important}",
+        "#header-secondary{margin-left:auto!important}",
+        "#header-secondary>ul>li:not(.item-search):not(#" + itemId + "){display:none!important}",
         "#" + itemId + "{display:flex;align-items:center;margin-left:6px}",
         "#" + buttonId + "{display:grid;place-items:center;width:36px;min-width:36px;height:36px;padding:0;border:0;border-radius:8px;color:var(--header-control-color);background:var(--header-control-bg);cursor:pointer}",
         "#" + buttonId + ":hover{color:var(--header-color);background:var(--control-bg-shaded)}",

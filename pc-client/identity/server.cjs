@@ -10,6 +10,9 @@ const {
   DomainError,
   createIdentityCommunity
 } = require("./identity-community.cjs");
+const {
+  createFlarumPersonalCenterClient
+} = require("./flarum-personal-center.cjs");
 
 const host = process.env.AIHUB_IDENTITY_HOST || "127.0.0.1";
 const port = Number(process.env.AIHUB_IDENTITY_PORT || 4180);
@@ -88,8 +91,22 @@ async function initializeDatabase() {
   await pool.query(schema);
 }
 
+const communityInternalOrigin = String(
+  process.env.AIHUB_FORUM_INTERNAL_URL || ""
+).trim();
+const communityInternalSecret = String(
+  process.env.AIHUB_COMMUNITY_INTERNAL_SECRET || ""
+);
+const communityPersonalCenter = communityInternalOrigin
+  ? createFlarumPersonalCenterClient({
+      origin: communityInternalOrigin,
+      secret: communityInternalSecret
+    })
+  : null;
+
 const identity = createIdentityCommunity({
   pool,
+  communityPersonalCenter,
   catalogFile:
     process.env.AIHUB_CATALOG_FILE ||
     path.resolve(__dirname, "..", "admin", "published", "catalog-v1.json"),
@@ -215,6 +232,32 @@ const server = http.createServer(async (request, response) => {
           accessToken(request),
           await readJson(request),
           context
+        )
+      );
+      return;
+    }
+    if (
+      request.method === "GET" &&
+      url.pathname === "/v1/me/personal-center"
+    ) {
+      sendJson(
+        response,
+        200,
+        await identity.getPersonalCenter(accessToken(request))
+      );
+      return;
+    }
+    const notificationMatch = url.pathname.match(
+      /^\/v1\/me\/notifications\/(account|community)\/([0-9a-f-]{1,36})\/read$/i
+    );
+    if (request.method === "PUT" && notificationMatch) {
+      sendJson(
+        response,
+        200,
+        await identity.markPersonalCenterNotificationRead(
+          accessToken(request),
+          notificationMatch[1].toLowerCase(),
+          notificationMatch[2]
         )
       );
       return;

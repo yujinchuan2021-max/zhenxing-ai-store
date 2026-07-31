@@ -46,7 +46,7 @@ const installerPath = path.resolve(
     path.join(
       root,
       "release",
-      "AI-Hub-0.1.8-Windows-x64-Setup.exe"
+      "AI-Hub-0.1.9-Windows-x64-Setup.exe"
     )
 );
 function localSigningKey(environmentVariable, dataDirectory) {
@@ -68,7 +68,7 @@ const result = prepareReleaseBundle({
   baseUrl: process.env.AIHUB_RELEASE_BASE_URL || "https://localhost:4443/",
   catalogEnvelope,
   installerPath,
-  version: process.env.AIHUB_RELEASE_VERSION || "0.1.8",
+  version: process.env.AIHUB_RELEASE_VERSION || "0.1.9",
   signingKeys: {
     catalog: localSigningKey(
       "AIHUB_CATALOG_SIGNING_PRIVATE_KEY",
@@ -79,7 +79,7 @@ const result = prepareReleaseBundle({
       path.join(root, "deployment", "local", "private", "update")
     )
   },
-  notes: ["内置社区主题实时跟随 PC 端白色与黑色设置"],
+  notes: ["社区与 PC 个人中心合并，提醒、收藏和喜欢统一到右上角入口"],
   rollout: { percentage: 100, salt: "local-release-2026" },
   allowLocalhost: false,
   allowLocalDevelopmentKeys: true

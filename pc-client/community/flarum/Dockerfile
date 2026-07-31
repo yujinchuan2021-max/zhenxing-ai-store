@@ -41,6 +41,7 @@ COPY --from=source --chown=www-data:www-data /app /var/www/html
 COPY apache.conf /etc/apache2/conf-available/flarum.conf
 COPY docker-entrypoint.sh /usr/local/bin/aihub-flarum-entrypoint
 COPY --chown=www-data:www-data aihub-sso.php /var/www/html/public/aihub-sso.php
+COPY --chown=www-data:www-data aihub-personal-center.php /var/www/html/public/aihub-personal-center.php
 
 RUN sed -ri \
       's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \

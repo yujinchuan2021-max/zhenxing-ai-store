@@ -116,6 +116,13 @@ test("keeps personal center and embedded community calls behind the main process
       if (pathname === "/v1/me/messages") {
         return { messages: [{ id: "message-1" }] };
       }
+      if (pathname === "/v1/me/personal-center") {
+        return {
+          notifications: [{ id: "message-1", source: "account" }],
+          interactions: [],
+          summary: { unreadNotifications: 1 }
+        };
+      }
       if (pathname === "/v1/me/community-interactions") {
         return { interactions: [{ discussionId: "42" }] };
       }
@@ -140,6 +147,10 @@ test("keeps personal center and embedded community calls behind the main process
   });
   assert.equal(updated.user.phone, "+8613800000000");
   assert.deepEqual(await client.listMessages(), [{ id: "message-1" }]);
+  assert.deepEqual((await client.getPersonalCenter()).notifications, [
+    { id: "message-1", source: "account" }
+  ]);
+  await client.markPersonalCenterNotificationRead("community", "7");
   assert.deepEqual(await client.listCommunityInteractions(), [
     { discussionId: "42" }
   ]);
@@ -165,6 +176,14 @@ test("keeps personal center and embedded community calls behind the main process
       (call) =>
         call.pathname === "/v1/me/community-interactions/42" &&
         call.options.body.favorited === true
+    ),
+    true
+  );
+  assert.equal(
+    calls.some(
+      (call) =>
+        call.pathname ===
+        "/v1/me/notifications/community/7/read"
     ),
     true
   );

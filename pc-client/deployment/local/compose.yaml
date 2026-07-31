@@ -67,6 +67,7 @@ services:
       AIHUB_LOCAL_MAIL_VIEWER_URL: http://127.0.0.1:8025
       AIHUB_CATALOG_FILE: /app/catalog/catalog-v1.json
       AIHUB_COMMUNITY_PUBLIC_ORIGIN: http://127.0.0.1:8088
+      AIHUB_FORUM_INTERNAL_URL: http://community
       AIHUB_COMMUNITY_INTERNAL_SECRET: ${AIHUB_COMMUNITY_INTERNAL_SECRET:-aihub-local-community-internal-secret-change-before-production}
     ports:
       - "127.0.0.1:4180:4180"

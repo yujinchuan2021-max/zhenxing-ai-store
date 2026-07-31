@@ -81,6 +81,7 @@ function createIdentityCommunity({
   pool,
   sendVerification,
   catalogFile,
+  communityPersonalCenter = null,
   now = () => new Date()
 }) {
   if (!pool || typeof sendVerification !== "function") {
@@ -920,6 +921,79 @@ function createIdentityCommunity({
     return { ok: true, readAt: result.rows[0].read_at };
   }
 
+  async function getPersonalCenter(accessToken) {
+    const [{ user }, sessions, siteMessages] = await Promise.all([
+      me(accessToken),
+      listSessions(accessToken),
+      listSiteMessages(accessToken)
+    ]);
+    let community = { notifications: [], interactions: [] };
+    let communityStatus = "ready";
+    if (!communityPersonalCenter) {
+      communityStatus = "unavailable";
+    } else {
+      try {
+        community = await communityPersonalCenter.list(user.username);
+      } catch {
+        communityStatus = "unavailable";
+      }
+    }
+    const notifications = [
+      ...siteMessages.map((message) => ({
+        ...message,
+        source: "account"
+      })),
+      ...community.notifications
+    ].sort(
+      (left, right) =>
+        Date.parse(right.createdAt) - Date.parse(left.createdAt)
+    );
+    return {
+      user,
+      sessions,
+      notifications,
+      interactions: community.interactions,
+      summary: {
+        unreadNotifications: notifications.filter((item) => !item.read)
+          .length,
+        favorites: community.interactions.filter((item) => item.favorited)
+          .length,
+        likes: community.interactions.filter((item) => item.liked).length
+      },
+      sources: {
+        account: "ready",
+        community: communityStatus
+      },
+      generatedAt: now().toISOString()
+    };
+  }
+
+  async function markPersonalCenterNotificationRead(
+    accessToken,
+    source,
+    notificationId
+  ) {
+    if (source === "account") {
+      return markSiteMessageRead(accessToken, notificationId);
+    }
+    if (source !== "community" || !communityPersonalCenter) {
+      throw new DomainError("INVALID_INPUT", "提醒来源无效");
+    }
+    const { user } = await me(accessToken);
+    try {
+      return await communityPersonalCenter.markRead(
+        user.username,
+        notificationId
+      );
+    } catch (error) {
+      throw new DomainError(
+        error?.status === 404 ? "NOT_FOUND" : "COMMUNITY_UNAVAILABLE",
+        error?.status === 404 ? "社区提醒不存在" : "社区提醒暂时不可用",
+        error?.status === 404 ? 404 : 503
+      );
+    }
+  }
+
   function communityTarget(input, discussionId) {
     const id = String(discussionId || "").trim();
     if (!/^[0-9]{1,20}$/.test(id)) {
@@ -1209,12 +1283,14 @@ function createIdentityCommunity({
     createCommunityHandoff,
     createDiscussion,
     getDiscussion,
+    getPersonalCenter,
     listCommunityInteractions,
     listDiscussions,
     listSiteMessages,
     listSessions,
     login,
     logout,
+    markPersonalCenterNotificationRead,
     markSiteMessageRead,
     me,
     refresh,

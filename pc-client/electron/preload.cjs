@@ -23,6 +23,14 @@ contextBridge.exposeInMainWorld("aihubPC", {
     ipcRenderer.invoke("identity:complete-email-change", input),
   changeIdentityPassword: (input) =>
     ipcRenderer.invoke("identity:change-password", input),
+  getPersonalCenter: () =>
+    ipcRenderer.invoke("identity:get-personal-center"),
+  markPersonalCenterNotificationRead: (source, notificationId) =>
+    ipcRenderer.invoke(
+      "identity:mark-personal-center-notification-read",
+      source,
+      notificationId
+    ),
   listSiteMessages: () => ipcRenderer.invoke("identity:list-messages"),
   markSiteMessageRead: (messageId) =>
     ipcRenderer.invoke("identity:mark-message-read", messageId),

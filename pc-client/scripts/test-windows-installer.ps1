@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 if (-not $InstallerPath) {
   $InstallerPath = Join-Path `
     $PSScriptRoot `
-    "..\release\AI-Hub-0.1.8-Windows-x64-Setup.exe"
+    "..\release\AI-Hub-0.1.9-Windows-x64-Setup.exe"
 }
 
 function Get-AIHubUninstallEntries {
@@ -111,6 +111,16 @@ $startMenuShortcut = Join-Path (
 ) "AI Hub.lnk"
 $desktopBefore = Test-Path -LiteralPath $desktopShortcut
 $startMenuBefore = Test-Path -LiteralPath $startMenuShortcut
+if (
+  $beforeEntries.Count -gt 0 -or
+  $desktopBefore -or
+  $startMenuBefore
+) {
+  throw (
+    "Installer acceptance refuses to overwrite an existing AI Hub " +
+    "registration or shortcut. Run it only on an isolated Windows account."
+  )
+}
 
 $installProcess = Start-Process `
   -FilePath $installer `
@@ -159,6 +169,20 @@ if ($runningAfterClose.Count -lt 1) {
 $stayedRunningAfterClose = $true
 $running | Stop-Process -Force
 $appProcess.WaitForExit(10000) | Out-Null
+$processDeadline = [DateTime]::UtcNow.AddSeconds(10)
+$remainingAppProcesses = @(Get-ProcessesAtPath -ExecutablePath $installedExecutable)
+while (
+  $remainingAppProcesses.Count -gt 0 -and
+  [DateTime]::UtcNow -lt $processDeadline
+) {
+  Start-Sleep -Milliseconds 250
+  $remainingAppProcesses = @(
+    Get-ProcessesAtPath -ExecutablePath $installedExecutable
+  )
+}
+if ($remainingAppProcesses.Count -gt 0) {
+  throw "Installed Electron processes did not exit before uninstall."
+}
 if (Test-Path -LiteralPath $resolvedUserData) {
   Remove-Item -LiteralPath $resolvedUserData -Recurse -Force
 }
@@ -207,6 +231,7 @@ $result = [ordered]@{
   launchedProcessCount = $running.Count
   closeRequested = $closeRequested
   stayedRunningAfterClose = $stayedRunningAfterClose
+  processesStoppedBeforeUninstall = $remainingAppProcesses.Count -eq 0
   uninstallExitCode = $uninstallProcess.ExitCode
   installDirectoryRemoved = -not $targetRemains
   isolatedUserDataRemoved = $userDataRemoved

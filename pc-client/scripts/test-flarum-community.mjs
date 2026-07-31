@@ -7,6 +7,8 @@ const communityOrigin = "http://127.0.0.1:8088";
 const suffix = Date.now().toString(36);
 const email = `flarum-${suffix}@aihub.local`;
 const username = `flarum_${suffix}`;
+const peerEmail = `flarum-peer-${suffix}@aihub.local`;
+const peerUsername = `flarum_peer_${suffix}`;
 const password = `AIHub-${suffix}-Secure9`;
 const nextPassword = `AIHub-${suffix}-Changed8`;
 const nextEmail = `flarum-next-${suffix}@aihub.local`;
@@ -164,6 +166,34 @@ assert.ok(forumUser, "The unified identity was not provisioned in Flarum");
 assert.equal(forumUser.attributes.isEmailConfirmed, true);
 assert.equal(forumUser.attributes.email, nextEmail);
 
+const existingDiscussions = await jsonRequest(
+  communityOrigin,
+  "/api/discussions?page[limit]=1",
+  { forumToken }
+);
+const existingDiscussionId = String(existingDiscussions.data?.[0]?.id || "");
+assert.match(existingDiscussionId, /^[0-9]+$/);
+const existingDiscussion = await jsonRequest(
+  communityOrigin,
+  `/api/discussions/${existingDiscussionId}`,
+  { forumToken }
+);
+const likeablePost = existingDiscussion.included?.find(
+  (item) => item.type === "posts" && item.attributes?.canLike
+);
+assert.ok(likeablePost, "fixture discussion did not expose a likeable post");
+await jsonRequest(communityOrigin, `/api/posts/${likeablePost.id}`, {
+  method: "PATCH",
+  forumToken,
+  body: {
+    data: {
+      type: "posts",
+      id: String(likeablePost.id),
+      attributes: { isLiked: true }
+    }
+  }
+});
+
 const discussionTitle = `AI Hub acceptance ${suffix}`;
 const discussion = await jsonRequest(communityOrigin, "/api/discussions", {
   method: "POST",
@@ -210,40 +240,132 @@ const reply = await jsonRequest(communityOrigin, "/api/posts", {
 });
 assert.equal(reply.data.attributes.contentHtml.includes("same account"), true);
 
-const interaction = await jsonRequest(
+const peerChallenge = await jsonRequest(
   identityOrigin,
-  `/v1/me/community-interactions/${discussion.data.id}`,
+  "/v1/registration/challenges",
   {
-    method: "PUT",
-    accessToken: registered.accessToken,
-    body: {
-      title: discussionTitle,
-      path: `/d/${discussion.data.id}-ai-hub-acceptance`,
-      favorited: true,
-      liked: true
-    }
+    method: "POST",
+    body: { email: peerEmail }
   }
 );
-assert.equal(interaction.favorited, true);
-assert.equal(interaction.liked, true);
-const interactions = await jsonRequest(
+const peerCode = await waitForCode(peerEmail);
+assert.match(peerCode, /^\d{6}$/);
+const peer = await jsonRequest(identityOrigin, "/v1/registration/complete", {
+  method: "POST",
+  body: {
+    challengeId: peerChallenge.challengeId,
+    code: peerCode,
+    email: peerEmail,
+    username: peerUsername,
+    nickname: `Peer ${suffix}`,
+    password,
+    deviceId: crypto.randomUUID(),
+    deviceName: "Flarum notification peer"
+  }
+});
+const peerHandoff = await jsonRequest(
   identityOrigin,
-  "/v1/me/community-interactions",
-  { accessToken: registered.accessToken }
+  "/v1/community/handoffs",
+  {
+    method: "POST",
+    accessToken: peer.accessToken
+  }
 );
-assert.equal(interactions.interactions[0].discussionId, discussion.data.id);
+const peerBridge = await fetch(peerHandoff.launchUrl, { redirect: "manual" });
+assert.equal(peerBridge.status, 303);
+const peerCookies =
+  typeof peerBridge.headers.getSetCookie === "function"
+    ? peerBridge.headers.getSetCookie()
+    : [peerBridge.headers.get("set-cookie")].filter(Boolean);
+const peerTokenCookie = peerCookies.find((cookie) =>
+  cookie.startsWith("flarum_token=")
+);
+assert.ok(peerTokenCookie);
+const peerForumToken = peerTokenCookie.split(";", 1)[0].split("=", 2)[1];
+await jsonRequest(communityOrigin, `/api/posts/${reply.data.id}`, {
+  method: "PATCH",
+  forumToken: peerForumToken,
+  body: {
+    data: {
+      type: "posts",
+      id: String(reply.data.id),
+      attributes: { isLiked: true }
+    }
+  }
+});
 
-const inbox = await jsonRequest(identityOrigin, "/v1/me/messages", {
+await jsonRequest(communityOrigin, `/api/discussions/${discussion.data.id}`, {
+  method: "PATCH",
+  forumToken,
+  body: {
+    data: {
+      type: "discussions",
+      id: String(discussion.data.id),
+      attributes: { subscription: "follow" }
+    }
+  }
+});
+
+const personalCenter = await jsonRequest(identityOrigin, "/v1/me/personal-center", {
   accessToken: registered.accessToken
 });
-assert.ok(inbox.messages.length >= 3);
-const unread = inbox.messages.find((message) => !message.read);
+assert.equal(personalCenter.sources.account, "ready");
+assert.equal(personalCenter.sources.community, "ready");
+assert.ok(personalCenter.notifications.length >= 3);
+const communityUnread = personalCenter.notifications.find(
+  (message) =>
+    message.source === "community" &&
+    !message.read &&
+    message.actionPath.includes(`/d/${discussion.data.id}-`)
+);
+assert.ok(communityUnread, "Flarum notification did not reach personal center");
+assert.equal(
+  personalCenter.interactions.some(
+    (item) =>
+      item.discussionId === String(discussion.data.id) && item.favorited
+  ),
+  true
+);
+assert.equal(
+  personalCenter.interactions.some(
+    (item) => item.discussionId === existingDiscussionId && item.liked
+  ),
+  true
+);
+assert.ok(personalCenter.summary.favorites >= 1);
+assert.ok(personalCenter.summary.likes >= 1);
+const unread = personalCenter.notifications.find(
+  (message) => message.source === "account" && !message.read
+);
 assert.ok(unread);
-await jsonRequest(identityOrigin, `/v1/me/messages/${unread.id}/read`, {
+await jsonRequest(
+  identityOrigin,
+  `/v1/me/notifications/account/${unread.id}/read`,
+  {
   method: "PUT",
   accessToken: registered.accessToken,
   body: {}
+  }
+);
+await jsonRequest(
+  identityOrigin,
+  `/v1/me/notifications/community/${communityUnread.id}/read`,
+  {
+    method: "PUT",
+    accessToken: registered.accessToken,
+    body: {}
+  }
+);
+const readBack = await jsonRequest(identityOrigin, "/v1/me/personal-center", {
+  accessToken: registered.accessToken
 });
+assert.equal(
+  readBack.notifications.find(
+    (message) =>
+      message.source === "community" && message.id === communityUnread.id
+  )?.read,
+  true
+);
 
 await jsonRequest(identityOrigin, "/v1/me/password", {
   method: "PUT",
@@ -292,9 +414,11 @@ process.stdout.write(
         emailChanged: true,
         phoneChanged: true,
         passwordChanged: true,
-        messages: inbox.messages.length,
-        favorited: interaction.favorited,
-        liked: interaction.liked
+        notifications: personalCenter.notifications.length,
+        communityNotificationRead: true,
+        favorites: personalCenter.summary.favorites,
+        likes: personalCenter.summary.likes,
+        communitySource: personalCenter.sources.community
       },
       handoffReplay: "rejected"
     },
