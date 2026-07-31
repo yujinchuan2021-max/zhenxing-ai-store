@@ -1,6 +1,6 @@
 {
   "name": "aihub-pc-client",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": true,
   "description": "AI Hub PC client rebuilt from the product mind map",
   "author": "AI Hub",
@@ -37,7 +37,9 @@
     "package:win:local-release": "node scripts/package-local-release.cjs",
     "release:production:prepare": "node scripts/prepare-production-release.cjs",
     "release:production:verify": "node scripts/verify-production-release.cjs",
-    "lint": "tsc -b --pretty false"
+    "lint": "tsc -b --pretty false",
+    "language:extract": "node scripts/extract-ui-language.cjs",
+    "language:translate": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/translate-ui-language.ps1"
   },
   "dependencies": {
     "react": "19.2.0",

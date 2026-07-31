@@ -2078,9 +2078,24 @@ async function checkForUpdate() {
 
 function readSettings() {
   try {
-    return JSON.parse(fs.readFileSync(configPath(), "utf8"));
+    const value = JSON.parse(fs.readFileSync(configPath(), "utf8"));
+    return {
+      downloadDirectory:
+        typeof value.downloadDirectory === "string"
+          ? value.downloadDirectory
+          : "",
+      cliInstallDirectory:
+        typeof value.cliInstallDirectory === "string"
+          ? value.cliInstallDirectory
+          : "",
+      language: value.language === "en" ? "en" : "zh"
+    };
   } catch {
-    return { downloadDirectory: "", cliInstallDirectory: "" };
+    return {
+      downloadDirectory: "",
+      cliInstallDirectory: "",
+      language: "zh"
+    };
   }
 }
 
@@ -4406,6 +4421,9 @@ function registerIpc() {
   ipcMain.handle("identity:update-profile", (_event, input) =>
     getIdentityClient().updateProfile(input)
   );
+  ipcMain.handle("identity:update-avatar", (_event, input) =>
+    getIdentityClient().updateAvatar(input)
+  );
   ipcMain.handle("identity:update-phone", (_event, input) =>
     getIdentityClient().updatePhone(input)
   );
@@ -4567,6 +4585,15 @@ function registerIpc() {
     }
   });
   ipcMain.handle("settings:get", () => readSettings());
+
+  ipcMain.handle("settings:set-language", (_event, language) => {
+    const settings = {
+      ...readSettings(),
+      language: language === "en" ? "en" : "zh"
+    };
+    writeSettings(settings);
+    return settings;
+  });
 
   ipcMain.handle("settings:choose-download-directory", async () => {
     const result = await dialog.showOpenDialog({

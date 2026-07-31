@@ -169,6 +169,14 @@ function createIdentityClient({
       snapshot = { ...snapshot, user: result.user };
       return snapshot;
     },
+    async updateAvatar(input) {
+      const result = await bearerCall("/v1/me/avatar", {
+        method: "PUT",
+        body: input
+      });
+      snapshot = { ...snapshot, user: result.user };
+      return snapshot;
+    },
     async updatePhone(input) {
       const result = await bearerCall("/v1/me/phone", {
         method: "PUT",

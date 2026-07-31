@@ -3,6 +3,7 @@
 type PCSettings = {
   downloadDirectory: string;
   cliInstallDirectory?: string;
+  language?: "zh" | "en";
   selectionCanceled?: boolean;
 };
 
@@ -535,6 +536,9 @@ interface Window {
       avatarUrl?: string;
       bio?: string;
     }): Promise<IdentitySnapshot>;
+    updateIdentityAvatar(input: {
+      dataUrl: string;
+    }): Promise<IdentitySnapshot>;
     updateIdentityPhone(input: {
       phone: string;
       currentPassword: string;
@@ -572,6 +576,7 @@ interface Window {
     ): Promise<CommunityInteraction>;
     createCommunityEmbedSession(): Promise<CommunityEmbedSession>;
     getSettings(): Promise<PCSettings>;
+    setLanguage(language: "zh" | "en"): Promise<PCSettings>;
     chooseDownloadDirectory(): Promise<PCSettings>;
     chooseCliDirectory(): Promise<PCSettings>;
     openDownloadDirectory(): Promise<boolean>;

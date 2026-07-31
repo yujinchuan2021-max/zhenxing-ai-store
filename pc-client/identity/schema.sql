@@ -26,6 +26,13 @@ CREATE TABLE IF NOT EXISTS community_profiles (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS profile_avatars (
+  user_id uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  mime_type text NOT NULL CHECK (mime_type IN ('image/jpeg', 'image/png', 'image/webp')),
+  content bytea NOT NULL CHECK (octet_length(content) BETWEEN 1 AND 393216),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
 CREATE TABLE IF NOT EXISTS registration_challenges (
   id uuid PRIMARY KEY,
   normalized_email text NOT NULL,

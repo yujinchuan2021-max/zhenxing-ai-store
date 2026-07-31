@@ -27,6 +27,26 @@ button {
   color: inherit;
 }
 
+button:not(:disabled) {
+  transform: translateY(0) scale(1);
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease,
+    filter 80ms ease;
+}
+
+button:not(:disabled):active {
+  transform: translateY(2px) scale(0.985);
+  box-shadow: inset 0 2px 5px rgba(12, 31, 25, 0.2);
+  filter: brightness(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:not(:disabled) {
+    transition: none;
+  }
+}
+
 .pcApp {
   --ink: #18211f;
   --muted: #6d7874;
@@ -1921,6 +1941,145 @@ button:disabled {
   border-color: transparent;
   color: var(--accent-ink);
   background: var(--accent);
+}
+
+.profileCard,
+.contactCard {
+  min-width: 0;
+}
+
+.avatarEditor {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--paper);
+}
+
+.avatarEditor > div {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.avatarEditor small {
+  line-height: 1.45;
+}
+
+.avatarPreviewButton {
+  position: relative;
+  width: 82px;
+  height: 82px;
+  flex: 0 0 82px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--accent-ink);
+  background: var(--accent);
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.avatarPreviewButton img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarPreviewButton b {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 4px 0 6px;
+  color: #fff;
+  background: rgba(10, 22, 18, 0.72);
+  font-size: 11px;
+}
+
+.compactActions,
+.contactEditorActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.compactActions button {
+  min-height: 32px;
+}
+
+.visuallyHidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.contactCard {
+  align-content: start;
+}
+
+.contactCard > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.contactSetting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+
+.contactSetting > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.contactSetting span {
+  color: var(--muted);
+  font-size: var(--font-caption);
+}
+
+.contactSetting b {
+  overflow-wrap: anywhere;
+}
+
+.contactEditor {
+  display: grid;
+  gap: 12px;
+  margin: -4px 0 8px;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, var(--deep) 28%, var(--line));
+  border-radius: 12px;
+  background: var(--paper);
+}
+
+.contactEditorActions {
+  justify-content: flex-end;
+}
+
+@media (max-width: 720px) {
+  .avatarEditor {
+    align-items: flex-start;
+  }
+
+  .contactSetting {
+    align-items: flex-start;
+  }
 }
 
 .personalList {

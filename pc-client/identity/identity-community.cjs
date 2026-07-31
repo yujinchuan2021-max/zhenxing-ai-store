@@ -3,6 +3,7 @@
 const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
+const { parseAvatarDataUrl } = require("../shared/avatar-image.cjs");
 const {
   digestCredential,
   hashPassword,
@@ -63,7 +64,14 @@ function emailValue(value) {
   }
 }
 
-function rowUser(row) {
+function resolvedAvatarUrl(value, publicOrigin) {
+  const avatarUrl = String(value || "");
+  return avatarUrl.startsWith("/v1/avatars/")
+    ? new URL(avatarUrl, `${publicOrigin}/`).href
+    : avatarUrl;
+}
+
+function rowUser(row, publicOrigin) {
   return {
     id: row.id,
     email: row.email,
@@ -71,7 +79,7 @@ function rowUser(row) {
     username: row.username,
     profile: {
       nickname: row.nickname,
-      avatarUrl: row.avatar_url || "",
+      avatarUrl: resolvedAvatarUrl(row.avatar_url, publicOrigin),
       bio: row.bio || ""
     }
   };
@@ -82,10 +90,22 @@ function createIdentityCommunity({
   sendVerification,
   catalogFile,
   communityPersonalCenter = null,
+  publicOrigin,
   now = () => new Date()
 }) {
   if (!pool || typeof sendVerification !== "function") {
     throw new Error("IdentityCommunity dependencies are incomplete");
+  }
+  const parsedPublicOrigin = new URL(String(publicOrigin || ""));
+  if (
+    parsedPublicOrigin.origin !== publicOrigin ||
+    !(
+      parsedPublicOrigin.protocol === "https:" ||
+      (parsedPublicOrigin.protocol === "http:" &&
+        ["127.0.0.1", "localhost"].includes(parsedPublicOrigin.hostname))
+    )
+  ) {
+    throw new Error("Identity public origin must use HTTPS or loopback HTTP");
   }
 
   function publishedProductIds() {
@@ -171,7 +191,7 @@ function createIdentityCommunity({
     if (!result.rows[0]) {
       throw new DomainError("SESSION_REVOKED", "会话已失效", 401);
     }
-    return rowUser(result.rows[0]);
+    return rowUser(result.rows[0], publicOrigin);
   }
 
   async function requestRegistrationCode(input, context) {
@@ -598,18 +618,95 @@ function createIdentityCommunity({
     if (bio.length > 200) {
       throw new DomainError("INVALID_INPUT", "简介不能超过 200 个字符");
     }
-    const avatarUrl = String(input.avatarUrl || "").trim();
-    if (avatarUrl && !/^https:\/\//i.test(avatarUrl)) {
-      throw new DomainError("INVALID_INPUT", "头像必须使用 HTTPS 地址");
+    if (Object.hasOwn(input, "avatarUrl")) {
+      const avatarUrl = String(input.avatarUrl || "").trim();
+      if (avatarUrl && !/^https:\/\//i.test(avatarUrl)) {
+        throw new DomainError("INVALID_INPUT", "头像必须使用 HTTPS 地址");
+      }
+      await pool.query(
+        `UPDATE community_profiles
+         SET nickname = $1, bio = $2, avatar_url = NULLIF($3, ''),
+             updated_at = now()
+         WHERE user_id = $4`,
+        [nickname, bio, avatarUrl, session.user_id]
+      );
+    } else {
+      await pool.query(
+        `UPDATE community_profiles
+         SET nickname = $1, bio = $2, updated_at = now()
+         WHERE user_id = $3`,
+        [nickname, bio, session.user_id]
+      );
     }
-    await pool.query(
-      `UPDATE community_profiles
-       SET nickname = $1, bio = $2, avatar_url = NULLIF($3, ''),
-           updated_at = now()
-       WHERE user_id = $4`,
-      [nickname, bio, avatarUrl, session.user_id]
-    );
     return { user: await userView(pool, session.user_id) };
+  }
+
+  async function updateAvatar(accessToken, input, context) {
+    const session = await authenticateAccess(accessToken);
+    let avatar;
+    try {
+      avatar = parseAvatarDataUrl(input?.dataUrl);
+    } catch (error) {
+      throw new DomainError("INVALID_INPUT", error.message);
+    }
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      if (avatar) {
+        const version = crypto.randomBytes(8).toString("hex");
+        await client.query(
+          `INSERT INTO profile_avatars (user_id, mime_type, content, updated_at)
+           VALUES ($1, $2, $3, now())
+           ON CONFLICT (user_id) DO UPDATE
+           SET mime_type = EXCLUDED.mime_type,
+               content = EXCLUDED.content,
+               updated_at = now()`,
+          [session.user_id, avatar.mimeType, avatar.data]
+        );
+        await client.query(
+          `UPDATE community_profiles
+           SET avatar_url = $1, updated_at = now()
+           WHERE user_id = $2`,
+          [`/v1/avatars/${session.user_id}?v=${version}`, session.user_id]
+        );
+      } else {
+        await client.query(
+          "DELETE FROM profile_avatars WHERE user_id = $1",
+          [session.user_id]
+        );
+        await client.query(
+          `UPDATE community_profiles
+           SET avatar_url = NULL, updated_at = now()
+           WHERE user_id = $1`,
+          [session.user_id]
+        );
+      }
+      await audit(
+        client,
+        avatar ? "profile.avatar.updated" : "profile.avatar.removed",
+        context,
+        session.user_id,
+        session.id
+      );
+      const user = await userView(client, session.user_id);
+      await client.query("COMMIT");
+      return { user };
+    } catch (error) {
+      await client.query("ROLLBACK").catch(() => {});
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async function getAvatar(userId) {
+    const result = await pool.query(
+      `SELECT mime_type, content
+       FROM profile_avatars
+       WHERE user_id = $1`,
+      [userId]
+    );
+    return result.rows[0] || null;
   }
 
   async function updatePhone(accessToken, input, context) {
@@ -1191,7 +1288,10 @@ function createIdentityCommunity({
       productId: row.product_id || "",
       title: row.title,
       body: row.body,
-      author: { nickname: row.nickname, avatarUrl: row.avatar_url || "" },
+      author: {
+        nickname: row.nickname,
+        avatarUrl: resolvedAvatarUrl(row.avatar_url, publicOrigin)
+      },
       replyCount: row.reply_count,
       createdAt: row.created_at
     }));
@@ -1223,14 +1323,17 @@ function createIdentityCommunity({
       productId: row.product_id || "",
       title: row.title,
       body: row.body,
-      author: { nickname: row.nickname, avatarUrl: row.avatar_url || "" },
+      author: {
+        nickname: row.nickname,
+        avatarUrl: resolvedAvatarUrl(row.avatar_url, publicOrigin)
+      },
       createdAt: row.created_at,
       replies: replies.rows.map((reply) => ({
         id: reply.id,
         body: reply.body,
         author: {
           nickname: reply.nickname,
-          avatarUrl: reply.avatar_url || ""
+          avatarUrl: resolvedAvatarUrl(reply.avatar_url, publicOrigin)
         },
         createdAt: reply.created_at
       }))
@@ -1283,6 +1386,7 @@ function createIdentityCommunity({
     createCommunityHandoff,
     createDiscussion,
     getDiscussion,
+    getAvatar,
     getPersonalCenter,
     listCommunityInteractions,
     listDiscussions,
@@ -1302,6 +1406,7 @@ function createIdentityCommunity({
     revokeSession,
     setCommunityInteraction,
     updatePhone,
+    updateAvatar,
     updateProfile
   };
 }

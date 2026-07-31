@@ -254,7 +254,13 @@ try {
       hasProfile: text.includes('公开资料') && text.includes('个签'),
       hasEmail: text.includes('登录邮箱'),
       hasPhone: text.includes('手机号'),
-      hasUsername: text.includes('@${username}')
+      hasUsername: text.includes('@${username}'),
+      avatarUsesLocalFile:
+        Boolean(root.querySelector('.profileCard input[type="file"]')) &&
+        ![...root.querySelectorAll('.profileCard input')].some(
+          (input) => input.placeholder === 'https://'
+        ),
+      contactEditors: root.querySelectorAll('.contactEditor').length
     };
   })()`);
   assert.deepEqual(
@@ -265,11 +271,13 @@ try {
   assert.equal(personalCenter.hasEmail, true);
   assert.equal(personalCenter.hasPhone, true);
   assert.equal(personalCenter.hasUsername, true);
+  assert.equal(personalCenter.avatarUsesLocalFile, true);
+  assert.equal(personalCenter.contactEditors, 0);
 
   const updatedNickname = `${nickname}新`;
   await evaluate(`(() => {
     const form = document.querySelector('.personalCard');
-    const input = form.querySelector('input');
+    const input = form.querySelector('input:not([type="file"])');
     const setter = Object.getOwnPropertyDescriptor(
       HTMLInputElement.prototype,
       'value'
@@ -376,7 +384,7 @@ try {
     );
     return view.executeJavaScript(
       "document.getElementById('aihub-community-refresh').click()"
-    );
+    ).catch(() => undefined);
   })()`);
   await waitFor(
     "window.__aihubCommunityRefreshNavigations === 1",
@@ -424,6 +432,8 @@ try {
           searchExists: Boolean(search),
           followsSearch: Boolean(anchor && item && anchor.nextElementSibling === item),
           label: button?.getAttribute("aria-label") || "",
+          flarumLocale:
+            typeof app !== "undefined" ? app.data.locale : "",
           theme: document.documentElement.getAttribute("data-aihub-theme"),
           bodyBackground: rootStyle.getPropertyValue("--body-bg").trim(),
           primaryColor: rootStyle.getPropertyValue("--primary-color").trim(),
@@ -461,7 +471,11 @@ try {
           hasNativePostActions:
             pageText.includes("Like") ||
             pageText.includes("Unlike") ||
-            pageText.includes("Follow")
+            pageText.includes("Follow") ||
+            pageText.includes("喜欢") ||
+            pageText.includes("取消喜欢") ||
+            pageText.includes("关注") ||
+            pageText.includes("回复")
         };
       })()
     `)});
@@ -485,6 +499,7 @@ try {
   assert.equal(community.refreshPlacement.searchExists, true);
   assert.equal(community.refreshPlacement.followsSearch, true);
   assert.equal(community.refreshPlacement.label, "刷新");
+  assert.equal(community.refreshPlacement.flarumLocale, "zh-Hans");
   assert.equal(community.refreshPlacement.visibleSecondaryItems.length, 2);
   assert.equal(community.refreshPlacement.headerTitleVisible, false);
   assert.equal(community.refreshPlacement.headerPrimaryVisible, false);
@@ -631,6 +646,56 @@ try {
     darkScreenshotPath,
     Buffer.from(darkScreenshot.data, "base64")
   );
+
+  await evaluate(
+    "[...document.querySelectorAll('.topActions button')].find((button) => button.textContent.includes('设置')).click()"
+  );
+  await waitFor(
+    "Boolean(document.querySelector('.settingsPanel'))",
+    "settings panel did not open for language sync test"
+  );
+  await evaluate(
+    "[...document.querySelectorAll('.settingsPanel button')].find((button) => button.textContent.trim() === 'English').click()"
+  );
+  await waitFor(
+    "[...document.querySelectorAll('.sidebar button')].some((button) => button.textContent.includes('Home'))",
+    "PC language did not switch to English"
+  );
+  await waitFor(
+    `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(
+      "(typeof app !== 'undefined' && app.data.locale === 'en' && document.getElementById('aihub-community-refresh')?.getAttribute('aria-label') === 'Refresh')"
+    )}).catch(() => false)`,
+    "embedded community did not follow the PC English language",
+    30_000
+  );
+  const englishLanguage = await evaluate(`(async () => ({
+    stored: (await window.aihubPC.getSettings()).language,
+    documentLocale: document.documentElement.lang,
+    communityLocale: await document.querySelector('webview.communityWebview')
+      .executeJavaScript("typeof app !== 'undefined' ? app.data.locale : ''")
+  }))()`);
+  assert.deepEqual(englishLanguage, {
+    stored: "en",
+    documentLocale: "en",
+    communityLocale: "en"
+  });
+  await evaluate("document.querySelector('.settingsPanel header > button').click()");
+  await waitFor(
+    "!document.querySelector('.settingsPanel')",
+    "settings panel did not close after language sync test"
+  );
+  const englishScreenshot = await send("Page.captureScreenshot", {
+    format: "png",
+    captureBeyondViewport: false
+  });
+  const englishScreenshotPath = path.join(
+    output,
+    "personal-center-embedded-community-english.png"
+  );
+  fs.writeFileSync(
+    englishScreenshotPath,
+    Buffer.from(englishScreenshot.data, "base64")
+  );
   socket.close();
 
   process.stdout.write(
@@ -640,12 +705,14 @@ try {
         personalCenter,
         community,
         darkCommunityTheme,
+        englishLanguage,
         communityLayout,
         compactCommunityLayout,
         screenshots: {
           personalCenter: personalScreenshotPath,
           embeddedCommunity: screenshotPath,
-          embeddedCommunityDark: darkScreenshotPath
+          embeddedCommunityDark: darkScreenshotPath,
+          embeddedCommunityEnglish: englishScreenshotPath
         }
       },
       null,

@@ -9,8 +9,10 @@ RUN composer create-project \
     && cd /app \
     && composer require \
       "maicol07/flarum-ext-sso:2.0" \
+      "flarum-lang/chinese-simplified:2.x-dev" \
       --no-interaction \
-      --prefer-dist
+      --prefer-dist \
+      --with-all-dependencies
 
 FROM php:8.4-apache-bookworm
 

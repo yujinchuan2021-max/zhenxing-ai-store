@@ -5,6 +5,7 @@ COPY identity/package.json identity/package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts
 COPY identity ./
 COPY shared/identity-security.cjs /app/shared/identity-security.cjs
+COPY shared/avatar-image.cjs /app/shared/avatar-image.cjs
 
 USER node
 EXPOSE 4180

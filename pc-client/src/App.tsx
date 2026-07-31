@@ -13,6 +13,13 @@ import { getProductInstallPresentation } from "@aihub-shared/product-install-pre
 import { resolveProductBehavior } from "@aihub-shared/product-policy.cjs";
 import { getUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
 import {
+  createLanguage,
+  normalizeLanguage,
+  setActiveLanguage,
+  uiText,
+  type Language
+} from "./language";
+import {
   categories,
   Product,
   ProductCategory,
@@ -45,7 +52,6 @@ type ProductPreparation =
   | "downloaded"
   | "installed"
   | "error";
-type Language = "zh" | "en";
 type CliManagedTask = {
   productId: string;
   generation: number;
@@ -92,26 +98,26 @@ function environmentInstallButtonLabel(
 ) {
   switch (stage) {
     case "probing":
-      return "正在检测下载源…";
+      return uiText("auto.94f0baff28f4");
     case "downloading":
-      return `暂停 ${environmentName} 下载`;
+      return uiText("auto.2a63d718ac48", { value1: environmentName });
     case "paused":
-      return "继续下载";
+      return uiText("auto.7730fe6c7fbe");
     case "download-error":
-      return "重试下载";
+      return uiText("auto.87dd9db3387c");
     case "ready":
-      return "打开安装包";
+      return uiText("auto.1c9b810ab5b0");
     case "opening-install":
-      return "正在打开安装程序…";
+      return uiText("auto.d81b40f55a7e");
     case "awaiting-install":
-      return "等待完成安装…";
+      return uiText("auto.03fdb4985739");
     case "opening-uninstall":
-      return "正在打开卸载程序…";
+      return uiText("auto.5e85ee12a76b");
     case "awaiting-uninstall":
-      return "正在确认卸载…";
+      return uiText("auto.eea53c4becb5");
     case "timed-out-install":
     case "timed-out-uninstall":
-      return "立即检测";
+      return uiText("auto.14ca09ce1fd2");
     default:
       return idleLabel;
   }
@@ -122,39 +128,39 @@ function environmentUninstallButtonLabel(
 ) {
   switch (stage) {
     case "opening-install":
-      return "正在打开安装程序…";
+      return uiText("auto.d81b40f55a7e");
     case "awaiting-install":
-      return "正在确认安装…";
+      return uiText("auto.6c862ecfce82");
     case "opening-uninstall":
-      return "正在打开卸载程序…";
+      return uiText("auto.5e85ee12a76b");
     case "awaiting-uninstall":
-      return "正在确认卸载…";
+      return uiText("auto.eea53c4becb5");
     case "timed-out-install":
     case "timed-out-uninstall":
-      return "立即检测";
+      return uiText("auto.14ca09ce1fd2");
     default:
-      return "一键卸载";
+      return uiText("auto.3f4f6f0b49c4");
   }
 }
 
 function managedDownloadPhaseLabel(task: ManagedDownloadTask) {
   switch (task.phase) {
     case "starting":
-      return "准备下载";
+      return uiText("auto.d0274ba5736a");
     case "downloading":
-      return "正在下载";
+      return uiText("auto.06b2117d58cc");
     case "pausing":
-      return "正在暂停";
+      return uiText("auto.7c78a6c31980");
     case "paused":
-      return "已暂停";
+      return uiText("auto.eb0c326b60ae");
     case "canceling":
-      return "正在取消";
+      return uiText("auto.0b58e0113da6");
     case "failed":
-      return "下载失败";
+      return uiText("auto.8a03e35ad323");
     case "completed":
-      return "已完成";
+      return uiText("auto.f28461bb49c8");
     default:
-      return "已取消";
+      return uiText("auto.a37778f17c5f");
   }
 }
 
@@ -162,30 +168,30 @@ function operationTaskPhaseLabel(
   operation: "install" | "uninstall",
   phase: DesktopOperationTask["phase"] | EnvironmentOperationTask["phase"]
 ) {
-  if (phase === "installed") return "安装完成";
-  if (phase === "uninstalled") return "卸载完成";
+  if (phase === "installed") return uiText("auto.57cf47f232a8");
+  if (phase === "uninstalled") return uiText("auto.caa61a1470e1");
   if (phase === "launching") {
     return operation === "install"
-      ? "正在打开安装程序"
-      : "正在打开卸载程序";
+      ? uiText("auto.343372e2f5fa")
+      : uiText("auto.ed63b6566fbb");
   }
   if (phase === "timed-out") {
     return operation === "install"
-      ? "等待手动确认安装"
-      : "等待手动确认卸载";
+      ? uiText("auto.ee6feed3275c")
+      : uiText("auto.a2ccef9b43bf");
   }
-  return operation === "install" ? "等待完成安装" : "等待完成卸载";
+  return operation === "install" ? uiText("auto.4f8df3ce8b6a") : uiText("auto.da1524a00c1b");
 }
 
 function cliTaskPhaseLabel(task: CliManagedTask) {
   if (task.phase === "running") {
-    return task.operation === "deploy" ? "正在部署 CLI" : "正在卸载 CLI";
+    return task.operation === "deploy" ? uiText("auto.c16fe800ef5d") : uiText("auto.3a3d21968447");
   }
   if (task.phase === "completed") {
-    return task.operation === "deploy" ? "CLI 部署完成" : "CLI 卸载完成";
+    return task.operation === "deploy" ? uiText("auto.53f17e6ef17f") : uiText("auto.6a075107a270");
   }
-  if (task.phase === "canceled") return "操作已取消";
-  return task.operation === "deploy" ? "CLI 部署失败" : "CLI 卸载失败";
+  if (task.phase === "canceled") return uiText("auto.9596d1ac92cd");
+  return task.operation === "deploy" ? uiText("auto.29d1d9dff3c7") : uiText("auto.7274d68dcc45");
 }
 
 const INSTALLATION_PRIORITY_STAGES = new Set<ProductStage>([
@@ -216,10 +222,10 @@ function formatBytes(value: number) {
 }
 
 function formatDuration(seconds: number | null) {
-  if (seconds === null || !Number.isFinite(seconds)) return "计算中";
-  if (seconds < 60) return `${Math.max(1, Math.round(seconds))} 秒`;
+  if (seconds === null || !Number.isFinite(seconds)) return uiText("auto.28a8e216754d");
+  if (seconds < 60) return uiText("auto.8e9c8e4d3e42", { value1: Math.max(1, Math.round(seconds)) });
   const minutes = Math.ceil(seconds / 60);
-  return minutes < 60 ? `${minutes} 分钟` : `${Math.ceil(minutes / 60)} 小时`;
+  return minutes < 60 ? uiText("auto.d28542b54a1e", { value1: minutes }) : uiText("auto.496ff0810302", { value1: Math.ceil(minutes / 60) });
 }
 const ENVIRONMENT_NAMES: Record<string, string> = {
   node: "Node.js",
@@ -228,28 +234,56 @@ const ENVIRONMENT_NAMES: Record<string, string> = {
   docker: "Docker"
 };
 
-const copy = {
-  zh: {
-    home: "主页",
-    vendors: "全部厂商",
-    community: "社区",
-    navigation: "导航",
-    searchPlaceholder: "精准搜索厂商或者产品",
-    search: "搜索",
-    settings: "设置",
-    login: "登录"
-  },
-  en: {
-    home: "Home",
-    vendors: "All vendors",
-    community: "Community",
-    navigation: "Navigation",
-    searchPlaceholder: "Search vendors or products",
-    search: "Search",
-    settings: "Settings",
-    login: "Sign in"
+async function prepareAvatarImage(file: File) {
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    throw new Error(uiText("auto.845503516821"));
   }
-};
+  if (file.size > 8 * 1024 * 1024) {
+    throw new Error(uiText("auto.a19801a42127"));
+  }
+  const bitmap = await createImageBitmap(file);
+  try {
+    const crop = Math.min(bitmap.width, bitmap.height);
+    const sourceX = Math.floor((bitmap.width - crop) / 2);
+    const sourceY = Math.floor((bitmap.height - crop) / 2);
+    for (const [size, quality] of [
+      [512, 0.84],
+      [384, 0.78],
+      [320, 0.72]
+    ] as const) {
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error(uiText("auto.7635afac978f"));
+      context.drawImage(
+        bitmap,
+        sourceX,
+        sourceY,
+        crop,
+        crop,
+        0,
+        0,
+        size,
+        size
+      );
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob(resolve, "image/jpeg", quality)
+      );
+      if (blob && blob.size <= 384 * 1024) {
+        return await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result || ""));
+          reader.onerror = () => reject(new Error(uiText("auto.5ca5aa5f6f01")));
+          reader.readAsDataURL(blob);
+        });
+      }
+    }
+    throw new Error(uiText("auto.4603edb8f99b"));
+  } finally {
+    bitmap.close();
+  }
+}
 
 const browserEnvironmentFallback: EnvironmentReport = {
   platform: "win32",
@@ -378,9 +412,19 @@ export default function App() {
   const activeProductActions = useRef<Set<string>>(new Set());
   const autoLaunchInstallerProducts = useRef<Set<string>>(new Set());
 
-  const t = copy[language];
+  const languageModule = useMemo(() => createLanguage(language), [language]);
+  const t = {
+    home: languageModule.text("nav.home"),
+    vendors: languageModule.text("nav.vendors"),
+    community: languageModule.text("nav.community"),
+    navigation: languageModule.text("nav.navigation"),
+    searchPlaceholder: languageModule.text("nav.searchPlaceholder"),
+    search: languageModule.text("nav.search"),
+    settings: languageModule.text("nav.settings"),
+    login: languageModule.text("nav.login")
+  };
   const letters = [
-    "全部",
+    uiText("auto.5c55a67935af"),
     ...[...new Set(catalogVendors.map((vendor) => vendor.initial))].sort()
   ];
   const downloadTaskNames = useMemo(() => {
@@ -391,7 +435,7 @@ export default function App() {
       }
     }
     for (const [environmentId, name] of Object.entries(ENVIRONMENT_NAMES)) {
-      names[`environment:${environmentId}`] = `${name} 环境安装包`;
+      names[`environment:${environmentId}`] = uiText("auto.07990042ef55", { value1: name });
     }
     return names;
   }, [catalogVendors]);
@@ -420,7 +464,7 @@ export default function App() {
       }
     }
     for (const [environmentId, name] of Object.entries(ENVIRONMENT_NAMES)) {
-      names[`environment:${environmentId}`] = `${name} 环境`;
+      names[`environment:${environmentId}`] = uiText("auto.2201a196b4ed", { value1: name });
     }
     return names;
   }, [catalogVendors]);
@@ -496,14 +540,14 @@ export default function App() {
         ...current,
         [environmentId]:
           task.phase === "completed"
-            ? `${name} 安装包已下载并通过数字签名验证`
+            ? uiText("auto.e8abf82dd793", { value1: name })
             : task.phase === "paused"
-              ? `${name} 下载已暂停，断点已保存${percent}`
+              ? uiText("auto.05fe6ea844c2", { value1: name, value2: percent })
               : task.phase === "failed"
-                ? task.errorMessage || `${name} 下载失败，点击重试`
+                ? task.errorMessage || uiText("auto.e9386003600e", { value1: name })
                 : task.phase === "canceled"
                   ? ""
-                  : `正在下载 ${name}…${percent}`
+                  : uiText("auto.51323b31d536", { value1: name, value2: percent })
       }));
       return;
     }
@@ -589,7 +633,7 @@ export default function App() {
       setProductErrors((current) => ({
         ...current,
         [task.productId]:
-          task.errorMessage || "下载已暂停，已保留当前进度"
+          task.errorMessage || uiText("auto.d5cd56f6c0aa")
       }));
       setProductStages((current) => ({
         ...current,
@@ -601,7 +645,7 @@ export default function App() {
       autoLaunchInstallerProducts.current.delete(task.productId);
       setProductErrors((current) => ({
         ...current,
-        [task.productId]: task.errorMessage || "下载失败"
+        [task.productId]: task.errorMessage || uiText("auto.8a03e35ad323")
       }));
       setProductStages((current) => ({
         ...current,
@@ -613,9 +657,9 @@ export default function App() {
       ...current,
       [task.productId]:
         task.phase === "pausing"
-          ? "正在安全暂停…"
+          ? uiText("auto.1006f93767b8")
           : task.phase === "canceling"
-            ? "正在取消并清理断点…"
+            ? uiText("auto.4d0d3353c378")
             : ""
     }));
     setProductStages((current) => ({
@@ -682,9 +726,9 @@ export default function App() {
             : task.phase === "launching"
               ? uninstallCopy.preparing
               : task.lastError
-                ? "Windows 应用信息扫描暂时失败，正在继续确认卸载结果"
+                ? uiText("auto.049cf69939d2")
                 : task.launchState === "unknown"
-                  ? `客户端已恢复卸载任务，${uninstallCopy.activeDetail}`
+                  ? uiText("auto.467262737ebe", { value1: uninstallCopy.activeDetail })
                   : uninstallCopy.activeDetail
       }));
       return;
@@ -693,7 +737,7 @@ export default function App() {
     if (task.phase === "timed-out") {
       setProductErrors((current) => ({
         ...current,
-        [task.productId]: "安装未完成，请重试"
+        [task.productId]: uiText("auto.cb7ac2dda21b")
       }));
       setProductStages((current) => ({
         ...current,
@@ -709,14 +753,14 @@ export default function App() {
       ...current,
       [task.productId]:
         task.phase === "timed-out"
-          ? "暂未检测到安装完成。若安装向导仍在运行，请完成后点击“立即检测”。"
+          ? uiText("auto.83201b1b5445")
           : task.phase === "launching"
-            ? "正在验证并启动安装程序…"
+            ? uiText("auto.6bb29222c392")
             : task.lastError
-              ? "Windows 应用信息扫描暂时失败，正在继续检测"
+              ? uiText("auto.63c4b45bea14")
               : task.launchState === "unknown"
-                ? "客户端已恢复安装任务，正在确认安装结果…"
-                : "正在自动检测安装结果…"
+                ? uiText("auto.e56cd1db6648")
+                : uiText("auto.22339d0032a4")
     }));
   };
 
@@ -826,7 +870,7 @@ export default function App() {
         ...current,
         [environmentId]:
           snapshot?.message ||
-          `${ENVIRONMENT_NAMES[environmentId] || environmentId} 安装包已验证`
+          uiText("auto.5472f6458434", { value1: ENVIRONMENT_NAMES[environmentId] || environmentId })
       }));
     }
     return snapshot;
@@ -899,7 +943,7 @@ export default function App() {
         }));
         setEnvironmentMessages((current) => ({
           ...current,
-          [task.environmentId]: `${name} 已安装，环境状态已自动更新`
+          [task.environmentId]: uiText("auto.59f68a10399b", { value1: name })
         }));
       } else {
         installedEnvironmentEvidence.current.delete(task.environmentId);
@@ -909,7 +953,7 @@ export default function App() {
         }));
         setEnvironmentMessages((current) => ({
           ...current,
-          [task.environmentId]: `${name} 已卸载，环境状态已自动更新`
+          [task.environmentId]: uiText("auto.182fb8926e89", { value1: name })
         }));
         void restoreEnvironmentPackage(task.environmentId, false);
       }
@@ -939,17 +983,17 @@ export default function App() {
       [task.environmentId]:
         task.phase === "timed-out"
           ? task.operation === "install"
-            ? `暂未检测到 ${name} 安装完成。完成安装向导后，请点击“立即检测”。`
-            : `暂未确认 ${name} 卸载完成。完成卸载向导后，请点击“立即检测”。`
+            ? uiText("auto.e83425e3a66a", { value1: name })
+            : uiText("auto.87263864ca91", { value1: name })
           : task.phase === "launching"
             ? task.operation === "install"
-              ? `正在验证并打开 ${name} 安装程序…`
-              : `正在验证并打开 ${name} 卸载程序…`
+              ? uiText("auto.695ac7cdb0aa", { value1: name })
+              : uiText("auto.97ed8e6fa1d6", { value1: name })
             : task.lastError
-              ? `环境扫描暂时失败，正在继续确认 ${name} 的状态`
+              ? uiText("auto.3387aeea1571", { value1: name })
               : task.launchState === "unknown"
-                ? `客户端已恢复 ${name} ${task.operation === "install" ? "安装" : "卸载"}任务，正在确认结果…`
-                : `正在自动确认 ${name} ${task.operation === "install" ? "安装" : "卸载"}结果…`
+                ? uiText("auto.59697449b2f9", { value1: name, value2: task.operation === "install" ? uiText("auto.e8f88f51ccb0") : uiText("auto.06bc14b60f35") })
+                : uiText("auto.637f9cedf44d", { value1: name, value2: task.operation === "install" ? uiText("auto.e8f88f51ccb0") : uiText("auto.06bc14b60f35") })
     }));
     return true;
   };
@@ -989,6 +1033,11 @@ export default function App() {
     window.aihubPC?.getSettings().then((settings) => {
       setDownloadDirectory(settings.downloadDirectory);
       setCliInstallDirectory(settings.cliInstallDirectory || "");
+      const nextLanguage = normalizeLanguage(settings.language);
+      setActiveLanguage(nextLanguage);
+      setLanguage(nextLanguage);
+      document.documentElement.lang =
+        createLanguage(nextLanguage).documentLocale;
     });
   }, []);
 
@@ -1048,7 +1097,7 @@ export default function App() {
               ...current,
               [environmentId]:
                 packageSnapshot.message ||
-                `${ENVIRONMENT_NAMES[environmentId] || environmentId} 安装包已验证`
+                uiText("auto.5472f6458434", { value1: ENVIRONMENT_NAMES[environmentId] || environmentId })
             }));
           }
           const downloadTask =
@@ -1133,7 +1182,7 @@ export default function App() {
                     }));
                     setProductErrors((current) => ({
                       ...current,
-                      [product.id]: "下载已暂停，点击继续下载"
+                      [product.id]: uiText("auto.fbeddaa85ddd")
                     }));
                     setProductStages((current) => ({
                       ...current,
@@ -1237,7 +1286,7 @@ export default function App() {
               ...current,
               [product.id]:
                 status.detection === "unknown"
-                  ? "启动恢复时暂时无法可靠确认该 CLI 的安装状态"
+                  ? uiText("auto.365fe0e4894c")
                   : ""
             }));
           })
@@ -1352,8 +1401,8 @@ export default function App() {
       if (progress.productId === "aihub-update") {
         setUpdateInstallMessage(
           progress.percent === null
-            ? "正在下载 AI Hub 更新…"
-            : `正在下载 AI Hub 更新… ${progress.percent}%`
+            ? uiText("auto.5ae75007f375")
+            : uiText("auto.afbbc2060f78", { value1: progress.percent })
         );
         return;
       }
@@ -1364,8 +1413,8 @@ export default function App() {
           ...current,
           [environmentId]:
             progress.percent === null
-              ? `正在下载 ${name}…`
-              : `正在下载 ${name}… ${progress.percent}%`
+              ? uiText("auto.e5ccd4f636cb", { value1: name })
+              : uiText("auto.d0c6e4b5b8e3", { value1: name, value2: progress.percent })
         }));
         return;
       }
@@ -1505,13 +1554,13 @@ export default function App() {
       if (!result.ok) {
         setDownloadTaskError(
           productId,
-          result.error || result.task?.errorMessage || "无法继续下载任务"
+          result.error || result.task?.errorMessage || uiText("auto.3270956f505f")
         );
       }
     } catch (error) {
       setDownloadTaskError(
         productId,
-        error instanceof Error ? error.message : "无法继续下载任务"
+        error instanceof Error ? error.message : uiText("auto.3270956f505f")
       );
     }
   };
@@ -1524,13 +1573,13 @@ export default function App() {
       if (!result.ok && !result.canceled) {
         setDownloadTaskError(
           productId,
-          result.error || result.task?.errorMessage || "无法暂停下载任务"
+          result.error || result.task?.errorMessage || uiText("auto.fa1c57bcf3cb")
         );
       }
     } catch (error) {
       setDownloadTaskError(
         productId,
-        error instanceof Error ? error.message : "无法暂停下载任务"
+        error instanceof Error ? error.message : uiText("auto.fa1c57bcf3cb")
       );
     }
   };
@@ -1543,13 +1592,13 @@ export default function App() {
       if (!result.ok && !result.canceled) {
         setDownloadTaskError(
           productId,
-          result.error || result.task?.errorMessage || "无法取消下载任务"
+          result.error || result.task?.errorMessage || uiText("auto.1768ce955e7d")
         );
       }
     } catch (error) {
       setDownloadTaskError(
         productId,
-        error instanceof Error ? error.message : "无法取消下载任务"
+        error instanceof Error ? error.message : uiText("auto.1768ce955e7d")
       );
     }
   };
@@ -1568,7 +1617,7 @@ export default function App() {
       .flatMap((vendor) => vendor.products)
       .find((candidate) => candidate.id === productId);
     if (!product) {
-      setDownloadTaskError(productId, "当前目录中找不到该产品");
+      setDownloadTaskError(productId, uiText("auto.0174b6fcadff"));
       return;
     }
     await installDownloadedProduct(product);
@@ -1581,7 +1630,7 @@ export default function App() {
       if (!result.ok) {
         setDownloadTaskError(
           productId,
-          result.error || "无法打开安装包所在文件夹"
+          result.error || uiText("auto.ec7c452924d5")
         );
       }
     } catch (error) {
@@ -1589,7 +1638,7 @@ export default function App() {
         productId,
         error instanceof Error
           ? error.message
-          : "无法打开安装包所在文件夹"
+          : uiText("auto.ec7c452924d5")
       );
     }
   };
@@ -1633,7 +1682,7 @@ export default function App() {
       if (!result.ok) {
         setDownloadTaskError(
           productId,
-          result.error || "无法清除下载记录"
+          result.error || uiText("auto.a3f8e58e4762")
         );
         return;
       }
@@ -1641,7 +1690,7 @@ export default function App() {
     } catch (error) {
       setDownloadTaskError(
         productId,
-        error instanceof Error ? error.message : "无法清除下载记录"
+        error instanceof Error ? error.message : uiText("auto.a3f8e58e4762")
       );
     }
   };
@@ -1655,7 +1704,7 @@ export default function App() {
       setProductErrors((current) => ({
         ...current,
         "task-center":
-          error instanceof Error ? error.message : "无法清除已完成任务"
+          error instanceof Error ? error.message : uiText("auto.99f0751357d7")
       }));
       return;
     }
@@ -1720,7 +1769,7 @@ export default function App() {
     }));
     setEnvironmentMessages((current) => ({
       ...current,
-      [environmentId]: `正在验证并打开 ${name} 安装程序…`
+      [environmentId]: uiText("auto.695ac7cdb0aa", { value1: name })
     }));
     try {
       const result =
@@ -1742,14 +1791,14 @@ export default function App() {
         [environmentId]:
           [result.message, result.warning].filter(Boolean).join("；") ||
           result.error ||
-          "无法打开该环境安装包"
+          uiText("auto.633a7cff13e6")
       }));
     } catch (error) {
       await restoreEnvironmentPackage(environmentId, false);
       setEnvironmentMessages((current) => ({
         ...current,
         [environmentId]:
-          error instanceof Error ? error.message : "无法打开该环境安装包"
+          error instanceof Error ? error.message : uiText("auto.633a7cff13e6")
       }));
     }
   };
@@ -1760,7 +1809,7 @@ export default function App() {
     if (!opened) {
       setEnvironmentMessages((current) => ({
         ...current,
-        [environmentId]: "未找到可打开的软件位置，请重新检测"
+        [environmentId]: uiText("auto.edb6262845cf")
       }));
     }
   };
@@ -1775,7 +1824,7 @@ export default function App() {
     }));
     setEnvironmentMessages((current) => ({
       ...current,
-      [environmentId]: `正在验证并打开 ${name} 卸载程序…`
+      [environmentId]: uiText("auto.97ed8e6fa1d6", { value1: name })
     }));
     try {
       const result = await window.aihubPC.uninstallEnvironment(environmentId);
@@ -1799,7 +1848,7 @@ export default function App() {
         [environmentId]:
           [result.message, result.warning].filter(Boolean).join("；") ||
           result.error ||
-          "未能打开该环境的卸载程序"
+          uiText("auto.90301fb062a2")
       }));
     } catch (error) {
       setEnvironmentPackageStages((current) => ({
@@ -1811,7 +1860,7 @@ export default function App() {
         [environmentId]:
           error instanceof Error
             ? error.message
-            : "未能打开该环境的卸载程序"
+            : uiText("auto.90301fb062a2")
       }));
     }
   };
@@ -1883,7 +1932,7 @@ export default function App() {
       setProductErrors((current) => ({
         ...current,
         [product.id]:
-          error instanceof Error ? error.message : "环境检测暂时失败，请重试"
+          error instanceof Error ? error.message : uiText("auto.c8c0c43af477")
       }));
       setProductStages((current) => ({
         ...current,
@@ -1910,7 +1959,7 @@ export default function App() {
           [product.id]:
             error instanceof Error
               ? error.message
-              : "Windows 应用信息扫描暂时失败"
+              : uiText("auto.3f79af99e698")
         }));
         setProductStages((current) => ({
           ...current,
@@ -1945,7 +1994,7 @@ export default function App() {
       if (desktopStatus.detection === "unknown") {
         setProductErrors((current) => ({
           ...current,
-          [product.id]: "Windows 应用信息扫描暂时失败，尚不能确认是否已安装"
+          [product.id]: uiText("auto.a95e2a95a834")
         }));
         setProductStages((current) => ({
           ...current,
@@ -1978,7 +2027,7 @@ export default function App() {
           [product.id]:
             error instanceof Error
               ? error.message
-              : "暂时无法可靠确认该 CLI 的安装状态"
+              : uiText("auto.34948cd2cea4")
         }));
         setProductStages((current) => ({
           ...current,
@@ -2006,7 +2055,7 @@ export default function App() {
       if (status.detection === "unknown") {
         setProductErrors((current) => ({
           ...current,
-          [product.id]: "暂时无法可靠确认该 CLI 的安装状态"
+          [product.id]: uiText("auto.34948cd2cea4")
         }));
         setProductStages((current) => ({
           ...current,
@@ -2034,7 +2083,7 @@ export default function App() {
     if (!window.aihubPC) {
       setProductErrors((current) => ({
         ...current,
-        [product.id]: "请在 PC 客户端中下载"
+        [product.id]: uiText("auto.680d9556526a")
       }));
       setProductStages((current) => ({
         ...current,
@@ -2053,7 +2102,7 @@ export default function App() {
         autoLaunchInstallerProducts.current.delete(product.id);
         setProductErrors((current) => ({
           ...current,
-          [product.id]: result.error || "无法启动下载任务"
+          [product.id]: result.error || uiText("auto.8d0943c7356b")
         }));
         if (!result.task) {
           setProductStages((current) => ({
@@ -2067,7 +2116,7 @@ export default function App() {
       setProductErrors((current) => ({
         ...current,
         [product.id]:
-          error instanceof Error ? error.message : "无法启动下载任务"
+          error instanceof Error ? error.message : uiText("auto.8d0943c7356b")
       }));
       setProductStages((current) => ({
         ...current,
@@ -2100,7 +2149,7 @@ export default function App() {
           [product.id]:
             canceled.error ||
             canceled.task?.errorMessage ||
-            "旧位置的下载断点尚未清理，无法在新位置重新下载"
+            uiText("auto.15031d50cadb")
         }));
         return;
       }
@@ -2111,7 +2160,7 @@ export default function App() {
         [product.id]:
           error instanceof Error
             ? error.message
-            : "无法在新位置重新开始下载"
+            : uiText("auto.c0f112918b7c")
       }));
     }
   };
@@ -2128,7 +2177,7 @@ export default function App() {
       if (!inspection.ok) {
         setProductErrors((current) => ({
           ...current,
-          [product.id]: inspection.error || "安装包验证失败"
+          [product.id]: inspection.error || uiText("auto.b5eece942d25")
         }));
         setProductStages((current) => ({ ...current, [product.id]: "error" }));
         return;
@@ -2158,7 +2207,7 @@ export default function App() {
           ...current,
           [product.id]:
             result.error ||
-            "安装程序没有保持运行，请重试或检查 Windows 安全记录"
+            uiText("auto.41ca2609829e")
         }));
         setProductStages((current) => ({
           ...current,
@@ -2171,7 +2220,7 @@ export default function App() {
           ...current,
           [product.id]:
             result.warning ||
-            "安装程序已打开，请完成厂商安装向导后点击“立即检测”。"
+            uiText("auto.4db2a049b661")
         }));
         setProductStages((current) => ({
           ...current,
@@ -2183,8 +2232,8 @@ export default function App() {
         ...current,
         [product.id]:
           error instanceof Error
-            ? `无法启动安装程序：${error.message}`
-            : "无法启动安装程序，请重试"
+            ? uiText("auto.370eeb21fd82", { value1: error.message })
+            : uiText("auto.283624960d3b")
       }));
       setProductStages((current) => ({
         ...current,
@@ -2224,8 +2273,8 @@ export default function App() {
         ...current,
         [product.id]:
           error instanceof Error
-            ? `无法检查本地安装包：${error.message}`
-            : "无法检查本地安装包"
+            ? uiText("auto.0a6cbfe8699c", { value1: error.message })
+            : uiText("auto.7a0a26f1501f")
       }));
       setProductStages((current) => ({
         ...current,
@@ -2278,8 +2327,8 @@ export default function App() {
         ...current,
         [product.id]:
           error instanceof Error
-            ? `Windows 应用信息扫描暂时失败：${error.message}`
-            : "Windows 应用信息扫描暂时失败，请重试"
+            ? uiText("auto.de1e74fd539c", { value1: error.message })
+            : uiText("auto.d509aee8e81f")
       }));
       return;
     }
@@ -2294,8 +2343,8 @@ export default function App() {
         ...current,
         [product.id]:
           status.detection === "unknown"
-            ? "Windows 应用信息扫描暂时失败，正在继续检测"
-            : "尚未检测到安装完成，请完成厂商安装向导后重试"
+            ? uiText("auto.63c4b45bea14")
+            : uiText("auto.ca9aab2264d2")
       }));
       setProductStages((current) => ({
         ...current,
@@ -2335,7 +2384,7 @@ export default function App() {
         setProductErrors((current) => ({
           ...current,
           [product.id]:
-            result.error || "未能打开该产品的可信卸载程序"
+            result.error || uiText("auto.f1529f55066f")
         }));
         if (!result.operationTask) {
           setProductStages((current) => ({
@@ -2359,8 +2408,8 @@ export default function App() {
         ...current,
         [product.id]:
           error instanceof Error
-            ? `无法启动卸载程序：${error.message}`
-            : "无法启动卸载程序，请重试"
+            ? uiText("auto.caf49c3849b1", { value1: error.message })
+            : uiText("auto.f681c9099661")
       }));
       setProductStages((current) => ({
         ...current,
@@ -2394,8 +2443,8 @@ export default function App() {
           ...current,
           [product.id]:
             error instanceof Error
-              ? `Windows 应用信息扫描暂时失败：${error.message}`
-              : "Windows 应用信息扫描暂时失败，请重试"
+              ? uiText("auto.de1e74fd539c", { value1: error.message })
+              : uiText("auto.d509aee8e81f")
         }));
         return;
       }
@@ -2412,7 +2461,7 @@ export default function App() {
       ...current,
       [product.id]:
         status.detection === "unknown"
-          ? "Windows 应用信息扫描暂时失败，尚不能确认卸载完成"
+          ? uiText("auto.0afc35a7c46e")
           : getUninstallPresentation(status.uninstallMode).stillInstalled
     }));
     setProductStages((current) => ({
@@ -2426,7 +2475,7 @@ export default function App() {
       .flatMap((vendor) => vendor.products)
       .find((candidate) => candidate.id === productId);
     if (!product) {
-      setDownloadTaskError(productId, "当前目录中找不到该产品");
+      setDownloadTaskError(productId, uiText("auto.0174b6fcadff"));
       return;
     }
     const task = desktopOperationTasks[productId];
@@ -2481,7 +2530,7 @@ export default function App() {
       generation,
       "deploy",
       "running",
-      "正在启动官方 CLI 部署方案"
+      uiText("auto.514d92d737e1")
     );
     setProductErrors((current) => ({ ...current, [product.id]: "" }));
     setCliLogs((current) => ({ ...current, [product.id]: [] }));
@@ -2496,11 +2545,11 @@ export default function App() {
         generation,
         "deploy",
         "failed",
-        error instanceof Error ? error.message : "CLI 部署失败"
+        error instanceof Error ? error.message : uiText("auto.29d1d9dff3c7")
       );
       setProductErrors((current) => ({
         ...current,
-        [product.id]: error instanceof Error ? error.message : "CLI 部署失败"
+        [product.id]: error instanceof Error ? error.message : uiText("auto.29d1d9dff3c7")
       }));
       setProductStages((current) => ({ ...current, [product.id]: "error" }));
       return;
@@ -2512,7 +2561,7 @@ export default function App() {
         generation,
         "deploy",
         "canceled",
-        "用户取消了 CLI 部署"
+        uiText("auto.fbd495eb2c7e")
       );
       setProductStages((current) => ({ ...current, [product.id]: "ready" }));
       return;
@@ -2523,11 +2572,11 @@ export default function App() {
         generation,
         "deploy",
         "failed",
-        result.error || "CLI 部署失败"
+        result.error || uiText("auto.29d1d9dff3c7")
       );
       setProductErrors((current) => ({
         ...current,
-        [product.id]: result.error || "CLI 部署失败"
+        [product.id]: result.error || uiText("auto.29d1d9dff3c7")
       }));
       setProductStages((current) => ({ ...current, [product.id]: "error" }));
       return;
@@ -2548,14 +2597,14 @@ export default function App() {
         "failed",
         error instanceof Error
           ? error.message
-          : "CLI 已部署，但暂时无法确认安装状态"
+          : uiText("auto.88e97dd1aa48")
       );
       setProductErrors((current) => ({
         ...current,
         [product.id]:
           error instanceof Error
             ? error.message
-            : "CLI 已部署，但暂时无法确认安装状态"
+            : uiText("auto.88e97dd1aa48")
       }));
       setProductStages((current) => ({
         ...current,
@@ -2568,8 +2617,8 @@ export default function App() {
     if (!status.installed) {
       const message =
         status.detection === "unknown"
-          ? "部署进程已结束，但暂时无法可靠确认 CLI 状态"
-          : "部署进程已结束，但未检测到有效的 CLI 安装";
+          ? uiText("auto.5958c31c4bdc")
+          : uiText("auto.486674a9aa1f");
       updateCliManagedTask(
         product.id,
         generation,
@@ -2600,7 +2649,7 @@ export default function App() {
       generation,
       "deploy",
       "completed",
-      result.warning || `${product.name} CLI 部署完成`
+      result.warning || uiText("auto.60482f487ebd", { value1: product.name })
     );
     setProductStages((current) => ({ ...current, [product.id]: "installed" }));
   };
@@ -2616,7 +2665,7 @@ export default function App() {
       generation,
       "uninstall",
       "running",
-      "正在安全卸载 AI Hub 管理的 CLI 软件包"
+      uiText("auto.274be5f39ce7")
     );
     setProductErrors((current) => ({ ...current, [product.id]: "" }));
     setCliLogs((current) => ({ ...current, [product.id]: [] }));
@@ -2639,12 +2688,12 @@ export default function App() {
           generation,
           "uninstall",
           "failed",
-          error instanceof Error ? error.message : "CLI 卸载状态未知"
+          error instanceof Error ? error.message : uiText("auto.f52a1914e794")
         );
         setProductErrors((current) => ({
           ...current,
           [product.id]:
-            error instanceof Error ? error.message : "CLI 卸载状态未知"
+            error instanceof Error ? error.message : uiText("auto.f52a1914e794")
         }));
         setProductStages((current) => ({
           ...current,
@@ -2660,7 +2709,7 @@ export default function App() {
           generation,
           "uninstall",
           "completed",
-          `${product.name} CLI 已卸载`
+          uiText("auto.f2191c77d0e6", { value1: product.name })
         );
         setCliVersions((current) => ({ ...current, [product.id]: "" }));
         setProductErrors((current) => ({ ...current, [product.id]: "" }));
@@ -2672,11 +2721,11 @@ export default function App() {
         generation,
         "uninstall",
         "failed",
-        error instanceof Error ? error.message : "CLI 卸载失败"
+        error instanceof Error ? error.message : uiText("auto.7274d68dcc45")
       );
       setProductErrors((current) => ({
         ...current,
-        [product.id]: error instanceof Error ? error.message : "CLI 卸载失败"
+        [product.id]: error instanceof Error ? error.message : uiText("auto.7274d68dcc45")
       }));
       setProductStages((current) => ({
         ...current,
@@ -2691,7 +2740,7 @@ export default function App() {
         generation,
         "uninstall",
         "canceled",
-        "用户取消了 CLI 卸载"
+        uiText("auto.cc4ad91968e7")
       );
       setProductStages((current) => ({
         ...current,
@@ -2712,14 +2761,14 @@ export default function App() {
           "failed",
           error instanceof Error
             ? error.message
-            : "卸载操作已结束，但暂时无法确认 CLI 状态"
+            : uiText("auto.ad149d963fb5")
         );
         setProductErrors((current) => ({
           ...current,
           [product.id]:
             error instanceof Error
               ? error.message
-              : "卸载操作已结束，但暂时无法确认 CLI 状态"
+              : uiText("auto.ad149d963fb5")
         }));
         setProductStages((current) => ({
           ...current,
@@ -2737,7 +2786,7 @@ export default function App() {
           generation,
           "uninstall",
           "completed",
-          `${product.name} CLI 已卸载`
+          uiText("auto.f2191c77d0e6", { value1: product.name })
         );
         setCliVersions((current) => ({ ...current, [product.id]: "" }));
         setProductErrors((current) => ({ ...current, [product.id]: "" }));
@@ -2749,11 +2798,11 @@ export default function App() {
         generation,
         "uninstall",
         "failed",
-        result.error || "CLI 卸载失败"
+        result.error || uiText("auto.7274d68dcc45")
       );
       setProductErrors((current) => ({
         ...current,
-        [product.id]: result.error || "CLI 卸载失败"
+        [product.id]: result.error || uiText("auto.7274d68dcc45")
       }));
       setProductStages((current) => ({
         ...current,
@@ -2764,8 +2813,8 @@ export default function App() {
     if (status.detection !== "absent") {
       const message =
         status.detection === "unknown"
-          ? "卸载操作已结束，但暂时无法可靠确认结果"
-          : "卸载操作已结束，但仍检测到该 CLI";
+          ? uiText("auto.210b7987d8db")
+          : uiText("auto.d91ae5f7f370");
       updateCliManagedTask(
         product.id,
         generation,
@@ -2790,7 +2839,7 @@ export default function App() {
       generation,
       "uninstall",
       "completed",
-      `${product.name} CLI 已卸载`
+      uiText("auto.f2191c77d0e6", { value1: product.name })
     );
     setProductStages((current) => ({ ...current, [product.id]: "ready" }));
   };
@@ -2805,7 +2854,7 @@ export default function App() {
       generation,
       task.operation,
       "running",
-      "正在重新检测 CLI 安装状态"
+      uiText("auto.3558a2b2568a")
     );
     let status: CliStatus;
     try {
@@ -2813,7 +2862,7 @@ export default function App() {
     } catch (error) {
       if (!isCurrentProductOperation(productId, generation)) return;
       const message =
-        error instanceof Error ? error.message : "暂时无法可靠确认 CLI 状态";
+        error instanceof Error ? error.message : uiText("auto.71b9d8abc4ea");
       updateCliManagedTask(
         productId,
         generation,
@@ -2850,8 +2899,8 @@ export default function App() {
     if (completed) {
       const message =
         task.operation === "deploy"
-          ? `${product.name} CLI 已确认安装`
-          : `${product.name} CLI 已确认卸载`;
+          ? uiText("auto.0c14c44b2527", { value1: product.name })
+          : uiText("auto.32422ac50536", { value1: product.name });
       updateCliManagedTask(
         productId,
         generation,
@@ -2865,10 +2914,10 @@ export default function App() {
 
     const message =
       status.detection === "unknown"
-        ? "暂时无法可靠确认 CLI 安装状态"
+        ? uiText("auto.1cf24902d6d5")
         : task.operation === "deploy"
-          ? `${product.name} CLI 仍未安装`
-          : `${product.name} CLI 仍然存在`;
+          ? uiText("auto.0212bbe4a6ca", { value1: product.name })
+          : uiText("auto.64cea3af67fd", { value1: product.name });
     updateCliManagedTask(
       productId,
       generation,
@@ -2907,6 +2956,13 @@ export default function App() {
     document.documentElement.dataset.theme = next;
   };
 
+  const changeLanguage = (next: Language) => {
+    setActiveLanguage(next);
+    setLanguage(next);
+    document.documentElement.lang = createLanguage(next).documentLocale;
+    void window.aihubPC?.setLanguage(next);
+  };
+
   const checkForUpdate = async () => {
     setCheckingUpdate(true);
     setUpdateInstallMessage("");
@@ -2916,7 +2972,7 @@ export default function App() {
         : {
             status: "disabled" as const,
             currentVersion: "0.1.0",
-            message: "浏览器预览不提供更新通道"
+            message: uiText("auto.92ae7c88cf13")
           };
       setUpdateResult(result);
     } finally {
@@ -2927,21 +2983,21 @@ export default function App() {
   const installUpdate = async () => {
     if (!window.aihubPC || installingUpdate) return;
     setInstallingUpdate(true);
-    setUpdateInstallMessage("正在准备更新安装包…");
+    setUpdateInstallMessage(uiText("auto.699599ce3495"));
     try {
       const result = await window.aihubPC.openUpdateDownload();
       if (result.ok) {
         setUpdateInstallMessage(
           result.warning
-            ? `更新安装器已启动；${result.warning}`
-            : "更新安装器已启动，请按 Windows 安装向导完成更新"
+            ? uiText("auto.a129621fd2d5", { value1: result.warning })
+            : uiText("auto.79e4bb930e5c")
         );
         return;
       }
-      setUpdateInstallMessage(result.error || "更新安装未完成");
+      setUpdateInstallMessage(result.error || uiText("auto.d308fd9d9d27"));
     } catch (error) {
       setUpdateInstallMessage(
-        error instanceof Error ? error.message : "更新安装未完成"
+        error instanceof Error ? error.message : uiText("auto.d308fd9d9d27")
       );
     } finally {
       setInstallingUpdate(false);
@@ -2956,7 +3012,7 @@ export default function App() {
     if (activeProductActions.current.has(productId)) {
       setProductErrors((current) => ({
         ...current,
-        [productId]: `${label}正在处理，请勿重复点击`
+        [productId]: uiText("auto.0225cb463342", { value1: label })
       }));
       return;
     }
@@ -3005,16 +3061,16 @@ export default function App() {
   };
 
   const requestUnifiedInstall = (product: Product) =>
-    runExclusiveProductAction(product.id, "安装", () =>
+    runExclusiveProductAction(product.id, uiText("auto.e8f88f51ccb0"), () =>
       installUsingUnifiedRule(product)
     );
 
   const requestCliUninstall = (product: Product) =>
-    runExclusiveProductAction(product.id, "CLI 卸载", () =>
+    runExclusiveProductAction(product.id, uiText("auto.80d0f7903461"), () =>
       uninstallCli(product)
     );
   const requestDesktopUninstall = (product: Product) =>
-    runExclusiveProductAction(product.id, "卸载", () =>
+    runExclusiveProductAction(product.id, uiText("auto.06bc14b60f35"), () =>
       uninstallDesktopProduct(product)
     );
 
@@ -3068,7 +3124,7 @@ export default function App() {
         const result = await window.aihubPC.openCli(entry.id);
         setManagementMessage(
           entry.id,
-          result.ok ? "命令窗口已打开" : result.error || "无法打开命令窗口"
+          result.ok ? uiText("auto.fe828ca72bd3") : result.error || uiText("auto.061b38f04a0f")
         );
         return;
       }
@@ -3078,11 +3134,11 @@ export default function App() {
               entry.id.slice("environment:".length)
             )
           : await window.aihubPC.openDesktopApp(entry.id);
-      setManagementMessage(entry.id, opened ? "已打开" : "无法打开");
+      setManagementMessage(entry.id, opened ? uiText("auto.76ef4ba66457") : uiText("auto.98034d305011"));
     } catch (error) {
       setManagementMessage(
         entry.id,
-        error instanceof Error ? error.message : "无法打开"
+        error instanceof Error ? error.message : uiText("auto.98034d305011")
       );
     }
   };
@@ -3102,14 +3158,14 @@ export default function App() {
         entry.id,
         result.ok
           ? result.closed
-            ? "已关闭"
-            : "当前未运行"
-          : result.error || "无法关闭"
+            ? uiText("auto.6744b4c6a9aa")
+            : uiText("auto.68cc8625a670")
+          : result.error || uiText("auto.d3c7e10d21a1")
       );
     } catch (error) {
       setManagementMessage(
         entry.id,
-        error instanceof Error ? error.message : "无法关闭"
+        error instanceof Error ? error.message : uiText("auto.d3c7e10d21a1")
       );
     }
   };
@@ -3126,7 +3182,7 @@ export default function App() {
         : entry.type === "cli"
           ? await window.aihubPC.openCliLocation(entry.id)
           : await window.aihubPC.openDesktopLocation(entry.id);
-    if (!opened) setManagementMessage(entry.id, "无法打开文件位置");
+    if (!opened) setManagementMessage(entry.id, uiText("auto.f76d02f1aa1e"));
   };
 
   const uninstallManagedProduct = async (
@@ -3149,7 +3205,7 @@ export default function App() {
     if (!result.ok) {
       setManagementMessage(
         `package:${productId}`,
-        result.error || "无法删除安装包"
+        result.error || uiText("auto.282eb98b7504")
       );
       return;
     }
@@ -3188,7 +3244,7 @@ export default function App() {
         >
           <span className="brandMark">{brand.mark}</span>
           <span>{brand.name}</span>
-          <small>PC</small>
+          <small>{uiText("chrome.pc")}</small>
         </button>
 
         <form className="search" onSubmit={submitSearch}>
@@ -3203,15 +3259,14 @@ export default function App() {
 
         <div className="topActions">
           <button className="quietButton" onClick={openInstalledManagement}>
-            已安装
-          </button>
+            {uiText("auto.a8b6c39dcabf")}</button>
           <button className="quietButton" onClick={() => setSettingsOpen(true)}>
             ⚙ {t.settings}
           </button>
           {identity.status === "authenticated" && (
             <button
               className="notificationButton"
-              aria-label={`提醒${personalCenter?.summary.unreadNotifications ? `，${personalCenter.summary.unreadNotifications} 条未读` : ""}`}
+              aria-label={uiText("auto.59e06dbae891", { value1: personalCenter?.summary.unreadNotifications ? uiText("auto.823659594acc", { value1: personalCenter.summary.unreadNotifications }) : "" })}
               onClick={() => openPersonalCenter("notifications")}
             >
               <span aria-hidden="true">🔔</span>
@@ -3405,6 +3460,7 @@ export default function App() {
             <FlarumCommunityPage
               identity={identity}
               theme={theme}
+              language={language}
               onLogin={() => setAuthOpen(true)}
               targetPath={communityTargetPath}
               onTargetConsumed={() => setCommunityTargetPath("")}
@@ -3444,7 +3500,7 @@ export default function App() {
           updateInstallMessage={updateInstallMessage}
           onClose={() => setSettingsOpen(false)}
           onTheme={changeTheme}
-          onLanguage={setLanguage}
+          onLanguage={changeLanguage}
           onChooseDirectory={chooseDownloadDirectory}
           onChooseCliDirectory={chooseCliDirectory}
           onOpenDirectory={() => window.aihubPC?.openDownloadDirectory()}
@@ -3470,7 +3526,7 @@ export default function App() {
           onCheckEnvironmentOperationTask={checkEnvironmentOperationTask}
           onClearCliManagedTask={clearCliManagedTask}
           onRetryCliManagedTask={(productId) =>
-            runExclusiveProductAction(productId, "CLI 重试", () =>
+            runExclusiveProductAction(productId, uiText("auto.465ac1927c3d"), () =>
               retryCliManagedTask(productId)
             )
           }
@@ -3538,12 +3594,12 @@ function HomePage({
           <button className="primaryAction" onClick={onOpenVendors}>
             {banner.action} →
           </button>
-          <div className="bannerControls" aria-label="轮播页切换">
+          <div className="bannerControls" aria-label={uiText("auto.35bf6ebc40df")}>
             {banners.map((item, index) => (
               <button
                 key={item.title}
                 className={bannerIndex === index ? "active" : ""}
-                aria-label={`切换到第 ${index + 1} 页`}
+                aria-label={uiText("auto.104e810b4b12", { value1: index + 1 })}
                 onClick={() => setBannerIndex(index)}
               />
             ))}
@@ -3553,8 +3609,8 @@ function HomePage({
           <div className="orbit orbitOne" />
           <div className="orbit orbitTwo" />
           <div className="heroCore">
-            <b>AI</b>
-            <small>HUB PC</small>
+            <b>{uiText("chrome.ai")}</b>
+            <small>{uiText("chrome.hubPc")}</small>
           </div>
         </div>
       </section>
@@ -3562,10 +3618,10 @@ function HomePage({
       <section className="homeSection">
         <div className="sectionHeading">
           <div>
-            <p>后台精选</p>
-            <h2>精选 AI 厂商</h2>
+            <p>{uiText("auto.cf2b91fc1b4a")}</p>
+            <h2>{uiText("auto.1af1e69bc945")}</h2>
           </div>
-          <button onClick={onOpenVendors}>全部厂商 →</button>
+          <button onClick={onOpenVendors}>{uiText("auto.2b2b5d7f4271")}</button>
         </div>
         <div className="featuredGrid">
           {featured.map((vendor) => (
@@ -3576,7 +3632,7 @@ function HomePage({
             >
               <VendorMark vendor={vendor} />
               <span>
-                <small>厂商</small>
+                <small>{uiText("auto.2e10281b39c0")}</small>
                 <b>{vendor.name}</b>
               </span>
               <i>→</i>
@@ -3610,20 +3666,20 @@ function VendorsPage({
   return (
     <>
       <header className="pageHeader">
-        <p>全部厂商</p>
-        <h1>所有 AI 厂商</h1>
-        <span>选择厂商后，查看该厂商旗下的全部 AI 产品。</span>
+        <p>{uiText("auto.98ee9e2f83f2")}</p>
+        <h1>{uiText("auto.6310cc279f00")}</h1>
+        <span>{uiText("auto.db289d57b452")}</span>
       </header>
 
       <section className="filters">
         <FilterRow
-          label="工具特性"
+          label={uiText("auto.a74a788ef2ea")}
           values={categories}
           active={category}
           onChange={(value) => onCategory(value as "全部" | ProductCategory)}
         />
         <FilterRow
-          label="从 A–Z 排列"
+          label={uiText("auto.4f06c63c2949")}
           values={letters}
           active={letter}
           onChange={onLetter}
@@ -3631,8 +3687,8 @@ function VendorsPage({
       </section>
 
       <div className="directorySummary">
-        <b>{search.trim() ? `“${search.trim()}” 的搜索结果` : "厂商目录"}</b>
-        <span>{visible.length} 个厂商</span>
+        <b>{search.trim() ? uiText("auto.ce30bf880263", { value1: search.trim() }) : uiText("auto.9900470a1321")}</b>
+        <span>{visible.length} {uiText("auto.cad10bb229ea")}</span>
       </div>
 
       <div className="vendorGrid">
@@ -3644,7 +3700,7 @@ function VendorsPage({
           >
             <div className="vendorCardTop">
               <VendorMark vendor={vendor} large />
-              <span>{vendor.products.length} 个产品</span>
+              <span>{vendor.products.length} {uiText("auto.ab2dacacbc82")}</span>
             </div>
             <h2>{vendor.name}</h2>
             <p>{vendor.description}</p>
@@ -3654,8 +3710,8 @@ function VendorsPage({
               ))}
             </div>
             <footer>
-              <span>{vendor.products.length} 个产品</span>
-              <b>查看厂商 →</b>
+              <span>{vendor.products.length} {uiText("auto.ab2dacacbc82")}</span>
+              <b>{uiText("auto.0eca81598063")}</b>
             </footer>
           </button>
         ))}
@@ -3752,24 +3808,23 @@ function VendorPage({
   const groups: ProductKind[] = ["桌面端", "CLI", "其他产品"];
   return (
     <>
-      <button className="backButton" onClick={onBack}>← 返回全部厂商</button>
+      <button className="backButton" onClick={onBack}>{uiText("auto.897b497715a6")}</button>
       <section className="vendorHero">
         <VendorMark vendor={vendor} hero />
         <div>
-          <p>厂商描述</p>
+          <p>{uiText("auto.1ffe67baf7b9")}</p>
           <h1>{vendor.name}</h1>
           <span>{vendor.description}</span>
         </div>
         <button className="quietButton" onClick={() => window.open(vendor.website)}>
-          厂商官网 ↗
-        </button>
+          {uiText("auto.32991a0a11cb")}</button>
       </section>
 
       <section className="vendorProducts">
         <div className="sectionHeading">
           <div>
-            <p>厂商产品</p>
-            <h2>{vendor.name} 的所有 AI 产品</h2>
+            <p>{uiText("auto.47935eda89dd")}</p>
+            <h2>{vendor.name} {uiText("auto.3a0cd01f42b9")}</h2>
           </div>
         </div>
         {groups.map((group) => {
@@ -3817,12 +3872,11 @@ function VendorPage({
 
       <section className="tutorialCard">
         <div>
-          <p>使用教学</p>
-          <h2>{vendor.name} 产品使用教学</h2>
+          <p>{uiText("auto.ca89fe5c9aa4")}</p>
+          <h2>{vendor.name} {uiText("auto.8ef3fead5883")}</h2>
         </div>
         <button onClick={() => window.open(vendor.tutorial)}>
-          跳转到该厂商教学页面 ↗
-        </button>
+          {uiText("auto.08f7d323aada")}</button>
       </section>
     </>
   );
@@ -3892,10 +3946,10 @@ function ProductRow({
   const installButtonLabel =
     behavior.primaryLabel ||
     (behavior.managedCli || behavior.managedDesktop
-      ? "一键安装"
+      ? uiText("auto.c5a01527da36")
       : product.productType === "desktop-official"
-        ? "获取官方安装包"
-        : "打开产品");
+        ? uiText("auto.6136b14a050c")
+        : uiText("auto.96b410ae01e3"));
   const installable = behavior.canInstall;
   const managedActionsAvailable =
     (behavior.managedCli || behavior.managedDesktop) &&
@@ -3917,12 +3971,12 @@ function ProductRow({
     downloadTask?.phase === "canceling";
   const downloadStatusLabel =
     downloadTask?.phase === "starting"
-      ? "正在连接官方下载源…"
+      ? uiText("auto.05ca4cf43882")
       : downloadTask?.phase === "pausing"
-        ? "正在安全暂停…"
+        ? uiText("auto.1006f93767b8")
         : downloadTask?.phase === "canceling"
-          ? "正在取消并清理断点…"
-          : `正在下载${progress === null ? "…" : ` ${progress}%`}`;
+          ? uiText("auto.4d0d3353c378")
+          : uiText("auto.0e88061a5088", { value1: progress === null ? "…" : ` ${progress}%` });
   const environmentStatus = missing
     .map((environmentId) => environmentMessages[environmentId])
     .find(Boolean);
@@ -3940,14 +3994,14 @@ function ProductRow({
           onClick={() => window.open(product.website)}
         >
           {product.productType === "web"
-            ? "打开网页"
+            ? uiText("auto.82d9ce3a5b37")
             : product.productType === "desktop-official"
-              ? "前往官方下载"
+              ? uiText("auto.c1ac19efecee")
               : product.kind === "CLI"
-                ? "CLI 官网"
+                ? uiText("auto.2af802abaa86")
                 : product.kind === "桌面端"
-                  ? "工具官网"
-                  : "产品官网"} ↗
+                  ? uiText("auto.2034e0d3f299")
+                  : uiText("auto.c4462f4f03f9")} ↗
         </button>
       )}
       {behavior.canOpenTutorial &&
@@ -3956,8 +4010,7 @@ function ProductRow({
             className="websiteButton"
             onClick={() => window.open(product.tutorial)}
           >
-            打开教程 ↗
-          </button>
+            {uiText("auto.51bd5a77da66")}</button>
         )}
       {managedActionsAvailable ? (
         <div className="installFlow">
@@ -3972,7 +4025,7 @@ function ProductRow({
           )}
           {stage === "blocked" && (
             <div className="blockedState">
-              <span>缺少：{missing.join("、")}</span>
+              <span>{uiText("auto.463071aaadb9")}{missing.join("、")}</span>
               <div className="missingEnvironmentActions">
                 {missing.map((environmentId) => {
                   const environmentStage =
@@ -3995,7 +4048,7 @@ function ProductRow({
                       {environmentInstallButtonLabel(
                         environmentStage,
                         environmentName,
-                        `安装 ${environmentName}`
+                        uiText("auto.fa43ae0d543c", { value1: environmentName })
                       )}
                     </button>
                   );
@@ -4003,7 +4056,7 @@ function ProductRow({
               </div>
               <small>
                 {environmentStatus ||
-                  "完成官方安装后，点击“重新检测”继续。"}
+                  uiText("auto.b7d7fb13afb6")}
               </small>
             </div>
           )}
@@ -4017,7 +4070,7 @@ function ProductRow({
           )}
           {stage === "removing-cli" && (
             <div className="cliLog">
-              <b>正在安全卸载…</b>
+              <b>{uiText("auto.ffce5549645d")}</b>
               {logs.length ? (
                 logs.map((entry, index) => (
                   <span className={entry.stream} key={`${index}-${entry.line}`}>
@@ -4026,8 +4079,7 @@ function ProductRow({
                 ))
               ) : (
                 <span>
-                  正在移除 AI Hub 管理的软件包
-                </span>
+                  {uiText("auto.ee4363795ed4")}</span>
               )}
             </div>
           )}
@@ -4040,15 +4092,15 @@ function ProductRow({
                     disabled={downloadTaskChanging}
                     onClick={onPauseDownload}
                   >
-                    {downloadTask?.phase === "pausing" ? "暂停中…" : "暂停"}
+                    {downloadTask?.phase === "pausing" ? uiText("auto.5a4ba5a4128c") : uiText("auto.8d12fc0d4eb2")}
                   </button>
                   <button
                     disabled={downloadTaskChanging}
                     onClick={onCancelDownload}
                   >
                     {downloadTask?.phase === "canceling"
-                      ? "取消中…"
-                      : "取消任务"}
+                      ? uiText("auto.0addd7784578")
+                      : uiText("auto.537d17f1c531")}
                   </button>
                 </div>
               </div>
@@ -4060,24 +4112,23 @@ function ProductRow({
                     : ""}
                   {" · "}
                   {formatBytes(downloadDetail.bytesPerSecond)}/s
-                  {" · 剩余 "}
+                  {uiText("auto.6e52ee9814a2")}
                   {formatDuration(downloadDetail.etaSeconds)}
                 </small>
               )}
               {downloadDetail?.availableBytes !== undefined && (
                 <small>
-                  下载空间：需要 {formatBytes(downloadDetail.requiredBytes || 0)}
+                  {uiText("auto.038984d5ab69")}{formatBytes(downloadDetail.requiredBytes || 0)}
                   {" · "}
-                  可用 {formatBytes(downloadDetail.availableBytes)}
+                  {uiText("auto.4d99c976beb8")}{formatBytes(downloadDetail.availableBytes)}
                   {downloadDetail.installDiskBytes
-                    ? ` · 安装建议预留 ${formatBytes(downloadDetail.installDiskBytes)}`
+                    ? uiText("auto.12b8e3fc6fad", { value1: formatBytes(downloadDetail.installDiskBytes) })
                     : ""}
                 </small>
               )}
               {downloadDetail?.installSpaceOk === false && (
                 <small className="spaceWarning">
-                  默认安装盘空间可能不足；可以先暂停并清理空间，或在安装器中改用其他磁盘。
-                </small>
+                  {uiText("auto.bb16e221d02b")}</small>
               )}
               <div className="downloadProgressTrack">
                 <i style={{ width: `${progress ?? 12}%` }} />
@@ -4086,10 +4137,10 @@ function ProductRow({
           )}
           {stage === "paused" && (
             <div className="blockedState">
-              <span>{error || "下载已暂停，已保留当前进度"}</span>
+              <span>{error || uiText("auto.d5cd56f6c0aa")}</span>
               {downloadDetail && downloadDetail.receivedBytes > 0 && (
                 <small>
-                  已保留 {formatBytes(downloadDetail.receivedBytes)}
+                  {uiText("auto.e309f2263e75")}{formatBytes(downloadDetail.receivedBytes)}
                   {downloadDetail.totalBytes > 0
                     ? ` / ${formatBytes(downloadDetail.totalBytes)}`
                     : ""}
@@ -4097,12 +4148,11 @@ function ProductRow({
               )}
               <div className="missingEnvironmentActions">
                 <button onClick={onInstallProduct}>
-                  {downloadTask?.resumable ? "继续原位置下载" : "重新开始"}
+                  {downloadTask?.resumable ? uiText("auto.c3c6d7017082") : uiText("auto.cc92cb4b8980")}
                 </button>
                 <button onClick={onRelocateDownload}>
-                  更换位置并重新下载
-                </button>
-                <button onClick={onCancelDownload}>取消任务</button>
+                  {uiText("auto.16d7a29d9fbb")}</button>
+                <button onClick={onCancelDownload}>{uiText("auto.537d17f1c531")}</button>
               </div>
             </div>
           )}
@@ -4134,18 +4184,18 @@ function ProductRow({
             <div className="verificationState">
               <span>{uninstallCopy.activeTitle}</span>
               {error && <small>{error}</small>}
-              <button onClick={onRecheckDesktopUninstall}>立即检测</button>
+              <button onClick={onRecheckDesktopUninstall}>{uiText("auto.14ca09ce1fd2")}</button>
             </div>
           )}
           {stage === "detection-error" && (
             <div className="verificationState">
               <span>
                 {cliDeployable
-                  ? "暂时无法确认 CLI 安装状态"
-                  : "暂时无法确认 Windows 安装状态"}
+                  ? uiText("auto.215fc25c9b31")
+                  : uiText("auto.d1f06ca3ba4f")}
               </span>
               {error && <small>{error}</small>}
-              <button onClick={onInstallProduct}>重新检测并安装</button>
+              <button onClick={onInstallProduct}>{uiText("auto.2ee26e222f2c")}</button>
             </div>
           )}
           {stage === "error" && (
@@ -4154,20 +4204,19 @@ function ProductRow({
               <div className="missingEnvironmentActions">
                 <button onClick={onInstallProduct}>
                   {cliDeployable
-                    ? "重新安装"
+                    ? uiText("auto.453ad482ccef")
                     : downloadTask?.resumable
-                      ? "继续安装"
-                      : "重新安装"}
+                      ? uiText("auto.b80b97d6351b")
+                      : uiText("auto.453ad482ccef")}
                 </button>
                 {product.download &&
                   downloadTask &&
                   downloadTask.phase !== "completed" && (
-                  <button onClick={onCancelDownload}>取消任务</button>
+                  <button onClick={onCancelDownload}>{uiText("auto.537d17f1c531")}</button>
                 )}
                 {product.download && (
                   <button onClick={onRelocateDownload}>
-                    更换位置并重新下载
-                  </button>
+                    {uiText("auto.16d7a29d9fbb")}</button>
                 )}
               </div>
             </div>
@@ -4175,8 +4224,7 @@ function ProductRow({
           {stage === "installed" && (
             <div className="installedActions">
               <b className="successState">
-                已安装
-                {desktopStatus?.version
+                {uiText("auto.a8b6c39dcabf")}{desktopStatus?.version
                   ? ` · v${desktopStatus.version}`
                   : version
                     ? ` · v${version}`
@@ -4188,29 +4236,27 @@ function ProductRow({
                     disabled={!desktopStatus.canOpen}
                     onClick={onOpenDesktop}
                   >
-                    打开软件
-                  </button>}
+                    {uiText("auto.e3b060997e4e")}</button>}
                   {behavior.canOpenInstalled && <button
                     disabled={!desktopStatus.location}
                     onClick={onOpenDesktopLocation}
                   >
-                    打开安装位置
-                  </button>}
+                    {uiText("auto.58add6c08002")}</button>}
                   {behavior.canUninstall && desktopStatus.canUninstall && (
-                    <button onClick={onUninstallDesktop}>卸载</button>
+                    <button onClick={onUninstallDesktop}>{uiText("auto.06bc14b60f35")}</button>
                   )}
                 </>
               )}
               {behavior.canUninstall &&
                 cliDeployable &&
                 cliStatus?.canUninstall && (
-                <button onClick={onUninstallCli}>卸载</button>
+                <button onClick={onUninstallCli}>{uiText("auto.06bc14b60f35")}</button>
               )}
               {cliDeployable && cliStatus?.installed && !cliStatus.managed && (
                 <small className="installedNote">
                   {cliStatus.ownership === "mismatch"
-                    ? "版本或安装内容已变化，AI Hub 不会自动卸载"
-                    : "此安装不是由 AI Hub 部署，客户端不会接管或卸载"}
+                    ? uiText("auto.f2d8cf04d81a")
+                    : uiText("auto.f6f82f2d112e")}
                 </small>
               )}
               {error && <small className="installedError">{error}</small>}
@@ -4251,7 +4297,7 @@ function AuthModal({
     try {
       await action();
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "操作没有完成");
+      setMessage(error instanceof Error ? error.message : uiText("auto.7d6b5b294bc1"));
     } finally {
       setBusy(false);
     }
@@ -4272,14 +4318,14 @@ function AuthModal({
     run(async () => {
       if (!window.aihubPC) return;
       setChallenge(await window.aihubPC.requestRegistrationCode(email));
-      setMessage("验证码已发送，请在本地邮件箱中查看");
+      setMessage(uiText("auto.c786f87c2144"));
     });
 
   const submitRegistration = (event: FormEvent) => {
     event.preventDefault();
     void run(async () => {
       if (!window.aihubPC || !challenge) {
-        setMessage("请先获取邮箱验证码");
+        setMessage(uiText("auto.904998a72784"));
         return;
       }
       const next = await window.aihubPC.register({
@@ -4305,9 +4351,9 @@ function AuthModal({
       >
         <header>
           <div>
-            <p>AI Hub 统一账号</p>
+            <p>{uiText("auto.53ef710af69d")}</p>
             <h2>
-              {mode === "login" ? "登录" : "注册"}
+              {mode === "login" ? uiText("auto.1e2df9c3075a") : uiText("auto.c4fb62202bad")}
             </h2>
           </div>
           <button onClick={onClose}>×</button>
@@ -4316,8 +4362,7 @@ function AuthModal({
         {mode === "login" && (
           <form className="authForm" onSubmit={submitLogin}>
             <label>
-              邮箱或用户名
-              <input
+              {uiText("auto.1ef7b40a9c43")}<input
                 value={identifier}
                 onChange={(event) => setIdentifier(event.target.value)}
                 autoComplete="username"
@@ -4325,8 +4370,7 @@ function AuthModal({
               />
             </label>
             <label>
-              密码
-              <input
+              {uiText("auto.a621ab606db2")}<input
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
@@ -4335,19 +4379,17 @@ function AuthModal({
               />
             </label>
             <button className="accentButton" disabled={busy}>
-              {busy ? "登录中…" : "登录"}
+              {busy ? uiText("auto.3f06ed8f8c38") : uiText("auto.1e2df9c3075a")}
             </button>
             <button type="button" onClick={() => setMode("register")}>
-              创建新账号
-            </button>
+              {uiText("auto.4cebd79c6738")}</button>
           </form>
         )}
 
         {mode === "register" && (
           <form className="authForm" onSubmit={submitRegistration}>
             <label>
-              邮箱
-              <input
+              {uiText("auto.73075237fd0f")}<input
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
@@ -4357,8 +4399,7 @@ function AuthModal({
             </label>
             <div className="verificationRow">
               <label>
-                邮箱验证码
-                <input
+                {uiText("auto.3acdd163e67a")}<input
                   value={code}
                   onChange={(event) => setCode(event.target.value)}
                   inputMode="numeric"
@@ -4367,20 +4408,17 @@ function AuthModal({
                 />
               </label>
               <button type="button" disabled={busy} onClick={requestCode}>
-                获取验证码
-              </button>
+                {uiText("auto.3b91d186d44e")}</button>
             </div>
             {challenge?.localMailViewerUrl && (
               <button
                 type="button"
                 onClick={() => window.open(challenge.localMailViewerUrl)}
               >
-                打开本地邮件箱
-              </button>
+                {uiText("auto.6d27eba56d2c")}</button>
             )}
             <label>
-              用户名
-              <input
+              {uiText("auto.1a3f0617d6de")}<input
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
                 autoComplete="username"
@@ -4388,16 +4426,14 @@ function AuthModal({
               />
             </label>
             <label>
-              社区昵称
-              <input
+              {uiText("auto.19bf5d20cb51")}<input
                 value={nickname}
                 onChange={(event) => setNickname(event.target.value)}
-                placeholder="默认使用用户名"
+                placeholder={uiText("auto.f79fd585f90f")}
               />
             </label>
             <label>
-              密码
-              <input
+              {uiText("auto.a621ab606db2")}<input
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
@@ -4405,14 +4441,13 @@ function AuthModal({
                 minLength={10}
                 required
               />
-              <small>至少 10 位，同时包含字母和数字</small>
+              <small>{uiText("auto.8ada8911bed2")}</small>
             </label>
             <button className="accentButton" disabled={busy}>
-              {busy ? "注册中…" : "完成注册"}
+              {busy ? uiText("auto.0debc065262a") : uiText("auto.8aa3eb250835")}
             </button>
             <button type="button" onClick={() => setMode("login")}>
-              返回登录
-            </button>
+              {uiText("auto.747b0f9082e6")}</button>
           </form>
         )}
 
@@ -4452,7 +4487,7 @@ function PersonalCenterPage({
 }) {
   const [tab, setTab] = useState<PersonalCenterTab>(initialTab);
   const [nickname, setNickname] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState("");
   const [bio, setBio] = useState("");
   const [phone, setPhone] = useState("");
   const [phonePassword, setPhonePassword] = useState("");
@@ -4465,6 +4500,10 @@ function PersonalCenterPage({
   const [newPassword, setNewPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
+  const [editingContact, setEditingContact] = useState<
+    "phone" | "email" | null
+  >(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   const authenticated =
     identity.status === "authenticated" ? identity : null;
@@ -4479,10 +4518,10 @@ function PersonalCenterPage({
   useEffect(() => {
     if (!authenticated) return;
     setNickname(authenticated.user.profile.nickname);
-    setAvatarUrl(authenticated.user.profile.avatarUrl);
+    setAvatarPreview(authenticated.user.profile.avatarUrl);
     setBio(authenticated.user.profile.bio);
-    setPhone(authenticated.user.phone || "");
-    setEmail(authenticated.user.email);
+    setPhone("");
+    setEmail("");
   }, [authenticated?.user]);
 
   const refreshPrivateData = async () => {
@@ -4493,7 +4532,7 @@ function PersonalCenterPage({
   useEffect(() => {
     if (!authenticated) return;
     void refreshPrivateData().catch((error) =>
-      setNotice(error instanceof Error ? error.message : "个人中心加载失败")
+      setNotice(error instanceof Error ? error.message : uiText("auto.cb4d3f8e48c9"))
     );
   }, [authenticated?.user.id]);
 
@@ -4504,7 +4543,7 @@ function PersonalCenterPage({
       await action();
       if (success) setNotice(success);
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "操作没有完成");
+      setNotice(error instanceof Error ? error.message : uiText("auto.7d6b5b294bc1"));
     } finally {
       setBusy(false);
     }
@@ -4514,11 +4553,10 @@ function PersonalCenterPage({
     return (
       <section className="emptyPanel accountEmpty">
         <span>◎</span>
-        <h1>个人中心</h1>
-        <small>登录后统一管理资料、安全、提醒、收藏和喜欢。</small>
+        <h1>{uiText("auto.5a2cac68fd2d")}</h1>
+        <small>{uiText("auto.a83ac4ce12c4")}</small>
         <button className="accentButton" onClick={onLogin}>
-          登录
-        </button>
+          {uiText("auto.1e2df9c3075a")}</button>
       </section>
     );
   }
@@ -4528,12 +4566,11 @@ function PersonalCenterPage({
     void run(async () => {
       const next = await window.aihubPC!.updateIdentityProfile({
         nickname,
-        avatarUrl,
         bio
       });
       onIdentity(next);
       await refreshPrivateData();
-    }, "资料已保存");
+    }, uiText("auto.a5bb8284ea69"));
   };
 
   const submitPhone = (event: FormEvent) => {
@@ -4545,8 +4582,10 @@ function PersonalCenterPage({
       });
       onIdentity(next);
       setPhonePassword("");
+      setPhone("");
+      setEditingContact(null);
       await refreshPrivateData();
-    }, phone ? "手机号已更新" : "手机号已移除");
+    }, phone ? uiText("auto.01cf08b12940") : uiText("auto.ef1669f6b1ce"));
   };
 
   const requestEmailCode = () =>
@@ -4556,14 +4595,14 @@ function PersonalCenterPage({
         currentPassword: emailPassword
       });
       setEmailChallenge(challenge);
-      setNotice("验证码已发送到新邮箱");
+      setNotice(uiText("auto.49952a32db6c"));
     });
 
   const submitEmail = (event: FormEvent) => {
     event.preventDefault();
     void run(async () => {
       if (!emailChallenge) {
-        throw new Error("请先获取新邮箱验证码");
+        throw new Error(uiText("auto.e1dac1d3e5d2"));
       }
       const next = await window.aihubPC!.completeIdentityEmailChange({
         challengeId: emailChallenge.challengeId,
@@ -4573,8 +4612,46 @@ function PersonalCenterPage({
       setEmailPassword("");
       setEmailCode("");
       setEmailChallenge(null);
+      setEmail("");
+      setEditingContact(null);
       await refreshPrivateData();
-    }, "邮箱已更新");
+    }, uiText("auto.0870a627daa8"));
+  };
+
+  const chooseAvatar = (file: File | undefined) => {
+    if (!file) return;
+    void run(async () => {
+      const dataUrl = await prepareAvatarImage(file);
+      setAvatarPreview(dataUrl);
+      const next = await window.aihubPC!.updateIdentityAvatar({ dataUrl });
+      onIdentity(next);
+      setAvatarPreview(
+        next.status === "authenticated"
+          ? next.user.profile.avatarUrl
+          : dataUrl
+      );
+      await refreshPrivateData();
+      if (avatarInputRef.current) avatarInputRef.current.value = "";
+    }, uiText("auto.a938ed15b3e5"));
+  };
+
+  const removeAvatar = () =>
+    run(async () => {
+      const next = await window.aihubPC!.updateIdentityAvatar({ dataUrl: "" });
+      onIdentity(next);
+      setAvatarPreview("");
+      await refreshPrivateData();
+    }, uiText("auto.eca726423f04"));
+
+  const beginContactEdit = (kind: "phone" | "email") => {
+    setEditingContact(kind);
+    setNotice("");
+    setPhone("");
+    setPhonePassword("");
+    setEmail("");
+    setEmailPassword("");
+    setEmailCode("");
+    setEmailChallenge(null);
   };
 
   const submitPassword = (event: FormEvent) => {
@@ -4587,7 +4664,7 @@ function PersonalCenterPage({
       setCurrentPassword("");
       setNewPassword("");
       await refreshPrivateData();
-    }, "密码已更新，其他设备已退出");
+    }, uiText("auto.caf0f408936f"));
   };
 
   const interactionList =
@@ -4607,7 +4684,7 @@ function PersonalCenterPage({
             )}
           </span>
           <div>
-            <p>个人中心</p>
+            <p>{uiText("auto.5a2cac68fd2d")}</p>
             <h1>{authenticated.user.profile.nickname}</h1>
             <small>@{authenticated.user.username}</small>
           </div>
@@ -4620,21 +4697,20 @@ function PersonalCenterPage({
             })
           }
         >
-          退出登录
-        </button>
+          {uiText("auto.3ab8cc15939f")}</button>
       </header>
 
       <nav className="personalTabs">
         {(
           [
-            ["profile", "资料"],
-            ["security", "账号安全"],
+            ["profile", uiText("auto.cba1ec75f4ca")],
+            ["security", uiText("auto.2079bd640fc8")],
             [
               "notifications",
-              `提醒${notifications.some((item) => !item.read) ? ` · ${notifications.filter((item) => !item.read).length}` : ""}`
+              uiText("auto.59e06dbae891", { value1: notifications.some((item) => !item.read) ? ` · ${notifications.filter((item) => !item.read).length}` : "" })
             ],
-            ["favorites", `收藏${center?.summary.favorites ? ` · ${center.summary.favorites}` : ""}`],
-            ["likes", `喜欢${center?.summary.likes ? ` · ${center.summary.likes}` : ""}`]
+            ["favorites", uiText("auto.ab01d900fe35", { value1: center?.summary.favorites ? ` · ${center.summary.favorites}` : "" })],
+            ["likes", uiText("auto.8917aeccc621", { value1: center?.summary.likes ? ` · ${center.summary.likes}` : "" })]
           ] as Array<[PersonalCenterTab, string]>
         ).map(([id, label]) => (
           <button
@@ -4649,11 +4725,58 @@ function PersonalCenterPage({
 
       {tab === "profile" && (
         <div className="personalGrid">
-          <form className="personalCard" onSubmit={submitProfile}>
-            <h2>公开资料</h2>
-            <label>
-              昵称
+          <form className="personalCard profileCard" onSubmit={submitProfile}>
+            <h2>{uiText("auto.3026d618c5a7")}</h2>
+            <div className="avatarEditor">
+              <button
+                type="button"
+                className="avatarPreviewButton"
+                aria-label={uiText("auto.42ece898483f")}
+                disabled={busy}
+                onClick={() => avatarInputRef.current?.click()}
+              >
+                {avatarPreview ? (
+                  <img src={avatarPreview} alt={uiText("auto.fb06241b7258")} />
+                ) : (
+                  <span>
+                    {authenticated.user.profile.nickname
+                      .slice(0, 1)
+                      .toUpperCase()}
+                  </span>
+                )}
+                <b>{uiText("auto.916afcd85322")}</b>
+              </button>
+              <div>
+                <strong>{uiText("auto.3ea2d23c902c")}</strong>
+                <small>{uiText("auto.52945905245f")}</small>
+                <div className="compactActions">
+                  <button
+                    type="button"
+                    disabled={busy}
+                    onClick={() => avatarInputRef.current?.click()}
+                  >
+                    {uiText("auto.9ad12a1ab4f6")}</button>
+                  {authenticated.user.profile.avatarUrl && (
+                    <button
+                      type="button"
+                      className="dangerButton"
+                      disabled={busy}
+                      onClick={() => void removeAvatar()}
+                    >
+                      {uiText("auto.6135d4159e89")}</button>
+                  )}
+                </div>
+              </div>
               <input
+                ref={avatarInputRef}
+                className="visuallyHidden"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={(event) => chooseAvatar(event.target.files?.[0])}
+              />
+            </div>
+            <label>
+              {uiText("auto.7a1e2b964b67")}<input
                 value={nickname}
                 onChange={(event) => setNickname(event.target.value)}
                 minLength={2}
@@ -4662,111 +4785,156 @@ function PersonalCenterPage({
               />
             </label>
             <label>
-              个签
-              <textarea
+              {uiText("auto.dd15354365c7")}<textarea
                 value={bio}
                 onChange={(event) => setBio(event.target.value)}
                 maxLength={200}
-                placeholder="介绍一下你自己"
-              />
-            </label>
-            <label>
-              头像地址
-              <input
-                type="url"
-                value={avatarUrl}
-                onChange={(event) => setAvatarUrl(event.target.value)}
-                placeholder="https://"
+                placeholder={uiText("auto.7e7d393dd1a0")}
               />
             </label>
             <button className="accentButton" disabled={busy}>
-              保存资料
-            </button>
+              {uiText("auto.c0a70fcb56f0")}</button>
           </form>
 
-          <form className="personalCard" onSubmit={submitPhone}>
-            <h2>手机号</h2>
-            <label>
-              手机号
-              <input
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                autoComplete="tel"
-                placeholder="+86 13800000000"
-              />
-            </label>
-            <label>
-              当前密码
-              <input
-                type="password"
-                value={phonePassword}
-                onChange={(event) => setPhonePassword(event.target.value)}
-                autoComplete="current-password"
-                required
-              />
-            </label>
-            <button disabled={busy}>{phone ? "更新手机号" : "移除手机号"}</button>
-          </form>
-
-          <form className="personalCard" onSubmit={submitEmail}>
-            <h2>登录邮箱</h2>
-            <label>
-              新邮箱
-              <input
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                autoComplete="email"
-                required
-              />
-            </label>
-            <label>
-              当前密码
-              <input
-                type="password"
-                value={emailPassword}
-                onChange={(event) => setEmailPassword(event.target.value)}
-                autoComplete="current-password"
-                required
-              />
-            </label>
-            <div className="verificationRow">
-              <label>
-                验证码
-                <input
-                  value={emailCode}
-                  onChange={(event) => setEmailCode(event.target.value)}
-                  inputMode="numeric"
-                  maxLength={6}
-                  required
-                />
-              </label>
-              <button type="button" disabled={busy} onClick={requestEmailCode}>
-                获取验证码
-              </button>
+          <section className="personalCard contactCard">
+            <div>
+              <h2>{uiText("auto.323a881ebd47")}</h2>
+              <small>{uiText("auto.f80221147dad")}</small>
             </div>
-            {emailChallenge?.localMailViewerUrl && (
+
+            <div className="contactSetting">
+              <div>
+                <span>{uiText("auto.6f52cc94db65")}</span>
+                <b>{authenticated.user.phone || uiText("auto.e026c6693dc5")}</b>
+              </div>
               <button
                 type="button"
-                onClick={() => window.open(emailChallenge.localMailViewerUrl)}
+                onClick={() => beginContactEdit("phone")}
               >
-                打开本地邮件箱
+                {authenticated.user.phone ? uiText("auto.916afcd85322") : uiText("auto.7a8a11ead507")}
               </button>
+            </div>
+            {editingContact === "phone" && (
+              <form className="contactEditor" onSubmit={submitPhone}>
+                <label>
+                  {uiText("auto.28a4a891a117")}<input
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                    autoComplete="tel"
+                    placeholder="+86 13800000000"
+                    required
+                  />
+                </label>
+                <label>
+                  {uiText("auto.a114cfb687e6")}<input
+                    type="password"
+                    value={phonePassword}
+                    onChange={(event) => setPhonePassword(event.target.value)}
+                    autoComplete="current-password"
+                    required
+                  />
+                </label>
+                <div className="contactEditorActions">
+                  <button
+                    type="button"
+                    onClick={() => setEditingContact(null)}
+                  >
+                    {uiText("auto.2cd0f3be8738")}</button>
+                  <button className="accentButton" disabled={busy}>
+                    {uiText("auto.8d5675026228")}</button>
+                </div>
+              </form>
             )}
-            <button className="accentButton" disabled={busy}>
-              更换邮箱
-            </button>
-          </form>
+
+            <div className="contactSetting">
+              <div>
+                <span>{uiText("auto.a9eaab0fd837")}</span>
+                <b>{authenticated.user.email}</b>
+              </div>
+              <button type="button" onClick={() => beginContactEdit("email")}>
+                {uiText("auto.916afcd85322")}</button>
+            </div>
+            {editingContact === "email" && (
+              <form className="contactEditor" onSubmit={submitEmail}>
+                <label>
+                  {uiText("auto.3067c39fa4b2")}<input
+                    type="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    autoComplete="email"
+                    required
+                    disabled={Boolean(emailChallenge)}
+                  />
+                </label>
+                <label>
+                  {uiText("auto.a114cfb687e6")}<input
+                    type="password"
+                    value={emailPassword}
+                    onChange={(event) => setEmailPassword(event.target.value)}
+                    autoComplete="current-password"
+                    required
+                    disabled={Boolean(emailChallenge)}
+                  />
+                </label>
+                {!emailChallenge ? (
+                  <div className="contactEditorActions">
+                    <button
+                      type="button"
+                      onClick={() => setEditingContact(null)}
+                    >
+                      {uiText("auto.2cd0f3be8738")}</button>
+                    <button
+                      type="button"
+                      className="accentButton"
+                      disabled={busy || !email || !emailPassword}
+                      onClick={requestEmailCode}
+                    >
+                      {uiText("auto.ef9dc55cd6be")}</button>
+                  </div>
+                ) : (
+                  <>
+                    <label>
+                      {uiText("auto.3acdd163e67a")}<input
+                        value={emailCode}
+                        onChange={(event) => setEmailCode(event.target.value)}
+                        inputMode="numeric"
+                        maxLength={6}
+                        autoFocus
+                        required
+                      />
+                    </label>
+                    {emailChallenge.localMailViewerUrl && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          window.open(emailChallenge.localMailViewerUrl)
+                        }
+                      >
+                        {uiText("auto.6d27eba56d2c")}</button>
+                    )}
+                    <div className="contactEditorActions">
+                      <button
+                        type="button"
+                        onClick={() => beginContactEdit("email")}
+                      >
+                        {uiText("auto.3160fc9159f0")}</button>
+                      <button className="accentButton" disabled={busy}>
+                        {uiText("auto.8d5675026228")}</button>
+                    </div>
+                  </>
+                )}
+              </form>
+            )}
+          </section>
         </div>
       )}
 
       {tab === "security" && (
         <div className="personalGrid">
           <form className="personalCard" onSubmit={submitPassword}>
-            <h2>修改密码</h2>
+            <h2>{uiText("auto.08d008062411")}</h2>
             <label>
-              当前密码
-              <input
+              {uiText("auto.a114cfb687e6")}<input
                 type="password"
                 value={currentPassword}
                 onChange={(event) => setCurrentPassword(event.target.value)}
@@ -4775,8 +4943,7 @@ function PersonalCenterPage({
               />
             </label>
             <label>
-              新密码
-              <input
+              {uiText("auto.515e9c7cf7b2")}<input
                 type="password"
                 value={newPassword}
                 onChange={(event) => setNewPassword(event.target.value)}
@@ -4784,22 +4951,21 @@ function PersonalCenterPage({
                 minLength={10}
                 required
               />
-              <small>至少 10 位，同时包含字母和数字</small>
+              <small>{uiText("auto.8ada8911bed2")}</small>
             </label>
             <button className="accentButton" disabled={busy}>
-              修改密码
-            </button>
+              {uiText("auto.08d008062411")}</button>
           </form>
 
           <section className="personalCard sessionCard">
-            <h2>登录设备</h2>
+            <h2>{uiText("auto.cd438f5d0cca")}</h2>
             <div className="sessionList">
               {sessions.map((session) => (
                 <article key={session.id}>
                   <div>
                     <b>{session.deviceName}</b>
                     <small>
-                      {session.current ? "当前设备" : "其他设备"} ·{" "}
+                      {session.current ? uiText("auto.c68978537cf3") : uiText("auto.829738648ba0")} ·{" "}
                       {new Date(session.lastSeenAt).toLocaleString()}
                     </small>
                   </div>
@@ -4810,11 +4976,10 @@ function PersonalCenterPage({
                         void run(async () => {
                           await window.aihubPC!.revokeIdentitySession(session.id);
                           await refreshPrivateData();
-                        }, "设备已退出")
+                        }, uiText("auto.e0e8a0631e50"))
                       }
                     >
-                      退出此设备
-                    </button>
+                      {uiText("auto.f820413fa2db")}</button>
                   )}
                 </article>
               ))}
@@ -4834,15 +4999,14 @@ function PersonalCenterPage({
                 <b>{item.title}</b>
                 <p>{item.body}</p>
                 <small>
-                  {item.source === "community" ? "社区" : "账号"} ·{" "}
+                  {item.source === "community" ? uiText("auto.5bcd0ddcdd69") : uiText("auto.311bb313fdec")} ·{" "}
                   {new Date(item.createdAt).toLocaleString()}
                 </small>
               </div>
               <div className="rowActions">
                 {item.actionPath.startsWith("/d/") && (
                   <button onClick={() => onOpenCommunity(item.actionPath)}>
-                    查看
-                  </button>
+                    {uiText("auto.db8db0530432")}</button>
                 )}
                 {!item.read && (
                   <button
@@ -4878,15 +5042,14 @@ function PersonalCenterPage({
                       })
                     }
                   >
-                    标为已读
-                  </button>
+                    {uiText("auto.82f35d89b827")}</button>
                 )}
               </div>
             </article>
           ))}
-          {!notifications.length && <div className="emptyPanel">暂无提醒</div>}
+          {!notifications.length && <div className="emptyPanel">{uiText("auto.0f0d8276fbee")}</div>}
           {center?.sources.community === "unavailable" && (
-            <div className="emptyPanel">社区提醒暂时无法同步，账号提醒仍可使用</div>
+            <div className="emptyPanel">{uiText("auto.33c6d4e50a98")}</div>
           )}
         </div>
       )}
@@ -4898,18 +5061,17 @@ function PersonalCenterPage({
               <div>
                 <b>{item.title}</b>
                 <small>
-                  {tab === "favorites" ? "已收藏" : "已喜欢"} ·{" "}
+                  {tab === "favorites" ? uiText("auto.471dd4d7f869") : uiText("auto.6bb2bc5ecde8")} ·{" "}
                   {new Date(item.updatedAt).toLocaleString()}
                 </small>
               </div>
               <button onClick={() => onOpenCommunity(item.path)}>
-                在社区中查看
-              </button>
+                {uiText("auto.62d212529605")}</button>
             </article>
           ))}
           {!interactionList.length && (
             <div className="emptyPanel">
-              {tab === "favorites" ? "还没有收藏讨论" : "还没有喜欢的讨论"}
+              {tab === "favorites" ? uiText("auto.8cd0fd647ba7") : uiText("auto.4a4e373f27a5")}
             </div>
           )}
         </div>
@@ -5035,7 +5197,40 @@ function buildCommunityThemeScript(theme: "light" | "dark") {
   `;
 }
 
-const COMMUNITY_REFRESH_CONTROL_SCRIPT = String.raw`
+function buildCommunityLanguageScript(language: Language) {
+  const module = createLanguage(language);
+  return `
+    (() => {
+      const targetLocale = ${JSON.stringify(module.communityLocale)};
+      document.documentElement.lang = ${JSON.stringify(module.documentLocale)};
+      try {
+        const flarumApp = typeof app !== "undefined" ? app : globalThis.app;
+        const user = flarumApp?.session?.user;
+        const preferences = user?.preferences?.() || {};
+        const syncKey = "aihub-community-locale-sync";
+        if (
+          user?.savePreferences &&
+          preferences.locale !== targetLocale &&
+          sessionStorage.getItem(syncKey) !== targetLocale
+        ) {
+          sessionStorage.setItem(syncKey, targetLocale);
+          void user.savePreferences({ locale: targetLocale }).then(() => {
+            window.location.reload();
+          }).catch(() => sessionStorage.removeItem(syncKey));
+        } else if (preferences.locale === targetLocale) {
+          sessionStorage.removeItem(syncKey);
+        }
+      } catch {
+        // Flarum may still be booting. A later lifecycle event retries sync.
+      }
+      return targetLocale;
+    })()
+  `;
+}
+
+function buildCommunityRefreshControlScript(language: Language) {
+  const refreshLabel = createLanguage(language).text("community.refresh");
+  return String.raw`
 (() => {
   const itemId = "aihub-community-refresh-item";
   const buttonId = "aihub-community-refresh";
@@ -5060,6 +5255,7 @@ const COMMUNITY_REFRESH_CONTROL_SCRIPT = String.raw`
         "#" + itemId + "{display:flex;align-items:center;margin-left:6px}",
         "#" + buttonId + "{display:grid;place-items:center;width:36px;min-width:36px;height:36px;padding:0;border:0;border-radius:8px;color:var(--header-control-color);background:var(--header-control-bg);cursor:pointer}",
         "#" + buttonId + ":hover{color:var(--header-color);background:var(--control-bg-shaded)}",
+        "#" + buttonId + ":active{transform:translateY(2px) scale(.96);filter:brightness(.92)}",
         "#" + buttonId + ":focus-visible{outline:2px solid var(--primary-color);outline-offset:2px}",
         "#" + buttonId + " .aihub-refresh-glyph{font-size:20px;line-height:1;transform:translateY(-1px)}"
       ].join("");
@@ -5077,8 +5273,8 @@ const COMMUNITY_REFRESH_CONTROL_SCRIPT = String.raw`
     button.id = buttonId;
     button.className = "Button Button--icon Button--flat";
     button.type = "button";
-    button.title = "刷新";
-    button.setAttribute("aria-label", "刷新");
+    button.title = ${JSON.stringify(refreshLabel)};
+    button.setAttribute("aria-label", ${JSON.stringify(refreshLabel)});
     button.innerHTML =
       '<span class="aihub-refresh-glyph" aria-hidden="true">&#8635;</span>';
     button.addEventListener("click", () => window.location.reload());
@@ -5097,16 +5293,19 @@ const COMMUNITY_REFRESH_CONTROL_SCRIPT = String.raw`
   return install();
 })()
 `;
+}
 
 function FlarumCommunityPage({
   identity,
   theme,
+  language,
   onLogin,
   targetPath,
   onTargetConsumed
 }: {
   identity: IdentitySnapshot;
   theme: "light" | "dark";
+  language: Language;
   onLogin: () => void;
   targetPath: string;
   onTargetConsumed: () => void;
@@ -5116,6 +5315,7 @@ function FlarumCommunityPage({
   const [embed, setEmbed] = useState<CommunityEmbedSession | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const communityText = createLanguage(language);
 
   useEffect(() => {
     pendingTarget.current = targetPath;
@@ -5136,7 +5336,11 @@ function FlarumCommunityPage({
       })
       .catch((cause) => {
         if (!canceled) {
-          setError(cause instanceof Error ? cause.message : "社区加载失败");
+          setError(
+            cause instanceof Error
+              ? cause.message
+              : communityText.text("community.loadFailed")
+          );
         }
       })
       .finally(() => {
@@ -5174,7 +5378,8 @@ function FlarumCommunityPage({
         }
       };
       runScript(buildCommunityThemeScript(theme));
-      runScript(COMMUNITY_REFRESH_CONTROL_SCRIPT);
+      runScript(buildCommunityLanguageScript(language));
+      runScript(buildCommunityRefreshControlScript(language));
     };
     const failed = (event: Event) => {
       const detail = event as Event & {
@@ -5182,7 +5387,9 @@ function FlarumCommunityPage({
         errorDescription?: string;
       };
       if (detail.errorCode === -3) return;
-      setError(detail.errorDescription || "社区页面加载失败");
+      setError(
+        detail.errorDescription || communityText.text("community.pageFailed")
+      );
     };
     webview.addEventListener("did-navigate", updateLocation);
     webview.addEventListener("did-navigate-in-page", updateLocation);
@@ -5197,17 +5404,17 @@ function FlarumCommunityPage({
       webview.removeEventListener("did-stop-loading", installCommunityChrome);
       webview.removeEventListener("did-fail-load", failed);
     };
-  }, [embed, onTargetConsumed, theme]);
+  }, [embed, language, onTargetConsumed, theme]);
 
   if (identity.status !== "authenticated") {
     return (
       <section className="emptyPanel communityLoginRequired">
         <span>◎</span>
-        <p>FLARUM · OPEN SOURCE</p>
-        <h1>AI Hub 社区</h1>
-        <small>使用 PC 端用户登录后，社区会直接显示在这里。</small>
+        <p>{communityText.text("community.provider")}</p>
+        <h1>{communityText.text("community.title")}</h1>
+        <small>{communityText.text("community.loginHint")}</small>
         <button className="accentButton" onClick={onLogin}>
-          登录后进入社区
+          {communityText.text("community.loginAction")}
         </button>
       </section>
     );
@@ -5218,7 +5425,9 @@ function FlarumCommunityPage({
       <div className="communityViewport">
         {!embed ? (
           <div className="communityLoading">
-            {loading ? "正在进入社区…" : error || "社区暂时不可用"}
+            {loading
+              ? communityText.text("community.loading")
+              : error || communityText.text("community.unavailable")}
           </div>
         ) : (
           createElement("webview", {
@@ -5284,7 +5493,7 @@ function CommunityWorkspace({
         setComposerOpen(false);
       })
       .catch((error) =>
-        setActionError(error instanceof Error ? error.message : "发布失败")
+        setActionError(error instanceof Error ? error.message : uiText("auto.c8bceff124ed"))
       )
       .finally(() => setBusy(false));
   };
@@ -5297,7 +5506,7 @@ function CommunityWorkspace({
     void onReply(selected.id, reply)
       .then(() => setReply(""))
       .catch((error) =>
-        setActionError(error instanceof Error ? error.message : "回复失败")
+        setActionError(error instanceof Error ? error.message : uiText("auto.3acd6932b6ef"))
       )
       .finally(() => setBusy(false));
   };
@@ -5305,7 +5514,7 @@ function CommunityWorkspace({
   if (selected) {
     return (
       <section className="communityPage">
-        <button onClick={onBack}>← 返回社区</button>
+        <button onClick={onBack}>{uiText("auto.a8a335061044")}</button>
         <article className="discussionDetail">
           <small>{selected.author.nickname}</small>
           <h1>{selected.title}</h1>
@@ -5325,17 +5534,15 @@ function CommunityWorkspace({
             <textarea
               value={reply}
               onChange={(event) => setReply(event.target.value)}
-              placeholder="写下你的回复"
+              placeholder={uiText("auto.32a8e18e1f84")}
               required
             />
             <button className="accentButton" disabled={busy}>
-              发布回复
-            </button>
+              {uiText("auto.83f08c796de7")}</button>
           </form>
         ) : (
           <button className="accentButton" onClick={onLogin}>
-            登录后回复
-          </button>
+            {uiText("auto.7dac936fe9f0")}</button>
         )}
         {actionError && <em>{actionError}</em>}
       </section>
@@ -5346,12 +5553,12 @@ function CommunityWorkspace({
     <section className="communityPage">
       <header className="communityHeader">
         <div>
-          <p>AI HUB COMMUNITY</p>
-          <h1>社区</h1>
-          <span>分享 AI 工具的安装经验、使用方法和工作流。</span>
+          <p>{uiText("community.legacyTitle")}</p>
+          <h1>{uiText("auto.5bcd0ddcdd69")}</h1>
+          <span>{uiText("auto.c60f6496d06c")}</span>
         </div>
         <div className="rowActions">
-          <button onClick={() => void onRefresh()}>刷新</button>
+          <button onClick={() => void onRefresh()}>{uiText("auto.aee887434131")}</button>
           <button
             className="accentButton"
             onClick={
@@ -5360,7 +5567,7 @@ function CommunityWorkspace({
                 : onLogin
             }
           >
-            {identity.status === "authenticated" ? "发起讨论" : "登录后发帖"}
+            {identity.status === "authenticated" ? uiText("auto.9cf5f152776d") : uiText("auto.033e8dd2f134")}
           </button>
         </div>
       </header>
@@ -5369,24 +5576,22 @@ function CommunityWorkspace({
           <input
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            placeholder="讨论标题"
+            placeholder={uiText("auto.fc4e7c9b6375")}
             minLength={3}
             required
           />
           <textarea
             value={body}
             onChange={(event) => setBody(event.target.value)}
-            placeholder="描述你的问题、经验或工作流"
+            placeholder={uiText("auto.45c33a66c5e7")}
             minLength={3}
             required
           />
           <div className="rowActions">
             <button type="button" onClick={() => setComposerOpen(false)}>
-              取消
-            </button>
+              {uiText("auto.2cd0f3be8738")}</button>
             <button className="accentButton" disabled={busy}>
-              发布
-            </button>
+              {uiText("auto.b61f333b91b2")}</button>
           </div>
         </form>
       )}
@@ -5401,13 +5606,13 @@ function CommunityWorkspace({
               <h3>{discussion.title}</h3>
               <p>{discussion.body}</p>
             </div>
-            <span>{discussion.replyCount} 条回复</span>
+            <span>{discussion.replyCount} {uiText("auto.cd5bc7df2e31")}</span>
           </button>
         ))}
         {!discussions.length && !error && (
           <div className="emptyPanel">
-            <b>还没有讨论</b>
-            <small>登录后发布第一条社区内容。</small>
+            <b>{uiText("auto.1e23ee458041")}</b>
+            <small>{uiText("auto.87ca2b6e304e")}</small>
           </div>
         )}
       </div>
@@ -5428,10 +5633,9 @@ function CommunityPage({ community }: { community: CatalogCommunity }) {
           className="accentButton"
           onClick={() => window.open(community.url)}
         >
-          进入社区 ↗
-        </button>
+          {uiText("auto.cc43dbc3e4fb")}</button>
       ) : (
-        <b>预发布环境尚未对外开放</b>
+        <b>{uiText("auto.10b42e126120")}</b>
       )}
     </section>
   );
@@ -5506,12 +5710,12 @@ function InstalledProductsPage({
     <section className="installedManagementPage">
       <header className="pageHeader managementHeader">
         <div>
-          <span>本机管理</span>
-          <h2>已安装的产品</h2>
-          <p>打开、关闭、管理文件和卸载本机产品。</p>
+          <span>{uiText("auto.f242c2020794")}</span>
+          <h2>{uiText("auto.6b8e74aca534")}</h2>
+          <p>{uiText("auto.c23f887504cb")}</p>
         </div>
         <button disabled={scanning} onClick={() => void onRefresh()}>
-          {scanning ? "正在刷新…" : "刷新状态"}
+          {scanning ? uiText("auto.71659de804df") : uiText("auto.802a407c7743")}
         </button>
       </header>
 
@@ -5525,52 +5729,50 @@ function InstalledProductsPage({
                   {entry.type === "cli"
                     ? "CLI"
                     : entry.type === "environment"
-                      ? "运行环境"
-                      : "桌面端"}
+                      ? uiText("auto.423f51a28678")
+                      : uiText("auto.a3dc386f84de")}
                 </span>
                 <h3>{entry.name}</h3>
                 <p>
-                  {entry.version ? `v${entry.version}` : "已安装"}
+                  {entry.version ? `v${entry.version}` : uiText("auto.a8b6c39dcabf")}
                   {entry.location ? ` · ${entry.location}` : ""}
                 </p>
                 {messages[entry.id] && <small>{messages[entry.id]}</small>}
               </div>
               <div className="managementActions">
                 {entry.canOpen && (
-                  <button onClick={() => void onOpen(entry)}>打开</button>
+                  <button onClick={() => void onOpen(entry)}>{uiText("auto.c771248e511f")}</button>
                 )}
                 {entry.canClose && (
-                  <button onClick={() => void onClose(entry)}>关闭</button>
+                  <button onClick={() => void onClose(entry)}>{uiText("auto.3fd47edce45b")}</button>
                 )}
                 {entry.canManageFiles && (
                   <button onClick={() => void onOpenFiles(entry)}>
-                    文件管理
-                  </button>
+                    {uiText("auto.b3bd5ac7cc4d")}</button>
                 )}
                 {entry.canReinstall && (
-                  <button onClick={() => onReinstall(entry)}>重新安装</button>
+                  <button onClick={() => onReinstall(entry)}>{uiText("auto.453ad482ccef")}</button>
                 )}
                 {entry.canUninstall && (
                   <button
                     className="dangerButton"
                     onClick={() => void onUninstall(entry)}
                   >
-                    卸载
-                  </button>
+                    {uiText("auto.06bc14b60f35")}</button>
                 )}
               </div>
             </article>
           ))
         ) : (
-          <div className="emptyManagement">暂未检测到已安装产品。</div>
+          <div className="emptyManagement">{uiText("auto.cbdc685957fb")}</div>
         )}
       </div>
 
       {management.reinstallableEnvironments.length > 0 && (
         <section className="packageManagement">
           <div className="sectionHeading">
-            <span>运行环境</span>
-            <h2>可重新安装</h2>
+            <span>{uiText("auto.423f51a28678")}</span>
+            <h2>{uiText("auto.8179fb170486")}</h2>
           </div>
           <div className="managementList">
             {management.reinstallableEnvironments.map((entry) => (
@@ -5578,7 +5780,7 @@ function InstalledProductsPage({
                 <div className="managementInfo">
                   <span>{entry.vendorName}</span>
                   <h3>{entry.name}</h3>
-                  <p>当前未安装</p>
+                  <p>{uiText("auto.eb02bb5f25fd")}</p>
                   {messages[entry.id] && <small>{messages[entry.id]}</small>}
                 </div>
                 <div className="managementActions">
@@ -5586,7 +5788,7 @@ function InstalledProductsPage({
                     className="accentButton"
                     onClick={() => onReinstallEnvironment(entry)}
                   >
-                    {entry.packageReady ? "打开安装程序" : "重新安装"}
+                    {entry.packageReady ? uiText("auto.a6ad67f21008") : uiText("auto.453ad482ccef")}
                   </button>
                 </div>
               </article>
@@ -5597,8 +5799,8 @@ function InstalledProductsPage({
 
       <section className="packageManagement">
         <div className="sectionHeading">
-          <span>本地文件</span>
-          <h2>安装包管理</h2>
+          <span>{uiText("auto.57e88a43ef2b")}</span>
+          <h2>{uiText("auto.f9300f5383cb")}</h2>
         </div>
         {management.packages.length ? (
           <div className="managementList">
@@ -5617,24 +5819,21 @@ function InstalledProductsPage({
                       className="accentButton"
                       onClick={() => onInstallPackage(entry)}
                     >
-                      立即安装
-                    </button>
+                      {uiText("auto.88eab834cb5f")}</button>
                   )}
                   <button onClick={() => onShowPackage(entry)}>
-                    打开文件夹
-                  </button>
+                    {uiText("auto.fcf8b4bff0df")}</button>
                   <button
                     className="dangerButton"
                     onClick={() => onDeletePackage(entry)}
                   >
-                    删除安装包
-                  </button>
+                    {uiText("auto.200615f03adf")}</button>
                 </div>
               </article>
             ))}
           </div>
         ) : (
-          <div className="emptyManagement">暂无已下载的安装包。</div>
+          <div className="emptyManagement">{uiText("auto.7f0386e672ea")}</div>
         )}
       </section>
     </section>
@@ -5847,51 +6046,51 @@ function SettingsPanel({
       <aside className="settingsPanel" onMouseDown={(event) => event.stopPropagation()}>
         <header>
           <div>
-            <p>设置</p>
-            <h2>PC 客户端设置</h2>
+            <p>{uiText("auto.df3d58c7d84b")}</p>
+            <h2>{uiText("auto.1c39e6a19bda")}</h2>
           </div>
           <button onClick={onClose}>×</button>
         </header>
 
-        <SettingBlock title="主题颜色">
+        <SettingBlock title={uiText("auto.7d5ce714f1d6")}>
           <div className="segmented">
-            <button className={theme === "light" ? "active" : ""} onClick={() => onTheme("light")}>白色</button>
-            <button className={theme === "dark" ? "active" : ""} onClick={() => onTheme("dark")}>黑色</button>
+            <button className={theme === "light" ? "active" : ""} onClick={() => onTheme("light")}>{uiText("auto.f56e7eff58bf")}</button>
+            <button className={theme === "dark" ? "active" : ""} onClick={() => onTheme("dark")}>{uiText("auto.ed7d2c54184b")}</button>
           </div>
         </SettingBlock>
 
-        <SettingBlock title="安装包下载位置（PC 端）">
-          <p className="pathValue">{downloadDirectory || "未设置，将在下载页面选择"}</p>
+        <SettingBlock title={uiText("auto.81e37eb6d0c7")}>
+          <p className="pathValue">{downloadDirectory || uiText("auto.c8feeb4f19fc")}</p>
           <div className="rowActions">
-            <button onClick={onChooseDirectory}>选择位置</button>
-            <button disabled={!downloadDirectory} onClick={onOpenDirectory}>打开文件夹</button>
-            <button disabled={!downloadDirectory} onClick={onClearDirectory}>删除</button>
+            <button onClick={onChooseDirectory}>{uiText("auto.38418cc70d55")}</button>
+            <button disabled={!downloadDirectory} onClick={onOpenDirectory}>{uiText("auto.fcf8b4bff0df")}</button>
+            <button disabled={!downloadDirectory} onClick={onClearDirectory}>{uiText("auto.2f9daa828907")}</button>
           </div>
         </SettingBlock>
 
-        <SettingBlock title="任务中心">
+        <SettingBlock title={uiText("auto.00b514c36a6c")}>
           <div className="taskCenterToolbar">
-            <div className="taskFilters" role="group" aria-label="任务筛选">
+            <div className="taskFilters" role="group" aria-label={uiText("auto.41f0f19eb5a4")}>
               <button
                 className={taskFilter === "active" ? "active" : ""}
                 aria-pressed={taskFilter === "active"}
                 onClick={() => setTaskFilter("active")}
               >
-                进行中 {taskCounts.active}
+                {uiText("auto.dc9591e56d50")}{taskCounts.active}
               </button>
               <button
                 className={taskFilter === "failed" ? "active" : ""}
                 aria-pressed={taskFilter === "failed"}
                 onClick={() => setTaskFilter("failed")}
               >
-                失败 {taskCounts.failed}
+                {uiText("auto.28384d7afd2e")}{taskCounts.failed}
               </button>
               <button
                 className={taskFilter === "completed" ? "active" : ""}
                 aria-pressed={taskFilter === "completed"}
                 onClick={() => setTaskFilter("completed")}
               >
-                已完成 {taskCounts.completed}
+                {uiText("auto.f28461bb49c8")}{taskCounts.completed}
               </button>
             </div>
             {taskFilter === "completed" && taskCounts.completed > 0 && (
@@ -5899,8 +6098,7 @@ function SettingsPanel({
                 className="clearCompletedTasks"
                 onClick={onClearCompletedTasks}
               >
-                清除全部已完成
-              </button>
+                {uiText("auto.2646816f2288")}</button>
             )}
           </div>
           <div className="managedDownloadList">
@@ -5920,7 +6118,7 @@ function SettingsPanel({
                       <div>
                         <b>
                           {operationTaskNames[task.productId] || task.productId}
-                          {task.operation === "install" ? " · 安装" : " · 卸载"}
+                          {task.operation === "install" ? uiText("auto.f4e5f66e2b69") : uiText("auto.2ae4aad83e79")}
                         </b>
                         <small>
                           {operationTaskPhaseLabel(task.operation, task.phase)}
@@ -5932,8 +6130,7 @@ function SettingsPanel({
                             onCheckDesktopOperationTask(task.productId)
                           }
                         >
-                          立即检测
-                        </button>
+                          {uiText("auto.14ca09ce1fd2")}</button>
                       )}
                       {task.lastError && <em>{task.lastError}</em>}
                     </div>
@@ -5954,7 +6151,7 @@ function SettingsPanel({
                       <div>
                         <b>
                           {operationTaskNames[productId] || task.environmentId}
-                          {task.operation === "install" ? " · 安装" : " · 卸载"}
+                          {task.operation === "install" ? uiText("auto.f4e5f66e2b69") : uiText("auto.2ae4aad83e79")}
                         </b>
                         <small>
                           {operationTaskPhaseLabel(task.operation, task.phase)}
@@ -5966,8 +6163,7 @@ function SettingsPanel({
                             onCheckEnvironmentOperationTask(task.environmentId)
                           }
                         >
-                          立即检测
-                        </button>
+                          {uiText("auto.14ca09ce1fd2")}</button>
                       )}
                       {task.lastError && <em>{task.lastError}</em>}
                     </div>
@@ -5989,8 +6185,8 @@ function SettingsPanel({
                         <b>
                           {operationTaskNames[task.productId] || task.productId}
                           {task.operation === "deploy"
-                            ? " · CLI 部署"
-                            : " · CLI 卸载"}
+                            ? uiText("auto.c95b0c24780b")
+                            : uiText("auto.228b82046736")}
                         </b>
                         <small>{cliTaskPhaseLabel(task)}</small>
                       </div>
@@ -6003,15 +6199,13 @@ function SettingsPanel({
                                   onRetryCliManagedTask(task.productId)
                                 }
                               >
-                                重试
-                              </button>
+                                {uiText("auto.b8784c8dd563")}</button>
                               <button
                                 onClick={() =>
                                   onRecheckCliManagedTask(task.productId)
                                 }
                               >
-                                重新检测
-                              </button>
+                                {uiText("auto.a13550662fea")}</button>
                             </>
                           )}
                           <button
@@ -6019,14 +6213,13 @@ function SettingsPanel({
                               onClearCliManagedTask(task.productId)
                             }
                           >
-                            清除
-                          </button>
+                            {uiText("auto.bce2377283c2")}</button>
                         </div>
                       )}
                       {task.message && <em>{task.message}</em>}
                       {logs.length > 0 && (
                         <details className="managedCliTaskLog">
-                          <summary>查看运行日志（{logs.length}）</summary>
+                          <summary>{uiText("auto.72c17219da64")}{logs.length}）</summary>
                           <div>
                             {logs.map((entry, index) => (
                               <span
@@ -6077,7 +6270,7 @@ function SettingsPanel({
                               : onResumeDownloadTask(task.productId)
                           }
                         >
-                          {canPause ? "暂停" : "继续"}
+                          {canPause ? uiText("auto.8d12fc0d4eb2") : uiText("auto.7c9691192f1b")}
                         </button>
                       )}
                       {!["completed", "canceled"].includes(task.phase) && (
@@ -6086,8 +6279,8 @@ function SettingsPanel({
                           onClick={() => onCancelDownloadTask(task.productId)}
                         >
                           {task.phase === "canceling"
-                            ? "正在取消…"
-                            : "取消并清除断点"}
+                            ? uiText("auto.e8e08b0f61dd")
+                            : uiText("auto.185a34ac72db")}
                         </button>
                       )}
                       {task.phase === "completed" && (
@@ -6097,22 +6290,19 @@ function SettingsPanel({
                               onOpenCompletedDownloadTask(task.productId)
                             }
                           >
-                            打开安装包
-                          </button>
+                            {uiText("auto.1c9b810ab5b0")}</button>
                           <button
                             onClick={() =>
                               onShowDownloadInFolder(task.productId)
                             }
                           >
-                            打开所在文件夹
-                          </button>
+                            {uiText("auto.064fc3c848b0")}</button>
                           <button
                             onClick={() =>
                               onClearDownloadHistory(task.productId)
                             }
                           >
-                            清除记录
-                          </button>
+                            {uiText("auto.c7b8aba1d148")}</button>
                         </>
                       )}
                       {task.progress.percent !== null &&
@@ -6136,27 +6326,27 @@ function SettingsPanel({
             ) : (
               <p>
                 {taskFilter === "active"
-                  ? "当前没有进行中任务"
+                  ? uiText("auto.ce57756d6012")
                   : taskFilter === "failed"
-                    ? "当前没有失败任务"
-                    : "当前没有已完成任务"}
+                    ? uiText("auto.a250b57662b6")
+                    : uiText("auto.4407ef33f81e")}
               </p>
             )}
           </div>
         </SettingBlock>
 
-        <SettingBlock title="CLI 工具安装位置（PC 端）">
+        <SettingBlock title={uiText("auto.52418c918084")}>
           <p className="pathValue">
-            {cliInstallDirectory || "未设置，将在首次部署 CLI 时选择"}
+            {cliInstallDirectory || uiText("auto.f46842f98326")}
           </p>
           <div className="rowActions">
-            <button onClick={onChooseCliDirectory}>选择位置</button>
+            <button onClick={onChooseCliDirectory}>{uiText("auto.38418cc70d55")}</button>
           </div>
         </SettingBlock>
 
-        <SettingBlock title="手动环境检测（PC 端）">
+        <SettingBlock title={uiText("auto.68ecdf839c52")}>
           <button className="scanButton" onClick={onScan} disabled={scanning}>
-            {scanning ? "检测中…" : "开始检测"}
+            {scanning ? uiText("auto.3a1abf3422d2") : uiText("auto.aab6c5f64108")}
           </button>
           {environment && (
             <div className="environmentList">
@@ -6177,10 +6367,10 @@ function SettingsPanel({
                     <b>{check.name}</b>
                     <small>
                       {check.installed
-                        ? "已安装"
+                        ? uiText("auto.a8b6c39dcabf")
                         : check.detection === "unknown"
-                          ? "暂时无法确认"
-                          : "未安装"}
+                          ? uiText("auto.89a7e9d49a47")
+                          : uiText("auto.156219e305f6")}
                     </small>
                     {check.installed ? (
                       <>
@@ -6188,8 +6378,7 @@ function SettingsPanel({
                           disabled={!check.location || operationBusy}
                           onClick={() => onOpenEnvironmentLocation(check.id)}
                         >
-                          打开软件安装位置
-                        </button>
+                          {uiText("auto.9a0ea4b1177d")}</button>
                         <button
                           disabled={
                             operationBusy ||
@@ -6197,10 +6386,10 @@ function SettingsPanel({
                           }
                           title={
                             operationNeedsCheck
-                              ? "立即重新检测当前安装或卸载结果"
+                              ? uiText("auto.ee268c8851e5")
                               : check.canUninstall
-                                ? "打开 Windows 登记的官方卸载程序"
-                                : "未找到可信的 Windows 卸载项"
+                                ? uiText("auto.c9667f9ac158")
+                                : uiText("auto.d4b02f63b3b8")
                           }
                           onClick={() => onUninstallEnvironment(check.id)}
                         >
@@ -6222,7 +6411,7 @@ function SettingsPanel({
                         {environmentInstallButtonLabel(
                           environmentStage,
                           check.name,
-                          "点击安装"
+                          uiText("auto.4a34bde479c3")
                         )}
                       </button>
                     )}
@@ -6240,8 +6429,8 @@ function SettingsPanel({
                           }
                         >
                           {environmentDownloadTask.phase === "canceling"
-                            ? "正在取消并清除断点…"
-                            : "取消下载并清除断点"}
+                            ? uiText("auto.e36f3187b31a")
+                            : uiText("auto.6afefc66ccdd")}
                         </button>
                       )}
                     {environmentMessages[check.id] && (
@@ -6254,13 +6443,13 @@ function SettingsPanel({
           )}
         </SettingBlock>
 
-        <SettingBlock title="版本更新">
+        <SettingBlock title={uiText("auto.42e40f432b6d")}>
           <p className="pathValue">
-            当前版本：{updateResult?.currentVersion || "0.1.0"}
+            {uiText("auto.435bd0f89db5")}{updateResult?.currentVersion || "0.1.0"}
           </p>
           <div className="rowActions">
             <button onClick={onCheckForUpdate} disabled={checkingUpdate}>
-              {checkingUpdate ? "检查中…" : "检查更新"}
+              {checkingUpdate ? uiText("auto.fb11aa6f2982") : uiText("auto.7f68ebad19ba")}
             </button>
             <button
               onClick={onOpenUpdate}
@@ -6268,7 +6457,7 @@ function SettingsPanel({
                 updateResult?.status !== "available" || installingUpdate
               }
             >
-              {installingUpdate ? "正在下载并校验…" : "下载并安装更新"}
+              {installingUpdate ? uiText("auto.f324661ed993") : uiText("auto.fe31585819ad")}
             </button>
           </div>
           {updateResult && <em>{updateResult.message}</em>}
@@ -6280,10 +6469,14 @@ function SettingsPanel({
           ) : null}
         </SettingBlock>
 
-        <SettingBlock title="语言">
+        <SettingBlock title={createLanguage(language).text("settings.language")}>
           <div className="segmented">
-            <button className={language === "zh" ? "active" : ""} onClick={() => onLanguage("zh")}>中文</button>
-            <button className={language === "en" ? "active" : ""} onClick={() => onLanguage("en")}>English</button>
+            <button className={language === "zh" ? "active" : ""} onClick={() => onLanguage("zh")}>
+              {createLanguage(language).text("settings.language.zh")}
+            </button>
+            <button className={language === "en" ? "active" : ""} onClick={() => onLanguage("en")}>
+              {createLanguage(language).text("settings.language.en")}
+            </button>
           </div>
         </SettingBlock>
       </aside>

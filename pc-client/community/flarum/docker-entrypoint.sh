@@ -66,6 +66,25 @@ if ! php -r '
   php flarum extension:enable maicol07-sso
 fi
 
+if ! php -r '
+  $config = require "/var/lib/flarum/config.php";
+  $database = $config["database"];
+  $pdo = new PDO(
+    "mysql:host=".$database["host"].
+    ";port=".$database["port"].
+    ";dbname=".$database["database"].";charset=utf8mb4",
+    $database["username"],
+    $database["password"],
+    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+  );
+  $enabled = $pdo->query(
+    "SELECT value FROM settings WHERE `key` = \"extensions_enabled\""
+  )->fetchColumn();
+  exit(str_contains((string) $enabled, "\"flarum-lang-chinese-simplified\"") ? 0 : 1);
+'; then
+  php flarum extension:enable flarum-lang-chinese-simplified
+fi
+
 php flarum migrate
 php flarum assets:publish
 php flarum cache:clear

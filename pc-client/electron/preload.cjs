@@ -15,6 +15,8 @@ contextBridge.exposeInMainWorld("aihubPC", {
     ipcRenderer.invoke("identity:revoke-session", sessionId),
   updateIdentityProfile: (input) =>
     ipcRenderer.invoke("identity:update-profile", input),
+  updateIdentityAvatar: (input) =>
+    ipcRenderer.invoke("identity:update-avatar", input),
   updateIdentityPhone: (input) =>
     ipcRenderer.invoke("identity:update-phone", input),
   requestIdentityEmailChange: (input) =>
@@ -45,6 +47,8 @@ contextBridge.exposeInMainWorld("aihubPC", {
   createCommunityEmbedSession: () =>
     ipcRenderer.invoke("community:create-embed-session"),
   getSettings: () => ipcRenderer.invoke("settings:get"),
+  setLanguage: (language) =>
+    ipcRenderer.invoke("settings:set-language", language),
   chooseDownloadDirectory: () =>
     ipcRenderer.invoke("settings:choose-download-directory"),
   chooseCliDirectory: () =>

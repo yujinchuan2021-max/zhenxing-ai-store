@@ -113,6 +113,17 @@ test("keeps personal center and embedded community calls behind the main process
           }
         };
       }
+      if (pathname === "/v1/me/avatar") {
+        return {
+          user: {
+            ...session().user,
+            profile: {
+              ...session().user.profile,
+              avatarUrl: "http://127.0.0.1:4180/v1/avatars/user-1?v=1"
+            }
+          }
+        };
+      }
       if (pathname === "/v1/me/messages") {
         return { messages: [{ id: "message-1" }] };
       }
@@ -146,6 +157,10 @@ test("keeps personal center and embedded community calls behind the main process
     currentPassword: "secure-password-123"
   });
   assert.equal(updated.user.phone, "+8613800000000");
+  const avatar = await client.updateAvatar({
+    dataUrl: "data:image/jpeg;base64,/9j/2wBD"
+  });
+  assert.match(avatar.user.profile.avatarUrl, /\/v1\/avatars\//);
   assert.deepEqual(await client.listMessages(), [{ id: "message-1" }]);
   assert.deepEqual((await client.getPersonalCenter()).notifications, [
     { id: "message-1", source: "account" }
@@ -168,6 +183,14 @@ test("keeps personal center and embedded community calls behind the main process
   assert.equal(
     protectedCalls.every(
       (call) => call.options.accessToken === "access-1"
+    ),
+    true
+  );
+  assert.equal(
+    calls.some(
+      (call) =>
+        call.pathname === "/v1/me/avatar" &&
+        call.options.body.dataUrl.startsWith("data:image/jpeg")
     ),
     true
   );

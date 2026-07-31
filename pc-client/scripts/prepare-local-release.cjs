@@ -13,6 +13,9 @@ const {
 } = require("../admin/local-release-deployment.cjs");
 
 const root = path.resolve(__dirname, "..");
+const packageVersion = JSON.parse(
+  fs.readFileSync(path.join(root, "package.json"), "utf8")
+).version;
 const state = JSON.parse(
   fs.readFileSync(
     path.join(root, "admin", "published", "catalog-store", "state.json"),
@@ -46,7 +49,7 @@ const installerPath = path.resolve(
     path.join(
       root,
       "release",
-      "AI-Hub-0.1.10-Windows-x64-Setup.exe"
+      `AI-Hub-${packageVersion}-Windows-x64-Setup.exe`
     )
 );
 function localSigningKey(environmentVariable, dataDirectory) {
@@ -68,7 +71,7 @@ const result = prepareReleaseBundle({
   baseUrl: process.env.AIHUB_RELEASE_BASE_URL || "https://localhost:4443/",
   catalogEnvelope,
   installerPath,
-  version: process.env.AIHUB_RELEASE_VERSION || "0.1.10",
+  version: process.env.AIHUB_RELEASE_VERSION || packageVersion,
   signingKeys: {
     catalog: localSigningKey(
       "AIHUB_CATALOG_SIGNING_PRIVATE_KEY",
@@ -80,7 +83,9 @@ const result = prepareReleaseBundle({
     )
   },
   notes: [
-    "修复已安装桌面产品缺少打开和卸载入口，并支持已卸载环境重新安装"
+    "优化个人中心联系方式修改与本地头像上传",
+    "统一按钮按压反馈，并集中管理 PC 中英文文案",
+    "PC 语言设置与内置 Flarum 社区同步"
   ],
   rollout: { percentage: 100, salt: "local-release-2026" },
   allowLocalhost: false,

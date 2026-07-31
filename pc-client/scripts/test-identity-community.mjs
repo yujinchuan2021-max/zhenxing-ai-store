@@ -66,6 +66,24 @@ const registered = await request("/v1/registration/complete", {
 });
 assert.equal(registered.user.email, email);
 
+const avatarBytes = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
+  "base64"
+);
+const avatarUpdate = await request("/v1/me/avatar", {
+  method: "PUT",
+  accessToken: registered.accessToken,
+  body: { dataUrl: `data:image/png;base64,${avatarBytes.toString("base64")}` }
+});
+assert.match(
+  avatarUpdate.user.profile.avatarUrl,
+  /^http:\/\/127\.0\.0\.1:4180\/v1\/avatars\/[0-9a-f-]+\?v=[0-9a-f]+$/
+);
+const avatarResponse = await fetch(avatarUpdate.user.profile.avatarUrl);
+assert.equal(avatarResponse.status, 200);
+assert.equal(avatarResponse.headers.get("content-type"), "image/png");
+assert.deepEqual(Buffer.from(await avatarResponse.arrayBuffer()), avatarBytes);
+
 const secondEmail = `switch-${suffix}@aihub.local`;
 const secondChallenge = await request("/v1/registration/challenges", {
   method: "POST",
@@ -147,6 +165,18 @@ const current = await request("/v1/me", {
   accessToken: refreshed.accessToken
 });
 assert.equal(current.user.id, registered.user.id);
+assert.equal(
+  current.user.profile.avatarUrl,
+  avatarUpdate.user.profile.avatarUrl
+);
+
+const avatarRemoved = await request("/v1/me/avatar", {
+  method: "PUT",
+  accessToken: refreshed.accessToken,
+  body: { dataUrl: "" }
+});
+assert.equal(avatarRemoved.user.profile.avatarUrl, "");
+assert.equal((await fetch(avatarUpdate.user.profile.avatarUrl)).status, 404);
 
 let reuseRejected = false;
 try {
@@ -167,6 +197,7 @@ process.stdout.write(
       userId: registered.user.id,
       accountSwitch: "verified",
       sessionRotation: "verified",
+      avatarStorage: "verified",
       refreshReuse: "revoked",
       discussionId: discussion.id,
       replies: replied.replies.length,

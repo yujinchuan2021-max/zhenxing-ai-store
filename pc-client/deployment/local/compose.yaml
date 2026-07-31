@@ -61,6 +61,7 @@ services:
     environment:
       AIHUB_IDENTITY_HOST: 0.0.0.0
       AIHUB_IDENTITY_PORT: 4180
+      AIHUB_IDENTITY_PUBLIC_ORIGIN: http://127.0.0.1:4180
       AIHUB_IDENTITY_DATABASE_URL: postgres://aihub:${AIHUB_IDENTITY_DB_PASSWORD:-aihub-local-only}@identity-database:5432/aihub
       AIHUB_SMTP_HOST: mailpit
       AIHUB_SMTP_PORT: 1025

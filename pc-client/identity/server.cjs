@@ -43,7 +43,7 @@ async function readJson(request) {
   let size = 0;
   for await (const chunk of request) {
     size += chunk.length;
-    if (size > 128 * 1024) {
+    if (size > 512 * 1024) {
       throw new DomainError("INVALID_INPUT", "请求内容过大", 413);
     }
     chunks.push(chunk);
@@ -107,6 +107,9 @@ const communityPersonalCenter = communityInternalOrigin
 const identity = createIdentityCommunity({
   pool,
   communityPersonalCenter,
+  publicOrigin:
+    process.env.AIHUB_IDENTITY_PUBLIC_ORIGIN ||
+    `http://127.0.0.1:${port}`,
   catalogFile:
     process.env.AIHUB_CATALOG_FILE ||
     path.resolve(__dirname, "..", "admin", "published", "catalog-v1.json"),
@@ -127,6 +130,25 @@ const server = http.createServer(async (request, response) => {
   const url = new URL(request.url, `http://${request.headers.host || "localhost"}`);
   const context = contextFor(request);
   try {
+    const avatarMatch = url.pathname.match(
+      /^\/v1\/avatars\/([0-9a-f-]{36})$/i
+    );
+    if (request.method === "GET" && avatarMatch) {
+      const avatar = await identity.getAvatar(avatarMatch[1]);
+      if (!avatar) {
+        sendJson(response, 404, { error: "NOT_FOUND", message: "头像不存在" });
+        return;
+      }
+      response.writeHead(200, {
+        "Content-Type": avatar.mime_type,
+        "Content-Length": avatar.content.length,
+        "Cache-Control": "public, max-age=31536000, immutable",
+        "X-Content-Type-Options": "nosniff",
+        "Cross-Origin-Resource-Policy": "cross-origin"
+      });
+      response.end(avatar.content);
+      return;
+    }
     if (request.method === "GET" && url.pathname === "/health") {
       sendJson(response, 200, { status: "ok" });
       return;
@@ -179,6 +201,18 @@ const server = http.createServer(async (request, response) => {
         response,
         200,
         await identity.updateProfile(accessToken(request), await readJson(request))
+      );
+      return;
+    }
+    if (request.method === "PUT" && url.pathname === "/v1/me/avatar") {
+      sendJson(
+        response,
+        200,
+        await identity.updateAvatar(
+          accessToken(request),
+          await readJson(request),
+          context
+        )
       );
       return;
     }
