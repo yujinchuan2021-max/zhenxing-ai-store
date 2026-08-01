@@ -342,6 +342,10 @@ test("service candidates are staged offline before their exact images are promot
   );
   assert.match(containerSource, /"run", "--rm", "--network", "none"/);
   assert.match(containerSource, /"verify-candidate"/);
+  assert.match(
+    containerSource,
+    /"verify-candidate",[\s\S]*"--inspection", \$InspectionPath[\s\S]*\) \| Out-Null/
+  );
   assert.match(containerSource, /Assert-LiveContainersUnchanged/);
   assert.match(
     containerSource,

@@ -244,7 +244,7 @@ function Verify-CandidateImage {
     "verify-candidate",
     "--manifest", $ManifestPath,
     "--inspection", $InspectionPath
-  )
+  ) | Out-Null
   return [pscustomobject]@{
     service = [string]$ManifestService.service
     candidateTag = [string]$ReceiptEntry.candidateTag

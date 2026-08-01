@@ -43,6 +43,7 @@
 - Windows 全局 `core.autocrlf=true` 会让 `git archive` 导出的候选镜像源码变成 CRLF，而服务清单校验的是不可变 Git blob 的 LF 哈希。候选快照现在显式使用 `git -c core.autocrlf=false archive`，避免同一提交在导出阶段发生字节漂移。
 - Windows PowerShell 在全局 `ErrorActionPreference=Stop` 下会把“镜像不存在”的 Docker stderr 提前变成 `NativeCommandError`。存在性探针现在只在该命令期间降为 Continue，再按退出码和受限错误文本区分“明确不存在”与守护进程/权限故障。
 - 主事务从不可变运行时快照完成原地回滚后，会再次验证快照并清除子事务留下的精确 backup/retired 目录；路径必须是受信根下的安全直接子目录。
+- PowerShell 函数会把子命令 stdout 隐式并入返回管道。候选镜像校验命令的 JSON 现在显式丢弃，`Verify-CandidateImage` 只返回一个固定候选对象，避免污染三项候选收据数组。
 
 ## 回归门槛
 
@@ -60,6 +61,7 @@
 - 旧签名运行时允许报告策略漂移，但任何签名、来源、更新制品或文件完整性漂移仍必须阻止回滚完成。
 - Windows 的 Git 全局换行设置不得改变候选镜像中的受管源码字节；镜像哈希必须与提交 blob 完全一致。
 - 尚未构建的候选镜像必须被识别为明确不存在，不能因 PowerShell 的 stderr 行为中断已完成的回滚收尾。
+- 每个已验证服务只能向候选收据贡献一个固定对象；任何日志或校验 JSON 都不得进入收据数据结构。
 
 ## 验收边界
 
