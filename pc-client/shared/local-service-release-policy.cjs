@@ -377,13 +377,18 @@ function assertCandidateImageInspection({ manifest, inspection }) {
     }
     actual.set(entry.containerPath, entry.sha256);
   }
-  if (
-    actual.size !== expected.sourceFiles.length ||
-    expected.sourceFiles.some(
-      (entry) => actual.get(entry.containerPath) !== entry.sha256
-    )
-  ) {
-    throw new Error(`Local service candidate source drift detected: ${expected.service}`);
+  const mismatches = expected.sourceFiles.filter(
+    (entry) => actual.get(entry.containerPath) !== entry.sha256
+  );
+  if (actual.size !== expected.sourceFiles.length || mismatches.length) {
+    const paths = mismatches
+      .slice(0, 4)
+      .map((entry) => entry.containerPath)
+      .join(", ");
+    throw new Error(
+      `Local service candidate source drift detected: ${expected.service}` +
+        (paths ? ` (${paths})` : "")
+    );
   }
   return Object.freeze({
     service: expected.service,

@@ -50,8 +50,18 @@ function Invoke-NodeChecked {
 
 function Test-DockerImageExists {
   param([Parameter(Mandatory = $true)][string]$Reference)
-  $Output = & docker image inspect $Reference 2>&1
-  $ExitCode = $LASTEXITCODE
+  $PreviousErrorActionPreference = $ErrorActionPreference
+  try {
+    # A missing image is an expected non-zero probe. Windows PowerShell turns
+    # redirected native stderr into a terminating NativeCommandError while the
+    # script-wide preference is Stop, before we can classify Docker's message.
+    $ErrorActionPreference = "Continue"
+    $Output = & docker image inspect $Reference 2>&1
+    $ExitCode = $LASTEXITCODE
+  }
+  finally {
+    $ErrorActionPreference = $PreviousErrorActionPreference
+  }
   if ($ExitCode -eq 0) { return $true }
   $Text = ($Output -join "`n").Trim()
   if ($Text -match "(?im)(no such image|no such object|image .+ not found)") {

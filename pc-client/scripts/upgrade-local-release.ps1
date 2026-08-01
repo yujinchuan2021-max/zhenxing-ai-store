@@ -250,6 +250,38 @@ function Invoke-RuntimeRollbackFromJournal {
   )
 }
 
+function Remove-RuntimeRollbackArtifactsFromJournal {
+  $ReceiptPath = [string]$UpgradeJournal.receiptPaths.runtime
+  if (-not (Test-TrustedReceiptFile -Path $ReceiptPath)) { return }
+  $Receipt = Read-TrustedReceiptJson -Path $ReceiptPath
+  foreach ($Artifact in @(
+    [pscustomobject]@{
+      Name = [string]$Receipt.backupName
+      Root = Join-Path $RuntimeDirectory "backups"
+    },
+    [pscustomobject]@{
+      Name = [string]$Receipt.retiredName
+      Root = Join-Path $RuntimeDirectory "staging"
+    }
+  )) {
+    if (-not $Artifact.Name) { continue }
+    Assert-SafeTransactionChildName -Name $Artifact.Name
+    $Target = Join-Path $Artifact.Root $Artifact.Name
+    if (-not (Test-Path -LiteralPath $Target)) { continue }
+    $Item = Get-Item -LiteralPath $Target -Force
+    if (
+      -not $Item.PSIsContainer -or
+      (($Item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0)
+    ) {
+      throw "local runtime rollback artifact is not trusted: $Target"
+    }
+    Remove-Item -LiteralPath $Target -Recurse -Force
+    if (Test-Path -LiteralPath $Target) {
+      throw "local runtime rollback artifact cleanup did not complete: $Target"
+    }
+  }
+}
+
 function Invoke-ServiceRollbackFromJournal {
   $Receipt = [string]$UpgradeJournal.receiptPaths.services
   if (Test-TrustedReceiptFile -Path $Receipt) {
@@ -476,6 +508,10 @@ function Recover-PendingLocalRelease {
 
   # Image backup tags remain until all three live rollback boundaries have
   # durable completion phases. This makes a second hard-exit retry safe.
+  Invoke-NodeScript "scripts/manage-local-release-upgrade-journal.cjs" @(
+    "verify-runtime"
+  )
+  Remove-RuntimeRollbackArtifactsFromJournal
   Finalize-RolledBackServiceTransaction
   Restore-ReleaseServerAfterRollback
   Restore-LocalApplicationServicesAfterRollback

@@ -129,7 +129,10 @@ function New-RevisionSnapshot {
   $Archive = Join-Path $Destination "source.tar"
   $Extracted = Join-Path $Destination "source"
   New-Item -ItemType Directory -Path $Extracted | Out-Null
-  & git -C $RepositoryRoot archive `
+  # git archive follows core.autocrlf on Windows unless it is overridden.
+  # The release manifest hashes immutable Git blobs, so the build snapshot must
+  # preserve those exact LF bytes instead of exporting CRLF worktree bytes.
+  & git -c core.autocrlf=false -C $RepositoryRoot archive `
     --format=tar `
     "--output=$Archive" `
     $ExpectedRevision `

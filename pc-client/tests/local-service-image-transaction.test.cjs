@@ -59,6 +59,9 @@ test("the durable service transaction receipt is written atomically and rejects 
 
 test("Docker image absence is distinguished from daemon or permission failure", () => {
   assert.match(source, /\$Output = & docker image inspect \$Reference 2>&1/);
+  assert.match(source, /\$PreviousErrorActionPreference = \$ErrorActionPreference/);
+  assert.match(source, /\$ErrorActionPreference = "Continue"/);
+  assert.match(source, /\$ErrorActionPreference = \$PreviousErrorActionPreference/);
   assert.match(source, /no such image|not found/i);
   assert.match(source, /Docker image existence could not be verified/);
   assert.doesNotMatch(source, /return \$LASTEXITCODE -eq 0/);

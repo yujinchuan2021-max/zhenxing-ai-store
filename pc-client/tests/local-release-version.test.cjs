@@ -251,6 +251,11 @@ test("pre-acceptance recovery is phase-idempotent and restores the durable runti
   );
   assert.match(upgradeSource, /"restore-runtime"/);
   assert.match(upgradeSource, /"verify-runtime"/);
+  assert.match(upgradeSource, /Remove-RuntimeRollbackArtifactsFromJournal/);
+  assert.match(
+    upgradeSource,
+    /Remove-Item -LiteralPath \$Target -Recurse -Force/
+  );
   assert.match(
     upgradeSource,
     /Test-TrustedReceiptFile -Path \$Receipt[\s\S]*rollback-local-release\.cjs/
@@ -331,7 +336,10 @@ test("service candidates are staged offline before their exact images are promot
     "utf8"
   );
   assert.match(containerSource, /ValidateSet\("stage", "promote"\)/);
-  assert.match(containerSource, /git -C \$RepositoryRoot archive/);
+  assert.match(
+    containerSource,
+    /git -c core\.autocrlf=false -C \$RepositoryRoot archive/
+  );
   assert.match(containerSource, /"run", "--rm", "--network", "none"/);
   assert.match(containerSource, /"verify-candidate"/);
   assert.match(containerSource, /Assert-LiveContainersUnchanged/);
