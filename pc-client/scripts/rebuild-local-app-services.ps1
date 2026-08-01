@@ -171,6 +171,7 @@ function Build-CandidateImage {
   }
   $Arguments = @(
     "build",
+    "--quiet",
     "--no-cache",
     "--file", $Dockerfile,
     "--tag", [string]$ReceiptEntry.candidateTag,

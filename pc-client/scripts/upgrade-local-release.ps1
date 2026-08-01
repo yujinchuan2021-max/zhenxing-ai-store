@@ -597,7 +597,7 @@ try {
 
   # Read-only source and quality gates finish before the durable transaction is
   # created. No release directory, runtime, image tag or container changes here.
-  Invoke-NpmScript "test"
+  Invoke-NpmScript "test:release"
   Invoke-NpmScript "build"
   Invoke-NpmAudit
   Invoke-NpmScript "audit:desktop-sources"

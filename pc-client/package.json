@@ -21,6 +21,7 @@
     "test:packaged-managed-download": "node scripts/reproduce-packaged-managed-download.mjs",
     "test:identity-community": "node scripts/test-identity-community.mjs && node scripts/test-flarum-community.mjs",
     "test:personal-center-community": "npm run build && node scripts/test-personal-center-community.mjs",
+    "test:release": "node --test --test-reporter=dot tests/*.test.cjs",
     "test": "node --test tests/*.test.cjs",
     "catalog:seed": "node scripts/seed-admin-catalog.mjs",
     "catalog:discover": "node scripts/discover-official-products.mjs",

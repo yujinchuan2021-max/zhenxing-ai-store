@@ -14,6 +14,10 @@ const upgradeSource = fs.readFileSync(
 
 test("the local acceptance client uses the package version without a stale override", () => {
   assert.equal(localReleaseConfig.extraMetadata.version, packageJson.version);
+  assert.equal(
+    packageJson.scripts["test:release"],
+    "node --test --test-reporter=dot tests/*.test.cjs"
+  );
 });
 
 test("the portable acceptance client isolates Windows profile directories instead of touching the live user profile", () => {
@@ -120,7 +124,9 @@ test("one-command upgrade journals before every live mutation and advances all r
   const statusIndex = upgradeSource.lastIndexOf(
     "$Pending = Get-UpgradeJournalStatus"
   );
-  const testIndex = upgradeSource.lastIndexOf('Invoke-NpmScript "test"');
+  const testIndex = upgradeSource.lastIndexOf(
+    'Invoke-NpmScript "test:release"'
+  );
   const buildIndex = upgradeSource.lastIndexOf('Invoke-NpmScript "build"');
   const auditIndex = upgradeSource.lastIndexOf("Invoke-NpmAudit");
   const sourceAuditIndex = upgradeSource.lastIndexOf(
@@ -336,6 +342,7 @@ test("service candidates are staged offline before their exact images are promot
     "utf8"
   );
   assert.match(containerSource, /ValidateSet\("stage", "promote"\)/);
+  assert.match(containerSource, /"build",\s*"--quiet",\s*"--no-cache"/);
   assert.match(
     containerSource,
     /git -c core\.autocrlf=false -C \$RepositoryRoot archive/
