@@ -9,6 +9,7 @@ environment-download-resume-ui.png
 community/flarum/.env
 admin/data/catalog-signing-private.pem
 admin/data/discovery-review.json
+admin/data/product-acceptance.local.json
 admin/published/catalog-v1.json
 admin/published/catalog-store/
 catalog/channel.json

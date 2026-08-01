@@ -97,6 +97,7 @@ test("local packaging stages and activates one complete sibling delivery", () =>
     /transactionReceiptCreated[\s\S]*if \([\s\S]*!transactionReceiptCreated[\s\S]*fs\.rmSync\(candidateOutput/
   );
   assert.match(source, /deliveryRecoveryPending/);
+  assert.match(source, /stop-local-release-acceptance-clients\.ps1/);
   assert.match(
     source,
     /!transactionReceiptCreated[\s\S]*!deliveryRecoveryPending/

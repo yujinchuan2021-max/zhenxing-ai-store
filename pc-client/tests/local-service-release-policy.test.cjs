@@ -15,7 +15,7 @@ const {
 } = require("../shared/local-service-release-policy.cjs");
 
 const revision = "a".repeat(40);
-const version = "0.1.24";
+const version = "0.1.25";
 const revisionFiles = [
   "admin/config-validation.cjs",
   "admin/data/catalog-v1.json",

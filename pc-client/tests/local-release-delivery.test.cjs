@@ -1,6 +1,7 @@
 "use strict";
 
 const assert = require("node:assert/strict");
+const { spawn, spawnSync } = require("node:child_process");
 const crypto = require("node:crypto");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -23,11 +24,11 @@ const {
   formatLocalReleaseChecksums
 } = require("../shared/local-release-artifacts.cjs");
 
-const VERSION = "0.1.24";
+const VERSION = "0.1.25";
 const SOURCE = {
   revision: "a".repeat(40),
   dirty: false,
-  versionTag: "v0.1.24"
+  versionTag: "v0.1.25"
 };
 
 function createCandidate(parent, name = "candidate") {
@@ -156,7 +157,7 @@ test("switches a verified candidate as one delivery and removes same-version lef
     const deliveryDirectory = path.join(root, "release-local-server-client");
     fs.mkdirSync(deliveryDirectory);
     fs.writeFileSync(
-      path.join(deliveryDirectory, "AI-Hub-Local-0.1.24-stale.txt"),
+      path.join(deliveryDirectory, "AI-Hub-Local-0.1.25-stale.txt"),
       "old",
       "utf8"
     );
@@ -171,7 +172,7 @@ test("switches a verified candidate as one delivery and removes same-version lef
     assert.equal(fs.existsSync(directory), false);
     assert.equal(
       fs.existsSync(
-        path.join(deliveryDirectory, "AI-Hub-Local-0.1.24-stale.txt")
+        path.join(deliveryDirectory, "AI-Hub-Local-0.1.25-stale.txt")
       ),
       false
     );
@@ -574,3 +575,110 @@ test("rejects a delivery transaction receipt whose signed snapshot order changed
     fs.rmSync(root, { recursive: true, force: true });
   }
 });
+
+test(
+  "stops only a running versioned local acceptance Portable before directory activation",
+  { skip: process.platform !== "win32" },
+  async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-delivery-lock-"));
+    const deliveryDirectory = path.join(root, "release-local-server-client");
+    const renamedDirectory = path.join(root, "renamed-delivery");
+    const portablePath = path.join(
+      deliveryDirectory,
+      "AI-Hub-Local-9.9.9-Windows-x64-Portable.exe"
+    );
+    const sourcePath = path.join(deliveryDirectory, "locker.cs");
+    let child = null;
+    try {
+      fs.mkdirSync(deliveryDirectory);
+      fs.writeFileSync(
+        sourcePath,
+        [
+          "using System;",
+          "using System.IO;",
+          "using System.Threading;",
+          "internal static class Program {",
+          "  private static void Main() {",
+          "    var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, \"held.lock\");",
+          "    using (var stream = new FileStream(file, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read)) {",
+          "      Console.WriteLine(\"ready\");",
+          "      Console.Out.Flush();",
+          "      Thread.Sleep(Timeout.Infinite);",
+          "    }",
+          "  }",
+          "}"
+        ].join("\n"),
+        "utf8"
+      );
+      const compiler = path.join(
+        process.env.WINDIR || "C:\\Windows",
+        "Microsoft.NET",
+        "Framework64",
+        "v4.0.30319",
+        "csc.exe"
+      );
+      const compiled = spawnSync(
+        compiler,
+        ["/nologo", `/out:${portablePath}`, sourcePath],
+        { encoding: "utf8", windowsHide: true }
+      );
+      assert.equal(compiled.status, 0, compiled.stderr || compiled.stdout);
+      child = spawn(portablePath, [], {
+        stdio: ["ignore", "pipe", "ignore"],
+        windowsHide: true
+      });
+      await new Promise((resolve, reject) => {
+        child.stdout.setEncoding("utf8");
+        child.stdout.once("data", (value) => {
+          if (String(value).includes("ready")) resolve();
+          else reject(new Error("lock fixture did not become ready"));
+        });
+        child.once("error", reject);
+        child.once("exit", (code) =>
+          reject(new Error(`lock fixture exited early: ${code}`))
+        );
+      });
+      assert.throws(
+        () => fs.renameSync(deliveryDirectory, renamedDirectory),
+        (error) => ["EPERM", "EBUSY"].includes(error.code)
+      );
+
+      const stop = spawnSync(
+        "powershell.exe",
+        [
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          path.resolve(
+            __dirname,
+            "../scripts/stop-local-release-acceptance-clients.ps1"
+          ),
+          "-DeliveryDirectory",
+          deliveryDirectory
+        ],
+        { encoding: "utf8", windowsHide: true }
+      );
+      assert.equal(stop.status, 0, stop.stderr || stop.stdout);
+      fs.renameSync(deliveryDirectory, renamedDirectory);
+      fs.renameSync(renamedDirectory, deliveryDirectory);
+    } finally {
+      if (child?.exitCode === null) {
+        spawnSync("taskkill.exe", ["/pid", String(child.pid), "/t", "/f"], {
+          stdio: "ignore",
+          windowsHide: true
+        });
+        await Promise.race([
+          new Promise((resolve) => child.once("exit", resolve)),
+          new Promise((resolve) => setTimeout(resolve, 2_000))
+        ]);
+      }
+      fs.rmSync(root, {
+        recursive: true,
+        force: true,
+        maxRetries: 10,
+        retryDelay: 100
+      });
+    }
+  }
+);

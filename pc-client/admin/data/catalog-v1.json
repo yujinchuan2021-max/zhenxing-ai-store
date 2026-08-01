@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-01T07:28:05.443Z",
+  "updatedAt": "2026-08-01T14:02:30.884Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -598,7 +598,7 @@
           "extensions": [],
           "download": {
             "url": "https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.62837/win32/Trae_CN-Setup-x64.exe",
-            "fileName": "TRAE-CN-3.3.83-Windows-x64.exe"
+            "fileName": "TRAE-CN-2.3.62837-Windows-x64.exe"
           }
         },
         {
@@ -666,8 +666,8 @@
             "uninstall"
           ],
           "category": "AI 对话",
-          "description": "桌面版只打开官方入口。",
-          "website": "https://www.doubao.com/",
+          "description": "豆包官方 Windows 桌面客户端，由 AI Hub 下载并校验已审核安装包。",
+          "website": "https://www.doubao.com/download/desktop",
           "tutorial": "https://www.doubao.com/download/desktop",
           "productType": "desktop-reviewed",
           "requirements": [],
@@ -682,11 +682,11 @@
         },
         {
           "id": "trae-solo-cn",
-          "name": "TRAE SOLO CN",
+          "name": "TRAE Work",
           "category": "编程开发",
-          "description": "TRAE 官方 Windows 智能开发客户端，提供独立的 SOLO 工作模式。",
-          "website": "https://www.trae.cn/solo",
-          "tutorial": "https://docs.trae.cn/solo",
+          "description": "TRAE Work 官方 Windows 智能开发客户端；旧 TRAE SOLO 名称仅作为本机识别兼容项保留。",
+          "website": "https://www.trae.cn/ide/download",
+          "tutorial": "https://www.trae.cn/ide/download",
           "enabled": true,
           "order": 6,
           "requirements": [],
@@ -707,7 +707,7 @@
           ],
           "download": {
             "url": "https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.62834/win32/TRAE_Work_CN-Setup-x64.exe",
-            "fileName": "TRAE-SOLO-CN-0.1.43-Windows-x64.exe"
+            "fileName": "TRAE-Work-CN-2.3.62834-Windows-x64.exe"
           }
         }
       ],
@@ -1768,8 +1768,8 @@
           ],
           "extensions": [],
           "download": {
-            "url": "https://downloads.cursor.com/production/31e8d61c448c7472e371505838a0fe34083dad55/win32/x64/user-setup/CursorUserSetup-x64-3.13.25.exe",
-            "fileName": "Cursor-3.13.25-Windows-x64.exe"
+            "url": "https://downloads.cursor.com/production/a758f2241ca99fecf380180b6cbdbbce0f1f42cf/win32/x64/user-setup/CursorUserSetup-x64-3.14.7.exe",
+            "fileName": "Cursor-3.14.7-Windows-x64.exe"
           }
         },
         {
@@ -1916,7 +1916,7 @@
         },
         {
           "id": "kimi-work-desktop",
-          "name": "Kimi Windows 客户端",
+          "name": "Kimi Work（Windows）",
           "kind": "桌面端",
           "moduleId": "desktop-managed",
           "installPolicy": "client-managed-installer",
@@ -1941,8 +1941,8 @@
           "order": 3,
           "extensions": [],
           "download": {
-            "url": "https://kimi-img.moonshot.cn/app/upgrade/Kimi-Setup-3.1.5.exe",
-            "fileName": "Kimi-3.1.5-Windows-x64.exe"
+            "url": "https://kimi-img.moonshot.cn/app/download/windows/kimi_3.1.6.exe",
+            "fileName": "Kimi-Work-3.1.6-Windows-x64.exe"
           }
         },
         {
@@ -2071,10 +2071,10 @@
             "open",
             "uninstall"
           ],
-          "category": "编程开发",
-          "description": "官方页面当前明确列出 Windows/macOS 下载；桌面入口仍按 B 处理。",
-          "website": "https://qwen.ai/",
-          "tutorial": "https://chat.qwen.ai/",
+          "category": "AI 对话",
+          "description": "中国千问官方 Windows 桌面客户端，使用独立于全球 Qwen Desktop 的中国版分发渠道。",
+          "website": "https://b.qianwen.com/apps/qkhomepage_twofoufeb/routes/l5Utxkrh6",
+          "tutorial": "https://b.qianwen.com/apps/qkhomepage_twofoufeb/routes/l5Utxkrh6",
           "productType": "desktop-reviewed",
           "requirements": [],
           "installProfileId": "desktop.qwen.windows",
@@ -2082,8 +2082,8 @@
           "order": 1,
           "extensions": [],
           "download": {
-            "url": "https://qianwen-portal-cdn.tongyi.com/native/app/2.3.1/win32/x64/qwenclient_setup_2.3.1.2602272243.exe",
-            "fileName": "Qwen-2.3.1-Windows-x64.exe"
+            "url": "https://umcdn.qianwen.com/download/37270/qianwenpc/pcqwen@default/QianwenPC_V3.7.5.145_pc_pf3000_(zh-cn)_releasemini_(Build2901209-1001-x64).exe",
+            "fileName": "Qianwen-3.7.5.145-Windows-x64.exe"
           }
         },
         {
@@ -2190,7 +2190,7 @@
           "extensions": [],
           "download": {
             "url": "https://qoder-ide.oss-accelerate.aliyuncs.com/release/1.20.1/QoderUserSetup-x64.exe",
-            "fileName": "Qoder-1.106.3-Windows-x64.exe"
+            "fileName": "Qoder-CN-Windows-x64.exe"
           }
         },
         {
@@ -2382,8 +2382,8 @@
             "open",
             "uninstall"
           ],
-          "category": "智能体",
-          "description": "各 surface 分开建记录；CLI 只有取得稳定官方包身份后才能升 A。",
+          "category": "编程开发",
+          "description": "腾讯 CodeBuddy 官方 Windows AI 编程客户端，由 AI Hub 管理已审核安装包。",
           "website": "https://www.codebuddy.ai/",
           "tutorial": "https://www.codebuddy.ai/docs",
           "productType": "desktop-reviewed",
@@ -2394,7 +2394,7 @@
           "extensions": [],
           "download": {
             "url": "https://codebuddy-1328495429.cos.accelerate.myqcloud.com/aiide/win32-x64-user/CodeBuddy-win32-x64-user-4.10.4.33993995-1ba59196.exe",
-            "fileName": "CodeBuddy-1.106.1-Windows-x64.exe"
+            "fileName": "CodeBuddy-4.10.4-Windows-x64.exe"
           }
         },
         {
@@ -2424,8 +2424,8 @@
           "order": 3,
           "extensions": [],
           "download": {
-            "url": "https://download.codebuddy.cn/workbuddy/saas/win32-x64-user/WorkBuddy-win32-x64-user-5.3.5.34189228-8044e898.exe",
-            "fileName": "WorkBuddy-5.3.5-Windows-x64.exe"
+            "url": "https://download.codebuddy.cn/workbuddy/saas/win32-x64-user/WorkBuddy-win32-x64-user-5.3.8.34705286-e9991e2b.exe",
+            "fileName": "WorkBuddy-5.3.8-Windows-x64.exe"
           }
         },
         {
@@ -2480,7 +2480,7 @@
           "extensions": [],
           "download": {
             "url": "https://package-cdn.qclaw.qq.com/qclaw/win/0.2.35-5001-624/QClaw-Setup-0.2.35-5001-624.exe",
-            "fileName": "QClaw-0.2.35-Windows-x64.exe"
+            "fileName": "QClaw-0.2.35-Windows.exe"
           }
         },
         {
@@ -3158,8 +3158,8 @@
             "open",
             "uninstall"
           ],
-          "category": "智能体",
-          "description": "图形产品打开厂商官方下载。",
+          "category": "编程开发",
+          "description": "AWS Kiro 官方 Windows x64 用户级 AI 开发客户端，由 AI Hub 管理已审核安装包。",
           "website": "https://kiro.dev/",
           "tutorial": "https://kiro.dev/docs/",
           "productType": "desktop-reviewed",
@@ -3573,7 +3573,7 @@
             "uninstall"
           ],
           "category": "智能体",
-          "description": "属完整浏览器/Agent surface，打开官方下载入口。",
+          "description": "Perplexity Comet 官方 Windows x64 AI 浏览器，由 AI Hub 管理已审核安装包。",
           "website": "https://www.perplexity.ai/comet",
           "tutorial": "https://www.perplexity.ai/help-center/en/collections/11252744-comet",
           "productType": "desktop-reviewed",
@@ -4692,15 +4692,11 @@
             "uninstall"
           ],
           "category": "编程开发",
-          "description": "图形工具打开官方分发入口；WSL/Docker/GPU 依赖不在浏览时探测。",
+          "description": "NVIDIA AI Workbench Desktop；桌面端可独立安装，本地 WSL、容器和 Git 环境由产品内的 Full Local 流程按需配置。",
           "website": "https://developer.nvidia.com/ai-workbench",
           "tutorial": "https://docs.nvidia.com/ai-workbench/",
           "productType": "desktop-reviewed",
-          "requirements": [
-            "wsl",
-            "docker",
-            "git"
-          ],
+          "requirements": [],
           "installProfileId": "desktop.nvidia-ai-workbench.windows",
           "enabled": true,
           "order": 1,
@@ -5055,8 +5051,8 @@
             "open",
             "uninstall"
           ],
-          "category": "智能体",
-          "description": "Windows 官方建议 WSL，但也列出 npm、Scoop、Chocolatey；每种安装源分别审核。",
+          "category": "编程开发",
+          "description": "OpenCode 官方 Windows 桌面客户端；可选连接 WSL 服务，但桌面应用本身是原生 Windows 产品。",
           "website": "https://opencode.ai/docs",
           "tutorial": "https://github.com/anomalyco/opencode",
           "productType": "desktop-reviewed",

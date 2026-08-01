@@ -2,6 +2,7 @@
 
 const { getManagedDownload } = require("./managed-downloads.cjs");
 const { getDesktopLifecycle } = require("./desktop-lifecycle.cjs");
+const { getDesktopAdapter } = require("./desktop-adapters.cjs");
 const {
   WINDOWS_DESKTOP_PRODUCTS
 } = require("./windows-desktop-catalog.cjs");
@@ -332,9 +333,16 @@ function getInstallRegistration(productId) {
 function getProductIntakeDossier(productId) {
   const registration = getInstallRegistration(productId);
   if (!registration) return null;
+  const reviewedRegistration = registration.desktopAdapterId
+    ? {
+        ...registration,
+        desktopAdapter: getDesktopAdapter(registration.desktopAdapterId),
+        desktopLifecycle: getDesktopLifecycle(productId)
+      }
+    : registration;
   const dossier = buildProductIntakeDossier(
     productId,
-    registration,
+    reviewedRegistration,
     getManagedDownload(productId),
     PRODUCT_INTAKE_APPROVALS[productId] || null
   );

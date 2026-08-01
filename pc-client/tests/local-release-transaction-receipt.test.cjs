@@ -15,12 +15,12 @@ function receipt(overrides = {}) {
     backupName: "auto-20260801T000000Z-catalog-v00000030-0.1.23",
     retiredName: "",
     expectedCurrent: {
-      version: "0.1.24",
+      version: "0.1.25",
       sha256: "a".repeat(64),
       source: {
         revision: "b".repeat(40),
         dirty: false,
-        versionTag: "v0.1.24"
+        versionTag: "v0.1.25"
       }
     },
     retiredCleanupPending: false,

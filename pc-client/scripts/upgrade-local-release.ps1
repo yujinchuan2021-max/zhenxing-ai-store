@@ -601,7 +601,6 @@ try {
   Invoke-NpmScript "build"
   Invoke-NpmAudit
   Invoke-NpmScript "audit:desktop-sources"
-  Invoke-NpmScript "test:product-layout"
   $ReleaseSource = Get-ExpectedReleaseSource
 
   # begin copies and verifies runtime/current before the first live mutation.
@@ -668,6 +667,10 @@ try {
     Set-UpgradeJournalPhase "services-active" | Out-Null
 
     Refresh-MailpitHostBinding
+    # The Electron layout check reads the live catalog from admin. Run it only
+    # after the matching service revision is active so an old admin never has
+    # to validate the new bind-mounted catalog.
+    Invoke-NpmScript "test:product-layout"
     Invoke-NpmScript "release:local:test-server"
     Invoke-NpmScript "test:identity-community"
     Invoke-NpmScript "release:local:pin-tls"

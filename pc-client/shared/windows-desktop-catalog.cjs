@@ -59,6 +59,7 @@ function innoAdapter({
   uninstallMode = "interactive",
   uninstallLifecycle = "detached",
   uninstallArguments = [],
+  uninstallAllowedArguments = [[], ["/SILENT"]],
   closeProcessStrategy = "graceful"
 }) {
   return {
@@ -74,7 +75,7 @@ function innoAdapter({
       displayName: new RegExp(`^(?:${names.map(escapeRegex).join("|")})(?:\\s+.*)?$`, "i"),
       publisher,
       executableName: /^unins\d*\.exe$/i,
-      allowedArguments: [[], ["/SILENT"]],
+      allowedArguments: uninstallAllowedArguments,
       launchWithoutArguments: true,
       launchArguments: uninstallArguments,
       ...(uninstallSha256 ? { expectedSha256: uninstallSha256 } : {}),
@@ -132,10 +133,10 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
       installDiskBytes: 8 * GB
     },
     adapter: innoAdapter({
-      names: ["剪映专业版", "JianyingPro", "CapCut"],
+      names: ["剪映专业版", "JianyingPro"],
       signer: /^CN=深圳市脸萌科技有限公司(?:,|$)/i,
-      publisher: /^(?:深圳市脸萌科技有限公司|Bytedance Pte\. Ltd\.)$/i,
-      executables: ["JianyingPro.exe", "CapCut.exe"]
+      publisher: /^深圳市脸萌科技有限公司$/i,
+      executables: ["JianyingPro.exe"]
     })
   }),
   "trae-desktop": reviewedDesktop({
@@ -145,7 +146,7 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     adapterId: "windows.trae-cn",
     download: {
       url: "https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.62837/win32/Trae_CN-Setup-x64.exe",
-      fileName: "TRAE-CN-3.3.83-Windows-x64.exe",
+      fileName: "TRAE-CN-2.3.62837-Windows-x64.exe",
       allowedHosts: ["lf-cdn.trae.com.cn"],
       expectedSha256: "2fc70f0a68f5269e232d8aa92c5ca4b3f7514a34bb321ea2784a9c2ff8428379",
       expectedSigner: /^CN=北京引力弹弓科技有限公司(?:,|$)/i
@@ -158,19 +159,19 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     })
   }),
   "trae-solo-cn": reviewedDesktop({
-    label: "TRAE SOLO CN",
+    label: "TRAE Work",
     profileId: "desktop.trae-solo-cn.windows",
     vendorId: "bytedance",
     adapterId: "windows.trae-solo-cn",
     download: {
       url: "https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.62834/win32/TRAE_Work_CN-Setup-x64.exe",
-      fileName: "TRAE-SOLO-CN-0.1.43-Windows-x64.exe",
+      fileName: "TRAE-Work-CN-2.3.62834-Windows-x64.exe",
       allowedHosts: ["lf-cdn.trae.com.cn"],
       expectedSha256: "f15b4430d74195156f37de03164c6f27e14306024f1e0962aa9dab2084bce8e1",
       expectedSigner: /^CN=北京引力弹弓科技有限公司(?:,|$)/i
     },
     adapter: innoAdapter({
-      names: ["TRAE SOLO CN", "TRAE Work CN", "TRAE Work"],
+      names: ["TRAE Work CN", "TRAE Work", "TRAE SOLO CN"],
       signer: /^CN=北京引力弹弓科技有限公司(?:,|$)/i,
       publisher: /^(?:北京引力弹弓科技有限公司|Beijing Yinli Catapult Technology Co\., Ltd\.)$/i,
       executables: ["TRAE Work CN.exe", "TRAE Work.exe"]
@@ -220,10 +221,10 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     vendorId: "anysphere",
     adapterId: "windows.cursor",
     download: {
-      url: "https://downloads.cursor.com/production/31e8d61c448c7472e371505838a0fe34083dad55/win32/x64/user-setup/CursorUserSetup-x64-3.13.25.exe",
-      fileName: "Cursor-3.13.25-Windows-x64.exe",
+      url: "https://downloads.cursor.com/production/a758f2241ca99fecf380180b6cbdbbce0f1f42cf/win32/x64/user-setup/CursorUserSetup-x64-3.14.7.exe",
+      fileName: "Cursor-3.14.7-Windows-x64.exe",
       allowedHosts: ["downloads.cursor.com"],
-      expectedSha256: "2071af190d0b01325a791f19e2936387ccc8232e1c4960bf790bb71bf8444a96",
+      expectedSha256: "93b3ad1b9971c8ff9be18fc9c46d592749e47ea6d2e3711efe6d5a9d4091877f",
       expectedSigner: /^CN="?Anysphere, Inc\."?(?:,|$)/i
     },
     adapter: innoAdapter({
@@ -234,15 +235,15 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     })
   }),
   "kimi-work-desktop": reviewedDesktop({
-    label: "Kimi Windows 客户端",
+    label: "Kimi Work（Windows）",
     profileId: "desktop.kimi.windows",
     vendorId: "moonshot",
     adapterId: "windows.kimi",
     download: {
-      url: "https://kimi-img.moonshot.cn/app/upgrade/Kimi-Setup-3.1.5.exe",
-      fileName: "Kimi-3.1.5-Windows-x64.exe",
+      url: "https://kimi-img.moonshot.cn/app/download/windows/kimi_3.1.6.exe",
+      fileName: "Kimi-Work-3.1.6-Windows-x64.exe",
       allowedHosts: ["kimi-img.moonshot.cn"],
-      expectedSha256: "8e406720bcb063555b187cead617dc3f73e85eab99a560483fad185ef8b9bad7",
+      expectedSha256: "14edbc1bae32880bebef4937e918695b4ccb36077c084edf0eacc66cc811aec5",
       expectedSigner: /^CN=北京月之暗面科技有限公司(?:,|$)/i
     },
     adapter: nsisAdapter({
@@ -258,10 +259,10 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     vendorId: "alibaba",
     adapterId: "windows.qwen",
     download: {
-      url: "https://qianwen-portal-cdn.tongyi.com/native/app/2.3.1/win32/x64/qwenclient_setup_2.3.1.2602272243.exe",
-      fileName: "Qwen-2.3.1-Windows-x64.exe",
-      allowedHosts: ["qianwen-portal-cdn.tongyi.com"],
-      expectedSha256: "c214078cf632f28ab1dd07ce52fc8697c50e755b05512c4c85acabb23d223ece",
+      url: "https://umcdn.qianwen.com/download/37270/qianwenpc/pcqwen@default/QianwenPC_V3.7.5.145_pc_pf3000_(zh-cn)_releasemini_(Build2901209-1001-x64).exe",
+      fileName: "Qianwen-3.7.5.145-Windows-x64.exe",
+      allowedHosts: ["umcdn.qianwen.com"],
+      expectedSha256: "5e6c92f79eb0ddc735df6365dc5646b6401fb2f7017c3552d27740a36f8f2921",
       expectedSigner: /^CN="?ALIBABA \(CHINA\) NETWORK TECHNOLOGY CO\.,LTD\."?(?:,|$)/i
     },
     adapter: nsisAdapter({
@@ -278,7 +279,7 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     adapterId: "windows.qoder-cn",
     download: {
       url: "https://qoder-ide.oss-accelerate.aliyuncs.com/release/1.20.1/QoderUserSetup-x64.exe",
-      fileName: "Qoder-1.106.3-Windows-x64.exe",
+      fileName: "Qoder-CN-Windows-x64.exe",
       allowedHosts: ["qoder-ide.oss-accelerate.aliyuncs.com"],
       expectedSha256: "99c629dc111df2bea974e0c077a690b06f7651b95e4039ed01d9a60e51119aa4",
       expectedSigner: /^CN=BRIGHT ZENITH PRIVATE LIMITED(?:,|$)/i
@@ -334,7 +335,7 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     adapterId: "windows.tencent-codebuddy",
     download: {
       url: "https://codebuddy-1328495429.cos.accelerate.myqcloud.com/aiide/win32-x64-user/CodeBuddy-win32-x64-user-4.10.4.33993995-1ba59196.exe",
-      fileName: "CodeBuddy-1.106.1-Windows-x64.exe",
+      fileName: "CodeBuddy-4.10.4-Windows-x64.exe",
       allowedHosts: ["codebuddy-1328495429.cos.accelerate.myqcloud.com"],
       expectedSha256: "fdb7342d8bb93c35b659cf67fd00ddeb8b7aa9747fbd0ad9e60bc4ae2791fd04",
       expectedSigner: /^CN=Tencent Technology \(Shenzhen\) Company Limited(?:,|$)/i
@@ -352,10 +353,10 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     vendorId: "tencent",
     adapterId: "windows.tencent-workbuddy",
     download: {
-      url: "https://download.codebuddy.cn/workbuddy/saas/win32-x64-user/WorkBuddy-win32-x64-user-5.3.5.34189228-8044e898.exe",
-      fileName: "WorkBuddy-5.3.5-Windows-x64.exe",
+      url: "https://download.codebuddy.cn/workbuddy/saas/win32-x64-user/WorkBuddy-win32-x64-user-5.3.8.34705286-e9991e2b.exe",
+      fileName: "WorkBuddy-5.3.8-Windows-x64.exe",
       allowedHosts: ["download.codebuddy.cn"],
-      expectedSha256: "3064d6e873bd74169e62ea2e480382c120125e6b8f99155649ec2389c3cbfaff",
+      expectedSha256: "c111bc3f54a0e53fa04924313ae660125eebffafcd5ac7722da7c3c03402cb7a",
       expectedSigner: /^CN=Tencent Technology \(Shenzhen\) Company Limited(?:,|$)/i
     },
     adapter: nsisAdapter({
@@ -372,7 +373,7 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     adapterId: "windows.tencent-qclaw",
     download: {
       url: "https://package-cdn.qclaw.qq.com/qclaw/win/0.2.35-5001-624/QClaw-Setup-0.2.35-5001-624.exe",
-      fileName: "QClaw-0.2.35-Windows-x64.exe",
+      fileName: "QClaw-0.2.35-Windows.exe",
       allowedHosts: ["package-cdn.qclaw.qq.com"],
       expectedSha256: "ee14abf8cab6b71359b1c7970c0cf9eadc047a01af63319dec614509e7de1c88",
       expectedSigner: /^CN=Tencent Technology \(Shenzhen\) Company Limited(?:,|$)/i
@@ -441,12 +442,24 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
       expectedSigner: /^CN="?Nomic, Inc"?(?:,|$)/i,
       installDiskBytes: 6 * GB
     },
-    adapter: innoAdapter({
+    adapter: {
       names: ["GPT4All"],
+      presenceEvidence: "trusted-install-identity",
+      uninstallMode: "interactive",
+      uninstallLifecycle: "foreground",
       signer: /^CN="?Nomic, Inc"?(?:,|$)/i,
-      publisher: /^(?:Nomic|Nomic, Inc)$/i,
-      executables: ["GPT4All.exe", "chat.exe"]
-    })
+      closeProcessNames: ["GPT4All.exe", "chat.exe"],
+      executableNames: ["GPT4All.exe", "chat.exe"],
+      uninstall: {
+        displayName: /^GPT4All(?:\s+.*)?$/i,
+        publisher: /^(?:Nomic|Nomic, Inc)$/i,
+        executableName: /^maintenancetool\.exe$/i,
+        allowedArguments: [[], ["--start-uninstaller"]],
+        launchArguments: ["--start-uninstaller"],
+        launchWithoutArguments: true,
+        allowMsi: false
+      }
+    }
   }),
   "anythingllm-desktop": reviewedDesktop({
     label: "AnythingLLM Desktop",
@@ -512,13 +525,12 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
     profileId: "desktop.nvidia-ai-workbench.windows",
     vendorId: "nvidia",
     adapterId: "windows.nvidia-ai-workbench",
-    requirements: ["wsl", "docker", "git"],
+    requirements: [],
     download: {
       url: "https://workbench.download.nvidia.com/stable/workbench-desktop/latest/NVIDIA-AI-Workbench-Setup.exe",
       fileName: "NVIDIA-AI-Workbench-Windows-x64.exe",
       allowedHosts: ["workbench.download.nvidia.com"],
-      expectedSigner: /^CN=NVIDIA Corporation(?:,|$)/i,
-      installDiskBytes: 12 * GB
+      expectedSigner: /^CN=NVIDIA Corporation(?:,|$)/i
     },
     adapter: nsisAdapter({
       names: ["NVIDIA AI Workbench", "AI Workbench"],
@@ -548,10 +560,11 @@ const WINDOWS_DESKTOP_PRODUCTS = Object.freeze({
       publisher: /^(?:OpenClaw Foundation|Scott Hanselman)$/i,
       executables: ["OpenClaw.Tray.WinUI.exe"],
       uninstallSha256: "5a3d5f3b4740a729e2a186df2ec9c38a62ca7c73efa62059e4eb883b2c15903d",
-      uninstallMode: "automatic",
+      uninstallMode: "interactive",
       uninstallLifecycle: "foreground",
       closeProcessStrategy: "force-after-grace",
-      uninstallArguments: ["/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART"]
+      uninstallArguments: [],
+      uninstallAllowedArguments: [[]]
     })
   }),
   opencode: reviewedDesktop({

@@ -6,7 +6,11 @@ function authorizationFailure(error, errorCode) {
   return Object.freeze({ ok: false, error, errorCode });
 }
 
-function evaluateFreshCatalogProductAuthorization({ catalogResult, productId }) {
+function evaluateFreshCatalogProductAuthorization({
+  catalogResult,
+  productId,
+  requiredCapability = "install"
+}) {
   if (typeof productId !== "string" || !PRODUCT_ID.test(productId)) {
     return authorizationFailure(
       "安装产品 ID 无效",
@@ -40,6 +44,16 @@ function evaluateFreshCatalogProductAuthorization({ catalogResult, productId }) 
       "CATALOG_PRODUCT_DISABLED"
     );
   }
+  if (
+    typeof requiredCapability !== "string" ||
+    !Array.isArray(matches[0].product.capabilities) ||
+    !matches[0].product.capabilities.includes(requiredCapability)
+  ) {
+    return authorizationFailure(
+      "该产品的安装能力已由后台关闭",
+      "CATALOG_PRODUCT_CAPABILITY_DISABLED"
+    );
+  }
   return Object.freeze({
     ok: true,
     productId,
@@ -47,14 +61,19 @@ function evaluateFreshCatalogProductAuthorization({ catalogResult, productId }) 
   });
 }
 
-async function authorizeFreshCatalogProduct({ loadCatalog, productId }) {
+async function authorizeFreshCatalogProduct({
+  loadCatalog,
+  productId,
+  requiredCapability = "install"
+}) {
   if (typeof loadCatalog !== "function") {
     throw new TypeError("Active catalog loader is required");
   }
   try {
     return evaluateFreshCatalogProductAuthorization({
       catalogResult: await loadCatalog(),
-      productId
+      productId,
+      requiredCapability
     });
   } catch {
     return authorizationFailure(

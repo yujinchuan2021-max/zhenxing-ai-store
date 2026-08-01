@@ -4,7 +4,7 @@
 
 ## 一、AI Hub 客户端
 
-- [ ] 双击 `release-local-server-client\AI-Hub-Local-0.1.24-Windows-x64-Setup.exe`，安装界面正常显示中文和安装路径。
+- [ ] 双击 `release-local-server-client\AI-Hub-Local-0.1.25-Windows-x64-Setup.exe`，安装界面正常显示中文和安装路径。
 - [ ] 安装完成后能从桌面和开始菜单启动。
 - [ ] 关闭主窗口后，托盘图标仍存在。
 - [ ] 从托盘重新打开主窗口，页面和任务状态保持正常。
@@ -36,9 +36,9 @@
 
 ## 四、已审核桌面产品
 
-每个准备托管下载的产品都单独复制本段并记录版本、下载源、SHA-256 和发布者。
+每个托管产品都必须单独记录版本、下载源、SHA-256、发布者和真实操作结果。后台“产品管理”中的认证卡片是统一记录入口。
 
-四款当前官方实包的来源、大小、SHA-256、PE 架构、VersionInfo 与 Authenticode 已完成机器审计；动态最新版哈希只作为当次证据。以下复选框仅记录用户日常账户下的真实安装行为。
+27 个本地托管产品已通过当前执行契约审核，状态均为“已审核”；这不等于实机验收。以下复选框只记录用户日常账户下的真实安装行为。
 
 - [ ] 点击安装前没有提前扫描环境或发起下载。
 - [ ] 点击后先探测官方源；官方源失败时才尝试批准的国内镜像。
@@ -50,13 +50,47 @@
 - [ ] 完成安装后固定探针识别出正确版本。
 - [ ] 卸载只使用匹配厂商、产品和安装目录的可信卸载项。
 
-首批产品：
+当前 27 个产品：
+
+- [ ] ChatGPT Desktop
+- [ ] Claude Desktop
+- [ ] Comfy Desktop
+- [ ] Ollama
+- [ ] 剪映专业版
+- [ ] TRAE
+- [ ] TRAE Work
+- [ ] 豆包桌面版
+- [ ] Google Antigravity 2.0
+- [ ] Cursor
+- [ ] Kimi Work（Windows）
+- [ ] 千问桌面版
+- [ ] Qoder CN IDE
+- [ ] QoderWork CN
+- [ ] 腾讯元宝电脑版
+- [ ] CodeBuddy
+- [ ] WorkBuddy
+- [ ] QClaw
+- [ ] ima
+- [ ] LM Studio
+- [ ] GPT4All Desktop
+- [ ] AnythingLLM Desktop
+- [ ] Kiro IDE
+- [ ] Comet
+- [ ] NVIDIA AI Workbench
+- [ ] OpenClaw Windows Hub
+- [ ] OpenCode Desktop
+
+专项约束：
 
 - [ ] ChatGPT Desktop：实际完成 Store 安装、主应用 `9PLM9XGG6VKS` / `OpenAI.Codex` 识别、首次启动和卸载；不能把引导器本身误判为已安装。
 - [ ] Claude Desktop：实际运行已审核的普通用户 x64 EXE，确认安装后 `Claude` 探针和厂商自动更新；卸载必须打开厂商交互式 UI，注册命令中的 `-s` 不得被执行；不得误用企业 MSIX。
 - [ ] Comfy Desktop：旧 ComfyUI Desktop V1 只能显示迁移提示，不能显示为当前版“已安装”；当前版仍需独立完成安装、打开和卸载验收。
 - [ ] Comfy Desktop：实际完成安装、探针和卸载，并确认 `%USERPROFILE%\ComfyUI-Installs`、`%USERPROFILE%\ComfyUI-Shared` 和 `%APPDATA%\Comfy Desktop` 仍保留。
 - [ ] Ollama：实际完成用户级安装、版本探针和交互式卸载；模型目录是否删除必须由用户明确选择。
+- [ ] GPT4All：卸载必须调用 Qt Installer Framework 的 `maintenancetool.exe`，不得按 Inno 卸载器处理。
+- [ ] OpenClaw Windows Hub：卸载必须显示厂商交互界面，由用户决定 Gateway 与状态数据；不得执行静默全清理。
+- [ ] NVIDIA AI Workbench：先验证桌面应用可独立安装；只有用户选择 Full Local 时才检查 WSL、容器和 Git。
+- [ ] 完成任一产品后，在后台产品认证卡片勾选七项并填写证据位置；未完成的产品不得标记为“已实机验收”。
 
 ## 五、CLI 产品
 

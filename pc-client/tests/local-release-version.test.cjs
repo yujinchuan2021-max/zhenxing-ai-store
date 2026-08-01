@@ -182,8 +182,7 @@ test("one-command upgrade journals before every live mutation and advances all r
   assert.ok(buildIndex > testIndex);
   assert.ok(auditIndex > buildIndex);
   assert.ok(sourceAuditIndex > auditIndex);
-  assert.ok(layoutIndex > sourceAuditIndex);
-  assert.ok(beginIndex > layoutIndex);
+  assert.ok(beginIndex > sourceAuditIndex);
   assert.ok(deliveryStartingIndex > beginIndex);
   assert.ok(recreateIndex > deliveryStartingIndex);
   assert.ok(packageIndex > recreateIndex);
@@ -191,7 +190,8 @@ test("one-command upgrade journals before every live mutation and advances all r
   assert.ok(prepareIndex > runtimeStartingIndex);
   assert.ok(serviceStageIndex > prepareIndex);
   assert.ok(servicePromoteIndex > serviceStageIndex);
-  assert.ok(acceptanceIndex > servicePromoteIndex);
+  assert.ok(layoutIndex > servicePromoteIndex);
+  assert.ok(acceptanceIndex > layoutIndex);
   assert.ok(sealIndex > acceptanceIndex);
   assert.ok(acceptedIndex > sealIndex);
   assert.ok(receiptVerifyIndex > acceptedIndex);

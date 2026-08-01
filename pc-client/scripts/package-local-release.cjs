@@ -197,6 +197,17 @@ try {
     formatLocalReleaseChecksums(checksumEntries),
     "utf8"
   );
+  if (fs.existsSync(artifactOutput)) {
+    run("powershell.exe", [
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      path.join(root, "scripts", "stop-local-release-acceptance-clients.ps1"),
+      "-DeliveryDirectory",
+      artifactOutput
+    ]);
+  }
   let activation;
   if (options.transactionReceiptPath) {
     prepareLocalReleaseDeliveryTransaction({

@@ -43,7 +43,11 @@ test("every reviewed Windows desktop uses one local execution whitelist", () => 
     assert.equal(getInstallRegistration(productId)?.vendorId, definition.vendorId);
     assert.ok(getManagedDownload(productId)?.expectedSigner instanceof RegExp);
     assert.match(definition.download.url, /^https:\/\//);
-    assert.match(definition.download.fileName, /Windows-x64\.exe$/i);
+    if (productId === "tencent-qclaw") {
+      assert.equal(definition.download.fileName, "QClaw-0.2.35-Windows.exe");
+    } else {
+      assert.match(definition.download.fileName, /Windows-x64\.exe$/i);
+    }
     if (definition.download.expectedSha256) {
       assert.match(definition.download.expectedSha256, /^[a-f0-9]{64}$/);
     }
@@ -57,13 +61,13 @@ test("Comet only accepts its official entrypoint and reviewed R2 bucket", () => 
   ]);
 });
 
-test("WSL stays an environment dependency instead of a standalone product", () => {
+test("WSL stays an optional environment instead of a standalone product", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
   assert.equal(products.some((product) => product.id === "wsl"), false);
   assert.deepEqual(
     products.find((product) => product.id === "nvidia-ai-workbench")
       .requirements,
-    ["wsl", "docker", "git"]
+    []
   );
 });
 
@@ -123,14 +127,11 @@ test("OpenClaw exposes native Windows Hub and a managed WSL deployment", () => {
   );
 
   const openClawAdapter = WINDOWS_DESKTOP_PRODUCTS["openclaw-windows-hub"].adapter;
-  assert.equal(openClawAdapter.uninstallMode, "automatic");
+  assert.equal(openClawAdapter.uninstallMode, "interactive");
   assert.deepEqual(openClawAdapter.closeProcessNames, [
     "OpenClaw.Tray.WinUI.exe"
   ]);
   assert.equal(openClawAdapter.closeProcessStrategy, "force-after-grace");
-  assert.deepEqual(openClawAdapter.uninstall.launchArguments, [
-    "/VERYSILENT",
-    "/SUPPRESSMSGBOXES",
-    "/NORESTART"
-  ]);
+  assert.deepEqual(openClawAdapter.uninstall.launchArguments, []);
+  assert.deepEqual(openClawAdapter.uninstall.allowedArguments, [[]]);
 });

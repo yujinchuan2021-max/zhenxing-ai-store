@@ -43,6 +43,9 @@ const {
   validateReleaseSettings
 } = require("./config-validation.cjs");
 const { createDiscoveryReview } = require("./discovery-review.cjs");
+const {
+  createProductCertification
+} = require("./product-certification.cjs");
 
 const host = process.env.AIHUB_ADMIN_HOST || "127.0.0.1";
 const port = Number(process.env.AIHUB_ADMIN_PORT || 4173);
@@ -68,12 +71,20 @@ const discoveryStatePath = path.join(
   "data",
   "discovery-review.json"
 );
+const productAcceptancePath = path.join(
+  __dirname,
+  "data",
+  "product-acceptance.local.json"
+);
 const signingKey = loadSigningKey({
   dataDirectory: path.join(__dirname, "data")
 });
 const releaseStore = createReleaseStore({
   rootDirectory: releaseStoreDirectory,
   signingKeyProvider: async () => signingKey
+});
+const productCertification = createProductCertification({
+  filePath: productAcceptancePath
 });
 
 function sendJson(response, status, value) {
@@ -327,6 +338,26 @@ async function handleApi(request, response, pathname) {
     return true;
   }
 
+  if (
+    request.method === "GET" &&
+    pathname === "/api/product-certifications"
+  ) {
+    sendJson(response, 200, productCertification.snapshot());
+    return true;
+  }
+
+  if (
+    request.method === "PUT" &&
+    pathname === "/api/product-certifications"
+  ) {
+    const certifications = productCertification.update(await readJson(request));
+    sendJson(response, 200, {
+      ok: true,
+      ...certifications
+    });
+    return true;
+  }
+
   if (request.method === "GET" && pathname === "/api/discovery") {
     const state = await ensureDraft();
     sendJson(response, 200, discoveryReview.snapshot(state.draft.catalog));
@@ -378,6 +409,7 @@ async function handleApi(request, response, pathname) {
   if (request.method === "GET" && pathname === "/ready") {
     const state = await ensureDraft();
     validatePublication(state.draft.catalog, readReleaseSettings());
+    productCertification.snapshot();
     sendJson(response, 200, {
       status: "ready",
       draftRevision: state.draft.revision,
@@ -431,6 +463,15 @@ async function handleApi(request, response, pathname) {
       state.draft.catalog,
       readReleaseSettings()
     );
+    const certifications = productCertification.validateCatalog(
+      state.draft.catalog
+    ).summary;
+    report.certifications = certifications;
+    if (certifications.reviewed) {
+      report.warnings.push(
+        `${certifications.reviewed} 个托管桌面产品尚未记录实机验收`
+      );
+    }
     sendJson(response, 200, report);
     return true;
   }
@@ -440,6 +481,7 @@ async function handleApi(request, response, pathname) {
     const state = await ensureDraft();
     const settings = readReleaseSettings();
     validatePublication(state.draft.catalog, settings);
+    productCertification.validateCatalog(state.draft.catalog);
     const published = await releaseStore.publish({
       expectedDraftRevision:
         body.expectedDraftRevision ?? state.draft.revision,
@@ -474,6 +516,7 @@ async function handleApi(request, response, pathname) {
     const settings = readReleaseSettings();
     const state = await ensureDraft();
     validatePublication(state.draft.catalog, settings);
+    productCertification.validateCatalog(state.draft.catalog);
     const result = await releaseStore.rollback({
       releaseId: body.releaseId,
       expectedActiveCatalogVersion: body.expectedActiveCatalogVersion,

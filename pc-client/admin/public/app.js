@@ -13,6 +13,11 @@ const state = {
   activeCatalogVersion: 0,
   releaseData: null,
   validationReport: null,
+  productCertifications: {
+    revision: 0,
+    summary: { total: 0, pending: 0, reviewed: 0, accepted: 0 },
+    products: []
+  },
   productModules: {
     modules: [],
     installProfiles: [],
@@ -86,6 +91,7 @@ async function loadCatalog() {
   try {
     const payload = await request("/api/catalog");
     state.productModules = await request("/api/product-modules");
+    state.productCertifications = await request("/api/product-certifications");
     state.catalog = payload.catalog;
     state.draftRevision = payload.revision;
     state.activeCatalogVersion = payload.activeCatalogVersion;
@@ -517,11 +523,64 @@ function selectedProductRecord() {
   );
 }
 
+const certificationLabels = Object.freeze({
+  pending: "待审核",
+  reviewed: "已审核",
+  accepted: "已实机验收"
+});
+
+const certificationCheckLabels = Object.freeze({
+  downloadIntegrity: "下载与完整性",
+  installerLaunch: "安装器调起",
+  postInstallDetection: "安装后检测",
+  open: "打开",
+  updateOwnership: "更新归属",
+  uninstall: "卸载",
+  dataRetention: "用户数据保留"
+});
+
+function productCertificationFor(productId) {
+  return state.productCertifications.products.find(
+    (certification) => certification.productId === productId
+  ) || null;
+}
+
+function certificationEditor(certification) {
+  if (!certification) return "";
+  const status = certification.status;
+  const acceptance = certification.acceptance;
+  const transitionFields = `
+    <label>操作人<input maxlength="100" data-certification-field="changedBy" placeholder="姓名或账号"></label>
+    <label class="wide">备注<textarea maxlength="500" data-certification-field="notes" placeholder="可留空"></textarea></label>`;
+  return `<div class="wide certificationCard">
+    <div class="certificationHeader"><div><b>Windows 桌面认证</b><small>认证记录不授予执行权限；本地白名单仍是唯一执行入口。</small></div>
+    <span class="statusPill ${escapeHtml(status)}">${escapeHtml(certificationLabels[status] || status)}</span></div>
+    <div class="certificationMeta"><span>本地执行配置</span><b>${certification.review ? "已锁定" : "不可用"}</b>
+    <span>审核资料</span><code>${escapeHtml(certification.review?.reviewReference || "未建立")}</code>
+    <span>历史记录</span><b>${escapeHtml(certification.historyCount || 0)} 条</b></div>
+    ${certification.staleAcceptance ? `<p class="reviewWarning">执行契约已变化，需要重新实机验收。</p>` : ""}
+    ${status === "accepted" ? `<div class="acceptedNotice">${escapeHtml(acceptance.acceptedBy)} · ${escapeHtml(acceptance.clientVersion)} · ${escapeHtml(acceptance.windowsVersion)}<br>${escapeHtml(new Date(acceptance.acceptedAt).toLocaleString("zh-CN"))} · ${escapeHtml(acceptance.evidenceReference)}</div>
+      <div class="formGrid certificationForm">${transitionFields}</div>
+      <div class="reviewActions"><button class="smallButton" data-action="review-product-certification">重新验收</button><button class="dangerButton" data-action="hold-product-certification">退回待审核</button></div>` : ""}
+    ${status === "reviewed" ? `<div class="formGrid certificationForm">
+      <label>验收人<input maxlength="100" data-certification-field="changedBy" placeholder="姓名或账号"></label>
+      <label>客户端版本<input maxlength="64" data-certification-field="clientVersion" placeholder="例如 0.1.25"></label>
+      <label>Windows 版本<input maxlength="120" data-certification-field="windowsVersion" placeholder="例如 Windows 11 24H2"></label>
+      <label>证据位置<input maxlength="500" data-certification-field="evidenceReference" placeholder="验收单或截图目录"></label>
+      <label class="wide">验收项<div class="checks">${Object.entries(certificationCheckLabels).map(([field, label]) => `<label><input type="checkbox" data-certification-check="${field}">${label}</label>`).join("")}</div></label>
+      <label class="wide">备注<textarea maxlength="500" data-certification-field="notes" placeholder="可留空"></textarea></label>
+      </div><div class="reviewActions"><button class="primary" data-action="accept-product-certification">记录实机验收</button><button class="dangerButton" data-action="hold-product-certification">退回待审核</button></div>` : ""}
+    ${status === "pending" ? `<div class="formGrid certificationForm">${transitionFields}</div>
+      <div class="reviewActions"><button class="primary" data-action="review-product-certification" ${certification.review ? "" : "disabled"}>恢复已审核</button></div>` : ""}
+  </div>`;
+}
+
 function renderProducts() {
   title.textContent = "产品管理";
   const record = selectedProductRecord();
   const product = record?.product;
   const productModule = product ? productModuleFor(product) : null;
+  const certification = product ? productCertificationFor(product.id) : null;
   content.innerHTML = `
     <section class="intro"><div><p class="eyebrow">目录 / 产品</p><h2>厂商旗下产品</h2>
     <p>选择产品模块后，安装、下载、签名和卸载流程由客户端统一实现。</p></div>
@@ -540,7 +599,7 @@ function renderProducts() {
         .map(
           ({ vendor, product: item }) => `<button data-product="${escapeHtml(item.id)}" class="${item.id === state.selectedProductId ? "active" : ""}">
           <i style="background:${escapeHtml(vendor.color)}">${escapeHtml(vendor.mark)}</i>
-          <span>${escapeHtml(item.name)}<br><small>${escapeHtml(vendor.name)} · ${escapeHtml(item.kind)} · ${item.enabled === false ? "已停用" : `顺序 ${escapeHtml(item.order ?? 0)}`}</small></span></button>`
+          <span>${escapeHtml(item.name)}<br><small>${escapeHtml(vendor.name)} · ${escapeHtml(item.kind)} · ${item.enabled === false ? "已停用" : `顺序 ${escapeHtml(item.order ?? 0)}`}${productCertificationFor(item.id) ? ` · ${escapeHtml(certificationLabels[productCertificationFor(item.id).status])}` : ""}</small></span></button>`
         )
         .join("")}</section>
       ${
@@ -557,7 +616,8 @@ function renderProducts() {
              <label>产品形态<input value="${escapeHtml(product.kind)}" readonly></label>
              ${productModule?.requiresProfile ? `
              <label class="wide">已审核安装配置<select data-install-profile>${installProfileOptions(product, record.vendor.id)}</select></label>` : ""}
-             <label class="wide moduleNotice">模块说明<small>${escapeHtml(productModule?.description || "请选择产品模块")}</small></label>
+              <label class="wide moduleNotice">模块说明<small>${escapeHtml(productModule?.description || "请选择产品模块")}</small></label>
+              ${certificationEditor(certification)}
              <label class="wide">模块功能<div class="checks">${(productModule?.capabilities || [])
                .map(
                  (capability) => `<label><input type="checkbox" data-capability="${escapeHtml(capability)}"
@@ -813,7 +873,7 @@ function renderPublish() {
       <button class="secondary" data-action="validate">发布前校验</button>
       <button class="primary" data-action="publish">立即发布</button>
       ${validation ? `<div class="validationReport"><b>校验通过</b>
-      <span>${validation.summary.vendors} 个厂商 · ${validation.summary.products} 个产品 · ${validation.summary.extensions || 0} 个扩展资源 · ${validation.summary.approvedDownloadSources} 个下载源</span>
+      <span>${validation.summary.vendors} 个厂商 · ${validation.summary.products} 个产品 · ${validation.summary.extensions || 0} 个扩展资源 · ${validation.summary.approvedDownloadSources} 个下载源${validation.certifications ? ` · 桌面认证 ${validation.certifications.accepted}/${validation.certifications.total}` : ""}</span>
       ${(validation.warnings || []).map((warning) => `<em>${escapeHtml(warning)}</em>`).join("")}</div>` : ""}
       <div class="publishMeta">
         <span>活动版本</span><code>v${escapeHtml(release?.state?.activeCatalogVersion || 0)}</code>
@@ -911,6 +971,54 @@ document.querySelector("nav").addEventListener("click", (event) => {
 document.querySelector("#saveButton").addEventListener("click", () => saveDraft());
 document.querySelector("#publishButton").addEventListener("click", publish);
 
+async function transitionProductCertification(target, status) {
+  const changedBy = content.querySelector(
+    '[data-certification-field="changedBy"]'
+  )?.value.trim();
+  if (!changedBy) return toast("请填写操作人", true);
+  const field = (name) =>
+    content.querySelector(`[data-certification-field="${name}"]`)?.value || "";
+  const body = {
+    productId: state.selectedProductId,
+    status,
+    expectedRevision: state.productCertifications.revision,
+    changedBy,
+    notes: field("notes")
+  };
+  if (status === "accepted") {
+    body.clientVersion = field("clientVersion");
+    body.windowsVersion = field("windowsVersion");
+    body.evidenceReference = field("evidenceReference");
+    body.checks = Object.fromEntries(
+      Object.keys(certificationCheckLabels).map((name) => [
+        name,
+        Boolean(content.querySelector(`[data-certification-check="${name}"]`)?.checked)
+      ])
+    );
+  }
+  const originalText = target.textContent;
+  target.disabled = true;
+  target.textContent = "正在保存…";
+  try {
+    const payload = await request("/api/product-certifications", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    state.productCertifications = {
+      revision: payload.revision,
+      summary: payload.summary,
+      products: payload.products
+    };
+    renderProducts();
+    toast(`认证状态已更新为“${certificationLabels[status]}”`);
+  } catch (error) {
+    target.disabled = false;
+    target.textContent = originalText;
+    toast(error.message, true);
+  }
+}
+
 content.addEventListener("click", async (event) => {
   const target = event.target.closest("button");
   if (!target) return;
@@ -930,6 +1038,12 @@ content.addEventListener("click", async (event) => {
     state.discoveryFilter = target.dataset.discoveryFilter;
     state.selectedDiscoveryId = "";
     renderDiscovery();
+  } else if (target.dataset.action === "accept-product-certification") {
+    await transitionProductCertification(target, "accepted");
+  } else if (target.dataset.action === "review-product-certification") {
+    await transitionProductCertification(target, "reviewed");
+  } else if (target.dataset.action === "hold-product-certification") {
+    await transitionProductCertification(target, "pending");
   } else if (target.dataset.action === "scan-discovery") {
     target.disabled = true;
     target.textContent = "正在启动…";

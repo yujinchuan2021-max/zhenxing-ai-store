@@ -96,6 +96,46 @@ for (const [productId, definition] of Object.entries(WINDOWS_DESKTOP_PRODUCTS)) 
   });
 }
 
+const contentOverrides = {
+  "trae-solo-cn": {
+    description: "TRAE Work 官方 Windows 智能开发客户端；旧 TRAE SOLO 名称仅作为本机识别兼容项保留。",
+    website: "https://www.trae.cn/ide/download",
+    tutorial: "https://www.trae.cn/ide/download"
+  },
+  "alibaba-qwen-studio": {
+    category: "AI 对话",
+    description: "中国千问官方 Windows 桌面客户端，使用独立于全球 Qwen Desktop 的中国版分发渠道。",
+    website: "https://b.qianwen.com/apps/qkhomepage_twofoufeb/routes/l5Utxkrh6",
+    tutorial: "https://b.qianwen.com/apps/qkhomepage_twofoufeb/routes/l5Utxkrh6"
+  },
+  "bytedance-doubao": {
+    description: "豆包官方 Windows 桌面客户端，由 AI Hub 下载并校验已审核安装包。",
+    website: "https://www.doubao.com/download/desktop"
+  },
+  "tencent-codebuddy": {
+    category: "编程开发",
+    description: "腾讯 CodeBuddy 官方 Windows AI 编程客户端，由 AI Hub 管理已审核安装包。"
+  },
+  "amazon-kiro-ide": {
+    category: "编程开发",
+    description: "AWS Kiro 官方 Windows x64 用户级 AI 开发客户端，由 AI Hub 管理已审核安装包。"
+  },
+  "perplexity-comet": {
+    description: "Perplexity Comet 官方 Windows x64 AI 浏览器，由 AI Hub 管理已审核安装包。"
+  },
+  "nvidia-ai-workbench": {
+    description: "NVIDIA AI Workbench Desktop；桌面端可独立安装，本地 WSL、容器和 Git 环境由产品内的 Full Local 流程按需配置。"
+  },
+  opencode: {
+    category: "编程开发",
+    description: "OpenCode 官方 Windows 桌面客户端；可选连接 WSL 服务，但桌面应用本身是原生 Windows 产品。"
+  }
+};
+
+for (const [productId, content] of Object.entries(contentOverrides)) {
+  Object.assign(findProduct(productId).product, content);
+}
+
 applyPolicy(findProduct("openclaw-wsl-gateway").product, {
   kind: "CLI",
   productType: "cli",

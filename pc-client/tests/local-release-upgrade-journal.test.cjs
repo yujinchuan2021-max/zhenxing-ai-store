@@ -17,7 +17,7 @@ const {
   verifyRuntimeSnapshotRestored
 } = require("../shared/local-release-upgrade-journal.cjs");
 
-const version = "0.1.24";
+const version = "0.1.25";
 const revision = "a".repeat(40);
 
 function fixture({ current = true } = {}) {

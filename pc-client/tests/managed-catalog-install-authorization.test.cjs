@@ -9,7 +9,11 @@ const {
   evaluateFreshCatalogProductAuthorization
 } = require("../shared/managed-catalog-install-authorization.cjs");
 
-function remoteCatalog({ vendorEnabled = true, productEnabled = true } = {}) {
+function remoteCatalog({
+  vendorEnabled = true,
+  productEnabled = true,
+  capabilities = ["website", "install", "open", "uninstall"]
+} = {}) {
   return {
     source: "remote",
     catalogVersion: 31,
@@ -21,7 +25,8 @@ function remoteCatalog({ vendorEnabled = true, productEnabled = true } = {}) {
           products: [
             {
               id: "claude-desktop",
-              enabled: productEnabled
+              enabled: productEnabled,
+              capabilities
             }
           ]
         }
@@ -77,6 +82,15 @@ test("vendor disablement, product disablement and deletion revoke authorization"
     assert.equal(result.ok, false);
     assert.equal(result.errorCode, "CATALOG_PRODUCT_DISABLED");
   }
+});
+
+test("removing install capability revokes direct IPC installation admission", () => {
+  const result = evaluateFreshCatalogProductAuthorization({
+    catalogResult: remoteCatalog({ capabilities: ["website", "open", "uninstall"] }),
+    productId: "claude-desktop"
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.errorCode, "CATALOG_PRODUCT_CAPABILITY_DISABLED");
 });
 
 test("duplicate enabled product identities fail closed", () => {
