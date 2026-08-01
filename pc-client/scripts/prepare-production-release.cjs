@@ -30,6 +30,9 @@ if (version !== packageVersion) {
   throw new Error("生产发布版本必须与 package.json 完全一致");
 }
 const buildProvenance = readArtifactBuildMetadata({ installerPath, version });
+const attestedArtifactPaths = buildProvenance.artifacts.map((artifact) =>
+  path.join(path.dirname(installerPath), artifact.name)
+);
 if (buildProvenance.source.dirty) {
   throw new Error("生产发布拒绝使用包含未提交源码的安装包");
 }
@@ -76,6 +79,7 @@ const result = prepareReleaseBundle({
   installerPath,
   version,
   buildProvenance,
+  attestedArtifactPaths,
   signingKeys: {
     catalog: loadSigningKey({
       dataDirectory: path.join(root, "admin", "data"),

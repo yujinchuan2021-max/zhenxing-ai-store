@@ -7,8 +7,15 @@ const {
   verifyLegacyReleaseBundleV1,
   verifyReleaseBundle
 } = require("./release-bundle-verifier.cjs");
+const {
+  compareVersions
+} = require("../shared/update.cjs");
+const {
+  validateLocalReleaseTrust
+} = require("../shared/local-release-trust.cjs");
 
 const BACKUP_NAME = /^(?:auto|manual)-\d{8}T\d{6}Z-[a-z0-9][a-z0-9._-]{2,120}$/;
+const AUTO_BACKUP_NAME = /^auto-\d{8}T\d{6}Z-[a-z0-9][a-z0-9._-]{2,120}$/;
 const DISCARD_NAME = /^discard-\d{8}T\d{6}Z(?:-\d{1,3})?$/;
 const ACTIVATION_LOCK_NAME = ".activation-lock";
 const ACTIVATION_LOCK_OWNER = "owner.json";
@@ -267,6 +274,149 @@ function acquireActivationLock(runtimeDirectory) {
   };
 }
 
+function atomicWriteRuntimeFile(runtimeDirectory, filePath, contents) {
+  const temporary = path.join(
+    path.dirname(filePath),
+    `.${path.basename(filePath)}.${process.pid}.${crypto.randomUUID()}.tmp`
+  );
+  const backup = path.join(
+    runtimeDirectory,
+    `.local-release-trust-backup-${crypto.randomUUID()}`
+  );
+  assertDirectChild(runtimeDirectory, backup);
+  fs.writeFileSync(temporary, contents, {
+    encoding: "utf8",
+    flag: "wx",
+    mode: 0o600
+  });
+  let movedExisting = false;
+  try {
+    if (fs.existsSync(filePath)) {
+      const stat = fs.lstatSync(filePath);
+      if (!stat.isFile() || stat.isSymbolicLink()) {
+        throw new Error("本地发布证书覆盖层不是可信文件");
+      }
+      fs.renameSync(filePath, backup);
+      movedExisting = true;
+    }
+    fs.renameSync(temporary, filePath);
+    if (movedExisting) fs.rmSync(backup, { force: true });
+  } catch (error) {
+    if (!fs.existsSync(filePath) && movedExisting && fs.existsSync(backup)) {
+      fs.renameSync(backup, filePath);
+    }
+    throw error;
+  } finally {
+    fs.rmSync(temporary, { force: true });
+  }
+}
+
+function trustedCurrentClientConfig(runtimeDirectory) {
+  const current = path.join(runtimeDirectory, "current");
+  assertDirectChild(runtimeDirectory, current);
+  const currentStat = fs.lstatSync(current);
+  if (!currentStat.isDirectory() || currentStat.isSymbolicLink()) {
+    throw new Error("当前发布目录不是可信目录");
+  }
+  const realRuntime = fs.realpathSync.native(runtimeDirectory);
+  const realCurrent = fs.realpathSync.native(current);
+  if (path.relative(realRuntime, realCurrent) !== "current") {
+    throw new Error("当前发布目录越过可信运行目录");
+  }
+  const clientConfig = path.join(current, "client-config");
+  const clientConfigStat = fs.lstatSync(clientConfig);
+  if (!clientConfigStat.isDirectory() || clientConfigStat.isSymbolicLink()) {
+    throw new Error("本地发布证书覆盖层目录不可信");
+  }
+  if (
+    path.relative(
+      realCurrent,
+      fs.realpathSync.native(clientConfig)
+    ) !== "client-config"
+  ) {
+    throw new Error("本地发布证书覆盖层越过当前发布目录");
+  }
+  return { current, clientConfig };
+}
+
+function writeLocalReleaseTrustOverlay({ runtimeDirectory, trust }) {
+  const normalizedTrust = validateLocalReleaseTrust(trust);
+  const runtime = ensureRuntime(runtimeDirectory);
+  const lock = acquireActivationLock(runtime);
+  let result;
+  let failure = null;
+  let previousTrustBackup = null;
+  let trustPath = null;
+  try {
+    const { current, clientConfig } = trustedCurrentClientConfig(runtime);
+    trustPath = path.join(clientConfig, "local-release-trust.json");
+    if (fs.existsSync(trustPath)) {
+      const trustStat = fs.lstatSync(trustPath);
+      if (!trustStat.isFile() || trustStat.isSymbolicLink()) {
+        throw new Error("本地发布证书覆盖层不是可信文件");
+      }
+      previousTrustBackup = path.join(
+        runtime,
+        `.local-release-trust-backup-${crypto.randomUUID()}`
+      );
+      assertDirectChild(runtime, previousTrustBackup);
+      fs.renameSync(trustPath, previousTrustBackup);
+    }
+    verifyReleaseBundle({
+      bundleDirectory: current,
+      allowCatalogPolicyDrift: true
+    });
+    atomicWriteRuntimeFile(
+      runtime,
+      trustPath,
+      `${JSON.stringify(normalizedTrust, null, 2)}\n`
+    );
+    verifyReleaseBundle({
+      bundleDirectory: current,
+      allowCatalogPolicyDrift: true,
+      allowLocalRuntimeTrust: true
+    });
+    result = normalizedTrust;
+  } catch (error) {
+    try {
+      if (trustPath && fs.existsSync(trustPath)) {
+        const trustStat = fs.lstatSync(trustPath);
+        if (!trustStat.isFile() || trustStat.isSymbolicLink()) {
+          throw new Error("失败的本地发布证书覆盖层不是可信文件");
+        }
+        fs.rmSync(trustPath, { force: true });
+      }
+      if (previousTrustBackup && fs.existsSync(previousTrustBackup)) {
+        fs.renameSync(previousTrustBackup, trustPath);
+      }
+    } catch (restoreError) {
+      failure = new AggregateError(
+        [error, restoreError],
+        "本地发布证书固定失败且旧配置恢复失败"
+      );
+    }
+    if (!failure) failure = error;
+  }
+  if (!failure && previousTrustBackup) {
+    try {
+      fs.rmSync(previousTrustBackup, { force: true });
+    } catch (error) {
+      failure = error;
+    }
+  }
+  const lockCleanup = lock.release();
+  if (failure) {
+    failure.activationLockCleanup = lockCleanup;
+    throw failure;
+  }
+  return {
+    ...result,
+    staleLockCleanupPending: lock.staleLockCleanupPending,
+    activationLockCleanupPending: lockCleanup.cleanupPending,
+    activationLockCleanupErrorCode: lockCleanup.errorCode
+  };
+}
+
 function uniqueNamedDirectory(parent, baseName, pattern) {
   for (let index = 1; index <= 999; index += 1) {
     const suffix = index === 1 ? "" : `-${index}`;
@@ -451,6 +601,76 @@ function removeFailedActivation(runtimeDirectory) {
   fs.rmSync(current, { recursive: true, force: true });
 }
 
+function removeStagedCandidateBestEffort(runtimeDirectory, stagedBundleDirectory) {
+  try {
+    const stagingRoot = path.join(runtimeDirectory, "staging");
+    const staged = path.resolve(stagedBundleDirectory);
+    assertDirectChild(stagingRoot, staged);
+    if (!fs.existsSync(staged)) {
+      return { cleanupPending: false, errorCode: null };
+    }
+    const stat = fs.lstatSync(staged);
+    if (stat.isSymbolicLink() || !stat.isDirectory()) {
+      fs.unlinkSync(staged);
+    } else {
+      fs.rmSync(staged, { recursive: true, force: true });
+    }
+    return { cleanupPending: false, errorCode: null };
+  } catch (error) {
+    return {
+      cleanupPending: true,
+      errorCode:
+        typeof error?.code === "string" && error.code ? error.code : "UNKNOWN"
+    };
+  }
+}
+
+function assertActivationVersionPolicy({
+  currentBundleDirectory,
+  currentVerification,
+  stagedBundleDirectory,
+  stagedVerification,
+  allowVersionRegression
+}) {
+  if (allowVersionRegression || !currentVerification) return;
+  const comparison = compareVersions(
+    stagedVerification.updateVersion,
+    currentVerification.updateVersion
+  );
+  if (comparison < 0) {
+    throw new Error("发布版本倒退；只有显式备份恢复可以安装旧版本");
+  }
+  if (comparison > 0) return;
+  const currentManifest = readManifest(currentBundleDirectory);
+  const stagedManifest = readManifest(stagedBundleDirectory);
+  const normalizedBuildIdentity = (verification) => ({
+    source: verification.source,
+    builtAt: verification.builtAt,
+    artifacts: Array.isArray(verification.buildArtifacts)
+      ? verification.buildArtifacts
+          .map((entry) => ({
+            name: entry.name,
+            sha256: entry.sha256,
+            fileSize: entry.fileSize
+          }))
+          .sort((left, right) => left.name.localeCompare(right.name))
+      : null
+  });
+  if (
+    currentManifest.update.sha256 !== stagedManifest.update.sha256 ||
+    !currentVerification.source ||
+    !stagedVerification.source ||
+    !currentVerification.builtAt ||
+    !stagedVerification.builtAt ||
+    !Array.isArray(currentVerification.buildArtifacts) ||
+    !Array.isArray(stagedVerification.buildArtifacts) ||
+    JSON.stringify(normalizedBuildIdentity(currentVerification)) !==
+      JSON.stringify(normalizedBuildIdentity(stagedVerification))
+  ) {
+    throw new Error("同版本发布内容不一致；必须提升版本号后重新发布");
+  }
+}
+
 function restorePreviousCurrent(runtimeDirectory, archived, retired) {
   const current = path.join(runtimeDirectory, "current");
   if (archived?.backup) {
@@ -467,12 +687,14 @@ function activateStagedBundleLocked({
   runtimeDirectory,
   stagedBundleDirectory,
   allowLegacyV1Migration = false,
+  retainPreviousRelease = false,
+  allowVersionRegression = false,
   now = new Date()
 }) {
   const runtime = path.resolve(runtimeDirectory);
   const staged = path.resolve(stagedBundleDirectory);
   assertDirectChild(path.join(runtime, "staging"), staged);
-  verifyReleaseBundle({ bundleDirectory: staged });
+  const stagedVerification = verifyReleaseBundle({ bundleDirectory: staged });
   let archived = null;
   let retired = null;
   let newCurrentActivated = false;
@@ -480,22 +702,34 @@ function activateStagedBundleLocked({
   let verified;
   try {
     const current = path.join(runtime, "current");
+    let currentVerification = null;
+    let currentIsLegacyV1 = false;
     if (fs.existsSync(current)) {
       try {
-        verifyReleaseBundle({
+        currentVerification = verifyReleaseBundle({
           bundleDirectory: current,
           allowCatalogPolicyDrift: true,
           allowLocalRuntimeTrust: true
         });
       } catch (error) {
         if (!allowLegacyV1Migration) throw error;
-        verifyLegacyReleaseBundleV1({
+        currentVerification = verifyLegacyReleaseBundleV1({
           bundleDirectory: current,
           allowCatalogPolicyDrift: true,
           allowLocalRuntimeTrust: true
         });
-        retired = retireIncompatibleCurrent(runtime, now);
+        currentIsLegacyV1 = true;
       }
+    }
+    assertActivationVersionPolicy({
+      currentBundleDirectory: current,
+      currentVerification,
+      stagedBundleDirectory: staged,
+      stagedVerification,
+      allowVersionRegression
+    });
+    if (currentIsLegacyV1) {
+      retired = retireIncompatibleCurrent(runtime, now);
     }
     if (!retired) {
       archived = archiveCurrent(runtime, "auto", now, {
@@ -531,7 +765,7 @@ function activateStagedBundleLocked({
   }
   const current = path.join(runtime, "current");
   let retiredCleanupPending = false;
-  if (retired) {
+  if (retired && !retainPreviousRelease) {
     try {
       discardRetiredCurrent(runtime, retired);
     } catch {
@@ -541,25 +775,310 @@ function activateStagedBundleLocked({
   return {
     current,
     backupName: archived?.backupName || "",
+    retiredName:
+      retired && retainPreviousRelease ? path.basename(retired) : "",
     migratedLegacyCurrent: Boolean(retired),
     discardedIncompatibleCurrent:
-      Boolean(retired) && !retiredCleanupPending,
+      Boolean(retired) && !retainPreviousRelease && !retiredCleanupPending,
     retiredCleanupPending,
     stagingCleanupPending,
     ...verified
   };
 }
 
-function activateStagedBundle(options) {
+function activateStagedBundleWithPolicy(options, allowVersionRegression) {
   const runtime = ensureRuntime(options.runtimeDirectory);
-  const lock = acquireActivationLock(runtime);
+  let lock;
+  try {
+    lock = acquireActivationLock(runtime);
+  } catch (error) {
+    error.stagingCleanup = removeStagedCandidateBestEffort(
+      runtime,
+      options.stagedBundleDirectory
+    );
+    throw error;
+  }
   let result;
   let failure = null;
   try {
     result = activateStagedBundleLocked({
       ...options,
-      runtimeDirectory: runtime
+      runtimeDirectory: runtime,
+      allowVersionRegression
     });
+  } catch (error) {
+    failure = error;
+  }
+  const lockCleanup = lock.release();
+  if (failure) {
+    failure.activationLockCleanup = lockCleanup;
+    failure.stagingCleanup = removeStagedCandidateBestEffort(
+      runtime,
+      options.stagedBundleDirectory
+    );
+    throw failure;
+  }
+  return {
+    ...result,
+    staleLockCleanupPending: lock.staleLockCleanupPending,
+    activationLockCleanupPending: lockCleanup.cleanupPending,
+    activationLockCleanupErrorCode: lockCleanup.errorCode
+  };
+}
+
+function activateStagedBundle(options) {
+  return activateStagedBundleWithPolicy(options, false);
+}
+
+function verifiedTransactionPreviousRelease(
+  runtimeDirectory,
+  backupName = "",
+  retiredName = "",
+  { required = false } = {}
+) {
+  const normalizedBackupName = String(backupName || "");
+  const normalizedRetiredName = String(retiredName || "");
+  if (normalizedBackupName && normalizedRetiredName) {
+    throw new Error("发布事务只能保留一个旧版本");
+  }
+  if (normalizedBackupName) {
+    if (!AUTO_BACKUP_NAME.test(normalizedBackupName)) {
+      throw new Error("发布事务自动备份名称无效");
+    }
+    const directory = path.join(
+      runtimeDirectory,
+      "backups",
+      normalizedBackupName
+    );
+    assertDirectChild(path.join(runtimeDirectory, "backups"), directory);
+    const verification = verifyReleaseBundle({
+      bundleDirectory: directory,
+      allowCatalogPolicyDrift: true,
+      allowLocalRuntimeTrust: true
+    });
+    return {
+      kind: "v2",
+      name: normalizedBackupName,
+      directory,
+      verification
+    };
+  }
+  if (normalizedRetiredName) {
+    if (!DISCARD_NAME.test(normalizedRetiredName)) {
+      throw new Error("发布事务旧版目录名称无效");
+    }
+    const directory = path.join(
+      runtimeDirectory,
+      "staging",
+      normalizedRetiredName
+    );
+    assertDirectChild(path.join(runtimeDirectory, "staging"), directory);
+    const verification = verifyLegacyReleaseBundleV1({
+      bundleDirectory: directory,
+      allowCatalogPolicyDrift: true,
+      allowLocalRuntimeTrust: true
+    });
+    return {
+      kind: "legacy-v1",
+      name: normalizedRetiredName,
+      directory,
+      verification
+    };
+  }
+  if (required) throw new Error("发布事务没有可恢复的旧版本");
+  return null;
+}
+
+function assertExpectedActivatedRelease(
+  runtimeDirectory,
+  verification,
+  expectedCurrent
+) {
+  if (!expectedCurrent) return;
+  if (
+    !expectedCurrent ||
+    typeof expectedCurrent !== "object" ||
+    Array.isArray(expectedCurrent) ||
+    typeof expectedCurrent.version !== "string" ||
+    !/^[0-9a-f]{64}$/.test(expectedCurrent.sha256 || "") ||
+    !expectedCurrent.source ||
+    typeof expectedCurrent.source !== "object" ||
+    Array.isArray(expectedCurrent.source)
+  ) {
+    throw new Error("发布事务当前版本凭据无效");
+  }
+  const manifest = readManifest(path.join(runtimeDirectory, "current"));
+  if (
+    verification.updateVersion !== expectedCurrent.version ||
+    manifest.update.sha256 !== expectedCurrent.sha256 ||
+    JSON.stringify(verification.source) !==
+      JSON.stringify(expectedCurrent.source)
+  ) {
+    throw new Error("当前发布与事务凭据不一致");
+  }
+}
+
+function finalizeActivatedRelease({
+  runtimeDirectory,
+  backupName = "",
+  retiredName = "",
+  expectedCurrent = null
+}) {
+  const runtime = ensureRuntime(runtimeDirectory);
+  const lock = acquireActivationLock(runtime);
+  let result;
+  let failure = null;
+  try {
+    const currentVerification = verifyReleaseBundle({
+      bundleDirectory: path.join(runtime, "current"),
+      allowCatalogPolicyDrift: true,
+      allowLocalRuntimeTrust: true
+    });
+    assertExpectedActivatedRelease(
+      runtime,
+      currentVerification,
+      expectedCurrent
+    );
+    const previous = verifiedTransactionPreviousRelease(
+      runtime,
+      backupName,
+      retiredName
+    );
+    let cleanupPending = false;
+    let cleanupErrorCode = null;
+    if (previous) {
+      try {
+        fs.rmSync(previous.directory, { recursive: true, force: true });
+      } catch (error) {
+        cleanupPending = true;
+        cleanupErrorCode =
+          typeof error?.code === "string" && error.code
+            ? error.code
+            : "UNKNOWN";
+      }
+    }
+    result = {
+      finalized: true,
+      previousReleaseKind: previous?.kind || "none",
+      cleanupPending,
+      cleanupErrorCode,
+      ...currentVerification
+    };
+  } catch (error) {
+    failure = error;
+  }
+  const lockCleanup = lock.release();
+  if (failure) {
+    failure.activationLockCleanup = lockCleanup;
+    throw failure;
+  }
+  return {
+    ...result,
+    staleLockCleanupPending: lock.staleLockCleanupPending,
+    activationLockCleanupPending: lockCleanup.cleanupPending,
+    activationLockCleanupErrorCode: lockCleanup.errorCode
+  };
+}
+
+function rollbackActivatedRelease({
+  runtimeDirectory,
+  backupName = "",
+  retiredName = "",
+  expectedCurrent = null,
+  now = new Date()
+}) {
+  const runtime = ensureRuntime(runtimeDirectory);
+  const lock = acquireActivationLock(runtime);
+  let result;
+  let failure = null;
+  try {
+    const current = path.join(runtime, "current");
+    const currentVerification = verifyReleaseBundle({
+      bundleDirectory: current,
+      allowCatalogPolicyDrift: true,
+      allowLocalRuntimeTrust: true
+    });
+    assertExpectedActivatedRelease(
+      runtime,
+      currentVerification,
+      expectedCurrent
+    );
+    const previous = verifiedTransactionPreviousRelease(
+      runtime,
+      backupName,
+      retiredName
+    );
+    const failedCurrent = retireIncompatibleCurrent(runtime, now);
+    if (!previous) {
+      let cleanupPending = false;
+      let cleanupErrorCode = null;
+      try {
+        discardRetiredCurrent(runtime, failedCurrent);
+      } catch (error) {
+        cleanupPending = true;
+        cleanupErrorCode =
+          typeof error?.code === "string" && error.code
+            ? error.code
+            : "UNKNOWN";
+      }
+      result = {
+        rolledBack: true,
+        restoredReleaseKind: "none",
+        cleanupPending,
+        cleanupErrorCode
+      };
+    } else {
+      let previousMoved = false;
+      try {
+        fs.renameSync(previous.directory, current);
+        previousMoved = true;
+        const restoredVerification =
+          previous.kind === "legacy-v1"
+            ? verifyLegacyReleaseBundleV1({
+                bundleDirectory: current,
+                allowCatalogPolicyDrift: true,
+                allowLocalRuntimeTrust: true
+              })
+            : verifyReleaseBundle({
+                bundleDirectory: current,
+                allowCatalogPolicyDrift: true,
+                allowLocalRuntimeTrust: true
+              });
+        let cleanupPending = false;
+        let cleanupErrorCode = null;
+        try {
+          discardRetiredCurrent(runtime, failedCurrent);
+        } catch (error) {
+          cleanupPending = true;
+          cleanupErrorCode =
+            typeof error?.code === "string" && error.code
+              ? error.code
+              : "UNKNOWN";
+        }
+        result = {
+          rolledBack: true,
+          restoredReleaseKind: previous.kind,
+          cleanupPending,
+          cleanupErrorCode,
+          ...restoredVerification
+        };
+      } catch (error) {
+        try {
+          if (previousMoved && fs.existsSync(current)) {
+            fs.renameSync(current, previous.directory);
+          }
+          if (fs.existsSync(failedCurrent)) {
+            fs.renameSync(failedCurrent, current);
+          }
+        } catch (restoreError) {
+          throw new AggregateError(
+            [error, restoreError],
+            "发布回滚失败且新版本恢复失败"
+          );
+        }
+        throw error;
+      }
+    }
   } catch (error) {
     failure = error;
   }
@@ -664,16 +1183,24 @@ function restoreBackup({
     path.join(staged, "client-config", "local-release-trust.json"),
     { force: true }
   );
-  return activateStagedBundle({
-    runtimeDirectory: runtime,
-    stagedBundleDirectory: staged,
-    now
-  });
+  return activateStagedBundleWithPolicy(
+    {
+      runtimeDirectory: runtime,
+      stagedBundleDirectory: staged,
+      now
+    },
+    true
+  );
 }
 
 module.exports = {
   activateStagedBundle,
   createManualBackup,
+  discardStagedBundleCandidateBestEffort:
+    removeStagedCandidateBestEffort,
+  finalizeActivatedRelease,
   listBackups,
-  restoreBackup
+  rollbackActivatedRelease,
+  restoreBackup,
+  writeLocalReleaseTrustOverlay
 };

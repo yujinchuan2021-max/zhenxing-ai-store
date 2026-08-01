@@ -11,6 +11,7 @@ const {
   createArtifactBuildMetadata,
   inspectGitReleaseSource,
   normalizeReleaseSource,
+  readArtifactBuildMetadata,
   verifyArtifactBuildMetadata
 } = require("../shared/release-provenance.cjs");
 
@@ -52,6 +53,51 @@ test("binds an installer to its exact version, bytes and source revision", () =>
         verifyArtifactBuildMetadata({
           metadata,
           artifactPath: installer,
+          version: "0.1.21"
+        }),
+      /不一致/
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("binds the Portable acceptance client to the same build manifest before launch", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-portable-provenance-"));
+  try {
+    const installer = path.join(
+      root,
+      "AI-Hub-Local-0.1.21-Windows-x64-Setup.exe"
+    );
+    const portable = path.join(
+      root,
+      "AI-Hub-Local-0.1.21-Windows-x64-Portable.exe"
+    );
+    fs.writeFileSync(installer, "installer");
+    fs.writeFileSync(portable, "portable");
+    const metadata = createArtifactBuildMetadata({
+      version: "0.1.21",
+      source: cleanSource,
+      artifactPaths: [installer, portable],
+      builtAt: "2026-08-01T00:00:00.000Z"
+    });
+    fs.writeFileSync(
+      path.join(root, "AI-Hub-Local-0.1.21-BUILD.json"),
+      `${JSON.stringify(metadata, null, 2)}\n`,
+      "utf8"
+    );
+    assert.equal(
+      readArtifactBuildMetadata({
+        artifactPath: portable,
+        version: "0.1.21"
+      }).source.revision,
+      cleanSource.revision
+    );
+    fs.appendFileSync(portable, "tampered");
+    assert.throws(
+      () =>
+        readArtifactBuildMetadata({
+          artifactPath: portable,
           version: "0.1.21"
         }),
       /不一致/

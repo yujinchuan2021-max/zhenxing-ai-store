@@ -17,8 +17,18 @@ https://localhost:4443 {
     }
   }
 
-  @current path /catalog-release.json /update-release.json
-  header @current {
+  @catalog path /catalog-release.json
+  handle @catalog {
+    header Cache-Control "public, max-age=0, must-revalidate"
+    header X-Content-Type-Options "nosniff"
+    reverse_proxy admin:4173 {
+      header_down -Cache-Control
+      header_down -X-Content-Type-Options
+    }
+  }
+
+  @update path /update-release.json
+  header @update {
     Cache-Control "public, max-age=0, must-revalidate"
     X-Content-Type-Options "nosniff"
   }
@@ -36,7 +46,7 @@ https://localhost:4443 {
     Accept-Ranges "bytes"
   }
 
-  @allowedFiles path /catalog-release.json /update-release.json /release-manifest.json /build-provenance.json /artifacts/AI-Hub-*-Windows-x64-Setup.exe
+  @allowedFiles path /update-release.json /release-manifest.json /build-provenance.json /artifacts/AI-Hub-*-Windows-x64-Setup.exe
   handle @allowedFiles {
     file_server
   }

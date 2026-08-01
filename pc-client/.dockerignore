@@ -12,6 +12,7 @@
 !scripts/discover-official-products.mjs
 !identity/
 !identity/**
+identity/node_modules/
 !package.json
 !package-lock.json
 !catalog/

@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -8,18 +9,29 @@ import {
   verifyManagedDownloadPause
 } from "./lib/packaged-client-cdp.mjs";
 
+const require = createRequire(import.meta.url);
+const {
+  verifyReleaseBundle
+} = require("../admin/release-bundle-verifier.cjs");
+const {
+  readArtifactBuildMetadata
+} = require("../shared/release-provenance.cjs");
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packageJson = JSON.parse(
   fs.readFileSync(path.join(root, "package.json"), "utf8")
 );
+const runtimeBundleDirectory = path.join(
+  root,
+  "deployment",
+  "local",
+  "runtime",
+  "current"
+);
 const manifest = JSON.parse(
   fs.readFileSync(
     path.join(
-      root,
-      "deployment",
-      "local",
-      "runtime",
-      "current",
+      runtimeBundleDirectory,
       "public",
       "release-manifest.json"
     ),
@@ -45,12 +57,40 @@ if (process.platform !== "win32") {
 if (!fs.existsSync(portablePath)) {
   throw new Error(`本地发布验收客户端不存在：${portablePath}`);
 }
+const portableBuild = readArtifactBuildMetadata({
+  artifactPath: portablePath,
+  version: baseVersion
+});
+const verifiedRuntime = verifyReleaseBundle({
+  bundleDirectory: runtimeBundleDirectory,
+  allowLocalRuntimeTrust: true
+});
 if (
   manifest?.schemaVersion !== 2 ||
   typeof manifest.build?.source?.revision !== "string" ||
   manifest.update?.version !== packageJson.version
 ) {
   throw new Error("本地发布清单没有绑定当前版本和源码来源");
+}
+if (baseVersion === manifest.update.version) {
+  const portableName = path.basename(portablePath);
+  const localPortable = portableBuild.artifacts.find(
+    (entry) => entry.name === portableName
+  );
+  const signedPortable = verifiedRuntime.buildArtifacts.find(
+    (entry) => entry.name === portableName
+  );
+  if (
+    !localPortable ||
+    !signedPortable ||
+    JSON.stringify(portableBuild.source) !==
+      JSON.stringify(verifiedRuntime.source) ||
+    portableBuild.builtAt !== verifiedRuntime.builtAt ||
+    localPortable.sha256 !== signedPortable.sha256 ||
+    localPortable.fileSize !== signedPortable.fileSize
+  ) {
+    throw new Error("Portable 验收客户端与签名构建来源不一致");
+  }
 }
 
 const profile = createIsolatedAcceptanceProfile("aihub-local-release-client-");
@@ -72,6 +112,14 @@ try {
   }
   if (!rendererReady) throw new Error("本地发布客户端主界面没有就绪");
 
+  const {
+    assertPackagedRemoteCatalog,
+    clickPackagedDomAction,
+    openPackagedCatalogProduct,
+    openPackagedProductExtensions,
+    waitForPackagedDomAction
+  } = await import("./lib/packaged-client-cdp.mjs");
+
   const settings = await evaluate("window.aihubPC.getSettings()");
   if (settings?.downloadDirectory !== profile.downloadDirectory) {
     throw new Error(
@@ -79,16 +127,52 @@ try {
     );
   }
 
-  const catalog = await evaluate("window.aihubPC.getCatalog()");
-  if (
-    catalog?.source !== "remote" ||
-    catalog.catalogVersion !== manifest.catalog.catalogVersion ||
-    !Array.isArray(catalog.catalog?.vendors)
-  ) {
+  const catalog = assertPackagedRemoteCatalog({
+    catalog: await evaluate("window.aihubPC.getCatalog()"),
+    minimumCatalogVersion: manifest.catalog.catalogVersion
+  });
+  const findCatalogProduct = (productId) => {
+    for (const vendor of catalog.catalog.vendors) {
+      const product = Array.isArray(vendor?.products)
+        ? vendor.products.find((candidate) => candidate?.id === productId)
+        : null;
+      if (product) return { vendor, product };
+    }
+    throw new Error(`远程签名目录缺少验收产品：${productId}`);
+  };
+  const findCatalogExtension = (installProfileId) => {
+    for (const vendor of catalog.catalog.vendors) {
+      if (!Array.isArray(vendor?.products)) continue;
+      for (const product of vendor.products) {
+        const extension = Array.isArray(product?.extensions)
+          ? product.extensions.find(
+              (candidate) => candidate?.installProfileId === installProfileId
+            )
+          : null;
+        if (extension) return { vendor, product, extension };
+      }
+    }
+    throw new Error(`远程签名目录缺少验收扩展：${installProfileId}`);
+  };
+  const waitForDownloadTask = async ({
+    productId,
+    phases,
+    timeoutMs
+  }) => {
+    const encodedProductId = JSON.stringify(productId);
+    const deadline = Date.now() + timeoutMs;
+    let task = null;
+    while (Date.now() < deadline) {
+      task = await evaluate(
+        `window.aihubPC.getDownloadTask(${encodedProductId})`
+      );
+      if (phases.includes(task?.phase)) return task;
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
     throw new Error(
-      `客户端没有接受远程签名目录：${JSON.stringify(catalog)}`
+      `下载任务没有进入预期状态：${JSON.stringify({ productId, phases, task })}`
     );
-  }
+  };
 
   const update = await evaluate("window.aihubPC.checkForUpdate()");
   const testsUpgradeFixture = baseVersion !== manifest.update.version;
@@ -115,6 +199,7 @@ try {
   }
 
   const extensionProfileId = "skill.codex.chatgpt-apps";
+  const extensionTarget = findCatalogExtension(extensionProfileId);
   const extensionBefore = await evaluate(
     `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
   );
@@ -123,8 +208,41 @@ try {
       `Packaged extension did not start cleanly: ${JSON.stringify(extensionBefore)}`
     );
   }
+  await openPackagedCatalogProduct({
+    evaluate,
+    vendorId: extensionTarget.vendor.id,
+    productId: extensionTarget.product.id,
+    searchText: extensionTarget.vendor.name,
+    timeoutMs: 10_000
+  });
+  await openPackagedProductExtensions({
+    evaluate,
+    productId: extensionTarget.product.id,
+    timeoutMs: 10_000
+  });
+  await waitForPackagedDomAction({
+    evaluate,
+    productId: extensionTarget.product.id,
+    action: "install-extension",
+    extensionProfileId,
+    timeoutMs: 10_000
+  });
+  const extensionInstallDom = await clickPackagedDomAction({
+    evaluate,
+    productId: extensionTarget.product.id,
+    action: "install-extension",
+    extensionProfileId,
+    timeoutMs: 8_000
+  });
+  await waitForPackagedDomAction({
+    evaluate,
+    productId: extensionTarget.product.id,
+    action: "uninstall-extension",
+    extensionProfileId,
+    timeoutMs: 20_000
+  });
   const extensionInstalled = await evaluate(
-    `window.aihubPC.installExtension(${JSON.stringify(extensionProfileId)})`
+    `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
   );
   const installedSkill = path.join(
     profile.codexHome,
@@ -137,8 +255,22 @@ try {
       `Packaged extension installation failed: ${JSON.stringify(extensionInstalled)}`
     );
   }
+  const extensionUninstallDom = await clickPackagedDomAction({
+    evaluate,
+    productId: extensionTarget.product.id,
+    action: "uninstall-extension",
+    extensionProfileId,
+    timeoutMs: 8_000
+  });
+  await waitForPackagedDomAction({
+    evaluate,
+    productId: extensionTarget.product.id,
+    action: "install-extension",
+    extensionProfileId,
+    timeoutMs: 20_000
+  });
   const extensionRemoved = await evaluate(
-    `window.aihubPC.uninstallExtension(${JSON.stringify(extensionProfileId)})`
+    `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
   );
   if (
     extensionRemoved?.state !== "not-installed" ||
@@ -149,9 +281,60 @@ try {
     );
   }
 
+  const downloadTarget = findCatalogProduct(downloadProductId);
+  await openPackagedCatalogProduct({
+    evaluate,
+    vendorId: downloadTarget.vendor.id,
+    productId: downloadTarget.product.id,
+    searchText: downloadTarget.vendor.name,
+    timeoutMs: 10_000
+  });
+  await waitForPackagedDomAction({
+    evaluate,
+    productId: downloadProductId,
+    action: "install-product",
+    timeoutMs: 10_000
+  });
+  let downloadStartDom = null;
+  let downloadPauseDom = null;
   const managedDownload = await verifyManagedDownloadPause({
     evaluate,
     productId: downloadProductId,
+    downloadDirectory: profile.downloadDirectory,
+    startDownload: async () => {
+      downloadStartDom = await clickPackagedDomAction({
+        evaluate,
+        productId: downloadProductId,
+        action: "install-product",
+        timeoutMs: 8_000
+      });
+      const task = await waitForDownloadTask({
+        productId: downloadProductId,
+        phases: ["starting", "downloading", "failed", "completed"],
+        timeoutMs: 30_000
+      });
+      return { ok: task.phase !== "failed", task };
+    },
+    pauseDownload: async () => {
+      await waitForPackagedDomAction({
+        evaluate,
+        productId: downloadProductId,
+        action: "pause-download",
+        timeoutMs: 10_000
+      });
+      downloadPauseDom = await clickPackagedDomAction({
+        evaluate,
+        productId: downloadProductId,
+        action: "pause-download",
+        timeoutMs: 8_000
+      });
+      const task = await waitForDownloadTask({
+        productId: downloadProductId,
+        phases: ["paused", "failed", "completed"],
+        timeoutMs: 20_000
+      });
+      return { ok: task.phase === "paused", task };
+    },
     minimumBytes: 1024 * 1024,
     timeoutMs: 120_000
   });
@@ -170,6 +353,12 @@ try {
           vendors: catalog.catalog.vendors.length
         },
         update,
+        domActions: {
+          extensionInstall: extensionInstallDom,
+          extensionUninstall: extensionUninstallDom,
+          managedDownloadStart: downloadStartDom,
+          managedDownloadPause: downloadPauseDom
+        },
         managedDownload
       },
       null,

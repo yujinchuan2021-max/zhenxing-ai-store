@@ -17,10 +17,12 @@ export default defineConfig({
       "@aihub-shared/environment-install-flow.cjs",
       "@aihub-shared/environment-install-orchestrator.cjs",
       "@aihub-shared/installed-product-management.cjs",
+      "@aihub-shared/managed-product-action-context.cjs",
       "@aihub-shared/product-install-presentation.cjs",
       "@aihub-shared/product-components.cjs",
       "@aihub-shared/product-policy.cjs",
-      "@aihub-shared/uninstall-presentation.cjs"
+      "@aihub-shared/uninstall-presentation.cjs",
+      "@aihub-shared/verified-managed-install.cjs"
     ],
     needsInterop: [
       "@aihub-shared/development-catalog.cjs",
@@ -28,10 +30,12 @@ export default defineConfig({
       "@aihub-shared/environment-install-flow.cjs",
       "@aihub-shared/environment-install-orchestrator.cjs",
       "@aihub-shared/installed-product-management.cjs",
+      "@aihub-shared/managed-product-action-context.cjs",
       "@aihub-shared/product-install-presentation.cjs",
       "@aihub-shared/product-components.cjs",
       "@aihub-shared/product-policy.cjs",
-      "@aihub-shared/uninstall-presentation.cjs"
+      "@aihub-shared/uninstall-presentation.cjs",
+      "@aihub-shared/verified-managed-install.cjs"
     ]
   },
   server: {

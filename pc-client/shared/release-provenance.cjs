@@ -100,13 +100,13 @@ function inspectGitReleaseSource({
   );
 }
 
-function artifactBuildMetadataPath(installerPath) {
-  const name = path.basename(installerPath);
-  const match = /^(AI-Hub-(?:Local-)?\d+\.\d+\.\d+)-Windows-x64-Setup\.exe$/i.exec(
+function artifactBuildMetadataPath(artifactPath) {
+  const name = path.basename(artifactPath);
+  const match = /^(AI-Hub-(?:Local-)?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)-Windows-x64-(?:Setup|Portable)\.exe(?:\.blockmap)?$/i.exec(
     name
   );
-  if (!match) throw new Error("无法从安装包名称确定构建来源文件");
-  return path.join(path.dirname(installerPath), `${match[1]}-BUILD.json`);
+  if (!match) throw new Error("无法从制品名称确定构建来源文件");
+  return path.join(path.dirname(artifactPath), `${match[1]}-BUILD.json`);
 }
 
 function createArtifactBuildMetadata({

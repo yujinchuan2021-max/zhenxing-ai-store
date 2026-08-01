@@ -237,8 +237,15 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
+    depends_on:
+      admin:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "--no-check-certificate", "https://localhost:4443/health"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q -O /dev/null --no-check-certificate https://localhost:4443/health && wget -q -O /dev/null --no-check-certificate https://localhost:4443/catalog-release.json"
+        ]
       interval: 2s
       timeout: 2s
       retries: 15

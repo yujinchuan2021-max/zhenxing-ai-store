@@ -4,42 +4,49 @@ const crypto = require("node:crypto");
 const fs = require("node:fs");
 const https = require("node:https");
 const path = require("node:path");
+const {
+  verifyReleaseBundle
+} = require("../admin/release-bundle-verifier.cjs");
+const {
+  canonicalize,
+  verifySignedEnvelope
+} = require("../shared/signed-release.cjs");
+const {
+  validateCatalogReleasePayload
+} = require("../shared/catalog-release.cjs");
 
 const root = path.resolve(__dirname, "..");
 const caPath = process.argv[2];
-if (!caPath || !path.isAbsolute(caPath)) {
-  throw new Error("必须传入 Caddy 根证书的绝对路径");
+const bundleDirectory = path.join(
+  root,
+  "deployment",
+  "local",
+  "runtime",
+  "current"
+);
+const publicDirectory = path.join(bundleDirectory, "public");
+function readLocalEnvelope(name) {
+  return JSON.parse(fs.readFileSync(path.join(publicDirectory, name), "utf8"));
 }
-const ca = fs.readFileSync(caPath);
-const updateEnvelope = JSON.parse(
-  fs.readFileSync(
-    path.join(
-      root,
-      "deployment",
-      "local",
-      "runtime",
-      "current",
-      "public",
-      "update-release.json"
-    ),
-    "utf8"
-  )
-);
-const expected = updateEnvelope.payload;
-const releaseManifest = JSON.parse(
-  fs.readFileSync(
-    path.join(
-      root,
-      "deployment",
-      "local",
-      "runtime",
-      "current",
-      "public",
-      "release-manifest.json"
-    ),
-    "utf8"
-  )
-);
+let ca;
+let updateEnvelope;
+let buildEnvelope;
+let expected;
+let releaseManifest;
+
+function loadVerifiedLocalContext() {
+  if (!caPath || !path.isAbsolute(caPath)) {
+    throw new Error("必须传入 Caddy 根证书的绝对路径");
+  }
+  verifyReleaseBundle({ bundleDirectory, allowLocalRuntimeTrust: true });
+  ca = fs.readFileSync(caPath);
+  updateEnvelope = readLocalEnvelope("update-release.json");
+  buildEnvelope = readLocalEnvelope("build-provenance.json");
+  expected = updateEnvelope.payload;
+  releaseManifest = JSON.parse(
+    fs.readFileSync(path.join(publicDirectory, "release-manifest.json"), "utf8")
+  );
+}
 
 function request(relativeUrl, headers = {}) {
   return new Promise((resolve, reject) => {
@@ -72,7 +79,26 @@ async function collect(response, maxBytes) {
   return Buffer.concat(chunks, total);
 }
 
-async function verifyJson(pathname, expectedKind) {
+function verifyRemoteEnvelope(
+  value,
+  { pathname, expectedKind, trustedKeys, expectedEnvelope }
+) {
+  verifySignedEnvelope(value, { kind: expectedKind, trustedKeys });
+  if (
+    expectedEnvelope &&
+    canonicalize(value) !== canonicalize(expectedEnvelope)
+  ) {
+    throw new Error(`${pathname} 与本地已验证发布内容不一致`);
+  }
+  return value;
+}
+
+async function verifyJson(
+  pathname,
+  expectedKind,
+  trustedKeys,
+  expectedEnvelope
+) {
   const response = await request(pathname);
   if (response.statusCode !== 200) {
     throw new Error(`${pathname} 返回 ${response.statusCode}`);
@@ -81,10 +107,12 @@ async function verifyJson(pathname, expectedKind) {
     throw new Error(`${pathname} Content-Type 无效`);
   }
   const value = JSON.parse((await collect(response, 1024 * 1024)).toString("utf8"));
-  if (value.kind !== expectedKind || typeof value.signature !== "string") {
-    throw new Error(`${pathname} 不是签名 ${expectedKind} 发布`);
-  }
-  return value;
+  return verifyRemoteEnvelope(value, {
+    pathname,
+    expectedKind,
+    trustedKeys,
+    expectedEnvelope
+  });
 }
 
 async function verifyArtifact() {
@@ -123,12 +151,32 @@ async function verifyArtifact() {
 }
 
 async function main() {
+  loadVerifiedLocalContext();
   const [catalog, update, build, artifact] = await Promise.all([
-    verifyJson("/catalog-release.json", "catalog"),
-    verifyJson("/update-release.json", "update"),
-    verifyJson("/build-provenance.json", "build-provenance"),
+    verifyJson(
+      "/catalog-release.json",
+      "catalog",
+      [releaseManifest.signingKeys.catalog],
+      null
+    ),
+    verifyJson(
+      "/update-release.json",
+      "update",
+      [releaseManifest.signingKeys.update],
+      updateEnvelope
+    ),
+    verifyJson(
+      "/build-provenance.json",
+      "build-provenance",
+      [releaseManifest.signingKeys.update],
+      buildEnvelope
+    ),
     verifyArtifact()
   ]);
+  const catalogPayload = validateCatalogReleasePayload(catalog.payload);
+  if (catalogPayload.catalogVersion < releaseManifest.catalog.catalogVersion) {
+    throw new Error("HTTPS 后台目录版本低于发布包基线");
+  }
   if (
     build.payload?.version !== update.payload.version ||
     build.payload?.source?.revision !== releaseManifest.build?.source?.revision
@@ -140,7 +188,7 @@ async function main() {
       {
         ok: true,
         tls: "validated-with-caddy-root-ca",
-        catalogVersion: catalog.payload.catalogVersion,
+        catalogVersion: catalogPayload.catalogVersion,
         updateVersion: update.payload.version,
         sourceRevision: build.payload.source.revision,
         artifact
@@ -151,7 +199,13 @@ async function main() {
   );
 }
 
-main().catch((error) => {
-  process.stderr.write(`${error.stack || error.message}\n`);
-  process.exitCode = 1;
-});
+if (require.main === module) {
+  main().catch((error) => {
+    process.stderr.write(`${error.stack || error.message}\n`);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  verifyRemoteEnvelope
+};

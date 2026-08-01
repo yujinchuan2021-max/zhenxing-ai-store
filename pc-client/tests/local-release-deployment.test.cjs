@@ -11,8 +11,12 @@ const test = require("node:test");
 const {
   activateStagedBundle,
   createManualBackup,
+  discardStagedBundleCandidateBestEffort,
+  finalizeActivatedRelease,
   listBackups,
-  restoreBackup
+  rollbackActivatedRelease,
+  restoreBackup,
+  writeLocalReleaseTrustOverlay
 } = require("../admin/local-release-deployment.cjs");
 const {
   prepareReleaseBundle
@@ -32,18 +36,37 @@ function signingKey() {
   return { privateKey, source: "environment" };
 }
 
-function createBundle(root, name, version = "0.1.1") {
+function createBundle(
+  root,
+  name,
+  version = "0.1.1",
+  artifactContents = {}
+) {
   const catalog = JSON.parse(
     fs.readFileSync(
       path.resolve(__dirname, "..", "admin", "data", "catalog-v1.json"),
       "utf8"
     )
   );
+  const artifactDirectory = path.join(root, "artifacts", name);
+  fs.mkdirSync(artifactDirectory, { recursive: true });
   const installer = path.join(
-    root,
+    artifactDirectory,
     `AI-Hub-${version}-Windows-x64-Setup.exe`
   );
-  fs.writeFileSync(installer, crypto.randomBytes(4096));
+  fs.writeFileSync(
+    installer,
+    artifactContents.setup || crypto.randomBytes(4096)
+  );
+  const artifactPaths = [installer];
+  if (artifactContents.portable) {
+    const portable = path.join(
+      artifactDirectory,
+      `AI-Hub-${version}-Windows-x64-Portable.exe`
+    );
+    fs.writeFileSync(portable, artifactContents.portable);
+    artifactPaths.push(portable);
+  }
   const outputDirectory = path.join(root, "runtime", "staging", name);
   prepareReleaseBundle({
     outputDirectory,
@@ -72,13 +95,14 @@ function createBundle(root, name, version = "0.1.1") {
         dirty: true,
         versionTag: null
       },
-      artifactPaths: [installer],
+      artifactPaths,
       builtAt: "2026-07-30T00:30:00.000Z"
     }),
     signingKeys: {
       catalog: signingKey(),
       update: signingKey()
     },
+    attestedArtifactPaths: artifactPaths,
     publishedAt: "2026-07-30T01:00:00.000Z"
   });
   return outputDirectory;
@@ -127,6 +151,15 @@ function writeLocalRuntimeTrust(bundleDirectory) {
     })}\n`
   );
   return trustPath;
+}
+
+function localRuntimeTrust(fingerprint = "AA") {
+  return {
+    schemaVersion: 1,
+    origin: "https://localhost:4443",
+    fingerprint256: Array(32).fill(fingerprint).join(":"),
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+  };
 }
 
 test("activates, backs up, lists and restores only verified release bundles", () => {
@@ -192,6 +225,124 @@ test("activates, backs up, lists and restores only verified release bundles", ()
   }
 });
 
+test("ordinary activation rejects a version downgrade while restore remains explicit", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "older", "0.1.1"),
+      now: new Date("2026-08-01T01:00:00.000Z")
+    });
+    const olderBackup = createManualBackup({
+      runtimeDirectory,
+      now: new Date("2026-08-01T01:01:00.000Z")
+    });
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "newer", "0.1.2"),
+      now: new Date("2026-08-01T01:02:00.000Z")
+    });
+
+    const downgrade = createBundle(root, "downgrade", "0.1.1");
+    assert.throws(
+      () =>
+        activateStagedBundle({
+          runtimeDirectory,
+          stagedBundleDirectory: downgrade,
+          now: new Date("2026-08-01T01:03:00.000Z")
+        }),
+      /版本倒退/
+    );
+    assert.equal(fs.existsSync(downgrade), false);
+    assert.equal(
+      verifyReleaseBundle({
+        bundleDirectory: path.join(runtimeDirectory, "current")
+      }).updateVersion,
+      "0.1.2"
+    );
+
+    const restored = restoreBackup({
+      runtimeDirectory,
+      backupName: olderBackup.backupName,
+      now: new Date("2026-08-01T01:04:00.000Z")
+    });
+    assert.equal(restored.updateVersion, "0.1.1");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("same-version activation is idempotent only for the same artifact and source", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.2")
+    });
+    const exactRetry = path.join(runtimeDirectory, "staging", "exact-retry");
+    fs.cpSync(path.join(runtimeDirectory, "current"), exactRetry, {
+      recursive: true
+    });
+    assert.equal(
+      activateStagedBundle({
+        runtimeDirectory,
+        stagedBundleDirectory: exactRetry
+      }).updateVersion,
+      "0.1.2"
+    );
+
+    const conflictingRetry = createBundle(root, "conflicting-retry", "0.1.2");
+    assert.throws(
+      () =>
+        activateStagedBundle({
+          runtimeDirectory,
+          stagedBundleDirectory: conflictingRetry
+        }),
+      /同版本发布内容不一致/
+    );
+    assert.equal(fs.existsSync(conflictingRetry), false);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("same-version activation rejects a changed Portable artifact even when Setup is unchanged", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  const setup = crypto.randomBytes(4096);
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.2", {
+        setup,
+        portable: crypto.randomBytes(4096)
+      })
+    });
+    const conflictingRetry = createBundle(
+      root,
+      "portable-conflict",
+      "0.1.2",
+      {
+        setup,
+        portable: crypto.randomBytes(4096)
+      }
+    );
+    assert.throws(
+      () =>
+        activateStagedBundle({
+          runtimeDirectory,
+          stagedBundleDirectory: conflictingRetry
+        }),
+      /同版本发布内容不一致/
+    );
+    assert.equal(fs.existsSync(conflictingRetry), false);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("allows a validated TLS trust overlay only for activated runtime bundles", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
   const runtimeDirectory = path.join(root, "runtime");
@@ -213,6 +364,301 @@ test("allows a validated TLS trust overlay only for activated runtime bundles", 
       }).updateVersion,
       "0.1.1"
     );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("writes the local TLS trust overlay through the verified runtime boundary", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.1")
+    });
+    const result = writeLocalReleaseTrustOverlay({
+      runtimeDirectory,
+      trust: localRuntimeTrust("AB")
+    });
+    assert.equal(result.fingerprint256, Array(32).fill("AB").join(":"));
+    assert.equal(result.activationLockCleanupPending, false);
+    assert.equal(
+      verifyReleaseBundle({
+        bundleDirectory: path.join(runtimeDirectory, "current"),
+        allowLocalRuntimeTrust: true
+      }).updateVersion,
+      "0.1.1"
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("TLS trust pinning rejects a client-config junction before writing", (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-outside-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.1")
+    });
+    const current = path.join(runtimeDirectory, "current");
+    const clientConfig = path.join(current, "client-config");
+    fs.renameSync(clientConfig, path.join(current, "client-config-original"));
+    try {
+      fs.symlinkSync(outside, clientConfig, "junction");
+    } catch (error) {
+      if (["EPERM", "EACCES", "ENOTSUP"].includes(error?.code)) {
+        t.skip(`junction unavailable: ${error.code}`);
+        return;
+      }
+      throw error;
+    }
+    assert.throws(
+      () =>
+        writeLocalReleaseTrustOverlay({
+          runtimeDirectory,
+          trust: localRuntimeTrust("AC")
+        }),
+      /不可信|未声明|缺少/
+    );
+    assert.equal(
+      fs.existsSync(path.join(outside, "local-release-trust.json")),
+      false
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+    fs.rmSync(outside, { recursive: true, force: true });
+  }
+});
+
+test("TLS trust pinning shares the activation lock", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.1")
+    });
+    createActivationLock(runtimeDirectory, process.pid);
+    assert.throws(
+      () =>
+        writeLocalReleaseTrustOverlay({
+          runtimeDirectory,
+          trust: localRuntimeTrust("AD")
+        }),
+      /正在进行/
+    );
+    assert.equal(
+      fs.existsSync(
+        path.join(
+          runtimeDirectory,
+          "current",
+          "client-config",
+          "local-release-trust.json"
+        )
+      ),
+      false
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("TLS trust pinning can safely replace an expired runtime overlay", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.1")
+    });
+    const trustPath = path.join(
+      runtimeDirectory,
+      "current",
+      "client-config",
+      "local-release-trust.json"
+    );
+    fs.writeFileSync(
+      trustPath,
+      `${JSON.stringify({
+        ...localRuntimeTrust("AE"),
+        expiresAt: new Date(Date.now() - 60_000).toISOString()
+      })}\n`
+    );
+
+    const renewed = writeLocalReleaseTrustOverlay({
+      runtimeDirectory,
+      trust: localRuntimeTrust("AF")
+    });
+
+    assert.equal(renewed.fingerprint256, Array(32).fill("AF").join(":"));
+    assert.equal(
+      JSON.parse(fs.readFileSync(trustPath, "utf8")).fingerprint256,
+      renewed.fingerprint256
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("keeps the previous v2 release until the post-activation transaction resolves", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.1")
+    });
+    const rollbackCandidate = activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "second", "0.1.2"),
+      retainPreviousRelease: true,
+      now: new Date("2026-08-01T04:00:00.000Z")
+    });
+    assert.ok(rollbackCandidate.backupName);
+    assert.equal(
+      fs.existsSync(
+        path.join(runtimeDirectory, "backups", rollbackCandidate.backupName)
+      ),
+      true
+    );
+    const rolledBack = rollbackActivatedRelease({
+      runtimeDirectory,
+      backupName: rollbackCandidate.backupName,
+      retiredName: rollbackCandidate.retiredName
+    });
+    assert.equal(rolledBack.updateVersion, "0.1.1");
+    assert.equal(
+      fs.existsSync(
+        path.join(runtimeDirectory, "backups", rollbackCandidate.backupName)
+      ),
+      false
+    );
+
+    const commitCandidate = activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "third", "0.1.3"),
+      retainPreviousRelease: true,
+      now: new Date("2026-08-01T04:01:00.000Z")
+    });
+    const finalized = finalizeActivatedRelease({
+      runtimeDirectory,
+      backupName: commitCandidate.backupName,
+      retiredName: commitCandidate.retiredName
+    });
+    assert.equal(finalized.finalized, true);
+    assert.equal(
+      fs.existsSync(
+        path.join(runtimeDirectory, "backups", commitCandidate.backupName)
+      ),
+      false
+    );
+    assert.equal(
+      verifyReleaseBundle({
+        bundleDirectory: path.join(runtimeDirectory, "current")
+      }).updateVersion,
+      "0.1.3"
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("retains and rolls back a verified legacy v1 release during migration", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.1")
+    });
+    convertToLegacyBundleV1(path.join(runtimeDirectory, "current"));
+    const deployment = activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "second", "0.1.2"),
+      allowLegacyV1Migration: true,
+      retainPreviousRelease: true,
+      now: new Date("2026-08-01T04:02:00.000Z")
+    });
+    assert.match(deployment.retiredName, /^discard-/);
+    assert.equal(
+      fs.existsSync(
+        path.join(runtimeDirectory, "staging", deployment.retiredName)
+      ),
+      true
+    );
+
+    const rolledBack = rollbackActivatedRelease({
+      runtimeDirectory,
+      backupName: deployment.backupName,
+      retiredName: deployment.retiredName
+    });
+    assert.equal(rolledBack.legacySchemaVersion, 1);
+    assert.equal(
+      JSON.parse(
+        fs.readFileSync(
+          path.join(
+            runtimeDirectory,
+            "current",
+            "public",
+            "release-manifest.json"
+          ),
+          "utf8"
+        )
+      ).schemaVersion,
+      1
+    );
+    assert.equal(
+      fs.existsSync(
+        path.join(runtimeDirectory, "staging", deployment.retiredName)
+      ),
+      false
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("rolls an unaccepted first activation back to an empty runtime", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    const deployment = activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.1"),
+      retainPreviousRelease: true
+    });
+    const rolledBack = rollbackActivatedRelease({
+      runtimeDirectory,
+      backupName: deployment.backupName,
+      retiredName: deployment.retiredName
+    });
+    assert.equal(rolledBack.restoredReleaseKind, "none");
+    assert.equal(fs.existsSync(path.join(runtimeDirectory, "current")), false);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("removes a partial prepare candidate without crossing the staging boundary", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  const staged = path.join(runtimeDirectory, "staging", "partial-prepare");
+  const outside = path.join(root, "outside.txt");
+  try {
+    fs.mkdirSync(staged, { recursive: true });
+    fs.writeFileSync(path.join(staged, "partial.bin"), "partial");
+    fs.writeFileSync(outside, "keep");
+    const cleanup = discardStagedBundleCandidateBestEffort(
+      runtimeDirectory,
+      staged
+    );
+    assert.equal(cleanup.cleanupPending, false);
+    assert.equal(fs.existsSync(staged), false);
+    assert.equal(fs.readFileSync(outside, "utf8"), "keep");
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
@@ -298,9 +744,10 @@ test("replaces a fully verified legacy v1 current only when explicitly allowed",
       1
     );
 
+    const migratedStaged = createBundle(root, "second-migration", "0.1.2");
     const result = activateStagedBundle({
       runtimeDirectory,
-      stagedBundleDirectory: staged,
+      stagedBundleDirectory: migratedStaged,
       allowLegacyV1Migration: true,
       now: new Date("2026-08-01T00:02:00.000Z")
     });
@@ -340,7 +787,7 @@ test("never discards a corrupted v2 current during legacy migration", () => {
       })
     );
     assert.equal(fs.readFileSync(catalogPath, "utf8").endsWith("tampered"), true);
-    assert.equal(fs.existsSync(staged), true);
+    assert.equal(fs.existsSync(staged), false);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
@@ -374,7 +821,7 @@ test("rejects v1-shaped metadata that retains undeclared v2 files", () => {
       /未声明文件/
     );
     assert.equal(fs.existsSync(provenancePath), true);
-    assert.equal(fs.existsSync(staged), true);
+    assert.equal(fs.existsSync(staged), false);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
@@ -539,7 +986,7 @@ test("an activation lock prevents a competing release from touching current", ()
       }).updateVersion,
       "0.1.1"
     );
-    assert.equal(fs.existsSync(staged), true);
+    assert.equal(fs.existsSync(staged), false);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }

@@ -114,6 +114,7 @@ function prepareReleaseBundle({
   installerPath,
   version,
   buildProvenance,
+  attestedArtifactPaths = [installerPath],
   signingKeys,
   publishedAt = new Date().toISOString(),
   notes = [],
@@ -166,11 +167,38 @@ function prepareReleaseBundle({
   if (artifactMatch[1] !== version) {
     throw new Error("更新安装包文件名版本与发布版本不一致");
   }
+  if (
+    !Array.isArray(attestedArtifactPaths) ||
+    attestedArtifactPaths.length < 1 ||
+    attestedArtifactPaths.length > 8 ||
+    attestedArtifactPaths.some((entry) => !path.isAbsolute(entry)) ||
+    !attestedArtifactPaths.some(
+      (entry) => path.resolve(entry) === path.resolve(installerPath)
+    ) ||
+    new Set(attestedArtifactPaths.map((entry) => path.resolve(entry).toLowerCase()))
+      .size !== attestedArtifactPaths.length
+  ) {
+    throw new Error("构建来源签名制品列表无效");
+  }
   const verifiedBuild = verifyArtifactBuildMetadata({
     metadata: buildProvenance,
     artifactPath: installerPath,
     version
   });
+  const attestedArtifacts = attestedArtifactPaths
+    .map((artifactPath) => {
+      verifyArtifactBuildMetadata({
+        metadata: buildProvenance,
+        artifactPath,
+        version
+      });
+      return {
+        name: path.basename(artifactPath),
+        sha256: sha256File(artifactPath),
+        fileSize: fs.statSync(artifactPath).size
+      };
+    })
+    .sort((left, right) => left.name.localeCompare(right.name));
   const artifactUrl = new URL(`artifacts/${artifactName}`, root).href;
   const updatePayload = validateUpdatePayload(
     {
@@ -195,15 +223,11 @@ function prepareReleaseBundle({
     privateKey: signingKeys.update.privateKey
   });
   const buildPayload = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     version,
     builtAt: verifiedBuild.builtAt,
     source: verifiedBuild.source,
-    artifact: {
-      name: artifactName,
-      sha256: updatePayload.sha256,
-      fileSize: updatePayload.fileSize
-    }
+    artifacts: attestedArtifacts
   };
   const signedBuild = createSignedEnvelope({
     kind: "build-provenance",

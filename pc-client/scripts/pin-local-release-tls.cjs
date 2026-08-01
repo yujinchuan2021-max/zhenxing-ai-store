@@ -1,19 +1,24 @@
 "use strict";
 
-const fs = require("node:fs");
 const path = require("node:path");
 const tls = require("node:tls");
+const {
+  writeLocalReleaseTrustOverlay
+} = require("../admin/local-release-deployment.cjs");
 const {
   localReleaseTrustFromCertificate,
   retryLocalReleaseCertificateRead
 } = require("../shared/local-release-certificate.cjs");
 
 const root = path.resolve(__dirname, "..");
-const outputPath = path.join(
+const runtimeDirectory = path.join(
   root,
   "deployment",
   "local",
-  "runtime",
+  "runtime"
+);
+const outputPath = path.join(
+  runtimeDirectory,
   "current",
   "client-config",
   "local-release-trust.json"
@@ -54,19 +59,22 @@ async function main() {
     readCertificate
   });
   const trust = localReleaseTrustFromCertificate(certificate);
-  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-  fs.writeFileSync(
-    outputPath,
-    `${JSON.stringify(trust, null, 2)}\n`,
-    "utf8"
-  );
+  const persisted = writeLocalReleaseTrustOverlay({
+    runtimeDirectory,
+    trust
+  });
   process.stdout.write(
     `${JSON.stringify(
       {
         ok: true,
         outputPath,
-        fingerprint256: trust.fingerprint256,
-        expiresAt: trust.expiresAt
+        fingerprint256: persisted.fingerprint256,
+        expiresAt: persisted.expiresAt,
+        staleLockCleanupPending: persisted.staleLockCleanupPending,
+        activationLockCleanupPending:
+          persisted.activationLockCleanupPending,
+        activationLockCleanupErrorCode:
+          persisted.activationLockCleanupErrorCode
       },
       null,
       2

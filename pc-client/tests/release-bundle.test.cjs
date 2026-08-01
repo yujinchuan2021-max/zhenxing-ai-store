@@ -104,6 +104,59 @@ test("builds and verifies a server-migratable signed release bundle", () => {
   }
 });
 
+test("signed build provenance binds both Setup and Portable acceptance bytes", () => {
+  const value = fixture();
+  try {
+    const portable = path.join(
+      value.root,
+      "AI-Hub-0.1.1-Windows-x64-Portable.exe"
+    );
+    fs.writeFileSync(portable, crypto.randomBytes(3072));
+    const buildProvenance = createArtifactBuildMetadata({
+      version: "0.1.1",
+      source: value.buildProvenance.source,
+      artifactPaths: [value.installer, portable],
+      builtAt: value.buildProvenance.builtAt
+    });
+    const outputDirectory = path.join(value.root, "portable-bundle");
+    prepareReleaseBundle({
+      outputDirectory,
+      baseUrl: "https://localhost:4443/",
+      catalogEnvelope: value.catalogEnvelope,
+      installerPath: value.installer,
+      version: "0.1.1",
+      buildProvenance,
+      attestedArtifactPaths: [value.installer, portable],
+      signingKeys: { catalog: signingKey(), update: signingKey() },
+      publishedAt: "2026-07-30T01:00:00.000Z"
+    });
+    const verified = verifyReleaseBundle({ bundleDirectory: outputDirectory });
+    assert.deepEqual(
+      verified.buildArtifacts.map((entry) => entry.name).sort(),
+      [path.basename(value.installer), path.basename(portable)].sort()
+    );
+
+    fs.appendFileSync(portable, "tampered");
+    assert.throws(
+      () =>
+        prepareReleaseBundle({
+          outputDirectory: path.join(value.root, "tampered-portable-bundle"),
+          baseUrl: "https://localhost:4443/",
+          catalogEnvelope: value.catalogEnvelope,
+          installerPath: value.installer,
+          version: "0.1.1",
+          buildProvenance,
+          attestedArtifactPaths: [value.installer, portable],
+          signingKeys: { catalog: signingKey(), update: signingKey() },
+          publishedAt: "2026-07-30T01:00:00.000Z"
+        }),
+      /不一致/
+    );
+  } finally {
+    fs.rmSync(value.root, { recursive: true, force: true });
+  }
+});
+
 test("rejects source provenance changed outside the signed build attestation", () => {
   const value = fixture();
   try {

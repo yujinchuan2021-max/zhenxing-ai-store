@@ -12,12 +12,17 @@ import { runDownloadedPackageAction } from "@aihub-shared/downloaded-package-act
 import { loadDevelopmentCatalog } from "@aihub-shared/development-catalog.cjs";
 import { buildInstalledProductManagement } from "@aihub-shared/installed-product-management.cjs";
 import {
+  resolveManagedProductActionContext,
+  resolveManagedProductActionContexts
+} from "@aihub-shared/managed-product-action-context.cjs";
+import {
   getDownloadTaskPreparation,
   getProductDownloadRecoveryPresentation,
   getProductInstallPresentation
 } from "@aihub-shared/product-install-presentation.cjs";
 import { resolveProductBehavior } from "@aihub-shared/product-policy.cjs";
 import { getUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
+import { runVerifiedManagedInstall } from "@aihub-shared/verified-managed-install.cjs";
 import { buildProductDirectory } from "@aihub-shared/product-components.cjs";
 import {
   createLanguage,
@@ -1330,8 +1335,10 @@ export default function App() {
 
   useEffect(() => {
     if (!window.aihubPC) return;
-    catalogAllVendors
-      .flatMap((vendor) => vendor.products)
+    resolveManagedProductActionContexts({
+      vendors: catalogAllVendors,
+      localInventory
+    })
       .filter((product) => product.download)
       .forEach((product) => {
         if (recoveredProductIds.current.has(product.id)) return;
@@ -1409,7 +1416,7 @@ export default function App() {
           }
         })();
       });
-  }, [catalogAllVendors]);
+  }, [catalogAllVendors, localInventory]);
 
   useEffect(() => {
     let disposed = false;
@@ -1811,14 +1818,12 @@ export default function App() {
       else await installEnvironment(environmentId);
       return;
     }
-    const product = catalogAllVendors
-      .flatMap((vendor) => vendor.products)
-      .find((candidate) => candidate.id === productId);
+    const product = resolveProductActionContext(productId);
     if (!product) {
       setDownloadTaskError(productId, uiText("auto.0174b6fcadff"));
       return;
     }
-    await installDownloadedProduct(product);
+    await requestUnifiedInstall(product);
   };
 
   const showDownloadInFolder = async (productId: string) => {
@@ -2601,14 +2606,12 @@ export default function App() {
       ) {
         continue;
       }
-      const product = catalogAllVendors
-        .flatMap((vendor) => vendor.products)
-        .find((candidate) => candidate.id === task.productId);
+      const product = resolveProductActionContext(task.productId);
       if (product) {
         void installProduct(product);
       }
     }
-  }, [catalogAllVendors, downloadTasks]);
+  }, [catalogAllVendors, downloadTasks, localInventory]);
 
   const recheckDesktopInstall = async (product: Product) => {
     if (!window.aihubPC) return;
@@ -2781,9 +2784,7 @@ export default function App() {
   };
 
   const checkDesktopOperationTask = async (productId: string) => {
-    const product = catalogAllVendors
-      .flatMap((vendor) => vendor.products)
-      .find((candidate) => candidate.id === productId);
+    const product = resolveProductActionContext(productId);
     if (!product) {
       setDownloadTaskError(productId, uiText("auto.0174b6fcadff"));
       return;
@@ -2813,13 +2814,12 @@ export default function App() {
     });
   };
 
-  const findCatalogProduct = (productId: string) => {
-    for (const vendor of catalogAllVendors) {
-      const product = vendor.products.find((item) => item.id === productId);
-      if (product) return product;
-    }
-    return null;
-  };
+  const resolveProductActionContext = (productId: string) =>
+    resolveManagedProductActionContext({
+      productId,
+      vendors: catalogAllVendors,
+      localInventory
+    });
 
   const chooseCliDirectory = async () => {
     const settings = window.aihubPC
@@ -3160,7 +3160,7 @@ export default function App() {
 
   const recheckCliManagedTask = async (productId: string) => {
     const task = cliManagedTasks[productId];
-    const product = findCatalogProduct(productId);
+    const product = resolveProductActionContext(productId);
     if (!task || !product || !window.aihubPC || task.phase === "running") return;
     const generation = beginProductOperation(productId);
     updateCliManagedTask(
@@ -3244,7 +3244,7 @@ export default function App() {
 
   const retryCliManagedTask = async (productId: string) => {
     const task = cliManagedTasks[productId];
-    const product = findCatalogProduct(productId);
+    const product = resolveProductActionContext(productId);
     if (!task || !product || !window.aihubPC || task.phase === "running") return;
     if (task.operation === "deploy") {
       await deployCli(product);
@@ -3358,25 +3358,11 @@ export default function App() {
       await downloadProduct(product, true);
     };
 
-    const currentStage = productStages[product.id] || "idle";
-    if (currentStage === "downloaded") {
-      await installDownloadedProduct(product);
-      return;
-    }
-    if (currentStage === "ready") {
-      await continueInstall("ready");
-      return;
-    }
-    if (currentStage === "paused" && behavior.managedDesktop) {
-      await downloadProduct(product, true);
-      return;
-    }
-    const preparation = await detectForProduct(product);
-    if (preparation === "blocked") {
-      await beginAutomaticEnvironmentSetup(product);
-      return;
-    }
-    await continueInstall(preparation);
+    await runVerifiedManagedInstall({
+      detect: () => detectForProduct(product),
+      setupDependencies: () => beginAutomaticEnvironmentSetup(product),
+      continueInstall
+    });
   };
 
   const requestUnifiedInstall = (product: Product) =>
@@ -3500,7 +3486,7 @@ export default function App() {
       await uninstallEnvironment(entry.id.slice("environment:".length));
       return;
     }
-    const product = findCatalogProduct(entry.id);
+    const product = resolveProductActionContext(entry.id);
     if (!product) return;
     if (entry.type === "cli") await requestCliUninstall(product);
     else await requestDesktopUninstall(product);
@@ -3555,7 +3541,11 @@ export default function App() {
           <small>{uiText("chrome.pc")}</small>
         </button>
 
-        <form className="search" onSubmit={submitSearch}>
+        <form
+          className="search"
+          data-aihub-action="catalog-search"
+          onSubmit={submitSearch}
+        >
           <span>⌕</span>
           <input
             value={search}
@@ -3738,7 +3728,7 @@ export default function App() {
               }
               onUninstall={uninstallManagedProduct}
               onRepairWslEnvironment={async (entry) => {
-                const product = findCatalogProduct(entry.ownerProductId);
+                const product = resolveProductActionContext(entry.ownerProductId);
                 if (!product) return;
                 await deployCli(product);
                 await refreshInstalledManagement();
@@ -4027,6 +4017,7 @@ function VendorsPage({
           {visible.map((vendor) => (
           <button
             className="vendorCard"
+            data-aihub-vendor-id={vendor.id}
             key={vendor.id}
             onClick={() => onOpenVendor(vendor)}
           >
@@ -4338,7 +4329,10 @@ function ExtensionResourceRow({
               : status?.error || "";
 
   return (
-    <article className="productExtension">
+    <article
+      className="productExtension"
+      data-aihub-extension-profile-id={extension.installProfileId || undefined}
+    >
       <span>
         {extension.extensionType === "skill"
           ? uiText("extensions.skill")
@@ -4362,6 +4356,9 @@ function ExtensionResourceRow({
         {(shouldInstall || shouldUninstall) && (
           <button
             className={shouldInstall ? "accentButton" : ""}
+            data-aihub-action={
+              shouldInstall ? "install-extension" : "uninstall-extension"
+            }
             disabled={busyAction !== null}
             onClick={() => void runAction(shouldInstall ? "install" : "uninstall")}
           >
@@ -4485,7 +4482,7 @@ function ProductRow({
     .filter((extension) => extension.enabled !== false)
     .sort((left, right) => (left.order || 0) - (right.order || 0));
   return (
-    <article className="productRow">
+    <article className="productRow" data-aihub-product-id={product.id}>
       <div className="productInfo">
         <span>{product.kind}</span>
         <h4>{product.name}</h4>
@@ -4522,6 +4519,7 @@ function ProductRow({
           {stage === "idle" && installable && (
             <button
               className="accentButton"
+              data-aihub-action="install-product"
               disabled={productOperationBusy}
               onClick={onInstallProduct}
             >
@@ -4569,6 +4567,7 @@ function ProductRow({
           {stage === "ready" && (
             <button
               className="accentButton"
+              data-aihub-action="install-product"
               onClick={onInstallProduct}
             >
               {installButtonLabel}
@@ -4595,6 +4594,7 @@ function ProductRow({
                 <span>{downloadStatusLabel}</span>
                 <div className="downloadStateActions">
                   <button
+                    data-aihub-action="pause-download"
                     disabled={downloadTaskChanging}
                     onClick={onPauseDownload}
                   >
@@ -4693,7 +4693,11 @@ function ProductRow({
               "awaiting-verification"
             ].includes(stage) && (
             <div className="installingState">
-              <button className="accentButton" disabled={installPresentation.disabled}>
+              <button
+                className="accentButton"
+                data-aihub-action="product-busy"
+                disabled={installPresentation.disabled}
+              >
                 {installPresentation.buttonLabel}
               </button>
             </div>

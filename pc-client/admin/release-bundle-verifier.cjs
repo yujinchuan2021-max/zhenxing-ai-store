@@ -417,23 +417,48 @@ function verifyReleaseBundle({
       trustedKeys: common.updateChannel.trustedKeys
     }
   );
+  const buildKeys =
+    build.schemaVersion === 1
+      ? ["schemaVersion", "version", "builtAt", "source", "artifact"]
+      : ["schemaVersion", "version", "builtAt", "source", "artifacts"];
   if (
-    !exactKeys(build, [
-      "schemaVersion",
-      "version",
-      "builtAt",
-      "source",
-      "artifact"
-    ]) ||
-    build.schemaVersion !== 1 ||
+    ![1, 2].includes(build.schemaVersion) ||
+    !exactKeys(build, buildKeys) ||
     build.version !== common.manifest.update.version ||
-    build.builtAt !== common.manifest.build.builtAt ||
-    !exactKeys(build.artifact, ["name", "sha256", "fileSize"]) ||
-    build.artifact.name !== common.artifactName ||
-    build.artifact.sha256 !== common.manifest.update.sha256 ||
-    build.artifact.fileSize !== common.manifest.update.fileSize
+    build.builtAt !== common.manifest.build.builtAt
   ) {
     throw new Error("构建来源签名内容无效");
+  }
+  const buildArtifacts =
+    build.schemaVersion === 1 ? [build.artifact] : build.artifacts;
+  if (
+    !Array.isArray(buildArtifacts) ||
+    buildArtifacts.length < 1 ||
+    buildArtifacts.length > 8 ||
+    buildArtifacts.some(
+      (entry) =>
+        !exactKeys(entry, ["name", "sha256", "fileSize"]) ||
+        typeof entry.name !== "string" ||
+        !entry.name ||
+        /[\\/]/.test(entry.name) ||
+        !/^[0-9a-f]{64}$/.test(entry.sha256 || "") ||
+        !Number.isSafeInteger(entry.fileSize) ||
+        entry.fileSize < 1
+    ) ||
+    new Set(buildArtifacts.map((entry) => entry.name.toLowerCase())).size !==
+      buildArtifacts.length
+  ) {
+    throw new Error("构建来源签名制品列表无效");
+  }
+  const signedInstaller = buildArtifacts.find(
+    (entry) => entry.name === common.artifactName
+  );
+  if (
+    !signedInstaller ||
+    signedInstaller.sha256 !== common.manifest.update.sha256 ||
+    signedInstaller.fileSize !== common.manifest.update.fileSize
+  ) {
+    throw new Error("构建来源签名安装包与更新清单不一致");
   }
   const source = normalizeReleaseSource(build.source, build.version);
   if (
@@ -445,7 +470,9 @@ function verifyReleaseBundle({
   }
   return {
     ...publicVerificationResult(common),
-    source
+    source,
+    builtAt: build.builtAt,
+    buildArtifacts: buildArtifacts.map((entry) => ({ ...entry }))
   };
 }
 

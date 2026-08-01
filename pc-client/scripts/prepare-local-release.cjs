@@ -9,11 +9,11 @@ const {
   loadSigningKey
 } = require("../admin/signing-key.cjs");
 const {
-  activateStagedBundle
+  activateStagedBundle,
+  discardStagedBundleCandidateBestEffort,
+  finalizeActivatedRelease,
+  rollbackActivatedRelease
 } = require("../admin/local-release-deployment.cjs");
-const {
-  discardActivatedLocalReleaseBackupBestEffort
-} = require("../shared/local-release-retention.cjs");
 const {
   readArtifactBuildMetadata
 } = require("../shared/release-provenance.cjs");
@@ -58,6 +58,10 @@ const installerPath = path.resolve(
       `AI-Hub-Local-${packageVersion}-Windows-x64-Setup.exe`
     )
 );
+const portablePath = path.join(
+  path.dirname(installerPath),
+  `AI-Hub-Local-${packageVersion}-Windows-x64-Portable.exe`
+);
 const releaseVersion = process.env.AIHUB_RELEASE_VERSION || packageVersion;
 if (releaseVersion !== packageVersion) {
   throw new Error("本地发布版本必须与 package.json 完全一致");
@@ -80,6 +84,52 @@ const stagingDirectory = path.join(
   "staging",
   `prepare-${Date.now()}-${process.pid}`
 );
+const resultFileFlagIndex = process.argv.indexOf("--result-file");
+const resultFile =
+  resultFileFlagIndex >= 0
+    ? path.resolve(String(process.argv[resultFileFlagIndex + 1] || ""))
+    : null;
+if (
+  resultFileFlagIndex >= 0 &&
+  (!process.argv[resultFileFlagIndex + 1] ||
+    process.argv.length !== resultFileFlagIndex + 2)
+) {
+  throw new Error("--result-file 必须提供唯一的结果文件路径");
+}
+
+function writeResultFile(filePath, value) {
+  if (!filePath || !path.isAbsolute(filePath)) {
+    throw new Error("发布事务结果文件必须是绝对路径");
+  }
+  const parent = path.dirname(filePath);
+  const parentStat = fs.lstatSync(parent);
+  if (!parentStat.isDirectory() || parentStat.isSymbolicLink()) {
+    throw new Error("发布事务结果目录不可信");
+  }
+  if (fs.existsSync(filePath)) {
+    throw new Error("发布事务结果文件已经存在");
+  }
+  const temporary = path.join(
+    parent,
+    `.${path.basename(filePath)}.${process.pid}.tmp`
+  );
+  fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, {
+    encoding: "utf8",
+    flag: "wx",
+    mode: 0o600
+  });
+  try {
+    fs.renameSync(temporary, filePath);
+  } finally {
+    fs.rmSync(temporary, { force: true });
+  }
+}
+
+let deployment = null;
+let expectedCurrent = null;
+let completed = false;
+let transactionFinalized = false;
+try {
 const result = prepareReleaseBundle({
   outputDirectory: stagingDirectory,
   baseUrl: process.env.AIHUB_RELEASE_BASE_URL || "https://localhost:4443/",
@@ -87,6 +137,7 @@ const result = prepareReleaseBundle({
   installerPath,
   version: releaseVersion,
   buildProvenance,
+  attestedArtifactPaths: [installerPath, portablePath],
   signingKeys: {
     catalog: localSigningKey(
       "AIHUB_CATALOG_SIGNING_PRIVATE_KEY",
@@ -117,28 +168,23 @@ const result = prepareReleaseBundle({
   allowLocalhost: false,
   allowLocalDevelopmentKeys: true
 });
-const deployment = activateStagedBundle({
+deployment = activateStagedBundle({
   runtimeDirectory,
   stagedBundleDirectory: stagingDirectory,
-  allowLegacyV1Migration: true
+  allowLegacyV1Migration: true,
+  retainPreviousRelease: true
 });
-const backupCleanup = deployment.backupName
-  ? discardActivatedLocalReleaseBackupBestEffort({
-      runtimeDirectory,
-      backupName: deployment.backupName
-    })
-  : { discarded: false, cleanupPending: false, errorCode: null };
-
-process.stdout.write(
-  `${JSON.stringify(
-    {
+expectedCurrent = {
+  version: result.update.version,
+  sha256: result.update.sha256,
+  source: result.source
+};
+const receipt = {
       ok: true,
       publicDirectory: path.join(deployment.current, "public"),
-      discardedBackupName: backupCleanup.discarded
-        ? deployment.backupName
-        : null,
-      backupCleanupPending: backupCleanup.cleanupPending,
-      backupCleanupErrorCode: backupCleanup.errorCode,
+      backupName: deployment.backupName,
+      retiredName: deployment.retiredName,
+      expectedCurrent,
       migratedLegacyCurrent: deployment.migratedLegacyCurrent,
       discardedIncompatibleCurrent: deployment.discardedIncompatibleCurrent,
       retiredCleanupPending: deployment.retiredCleanupPending,
@@ -157,8 +203,53 @@ process.stdout.write(
       fileSize: result.update.fileSize,
       catalogKeyId: result.signingKeys.catalog.keyId,
       updateKeyId: result.signingKeys.update.keyId
-    },
-    null,
-    2
-  )}\n`
-);
+};
+if (resultFile) {
+  writeResultFile(resultFile, receipt);
+} else {
+  const finalization = finalizeActivatedRelease({
+    runtimeDirectory,
+    backupName: deployment.backupName,
+    retiredName: deployment.retiredName,
+    expectedCurrent
+  });
+  if (finalization.cleanupPending) {
+    throw new Error(
+      `本地发布旧版本清理待处理：${finalization.cleanupErrorCode}`
+    );
+  }
+  receipt.transactionFinalized = true;
+  transactionFinalized = true;
+}
+process.stdout.write(`${JSON.stringify(receipt, null, 2)}\n`);
+completed = true;
+} catch (error) {
+  if (deployment && !transactionFinalized) {
+    try {
+      rollbackActivatedRelease({
+        runtimeDirectory,
+        backupName: deployment.backupName,
+        retiredName: deployment.retiredName,
+        expectedCurrent
+      });
+    } catch (rollbackError) {
+      throw new AggregateError(
+        [error, rollbackError],
+        "本地发布准备失败且自动回滚失败"
+      );
+    }
+  }
+  throw error;
+} finally {
+  if (!completed && !deployment) {
+    const cleanup = discardStagedBundleCandidateBestEffort(
+      runtimeDirectory,
+      stagingDirectory
+    );
+    if (cleanup.cleanupPending) {
+      process.stderr.write(
+        `本地发布 staging 清理待处理：${cleanup.errorCode}\n`
+      );
+    }
+  }
+}
