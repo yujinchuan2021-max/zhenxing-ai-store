@@ -272,6 +272,61 @@ test("runtime recovery is idempotent across the rename fault window", () => {
   }
 });
 
+test("runtime recovery reconstructs the snapshot in place when Windows retains the directory", () => {
+  const value = fixture();
+  const originalRenameSync = fs.renameSync;
+  try {
+    const journal = beginUpgradeJournal({
+      transactionRoot: value.transactionRoot,
+      runtimeDirectory: value.runtimeDirectory,
+      version,
+      revision
+    });
+    const current = path.join(value.runtimeDirectory, "current");
+    fs.writeFileSync(path.join(current, "public", "release.json"), "candidate\n");
+    fs.writeFileSync(path.join(current, "public", "candidate-only.json"), "next\n");
+
+    fs.renameSync = (source, destination) => {
+      if (
+        path.resolve(source) === path.resolve(current) &&
+        path.resolve(destination) ===
+          path.resolve(journal.transactionPath, "runtime-rejected")
+      ) {
+        const error = new Error("Windows directory is still mounted");
+        error.code = "EPERM";
+        throw error;
+      }
+      return originalRenameSync(source, destination);
+    };
+
+    assert.deepEqual(
+      restoreRuntimeSnapshot({
+        transactionRoot: value.transactionRoot,
+        runtimeDirectory: value.runtimeDirectory
+      }),
+      { restored: true, previousRuntime: true, inPlace: true }
+    );
+    assert.equal(
+      fs.readFileSync(path.join(current, "public", "release.json"), "utf8"),
+      "previous\n"
+    );
+    assert.equal(
+      fs.existsSync(path.join(current, "public", "candidate-only.json")),
+      false
+    );
+    assert.equal(
+      verifyRuntimeSnapshotRestored({
+        transactionRoot: value.transactionRoot,
+        runtimeDirectory: value.runtimeDirectory
+      }).restored,
+      true
+    );
+  } finally {
+    fs.renameSync = originalRenameSync;
+    value.cleanup();
+  }
+});
+
 test("first-release recovery removes an unaccepted runtime", () => {
   const value = fixture({ current: false });
   try {

@@ -20,3 +20,4 @@ deployment/local/private/
 deployment/local/transactions/
 deployment/production/
 release-local-server-client/
+.release-local-server-client-retired-*/

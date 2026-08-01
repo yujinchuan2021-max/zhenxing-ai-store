@@ -70,13 +70,17 @@ function Refresh-MailpitHostBinding {
 }
 
 function Stop-ReleaseServerFailClosed {
-  & docker compose -f $ComposeFile stop --timeout 10 release-server
+  # Removing the rejected container releases Docker Desktop's bind mount on
+  # deployment/local/runtime. A stopped container can retain that Windows
+  # directory handle and make the durable runtime rollback fail with EPERM.
+  & docker compose -f $ComposeFile rm -f -s release-server
   if ($LASTEXITCODE -ne 0) {
     & docker compose -f $ComposeFile kill release-server
+    & docker compose -f $ComposeFile rm -f release-server
   }
-  $Running = & docker compose -f $ComposeFile ps --status running -q release-server
-  if ($LASTEXITCODE -ne 0 -or $Running) {
-    throw "rejected local release server could not be stopped"
+  $Container = & docker compose -f $ComposeFile ps -a -q release-server
+  if ($LASTEXITCODE -ne 0 -or $Container) {
+    throw "rejected local release server container could not be removed"
   }
 }
 
@@ -132,7 +136,13 @@ function Restore-ReleaseServerAfterRollback {
   if (Test-Path -LiteralPath $CurrentRuntime -PathType Container) {
     Invoke-NpmScript "release:local:recreate-server"
     Invoke-NpmScript "release:local:pin-tls"
-    Invoke-NpmScript "release:local:verify"
+    # A signed previous release can legitimately use a catalog policy that the
+    # newer source no longer accepts. Recovery still verifies its exact signed
+    # files, channels, update artifact and provenance; only current-policy
+    # compatibility is reported instead of blocking rollback.
+    Invoke-NodeScript "scripts/verify-local-release.cjs" @(
+      "--allow-catalog-policy-drift"
+    )
     return
   }
   Stop-ReleaseServerFailClosed

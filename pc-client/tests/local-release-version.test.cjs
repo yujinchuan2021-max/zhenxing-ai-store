@@ -61,6 +61,38 @@ test("local packaging captures and continuously rechecks the tagged clean source
   );
 });
 
+test("the durable delivery retirement directory cannot dirty the tagged source mid-transaction", () => {
+  const ignore = fs.readFileSync(path.resolve(__dirname, "../.gitignore"), "utf8");
+  assert.match(ignore, /^\.release-local-server-client-retired-\*\/$/m);
+});
+
+test("recovery removes the release-server container before restoring Windows runtime files", () => {
+  assert.match(
+    upgradeSource,
+    /docker compose -f \$ComposeFile rm -f -s release-server/
+  );
+  assert.match(
+    upgradeSource,
+    /ps -a -q release-server/
+  );
+});
+
+test("rollback verifies signed previous releases without requiring the newer catalog policy", () => {
+  const verifier = fs.readFileSync(
+    path.resolve(__dirname, "../scripts/verify-local-release.cjs"),
+    "utf8"
+  );
+  assert.match(
+    upgradeSource,
+    /verify-local-release\.cjs" @\([\s\S]*--allow-catalog-policy-drift/
+  );
+  assert.match(
+    verifier,
+    /args\.length === 1 && args\[0\] === "--allow-catalog-policy-drift"/
+  );
+  assert.match(verifier, /allowCatalogPolicyDrift/);
+});
+
 test("local TLS pinning delegates writes to the locked deployment boundary", () => {
   const source = fs.readFileSync(
     path.resolve(__dirname, "../scripts/pin-local-release-tls.cjs"),

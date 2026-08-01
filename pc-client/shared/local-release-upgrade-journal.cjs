@@ -465,6 +465,31 @@ function verifyUpgradeJournalReceipts({ transactionRoot }) {
   return { verified: true, receiptDigests: { ...expected } };
 }
 
+function restoreSnapshotInPlace({ current, previous, expected }) {
+  if (!sameSnapshot(previous, expected)) {
+    throw new Error("Local release runtime rollback snapshot is unavailable");
+  }
+  const currentRoot = trustedDirectory(current);
+  for (const child of fs.readdirSync(currentRoot)) {
+    fs.rmSync(path.join(currentRoot, child), {
+      recursive: true,
+      force: true,
+      maxRetries: 20,
+      retryDelay: 100
+    });
+  }
+  for (const entry of expected) {
+    const segments = entry.path.split("/");
+    const source = path.join(previous, ...segments);
+    const destination = path.join(currentRoot, ...segments);
+    fs.mkdirSync(path.dirname(destination), { recursive: true });
+    fs.copyFileSync(source, destination);
+  }
+  if (!sameSnapshot(currentRoot, expected)) {
+    throw new Error("Local release runtime in-place rollback could not be verified");
+  }
+}
+
 function restoreRuntimeSnapshot({ transactionRoot, runtimeDirectory }) {
   const record = readUpgradeJournal({ transactionRoot });
   const snapshot = validateSnapshot(record.journal.runtimeSnapshot);
@@ -480,18 +505,40 @@ function restoreRuntimeSnapshot({ transactionRoot, runtimeDirectory }) {
   if (!snapshot.existed && !fs.existsSync(current)) {
     return { restored: true, previousRuntime: false };
   }
+  if (snapshot.existed && !sameSnapshot(previous, snapshot.files)) {
+    throw new Error("Local release runtime rollback snapshot is unavailable");
+  }
   if (fs.existsSync(current)) {
     const stat = fs.lstatSync(current);
     if (!stat.isDirectory() || stat.isSymbolicLink() || fs.existsSync(rejected)) {
       throw new Error("Local release runtime rollback target is not trusted");
     }
-    fs.renameSync(current, rejected);
+    try {
+      fs.renameSync(current, rejected);
+    } catch (error) {
+      if (
+        !snapshot.existed ||
+        !["EACCES", "EBUSY", "EPERM"].includes(error?.code) ||
+        !fs.existsSync(current) ||
+        fs.existsSync(rejected)
+      ) {
+        throw error;
+      }
+      // Docker Desktop and antivirus scanners can retain a Windows directory
+      // handle after the release-server container has stopped. Reconstructing
+      // the signed snapshot in place is retryable: services stay fail-closed,
+      // the immutable snapshot remains in the journal, and the exact tree is
+      // verified before recovery may advance.
+      restoreSnapshotInPlace({
+        current,
+        previous,
+        expected: snapshot.files
+      });
+      return { restored: true, previousRuntime: true, inPlace: true };
+    }
   }
   if (!snapshot.existed) {
     return { restored: true, previousRuntime: false };
-  }
-  if (!sameSnapshot(previous, snapshot.files)) {
-    throw new Error("Local release runtime rollback snapshot is unavailable");
   }
   if (!fs.existsSync(candidate)) {
     fs.cpSync(previous, candidate, {
