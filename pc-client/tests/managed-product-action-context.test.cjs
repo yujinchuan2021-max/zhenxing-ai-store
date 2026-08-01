@@ -19,7 +19,7 @@ const CLAUDE_LOCAL_PROFILE = {
   requirements: [],
   capabilities: ["website", "tutorial", "install", "open", "uninstall"],
   download: {
-    url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+    url: "https://claude.ai/api/desktop/win32/x64/setup/latest/redirect",
     fileName: "Claude-Setup-x64.exe"
   }
 };
@@ -47,12 +47,81 @@ test("an approved installed product keeps a safe action context after its backen
     downloadPolicy: "client-managed",
     signaturePolicy: "client-reviewed",
     uninstallPolicy: "client-managed",
-    capabilities: ["website", "tutorial", "install", "open", "uninstall"],
+    capabilities: ["open", "uninstall"],
     download: {
-      url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+      url: "https://claude.ai/api/desktop/win32/x64/setup/latest/redirect",
       fileName: "Claude-Setup-x64.exe"
     }
   });
+});
+
+test("a disabled backend card keeps only installed-instance recovery actions", () => {
+  const product = resolveManagedProductActionContext({
+    productId: "claude-desktop",
+    vendors: [
+      {
+        id: "anthropic",
+        enabled: true,
+        products: [
+          {
+            id: "claude-desktop",
+            name: "Claude Desktop",
+            productType: "desktop-reviewed",
+            kind: "桌面端",
+            requirements: [],
+            capabilities: [
+              "website",
+              "tutorial",
+              "install",
+              "open",
+              "uninstall"
+            ],
+            enabled: false
+          }
+        ]
+      }
+    ],
+    localInventory: [CLAUDE_LOCAL_PROFILE]
+  });
+
+  assert.ok(product);
+  assert.deepEqual(product.capabilities, ["open", "uninstall"]);
+});
+
+test("an install action requires an enabled backend card even for a local approved profile", () => {
+  assert.equal(
+    resolveManagedProductActionContext({
+      productId: "claude-desktop",
+      vendors: [],
+      localInventory: [CLAUDE_LOCAL_PROFILE],
+      requireCatalogEnabled: true
+    }),
+    null
+  );
+  assert.equal(
+    resolveManagedProductActionContext({
+      productId: "claude-desktop",
+      vendors: [
+        {
+          id: "anthropic",
+          enabled: true,
+          products: [
+            {
+              id: "claude-desktop",
+              name: "Claude Desktop",
+              productType: "desktop-reviewed",
+              kind: "桌面端",
+              requirements: [],
+              enabled: false
+            }
+          ]
+        }
+      ],
+      localInventory: [CLAUDE_LOCAL_PROFILE],
+      requireCatalogEnabled: true
+    }),
+    null
+  );
 });
 
 test("an inventory entry that is not in the client whitelist cannot create an action context", () => {

@@ -8,6 +8,11 @@ const {
 const { getManagedDownload } = require("./managed-downloads.cjs");
 const { getProductModule } = require("./product-modules.cjs");
 
+const INSTALLED_INSTANCE_RECOVERY_CAPABILITIES = Object.freeze([
+  "open",
+  "uninstall"
+]);
+
 function sameStringSet(left, right) {
   if (
     !Array.isArray(left) ||
@@ -57,13 +62,20 @@ function matchingLocalProfile(localInventory, productId, registration) {
   return profile;
 }
 
-function matchingCatalogProduct(vendors, productId, registration) {
+function matchingCatalogProduct(
+  vendors,
+  productId,
+  registration,
+  requireEnabled = false
+) {
   for (const vendor of Array.isArray(vendors) ? vendors : []) {
     if (vendor?.id !== registration.vendorId) continue;
+    if (requireEnabled && vendor.enabled === false) return null;
     const product = (Array.isArray(vendor.products) ? vendor.products : []).find(
       (candidate) => candidate?.id === productId
     );
     if (!product) continue;
+    if (requireEnabled && product.enabled === false) return null;
     if (
       product.productType !== registration.productType ||
       product.kind !== registration.kind ||
@@ -87,7 +99,8 @@ function safeDisplayString(value, fallback = "") {
 function resolveManagedProductActionContext({
   productId,
   vendors = [],
-  localInventory = []
+  localInventory = [],
+  requireCatalogEnabled = false
 }) {
   const registration = getInstallRegistration(productId);
   const dossier = getProductIntakeDossier(productId);
@@ -99,18 +112,28 @@ function resolveManagedProductActionContext({
   const catalogProduct = matchingCatalogProduct(
     vendors,
     productId,
-    registration
+    registration,
+    false
+  );
+  const enabledCatalogProduct = matchingCatalogProduct(
+    vendors,
+    productId,
+    registration,
+    true
   );
   const localProfile = matchingLocalProfile(
     localInventory,
     productId,
     registration
   );
+  if (requireCatalogEnabled && !enabledCatalogProduct) return null;
   if (!catalogProduct && !localProfile) return null;
 
-  const requestedCapabilities = Array.isArray(catalogProduct?.capabilities)
-    ? catalogProduct.capabilities
-    : registration.capabilities;
+  const requestedCapabilities = enabledCatalogProduct
+    ? Array.isArray(enabledCatalogProduct.capabilities)
+      ? enabledCatalogProduct.capabilities
+      : registration.capabilities
+    : INSTALLED_INSTANCE_RECOVERY_CAPABILITIES;
   const capabilities = requestedCapabilities.filter((capability) =>
     registration.capabilities.includes(capability)
   );

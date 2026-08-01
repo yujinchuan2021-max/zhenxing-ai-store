@@ -60,13 +60,23 @@ test("persists one PC language and applies it to the embedded community", () => 
   const main = read("electron/main.cjs");
   const preload = read("electron/preload.cjs");
   const dockerfile = read("community/flarum/Dockerfile");
+  const dependencyLock = JSON.parse(
+    read("community/flarum/dependency-lock.json")
+  );
   const entrypoint = read("community/flarum/docker-entrypoint.sh");
   assert.match(main, /settings:set-language/);
   assert.match(preload, /setLanguage/);
   assert.match(app, /buildCommunityLanguageScript\(language\)/);
   assert.match(app, /savePreferences\(\{ locale: targetLocale \}\)/);
   assert.match(app, /typeof app !== "undefined" \? app : globalThis\.app/);
-  assert.match(dockerfile, /flarum-lang\/chinese-simplified:2\.x-dev/);
+  assert.match(
+    dockerfile,
+    /flarum-lang\/chinese-simplified:\$\{LANGUAGE_VERSION\}/
+  );
+  assert.match(
+    dependencyLock.chineseSimplified,
+    /^2\.x-dev#[a-f0-9]{40}$/
+  );
   assert.match(entrypoint, /flarum-lang-chinese-simplified/);
 });
 

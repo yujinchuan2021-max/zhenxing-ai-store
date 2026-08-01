@@ -17,5 +17,6 @@ deployment/local/public/
 deployment/local/client-config/
 deployment/local/runtime/
 deployment/local/private/
+deployment/local/transactions/
 deployment/production/
 release-local-server-client/

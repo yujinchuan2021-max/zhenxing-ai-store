@@ -24,16 +24,19 @@ function normalizeDesktopStatus(value, strict = false) {
   const stringFields = ["version", "location", "executable", "appId"];
   const booleanFields = ["canOpen", "canUninstall"];
   const hasUninstallMode = value.uninstallMode !== undefined;
+  const hasLegacyInstall = value.legacyInstall !== undefined;
   const validDetection = ["installed", "absent", "unknown"].includes(
     value.detection
   );
   if (
     strict &&
-    (![8, 9].includes(Object.keys(value).length) ||
+    (Object.keys(value).length !==
+      8 + Number(hasUninstallMode) + Number(hasLegacyInstall) ||
       stringFields.some((field) => typeof value[field] !== "string") ||
       booleanFields.some((field) => typeof value[field] !== "boolean") ||
       (hasUninstallMode &&
         !["automatic", "interactive"].includes(value.uninstallMode)) ||
+      (hasLegacyInstall && value.legacyInstall !== "comfy-desktop-v1") ||
       !validDetection)
   ) {
     return null;
@@ -55,6 +58,7 @@ function normalizeDesktopStatus(value, strict = false) {
     detection
   };
   if (hasUninstallMode) normalized.uninstallMode = value.uninstallMode;
+  if (hasLegacyInstall) normalized.legacyInstall = value.legacyInstall;
   return normalized;
 }
 

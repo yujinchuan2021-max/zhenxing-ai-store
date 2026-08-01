@@ -1,6 +1,8 @@
 "use strict";
 
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const test = require("node:test");
 const {
   getDownloadTaskPreparation,
@@ -64,6 +66,27 @@ test("a downloaded package shows only its path and immediate install", () => {
   );
 });
 
+test("desktop install state copy follows the selected PC language", () => {
+  assert.equal(
+    getProductInstallPresentation({ stage: "detecting", language: "en" })
+      .buttonLabel,
+    "Preparing"
+  );
+  assert.equal(
+    getProductInstallPresentation({ stage: "launching-installer", language: "en" })
+      .buttonLabel,
+    "Installing"
+  );
+  assert.equal(
+    getProductInstallPresentation({
+      stage: "downloaded",
+      filePath: "D:\\AI Hub\\Claude-Setup-x64.exe",
+      language: "en"
+    }).buttonLabel,
+    "Install now"
+  );
+});
+
 test("a failed desktop download exposes one clear retry action", () => {
   assert.deepEqual(
     getProductDownloadRecoveryPresentation({
@@ -112,5 +135,31 @@ test("a paused desktop download keeps pause-specific recovery actions", () => {
       messageKey: null,
       actions: ["resume", "relocate", "cancel"]
     }
+  );
+});
+
+test("the product row routes resume and retry to their dedicated download commands", () => {
+  const source = fs.readFileSync(path.resolve(__dirname, "../src/App.tsx"), "utf8");
+  const row = source.match(/function ProductRow\([\s\S]*?function AuthModal/)?.[0];
+  assert.ok(row, "ProductRow source was not found");
+  assert.match(
+    row,
+    /actions\.includes\("resume"\)[\s\S]*?onClick=\{onResumeDownload\}/
+  );
+  assert.match(
+    row,
+    /actions\.includes\("retry"\)[\s\S]*?onClick=\{onRetryDownload\}/
+  );
+});
+
+test("a failed refresh retains installed presentation instead of becoming a fresh install error", () => {
+  const source = fs.readFileSync(path.resolve(__dirname, "../src/App.tsx"), "utf8");
+  const taskHandler = source.match(
+    /const applyManagedDownloadTask =[\s\S]*?const applyDesktopOperationTask/
+  )?.[0];
+  assert.ok(taskHandler, "managed download task handler was not found");
+  assert.match(
+    taskHandler,
+    /installedEvidenceProducts\.current\.has\(task\.productId\)[\s\S]*?"installed"[\s\S]*?: "error"/
   );
 });

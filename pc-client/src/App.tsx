@@ -9,6 +9,12 @@ import {
 import { runEnvironmentInstall } from "@aihub-shared/environment-install-flow.cjs";
 import { createEnvironmentInstallOrchestrator } from "@aihub-shared/environment-install-orchestrator.cjs";
 import { runDownloadedPackageAction } from "@aihub-shared/downloaded-package-action.cjs";
+import {
+  reconcileDesktopInstalledEvidence,
+  reconcileDesktopInventoryStage
+} from "@aihub-shared/desktop-inventory-presentation.cjs";
+import { resolveCompletedPackageInstallIntent } from "@aihub-shared/desktop-installer-launch-policy.cjs";
+import { createDownloadTaskRevisionTracker } from "@aihub-shared/download-task-presentation.cjs";
 import { loadDevelopmentCatalog } from "@aihub-shared/development-catalog.cjs";
 import { buildInstalledProductManagement } from "@aihub-shared/installed-product-management.cjs";
 import {
@@ -21,7 +27,7 @@ import {
   getProductInstallPresentation
 } from "@aihub-shared/product-install-presentation.cjs";
 import { resolveProductBehavior } from "@aihub-shared/product-policy.cjs";
-import { getUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
+import { getDesktopUninstallPresentation } from "@aihub-shared/uninstall-presentation.cjs";
 import { runVerifiedManagedInstall } from "@aihub-shared/verified-managed-install.cjs";
 import { buildProductDirectory } from "@aihub-shared/product-components.cjs";
 import {
@@ -65,6 +71,7 @@ type ProductPreparation =
   | "downloaded"
   | "installed"
   | "error";
+type ManagedInstallIntent = "install" | "reinstall" | "refresh";
 type CliManagedTask = {
   productId: string;
   generation: number;
@@ -154,6 +161,13 @@ function environmentUninstallButtonLabel(
     default:
       return uiText("auto.3f4f6f0b49c4");
   }
+}
+
+function desktopUpdateOwnerLabel(updateOwner?: string) {
+  if (!updateOwner) return "";
+  return updateOwner.includes("microsoft-store")
+    ? uiText("desktop.updateManagedByStore")
+    : uiText("desktop.updateManagedByVendor");
 }
 
 function managedDownloadPhaseLabel(task: ManagedDownloadTask) {
@@ -465,7 +479,7 @@ export default function App() {
     Record<string, string>
   >({});
   const productOperationGenerations = useRef<Record<string, number>>({});
-  const downloadTaskRevisions = useRef<Record<string, number>>({});
+  const downloadTaskRevisions = useRef(createDownloadTaskRevisionTracker());
   const desktopOperationRevisions = useRef<
     Record<
       string,
@@ -488,7 +502,13 @@ export default function App() {
   const recoveredEnvironmentIds = useRef<Set<string>>(new Set());
   const initialInventoryRecovered = useRef(false);
   const activeProductActions = useRef<Set<string>>(new Set());
-  const autoLaunchInstallerProducts = useRef<Set<string>>(new Set());
+  const managedActionContextSnapshot = useRef({
+    vendors: catalogAllVendors,
+    localInventory
+  });
+  const autoLaunchInstallerProducts = useRef<Map<string, ManagedInstallIntent>>(
+    new Map()
+  );
   const automaticEnvironmentFlow = useRef(
     createEnvironmentInstallOrchestrator()
   );
@@ -543,6 +563,16 @@ export default function App() {
       downloadTasks
     ]
   );
+  const desktopUpdateOwners = useMemo(
+    () =>
+      Object.fromEntries(
+        localInventory.map((profile) => [
+          profile.productId,
+          profile.lifecycle?.updateOwner || ""
+        ])
+      ),
+    [localInventory]
+  );
   const operationTaskNames = useMemo(() => {
     const names: Record<string, string> = {};
     for (const vendor of catalogAllVendors) {
@@ -596,10 +626,11 @@ export default function App() {
     }));
   };
 
-  const applyManagedDownloadTask = (task: ManagedDownloadTask) => {
-    const knownRevision = downloadTaskRevisions.current[task.productId] || 0;
-    if (task.revision < knownRevision) return;
-    downloadTaskRevisions.current[task.productId] = task.revision;
+  const applyManagedDownloadTask = (
+    task: ManagedDownloadTask,
+    options?: { freshStart?: boolean }
+  ) => {
+    if (!downloadTaskRevisions.current.accept(task, options)) return;
     setDownloadTasks((current) => ({
       ...current,
       [task.productId]: task
@@ -751,7 +782,9 @@ export default function App() {
       }));
       setProductStages((current) => ({
         ...current,
-        [task.productId]: "error"
+        [task.productId]: installedEvidenceProducts.current.has(task.productId)
+          ? "installed"
+          : "error"
       }));
       return;
     }
@@ -842,9 +875,11 @@ export default function App() {
       return;
     }
     if (task.operation === "uninstall") {
-      const uninstallCopy = getUninstallPresentation(
+      const uninstallCopy = getDesktopUninstallPresentation(
+        task.productId,
         task.desktopStatus?.uninstallMode ??
-          desktopStatuses[task.productId]?.uninstallMode
+          desktopStatuses[task.productId]?.uninstallMode,
+        language
       );
       setProductStages((current) => ({
         ...current,
@@ -1185,7 +1220,12 @@ export default function App() {
   const applyManagedInventory = (
     snapshot: ManagedProductInventorySnapshot
   ) => {
-    setLocalInventory(snapshot.profiles || []);
+    const profiles = snapshot.profiles || [];
+    managedActionContextSnapshot.current = {
+      ...managedActionContextSnapshot.current,
+      localInventory: profiles
+    };
+    setLocalInventory(profiles);
     setDesktopStatuses((current) => ({
       ...current,
       ...snapshot.desktopStatuses
@@ -1201,21 +1241,31 @@ export default function App() {
     for (const [productId, status] of Object.entries(
       snapshot.desktopStatuses
     )) {
-      if (status.installed) installedEvidenceProducts.current.add(productId);
+      const shouldRetainInstalledEvidence = reconcileDesktopInstalledEvidence({
+        hadInstalledEvidence:
+          installedEvidenceProducts.current.has(productId),
+        installed: status.installed,
+        detection: status.detection
+      });
+      if (shouldRetainInstalledEvidence) {
+        installedEvidenceProducts.current.add(productId);
+      } else {
+        installedEvidenceProducts.current.delete(productId);
+      }
     }
     setProductStages((current) => {
       const next = { ...current };
       for (const [productId, status] of Object.entries(
         snapshot.desktopStatuses
       )) {
-        if (status.installed) next[productId] = "installed";
-        else if (
-          status.detection === "unknown" &&
-          !["downloading", "launching-installer", "awaiting-verification"].includes(
-            current[productId]
-          )
-        ) {
-          next[productId] = "detection-error";
+        const reconciled = reconcileDesktopInventoryStage({
+          currentStage: current[productId],
+          installed: status.installed,
+          detection: status.detection,
+          completedPackage: downloadTasks[productId]?.phase === "completed"
+        });
+        if (reconciled !== undefined) {
+          next[productId] = reconciled;
         }
       }
       for (const [productId, status] of Object.entries(snapshot.cliStatuses)) {
@@ -1445,6 +1495,10 @@ export default function App() {
           if (disposed) return;
           if (!result.catalog) {
             if (!hasCatalogSnapshot) {
+              managedActionContextSnapshot.current = {
+                ...managedActionContextSnapshot.current,
+                vendors: []
+              };
               setCatalogAllVendors([]);
               setCatalogVendors([]);
               setCatalogCategories([]);
@@ -1467,6 +1521,10 @@ export default function App() {
 
           hasCatalogSnapshot = true;
           lastSuccessfulRefreshAt = Date.now();
+          managedActionContextSnapshot.current = {
+            ...managedActionContextSnapshot.current,
+            vendors: allVendors
+          };
           setCatalogError("");
           setCatalogAllVendors(allVendors);
           setCatalogVendors(visibleVendors);
@@ -1488,6 +1546,10 @@ export default function App() {
         })
         .catch((error: unknown) => {
           if (disposed || hasCatalogSnapshot) return;
+          managedActionContextSnapshot.current = {
+            ...managedActionContextSnapshot.current,
+            vendors: []
+          };
           setCatalogAllVendors([]);
           setCatalogVendors([]);
           setCatalogCategories([]);
@@ -1753,6 +1815,14 @@ export default function App() {
 
   const resumeDownloadTask = async (productId: string) => {
     if (!window.aihubPC) return;
+    if (!productId.startsWith("environment:")) {
+      const product = resolveProductActionContext(productId, true);
+      if (!product) {
+        autoLaunchInstallerProducts.current.delete(productId);
+        setDownloadTaskError(productId, uiText("auto.0174b6fcadff"));
+        return;
+      }
+    }
     try {
       const result = await window.aihubPC.startDownload(productId);
       if (result.task) applyManagedDownloadTask(result.task);
@@ -1768,6 +1838,10 @@ export default function App() {
         error instanceof Error ? error.message : uiText("auto.3270956f505f")
       );
     }
+  };
+
+  const retryDownloadTask = async (productId: string) => {
+    await resumeDownloadTask(productId);
   };
 
   const pauseDownloadTask = async (productId: string) => {
@@ -1808,7 +1882,10 @@ export default function App() {
     }
   };
 
-  const openCompletedDownloadTask = async (productId: string) => {
+  const openCompletedDownloadTask = async (
+    productId: string,
+    requestedIntent?: ManagedInstallIntent
+  ) => {
     if (productId.startsWith("environment:")) {
       const environmentId = productId.slice("environment:".length);
       const snapshot = await window.aihubPC?.getEnvironmentPackage?.(
@@ -1818,12 +1895,20 @@ export default function App() {
       else await installEnvironment(environmentId);
       return;
     }
-    const product = resolveProductActionContext(productId);
+    const product = resolveProductActionContext(productId, true);
     if (!product) {
       setDownloadTaskError(productId, uiText("auto.0174b6fcadff"));
       return;
     }
-    await requestUnifiedInstall(product);
+    const intent = resolveCompletedPackageInstallIntent({
+      requestedIntent,
+      installed: desktopStatuses[productId]?.installed === true
+    });
+    if (!intent) {
+      setDownloadTaskError(productId, uiText("runtime.operationFailed"));
+      return;
+    }
+    await requestUnifiedInstall(product, intent);
   };
 
   const showDownloadInFolder = async (productId: string) => {
@@ -1847,7 +1932,7 @@ export default function App() {
   };
 
   const removeClearedDownloadTask = (productId: string) => {
-    downloadTaskRevisions.current[productId] = 0;
+    downloadTaskRevisions.current.clearProduct(productId);
     setDownloadTasks((current) => {
       const next = { ...current };
       delete next[productId];
@@ -2234,7 +2319,8 @@ export default function App() {
   };
 
   const detectForProduct = async (
-    product: Product
+    product: Product,
+    intent: ManagedInstallIntent = "install"
   ): Promise<ProductPreparation> => {
     const generation = beginProductOperation(product.id);
     setProductErrors((current) => ({ ...current, [product.id]: "" }));
@@ -2296,14 +2382,31 @@ export default function App() {
               ? current[product.id]
               : ""
         }));
-        setProductStages((current) => ({
-          ...current,
-          [product.id]:
-            current[product.id] === "awaiting-uninstall"
-              ? "awaiting-uninstall"
-              : "installed"
-        }));
-        return "installed";
+        if (intent === "install") {
+          setProductStages((current) => ({
+            ...current,
+            [product.id]:
+              current[product.id] === "awaiting-uninstall"
+                ? "awaiting-uninstall"
+                : "installed"
+          }));
+          return "installed";
+        }
+        if (missing.length) {
+          setProductStages((current) => ({
+            ...current,
+            [product.id]: "blocked"
+          }));
+          return "blocked";
+        }
+        if (intent === "refresh") {
+          setProductStages((current) => ({
+            ...current,
+            [product.id]: "ready"
+          }));
+          return "ready";
+        }
+        return await restoreDownloadedOrReady(product);
       }
       installedEvidenceProducts.current.delete(product.id);
       if (desktopStatus.detection === "unknown") {
@@ -2389,8 +2492,20 @@ export default function App() {
 
   const downloadProduct = async (
     product: Product,
-    autoLaunchInstaller = false
+    autoLaunchInstaller = false,
+    fresh = false,
+    intent: ManagedInstallIntent = "install"
   ) => {
+    const enabledProduct = resolveProductActionContext(product.id, true);
+    if (!enabledProduct) {
+      autoLaunchInstallerProducts.current.delete(product.id);
+      setProductErrors((current) => ({
+        ...current,
+        [product.id]: uiText("auto.0174b6fcadff")
+      }));
+      return;
+    }
+    product = enabledProduct;
     if (!product.download) {
       window.open(product.website);
       return;
@@ -2408,11 +2523,25 @@ export default function App() {
     }
     setProductErrors((current) => ({ ...current, [product.id]: "" }));
     if (autoLaunchInstaller) {
-      autoLaunchInstallerProducts.current.add(product.id);
+      autoLaunchInstallerProducts.current.set(product.id, intent);
     }
     try {
-      const result = await window.aihubPC.startDownload(product.id);
-      if (result.task) applyManagedDownloadTask(result.task);
+      if (fresh) {
+        downloadTaskRevisions.current.beginFreshDownload(product.id);
+      }
+      const result = fresh
+        ? await window.aihubPC.refreshDownload(product.id)
+        : await window.aihubPC.startDownload(product.id);
+      if (fresh) {
+        if (result.ok && result.task) {
+          applyManagedDownloadTask(result.task, { freshStart: true });
+        } else {
+          downloadTaskRevisions.current.cancelFreshDownload(product.id);
+          if (result.task) applyManagedDownloadTask(result.task);
+        }
+      } else if (result.task) {
+        applyManagedDownloadTask(result.task);
+      }
       if (!result.ok) {
         autoLaunchInstallerProducts.current.delete(product.id);
         setProductErrors((current) => ({
@@ -2422,11 +2551,16 @@ export default function App() {
         if (!result.task) {
           setProductStages((current) => ({
             ...current,
-            [product.id]: "error"
+            [product.id]: installedEvidenceProducts.current.has(product.id)
+              ? "installed"
+              : "error"
           }));
         }
       }
     } catch (error) {
+      if (fresh) {
+        downloadTaskRevisions.current.cancelFreshDownload(product.id);
+      }
       autoLaunchInstallerProducts.current.delete(product.id);
       setProductErrors((current) => ({
         ...current,
@@ -2435,7 +2569,9 @@ export default function App() {
       }));
       setProductStages((current) => ({
         ...current,
-        [product.id]: "error"
+        [product.id]: installedEvidenceProducts.current.has(product.id)
+          ? "installed"
+          : "error"
       }));
     }
   };
@@ -2480,8 +2616,21 @@ export default function App() {
     }
   };
 
-  const installProduct = async (product: Product) => {
+  const installProduct = async (
+    product: Product,
+    intent: ManagedInstallIntent = "install"
+  ) => {
     if (!window.aihubPC) return;
+    const enabledProduct = resolveProductActionContext(product.id, true);
+    if (!enabledProduct) {
+      autoLaunchInstallerProducts.current.delete(product.id);
+      setProductErrors((current) => ({
+        ...current,
+        [product.id]: uiText("auto.0174b6fcadff")
+      }));
+      return;
+    }
+    product = enabledProduct;
     setProductErrors((current) => ({ ...current, [product.id]: "" }));
     setProductStages((current) => ({
       ...current,
@@ -2494,10 +2643,13 @@ export default function App() {
           ...current,
           [product.id]: inspection.error || uiText("auto.b5eece942d25")
         }));
-        setProductStages((current) => ({ ...current, [product.id]: "error" }));
+        setProductStages((current) => ({
+          ...current,
+          [product.id]: intent === "install" ? "error" : "installed"
+        }));
         return;
       }
-      const result = await window.aihubPC.launchInstaller(product.id);
+      const result = await window.aihubPC.launchInstaller(product.id, intent);
       if (result.operationTask) {
         applyDesktopOperationTask(result.operationTask);
         if (!result.launched) {
@@ -2513,7 +2665,7 @@ export default function App() {
       if (result.canceled) {
         setProductStages((current) => ({
           ...current,
-          [product.id]: "downloaded"
+          [product.id]: intent === "install" ? "downloaded" : "installed"
         }));
         return;
       }
@@ -2526,11 +2678,22 @@ export default function App() {
         }));
         setProductStages((current) => ({
           ...current,
-          [product.id]: "downloaded"
+          [product.id]: intent === "install" ? "downloaded" : "installed"
         }));
         return;
       }
       if (!result.operationTask) {
+        if (result.verificationMode === "installer-owned-maintenance") {
+          setProductErrors((current) => ({
+            ...current,
+            [product.id]: result.warning || ""
+          }));
+          setProductStages((current) => ({
+            ...current,
+            [product.id]: "installed"
+          }));
+          return;
+        }
         setProductErrors((current) => ({
           ...current,
           [product.id]:
@@ -2552,16 +2715,29 @@ export default function App() {
       }));
       setProductStages((current) => ({
         ...current,
-        [product.id]: preserveInstallationStage(
-          current[product.id],
-          "downloaded"
-        )
+        [product.id]:
+          intent === "install"
+            ? preserveInstallationStage(current[product.id], "downloaded")
+            : "installed"
       }));
     }
   };
 
-  const installDownloadedProduct = async (product: Product) => {
+  const installDownloadedProduct = async (
+    product: Product,
+    intent: ManagedInstallIntent = "install"
+  ) => {
     if (!window.aihubPC) return;
+    const enabledProduct = resolveProductActionContext(product.id, true);
+    if (!enabledProduct) {
+      autoLaunchInstallerProducts.current.delete(product.id);
+      setProductErrors((current) => ({
+        ...current,
+        [product.id]: uiText("auto.0174b6fcadff")
+      }));
+      return;
+    }
+    product = enabledProduct;
     try {
       await runDownloadedPackageAction({
         productId: product.id,
@@ -2572,7 +2748,7 @@ export default function App() {
             ...current,
             [product.id]: record.filePath
           }));
-          await installProduct(product);
+          await installProduct(product, intent);
         },
         download: async () => {
           setProductFiles((current) => {
@@ -2580,7 +2756,12 @@ export default function App() {
             delete next[product.id];
             return next;
           });
-          await downloadProduct(product, true);
+          await downloadProduct(
+            product,
+            true,
+            intent === "refresh",
+            intent
+          );
         }
       });
     } catch (error) {
@@ -2600,15 +2781,14 @@ export default function App() {
 
   useEffect(() => {
     for (const task of Object.values(downloadTasks)) {
-      if (
-        task.phase !== "completed" ||
-        !autoLaunchInstallerProducts.current.delete(task.productId)
-      ) {
-        continue;
-      }
-      const product = resolveProductActionContext(task.productId);
+      const intent = autoLaunchInstallerProducts.current.get(task.productId);
+      if (task.phase !== "completed" || !intent) continue;
+      autoLaunchInstallerProducts.current.delete(task.productId);
+      const product = resolveProductActionContext(task.productId, true);
       if (product) {
-        void installProduct(product);
+        void installProduct(product, intent);
+      } else {
+        setDownloadTaskError(task.productId, uiText("auto.0174b6fcadff"));
       }
     }
   }, [catalogAllVendors, downloadTasks, localInventory]);
@@ -2668,8 +2848,10 @@ export default function App() {
 
   const uninstallDesktopProduct = async (product: Product) => {
     if (!window.aihubPC || !desktopStatuses[product.id]?.canUninstall) return;
-    const uninstallCopy = getUninstallPresentation(
-      desktopStatuses[product.id]?.uninstallMode
+    const uninstallCopy = getDesktopUninstallPresentation(
+      product.id,
+      desktopStatuses[product.id]?.uninstallMode,
+      language
     );
     setProductErrors((current) => ({ ...current, [product.id]: "" }));
     setProductStages((current) => ({
@@ -2713,7 +2895,11 @@ export default function App() {
           [product.id]:
             result.warning ||
             result.message ||
-            getUninstallPresentation(result.uninstallMode).launched
+            getDesktopUninstallPresentation(
+              product.id,
+              result.uninstallMode,
+              language
+            ).launched
         }));
       }
     } catch (error) {
@@ -2775,7 +2961,11 @@ export default function App() {
       [product.id]:
         status.detection === "unknown"
           ? uiText("auto.0afc35a7c46e")
-          : getUninstallPresentation(status.uninstallMode).stillInstalled
+          : getDesktopUninstallPresentation(
+              product.id,
+              status.uninstallMode,
+              language
+            ).stillInstalled
     }));
     setProductStages((current) => ({
       ...current,
@@ -2814,11 +3004,15 @@ export default function App() {
     });
   };
 
-  const resolveProductActionContext = (productId: string) =>
+  const resolveProductActionContext = (
+    productId: string,
+    requireCatalogEnabled = false
+  ) =>
     resolveManagedProductActionContext({
       productId,
-      vendors: catalogAllVendors,
-      localInventory
+      vendors: managedActionContextSnapshot.current.vendors,
+      localInventory: managedActionContextSnapshot.current.localInventory,
+      requireCatalogEnabled
     });
 
   const chooseCliDirectory = async () => {
@@ -2830,6 +3024,15 @@ export default function App() {
   };
 
   const deployCli = async (product: Product) => {
+    const enabledProduct = resolveProductActionContext(product.id, true);
+    if (!enabledProduct) {
+      setProductErrors((current) => ({
+        ...current,
+        [product.id]: uiText("auto.0174b6fcadff")
+      }));
+      return;
+    }
+    product = enabledProduct;
     let directory = cliInstallDirectory;
     const requiresInstallDirectory =
       cliStatuses[product.id]?.requiresInstallDirectory !== false;
@@ -3244,7 +3447,10 @@ export default function App() {
 
   const retryCliManagedTask = async (productId: string) => {
     const task = cliManagedTasks[productId];
-    const product = resolveProductActionContext(productId);
+    const product = resolveProductActionContext(
+      productId,
+      task?.operation === "deploy"
+    );
     if (!task || !product || !window.aihubPC || task.phase === "running") return;
     if (task.operation === "deploy") {
       await deployCli(product);
@@ -3338,7 +3544,10 @@ export default function App() {
     }
   };
 
-  const installUsingUnifiedRule = async (product: Product) => {
+  const installUsingUnifiedRule = async (
+    product: Product,
+    intent: ManagedInstallIntent = "install"
+  ) => {
     const behavior = resolveProductBehavior(product);
     if (!behavior.managedCli && !behavior.managedDesktop) {
       window.open(behavior.directUrl);
@@ -3347,7 +3556,7 @@ export default function App() {
 
     const continueInstall = async (preparation: ProductPreparation) => {
       if (preparation === "downloaded") {
-        await installDownloadedProduct(product);
+        await installDownloadedProduct(product, intent);
         return;
       }
       if (preparation !== "ready") return;
@@ -3355,20 +3564,38 @@ export default function App() {
         await deployCli(product);
         return;
       }
-      await downloadProduct(product, true);
+      await downloadProduct(product, true, intent === "refresh", intent);
     };
 
     await runVerifiedManagedInstall({
-      detect: () => detectForProduct(product),
+      detect: () => detectForProduct(product, intent),
       setupDependencies: () => beginAutomaticEnvironmentSetup(product),
       continueInstall
     });
   };
 
-  const requestUnifiedInstall = (product: Product) =>
-    runExclusiveProductAction(product.id, uiText("auto.e8f88f51ccb0"), () =>
-      installUsingUnifiedRule(product)
+  const requestUnifiedInstall = (
+    product: Product,
+    intent: ManagedInstallIntent = "install"
+  ) => {
+    const enabledProduct = resolveProductActionContext(product.id, true);
+    if (!enabledProduct) {
+      autoLaunchInstallerProducts.current.delete(product.id);
+      setProductErrors((current) => ({
+        ...current,
+        [product.id]: uiText("auto.0174b6fcadff")
+      }));
+      return Promise.resolve();
+    }
+    return runExclusiveProductAction(
+      enabledProduct.id,
+      uiText("auto.e8f88f51ccb0"),
+      () => installUsingUnifiedRule(enabledProduct, intent)
     );
+  };
+
+  const requestLatestDesktopInstaller = (product: Product) =>
+    requestUnifiedInstall(product, "refresh");
 
   const requestCliUninstall = (product: Product) =>
     runExclusiveProductAction(product.id, uiText("auto.80d0f7903461"), () =>
@@ -3656,6 +3883,7 @@ export default function App() {
           {selectedVendor ? (
             <VendorPage
               vendor={selectedVendor}
+              language={language}
               environment={environment}
               productStages={productStages}
               productMissing={productMissing}
@@ -3665,6 +3893,8 @@ export default function App() {
               productErrors={productErrors}
               productFiles={productFiles}
               desktopStatuses={desktopStatuses}
+              desktopOperationTasks={desktopOperationTasks}
+              desktopUpdateOwners={desktopUpdateOwners}
               cliLogs={cliLogs}
               cliVersions={cliVersions}
               cliStatuses={cliStatuses}
@@ -3672,6 +3902,13 @@ export default function App() {
               environmentPackageStages={environmentPackageStages}
               onBack={() => setSelectedVendor(null)}
               onInstallProduct={requestUnifiedInstall}
+              onGetLatestDesktop={requestLatestDesktopInstaller}
+              onResumeDownload={(product) =>
+                void resumeDownloadTask(product.id)
+              }
+              onRetryDownload={(product) =>
+                void retryDownloadTask(product.id)
+              }
               onPauseDownload={pauseProductDownload}
               onCancelDownload={cancelProductDownload}
               onRelocateDownload={relocateProductDownload}
@@ -3721,14 +3958,20 @@ export default function App() {
               onClose={closeManagedProduct}
               onOpenFiles={openManagedProductFiles}
               onReinstall={(entry) =>
-                void openCompletedDownloadTask(entry.id)
+                void openCompletedDownloadTask(entry.id, "reinstall")
+              }
+              onGetLatest={(entry) =>
+                void openCompletedDownloadTask(entry.id, "refresh")
               }
               onReinstallEnvironment={(entry) =>
                 void openCompletedDownloadTask(entry.id)
               }
               onUninstall={uninstallManagedProduct}
               onRepairWslEnvironment={async (entry) => {
-                const product = resolveProductActionContext(entry.ownerProductId);
+                const product = resolveProductActionContext(
+                  entry.ownerProductId,
+                  true
+                );
                 if (!product) return;
                 await deployCli(product);
                 await refreshInstalledManagement();
@@ -3799,6 +4042,9 @@ export default function App() {
               .filter((check) => check.installed)
               .map((check) => `environment:${check.id}`)
           ]}
+          installableDownloadTaskIds={installedManagement.packages
+            .filter((entry) => entry.canInstall)
+            .map((entry) => entry.id)}
           scanning={scanning}
           checkingUpdate={checkingUpdate}
           installingUpdate={installingUpdate}
@@ -4075,6 +4321,7 @@ function FilterRow({
 
 function VendorPage({
   vendor,
+  language,
   productStages,
   productMissing,
   productProgress,
@@ -4083,6 +4330,8 @@ function VendorPage({
   productErrors,
   productFiles,
   desktopStatuses,
+  desktopOperationTasks,
+  desktopUpdateOwners,
   cliLogs,
   cliVersions,
   cliStatuses,
@@ -4090,6 +4339,9 @@ function VendorPage({
   environmentPackageStages,
   onBack,
   onInstallProduct,
+  onGetLatestDesktop,
+  onResumeDownload,
+  onRetryDownload,
   onPauseDownload,
   onCancelDownload,
   onRelocateDownload,
@@ -4102,6 +4354,7 @@ function VendorPage({
   onOpenEnvironmentInstaller
 }: {
   vendor: Vendor;
+  language: Language;
   environment: EnvironmentReport | null;
   productStages: Record<string, ProductStage>;
   productMissing: Record<string, string[]>;
@@ -4111,6 +4364,8 @@ function VendorPage({
   productErrors: Record<string, string>;
   productFiles: Record<string, string>;
   desktopStatuses: Record<string, DesktopStatus>;
+  desktopOperationTasks: Record<string, DesktopOperationTask>;
+  desktopUpdateOwners: Record<string, string>;
   cliLogs: Record<string, CliLogEntry[]>;
   cliVersions: Record<string, string>;
   cliStatuses: Record<string, CliStatus>;
@@ -4118,6 +4373,9 @@ function VendorPage({
   environmentPackageStages: Record<string, EnvironmentPackageStage>;
   onBack: () => void;
   onInstallProduct: (product: Product) => void;
+  onGetLatestDesktop: (product: Product) => void;
+  onResumeDownload: (product: Product) => void;
+  onRetryDownload: (product: Product) => void;
   onPauseDownload: (product: Product) => void;
   onCancelDownload: (product: Product) => void;
   onRelocateDownload: (product: Product) => void;
@@ -4140,6 +4398,7 @@ function VendorPage({
       >
         <ProductRow
           product={product}
+          language={language}
           stage={productStages[product.id] || "idle"}
           missing={productMissing[product.id] || []}
           progress={productProgress[product.id] ?? null}
@@ -4152,12 +4411,17 @@ function VendorPage({
           }
           filePath={productFiles[product.id] || ""}
           desktopStatus={desktopStatuses[product.id]}
+          desktopOperationTask={desktopOperationTasks[product.id]}
+          updateOwner={desktopUpdateOwners[product.id]}
           logs={cliLogs[product.id] || []}
           version={cliVersions[product.id] || ""}
           cliStatus={cliStatuses[product.id]}
           environmentMessages={environmentMessages}
           environmentPackageStages={environmentPackageStages}
           onInstallProduct={() => onInstallProduct(product)}
+          onGetLatestDesktop={() => onGetLatestDesktop(product)}
+          onResumeDownload={() => onResumeDownload(product)}
+          onRetryDownload={() => onRetryDownload(product)}
           onPauseDownload={() => onPauseDownload(product)}
           onCancelDownload={() => onCancelDownload(product)}
           onRelocateDownload={() => onRelocateDownload(product)}
@@ -4380,6 +4644,7 @@ function ExtensionResourceRow({
 
 function ProductRow({
   product,
+  language,
   stage,
   missing,
   progress,
@@ -4388,12 +4653,17 @@ function ProductRow({
   error,
   filePath,
   desktopStatus,
+  desktopOperationTask,
+  updateOwner,
   logs,
   version,
   cliStatus,
   environmentMessages,
   environmentPackageStages,
   onInstallProduct,
+  onGetLatestDesktop,
+  onResumeDownload,
+  onRetryDownload,
   onPauseDownload,
   onCancelDownload,
   onRelocateDownload,
@@ -4406,6 +4676,7 @@ function ProductRow({
   onOpenEnvironmentInstaller
 }: {
   product: Product;
+  language: Language;
   stage: ProductStage;
   missing: string[];
   progress: number | null;
@@ -4414,12 +4685,17 @@ function ProductRow({
   error: string;
   filePath: string;
   desktopStatus?: DesktopStatus;
+  desktopOperationTask?: DesktopOperationTask;
+  updateOwner?: string;
   logs: CliLogEntry[];
   version: string;
   cliStatus?: CliStatus;
   environmentMessages: Record<string, string>;
   environmentPackageStages: Record<string, EnvironmentPackageStage>;
   onInstallProduct: () => void;
+  onGetLatestDesktop: () => void;
+  onResumeDownload: () => void;
+  onRetryDownload: () => void;
   onPauseDownload: () => void;
   onCancelDownload: () => void;
   onRelocateDownload: () => void;
@@ -4434,12 +4710,15 @@ function ProductRow({
   const behavior = resolveProductBehavior(product);
   const installPresentation = getProductInstallPresentation({
     stage,
-    filePath
+    filePath,
+    language
   });
   const downloadRecoveryPresentation =
     getProductDownloadRecoveryPresentation({ stage, downloadTask });
-  const uninstallCopy = getUninstallPresentation(
-    desktopStatus?.uninstallMode
+  const uninstallCopy = getDesktopUninstallPresentation(
+    product.id,
+    desktopStatus?.uninstallMode,
+    language
   );
   const installButtonLabel =
     behavior.primaryLabel ||
@@ -4487,6 +4766,9 @@ function ProductRow({
         <span>{product.kind}</span>
         <h4>{product.name}</h4>
         <p>{product.description}</p>
+        {desktopStatus?.legacyInstall === "comfy-desktop-v1" && (
+          <small>{uiText("desktop.comfyLegacyMigration")}</small>
+        )}
         {cliStatus?.summary && <small>{runtimeMessage(cliStatus.summary)}</small>}
       </div>
       <div className="productActions">
@@ -4658,7 +4940,7 @@ function ProductRow({
               )}
               <div className="missingEnvironmentActions">
                 {downloadRecoveryPresentation?.actions.includes("resume") && (
-                  <button onClick={onInstallProduct}>
+                  <button onClick={onResumeDownload}>
                     {uiText("auto.c3c6d7017082")}
                   </button>
                 )}
@@ -4704,7 +4986,11 @@ function ProductRow({
           )}
           {stage === "awaiting-uninstall" && (
             <div className="verificationState">
-              <span>{uninstallCopy.activeTitle}</span>
+              <span>
+                {desktopOperationTask?.launchState === "confirmed"
+                  ? uninstallCopy.activeTitle
+                  : uninstallCopy.preparingTitle}
+              </span>
               {error && <small>{runtimeMessage(error)}</small>}
               <button onClick={onRecheckDesktopUninstall}>{uiText("auto.14ca09ce1fd2")}</button>
             </div>
@@ -4729,11 +5015,18 @@ function ProductRow({
               </span>
               <div className="missingEnvironmentActions">
                 {downloadRecoveryPresentation ? (
-                  <button onClick={onInstallProduct}>
-                    {downloadRecoveryPresentation.actions.includes("resume")
-                      ? uiText("auto.c3c6d7017082")
-                      : uiText("download.retry")}
-                  </button>
+                  <>
+                    {downloadRecoveryPresentation.actions.includes("resume") && (
+                      <button onClick={onResumeDownload}>
+                        {uiText("auto.c3c6d7017082")}
+                      </button>
+                    )}
+                    {downloadRecoveryPresentation.actions.includes("retry") && (
+                      <button onClick={onRetryDownload}>
+                        {uiText("download.retry")}
+                      </button>
+                    )}
+                  </>
                 ) : (
                   <button onClick={onInstallProduct}>
                     {uiText("auto.453ad482ccef")}
@@ -4766,7 +5059,17 @@ function ProductRow({
                   {behavior.canUninstall && desktopStatus.canUninstall && (
                     <button onClick={onUninstallDesktop}>{uiText("auto.06bc14b60f35")}</button>
                   )}
+                  {behavior.canInstall && (
+                    <button onClick={onGetLatestDesktop}>
+                      {uiText("desktop.getLatestInstaller")}
+                    </button>
+                  )}
                 </>
+              )}
+              {desktopStatus && desktopUpdateOwnerLabel(updateOwner) && (
+                <small className="installedNote">
+                  {desktopUpdateOwnerLabel(updateOwner)}
+                </small>
               )}
               {behavior.canUninstall &&
                 cliDeployable &&
@@ -6314,6 +6617,7 @@ function InstalledProductsPage({
   onClose,
   onOpenFiles,
   onReinstall,
+  onGetLatest,
   onReinstallEnvironment,
   onUninstall,
   onRepairWslEnvironment,
@@ -6341,6 +6645,11 @@ function InstalledProductsPage({
     >["products"][number]
   ) => Promise<void>;
   onReinstall: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["products"][number]
+  ) => void;
+  onGetLatest: (
     entry: ReturnType<
       typeof buildInstalledProductManagement
     >["products"][number]
@@ -6408,6 +6717,9 @@ function InstalledProductsPage({
                 {messages[entry.id] && (
                   <small>{runtimeMessage(messages[entry.id])}</small>
                 )}
+                {entry.updateOwner && (
+                  <small>{desktopUpdateOwnerLabel(entry.updateOwner)}</small>
+                )}
               </div>
               <div className="managementActions">
                 {entry.canOpen && (
@@ -6422,6 +6734,11 @@ function InstalledProductsPage({
                 )}
                 {entry.canReinstall && (
                   <button onClick={() => onReinstall(entry)}>{uiText("auto.453ad482ccef")}</button>
+                )}
+                {entry.canGetLatest && (
+                  <button onClick={() => onGetLatest(entry)}>
+                    {uiText("desktop.getLatestInstaller")}
+                  </button>
                 )}
                 {entry.canUninstall && (
                   <button
@@ -6575,6 +6892,7 @@ function SettingsPanel({
   cliManagedTasks,
   cliLogs,
   installedTaskIds,
+  installableDownloadTaskIds,
   scanning,
   checkingUpdate,
   installingUpdate,
@@ -6622,6 +6940,7 @@ function SettingsPanel({
   cliManagedTasks: Record<string, CliManagedTask>;
   cliLogs: Record<string, CliLogEntry[]>;
   installedTaskIds: string[];
+  installableDownloadTaskIds: string[];
   scanning: boolean;
   checkingUpdate: boolean;
   installingUpdate: boolean;
@@ -6691,6 +7010,7 @@ function SettingsPanel({
     )
   ]);
   const installedIds = new Set(installedTaskIds);
+  const installableDownloadIds = new Set(installableDownloadTaskIds);
   const visibleDownloadTasks = Object.values(downloadTasks)
     .filter(
       (task) =>
@@ -7014,12 +7334,15 @@ function SettingsPanel({
                       )}
                       {task.phase === "completed" && (
                         <>
-                          <button
-                            onClick={() =>
-                              onOpenCompletedDownloadTask(task.productId)
-                            }
-                          >
-                            {uiText("auto.1c9b810ab5b0")}</button>
+                          {installableDownloadIds.has(task.productId) && (
+                            <button
+                              onClick={() =>
+                                onOpenCompletedDownloadTask(task.productId)
+                              }
+                            >
+                              {uiText("auto.1c9b810ab5b0")}
+                            </button>
+                          )}
                           <button
                             onClick={() =>
                               onShowDownloadInFolder(task.productId)

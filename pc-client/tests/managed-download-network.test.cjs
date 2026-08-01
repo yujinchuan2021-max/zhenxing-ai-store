@@ -190,9 +190,17 @@ test("every published reviewed desktop enters the shared managed download seam",
     path.resolve(__dirname, "../electron/main.cjs"),
     "utf8"
   );
+  const managedDownloadEntry = main.match(
+    /ipcMain\.handle\("download:start"[\s\S]*?ipcMain\.handle\("download:refresh"/
+  )?.[0];
+  assert.ok(managedDownloadEntry);
   assert.match(
-    main,
-    /ipcMain\.handle\("download:start"[\s\S]*?return startManagedDownload\(productId\)/
+    managedDownloadEntry,
+    /await authorizeCurrentCatalogProduct\(productId\)/
+  );
+  assert.match(
+    managedDownloadEntry,
+    /return startManagedDownload\(productId, plan\)/
   );
   assert.match(
     main,

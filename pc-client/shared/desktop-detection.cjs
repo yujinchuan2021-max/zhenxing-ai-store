@@ -16,6 +16,46 @@ function matchesDesktopIdentity(names, value) {
   );
 }
 
+function selectTrustedDesktopRegistryMatch({
+  uninstallPolicy,
+  uninstallRecord
+}) {
+  // A display name by itself is discovery metadata, not an install identity.
+  // Reviewed desktop products may only use a registry entry after the local
+  // uninstall policy has validated its publisher, command and location.
+  return uninstallPolicy ? uninstallRecord?.entry || null : null;
+}
+
+function bindRegistryEvidenceToAuthenticode({
+  registryMatch,
+  executableSignature
+}) {
+  return registryMatch && executableSignature?.ok === true
+    ? registryMatch
+    : null;
+}
+
+function signatureInspectionIsConclusive(value) {
+  return ["Valid", "NotSigned", "HashMismatch", "NotTrusted"].includes(
+    value?.status
+  );
+}
+
+function resolveDesktopLegacyMigration({
+  currentInstalled,
+  legacyInstallId,
+  legacyRegistryMatched,
+  legacyExecutableSignature
+}) {
+  return currentInstalled !== true &&
+    typeof legacyInstallId === "string" &&
+    legacyInstallId.length > 0 &&
+    legacyRegistryMatched === true &&
+    legacyExecutableSignature?.ok === true
+    ? legacyInstallId
+    : "";
+}
+
 function resolveDesktopPresence({
   evidencePolicy,
   registryMatched,
@@ -42,7 +82,11 @@ function resolveDesktopPresence({
 }
 
 module.exports = {
+  bindRegistryEvidenceToAuthenticode,
   matchesDesktopIdentity,
   PRESENCE_EVIDENCE_POLICIES,
-  resolveDesktopPresence
+  resolveDesktopLegacyMigration,
+  resolveDesktopPresence,
+  signatureInspectionIsConclusive,
+  selectTrustedDesktopRegistryMatch
 };

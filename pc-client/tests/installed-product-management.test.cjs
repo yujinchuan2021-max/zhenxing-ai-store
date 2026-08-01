@@ -1,4 +1,6 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const test = require("node:test");
 
 const {
@@ -7,6 +9,15 @@ const {
 
 test("builds one catalog-driven management model for desktop, CLI, environments and packages", () => {
   const result = buildInstalledProductManagement({
+    localInventory: [
+      {
+        productId: "comfy-desktop",
+        label: "Comfy Desktop",
+        vendorId: "comfy",
+        mode: "managed-installer",
+        capabilities: ["install", "open", "uninstall"]
+      }
+    ],
     vendors: [
       {
         id: "openai",
@@ -219,6 +230,9 @@ test("exposes every installed environment's reviewed open action instead of spec
       canClose: false,
       canManageFiles: true,
       canReinstall: false,
+      canGetLatest: false,
+      updateOwner: "",
+      updateStrategy: "",
       canUninstall: true,
       children: [
         {
@@ -277,10 +291,180 @@ test("keeps a locally approved installed product manageable after its backend ca
       version: "2.4.0",
       location: "C:\\Program Files\\Reviewed Desktop",
       canOpen: true,
-      canClose: true,
-      canManageFiles: true,
+      canClose: false,
+      canManageFiles: false,
       canReinstall: false,
+      canGetLatest: false,
+      updateOwner: "",
+      updateStrategy: "",
       canUninstall: true
     }
   ]);
+});
+
+test("a disabled desktop exposes only the reviewed open and uninstall recovery actions", () => {
+  const result = buildInstalledProductManagement({
+    vendors: [
+      {
+        id: "anthropic",
+        enabled: true,
+        products: [
+          {
+            id: "claude-desktop",
+            name: "Claude Desktop",
+            productType: "desktop-reviewed",
+            enabled: false,
+            capabilities: ["install", "open", "uninstall"]
+          }
+        ]
+      }
+    ],
+    localInventory: [
+      {
+        productId: "claude-desktop",
+        label: "Claude Desktop",
+        vendorId: "anthropic",
+        mode: "managed-installer",
+        capabilities: ["install", "open", "uninstall"]
+      }
+    ],
+    desktopStatuses: {
+      "claude-desktop": {
+        installed: true,
+        version: "1.0.0",
+        location: "C:\\Apps\\Claude",
+        canOpen: true,
+        canUninstall: true
+      }
+    }
+  });
+
+  assert.deepEqual(
+    result.products.map((entry) => ({
+      canOpen: entry.canOpen,
+      canClose: entry.canClose,
+      canManageFiles: entry.canManageFiles,
+      canReinstall: entry.canReinstall,
+      canGetLatest: entry.canGetLatest,
+      canUninstall: entry.canUninstall
+    })),
+    [
+      {
+        canOpen: true,
+        canClose: false,
+        canManageFiles: false,
+        canReinstall: false,
+        canGetLatest: false,
+        canUninstall: true
+      }
+    ]
+  );
+});
+
+test("a disabled backend card cannot reinstall a cached reviewed package", () => {
+  const result = buildInstalledProductManagement({
+    vendors: [
+      {
+        id: "anthropic",
+        enabled: true,
+        products: [
+          {
+            id: "claude-desktop",
+            name: "Claude Desktop",
+            productType: "desktop-reviewed",
+            enabled: false,
+            capabilities: ["install", "open", "uninstall"]
+          }
+        ]
+      }
+    ],
+    localInventory: [
+      {
+        productId: "claude-desktop",
+        label: "Claude Desktop",
+        vendorId: "anthropic",
+        mode: "managed-installer",
+        capabilities: ["install", "open", "uninstall"]
+      }
+    ],
+    downloadTasks: {
+      "claude-desktop": {
+        productId: "claude-desktop",
+        phase: "completed",
+        filePath: "D:\\Downloads\\Claude-Setup-x64.exe"
+      }
+    }
+  });
+
+  assert.equal(result.packages[0].canInstall, false);
+});
+
+test("a disabled CLI exposes only open and uninstall recovery actions", () => {
+  const result = buildInstalledProductManagement({
+    vendors: [
+      {
+        id: "openai",
+        enabled: true,
+        products: [
+          {
+            id: "codex-cli",
+            name: "Codex CLI",
+            productType: "cli",
+            enabled: false,
+            capabilities: ["install", "open", "uninstall"]
+          }
+        ]
+      }
+    ],
+    localInventory: [
+      {
+        productId: "codex-cli",
+        label: "Codex CLI",
+        vendorId: "openai",
+        mode: "managed-cli",
+        capabilities: ["install", "open", "uninstall"]
+      }
+    ],
+    cliStatuses: {
+      "codex-cli": {
+        installed: true,
+        version: "1.0.0",
+        directory: "D:\\AI Hub\\CLI\\codex-cli",
+        managed: true,
+        canUninstall: true
+      }
+    }
+  });
+
+  assert.deepEqual(
+    result.products.map((entry) => ({
+      canOpen: entry.canOpen,
+      canClose: entry.canClose,
+      canManageFiles: entry.canManageFiles,
+      canReinstall: entry.canReinstall,
+      canGetLatest: entry.canGetLatest,
+      canUninstall: entry.canUninstall
+    })),
+    [
+      {
+        canOpen: true,
+        canClose: false,
+        canManageFiles: false,
+        canReinstall: false,
+        canGetLatest: false,
+        canUninstall: true
+      }
+    ]
+  );
+});
+
+test("the task center only exposes install for active catalog packages", () => {
+  const source = fs.readFileSync(
+    path.resolve(__dirname, "../src/App.tsx"),
+    "utf8"
+  );
+  assert.match(
+    source,
+    /installableDownloadIds\.has\(task\.productId\)[\s\S]*?onOpenCompletedDownloadTask\(task\.productId\)/
+  );
 });

@@ -7,6 +7,11 @@ const test = require("node:test");
 const packageJson = require("../package.json");
 const localReleaseConfig = require("../electron-builder.local-release.cjs");
 
+const upgradeSource = fs.readFileSync(
+  path.resolve(__dirname, "../scripts/upgrade-local-release.ps1"),
+  "utf8"
+);
+
 test("the local acceptance client uses the package version without a stale override", () => {
   assert.equal(localReleaseConfig.extraMetadata.version, packageJson.version);
 });
@@ -29,13 +34,31 @@ test("the portable acceptance client isolates Windows profile directories instea
   assert.match(cdpSource, /assertNoExistingAIHubProcesses\(\)/);
 });
 
-test("local packaging refuses an expired trust pin before building artifacts", () => {
+test("local packaging captures and continuously rechecks the tagged clean source", () => {
   const source = fs.readFileSync(
     path.resolve(__dirname, "../scripts/package-local-release.cjs"),
     "utf8"
   );
   assert.match(source, /validateLocalReleaseTrust\(/);
   assert.match(source, /channelFromResources\("local-release-trust\.json"\)/);
+  assert.match(source, /requireClean:\s*true/);
+  assert.match(source, /requireVersionTag:\s*true/);
+  const sourceCaptureIndex = source.indexOf(
+    "const releaseSource = inspectGitReleaseSource"
+  );
+  const buildIndex = source.indexOf('run("npm.cmd", ["run", "build"]');
+  const builderIndex = source.indexOf('run("npx.cmd", [');
+  assert.ok(sourceCaptureIndex >= 0 && sourceCaptureIndex < buildIndex);
+  assert.ok(buildIndex < builderIndex);
+  assert.match(source, /assertReleaseSourceUnchanged\(\);[\s\S]*run\("npm\.cmd"/);
+  assert.match(
+    source,
+    /run\("npm\.cmd"[\s\S]*assertReleaseSourceUnchanged\(\);[\s\S]*run\("npx\.cmd"/
+  );
+  assert.match(
+    source,
+    /run\("npx\.cmd"[\s\S]*assertReleaseSourceUnchanged\(\);/
+  );
 });
 
 test("local TLS pinning delegates writes to the locked deployment boundary", () => {
@@ -48,7 +71,7 @@ test("local TLS pinning delegates writes to the locked deployment boundary", () 
   assert.doesNotMatch(source, /fs\.mkdirSync\(/);
 });
 
-test("local prepare retains rollback state, attests both Windows artifacts and cleans failed staging", () => {
+test("local prepare retains exact rollback state for the master transaction", () => {
   const source = fs.readFileSync(
     path.resolve(__dirname, "../scripts/prepare-local-release.cjs"),
     "utf8"
@@ -61,99 +84,233 @@ test("local prepare retains rollback state, attests both Windows artifacts and c
   assert.doesNotMatch(source, /discardActivatedLocalReleaseBackup/);
 });
 
-test("one-command local upgrade packages before publishing and ends with packaged acceptance", () => {
-  const source = fs.readFileSync(
-    path.resolve(__dirname, "../scripts/upgrade-local-release.ps1"),
-    "utf8"
+test("one-command upgrade journals before every live mutation and advances all release boundaries", () => {
+  const statusIndex = upgradeSource.lastIndexOf(
+    "$Pending = Get-UpgradeJournalStatus"
   );
+  const testIndex = upgradeSource.lastIndexOf('Invoke-NpmScript "test"');
+  const buildIndex = upgradeSource.lastIndexOf('Invoke-NpmScript "build"');
+  const auditIndex = upgradeSource.lastIndexOf("Invoke-NpmAudit");
+  const sourceAuditIndex = upgradeSource.lastIndexOf(
+    'Invoke-NpmScript "audit:desktop-sources"'
+  );
+  const layoutIndex = upgradeSource.lastIndexOf(
+    'Invoke-NpmScript "test:product-layout"'
+  );
+  const beginIndex = upgradeSource.lastIndexOf(
+    '"scripts/manage-local-release-upgrade-journal.cjs" `'
+  );
+  const deliveryStartingIndex = upgradeSource.lastIndexOf(
+    'Set-UpgradeJournalPhase "delivery-activating"'
+  );
+  const recreateIndex = upgradeSource.indexOf(
+    'Invoke-NpmScript "release:local:recreate-server"',
+    deliveryStartingIndex
+  );
+  const packageIndex = upgradeSource.lastIndexOf(
+    'Invoke-NodeScript "scripts/package-local-release.cjs"'
+  );
+  const runtimeStartingIndex = upgradeSource.lastIndexOf(
+    'Set-UpgradeJournalPhase "runtime-activating"'
+  );
+  const prepareIndex = upgradeSource.lastIndexOf(
+    'Invoke-NodeScript "scripts/prepare-local-release.cjs"'
+  );
+  const serviceStageIndex = upgradeSource.lastIndexOf(
+    '"-Action", "stage"'
+  );
+  const servicePromoteIndex = upgradeSource.lastIndexOf(
+    '"-Action", "promote"'
+  );
+  const acceptanceIndex = upgradeSource.lastIndexOf(
+    'Invoke-NpmScript "release:local:test-client"'
+  );
+  const sealIndex = upgradeSource.lastIndexOf(
+    "Seal-UpgradeJournalReceipts"
+  );
+  const acceptedIndex = upgradeSource.lastIndexOf(
+    'Set-UpgradeJournalPhase "accepted"'
+  );
+  const receiptVerifyIndex = upgradeSource.indexOf(
+    "Verify-SealedUpgradeReceipts",
+    acceptedIndex
+  );
+  const runtimeFinalizeIndex = upgradeSource.lastIndexOf(
+    "Invoke-RuntimeFinalizationFromJournal"
+  );
+  const serviceFinalizeIndex = upgradeSource.lastIndexOf(
+    "Invoke-ServiceFinalizationFromJournal"
+  );
+  const deliveryFinalizeIndex = upgradeSource.lastIndexOf(
+    "Invoke-DeliveryFinalizationFromJournal"
+  );
+  const completeIndex = upgradeSource.lastIndexOf("Complete-UpgradeJournal");
+
+  assert.ok(statusIndex >= 0 && statusIndex < testIndex);
+  assert.ok(buildIndex > testIndex);
+  assert.ok(auditIndex > buildIndex);
+  assert.ok(sourceAuditIndex > auditIndex);
+  assert.ok(layoutIndex > sourceAuditIndex);
+  assert.ok(beginIndex > layoutIndex);
+  assert.ok(deliveryStartingIndex > beginIndex);
+  assert.ok(recreateIndex > deliveryStartingIndex);
+  assert.ok(packageIndex > recreateIndex);
+  assert.ok(runtimeStartingIndex > packageIndex);
+  assert.ok(prepareIndex > runtimeStartingIndex);
+  assert.ok(serviceStageIndex > prepareIndex);
+  assert.ok(servicePromoteIndex > serviceStageIndex);
+  assert.ok(acceptanceIndex > servicePromoteIndex);
+  assert.ok(sealIndex > acceptanceIndex);
+  assert.ok(acceptedIndex > sealIndex);
+  assert.ok(receiptVerifyIndex > acceptedIndex);
+  assert.ok(runtimeFinalizeIndex > receiptVerifyIndex);
+  assert.ok(serviceFinalizeIndex > runtimeFinalizeIndex);
+  assert.ok(deliveryFinalizeIndex > serviceFinalizeIndex);
+  assert.ok(completeIndex > deliveryFinalizeIndex);
+});
+
+test("the master journal supplies all exact child receipts without random temp paths", () => {
+  assert.match(upgradeSource, /receiptPaths\.delivery/);
+  assert.match(upgradeSource, /receiptPaths\.runtime/);
+  assert.match(upgradeSource, /receiptPaths\.services/);
+  assert.match(
+    upgradeSource,
+    /package-local-release\.cjs[\s\S]*receiptPaths\.delivery/
+  );
+  assert.match(
+    upgradeSource,
+    /prepare-local-release\.cjs[\s\S]*receiptPaths\.runtime/
+  );
+  assert.doesNotMatch(upgradeSource, /GetTempPath/);
+  assert.doesNotMatch(upgradeSource, /NewGuid|randomUUID/);
+  assert.doesNotMatch(upgradeSource, /TransactionPrepared/);
+});
+
+test("startup recovery fails closed on a corrupt fixed journal", () => {
+  const statusCatch = upgradeSource.indexOf(
+    "$JournalReadError = $_",
+    upgradeSource.lastIndexOf("$Pending = Get-UpgradeJournalStatus")
+  );
+  const stopIndex = upgradeSource.indexOf(
+    "Stop-AllReleaseServicesFailClosed",
+    statusCatch
+  );
+  assert.ok(statusCatch >= 0 && stopIndex > statusCatch);
+  assert.match(
+    upgradeSource,
+    /fixed local release journal is invalid and services could not be stopped fail-closed/i
+  );
+  assert.match(upgradeSource, /throw \$JournalReadError/);
+});
+
+test("pre-acceptance recovery is phase-idempotent and restores the durable runtime snapshot", () => {
+  const recoveryStart = upgradeSource.indexOf(
+    "function Recover-PendingLocalRelease"
+  );
+  const mainStart = upgradeSource.indexOf("Push-Location $ProjectRoot");
+  const recoverySource = upgradeSource.slice(recoveryStart, mainStart);
+  assert.match(
+    recoverySource,
+    /Stop-AllReleaseServicesFailClosed[\s\S]*rollback-started/
+  );
+  assert.match(
+    recoverySource,
+    /rollback-started[\s\S]*runtime-rolled-back[\s\S]*services-rolled-back[\s\S]*delivery-rolled-back/
+  );
+  assert.match(upgradeSource, /"restore-runtime"/);
+  assert.match(upgradeSource, /"verify-runtime"/);
+  assert.match(
+    upgradeSource,
+    /Test-TrustedReceiptFile -Path \$Receipt[\s\S]*rollback-local-release\.cjs/
+  );
+  assert.match(
+    recoverySource,
+    /delivery-rolled-back[\s\S]*Finalize-RolledBackServiceTransaction[\s\S]*Restore-ReleaseServerAfterRollback[\s\S]*Restore-LocalApplicationServicesAfterRollback[\s\S]*Complete-UpgradeJournal/
+  );
+});
+
+test("accepted recovery completes each destructive finalizer before advancing its durable phase", () => {
+  const recoveryStart = upgradeSource.indexOf(
+    "function Recover-PendingLocalRelease"
+  );
+  const mainStart = upgradeSource.indexOf("Push-Location $ProjectRoot");
+  const recoverySource = upgradeSource.slice(recoveryStart, mainStart);
+  assert.match(
+    recoverySource,
+    /Verify-SealedUpgradeReceipts[\s\S]*phase -eq "accepted"[\s\S]*Invoke-RuntimeFinalizationFromJournal[\s\S]*Set-UpgradeJournalPhase "runtime-finalized"/
+  );
+  assert.match(
+    recoverySource,
+    /phase -eq "runtime-finalized"[\s\S]*Invoke-ServiceFinalizationFromJournal[\s\S]*Set-UpgradeJournalPhase "services-finalized"/
+  );
+  assert.match(
+    recoverySource,
+    /phase -eq "services-finalized"[\s\S]*Invoke-DeliveryFinalizationFromJournal[\s\S]*Set-UpgradeJournalPhase "delivery-finalized"/
+  );
+  assert.match(
+    recoverySource,
+    /Restore-AndVerifyAcceptedReleaseServices[\s\S]*Complete-UpgradeJournal/
+  );
+  assert.match(upgradeSource, /Test-RuntimeFinalizationAlreadyComplete/);
+  assert.match(upgradeSource, /Test-DeliveryFinalizationAlreadyComplete/);
+  assert.match(
+    upgradeSource,
+    /expectedCurrent\.source\.revision -ne \[string\]\$UpgradeJournal\.revision/
+  );
+  assert.match(
+    upgradeSource,
+    /expectedCurrent\.source\.versionTag -ne "v\$\(\$UpgradeJournal\.version\)"/
+  );
+});
+
+test("the master transaction pins artifacts and service images to one Git source", () => {
+  const sourceCaptureIndex = upgradeSource.lastIndexOf(
+    "$ReleaseSource = Get-ExpectedReleaseSource"
+  );
+  const beginIndex = upgradeSource.indexOf(
+    '"begin",',
+    sourceCaptureIndex
+  );
+  const packageIndex = upgradeSource.lastIndexOf(
+    'Invoke-NodeScript "scripts/package-local-release.cjs"'
+  );
+  const packagedSourceIndex = upgradeSource.lastIndexOf(
+    "Assert-PackagedBuildSource -Source $ReleaseSource"
+  );
+  const serviceBeginIndex = upgradeSource.lastIndexOf(
+    '"-Action", "begin"'
+  );
+  assert.ok(sourceCaptureIndex >= 0 && beginIndex > sourceCaptureIndex);
+  assert.ok(packageIndex > beginIndex);
+  assert.ok(packagedSourceIndex > packageIndex);
+  assert.ok(serviceBeginIndex > packagedSourceIndex);
+  assert.match(upgradeSource, /-ExpectedRevision/);
+  assert.match(upgradeSource, /-ExpectedVersion/);
+  assert.match(
+    upgradeSource,
+    /Build\.source\.revision -ne \[string\]\$Source\.revision/
+  );
+  assert.match(upgradeSource, /Build\.source\.versionTag -ne "v\$\(\$Source\.version\)"/);
+});
+
+test("service candidates are staged offline before their exact images are promoted", () => {
   const containerSource = fs.readFileSync(
     path.resolve(__dirname, "../scripts/rebuild-local-app-services.ps1"),
     "utf8"
   );
-  const packageIndex = source.indexOf('Invoke-NpmScript "package:win:local-release"');
-  const prepareIndex = source.indexOf(
-    'Invoke-NodeScript "scripts/prepare-local-release.cjs"'
-  );
-  const verifyIndex = source.indexOf('Invoke-NpmScript "release:local:verify"');
-  const serverAcceptanceIndex = source.indexOf(
-    'Invoke-NpmScript "release:local:test-server"'
-  );
-  const acceptanceIndex = source.indexOf('Invoke-NpmScript "release:local:test-client"');
-  const testIndex = source.indexOf('Invoke-NpmScript "test"');
-  const buildIndex = source.indexOf('Invoke-NpmScript "build"');
-  const auditIndex = source.indexOf("Invoke-NpmAudit", buildIndex);
-  const rebuildIndex = source.indexOf(
-    'Invoke-NpmScript "release:local:rebuild-app-services"',
-    auditIndex
-  );
-  const recreateIndex = source.indexOf(
-    'Invoke-NpmScript "release:local:recreate-server"',
-    rebuildIndex
-  );
-  const pinIndex = source.indexOf(
-    'Invoke-NpmScript "release:local:pin-tls"',
-    recreateIndex
-  );
-  const remountIndex = source.indexOf(
-    'Invoke-NpmScript "release:local:recreate-server"',
-    recreateIndex + 1
-  );
-  const rollbackIndex = source.indexOf(
-    "rollback-local-release.cjs",
-    prepareIndex
-  );
-  const finalizeIndex = source.indexOf(
-    "finalize-local-release.cjs",
-    acceptanceIndex
-  );
-  assert.ok(testIndex >= 0);
-  assert.ok(buildIndex > testIndex);
-  assert.ok(auditIndex > buildIndex);
-  assert.ok(rebuildIndex > auditIndex);
-  assert.ok(recreateIndex >= 0);
-  assert.ok(recreateIndex > rebuildIndex);
-  assert.ok(pinIndex > recreateIndex);
-  assert.ok(packageIndex > pinIndex);
-  assert.ok(prepareIndex > packageIndex);
-  assert.ok(verifyIndex > prepareIndex);
-  assert.ok(remountIndex > verifyIndex);
-  assert.ok(serverAcceptanceIndex > remountIndex);
-  assert.ok(acceptanceIndex > serverAcceptanceIndex);
-  assert.ok(rollbackIndex > prepareIndex);
-  assert.ok(finalizeIndex > acceptanceIndex);
-  assert.match(
-    source,
-    /prepare-local-release\.cjs[\s\S]*\$TransactionPrepared = \$true[\s\S]*release:local:verify/
-  );
-  assert.match(source, /Restore-ReleaseServerAfterRollback/);
-  assert.match(source, /Stop-ReleaseServerFailClosed/);
-  assert.match(source, /-not \$TransactionPrepared[\s\S]*Remove-Item/);
-  assert.match(source, /transaction receipt preserved for recovery/);
-  assert.match(containerSource, /--build/);
-  assert.match(containerSource, /--force-recreate/);
-  assert.match(containerSource, /--no-cache/);
-  assert.match(containerSource, /Stop-SelfBuiltServiceFailClosed/);
-  assert.match(containerSource, /Stop-AllSelfBuiltServicesFailClosed/);
-  assert.doesNotMatch(containerSource, /\[System\.IO\.Path\]::GetRelativePath/);
+  assert.match(containerSource, /ValidateSet\("stage", "promote"\)/);
+  assert.match(containerSource, /git -C \$RepositoryRoot archive/);
+  assert.match(containerSource, /"run", "--rm", "--network", "none"/);
+  assert.match(containerSource, /"verify-candidate"/);
+  assert.match(containerSource, /Assert-LiveContainersUnchanged/);
   assert.match(
     containerSource,
-    /Test-ContainerSourceManifest[\s\S]*Stop-SelfBuiltServiceFailClosed[\s\S]*Repair-SelfBuiltServiceImage/
+    /Assert-CandidatesStillVerified[\s\S]*"image", "tag"[\s\S]*"--no-build", "--force-recreate", "--wait"/
   );
-  assert.match(containerSource, /Get-AdminSourceManifest/);
   assert.match(
     containerSource,
-    /Get-ChildItem[^\r\n]*\$AdminRoot[^\r\n]*-Recurse[^\r\n]*-Filter "\*\.cjs"/
+    /ActualImage -ne \[string\]\$Entry\.candidateImageId/
   );
-  assert.match(containerSource, /Get-IdentitySourceManifest/);
-  assert.match(containerSource, /Get-CommunitySourceManifest/);
-  assert.match(containerSource, /admin\/public\/app\.js/);
-  assert.match(containerSource, /identity\/server\.cjs/);
-  assert.match(containerSource, /community\/flarum\/aihub-sso\.php/);
-  const dockerIgnore = fs.readFileSync(
-    path.resolve(__dirname, "../.dockerignore"),
-    "utf8"
-  );
-  assert.match(dockerIgnore, /!identity\/\*\*[\s\S]*identity\/node_modules\//);
 });
 
 test("the local HTTPS allowlist serves signed build provenance", () => {

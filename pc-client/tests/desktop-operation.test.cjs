@@ -546,6 +546,24 @@ test("desktop operations preserve the adapter uninstall interaction mode", async
   );
 });
 
+test("desktop operations preserve a migration-only legacy Comfy status", async () => {
+  const harness = createHarness({
+    statuses: [{ ...absent, legacyInstall: "comfy-desktop-v1" }]
+  });
+  const operation = harness.controller.begin("comfy-desktop", "install");
+  harness.controller.finishLaunch(
+    operation.productId,
+    operation.generation,
+    operation.operationId,
+    true
+  );
+
+  const monitoring = await harness.runNext();
+  assert.equal(monitoring.phase, "monitoring");
+  assert.equal(monitoring.desktopStatus.installed, false);
+  assert.equal(monitoring.desktopStatus.legacyInstall, "comfy-desktop-v1");
+});
+
 test("resume converts a possibly spawned launching task to unknown monitoring", async () => {
   const first = createHarness();
   const launching = first.controller.begin("comfy-desktop", "install");

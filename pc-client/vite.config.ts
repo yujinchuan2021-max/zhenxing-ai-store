@@ -13,6 +13,9 @@ export default defineConfig({
   optimizeDeps: {
     include: [
       "@aihub-shared/development-catalog.cjs",
+      "@aihub-shared/desktop-installer-launch-policy.cjs",
+      "@aihub-shared/desktop-inventory-presentation.cjs",
+      "@aihub-shared/download-task-presentation.cjs",
       "@aihub-shared/downloaded-package-action.cjs",
       "@aihub-shared/environment-install-flow.cjs",
       "@aihub-shared/environment-install-orchestrator.cjs",
@@ -26,6 +29,9 @@ export default defineConfig({
     ],
     needsInterop: [
       "@aihub-shared/development-catalog.cjs",
+      "@aihub-shared/desktop-installer-launch-policy.cjs",
+      "@aihub-shared/desktop-inventory-presentation.cjs",
+      "@aihub-shared/download-task-presentation.cjs",
       "@aihub-shared/downloaded-package-action.cjs",
       "@aihub-shared/environment-install-flow.cjs",
       "@aihub-shared/environment-install-orchestrator.cjs",

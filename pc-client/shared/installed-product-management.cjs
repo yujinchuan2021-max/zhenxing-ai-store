@@ -16,6 +16,8 @@ function buildInstalledProductManagement({
   const products = [];
   const reinstallableEnvironments = [];
   const catalogProducts = new Map();
+  const activeCatalogProductIds = new Set();
+  const localProfilesByProductId = new Map();
   const vendorNames = new Map();
 
   for (const vendor of vendors) {
@@ -29,6 +31,9 @@ function buildInstalledProductManagement({
         product,
         vendorName: String(vendor.name || "")
       });
+      if (vendor.enabled !== false && product.enabled !== false) {
+        activeCatalogProductIds.add(product.id);
+      }
     }
   }
 
@@ -37,7 +42,9 @@ function buildInstalledProductManagement({
   // even when an operator disables or removes their catalog card.
   for (const entry of Array.isArray(localInventory) ? localInventory : []) {
     const productId = String(entry?.productId || entry?.id || "");
-    if (!productId || catalogProducts.has(productId)) continue;
+    if (!productId) continue;
+    localProfilesByProductId.set(productId, entry);
+    if (catalogProducts.has(productId)) continue;
     const vendorId = String(entry?.vendorId || "");
     catalogProducts.set(productId, {
       product: {
@@ -61,6 +68,7 @@ function buildInstalledProductManagement({
 
   for (const { product, vendorName } of catalogProducts.values()) {
     const allowed = new Set(resolvedProductCapabilities(product));
+    const catalogAllowsFullManagement = activeCatalogProductIds.has(product.id);
     if (product.productType === "cli") {
       const status = cliStatuses[product.id];
       if (!status?.installed) continue;
@@ -73,8 +81,12 @@ function buildInstalledProductManagement({
         location: String(status.directory || ""),
         canOpen: allowed.has("open") && status.managed === true,
         canClose: false,
-        canManageFiles: Boolean(status.directory),
+        canManageFiles:
+          catalogAllowsFullManagement && Boolean(status.directory),
         canReinstall: false,
+        canGetLatest: false,
+        updateOwner: "",
+        updateStrategy: "",
         canUninstall:
           allowed.has("uninstall") && status.canUninstall === true
       });
@@ -82,6 +94,7 @@ function buildInstalledProductManagement({
     }
     const status = desktopStatuses[product.id];
     if (!status?.installed) continue;
+    const localProfile = localProfilesByProductId.get(product.id);
     products.push({
       id: product.id,
       name: product.name,
@@ -90,11 +103,23 @@ function buildInstalledProductManagement({
       version: String(status.version || ""),
       location: String(status.location || ""),
       canOpen: allowed.has("open") && status.canOpen === true,
-      canClose: allowed.has("open") && status.canOpen === true,
-      canManageFiles: Boolean(status.location),
+      canClose:
+        catalogAllowsFullManagement &&
+        allowed.has("open") &&
+        status.canOpen === true,
+      canManageFiles:
+        catalogAllowsFullManagement && Boolean(status.location),
       canReinstall:
+        catalogAllowsFullManagement &&
+        localProfile?.mode === "managed-installer" &&
         allowed.has("install") &&
         downloadTasks[product.id]?.phase === "completed",
+      canGetLatest:
+        catalogAllowsFullManagement &&
+        localProfile?.mode === "managed-installer" &&
+        allowed.has("install"),
+      updateOwner: String(localProfile?.lifecycle?.updateOwner || ""),
+      updateStrategy: String(localProfile?.lifecycle?.updateStrategy || ""),
       canUninstall:
         allowed.has("uninstall") && status.canUninstall === true
     });
@@ -143,6 +168,9 @@ function buildInstalledProductManagement({
       canManageFiles: Boolean(check.location),
       canReinstall:
         downloadTasks[`environment:${check.id}`]?.phase === "completed",
+      canGetLatest: false,
+      updateOwner: "",
+      updateStrategy: "",
       canUninstall: check.canUninstall === true,
       ...(children.length ? { children } : {})
     });
@@ -168,7 +196,10 @@ function buildInstalledProductManagement({
         environmentNames.get(task.productId) ||
         task.productId,
       filePath: task.filePath,
-      canInstall: true
+      canInstall:
+        task.productId.startsWith("environment:") ||
+        (activeCatalogProductIds.has(task.productId) &&
+          localProfilesByProductId.has(task.productId))
     }));
 
   return { products, reinstallableEnvironments, packages };

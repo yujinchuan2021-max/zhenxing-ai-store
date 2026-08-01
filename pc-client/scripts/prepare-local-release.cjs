@@ -17,6 +17,9 @@ const {
 const {
   readArtifactBuildMetadata
 } = require("../shared/release-provenance.cjs");
+const {
+  localReleaseCommandResult
+} = require("../shared/local-release-command-result.cjs");
 
 const root = path.resolve(__dirname, "..");
 const packageVersion = JSON.parse(
@@ -149,20 +152,18 @@ const result = prepareReleaseBundle({
     )
   },
   notes: [
-    "修复产品卡重新下载被失败任务拦截的问题；点击后会真正创建新的下载或断点续传尝试",
-    "客户端更新下载统一隐藏 Electron 底层错误，只返回稳定错误码和简短提示",
-    "修复客户端误装离线包后退回内置 8 厂商的问题；本地 Docker 版使用独立包名并强制校验发布通道",
-    "客户端目录只接受后台签名版本或最后一次已验证缓存，不再用内置小目录伪装正常状态",
-    "收录 49 个厂商和 148 个产品，补充 Kimi、OpenClaw、Antigravity、QClaw 与 Qoder 产品线",
-    "产品详情新增 Skill 与 MCP 子目录，后台支持完整增删改查、排序和启停",
-    "新增 CLI 官方安装入口模块，未经本地审核的 CLI 不执行后台下发命令",
-    "新增 Codex ChatGPT Apps Skill 一键安装、状态检测和精准卸载",
-    "修复社区渲染进程未挂载时出现灰屏，并自动恢复到原帖子",
-    "社区讨论页增加全部讨论侧边提示",
-    "修复本机头像上传成功后无法显示的问题",
-    "优化个人中心联系方式修改与本地头像上传",
-    "统一按钮按压反馈，并集中管理 PC 中英文文案",
-    "PC 语言设置与内置 Flarum 社区同步"
+    "完成 ChatGPT、Claude、Comfy Desktop 与 Ollama 的统一桌面生命周期模块",
+    "新增重新安装与获取最新版入口，并在每次操作前重新检测产品和依赖环境",
+    "首次安装才跟踪安装状态迁移；重装与更新不再用既有安装证据误报完成",
+    "最新版下载按新任务代际接收状态，并在全局下载准入成功后才清理旧安装包",
+    "下载完成和安装器启动前统一校验 Authenticode、PE 架构与产品身份",
+    "安装状态以可信探针为准；可靠缺失会清除旧证据，未知结果不会误判未安装",
+    "后台控制产品展示和启停，本地白名单继续独占下载、安装、打开与卸载权限",
+    "记录 Microsoft Store 或厂商自身的更新所有权，不与产品自带更新器竞争",
+    "Comfy 与 Ollama 卸载流程展示产品级数据保留规则并保持厂商交互选择",
+    "身份与社区只读取后台活动目录，不再使用旧的静态八厂商目录文件",
+    "更新 Claude 与 Comfy Desktop 官方消费者下载入口，并发布后台目录 v30",
+    "修复开发预览新增 CommonJS 模块未预构建导致的白屏"
   ],
   rollout: { percentage: 100, salt: "local-release-2026" },
   allowLocalhost: false,
@@ -179,8 +180,7 @@ expectedCurrent = {
   sha256: result.update.sha256,
   source: result.source
 };
-const receipt = {
-      ok: true,
+let receipt = localReleaseCommandResult({
       publicDirectory: path.join(deployment.current, "public"),
       backupName: deployment.backupName,
       retiredName: deployment.retiredName,
@@ -203,7 +203,7 @@ const receipt = {
       fileSize: result.update.fileSize,
       catalogKeyId: result.signingKeys.catalog.keyId,
       updateKeyId: result.signingKeys.update.keyId
-};
+});
 if (resultFile) {
   writeResultFile(resultFile, receipt);
 } else {
@@ -213,16 +213,29 @@ if (resultFile) {
     retiredName: deployment.retiredName,
     expectedCurrent
   });
-  if (finalization.cleanupPending) {
+  transactionFinalized = finalization.finalized === true;
+  receipt = localReleaseCommandResult({
+    ...receipt,
+    ...finalization,
+    retiredCleanupPending:
+      receipt.retiredCleanupPending || finalization.cleanupPending,
+    activationLockCleanupPending:
+      receipt.activationLockCleanupPending ||
+      finalization.activationLockCleanupPending,
+    activationLockCleanupErrorCode:
+      finalization.activationLockCleanupErrorCode ||
+      receipt.activationLockCleanupErrorCode
+  });
+  if (!receipt.ok) {
     throw new Error(
       `本地发布旧版本清理待处理：${finalization.cleanupErrorCode}`
     );
   }
   receipt.transactionFinalized = true;
-  transactionFinalized = true;
 }
 process.stdout.write(`${JSON.stringify(receipt, null, 2)}\n`);
 completed = true;
+if (!receipt.ok) process.exitCode = 2;
 } catch (error) {
   if (deployment && !transactionFinalized) {
     try {

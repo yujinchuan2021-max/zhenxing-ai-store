@@ -9,6 +9,9 @@ export type InstalledProductManagementEntry = {
   canClose: boolean;
   canManageFiles: boolean;
   canReinstall: boolean;
+  canGetLatest: boolean;
+  updateOwner: string;
+  updateStrategy: string;
   canUninstall: boolean;
   children?: Array<{
     id: string;
@@ -56,6 +59,10 @@ export function buildInstalledProductManagement(input: {
     productType?: string;
     mode?: string;
     capabilities?: string[];
+    lifecycle?: {
+      updateOwner?: string;
+      updateStrategy?: string;
+    };
   }>;
   desktopStatuses?: Record<string, unknown>;
   cliStatuses?: Record<string, unknown>;

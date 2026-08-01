@@ -1,242 +1,403 @@
+[CmdletBinding()]
+param(
+  [Parameter(Mandatory = $true)]
+  [ValidateSet("stage", "promote")]
+  [string]$Action,
+  [Parameter(Mandatory = $true)]
+  [string]$ReceiptPath,
+  [Parameter(Mandatory = $true)]
+  [ValidatePattern("^[a-f0-9]{40}$")]
+  [string]$ExpectedRevision,
+  [Parameter(Mandatory = $true)]
+  [ValidatePattern("^(?:0|[1-9]\d*)\.\d+\.\d+$")]
+  [string]$ExpectedVersion
+)
+
 $ErrorActionPreference = "Stop"
 
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
+$RepositoryRoot = (& git -C $ProjectRoot rev-parse --show-toplevel).Trim()
+if ($LASTEXITCODE -ne 0 -or -not $RepositoryRoot) {
+  throw "local service release repository root is unavailable"
+}
 $ComposeFile = Join-Path $ProjectRoot "deployment\local\compose.yaml"
+$ResolvedReceipt = [System.IO.Path]::GetFullPath($ReceiptPath)
+$ManifestPath = "$ResolvedReceipt.manifest.json"
+$CandidatesPath = "$ResolvedReceipt.candidates.json"
 
-function Get-ContainerSha256 {
-  param(
-    [Parameter(Mandatory = $true)][string]$Service,
-    [Parameter(Mandatory = $true)][string]$ContainerPath
-  )
-  $Output = & docker compose -f $ComposeFile exec -T $Service `
-    sha256sum $ContainerPath 2>&1
+function Invoke-DockerCapture {
+  param([Parameter(Mandatory = $true)][string[]]$Arguments)
+  $Output = & docker @Arguments 2>&1
   if ($LASTEXITCODE -ne 0) {
-    throw "container source hash failed: $Service $ContainerPath`n$($Output -join "`n")"
+    throw "docker command failed: docker $($Arguments -join ' ')`n$($Output -join "`n")"
   }
-  $HashMatch = [regex]::Match(
-    ($Output -join "`n"),
-    "(?im)^([0-9a-f]{64})\s+"
-  )
-  if (-not $HashMatch.Success) {
-    throw "container source hash is invalid: $Service $ContainerPath"
-  }
-  return $HashMatch.Groups[1].Value.ToLowerInvariant()
+  return ($Output -join "`n").Trim()
 }
 
-function Assert-ContainerSourceMatches {
-  param(
-    [Parameter(Mandatory = $true)][string]$Service,
-    [Parameter(Mandatory = $true)][string]$HostRelativePath,
-    [Parameter(Mandatory = $true)][string]$ContainerPath
-  )
-  $HostPath = Join-Path $ProjectRoot $HostRelativePath
-  if (-not (Test-Path -LiteralPath $HostPath -PathType Leaf)) {
-    throw "host source file is missing: $HostRelativePath"
-  }
-  $HostHash = (Get-FileHash -LiteralPath $HostPath -Algorithm SHA256).Hash.ToLowerInvariant()
-  $ContainerHash = Get-ContainerSha256 `
-    -Service $Service `
-    -ContainerPath $ContainerPath
-  if ($HostHash -ne $ContainerHash) {
-    throw "container source drift detected: $Service $HostRelativePath"
+function Invoke-DockerChecked {
+  param([Parameter(Mandatory = $true)][string[]]$Arguments)
+  & docker @Arguments
+  if ($LASTEXITCODE -ne 0) {
+    throw "docker command failed: docker $($Arguments -join ' ')"
   }
 }
 
-function New-SourceManifestEntry {
+function Invoke-NodeChecked {
+  param([Parameter(Mandatory = $true)][string[]]$Arguments)
+  & node @Arguments
+  if ($LASTEXITCODE -ne 0) {
+    throw "node command failed: node $($Arguments -join ' ')"
+  }
+}
+
+function Invoke-SourcePreflight {
+  Invoke-NodeChecked @(
+    "scripts/local-service-release-policy.cjs",
+    "preflight",
+    "--expected-revision", $ExpectedRevision,
+    "--expected-version", $ExpectedVersion
+  )
+}
+
+function Read-TrustedJson {
+  param([Parameter(Mandatory = $true)][string]$Path)
+  $Item = Get-Item -LiteralPath $Path
+  if (
+    $Item.PSIsContainer -or
+    (($Item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) -or
+    $Item.Length -lt 2 -or
+    $Item.Length -gt 4MB
+  ) {
+    throw "local service release JSON file is not trusted: $Path"
+  }
+  return Get-Content -LiteralPath $Path -Raw -Encoding utf8 | ConvertFrom-Json
+}
+
+function Read-ServiceReceipt {
+  $Output = & node scripts/local-service-image-receipt.cjs read `
+    --receipt $ResolvedReceipt 2>&1
+  if ($LASTEXITCODE -ne 0) {
+    throw "local service image receipt is invalid`n$($Output -join "`n")"
+  }
+  $Receipt = ($Output -join "`n") | ConvertFrom-Json
+  if (
+    [string]$Receipt.expectedRevision -ne $ExpectedRevision -or
+    [string]$Receipt.expectedVersion -ne $ExpectedVersion
+  ) {
+    throw "local service image receipt source differs from the requested release"
+  }
+  return $Receipt
+}
+
+function Write-JsonExclusive {
   param(
-    [Parameter(Mandatory = $true)][string]$HostRelativePath,
-    [Parameter(Mandatory = $true)][string]$ContainerPath
+    [Parameter(Mandatory = $true)][string]$Path,
+    [Parameter(Mandatory = $true)][object]$Value
+  )
+  if (Test-Path -LiteralPath $Path) {
+    throw "local service release output already exists: $Path"
+  }
+  [System.IO.File]::WriteAllText(
+    $Path,
+    (($Value | ConvertTo-Json -Depth 20) + "`n"),
+    [System.Text.UTF8Encoding]::new($false)
+  )
+}
+
+function Assert-LiveContainersUnchanged {
+  param([Parameter(Mandatory = $true)][object]$Receipt)
+  foreach ($Entry in @($Receipt.services)) {
+    $CurrentContainer = Invoke-DockerCapture @(
+      "compose", "-f", $ComposeFile, "ps", "-q", [string]$Entry.service
+    )
+    if ($CurrentContainer -ne [string]$Entry.previousContainerId) {
+      throw "candidate staging changed a live container: $($Entry.service)"
+    }
+    if ($CurrentContainer) {
+      $CurrentImage = Invoke-DockerCapture @(
+        "inspect", $CurrentContainer, "--format", "{{.Image}}"
+      )
+      if ($CurrentImage -ne [string]$Entry.previousImageId) {
+        throw "candidate staging changed a live image: $($Entry.service)"
+      }
+    }
+  }
+}
+
+function New-RevisionSnapshot {
+  param([Parameter(Mandatory = $true)][string]$Destination)
+  $Archive = Join-Path $Destination "source.tar"
+  $Extracted = Join-Path $Destination "source"
+  New-Item -ItemType Directory -Path $Extracted | Out-Null
+  & git -C $RepositoryRoot archive `
+    --format=tar `
+    "--output=$Archive" `
+    $ExpectedRevision `
+    -- pc-client
+  if ($LASTEXITCODE -ne 0) {
+    throw "unable to archive the exact tagged local service source"
+  }
+  & tar.exe -xf $Archive -C $Extracted
+  if ($LASTEXITCODE -ne 0) {
+    throw "unable to extract the exact tagged local service source"
+  }
+  $SnapshotProject = Join-Path $Extracted "pc-client"
+  if (-not (Test-Path -LiteralPath $SnapshotProject -PathType Container)) {
+    throw "tagged local service source snapshot is incomplete"
+  }
+  return $SnapshotProject
+}
+
+function Build-CandidateImage {
+  param(
+    [Parameter(Mandatory = $true)][object]$ManifestService,
+    [Parameter(Mandatory = $true)][object]$ReceiptEntry,
+    [Parameter(Mandatory = $true)][string]$SnapshotProject
+  )
+  $Context = [System.IO.Path]::GetFullPath(
+    (Join-Path $SnapshotProject ([string]$ManifestService.dockerContext))
+  )
+  $Dockerfile = [System.IO.Path]::GetFullPath(
+    (Join-Path $SnapshotProject ([string]$ManifestService.dockerfile))
+  )
+  if (
+    -not (Test-Path -LiteralPath $Context -PathType Container) -or
+    -not (Test-Path -LiteralPath $Dockerfile -PathType Leaf)
+  ) {
+    throw "candidate Docker build source is incomplete: $($ManifestService.service)"
+  }
+  $Arguments = @(
+    "build",
+    "--no-cache",
+    "--file", $Dockerfile,
+    "--tag", [string]$ReceiptEntry.candidateTag,
+    "--build-arg", "AIHUB_SOURCE_REVISION=$ExpectedRevision",
+    "--build-arg", "AIHUB_RELEASE_VERSION=$ExpectedVersion"
+  )
+  foreach ($Property in @($ManifestService.buildArgs.PSObject.Properties)) {
+    $Arguments += @("--build-arg", "$($Property.Name)=$($Property.Value)")
+  }
+  $Arguments += $Context
+  Invoke-DockerChecked -Arguments $Arguments
+}
+
+function Get-CandidateFileHashes {
+  param(
+    [Parameter(Mandatory = $true)][string]$CandidateTag,
+    [Parameter(Mandatory = $true)][object[]]$SourceFiles
+  )
+  $Hashes = @()
+  for ($Offset = 0; $Offset -lt $SourceFiles.Count; $Offset += 24) {
+    $Last = [Math]::Min($Offset + 23, $SourceFiles.Count - 1)
+    $Chunk = @($SourceFiles[$Offset..$Last])
+    $Paths = @($Chunk | ForEach-Object { [string]$_.containerPath })
+    $Output = Invoke-DockerCapture (@(
+      "run", "--rm", "--network", "none", "--entrypoint", "sha256sum",
+      $CandidateTag
+    ) + $Paths)
+    $Lines = @($Output -split "`r?`n" | Where-Object { $_ })
+    if ($Lines.Count -ne $Chunk.Count) {
+      throw "candidate image returned an incomplete source hash set"
+    }
+    foreach ($Line in $Lines) {
+      $Match = [regex]::Match($Line, "^([a-f0-9]{64})\s+(.+)$")
+      if (-not $Match.Success) {
+        throw "candidate image returned an invalid source hash"
+      }
+      $Hashes += [pscustomobject]@{
+        containerPath = $Match.Groups[2].Value.Trim()
+        sha256 = $Match.Groups[1].Value.ToLowerInvariant()
+      }
+    }
+  }
+  return $Hashes
+}
+
+function Verify-CandidateImage {
+  param(
+    [Parameter(Mandatory = $true)][object]$ManifestService,
+    [Parameter(Mandatory = $true)][object]$ReceiptEntry,
+    [Parameter(Mandatory = $true)][string]$InspectionPath
+  )
+  $ImageId = Invoke-DockerCapture @(
+    "image", "inspect", [string]$ReceiptEntry.candidateTag,
+    "--format", "{{.Id}}"
+  )
+  $LabelsJson = Invoke-DockerCapture @(
+    "image", "inspect", [string]$ReceiptEntry.candidateTag,
+    "--format", "{{json .Config.Labels}}"
+  )
+  $Inspection = [pscustomobject]@{
+    service = [string]$ManifestService.service
+    imageId = $ImageId
+    labels = if ($LabelsJson -eq "null") { @{} } else { $LabelsJson | ConvertFrom-Json }
+    fileHashes = @(Get-CandidateFileHashes `
+      -CandidateTag ([string]$ReceiptEntry.candidateTag) `
+      -SourceFiles @($ManifestService.sourceFiles))
+  }
+  Write-JsonExclusive -Path $InspectionPath -Value $Inspection
+  Invoke-NodeChecked @(
+    "scripts/local-service-release-policy.cjs",
+    "verify-candidate",
+    "--manifest", $ManifestPath,
+    "--inspection", $InspectionPath
   )
   return [pscustomobject]@{
-    HostRelativePath = $HostRelativePath.Replace("\", "/")
-    ContainerPath = $ContainerPath.Replace("\", "/")
+    service = [string]$ManifestService.service
+    candidateTag = [string]$ReceiptEntry.candidateTag
+    imageId = $ImageId
   }
 }
 
-function Get-RelativePathUnder {
+function Stage-Candidates {
+  Invoke-SourcePreflight
+  $Receipt = Read-ServiceReceipt
+  if ($Receipt.phase -ne "begun") {
+    throw "local service candidates can only be staged from a begun transaction"
+  }
+  Assert-LiveContainersUnchanged -Receipt $Receipt
+  $Temporary = Join-Path (
+    [System.IO.Path]::GetTempPath()
+  ) ("aihub-local-service-stage-{0}" -f [guid]::NewGuid().ToString("N"))
+  New-Item -ItemType Directory -Path $Temporary | Out-Null
+  try {
+    Invoke-NodeChecked @(
+      "scripts/local-service-release-policy.cjs",
+      "manifest",
+      "--expected-revision", $ExpectedRevision,
+      "--expected-version", $ExpectedVersion,
+      "--output", $ManifestPath
+    )
+    $Manifest = Read-TrustedJson -Path $ManifestPath
+    $SnapshotProject = New-RevisionSnapshot -Destination $Temporary
+    $Candidates = @()
+    foreach ($ManifestService in @($Manifest.services)) {
+      $ReceiptEntry = @(
+        $Receipt.services | Where-Object { $_.service -eq $ManifestService.service }
+      )[0]
+      if (-not $ReceiptEntry) {
+        throw "local service manifest differs from its image receipt"
+      }
+      Build-CandidateImage `
+        -ManifestService $ManifestService `
+        -ReceiptEntry $ReceiptEntry `
+        -SnapshotProject $SnapshotProject
+      Invoke-SourcePreflight
+      $InspectionPath = Join-Path $Temporary (
+        "inspection-{0}.json" -f [string]$ManifestService.service
+      )
+      $Candidates += Verify-CandidateImage `
+        -ManifestService $ManifestService `
+        -ReceiptEntry $ReceiptEntry `
+        -InspectionPath $InspectionPath
+      Assert-LiveContainersUnchanged -Receipt $Receipt
+    }
+    Invoke-SourcePreflight
+    Assert-LiveContainersUnchanged -Receipt $Receipt
+    Write-JsonExclusive -Path $CandidatesPath -Value @($Candidates)
+    Invoke-NodeChecked @(
+      "scripts/local-service-image-receipt.cjs",
+      "mark-staged",
+      "--receipt", $ResolvedReceipt,
+      "--candidates", $CandidatesPath
+    )
+    Write-Host "Local service candidate images staged and verified offline."
+  }
+  finally {
+    if (Test-Path -LiteralPath $Temporary -PathType Container) {
+      Remove-Item -LiteralPath $Temporary -Recurse -Force
+    }
+  }
+}
+
+function Assert-CandidatesStillVerified {
   param(
-    [Parameter(Mandatory = $true)][string]$BasePath,
-    [Parameter(Mandatory = $true)][string]$FullPath
+    [Parameter(Mandatory = $true)][object]$Receipt,
+    [Parameter(Mandatory = $true)][object]$Manifest
   )
-  $ResolvedBase = [System.IO.Path]::GetFullPath($BasePath).TrimEnd("\") + "\"
-  $ResolvedFull = [System.IO.Path]::GetFullPath($FullPath)
-  if (-not $ResolvedFull.StartsWith(
-    $ResolvedBase,
-    [System.StringComparison]::OrdinalIgnoreCase
-  )) {
-    throw "container source path escaped its expected host root: $FullPath"
-  }
-  return $ResolvedFull.Substring($ResolvedBase.Length)
-}
-
-function Get-AdminSourceManifest {
-  $Entries = @()
-  $AdminRoot = Join-Path $ProjectRoot "admin"
-  foreach ($File in Get-ChildItem -LiteralPath $AdminRoot -Recurse -File -Filter "*.cjs") {
-    $Relative = Get-RelativePathUnder $ProjectRoot $File.FullName
-    if ($Relative -match "^admin[\\/](?:data|published)[\\/]") { continue }
-    $Entries += New-SourceManifestEntry $Relative ("/app/{0}" -f $Relative)
-  }
-  foreach ($Directory in @("admin/public", "shared")) {
-    foreach ($File in Get-ChildItem -LiteralPath (Join-Path $ProjectRoot $Directory) -Recurse -File) {
-      $Relative = Get-RelativePathUnder $ProjectRoot $File.FullName
-      $Entries += New-SourceManifestEntry $Relative ("/app/{0}" -f $Relative)
+  $Temporary = Join-Path (
+    [System.IO.Path]::GetTempPath()
+  ) ("aihub-local-service-promote-{0}" -f [guid]::NewGuid().ToString("N"))
+  New-Item -ItemType Directory -Path $Temporary | Out-Null
+  try {
+    foreach ($ManifestService in @($Manifest.services)) {
+      $Entry = @(
+        $Receipt.services | Where-Object { $_.service -eq $ManifestService.service }
+      )[0]
+      if (-not $Entry -or -not $Entry.candidateVerified) {
+        throw "local service candidate receipt is incomplete"
+      }
+      $ActualId = Invoke-DockerCapture @(
+        "image", "inspect", [string]$Entry.candidateTag,
+        "--format", "{{.Id}}"
+      )
+      if ($ActualId -ne [string]$Entry.candidateImageId) {
+        throw "local service candidate image identity changed: $($Entry.service)"
+      }
+      $InspectionPath = Join-Path $Temporary (
+        "inspection-{0}.json" -f [string]$Entry.service
+      )
+      Verify-CandidateImage `
+        -ManifestService $ManifestService `
+        -ReceiptEntry $Entry `
+        -InspectionPath $InspectionPath | Out-Null
     }
   }
-  $Entries += New-SourceManifestEntry `
-    "scripts/discover-official-products.mjs" `
-    "/app/scripts/discover-official-products.mjs"
-  return $Entries
-}
-
-function Get-IdentitySourceManifest {
-  $Entries = @()
-  foreach ($File in Get-ChildItem -LiteralPath (Join-Path $ProjectRoot "identity") -Recurse -File) {
-    if ($File.FullName -match "[\\/]node_modules[\\/]") { continue }
-    $RelativeInsideIdentity = Get-RelativePathUnder `
-      -BasePath (Join-Path $ProjectRoot "identity") `
-      -FullPath $File.FullName
-    $HostRelative = "identity/{0}" -f $RelativeInsideIdentity
-    $Entries += New-SourceManifestEntry `
-      $HostRelative `
-      ("/app/identity/{0}" -f $RelativeInsideIdentity)
-  }
-  foreach ($HostRelative in @(
-    "shared/identity-security.cjs",
-    "shared/avatar-image.cjs"
-  )) {
-    $Entries += New-SourceManifestEntry $HostRelative ("/app/{0}" -f $HostRelative)
-  }
-  return $Entries
-}
-
-function Get-CommunitySourceManifest {
-  return @(
-    New-SourceManifestEntry "community/flarum/apache.conf" "/etc/apache2/conf-available/flarum.conf"
-    New-SourceManifestEntry "community/flarum/docker-entrypoint.sh" "/usr/local/bin/aihub-flarum-entrypoint"
-    New-SourceManifestEntry "community/flarum/aihub-sso.php" "/var/www/html/public/aihub-sso.php"
-    New-SourceManifestEntry "community/flarum/aihub-personal-center.php" "/var/www/html/public/aihub-personal-center.php"
-  )
-}
-
-function Test-ContainerSourceManifest {
-  param(
-    [Parameter(Mandatory = $true)][string]$Service,
-    [Parameter(Mandatory = $true)][object[]]$Entries
-  )
-  $Matches = $true
-  foreach ($Entry in $Entries) {
-    try {
-      Assert-ContainerSourceMatches `
-        -Service $Service `
-        -HostRelativePath $Entry.HostRelativePath `
-        -ContainerPath $Entry.ContainerPath
-    }
-    catch {
-      Write-Warning $_.Exception.Message
-      $Matches = $false
+  finally {
+    if (Test-Path -LiteralPath $Temporary -PathType Container) {
+      Remove-Item -LiteralPath $Temporary -Recurse -Force
     }
   }
-  return $Matches
 }
 
-function Stop-SelfBuiltServiceFailClosed {
-  param([Parameter(Mandatory = $true)][string]$Service)
-  & docker compose -f $ComposeFile stop --timeout 10 $Service
-  if ($LASTEXITCODE -ne 0) {
-    & docker compose -f $ComposeFile kill $Service
+function Promote-Candidates {
+  Invoke-SourcePreflight
+  $Receipt = Read-ServiceReceipt
+  if ($Receipt.phase -ne "staged") {
+    throw "only a fully staged local service image set can be promoted"
   }
-  $Running = & docker compose -f $ComposeFile ps --status running -q $Service
-  if ($LASTEXITCODE -ne 0 -or $Running) {
-    throw "unverified Docker service could not be stopped: $Service"
-  }
-}
+  $Manifest = Read-TrustedJson -Path $ManifestPath
+  Assert-LiveContainersUnchanged -Receipt $Receipt
+  Assert-CandidatesStillVerified -Receipt $Receipt -Manifest $Manifest
+  Invoke-SourcePreflight
+  Assert-LiveContainersUnchanged -Receipt $Receipt
 
-function Stop-AllSelfBuiltServicesFailClosed {
-  $Failures = @()
-  foreach ($Service in @("admin", "identity-community", "community")) {
-    try {
-      Stop-SelfBuiltServiceFailClosed -Service $Service
-    }
-    catch {
-      $Failures += $_.Exception
-    }
-  }
-  if ($Failures.Count -gt 0) {
-    throw [System.AggregateException]::new(
-      "one or more unverified Docker services could not be stopped",
-      [System.Exception[]]$Failures
+  foreach ($Entry in @($Receipt.services)) {
+    Invoke-DockerChecked @(
+      "image", "tag", [string]$Entry.candidateTag, [string]$Entry.liveImageName
     )
   }
-}
-
-function Repair-SelfBuiltServiceImage {
-  param([Parameter(Mandatory = $true)][string]$Service)
-  & docker compose -f $ComposeFile build --no-cache $Service
-  if ($LASTEXITCODE -ne 0) {
-    Stop-SelfBuiltServiceFailClosed -Service $Service
-    throw "no-cache Docker rebuild failed: $Service"
-  }
-  & docker compose -f $ComposeFile up -d --force-recreate --wait $Service
-  if ($LASTEXITCODE -ne 0) {
-    Stop-SelfBuiltServiceFailClosed -Service $Service
-    throw "Docker service recreation failed after no-cache rebuild: $Service"
-  }
-}
-
-function Assert-SelfBuiltServiceSources {
-  param(
-    [Parameter(Mandatory = $true)][string]$Service,
-    [Parameter(Mandatory = $true)][object[]]$Entries
+  Invoke-DockerChecked @(
+    "compose", "-f", $ComposeFile, "up", "-d", "--pull", "never",
+    "--no-build", "--force-recreate", "--wait",
+    "admin", "identity-community", "community"
   )
-  if (Test-ContainerSourceManifest -Service $Service -Entries $Entries) {
-    return
+  foreach ($Entry in @($Receipt.services)) {
+    $ContainerId = Invoke-DockerCapture @(
+      "compose", "-f", $ComposeFile, "ps", "-q", [string]$Entry.service
+    )
+    $ActualImage = Invoke-DockerCapture @(
+      "inspect", $ContainerId, "--format", "{{.Image}}"
+    )
+    if ($ActualImage -ne [string]$Entry.candidateImageId) {
+      throw "promoted local service container uses the wrong image: $($Entry.service)"
+    }
   }
-  # Once drift is known, take the unverified service offline before repair.
-  Stop-SelfBuiltServiceFailClosed -Service $Service
-  Repair-SelfBuiltServiceImage -Service $Service
-  if (-not (Test-ContainerSourceManifest -Service $Service -Entries $Entries)) {
-    Stop-SelfBuiltServiceFailClosed -Service $Service
-    throw "container source drift remains after no-cache rebuild: $Service"
-  }
-}
-
-function Assert-SelfBuiltContainerSources {
-  $AdminSources = @(Get-AdminSourceManifest)
-  $IdentitySources = @(Get-IdentitySourceManifest)
-  $CommunitySources = @(Get-CommunitySourceManifest)
-  if (-not ($AdminSources.HostRelativePath -contains "admin/public/app.js")) {
-    throw "admin/public/app.js is missing from the container source manifest"
-  }
-  if (-not ($IdentitySources.HostRelativePath -contains "identity/server.cjs")) {
-    throw "identity/server.cjs is missing from the container source manifest"
-  }
-  if (-not ($CommunitySources.HostRelativePath -contains "community/flarum/aihub-sso.php")) {
-    throw "community/flarum/aihub-sso.php is missing from the container source manifest"
-  }
-  Assert-SelfBuiltServiceSources -Service "admin" -Entries $AdminSources
-  Assert-SelfBuiltServiceSources -Service "identity-community" -Entries $IdentitySources
-  Assert-SelfBuiltServiceSources -Service "community" -Entries $CommunitySources
+  Invoke-SourcePreflight
+  Invoke-NodeChecked @(
+    "scripts/local-service-image-receipt.cjs",
+    "mark-promoted",
+    "--receipt", $ResolvedReceipt
+  )
+  Write-Host "Local service candidate images promoted after offline verification."
 }
 
 Push-Location $ProjectRoot
 try {
-  $SourcesVerified = $false
-  try {
-    & docker compose -f $ComposeFile up -d --build --force-recreate --wait `
-      admin identity-community community
-    if ($LASTEXITCODE -ne 0) {
-      throw "self-built Docker service rebuild failed"
-    }
-    Assert-SelfBuiltContainerSources
-    $SourcesVerified = $true
+  switch ($Action) {
+    "stage" { Stage-Candidates }
+    "promote" { Promote-Candidates }
   }
-  finally {
-    if (-not $SourcesVerified) {
-      Stop-AllSelfBuiltServicesFailClosed
-    }
-  }
-  Write-Host "Self-built Docker services rebuilt and source hashes verified."
 }
 finally {
   Pop-Location

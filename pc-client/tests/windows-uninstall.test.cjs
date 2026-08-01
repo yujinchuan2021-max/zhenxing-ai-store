@@ -10,6 +10,9 @@ const {
 const {
   WINDOWS_DESKTOP_PRODUCTS
 } = require("../shared/windows-desktop-catalog.cjs");
+const {
+  getDesktopAdapterForProduct
+} = require("../shared/desktop-adapters.cjs");
 
 const comfyPolicy = {
   displayName: /^(?:ComfyUI|ComfyUI Desktop|Comfy Desktop)(?:\s+\d+(?:\.\d+){1,3})?$/i,
@@ -84,6 +87,43 @@ test("accepts Claude's reviewed Squirrel uninstaller", () => {
     executable: update,
     args: ["--uninstall"]
   });
+});
+
+test("strips Claude's silent flag only after the complete registered command is trusted", () => {
+  const installLocation =
+    "C:\\Users\\Tester\\AppData\\Local\\AnthropicClaude";
+  const update = `${installLocation}\\Update.exe`;
+  const fileSystem = fakeFileSystem([installLocation, update]);
+  const policy = getDesktopAdapterForProduct("claude-desktop").uninstall;
+  const action = resolveTrustedUninstallAction({
+    entry: {
+      displayname: "Claude",
+      publisher: "Anthropic PBC",
+      installlocation: installLocation,
+      uninstallstring: `"${update}" --uninstall -s`
+    },
+    policy,
+    ...fileSystem
+  });
+
+  assert.deepEqual(action, {
+    kind: "executable",
+    executable: update,
+    args: ["--uninstall"]
+  });
+  assert.equal(
+    resolveTrustedUninstallAction({
+      entry: {
+        displayname: "Claude",
+        publisher: "Anthropic PBC",
+        installlocation: installLocation,
+        uninstallstring: `"${update}" --uninstall -s --extra`
+      },
+      policy,
+      ...fileSystem
+    }),
+    null
+  );
 });
 
 test("accepts Docker's quoted reviewed uninstall argument", () => {

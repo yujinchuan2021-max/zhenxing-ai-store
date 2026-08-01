@@ -4,7 +4,7 @@
 
 ## 一、AI Hub 客户端
 
-- [ ] 双击 `release-local-server-client\AI-Hub-Local-0.1.23-Windows-x64-Setup.exe`，安装界面正常显示中文和安装路径。
+- [ ] 双击 `release-local-server-client\AI-Hub-Local-0.1.24-Windows-x64-Setup.exe`，安装界面正常显示中文和安装路径。
 - [ ] 安装完成后能从桌面和开始菜单启动。
 - [ ] 关闭主窗口后，托盘图标仍存在。
 - [ ] 从托盘重新打开主窗口，页面和任务状态保持正常。
@@ -38,6 +38,8 @@
 
 每个准备托管下载的产品都单独复制本段并记录版本、下载源、SHA-256 和发布者。
 
+四款当前官方实包的来源、大小、SHA-256、PE 架构、VersionInfo 与 Authenticode 已完成机器审计；动态最新版哈希只作为当次证据。以下复选框仅记录用户日常账户下的真实安装行为。
+
 - [ ] 点击安装前没有提前扫描环境或发起下载。
 - [ ] 点击后先探测官方源；官方源失败时才尝试批准的国内镜像。
 - [ ] Clash 开启与关闭两种情况下，下载策略和错误提示都符合预期。
@@ -50,10 +52,11 @@
 
 首批产品：
 
-- [ ] ChatGPT Desktop：确认下载并打开的是 Microsoft 签名的 Store 官方安装引导器；Store 安装后识别为当前主应用 `9PLM9XGG6VKS` / `OpenAI.Codex`，不能把引导器本身误判为已安装。
-- [ ] Claude Desktop：确认普通用户 x64 EXE 下载、`Anthropic, PBC` 签名、安装后 `Claude` 探针和厂商自动更新；不得误用企业 MSIX。
-- [ ] Comfy Desktop：确认当前 NSIS 启动器与 `Comfy Desktop` 探针；卸载后 `%USERPROFILE%\ComfyUI-Installs`、`%USERPROFILE%\ComfyUI-Shared` 和 `%APPDATA%\Comfy Desktop` 仍保留。
-- [ ] Ollama：确认 `OllamaSetup.exe`、用户级安装、版本探针和交互式卸载；模型目录是否删除必须由用户明确选择。
+- [ ] ChatGPT Desktop：实际完成 Store 安装、主应用 `9PLM9XGG6VKS` / `OpenAI.Codex` 识别、首次启动和卸载；不能把引导器本身误判为已安装。
+- [ ] Claude Desktop：实际运行已审核的普通用户 x64 EXE，确认安装后 `Claude` 探针和厂商自动更新；卸载必须打开厂商交互式 UI，注册命令中的 `-s` 不得被执行；不得误用企业 MSIX。
+- [ ] Comfy Desktop：旧 ComfyUI Desktop V1 只能显示迁移提示，不能显示为当前版“已安装”；当前版仍需独立完成安装、打开和卸载验收。
+- [ ] Comfy Desktop：实际完成安装、探针和卸载，并确认 `%USERPROFILE%\ComfyUI-Installs`、`%USERPROFILE%\ComfyUI-Shared` 和 `%APPDATA%\Comfy Desktop` 仍保留。
+- [ ] Ollama：实际完成用户级安装、版本探针和交互式卸载；模型目录是否删除必须由用户明确选择。
 
 ## 五、CLI 产品
 

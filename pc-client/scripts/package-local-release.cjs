@@ -1,7 +1,6 @@
 "use strict";
 
 const { spawnSync } = require("node:child_process");
-const crypto = require("node:crypto");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
@@ -10,18 +9,42 @@ const {
   assertReleasePackageReady
 } = require("../shared/release-package-policy.cjs");
 const {
-  formatLocalReleaseChecksums,
-  supersededLocalReleaseArtifacts
+  formatLocalReleaseChecksums
 } = require("../shared/local-release-artifacts.cjs");
 const {
+  activatePreparedLocalReleaseDelivery,
+  activatePreparedLocalReleaseDeliveryTransaction,
+  localReleaseDeliveryNames,
+  prepareLocalReleaseDeliveryTransaction
+} = require("../shared/local-release-delivery.cjs");
+const {
+  localReleaseCommandResult
+} = require("../shared/local-release-command-result.cjs");
+const {
   createArtifactBuildMetadata,
-  inspectGitReleaseSource
+  inspectGitReleaseSource,
+  sha256File
 } = require("../shared/release-provenance.cjs");
 const {
   validateLocalReleaseTrust
 } = require("../shared/local-release-trust.cjs");
 
 const root = path.resolve(__dirname, "..");
+function parseOptions(args) {
+  if (args.length === 0) return { transactionReceiptPath: null };
+  if (
+    args.length !== 2 ||
+    args[0] !== "--transaction-receipt" ||
+    !path.isAbsolute(args[1])
+  ) {
+    throw new Error(
+      "Usage: package-local-release.cjs [--transaction-receipt <absolute-path>]"
+    );
+  }
+  return { transactionReceiptPath: path.resolve(args[1]) };
+}
+
+const options = parseOptions(process.argv.slice(2));
 const packageVersion = JSON.parse(
   fs.readFileSync(path.join(root, "package.json"), "utf8")
 ).version;
@@ -29,6 +52,9 @@ const temporaryOutput = fs.mkdtempSync(
   path.join(os.tmpdir(), "aihub-local-package-")
 );
 const artifactOutput = path.join(root, "release-local-server-client");
+let candidateOutput = null;
+let transactionReceiptCreated = false;
+let deliveryRecoveryPending = false;
 
 function channelFromResources(destination) {
   const resource = localReleaseConfig.extraResources.find(
@@ -44,6 +70,25 @@ assertReleasePackageReady({
   updateChannel: channelFromResources("updates/channel.json")
 });
 validateLocalReleaseTrust(channelFromResources("local-release-trust.json"));
+
+const releaseSource = inspectGitReleaseSource({
+  root,
+  version: packageVersion,
+  requireClean: true,
+  requireVersionTag: true
+});
+
+function assertReleaseSourceUnchanged() {
+  const current = inspectGitReleaseSource({
+    root,
+    version: packageVersion,
+    requireClean: true,
+    requireVersionTag: true
+  });
+  if (JSON.stringify(current) !== JSON.stringify(releaseSource)) {
+    throw new Error("Local release source changed while artifacts were being built");
+  }
+}
 
 function resolveCommand(command, args) {
   if (process.platform !== "win32" || !/^(npm|npx)\.cmd$/i.test(command)) {
@@ -80,7 +125,9 @@ function run(command, args) {
 }
 
 try {
+  assertReleaseSourceUnchanged();
   run("npm.cmd", ["run", "build"]);
+  assertReleaseSourceUnchanged();
   run("npx.cmd", [
     "electron-builder",
     "--config",
@@ -90,8 +137,8 @@ try {
     "nsis",
     `--config.directories.output=${temporaryOutput}`
   ]);
+  assertReleaseSourceUnchanged();
 
-  fs.mkdirSync(artifactOutput, { recursive: true });
   const artifacts = fs
     .readdirSync(temporaryOutput, { withFileTypes: true })
     .filter(
@@ -100,85 +147,107 @@ try {
         (entry.name.endsWith(".exe") ||
           entry.name.endsWith(".blockmap"))
     );
-  if (!artifacts.some((entry) => /-Setup\.exe$/i.test(entry.name))) {
-    throw new Error("本地验收安装包未生成");
+  const deliveryNames = localReleaseDeliveryNames(packageVersion);
+  const artifactNames = artifacts.map((entry) => entry.name).sort();
+  if (
+    artifactNames.length !== deliveryNames.artifacts.length ||
+    !deliveryNames.artifacts.every((name) => artifactNames.includes(name))
+  ) {
+    throw new Error(
+      "Local acceptance packaging did not generate the exact Setup, Portable and Setup blockmap set"
+    );
   }
-  if (!artifacts.some((entry) => /-Portable\.exe$/i.test(entry.name))) {
-    throw new Error("本地验收便携包未生成");
-  }
+  candidateOutput = fs.mkdtempSync(
+    path.join(root, "release-local-server-client-candidate-")
+  );
   for (const artifact of artifacts) {
     fs.copyFileSync(
       path.join(temporaryOutput, artifact.name),
-      path.join(artifactOutput, artifact.name)
+      path.join(candidateOutput, artifact.name)
     );
   }
-  const packagedArtifactPaths = artifacts.map((entry) =>
-    path.join(artifactOutput, entry.name)
+  const packagedArtifactPaths = deliveryNames.artifacts.map((name) =>
+    path.join(candidateOutput, name)
   );
   const buildMetadata = createArtifactBuildMetadata({
     version: packageVersion,
-    source: inspectGitReleaseSource({
-      root,
-      version: packageVersion
-    }),
+    source: releaseSource,
     artifactPaths: packagedArtifactPaths
   });
   const buildMetadataName = `AI-Hub-Local-${packageVersion}-BUILD.json`;
   fs.writeFileSync(
-    path.join(artifactOutput, buildMetadataName),
+    path.join(candidateOutput, buildMetadataName),
     `${JSON.stringify(buildMetadata, null, 2)}\n`,
     "utf8"
   );
-  const checksumNames = [
-    `AI-Hub-Local-${packageVersion}-Windows-x64-Setup.exe`,
-    `AI-Hub-Local-${packageVersion}-Windows-x64-Portable.exe`,
-    buildMetadataName
-  ];
+  const checksumNames = [...deliveryNames.artifacts, buildMetadataName];
   const checksumEntries = checksumNames.map((name) => {
-    const filePath = path.join(artifactOutput, name);
+    const filePath = path.join(candidateOutput, name);
     if (!fs.existsSync(filePath)) {
       throw new Error(`Local release checksum input is missing: ${name}`);
     }
     return {
       name,
-      sha256: crypto
-        .createHash("sha256")
-        .update(fs.readFileSync(filePath))
-        .digest("hex")
+      sha256: sha256File(filePath)
     };
   });
   const checksumName = `AI-Hub-Local-${packageVersion}-SHA256.txt`;
   fs.writeFileSync(
-    path.join(artifactOutput, checksumName),
+    path.join(candidateOutput, checksumName),
     formatLocalReleaseChecksums(checksumEntries),
     "utf8"
   );
-  const superseded = supersededLocalReleaseArtifacts(
-    fs.readdirSync(artifactOutput),
-    packageVersion
-  );
-  for (const name of superseded) {
-    fs.rmSync(path.join(artifactOutput, name), { force: true });
+  let activation;
+  if (options.transactionReceiptPath) {
+    prepareLocalReleaseDeliveryTransaction({
+      candidateDirectory: candidateOutput,
+      deliveryDirectory: artifactOutput,
+      receiptPath: options.transactionReceiptPath,
+      version: packageVersion
+    });
+    transactionReceiptCreated = true;
+    activation = activatePreparedLocalReleaseDeliveryTransaction({
+      candidateDirectory: candidateOutput,
+      deliveryDirectory: artifactOutput,
+      receiptPath: options.transactionReceiptPath
+    });
+  } else {
+    activation = activatePreparedLocalReleaseDelivery({
+      candidateDirectory: candidateOutput,
+      deliveryDirectory: artifactOutput,
+      version: packageVersion
+    });
   }
-  for (const name of ["builder-debug.yml", "builder-effective-config.yaml"]) {
-    fs.rmSync(path.join(artifactOutput, name), { force: true });
-  }
+  const commandResult = localReleaseCommandResult({
+    activated: activation.activated,
+    artifactOutput,
+    artifacts: [
+      ...deliveryNames.artifacts,
+      buildMetadataName,
+      checksumName
+    ].sort(),
+    transactionPending: Boolean(options.transactionReceiptPath),
+    transactionReceiptPath: options.transactionReceiptPath,
+    removedPreviousDeliveryFiles: activation.replacedFiles || [],
+    cleanupPending: activation.cleanupPending,
+    cleanupErrorCode: activation.cleanupErrorCode,
+    retiredDirectory: activation.retiredDirectory
+  });
   process.stdout.write(
-    `${JSON.stringify(
-      {
-        ok: true,
-        artifactOutput,
-        artifacts: [
-          ...artifacts.map((entry) => entry.name),
-          buildMetadataName,
-          checksumName
-        ],
-        removedSupersededArtifacts: superseded
-      },
-      null,
-      2
-    )}\n`
+    `${JSON.stringify(commandResult, null, 2)}\n`
   );
+  if (!commandResult.ok) process.exitCode = 2;
+} catch (error) {
+  deliveryRecoveryPending = error?.deliveryRecoveryPending === true;
+  throw error;
 } finally {
   fs.rmSync(temporaryOutput, { recursive: true, force: true });
+  if (
+    candidateOutput &&
+    fs.existsSync(candidateOutput) &&
+    !transactionReceiptCreated &&
+    !deliveryRecoveryPending
+  ) {
+    fs.rmSync(candidateOutput, { recursive: true, force: true });
+  }
 }

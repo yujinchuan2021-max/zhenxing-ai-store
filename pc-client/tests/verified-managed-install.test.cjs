@@ -56,6 +56,73 @@ test("management and task-center package actions re-enter the unified fresh-dete
     /const openCompletedDownloadTask = async[\s\S]*?const showDownloadInFolder/
   )?.[0];
   assert.ok(body, "openCompletedDownloadTask source was not found");
-  assert.match(body, /await requestUnifiedInstall\(product\)/);
+  assert.match(body, /await requestUnifiedInstall\(product, intent\)/);
+  assert.match(body, /resolveProductActionContext\(productId, true\)/);
   assert.doesNotMatch(body, /installDownloadedProduct\(product\)/);
+});
+
+test("every renderer install boundary re-resolves an enabled catalog action context", () => {
+  const source = fs.readFileSync(
+    path.resolve(__dirname, "../src/App.tsx"),
+    "utf8"
+  );
+  const unifiedInstall = source.match(
+    /const requestUnifiedInstall =[\s\S]*?const requestLatestDesktopInstaller/
+  )?.[0];
+  const installerLaunch = source.match(
+    /const installProduct = async[\s\S]*?const installDownloadedProduct/
+  )?.[0];
+  const actionResolver = source.match(
+    /const resolveProductActionContext =[\s\S]*?const chooseCliDirectory/
+  )?.[0];
+
+  assert.ok(unifiedInstall, "requestUnifiedInstall source was not found");
+  assert.ok(installerLaunch, "installProduct source was not found");
+  assert.ok(actionResolver, "managed action context resolver was not found");
+  assert.match(
+    unifiedInstall,
+    /resolveProductActionContext\(product\.id, true\)/
+  );
+  assert.match(
+    installerLaunch,
+    /resolveProductActionContext\(product\.id, true\)/
+  );
+  assert.match(
+    actionResolver,
+    /managedActionContextSnapshot\.current\.vendors/
+  );
+  assert.match(
+    actionResolver,
+    /managedActionContextSnapshot\.current\.localInventory/
+  );
+});
+
+test("download completion and task recovery fail closed after backend disablement", () => {
+  const source = fs.readFileSync(
+    path.resolve(__dirname, "../src/App.tsx"),
+    "utf8"
+  );
+  const automaticLaunch = source.match(
+    /useEffect\(\(\) => \{\s*for \(const task of Object\.values\(downloadTasks\)\)[\s\S]*?const recheckDesktopInstall/
+  )?.[0];
+  const taskRecovery = source.match(
+    /const resumeDownloadTask = async[\s\S]*?const pauseDownloadTask/
+  )?.[0];
+
+  assert.ok(automaticLaunch, "download completion source was not found");
+  assert.ok(taskRecovery, "download recovery source was not found");
+  assert.match(
+    automaticLaunch,
+    /resolveProductActionContext\(task\.productId, true\)/
+  );
+  assert.match(
+    automaticLaunch,
+    /installProduct\(product, intent\)/
+  );
+  assert.match(taskRecovery, /productId\.startsWith\("environment:"\)/);
+  assert.match(
+    taskRecovery,
+    /resolveProductActionContext\(productId, true\)/
+  );
+  assert.match(taskRecovery, /if \(!product\) \{[\s\S]*?return;/);
 });

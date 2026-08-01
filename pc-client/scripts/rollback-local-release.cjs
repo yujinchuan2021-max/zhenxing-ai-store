@@ -7,6 +7,9 @@ const {
 const {
   readLocalReleaseTransactionReceipt
 } = require("./lib/local-release-transaction-receipt.cjs");
+const {
+  localReleaseCommandResult
+} = require("../shared/local-release-command-result.cjs");
 
 const receiptPath = path.resolve(String(process.argv[2] || ""));
 const runtimeDirectory = path.resolve(
@@ -21,4 +24,17 @@ const result = rollbackActivatedRelease({
   runtimeDirectory,
   ...receipt
 });
-process.stdout.write(`${JSON.stringify({ ok: true, ...result }, null, 2)}\n`);
+const commandResult = localReleaseCommandResult({
+  ...result,
+  retiredCleanupPending: receipt.retiredCleanupPending,
+  stagingCleanupPending: receipt.stagingCleanupPending,
+  staleLockCleanupPending: receipt.staleLockCleanupPending,
+  activationLockCleanupPending:
+    receipt.activationLockCleanupPending ||
+    result.activationLockCleanupPending,
+  activationLockCleanupErrorCode:
+    result.activationLockCleanupErrorCode ||
+    receipt.activationLockCleanupErrorCode
+});
+process.stdout.write(`${JSON.stringify(commandResult, null, 2)}\n`);
+if (!commandResult.ok) process.exitCode = 2;

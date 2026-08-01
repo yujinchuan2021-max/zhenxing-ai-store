@@ -183,7 +183,7 @@ export const vendors: Vendor[] = [
         signaturePolicy: "client-reviewed",
         uninstallPolicy: "client-managed",
         download: {
-          url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+          url: "https://claude.ai/api/desktop/win32/x64/setup/latest/redirect",
           fileName: "Claude-Setup-x64.exe"
         }
       },
@@ -280,13 +280,13 @@ export const vendors: Vendor[] = [
           website: "https://www.comfy.org/download",
           tutorial: "https://docs.comfy.org",
           productType: "desktop-reviewed",
-          requirements: ["python"],
+          requirements: [],
           installPolicy: "client-managed-installer",
           downloadPolicy: "client-managed",
           signaturePolicy: "client-reviewed",
           uninstallPolicy: "client-managed",
           download: {
-            url: "https://download.comfy.org/windows/nsis/x64",
+            url: "https://dl.todesktop.com/241130tqe9q3y",
             fileName: "Comfy-Desktop-Setup-x64.exe"
           }
         }

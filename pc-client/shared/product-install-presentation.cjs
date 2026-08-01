@@ -1,10 +1,11 @@
 "use strict";
 
-function getProductInstallPresentation({ stage, filePath }) {
+function getProductInstallPresentation({ stage, filePath, language = "zh" }) {
+  const english = language === "en";
   if (stage === "downloaded") {
     return {
       filePath,
-      buttonLabel: "立即安装",
+      buttonLabel: english ? "Install now" : "立即安装",
       disabled: false,
       showHash: false,
       showTaskLog: false
@@ -13,7 +14,7 @@ function getProductInstallPresentation({ stage, filePath }) {
   if (stage === "detecting") {
     return {
       filePath: "",
-      buttonLabel: "正在准备",
+      buttonLabel: english ? "Preparing" : "正在准备",
       disabled: true,
       showHash: false,
       showTaskLog: false
@@ -28,7 +29,7 @@ function getProductInstallPresentation({ stage, filePath }) {
   ) {
     return {
       filePath: "",
-      buttonLabel: "正在安装",
+      buttonLabel: english ? "Installing" : "正在安装",
       disabled: true,
       showHash: false,
       showTaskLog: false

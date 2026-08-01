@@ -35,6 +35,15 @@ function normalizeDesktopStatus(value) {
     }
     normalized.uninstallMode = value.uninstallMode;
   }
+  if (value.legacyInstall !== undefined) {
+    if (
+      typeof value.legacyInstall !== "string" ||
+      value.legacyInstall !== "comfy-desktop-v1"
+    ) {
+      return null;
+    }
+    normalized.legacyInstall = value.legacyInstall;
+  }
   return normalized;
 }
 

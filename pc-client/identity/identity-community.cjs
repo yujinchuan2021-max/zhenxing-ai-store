@@ -1,8 +1,6 @@
 "use strict";
 
 const crypto = require("node:crypto");
-const fs = require("node:fs");
-const path = require("node:path");
 const { parseAvatarDataUrl } = require("../shared/avatar-image.cjs");
 const {
   digestCredential,
@@ -88,12 +86,16 @@ function rowUser(row, publicOrigin) {
 function createIdentityCommunity({
   pool,
   sendVerification,
-  catalogFile,
+  publishedProductIds,
   communityPersonalCenter = null,
   publicOrigin,
   now = () => new Date()
 }) {
-  if (!pool || typeof sendVerification !== "function") {
+  if (
+    !pool ||
+    typeof sendVerification !== "function" ||
+    typeof publishedProductIds !== "function"
+  ) {
     throw new Error("IdentityCommunity dependencies are incomplete");
   }
   const parsedPublicOrigin = new URL(String(publicOrigin || ""));
@@ -106,23 +108,6 @@ function createIdentityCommunity({
     )
   ) {
     throw new Error("Identity public origin must use HTTPS or loopback HTTP");
-  }
-
-  function publishedProductIds() {
-    try {
-      const catalog = JSON.parse(fs.readFileSync(catalogFile, "utf8"));
-      return new Set(
-        (catalog.vendors || []).flatMap((vendor) =>
-          vendor.enabled === false
-            ? []
-            : (vendor.products || [])
-                .filter((product) => product.enabled !== false)
-                .map((product) => product.id)
-        )
-      );
-    } catch {
-      return new Set();
-    }
   }
 
   async function audit(client, kind, context, userId = null, sessionId = null) {
@@ -1345,7 +1330,7 @@ function createIdentityCommunity({
     const title = boundedText(input.title, "标题", 3, 120);
     const body = boundedText(input.body, "正文", 3, 10_000);
     const productId = String(input.productId || "").trim();
-    if (productId && !publishedProductIds().has(productId)) {
+    if (productId && !(await publishedProductIds()).has(productId)) {
       throw new DomainError(
         "PRODUCT_NOT_PUBLISHED",
         "只能关联已发布产品",

@@ -12,23 +12,44 @@ function readLocalReleaseTransactionReceipt(receiptPath) {
     throw new Error("发布事务结果文件不可信");
   }
   const receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8"));
+  const cleanupFields = [
+    "retiredCleanupPending",
+    "stagingCleanupPending",
+    "staleLockCleanupPending",
+    "activationLockCleanupPending"
+  ];
+  const cleanupValuesAreValid = cleanupFields.every(
+    (name) => typeof receipt?.[name] === "boolean"
+  );
+  const cleanupPending =
+    cleanupValuesAreValid &&
+    cleanupFields.some((name) => receipt[name] === true);
   if (
     !receipt ||
     typeof receipt !== "object" ||
     Array.isArray(receipt) ||
-    receipt.ok !== true ||
+    !cleanupValuesAreValid ||
+    receipt.ok !== !cleanupPending ||
     typeof receipt.backupName !== "string" ||
     typeof receipt.retiredName !== "string" ||
     !receipt.expectedCurrent ||
     typeof receipt.expectedCurrent !== "object" ||
-    Array.isArray(receipt.expectedCurrent)
+    Array.isArray(receipt.expectedCurrent) ||
+    (receipt.activationLockCleanupErrorCode !== null &&
+      typeof receipt.activationLockCleanupErrorCode !== "string")
   ) {
     throw new Error("发布事务结果内容无效");
   }
   return {
     backupName: receipt.backupName,
     retiredName: receipt.retiredName,
-    expectedCurrent: receipt.expectedCurrent
+    expectedCurrent: receipt.expectedCurrent,
+    retiredCleanupPending: receipt.retiredCleanupPending,
+    stagingCleanupPending: receipt.stagingCleanupPending,
+    staleLockCleanupPending: receipt.staleLockCleanupPending,
+    activationLockCleanupPending: receipt.activationLockCleanupPending,
+    activationLockCleanupErrorCode:
+      receipt.activationLockCleanupErrorCode
   };
 }
 

@@ -158,6 +158,15 @@ function resolveTrustedUninstallAction({
   ) {
     return null;
   }
+  const launchArgs = policy.launchWithoutArguments
+    ? []
+    : Array.isArray(policy.launchArguments)
+      ? [...policy.launchArguments]
+      : parsed.args;
+  // The complete registry command is validated above before any local rewrite.
+  // A reviewed policy may then remove silent/logging flags or replace them with
+  // a narrower interactive argument set; this never admits an extra registry
+  // command shape.
   const installLocation = registryInstallLocation(entry);
   if (!installLocation) return null;
   const canonicalExecutable = canonicalPath(parsed.executable, exists, realpath);
@@ -172,7 +181,7 @@ function resolveTrustedUninstallAction({
   return {
     kind: "executable",
     executable: canonicalExecutable,
-    args: policy.launchWithoutArguments ? [] : parsed.args
+    args: launchArgs
   };
 }
 

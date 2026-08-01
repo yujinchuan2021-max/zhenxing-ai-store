@@ -225,6 +225,8 @@ type InstallerInspection = {
   sha256?: string;
   signatureStatus?: string;
   signer?: string;
+  architecture?: string;
+  productName?: string;
   filePath?: string;
   error?: string;
 };
@@ -261,6 +263,9 @@ type InstallerLaunchResult = {
   busy?: boolean;
   exitCode?: number | null;
   operationTask?: DesktopOperationTask | null;
+  verificationMode?:
+    | "presence-transition"
+    | "installer-owned-maintenance";
   warning?: string;
   error?: string;
 };
@@ -274,6 +279,7 @@ type DesktopStatus = {
   canOpen: boolean;
   canUninstall: boolean;
   uninstallMode?: "automatic" | "interactive";
+  legacyInstall?: "comfy-desktop-v1";
   detection: "installed" | "absent" | "unknown";
 };
 
@@ -344,6 +350,18 @@ type ClientInstallProfile = {
   requirements: string[];
   capabilities: string[];
   download?: { url: string; fileName: string };
+  lifecycle?: {
+    productId: string;
+    updateOwner: string;
+    updateStrategy: string;
+    latestSource: string;
+    dataRetention: {
+      mode: string;
+      retainedPaths: string[];
+      userChoiceRequired: boolean;
+    };
+    installerIdentity: Record<string, unknown>;
+  };
 };
 
 type ManagedProductInventorySnapshot = {
@@ -671,6 +689,7 @@ interface Window {
       environmentId: string
     ): Promise<EnvironmentUninstallResult>;
     startDownload(productId: string): Promise<DownloadTaskCommandResult>;
+    refreshDownload(productId: string): Promise<DownloadTaskCommandResult>;
     pauseDownload(productId: string): Promise<DownloadTaskCommandResult>;
     cancelDownload(productId: string): Promise<DownloadTaskCommandResult>;
     getDownloadTask(productId: string): Promise<ManagedDownloadTask | null>;
@@ -689,7 +708,10 @@ interface Window {
       productId: string
     ): Promise<DownloadTaskCommandResult>;
     inspectInstaller(productId: string): Promise<InstallerInspection>;
-    launchInstaller(productId: string): Promise<InstallerLaunchResult>;
+    launchInstaller(
+      productId: string,
+      intent: "install" | "reinstall" | "refresh"
+    ): Promise<InstallerLaunchResult>;
     getDesktopOperation(
       productId: string
     ): Promise<DesktopOperationTask | null>;

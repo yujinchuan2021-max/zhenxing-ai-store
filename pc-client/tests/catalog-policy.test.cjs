@@ -134,7 +134,7 @@ test("backend may remove approved features but cannot invent capabilities", () =
 
 test("accepts only the reviewed Comfy Desktop installer identity and policy", () => {
   const download = {
-    url: "https://download.comfy.org/windows/nsis/x64",
+    url: "https://dl.todesktop.com/241130tqe9q3y",
     fileName: "Comfy-Desktop-Setup-x64.exe"
   };
   const product = {
@@ -146,7 +146,7 @@ test("accepts only the reviewed Comfy Desktop installer identity and policy", ()
     website: "https://www.comfy.org/download",
     tutorial: "https://docs.comfy.org",
     productType: "desktop-reviewed",
-    requirements: ["python"],
+    requirements: [],
     installPolicy: "client-managed-installer",
     downloadPolicy: "client-managed",
     signaturePolicy: "client-reviewed",
@@ -178,7 +178,7 @@ test("locks reviewed desktop downloads to the current consumer distributions", (
   const claude = getManagedDownload("claude-desktop");
   assert.equal(
     claude.url,
-    "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect"
+    "https://claude.ai/api/desktop/win32/x64/setup/latest/redirect"
   );
   assert.equal(claude.fileName, "Claude-Setup-x64.exe");
   assert.deepEqual(claude.allowedHosts, [
@@ -232,7 +232,7 @@ test("accepts the reviewed ChatGPT and Claude desktop installer identities", () 
         website: "https://claude.com/download",
         tutorial: "https://support.claude.com",
         download: {
-          url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+          url: "https://claude.ai/api/desktop/win32/x64/setup/latest/redirect",
           fileName: "Claude-Setup-x64.exe"
         }
       },
@@ -280,13 +280,13 @@ test("rejects an approved installer ID moved to another vendor or type", () => {
     website: "https://www.comfy.org/download",
     tutorial: "https://docs.comfy.org",
     productType: "desktop-reviewed",
-    requirements: ["python"],
+    requirements: [],
     installPolicy: "client-managed-installer",
     downloadPolicy: "client-managed",
     signaturePolicy: "client-reviewed",
     uninstallPolicy: "client-managed",
     download: {
-      url: "https://download.comfy.org/windows/nsis/x64",
+      url: "https://dl.todesktop.com/241130tqe9q3y",
       fileName: "Comfy-Desktop-Setup-x64.exe"
     }
   };

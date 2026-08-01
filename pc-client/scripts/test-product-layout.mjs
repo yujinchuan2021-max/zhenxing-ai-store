@@ -34,7 +34,7 @@ fs.writeFileSync(
       fileSize: fixtureBytes,
       resumedFrom: 0,
       downloadedAt: "2026-07-31T00:00:00.000Z",
-      url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+      url: "https://claude.ai/api/desktop/win32/x64/setup/latest/redirect",
       source: ""
     }
   })
@@ -103,17 +103,63 @@ try {
       returnByValue: true
     });
     if (result.exceptionDetails) {
-      throw new Error(result.exceptionDetails.text || "layout evaluation failed");
+      throw new Error(
+        result.exceptionDetails.exception?.description ||
+          result.exceptionDetails.text ||
+          "layout evaluation failed"
+      );
     }
     return result.result.value;
   };
   await send("Runtime.enable");
+  let openedVendorDirectory = false;
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    openedVendorDirectory = await evaluate(`(() => {
+      const button = [...document.querySelectorAll('.navItem')].find(
+        (candidate) => candidate.textContent.includes('全部厂商')
+      );
+      if (!button) return false;
+      button.click();
+      return true;
+    })()`);
+    if (openedVendorDirectory) break;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  if (!openedVendorDirectory) {
+    const startupState = await evaluate(`({
+      title: document.title,
+      body: document.body?.innerText?.slice(0, 1000) || '',
+      buttons: [...document.querySelectorAll('button')]
+        .slice(0, 20)
+        .map((button) => button.textContent.trim())
+    })`);
+    throw new Error(
+      `vendor directory navigation was not rendered: ${JSON.stringify(startupState)}`
+    );
+  }
+  let vendorDirectoryReady = false;
   for (let attempt = 0; attempt < 100; attempt += 1) {
     const ready = await evaluate(
       "Boolean([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Anthropic')))"
     );
-    if (ready) break;
+    if (ready) {
+      vendorDirectoryReady = true;
+      break;
+    }
     await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  if (!vendorDirectoryReady) {
+    const startupState = await evaluate(`(async () => ({
+      title: document.title,
+      body: document.body?.innerText?.slice(0, 1000) || '',
+      buttons: [...document.querySelectorAll('button')]
+        .slice(0, 20)
+        .map((button) => button.textContent.trim()),
+      catalog: await window.aihubPC?.getCatalog?.()
+    }))()`);
+    throw new Error(
+      `vendor directory did not render at ${page.url}: ${JSON.stringify(startupState)}`
+    );
   }
   await evaluate(
     "[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Anthropic')).click()"

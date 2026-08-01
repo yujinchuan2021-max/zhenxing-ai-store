@@ -66,6 +66,7 @@ services:
       AIHUB_SMTP_HOST: mailpit
       AIHUB_SMTP_PORT: 1025
       AIHUB_LOCAL_MAIL_VIEWER_URL: http://127.0.0.1:8025
+      AIHUB_CATALOG_URL: http://admin:4173/catalog-v1.json
       AIHUB_CATALOG_FILE: /app/catalog/catalog-v1.json
       AIHUB_COMMUNITY_PUBLIC_ORIGIN: http://127.0.0.1:8088
       AIHUB_FORUM_INTERNAL_URL: http://community
@@ -73,8 +74,10 @@ services:
     ports:
       - "127.0.0.1:4180:4180"
     volumes:
-      - ../../admin/published:/app/catalog:ro
+      - ../../admin/data:/app/catalog:ro
     depends_on:
+      admin:
+        condition: service_healthy
       identity-database:
         condition: service_healthy
       mailpit:
@@ -134,8 +137,6 @@ services:
     build:
       context: ../../community/flarum
       dockerfile: Dockerfile
-      args:
-        FLARUM_VERSION: 2.0.0-rc.5
     environment:
       AIHUB_FORUM_PUBLIC_ORIGIN: http://127.0.0.1:8088
       AIHUB_FORUM_INTERNAL_ORIGIN: http://127.0.0.1

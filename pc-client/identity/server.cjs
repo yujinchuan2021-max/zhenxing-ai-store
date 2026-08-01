@@ -13,6 +13,9 @@ const {
 const {
   createFlarumPersonalCenterClient
 } = require("./flarum-personal-center.cjs");
+const {
+  createActiveCatalogProductSource
+} = require("../shared/active-catalog-products.cjs");
 
 const host = process.env.AIHUB_IDENTITY_HOST || "127.0.0.1";
 const port = Number(process.env.AIHUB_IDENTITY_PORT || 4180);
@@ -89,6 +92,7 @@ function validInternalCommunitySecret(request) {
 async function initializeDatabase() {
   const schema = fs.readFileSync(path.join(__dirname, "schema.sql"), "utf8");
   await pool.query(schema);
+  await activeCatalogProducts.enabledProductIds();
 }
 
 const communityInternalOrigin = String(
@@ -103,6 +107,12 @@ const communityPersonalCenter = communityInternalOrigin
       secret: communityInternalSecret
     })
   : null;
+const activeCatalogProducts = createActiveCatalogProductSource({
+  catalogUrl:
+    process.env.AIHUB_CATALOG_URL ||
+    "http://127.0.0.1:4173/catalog-v1.json",
+  cacheTtlMs: Number(process.env.AIHUB_CATALOG_CACHE_TTL_MS || 15_000)
+});
 
 const identity = createIdentityCommunity({
   pool,
@@ -110,9 +120,7 @@ const identity = createIdentityCommunity({
   publicOrigin:
     process.env.AIHUB_IDENTITY_PUBLIC_ORIGIN ||
     `http://127.0.0.1:${port}`,
-  catalogFile:
-    process.env.AIHUB_CATALOG_FILE ||
-    path.resolve(__dirname, "..", "admin", "published", "catalog-v1.json"),
+  publishedProductIds: () => activeCatalogProducts.enabledProductIds(),
   sendVerification: async ({ email, code, expiresAt, purpose }) => {
     const changingEmail = purpose === "email-change";
     await mailer.sendMail({
@@ -159,6 +167,7 @@ const server = http.createServer(async (request, response) => {
         return;
       }
       await pool.query("SELECT 1");
+      await activeCatalogProducts.enabledProductIds();
       sendJson(response, 200, { status: "ready" });
       return;
     }

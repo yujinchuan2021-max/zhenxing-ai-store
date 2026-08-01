@@ -47,11 +47,19 @@ test("accepts a bootstrapper that exits cleanly during launch", async () => {
 });
 
 test("rejects a clean bootstrapper exit when Windows reports its child crash", async () => {
+  const child = new EventEmitter();
+  child.unref = () => {};
   let probes = 0;
   const result = await launchProcessWithGrace({
-    command: process.execPath,
-    args: ["-e", "process.exit(0)"],
-    graceMs: 300,
+    command: "C:\\Trusted\\Bootstrapper.exe",
+    graceMs: 5,
+    spawnProcess: () => {
+      queueMicrotask(() => {
+        child.emit("spawn");
+        child.emit("exit", 0, null);
+      });
+      return child;
+    },
     verifyLaunch: async () => {
       probes += 1;
       return {

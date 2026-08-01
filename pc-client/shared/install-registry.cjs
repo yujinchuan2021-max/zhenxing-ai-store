@@ -1,6 +1,7 @@
 "use strict";
 
 const { getManagedDownload } = require("./managed-downloads.cjs");
+const { getDesktopLifecycle } = require("./desktop-lifecycle.cjs");
 const {
   WINDOWS_DESKTOP_PRODUCTS
 } = require("./windows-desktop-catalog.cjs");
@@ -289,7 +290,7 @@ const INSTALL_REGISTRY = Object.freeze({
     capabilities: Object.freeze([
       "website", "tutorial", "install", "open", "uninstall"
     ]),
-    requirements: Object.freeze(["python"])
+    requirements: Object.freeze([])
   }),
   "ollama-cli": Object.freeze({
     label: "Ollama",
@@ -352,6 +353,7 @@ function publicInstallProfiles() {
   return Object.freeze(
     Object.entries(INSTALL_REGISTRY).map(([productId, entry]) => {
       const download = getManagedDownload(productId);
+      const lifecycle = getDesktopLifecycle(productId);
       return Object.freeze({
         id: entry.profileId,
         label: entry.label,
@@ -363,6 +365,7 @@ function publicInstallProfiles() {
         mode: entry.mode,
         requirements: entry.requirements,
         capabilities: entry.capabilities,
+        ...(lifecycle ? { lifecycle } : {}),
         ...(download
           ? {
               download: Object.freeze({

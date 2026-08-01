@@ -8,6 +8,22 @@ const email = `acceptance-${suffix}@aihub.local`;
 const username = `acceptance_${suffix}`;
 const password = `AIHub-${suffix}-Secure9`;
 const deviceId = crypto.randomUUID();
+let lastMailboxError = null;
+
+async function readMailboxMessages() {
+  try {
+    const response = await fetch(`${mailOrigin}/api/v1/messages`);
+    if (!response.ok) {
+      throw new Error(`Mailpit returned ${response.status}`);
+    }
+    const mailbox = await response.json();
+    lastMailboxError = null;
+    return Array.isArray(mailbox.messages) ? mailbox.messages : [];
+  } catch (error) {
+    lastMailboxError = error;
+    return [];
+  }
+}
 
 async function request(pathname, options = {}) {
   const response = await fetch(`${identityOrigin}${pathname}`, {
@@ -40,8 +56,7 @@ assert.equal(challenge.localMailViewerUrl, mailOrigin);
 let code = "";
 for (let attempt = 0; attempt < 40 && !code; attempt += 1) {
   await new Promise((resolve) => setTimeout(resolve, 100));
-  const mailbox = await (await fetch(`${mailOrigin}/api/v1/messages`)).json();
-  const message = mailbox.messages.find((candidate) =>
+  const message = (await readMailboxMessages()).find((candidate) =>
     candidate.To?.some(
       (recipient) => recipient.Address.toLowerCase() === email.toLowerCase()
     )
@@ -49,6 +64,7 @@ for (let attempt = 0; attempt < 40 && !code; attempt += 1) {
   const match = message?.Snippet?.match(/(\d{6})/);
   if (match) code = match[1];
 }
+if (!code && lastMailboxError) throw lastMailboxError;
 assert.match(code, /^\d{6}$/);
 
 const registered = await request("/v1/registration/complete", {
@@ -92,8 +108,7 @@ const secondChallenge = await request("/v1/registration/challenges", {
 let secondCode = "";
 for (let attempt = 0; attempt < 40 && !secondCode; attempt += 1) {
   await new Promise((resolve) => setTimeout(resolve, 100));
-  const mailbox = await (await fetch(`${mailOrigin}/api/v1/messages`)).json();
-  const message = mailbox.messages.find((candidate) =>
+  const message = (await readMailboxMessages()).find((candidate) =>
     candidate.To?.some(
       (recipient) =>
         recipient.Address.toLowerCase() === secondEmail.toLowerCase()
@@ -101,6 +116,7 @@ for (let attempt = 0; attempt < 40 && !secondCode; attempt += 1) {
   );
   secondCode = message?.Snippet?.match(/(\d{6})/)?.[1] || "";
 }
+if (!secondCode && lastMailboxError) throw lastMailboxError;
 assert.match(secondCode, /^\d{6}$/);
 const secondPassword = `AIHub-${suffix}-Switch8`;
 const secondRegistration = await request("/v1/registration/complete", {

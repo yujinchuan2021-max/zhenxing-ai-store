@@ -86,6 +86,8 @@ contextBridge.exposeInMainWorld("aihubPC", {
     ipcRenderer.invoke("environment:uninstall", environmentId),
   startDownload: (productId) =>
     ipcRenderer.invoke("download:start", productId),
+  refreshDownload: (productId) =>
+    ipcRenderer.invoke("download:refresh", productId),
   pauseDownload: (productId) =>
     ipcRenderer.invoke("download:pause", productId),
   cancelDownload: (productId) =>
@@ -106,8 +108,8 @@ contextBridge.exposeInMainWorld("aihubPC", {
     ipcRenderer.invoke("download:delete-package", productId),
   inspectInstaller: (productId) =>
     ipcRenderer.invoke("installer:inspect", productId),
-  launchInstaller: (productId) =>
-    ipcRenderer.invoke("installer:launch", productId),
+  launchInstaller: (productId, intent) =>
+    ipcRenderer.invoke("installer:launch", productId, intent),
   getDesktopOperation: (productId) =>
     ipcRenderer.invoke("desktop:operation-get", productId),
   checkDesktopOperation: (productId, generation, operationId) =>

@@ -9,6 +9,7 @@ export type ProductInstallPresentation = {
 export function getProductInstallPresentation(input: {
   stage: string;
   filePath?: string;
+  language?: "zh" | "en";
 }): ProductInstallPresentation | null;
 
 export type ProductDownloadRecoveryPresentation = {

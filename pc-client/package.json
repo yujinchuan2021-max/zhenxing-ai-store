@@ -1,6 +1,6 @@
 {
   "name": "aihub-pc-client",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "private": true,
   "description": "AI Hub PC client rebuilt from the product mind map",
   "author": "AI Hub",
@@ -35,8 +35,8 @@
     "release:local:backups": "node scripts/list-local-release-backups.cjs",
     "release:local:restore": "node scripts/restore-local-release.cjs",
     "release:local:upgrade": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/upgrade-local-release.ps1",
-    "release:local:rebuild-app-services": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rebuild-local-app-services.ps1",
-    "release:local:test-images": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rebuild-local-app-services.ps1",
+    "release:local:stage-app-services": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rebuild-local-app-services.ps1 -Action stage",
+    "release:local:promote-app-services": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/rebuild-local-app-services.ps1 -Action promote",
     "release:local:up": "docker compose -f deployment/local/compose.yaml up -d --wait",
     "release:local:recreate-server": "docker compose -f deployment/local/compose.yaml up -d --force-recreate --wait release-server",
     "release:local:test-server": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/test-local-release-server.ps1",

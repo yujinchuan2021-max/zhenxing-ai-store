@@ -153,7 +153,7 @@ test("approved profiles expose identity but no executable command", () => {
   assert.deepEqual(
     profiles.find((profile) => profile.id === "desktop.comfy").download,
     {
-      url: "https://download.comfy.org/windows/nsis/x64",
+      url: "https://dl.todesktop.com/241130tqe9q3y",
       fileName: "Comfy-Desktop-Setup-x64.exe"
     }
   );
@@ -167,7 +167,7 @@ test("approved profiles expose identity but no executable command", () => {
   assert.deepEqual(
     profiles.find((profile) => profile.id === "desktop.claude").download,
     {
-      url: "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+      url: "https://claude.ai/api/desktop/win32/x64/setup/latest/redirect",
       fileName: "Claude-Setup-x64.exe"
     }
   );

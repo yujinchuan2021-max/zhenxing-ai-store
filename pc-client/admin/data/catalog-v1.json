@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-31T20:54:33.441Z",
+  "updatedAt": "2026-08-01T07:28:05.443Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -306,7 +306,7 @@
           "signaturePolicy": "client-reviewed",
           "uninstallPolicy": "client-managed",
           "download": {
-            "url": "https://claude.ai/api/desktop/win32/x64/exe/latest/redirect",
+            "url": "https://claude.ai/api/desktop/win32/x64/setup/latest/redirect",
             "fileName": "Claude-Setup-x64.exe"
           },
           "enabled": true,
@@ -732,11 +732,9 @@
           "category": "图像创作",
           "description": "Comfy 官方桌面启动器，用于管理本地 ComfyUI 实例与工作流。",
           "website": "https://www.comfy.org/download",
-          "requirements": [
-            "python"
-          ],
+          "requirements": [],
           "download": {
-            "url": "https://download.comfy.org/windows/nsis/x64",
+            "url": "https://dl.todesktop.com/241130tqe9q3y",
             "fileName": "Comfy-Desktop-Setup-x64.exe"
           },
           "tutorial": "https://docs.comfy.org",

@@ -32,6 +32,10 @@ const {
   resolvePackagedCatalogFallback
 } = require("../shared/catalog-runtime-policy.cjs");
 const {
+  authorizeFreshCatalogProduct,
+  runFreshCatalogAuthorizedOperation
+} = require("../shared/managed-catalog-install-authorization.cjs");
+const {
   clientIdToDeviceId,
   readOrCreateClientId
 } = require("../shared/client-identity.cjs");
@@ -47,14 +51,19 @@ const {
   createManagedCliTerminalAction
 } = require("../shared/cli-terminal.cjs");
 const {
+  bindRegistryEvidenceToAuthenticode,
   matchesDesktopIdentity,
-  resolveDesktopPresence
+  resolveDesktopLegacyMigration,
+  resolveDesktopPresence,
+  signatureInspectionIsConclusive,
+  selectTrustedDesktopRegistryMatch
 } = require("../shared/desktop-detection.cjs");
 const {
   selectCompatibleNodeRuntime
 } = require("../shared/node-runtime-policy.cjs");
 const {
-  getUninstallPresentation
+  buildDesktopUninstallConfirmation,
+  getDesktopUninstallPresentation
 } = require("../shared/uninstall-presentation.cjs");
 const {
   getManagedDownload: getStaticManagedDownload,
@@ -73,6 +82,16 @@ const {
   refreshManagedDownloadSession
 } = require("../shared/managed-download-network.cjs");
 const {
+  runWhenManagedDownloadSlotAvailable
+} = require("../shared/managed-download-refresh.cjs");
+const {
+  cancelSupersededPackageCleanupForProduct,
+  commitManagedDownloadReplacement,
+  managedDownloadCleanupCapacity,
+  recordsMatch,
+  retrySupersededPackageCleanup
+} = require("../shared/managed-download-replacement.cjs");
+const {
   localizeRuntimePayload,
   runtimeText
 } = require("../shared/runtime-language.cjs");
@@ -90,8 +109,15 @@ const {
   launchProcessWithGrace
 } = require("../shared/installer-launch.cjs");
 const {
+  validateWindowsInstallerIdentity
+} = require("../shared/windows-installer-identity.cjs");
+const {
   prepareInstallerLaunchArtifact
 } = require("../shared/installer-launch-path.cjs");
+const {
+  resolveDesktopInstallerLaunchPolicy,
+  resolveTrustedDesktopInstallerLaunchPolicy
+} = require("../shared/desktop-installer-launch-policy.cjs");
 const {
   applicationCrashMessage,
   normalizeApplicationCrash
@@ -260,6 +286,7 @@ const activeCliPrefixes = new Set();
 const discoveredCliPrefixes = new Map();
 const managedWslStatusCache = new Map();
 const activeDownloads = new Map();
+let managedDownloadRefreshPending = false;
 const activeDesktopOperationEntries = new Set();
 let desktopOperationController = null;
 let environmentOperationController = null;
@@ -1180,6 +1207,68 @@ async function inspectSignature(filePath) {
   }
 }
 
+async function inspectWindowsInstallerIdentity(filePath, expected) {
+  if (!expected) {
+    return { ok: false, error: "该安装包缺少客户端产品身份契约" };
+  }
+  let descriptor;
+  let buffer;
+  try {
+    descriptor = fs.openSync(filePath, "r");
+    const stat = fs.fstatSync(descriptor);
+    const bytesToRead = Math.min(stat.size, 1024 * 1024);
+    buffer = Buffer.alloc(bytesToRead);
+    const bytesRead = fs.readSync(
+      descriptor,
+      buffer,
+      0,
+      bytesToRead,
+      0
+    );
+    buffer = buffer.subarray(0, bytesRead);
+  } catch {
+    return { ok: false, error: "无法读取安装包产品身份" };
+  } finally {
+    if (descriptor !== undefined) fs.closeSync(descriptor);
+  }
+
+  const script = [
+    "$v=(Get-Item -LiteralPath $env:AIHUB_INSTALLER_IDENTITY_PATH).VersionInfo",
+    "$o=[pscustomobject]@{ProductName=[string]$v.ProductName;FileDescription=[string]$v.FileDescription;OriginalFilename=[string]$v.OriginalFilename;CompanyName=[string]$v.CompanyName}",
+    "$o|ConvertTo-Json -Compress"
+  ].join(";");
+  let versionInfo;
+  try {
+    const { stdout } = await execFileAsync(
+      "powershell.exe",
+      ["-NoProfile", "-NonInteractive", "-Command", script],
+      {
+        windowsHide: true,
+        timeout: 15_000,
+        env: {
+          ...isolatedThirdPartyEnvironment(),
+          AIHUB_INSTALLER_IDENTITY_PATH: filePath
+        }
+      }
+    );
+    versionInfo = JSON.parse(stdout.trim());
+  } catch {
+    return { ok: false, error: "Windows 无法读取安装包产品信息" };
+  }
+  const result = validateWindowsInstallerIdentity({
+    buffer,
+    versionInfo,
+    expected
+  });
+  return result.ok
+    ? { ok: true, identity: result.value }
+    : {
+        ok: false,
+        error: "安装包架构或产品身份与客户端白名单不匹配",
+        identityError: result.error
+      };
+}
+
 async function inspectRecentWindowsApplicationCrash(filePath, startedAtMs) {
   if (
     typeof filePath !== "string" ||
@@ -1249,11 +1338,13 @@ async function verifyExpectedSignature(filePath, expectedSigner, force = false) 
     status: signature.status,
     signer: signature.signer
   };
-  trustedSignatureCache.set(cacheKey, {
-    size: stat.size,
-    mtimeMs: stat.mtimeMs,
-    result
-  });
+  if (signatureInspectionIsConclusive(result)) {
+    trustedSignatureCache.set(cacheKey, {
+      size: stat.size,
+      mtimeMs: stat.mtimeMs,
+      result
+    });
+  }
   return result;
 }
 
@@ -1783,6 +1874,18 @@ function trustedDesktopUninstallRecord(productId, registry) {
   });
 }
 
+function trustedLegacyDesktopInstallRecord(productId, registry) {
+  const policy = DESKTOP_PROBES[productId]?.legacyInstall?.uninstall;
+  if (!policy) return null;
+  return findTrustedUninstallRecord({
+    registry,
+    policy,
+    exists: fs.existsSync,
+    realpath: fs.realpathSync.native,
+    systemRoot: process.env.SystemRoot || "C:\\Windows"
+  });
+}
+
 function trustedDesktopAppxPackage(productId, packages) {
   const policy = DESKTOP_PROBES[productId]?.appx;
   return policy ? trustedAppxPackage(packages, policy) : null;
@@ -1837,9 +1940,14 @@ async function detectDesktopProduct(productId, scanSnapshot = null) {
   const uninstallRecord = registryScan.ok
     ? trustedDesktopUninstallRecord(productId, registry)
     : null;
-  const registryMatch = probe.uninstall
-    ? uninstallRecord?.entry
-    : registry.find((entry) => matches(entry.displayname));
+  const legacyInstallRecord =
+    registryScan.ok && probe.legacyInstall
+      ? trustedLegacyDesktopInstallRecord(productId, registry)
+      : null;
+  const registryCandidate = selectTrustedDesktopRegistryMatch({
+    uninstallPolicy: probe.uninstall,
+    uninstallRecord
+  });
   const packageMatch = probe.appx
     ? trustedDesktopAppxPackage(productId, windowsApps.packages)
     : null;
@@ -1856,11 +1964,35 @@ async function detectDesktopProduct(productId, scanSnapshot = null) {
           realpath: fs.realpathSync.native
         })
       : ""
-    : normalizedIconPath(registryMatch?.displayicon);
+    : normalizedIconPath(registryCandidate?.displayicon);
   const executableSignature =
     executableCandidate && probe.uninstall
-      ? await verifyExpectedSignature(executableCandidate, probe.signer)
+      ? await verifyExpectedSignature(executableCandidate, probe.signer, true)
       : null;
+  const legacyExecutableCandidate = legacyInstallRecord
+    ? findTrustedProductExecutable({
+        entry: legacyInstallRecord.entry,
+        executableNames: probe.legacyInstall.executableNames,
+        exists: fs.existsSync,
+        realpath: fs.realpathSync.native
+      })
+    : "";
+  const legacyExecutableSignature = legacyExecutableCandidate
+    ? await verifyExpectedSignature(
+        legacyExecutableCandidate,
+        probe.legacyInstall.signer || probe.signer,
+        true
+      )
+    : null;
+  const registryMatch = bindRegistryEvidenceToAuthenticode({
+    registryMatch: registryCandidate,
+    executableSignature
+  });
+  const registryEvidenceScanSucceeded =
+    registryScan.ok &&
+    (!registryCandidate ||
+      !executableCandidate ||
+      signatureInspectionIsConclusive(executableSignature));
   const executable = probe.uninstall
     ? executableSignature?.ok
       ? executableCandidate
@@ -1875,8 +2007,14 @@ async function detectDesktopProduct(productId, scanSnapshot = null) {
     registryMatched: Boolean(registryMatch),
     packageMatched: Boolean(packageMatch),
     startMatched: Boolean(startMatch),
-    registryScanSucceeded: registryScan.ok,
+    registryScanSucceeded: registryEvidenceScanSucceeded,
     windowsAppsScanSucceeded: windowsApps.ok
+  });
+  const legacyInstall = resolveDesktopLegacyMigration({
+    currentInstalled: presence.installed,
+    legacyInstallId: probe.legacyInstall?.id,
+    legacyRegistryMatched: Boolean(legacyInstallRecord),
+    legacyExecutableSignature
   });
   return {
     installed: presence.installed,
@@ -1894,13 +2032,16 @@ async function detectDesktopProduct(productId, scanSnapshot = null) {
       (probe.uninstall
         ? Boolean(executable)
         : Boolean(executable || startMatch?.AppID)),
-    canUninstall: Boolean(
-      packageMatch && probe.appx
-        ? true
-        : uninstallRecord && uninstallSignature?.ok
-    ),
+    canUninstall:
+      presence.installed &&
+      Boolean(
+        packageMatch && probe.appx
+          ? true
+          : uninstallRecord && uninstallSignature?.ok
+      ),
     uninstallMode: probe.uninstallMode,
-    detection: presence.detection
+    detection: presence.detection,
+    ...(legacyInstall ? { legacyInstall } : {})
   };
 }
 
@@ -1931,8 +2072,12 @@ async function uninstallTrustedAppxProduct(
       productId,
       firstScan.packages
     );
-    const action = createAppxUninstallAction(packageEntry, probe.appx);
-    if (!packageEntry || !action) {
+    const interactiveAppxUninstall =
+      probe.appx.uninstallStrategy === "windows-settings";
+    const action = interactiveAppxUninstall
+      ? null
+      : createAppxUninstallAction(packageEntry, probe.appx);
+    if (!packageEntry || (!interactiveAppxUninstall && !action)) {
       return {
         launched: false,
         error: "未找到名称、发布者和包身份均匹配的可信 Windows 应用"
@@ -1940,21 +2085,22 @@ async function uninstallTrustedAppxProduct(
     }
 
     const productName = probe.names[0];
-    const confirmation = await showLocalizedMessageBox({
-      type: "warning",
-      title: `卸载 ${productName}`,
-      message: `确认卸载 ${productName}？`,
-      detail: [
-        `产品：${productName}`,
-        `版本：${packageEntry.Version || "Windows 未提供"}`,
-        `发布者：${packageEntry.Publisher}`,
-        `包身份：${packageEntry.PackageFullName}`,
-        "AI Hub 只会移除这个已审核的当前用户应用包，并继续检测卸载结果。"
-      ].join("\n"),
-      buttons: ["取消", "继续卸载"],
-      defaultId: 0,
-      cancelId: 0,
-      noLink: true
+    const uninstallPresentation = getDesktopUninstallPresentation(
+      productId,
+      probe.uninstallMode,
+      readSettings().language
+    );
+    const confirmation = await showDesktopUninstallConfirmation({
+      productId,
+      mode: probe.uninstallMode,
+      language: readSettings().language,
+      surface: interactiveAppxUninstall
+        ? "windows-settings"
+        : "appx-package",
+      productName,
+      version: packageEntry.Version,
+      publisher: packageEntry.Publisher,
+      packageFullName: packageEntry.PackageFullName
     });
     if (confirmation.response !== 1) {
       return { launched: false, canceled: true };
@@ -1988,6 +2134,17 @@ async function uninstallTrustedAppxProduct(
       );
       return operationTask;
     };
+    if (interactiveAppxUninstall) {
+      await shell.openExternal("ms-settings:appsfeatures");
+      processSpawned = true;
+      finishLaunch(true);
+      return {
+        launched: true,
+        operationTask: operationController.get(productId) || operationTask,
+        uninstallMode: "interactive",
+        message: uninstallPresentation.launched
+      };
+    }
     const launchResult = await launchProcessWithGrace({
       command: action.executable,
       args: action.args,
@@ -2012,7 +2169,7 @@ async function uninstallTrustedAppxProduct(
       ...launchResult,
       operationTask: operationController.get(productId) || operationTask,
       uninstallMode: probe.uninstallMode,
-      message: getUninstallPresentation(probe.uninstallMode).launched
+      message: uninstallPresentation.launched
     };
   } catch (error) {
     if (operationTask && !processSpawned) {
@@ -2165,6 +2322,13 @@ async function resolveCatalog() {
       error instanceof Error ? error.message : "远程目录加载失败";
   }
   return resolvePackagedCatalogFallback({ cached, error: remoteError });
+}
+
+function authorizeCurrentCatalogProduct(productId) {
+  return authorizeFreshCatalogProduct({
+    productId,
+    loadCatalog: resolveCatalog
+  });
 }
 
 function updateChannelPath() {
@@ -2333,6 +2497,14 @@ function localizedSystemOptions(options) {
 
 function showLocalizedMessageBox(options) {
   return dialog.showMessageBox(localizedSystemOptions(options));
+}
+
+function showDesktopUninstallConfirmation(options) {
+  // This presentation is already localized as one structured unit. Sending it
+  // through the generic runtime localizer would replace the whole detail when
+  // opaque Windows metadata (for example a product name or path) contains Han
+  // characters, discarding the reviewed version, signer and retention facts.
+  return dialog.showMessageBox(buildDesktopUninstallConfirmation(options));
 }
 
 function showLocalizedOpenDialog(options) {
@@ -5526,7 +5698,13 @@ function reconcileManagedDownloadTask(productId) {
   return task;
 }
 
-function beginManagedDownloadAttempt(productId, plan, target, reusable) {
+function beginManagedDownloadAttempt(
+  productId,
+  plan,
+  target,
+  reusable,
+  options = {}
+) {
   let task = reconcileManagedDownloadTask(productId);
   const attemptId = crypto.randomUUID();
   const partialStartMode = classifyPartialForStart(reusable);
@@ -5568,7 +5746,8 @@ function beginManagedDownloadAttempt(productId, plan, target, reusable) {
     attemptId,
     controller,
     intent: "download",
-    completion: null
+    completion: null,
+    replacement: options.replacement || null
   };
   activeDownloads.set(productId, entry);
 
@@ -5676,9 +5855,47 @@ function beginManagedDownloadAttempt(productId, plan, target, reusable) {
         url: plan.url,
         source: plan.sourceLabel || ""
       };
-      records[productId] = record;
-      writeDownloadRecords(records);
-      committedRecord = record;
+      if (!plan.environmentId) {
+        const verified = await inspectManagedDesktopDownloadRecord(
+          productId,
+          record
+        );
+        if (!verified.ok) {
+          const error = new Error(
+            verified.error || "Downloaded installer verification failed"
+          );
+          error.code = "DOWNLOADED_INSTALLER_INVALID";
+          throw error;
+        }
+      }
+      if (entry.replacement) {
+        const replacement = await commitManagedDownloadReplacement({
+          productId,
+          currentRecords: records,
+          expectedPreviousRecord: entry.replacement.expectedPreviousRecord,
+          trustedPreviousRecord: entry.replacement.trustedPreviousRecord,
+          nextRecord: record,
+          expectedFileName: plan.fileName,
+          writeRecords: writeDownloadRecords,
+          cleanupPrevious: (previousRecord, nextRecord) =>
+            cleanupReplacedManagedDownloadFile(
+              previousRecord,
+              nextRecord,
+              plan
+            )
+        });
+        committedRecord = replacement.record;
+        if (!replacement.cleanup.ok) {
+          console.error(
+            "Unable to clean the replaced managed installer",
+            replacement.cleanup.error
+          );
+        }
+      } else {
+        records[productId] = record;
+        writeDownloadRecords(records);
+        committedRecord = record;
+      }
       try {
         removePartialDownloadRecord(productId);
       } catch {
@@ -5848,7 +6065,17 @@ function beginManagedDownloadAttempt(productId, plan, target, reusable) {
   return { ok: true, task };
 }
 
-function startManagedDownload(productId, overridePlan = null) {
+function startManagedDownload(productId, overridePlan = null, options = {}) {
+  if (
+    managedDownloadRefreshPending &&
+    options.maintenanceOwner !== true
+  ) {
+    return {
+      ok: false,
+      error: "正在整理本地安装包，请稍后重试",
+      task: currentManagedDownloadTask(productId)
+    };
+  }
   const plan = overridePlan || resolveManagedDownloadPlan(productId);
   if (!plan) {
     return { ok: false, error: "该产品不在客户端安装包白名单中" };
@@ -5875,7 +6102,8 @@ function startManagedDownload(productId, overridePlan = null) {
       productId,
       plan,
       partial.targetPath,
-      partial
+      partial,
+      options
     );
   }
   const partialRecords = readPartialDownloadRecords();
@@ -5890,7 +6118,7 @@ function startManagedDownload(productId, overridePlan = null) {
     }
   }
   const target = safeDownloadTarget(plan.fileName);
-  return beginManagedDownloadAttempt(productId, plan, target, null);
+  return beginManagedDownloadAttempt(productId, plan, target, null, options);
 }
 
 async function pauseManagedDownload(productId) {
@@ -6080,27 +6308,7 @@ async function verifiedEnvironmentRecord(environmentId) {
   return { ...record, signature };
 }
 
-async function inspectCompletedDownloadRecord(productId) {
-  const environmentId = environmentIdFromManagedDownload(productId);
-  if (environmentId) {
-    const record = await verifiedEnvironmentRecord(environmentId);
-    return record
-      ? {
-          ok: true,
-          record,
-          sha256: record.sha256,
-          signature: record.signature
-        }
-      : {
-          ok: false,
-          error: "安装包不存在、已被修改或数字签名无效，请重新下载"
-        };
-  }
-
-  const record = trustedCompletedDownloadRecord(productId);
-  if (!record) {
-    return { ok: false, error: "未找到已下载的安装包" };
-  }
+async function inspectManagedDesktopDownloadRecord(productId, record) {
   const digest = await fileSha256(record.filePath);
   if (digest !== record.sha256) {
     return { ok: false, error: "安装包已被修改，请重新下载" };
@@ -6127,9 +6335,8 @@ async function inspectCompletedDownloadRecord(productId) {
   const signerAccepted =
     signature.status === "Valid" &&
     expectedSigner.test(signature.signer);
-  return signerAccepted
-    ? { ok: true, record, sha256: digest, signature }
-    : {
+  if (!signerAccepted) {
+    return {
         ok: false,
         record,
         sha256: digest,
@@ -6139,6 +6346,334 @@ async function inspectCompletedDownloadRecord(productId) {
             ? "安装包签发者与产品安全契约不匹配"
             : "安装包数字签名无效或无法验证"
       };
+  }
+  if (!managedDownload?.expectedInstallerIdentity) {
+    return { ok: true, record, sha256: digest, signature };
+  }
+  const installerIdentity = await inspectWindowsInstallerIdentity(
+    record.filePath,
+    managedDownload.expectedInstallerIdentity
+  );
+  return installerIdentity.ok
+    ? {
+        ok: true,
+        record,
+        sha256: digest,
+        signature,
+        identity: installerIdentity.identity
+      }
+    : {
+        ok: false,
+        record,
+        sha256: digest,
+        signature,
+        error: installerIdentity.error,
+        identityError: installerIdentity.identityError
+      };
+}
+
+async function inspectCompletedDownloadRecord(productId) {
+  const environmentId = environmentIdFromManagedDownload(productId);
+  if (environmentId) {
+    const record = await verifiedEnvironmentRecord(environmentId);
+    return record
+      ? {
+          ok: true,
+          record,
+          sha256: record.sha256,
+          signature: record.signature
+        }
+      : {
+          ok: false,
+          error: "安装包不存在、已被修改或数字签名无效，请重新下载"
+        };
+  }
+
+  const record = trustedCompletedDownloadRecord(productId);
+  return record
+    ? inspectManagedDesktopDownloadRecord(productId, record)
+    : { ok: false, error: "未找到已下载的安装包" };
+}
+
+function removeTrustedCompletedPackage(productId, record) {
+  if (!record || record.productId !== productId) {
+    return { ok: false, error: "安装包记录无效，已拒绝删除" };
+  }
+  try {
+    const stat = fs.lstatSync(record.filePath);
+    if (!stat.isFile() || stat.isSymbolicLink()) {
+      return { ok: false, error: "安装包文件类型发生变化，已拒绝删除" };
+    }
+    const records = readDownloadRecords();
+    if (!recordsMatch(records[productId] || null, record)) {
+      return { ok: false, error: "安装包记录已发生变化，请刷新后重试" };
+    }
+    const canceledCleanup = cancelSupersededPackageCleanupForProduct(
+      records,
+      productId
+    );
+    const nextRecords = canceledCleanup.records;
+    delete nextRecords[productId];
+    writeDownloadRecords(nextRecords);
+    try {
+      fs.unlinkSync(record.filePath);
+    } catch (error) {
+      try {
+        writeDownloadRecords(records);
+      } catch (rollbackError) {
+        throw new Error(
+          `${error instanceof Error ? error.message : "文件删除失败"}；下载记录回滚失败：${
+            rollbackError instanceof Error
+              ? rollbackError.message
+              : "未知错误"
+          }`
+        );
+      }
+      throw error;
+    }
+    loadManagedDownloadTasks();
+    managedDownloadTasks.delete(productId);
+    writeManagedDownloadTasks();
+    const environmentId = environmentIdFromManagedDownload(productId);
+    if (environmentId) {
+      const legacyRecords = readEnvironmentDownloadRecords();
+      delete legacyRecords[environmentId];
+      writeEnvironmentDownloadRecords(legacyRecords);
+    }
+    downloadTaskLastPersistedAt.delete(productId);
+    downloadTaskLastEmittedAt.delete(productId);
+    return { ok: true, filePath: record.filePath };
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error
+          ? `无法删除安装包：${error.message}`
+          : "无法删除安装包"
+    };
+  }
+}
+
+async function cleanupReplacedManagedDownloadFile(
+  previousRecord,
+  nextRecord,
+  plan
+) {
+  if (
+    !previousRecord ||
+    (nextRecord && previousRecord.productId !== nextRecord.productId) ||
+    typeof previousRecord.filePath !== "string" ||
+    !path.isAbsolute(previousRecord.filePath) ||
+    typeof previousRecord.downloadRoot !== "string" ||
+    !path.isAbsolute(previousRecord.downloadRoot) ||
+    typeof previousRecord.sha256 !== "string" ||
+    !/^[a-f0-9]{64}$/i.test(previousRecord.sha256) ||
+    !Number.isSafeInteger(previousRecord.fileSize) ||
+    previousRecord.fileSize < 0 ||
+    !plan ||
+    !hasExpectedManagedDownloadName(previousRecord.filePath, plan.fileName)
+  ) {
+    return { ok: false, error: "Replaced package record is not safe to clean" };
+  }
+
+  const oldPath = path.resolve(previousRecord.filePath);
+  const newPath =
+    nextRecord && typeof nextRecord.filePath === "string"
+      ? path.resolve(nextRecord.filePath)
+      : "";
+  const root = path.resolve(previousRecord.downloadRoot);
+  if (newPath && oldPath.toLowerCase() === newPath.toLowerCase()) {
+    return { ok: true, skipped: true };
+  }
+  if (
+    path.dirname(oldPath).toLowerCase() !== root.toLowerCase() ||
+    path.isAbsolute(path.relative(root, oldPath)) ||
+    path.relative(root, oldPath).startsWith("..")
+  ) {
+    return { ok: false, error: "Replaced package escaped its recorded root" };
+  }
+
+  try {
+    if (!fs.existsSync(oldPath)) return { ok: true, missing: true };
+    const stat = fs.lstatSync(oldPath);
+    const canonicalRoot = fs.realpathSync.native(root);
+    const canonicalFile = fs.realpathSync.native(oldPath);
+    if (
+      !stat.isFile() ||
+      stat.isSymbolicLink() ||
+      stat.size !== previousRecord.fileSize ||
+      canonicalRoot.toLowerCase() !== root.toLowerCase() ||
+      path.dirname(canonicalFile).toLowerCase() !==
+        canonicalRoot.toLowerCase()
+    ) {
+      return { ok: false, error: "Replaced package changed before cleanup" };
+    }
+    const digest = await fileSha256(canonicalFile);
+    if (digest.toLowerCase() !== previousRecord.sha256.toLowerCase()) {
+      return { ok: false, error: "Replaced package hash changed before cleanup" };
+    }
+    fs.unlinkSync(canonicalFile);
+    if (fs.existsSync(canonicalFile)) {
+      return { ok: false, error: "Replaced package still exists after cleanup" };
+    }
+    return { ok: true, filePath: canonicalFile };
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Unable to clean the replaced package"
+    };
+  }
+}
+
+async function retryPersistedSupersededPackageCleanup(productId = null) {
+  const currentRecords = readDownloadRecords();
+  try {
+    return await retrySupersededPackageCleanup({
+      currentRecords,
+      productId,
+      expectedFileNameForProduct: (candidateProductId) => {
+        const candidatePlan = resolveManagedDownloadPlan(candidateProductId);
+        return candidatePlan && !candidatePlan.environmentId
+          ? candidatePlan.fileName
+          : null;
+      },
+      cleanupReceipt: (receipt, currentRecord) => {
+        const candidatePlan = resolveManagedDownloadPlan(receipt.productId);
+        return cleanupReplacedManagedDownloadFile(
+          receipt,
+          currentRecord,
+          candidatePlan
+        );
+      },
+      writeRecords: writeDownloadRecords
+    });
+  } catch (error) {
+    return {
+      records: currentRecords,
+      cleanup: {
+        ok: false,
+        attemptedCount: 0,
+        cleanedCount: 0,
+        pendingCount: null,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to retry superseded installer cleanup"
+      }
+    };
+  }
+}
+
+function startFreshManagedDownloadAfterAdmission(productId, plan) {
+  const partialCleanup = discardManagedPartialDownload(productId, plan);
+  if (!partialCleanup.ok) {
+    return {
+      ok: false,
+      error: partialCleanup.errorMessage || "无法清理旧下载断点"
+    };
+  }
+  const records = readDownloadRecords();
+  const expectedPreviousRecord = records[productId] || null;
+  const trustedPreviousRecord = trustedCompletedDownloadRecord(productId);
+  return startManagedDownload(productId, plan, {
+    maintenanceOwner: true,
+    replacement: {
+      expectedPreviousRecord,
+      trustedPreviousRecord
+    }
+  });
+}
+
+async function startFreshManagedDownload(productId) {
+  const plan = resolveManagedDownloadPlan(productId);
+  if (!plan || plan.environmentId) {
+    return { ok: false, error: "该产品不支持获取最新版安装包" };
+  }
+  const catalogAuthorization =
+    await authorizeCurrentCatalogProduct(productId);
+  if (!catalogAuthorization.ok) {
+    return catalogAuthorization;
+  }
+  if (managedDownloadRefreshPending) {
+    return {
+      ok: false,
+      error: "正在整理旧安装包，请稍后重试",
+      task: currentManagedDownloadTask(productId)
+    };
+  }
+  const admission = runWhenManagedDownloadSlotAvailable(
+    {
+      productId,
+      activeProductIds: [...activeDownloads.keys()]
+    },
+    () => true
+  );
+  if (!admission.executed) {
+    return admission.reason === "same-product-active"
+      ? {
+          ok: false,
+          error: "下载仍在进行，无需重复获取最新版",
+          task: currentManagedDownloadTask(productId)
+        }
+      : {
+          ok: false,
+          error: "已有安装包正在下载，请暂停或完成后再获取最新版",
+          task: currentManagedDownloadTask(productId)
+        };
+  }
+
+  managedDownloadRefreshPending = true;
+  try {
+    const retried = await retryPersistedSupersededPackageCleanup();
+    const records = retried.records;
+    const trustedPreviousRecord = trustedCompletedDownloadRecord(productId);
+    if (trustedPreviousRecord) {
+      let capacity;
+      try {
+        capacity = managedDownloadCleanupCapacity(records);
+      } catch (error) {
+        return {
+          ok: false,
+          error:
+            error instanceof Error
+              ? `旧安装包清理记录无效：${error.message}`
+              : "旧安装包清理记录无效"
+        };
+      }
+      if (!capacity.canQueue) {
+        return {
+          ok: false,
+          error: "旧安装包仍被占用，请关闭相关程序后重试"
+        };
+      }
+    }
+    if (activeDownloads.size > 0) {
+      return {
+        ok: false,
+        error: "已有安装包正在下载，请完成后再获取最新版",
+        task: currentManagedDownloadTask(productId)
+      };
+    }
+    const authorizedStart = await runFreshCatalogAuthorizedOperation({
+      productId,
+      authorize: authorizeCurrentCatalogProduct,
+      operation: () => startFreshManagedDownloadAfterAdmission(productId, plan)
+    });
+    return authorizedStart.authorized
+      ? authorizedStart.value
+      : authorizedStart.authorization;
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error ? error.message : "无法获取最新版安装包"
+    };
+  } finally {
+    managedDownloadRefreshPending = false;
+  }
 }
 
 async function clearCompletedDownloadHistory(productId, confirm = true) {
@@ -6178,17 +6713,21 @@ async function clearCompletedDownloadHistory(productId, confirm = true) {
   const legacyRecords = environmentId ? readEnvironmentDownloadRecords() : null;
   const previousLegacyRecord = legacyRecords?.[environmentId];
   try {
+    const canceledCleanup = cancelSupersededPackageCleanupForProduct(
+      records,
+      productId
+    );
+    const nextRecords = canceledCleanup.records;
+    delete nextRecords[productId];
     managedDownloadTasks.delete(productId);
     writeManagedDownloadTasks();
-    delete records[productId];
-    writeDownloadRecords(records);
+    writeDownloadRecords(nextRecords);
     if (legacyRecords && previousLegacyRecord) {
       delete legacyRecords[environmentId];
       writeEnvironmentDownloadRecords(legacyRecords);
     }
   } catch (error) {
     if (previousTask) managedDownloadTasks.set(productId, previousTask);
-    if (record) records[productId] = record;
     if (legacyRecords && previousLegacyRecord) {
       legacyRecords[environmentId] = previousLegacyRecord;
     }
@@ -7766,12 +8305,21 @@ function registerIpc() {
     }
   });
 
-  ipcMain.handle("download:start", (_event, productId) => {
+  ipcMain.handle("download:start", async (_event, productId) => {
     try {
       if (typeof productId !== "string") {
         return { ok: false, error: "下载产品 ID 无效" };
       }
-      return startManagedDownload(productId);
+      const plan = resolveManagedDownloadPlan(productId);
+      if (!plan) {
+        return { ok: false, error: "该产品不在客户端安装包白名单中" };
+      }
+      if (!plan.environmentId) {
+        const catalogAuthorization =
+          await authorizeCurrentCatalogProduct(productId);
+        if (!catalogAuthorization.ok) return catalogAuthorization;
+      }
+      return startManagedDownload(productId, plan);
     } catch (error) {
       return {
         ok: false,
@@ -7780,6 +8328,19 @@ function registerIpc() {
           typeof productId === "string"
             ? reconcileManagedDownloadTask(productId)
             : null
+      };
+    }
+  });
+  ipcMain.handle("download:refresh", (_event, productId) => {
+    try {
+      return typeof productId === "string"
+        ? startFreshManagedDownload(productId)
+        : { ok: false, error: "下载产品 ID 无效" };
+    } catch (error) {
+      return {
+        ok: false,
+        error:
+          error instanceof Error ? error.message : "无法获取最新版安装包"
       };
     }
   });
@@ -7834,71 +8395,64 @@ function registerIpc() {
     }
   });
 
-  ipcMain.handle("download:clear-history", (_event, productId) =>
-    typeof productId === "string"
-      ? clearCompletedDownloadHistory(productId)
-      : { ok: false, error: "下载产品 ID 无效" }
-  );
-  ipcMain.handle("download:clear-completed", () =>
-    clearAllCompletedDownloadHistories()
-  );
+  ipcMain.handle("download:clear-history", async (_event, productId) => {
+    if (typeof productId !== "string") {
+      return { ok: false, error: "下载产品 ID 无效" };
+    }
+    if (managedDownloadRefreshPending || activeDownloads.size > 0) {
+      return { ok: false, error: "安装包任务正在处理，请稍后重试" };
+    }
+    managedDownloadRefreshPending = true;
+    try {
+      return await clearCompletedDownloadHistory(productId);
+    } finally {
+      managedDownloadRefreshPending = false;
+    }
+  });
+  ipcMain.handle("download:clear-completed", async () => {
+    if (managedDownloadRefreshPending || activeDownloads.size > 0) {
+      return { ok: false, error: "安装包任务正在处理，请稍后重试" };
+    }
+    managedDownloadRefreshPending = true;
+    try {
+      return await clearAllCompletedDownloadHistories();
+    } finally {
+      managedDownloadRefreshPending = false;
+    }
+  });
   ipcMain.handle("download:delete-package", async (_event, productId) => {
     if (typeof productId !== "string") {
       return { ok: false, error: "安装包产品 ID 无效" };
     }
-    if (activeDownloads.has(productId)) {
-      return { ok: false, error: "下载仍在进行，不能删除安装包" };
+    if (managedDownloadRefreshPending || activeDownloads.size > 0) {
+      return { ok: false, error: "安装包任务正在处理，不能删除安装包" };
     }
-    const inspected = await inspectCompletedDownloadRecord(productId);
-    if (!inspected.ok || !inspected.record) {
-      return {
-        ok: false,
-        error: inspected.error || "本地安装包不存在或不可信"
-      };
-    }
-    const record = inspected.record;
-    const confirmation = await showLocalizedMessageBox({
-      type: "warning",
-      title: "删除安装包",
-      message: "确认删除这个本地安装包？",
-      detail: record.filePath,
-      buttons: ["取消", "删除安装包"],
-      defaultId: 0,
-      cancelId: 0,
-      noLink: true
-    });
-    if (confirmation.response !== 1) {
-      return { ok: false, canceled: true };
-    }
+    managedDownloadRefreshPending = true;
     try {
-      const stat = fs.lstatSync(record.filePath);
-      if (!stat.isFile() || stat.isSymbolicLink()) {
-        return { ok: false, error: "安装包文件类型发生变化，已拒绝删除" };
+      const inspected = await inspectCompletedDownloadRecord(productId);
+      if (!inspected.ok || !inspected.record) {
+        return {
+          ok: false,
+          error: inspected.error || "本地安装包不存在或不可信"
+        };
       }
-      fs.unlinkSync(record.filePath);
-      const records = readDownloadRecords();
-      delete records[productId];
-      writeDownloadRecords(records);
-      loadManagedDownloadTasks();
-      managedDownloadTasks.delete(productId);
-      writeManagedDownloadTasks();
-      const environmentId = environmentIdFromManagedDownload(productId);
-      if (environmentId) {
-        const legacyRecords = readEnvironmentDownloadRecords();
-        delete legacyRecords[environmentId];
-        writeEnvironmentDownloadRecords(legacyRecords);
+      const record = inspected.record;
+      const confirmation = await showLocalizedMessageBox({
+        type: "warning",
+        title: "删除安装包",
+        message: "确认删除这个本地安装包？",
+        detail: record.filePath,
+        buttons: ["取消", "删除安装包"],
+        defaultId: 0,
+        cancelId: 0,
+        noLink: true
+      });
+      if (confirmation.response !== 1) {
+        return { ok: false, canceled: true };
       }
-      downloadTaskLastPersistedAt.delete(productId);
-      downloadTaskLastEmittedAt.delete(productId);
-      return { ok: true, filePath: record.filePath };
-    } catch (error) {
-      return {
-        ok: false,
-        error:
-          error instanceof Error
-            ? `无法删除安装包：${error.message}`
-            : "无法删除安装包"
-      };
+      return removeTrustedCompletedPackage(productId, record);
+    } finally {
+      managedDownloadRefreshPending = false;
     }
   });
 
@@ -7913,17 +8467,33 @@ function registerIpc() {
       sha256: inspected.sha256,
       signatureStatus: signature.status,
       signer: signature.signer,
+      architecture: inspected.identity?.architecture || "",
+      productName: inspected.identity?.versionInfo?.ProductName || "",
       filePath: inspected.record?.filePath,
       error: inspected.error || ""
     };
   });
 
-  ipcMain.handle("installer:launch", async (_event, productId) => {
+  ipcMain.handle("installer:launch", async (_event, productId, intent) => {
     if (typeof productId !== "string") {
       return { launched: false, error: "安装产品 ID 无效" };
     }
+    const requestedLaunchPolicy = resolveDesktopInstallerLaunchPolicy(intent);
+    if (!requestedLaunchPolicy) {
+      return { launched: false, error: "安装操作类型无效" };
+    }
+    const catalogAuthorization =
+      await authorizeCurrentCatalogProduct(productId);
+    if (!catalogAuthorization.ok) {
+      return { launched: false, ...catalogAuthorization };
+    }
     const downloadTask = currentManagedDownloadTask(productId);
-    if (downloadTask && downloadTask.phase !== "completed") {
+    const retainedCompletedRecord = trustedCompletedDownloadRecord(productId);
+    if (
+      downloadTask &&
+      downloadTask.phase !== "completed" &&
+      (activeDownloads.has(productId) || !retainedCompletedRecord)
+    ) {
       return {
         launched: false,
         busy: true,
@@ -7979,10 +8549,14 @@ function registerIpc() {
     let operationTask = null;
     let processSpawned = false;
     try {
-      const record = trustedCompletedDownloadRecord(productId);
-      if (!record) {
-        return { launched: false, error: "未找到可信安装包记录" };
+      const inspected = await inspectCompletedDownloadRecord(productId);
+      if (!inspected.ok || !inspected.record) {
+        return {
+          launched: false,
+          error: inspected.error || "安装包安全校验未通过"
+        };
       }
+      const record = inspected.record;
       const filePath = record.filePath;
       const resolvedFile = path.resolve(filePath);
       if (
@@ -7993,47 +8567,19 @@ function registerIpc() {
         return { launched: false, error: "安装包路径验证失败" };
       }
 
-      const digest = await fileSha256(resolvedFile);
-      if (digest !== record.sha256) {
-        return { launched: false, error: "安装包已被修改，请重新下载" };
-      }
       const managedDownload = getStaticManagedDownload(productId);
-      if (
-        managedDownload?.expectedSha256 &&
-        digest.toLowerCase() !== managedDownload.expectedSha256.toLowerCase()
-      ) {
-        return {
-          launched: false,
-          error: "安装包版本哈希与客户端白名单不匹配，已拒绝打开"
-        };
-      }
-      const signature = await inspectSignature(resolvedFile);
-      const expectedSigner = managedDownload?.expectedSigner;
-      if (!(expectedSigner instanceof RegExp)) {
-        return {
-          launched: false,
-          error: "该安装包缺少客户端签发者安全契约，已拒绝打开"
-        };
-      }
-      expectedSigner.lastIndex = 0;
-      if (
-        signature.status !== "Valid" ||
-        !expectedSigner.test(signature.signer)
-      ) {
-        return {
-          launched: false,
-          error: "数字签名验证未通过，已拒绝打开安装包"
-        };
-      }
+      const digest = inspected.sha256;
+      const signature = inspected.signature;
 
       const confirmation = await showLocalizedMessageBox({
         type: "warning",
         title: "运行安装程序",
         message: `即将运行 ${path.basename(resolvedFile)}`,
         detail: [
-          productId === "chatgpt-desktop"
-            ? "类型：Microsoft Store 官方安装引导器（不是完整 ChatGPT 安装包）"
+          managedDownload?.installerKind === "store-bootstrapper"
+            ? "类型：Microsoft Store 官方安装引导器（不是完整产品安装包）"
             : "类型：厂商官方安装程序",
+          `架构：${inspected.identity?.architecture || "Windows 未提供"}`,
           `签发者：${signature.signer || "未知"}`,
           `SHA-256：${digest}`,
           "Windows 接收打开请求不代表软件已经安装成功。"
@@ -8069,12 +8615,34 @@ function registerIpc() {
       });
       const launchFilePath = launchArtifact.filePath;
 
-      operationTask = operationController.begin(productId, "install");
-      const identity = {
-        generation: operationTask.generation,
-        operationId: operationTask.operationId
-      };
+      const trustedPresence = await detectDesktopProduct(productId);
+      const trustedLaunchPolicy =
+        resolveTrustedDesktopInstallerLaunchPolicy(intent, trustedPresence);
+      if (!trustedLaunchPolicy.ok) {
+        return {
+          launched: false,
+          error:
+            trustedLaunchPolicy.errorCode === "PRODUCT_ALREADY_INSTALLED"
+              ? "已检测到该产品，请使用重新安装或获取最新版"
+              : "无法确认产品当前安装状态，已停止运行安装程序"
+        };
+      }
+
+      const authorizedLaunch = await runFreshCatalogAuthorizedOperation({
+        productId,
+        authorize: authorizeCurrentCatalogProduct,
+        operation: async () => {
+      if (trustedLaunchPolicy.trackPresenceTransition) {
+        operationTask = operationController.begin(productId, "install");
+      }
+      const identity = operationTask
+        ? {
+            generation: operationTask.generation,
+            operationId: operationTask.operationId
+          }
+        : null;
       const finishLaunch = (launched) => {
+        if (!identity) return operationTask;
         const nextTask = operationController.finishLaunch(
           productId,
           identity.generation,
@@ -8110,10 +8678,10 @@ function registerIpc() {
           },
           onSpawn: () => {
             processSpawned = true;
-            finishLaunch(true);
+            if (identity) finishLaunch(true);
           },
           onProcessExit:
-            installerLifecycle === "foreground"
+            identity && installerLifecycle === "foreground"
               ? (exit) => {
                   foregroundExitPromise = operationController.finishProcess(
                     productId,
@@ -8140,14 +8708,16 @@ function registerIpc() {
 
       if (!launchResult.launched) {
         let cleanupWarning = "";
-        try {
-          finishLaunch(false);
-        } catch (cleanupError) {
-          operationTask = operationController.get(productId);
-          cleanupWarning =
-            cleanupError instanceof Error
-              ? `；且无法清理操作记录：${cleanupError.message}`
-              : "；且无法清理操作记录";
+        if (identity) {
+          try {
+            finishLaunch(false);
+          } catch (cleanupError) {
+            operationTask = operationController.get(productId);
+            cleanupWarning =
+              cleanupError instanceof Error
+                ? `；且无法清理操作记录：${cleanupError.message}`
+                : "；且无法清理操作记录";
+          }
         }
         return {
           ...launchResult,
@@ -8157,25 +8727,39 @@ function registerIpc() {
       }
 
       let persistenceWarning = launchResult.warning || "";
-      try {
-        if (operationTask?.phase === "launching") {
-          finishLaunch(true);
+      if (identity) {
+        try {
+          if (operationTask?.phase === "launching") {
+            finishLaunch(true);
+          }
+        } catch (verificationError) {
+          operationTask = operationController.get(productId);
+          const message =
+            verificationError instanceof Error
+              ? `自动检测任务暂时无法更新：${verificationError.message}`
+              : "自动检测任务暂时无法更新";
+          persistenceWarning = persistenceWarning
+            ? `${persistenceWarning}；${message}`
+            : message;
         }
-      } catch (verificationError) {
-        operationTask = operationController.get(productId);
-        const message =
-          verificationError instanceof Error
-            ? `自动检测任务暂时无法更新：${verificationError.message}`
-            : "自动检测任务暂时无法更新";
-        persistenceWarning = persistenceWarning
-          ? `${persistenceWarning}；${message}`
-          : message;
       }
       return {
         ...launchResult,
-        operationTask: operationController.get(productId) || operationTask,
+        operationTask: identity
+          ? operationController.get(productId) || operationTask
+          : null,
+        verificationMode: trustedLaunchPolicy.verificationMode,
         warning: persistenceWarning || undefined
       };
+        }
+      });
+      if (!authorizedLaunch.authorized) {
+        return {
+          launched: false,
+          ...authorizedLaunch.authorization
+        };
+      }
+      return authorizedLaunch.value;
     } catch (error) {
       if (operationTask && !processSpawned) {
         try {
@@ -8302,28 +8886,22 @@ function registerIpc() {
           error: "卸载程序数字签名与预期厂商不匹配，已拒绝执行"
         };
       }
-      const automaticUninstall = probe.uninstallMode === "automatic";
-      const confirmation = await showLocalizedMessageBox({
-        type: "warning",
-        title: `卸载 ${productName}`,
-        message: automaticUninstall
-          ? `确认由 AI Hub 自动卸载 ${productName}？`
-          : `确认打开 ${productName} 的厂商卸载程序？`,
-        detail: [
-          `产品：${productName}`,
-          `版本：${entry.displayversion || "Windows 未提供"}`,
-          `发布者：${entry.publisher}`,
-          `安装位置：${location || "Windows 未提供"}`,
-          `卸载程序：${path.basename(action.executable)}`,
-          `签发者：${signature.signer}`,
-          automaticUninstall
-            ? "AI Hub 会先关闭正在运行的产品，再执行厂商卸载程序并确认安装记录已经消失。"
-            : "打开卸载程序不代表卸载已经完成；AI Hub 会继续检测安装记录是否真正消失。"
-        ].join("\n"),
-        buttons: ["取消", "继续卸载"],
-        defaultId: 0,
-        cancelId: 0,
-        noLink: true
+      const uninstallPresentation = getDesktopUninstallPresentation(
+        productId,
+        probe.uninstallMode,
+        readSettings().language
+      );
+      const confirmation = await showDesktopUninstallConfirmation({
+        productId,
+        mode: probe.uninstallMode,
+        language: readSettings().language,
+        surface: "vendor-uninstaller",
+        productName,
+        version: entry.displayversion,
+        publisher: entry.publisher,
+        installLocation: location,
+        executableName: path.basename(action.executable),
+        signer: signature.signer
       });
       if (confirmation.response !== 1) {
         return { launched: false, canceled: true };
@@ -8426,7 +9004,7 @@ function registerIpc() {
         operationTask: operationController.get(productId) || operationTask,
         warning: persistenceWarning || undefined,
         uninstallMode: probe.uninstallMode,
-        message: getUninstallPresentation(probe.uninstallMode).launched
+        message: uninstallPresentation.launched
       };
     } catch (error) {
       if (operationTask && !processSpawned) {
@@ -8598,6 +9176,12 @@ function registerIpc() {
     if (!plan) {
       return { ok: false, error: "该产品不在客户端 CLI 安装白名单中" };
     }
+    if (activeCliProducts.has(productId)) {
+      return { ok: false, error: "该工具正在执行安装或卸载操作" };
+    }
+    const catalogAuthorization =
+      await authorizeCurrentCatalogProduct(productId);
+    if (!catalogAuthorization.ok) return catalogAuthorization;
     if (activeCliProducts.has(productId)) {
       return { ok: false, error: "该工具正在执行安装或卸载操作" };
     }
@@ -8850,6 +9434,14 @@ if (!hasSingleInstanceLock) {
       }
       configureLocalReleaseCertificateTrust();
       await configureSystemNetwork();
+      const supersededCleanup =
+        await retryPersistedSupersededPackageCleanup();
+      if (!supersededCleanup.cleanup.ok) {
+        console.error(
+          "Unable to finish superseded managed installer cleanup",
+          supersededCleanup.cleanup.error || supersededCleanup.cleanup.results
+        );
+      }
       session.defaultSession.setPermissionCheckHandler(() => false);
       session.defaultSession.setPermissionRequestHandler(
         (_webContents, _permission, callback) => callback(false)
