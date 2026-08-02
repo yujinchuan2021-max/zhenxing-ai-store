@@ -1459,6 +1459,498 @@
         }
       ],
       "order": 32
+    },
+    {
+      "id": "zapier",
+      "enabled": true,
+      "name": "Zapier",
+      "initial": "Z",
+      "mark": "Z",
+      "iconUrl": "",
+      "color": "#ff4f00",
+      "description": "提供连接应用与自动化工作流的平台。",
+      "website": "https://zapier.com/",
+      "tutorial": "https://docs.zapier.com/mcp/get-started/quickstart",
+      "products": [
+        {
+          "id": "zapier-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Zapier",
+          "kind": "其他产品",
+          "category": "工作流自动化",
+          "description": "把用户授权的应用动作连接到支持 MCP 的 AI 工具；它是在线自动化平台，不是 AI 工具。",
+          "website": "https://zapier.com/",
+          "tutorial": "https://docs.zapier.com/mcp/get-started/quickstart",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 33
+    },
+    {
+      "id": "monday",
+      "enabled": true,
+      "name": "monday.com",
+      "initial": "M",
+      "mark": "M",
+      "iconUrl": "",
+      "color": "#6161ff",
+      "description": "提供项目、流程与团队协作平台。",
+      "website": "https://monday.com/",
+      "tutorial": "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp",
+      "products": [
+        {
+          "id": "monday-work-management",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "monday Work Management",
+          "kind": "其他产品",
+          "category": "项目与协作",
+          "description": "通过官方 MCP 把用户有权限的工作区、看板和事项接入 AI 工具。",
+          "website": "https://monday.com/work-management",
+          "tutorial": "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 34
+    },
+    {
+      "id": "mongodb",
+      "enabled": true,
+      "name": "MongoDB",
+      "initial": "M",
+      "mark": "M",
+      "iconUrl": "",
+      "color": "#00ed64",
+      "description": "提供文档数据库、Atlas 云服务与开发者数据平台。",
+      "website": "https://www.mongodb.com/",
+      "tutorial": "https://www.mongodb.com/docs/mcp-server/",
+      "products": [
+        {
+          "id": "mongodb-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "MongoDB Platform",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "通过官方 MCP 查询或管理 MongoDB 与 Atlas；生产数据默认建议只读。",
+          "website": "https://www.mongodb.com/products/platform/atlas-database",
+          "tutorial": "https://www.mongodb.com/docs/mcp-server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 35
+    },
+    {
+      "id": "grafana",
+      "enabled": true,
+      "name": "Grafana Labs",
+      "initial": "G",
+      "mark": "G",
+      "iconUrl": "",
+      "color": "#f46800",
+      "description": "提供可观测性、仪表盘与监控平台。",
+      "website": "https://grafana.com/",
+      "tutorial": "https://grafana.com/docs/grafana/latest/developer-resources/mcp/set-up/",
+      "products": [
+        {
+          "id": "grafana-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Grafana",
+          "kind": "其他产品",
+          "category": "可观测性",
+          "description": "Grafana OSS、Enterprise 或 Cloud 可通过官方 MCP 向 AI 工具提供受 RBAC 约束的可观测性数据。",
+          "website": "https://grafana.com/grafana/",
+          "tutorial": "https://grafana.com/docs/grafana/latest/developer-resources/mcp/set-up/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 36
+    },
+    {
+      "id": "datadog",
+      "enabled": true,
+      "name": "Datadog",
+      "initial": "D",
+      "mark": "D",
+      "iconUrl": "",
+      "color": "#632ca6",
+      "description": "提供云应用可观测性与安全平台。",
+      "website": "https://www.datadoghq.com/",
+      "tutorial": "https://docs.datadoghq.com/mcp_server/",
+      "products": [
+        {
+          "id": "datadog-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Datadog Platform",
+          "kind": "其他产品",
+          "category": "可观测性",
+          "description": "通过官方 MCP 向 AI 工具提供 APM、日志、指标、监控和安全上下文。",
+          "website": "https://www.datadoghq.com/",
+          "tutorial": "https://docs.datadoghq.com/mcp_server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 37
+    },
+    {
+      "id": "elastic",
+      "enabled": true,
+      "name": "Elastic",
+      "initial": "E",
+      "mark": "E",
+      "iconUrl": "",
+      "color": "#00bfb3",
+      "description": "提供搜索、分析、可观测性与安全数据平台。",
+      "website": "https://www.elastic.co/",
+      "tutorial": "https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server",
+      "products": [
+        {
+          "id": "elastic-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Elastic Platform",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "通过 Kibana Agent Builder 官方 MCP 接入受 Space、索引和工具权限约束的数据。",
+          "website": "https://www.elastic.co/",
+          "tutorial": "https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 38
+    },
+    {
+      "id": "roblox",
+      "enabled": true,
+      "name": "Roblox",
+      "initial": "R",
+      "mark": "R",
+      "iconUrl": "",
+      "color": "#e2231a",
+      "description": "提供 Roblox Studio 游戏与交互体验创作平台。",
+      "website": "https://create.roblox.com/",
+      "tutorial": "https://create.roblox.com/docs/studio/",
+      "products": [
+        {
+          "id": "roblox-studio",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Roblox Studio",
+          "kind": "桌面端",
+          "category": "游戏开发",
+          "description": "Windows 游戏与交互体验创作工具，Studio 内置官方 MCP Server。",
+          "website": "https://create.roblox.com/docs/studio/setup",
+          "tutorial": "https://create.roblox.com/docs/studio/mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 39
+    },
+    {
+      "id": "penpot",
+      "enabled": true,
+      "name": "Penpot",
+      "initial": "P",
+      "mark": "P",
+      "iconUrl": "",
+      "color": "#6e6df6",
+      "description": "提供开源协作式界面设计平台。",
+      "website": "https://penpot.app/",
+      "tutorial": "https://help.penpot.app/mcp/",
+      "products": [
+        {
+          "id": "penpot-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Penpot",
+          "kind": "其他产品",
+          "category": "图像与设计",
+          "description": "在线或自托管的开源设计平台，可通过官方远程 MCP 接入 AI 工具。",
+          "website": "https://penpot.app/",
+          "tutorial": "https://help.penpot.app/mcp/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 40
+    },
+    {
+      "id": "webflow",
+      "enabled": true,
+      "name": "Webflow",
+      "initial": "W",
+      "mark": "W",
+      "iconUrl": "",
+      "color": "#146ef5",
+      "description": "提供可视化网站设计、CMS 与发布平台。",
+      "website": "https://webflow.com/",
+      "tutorial": "https://developers.webflow.com/mcp/reference/getting-started",
+      "products": [
+        {
+          "id": "webflow-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Webflow",
+          "kind": "其他产品",
+          "category": "图像与设计",
+          "description": "浏览器中的网站设计、CMS 与发布平台，可通过官方远程 MCP 接入。",
+          "website": "https://webflow.com/",
+          "tutorial": "https://developers.webflow.com/mcp/reference/getting-started",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 41
+    },
+    {
+      "id": "miro",
+      "enabled": true,
+      "name": "Miro",
+      "initial": "M",
+      "mark": "M",
+      "iconUrl": "",
+      "color": "#ffd02f",
+      "description": "提供协作白板与可视化工作空间。",
+      "website": "https://miro.com/",
+      "tutorial": "https://help.miro.com/hc/en-us/articles/31624028247058-Miro-MCP-Server-overview",
+      "products": [
+        {
+          "id": "miro-workspace",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Miro",
+          "kind": "其他产品",
+          "category": "项目与协作",
+          "description": "协作白板与工作空间，可通过官方远程 MCP 读取或更新用户授权的看板。",
+          "website": "https://miro.com/",
+          "tutorial": "https://help.miro.com/hc/en-us/articles/31625301583890-How-to-enable-Miro-s-MCP-Server-user-guide",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 42
+    },
+    {
+      "id": "mathworks",
+      "enabled": true,
+      "name": "MathWorks",
+      "initial": "M",
+      "mark": "M",
+      "iconUrl": "",
+      "color": "#d95319",
+      "description": "提供 MATLAB、Simulink 与工程计算产品。",
+      "website": "https://www.mathworks.com/",
+      "tutorial": "https://www.mathworks.com/products/matlab-mcp-server.html",
+      "products": [
+        {
+          "id": "matlab",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "MATLAB",
+          "kind": "桌面端",
+          "category": "工程计算与仿真",
+          "description": "Windows 工程计算与编程产品；官方 MCP 可检查、执行代码和运行测试。",
+          "website": "https://www.mathworks.com/products/matlab.html",
+          "tutorial": "https://www.mathworks.com/products/matlab-mcp-server.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        },
+        {
+          "id": "simulink",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Simulink",
+          "kind": "桌面端",
+          "category": "工程计算与仿真",
+          "description": "依赖 MATLAB 与相应许可证的模型化设计与仿真产品；官方 Agentic Toolkit 建立在 MATLAB MCP 上。",
+          "website": "https://www.mathworks.com/products/simulink.html",
+          "tutorial": "https://www.mathworks.com/products/simulink-agentic-toolkit.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 43
+    },
+    {
+      "id": "nvidia",
+      "enabled": true,
+      "name": "NVIDIA",
+      "initial": "N",
+      "mark": "N",
+      "iconUrl": "",
+      "color": "#76b900",
+      "description": "提供 GPU、AI、仿真与开发平台。",
+      "website": "https://developer.nvidia.com/omniverse",
+      "tutorial": "https://developer.nvidia.com/omniverse",
+      "products": [
+        {
+          "id": "nvidia-omniverse",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "NVIDIA Omniverse",
+          "kind": "其他产品",
+          "category": "3D 与工业仿真",
+          "description": "面向 3D、USD 与工业仿真的开发平台；官方 MCP 与 Skills 首版只提供说明入口。",
+          "website": "https://developer.nvidia.com/omniverse",
+          "tutorial": "https://github.com/NVIDIA-Omniverse",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 44
     }
   ],
   "resourceStores": [
@@ -2318,6 +2810,393 @@
         "https://www.canva.com/newsroom/news/canva-create-2026-launches/"
       ],
       "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "zapier-mcp",
+      "enabled": true,
+      "order": 20,
+      "name": "Zapier MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只暴露用户在 Zapier 选择的应用与动作；跨应用写入、发送和删除必须确认。",
+      "website": "https://docs.zapier.com/mcp/get-started/quickstart",
+      "tutorial": "https://docs.zapier.com/mcp/get-started/quickstart",
+      "publisherVendorId": "zapier",
+      "publisher": "Zapier",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "zapier-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只暴露用户在 Zapier 选择的应用与动作；跨应用写入、发送和删除必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "断开目标 AI 工具并撤销 Zapier 连接；保留 Zap、任务历史和应用数据。",
+      "provenanceEvidence": [
+        "https://docs.zapier.com/mcp/get-started/quickstart"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "monday-platform-mcp",
+      "enabled": true,
+      "order": 21,
+      "name": "monday Platform MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "继承 monday.com 用户权限；创建、更新和删除看板、事项前必须确认。",
+      "website": "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp",
+      "tutorial": "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp",
+      "publisherVendorId": "monday",
+      "publisher": "monday.com",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "monday-work-management"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "继承 monday.com 用户权限；创建、更新和删除看板、事项前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "断开 OAuth 或撤销 Token；保留工作区、看板、事项和活动记录。",
+      "provenanceEvidence": [
+        "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "mongodb-mcp-server",
+      "enabled": true,
+      "order": 22,
+      "name": "MongoDB MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "默认使用只读模式与只读数据库账号；写入、索引和 Atlas 管理必须确认。",
+      "website": "https://www.mongodb.com/docs/mcp-server/",
+      "tutorial": "https://www.mongodb.com/docs/mcp-server/",
+      "publisherVendorId": "mongodb",
+      "publisher": "MongoDB",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "mongodb-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "默认使用只读模式与只读数据库账号；写入、索引和 Atlas 管理必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除客户端连接并撤销凭据；保留数据库、集合、索引与 Atlas 集群。",
+      "provenanceEvidence": [
+        "https://www.mongodb.com/docs/mcp-server/"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "grafana-mcp",
+      "enabled": true,
+      "order": 23,
+      "name": "Grafana MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "默认禁用写操作并使用最小 RBAC；仪表盘、告警和事件变更必须确认。",
+      "website": "https://grafana.com/docs/grafana/latest/developer-resources/mcp/set-up/",
+      "tutorial": "https://grafana.com/docs/grafana/latest/developer-resources/mcp/set-up/",
+      "publisherVendorId": "grafana",
+      "publisher": "Grafana Labs",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "grafana-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "默认禁用写操作并使用最小 RBAC；仪表盘、告警和事件变更必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除客户端连接并撤销服务账号令牌；保留 Grafana 实例、仪表盘、数据源和告警。",
+      "provenanceEvidence": [
+        "https://grafana.com/docs/grafana/latest/developer-resources/mcp/set-up/"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "elastic-agent-builder-mcp",
+      "enabled": true,
+      "order": 24,
+      "name": "Elastic Agent Builder MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "API Key 或 OAuth 只授权指定 Space、索引和只读工具；写操作必须确认。",
+      "website": "https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server",
+      "tutorial": "https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server",
+      "publisherVendorId": "elastic",
+      "publisher": "Elastic",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "elastic-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "API Key 或 OAuth 只授权指定 Space、索引和只读工具；写操作必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除客户端连接并撤销 API Key/OAuth；保留索引、Kibana Space 和已保存对象。",
+      "provenanceEvidence": [
+        "https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "roblox-studio-mcp-server",
+      "enabled": true,
+      "order": 25,
+      "name": "Roblox Studio MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只连接受信任客户端；写脚本、执行 Luau、上传资产、模拟键鼠和 Playtest 必须确认。",
+      "website": "https://create.roblox.com/docs/studio/mcp",
+      "tutorial": "https://create.roblox.com/docs/studio/mcp",
+      "publisherVendorId": "roblox",
+      "publisher": "Roblox",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "roblox-studio"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只连接受信任客户端；写脚本、执行 Luau、上传资产、模拟键鼠和 Playtest 必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "关闭 Studio MCP 开关并删除客户端配置；保留 Roblox Studio、Place、脚本与发布记录。",
+      "provenanceEvidence": [
+        "https://create.roblox.com/docs/studio/mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "webflow-mcp-server",
+      "enabled": true,
+      "order": 26,
+      "name": "Webflow MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "继承 Webflow 角色；发布、删除页面或 CMS、修改域名与批量变更必须确认。",
+      "website": "https://developers.webflow.com/mcp/reference/getting-started",
+      "tutorial": "https://developers.webflow.com/mcp/reference/getting-started",
+      "publisherVendorId": "webflow",
+      "publisher": "Webflow",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "webflow-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "继承 Webflow 角色；发布、删除页面或 CMS、修改域名与批量变更必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除客户端连接、撤销 OAuth 并停用 Bridge App；保留工作区、站点、CMS 和发布历史。",
+      "provenanceEvidence": [
+        "https://developers.webflow.com/mcp/reference/getting-started"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "matlab-mcp-core-server",
+      "enabled": true,
+      "order": 27,
+      "name": "MATLAB MCP Core Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "代码检查可只读；代码执行、文件写入、测试、启动或退出 MATLAB 必须确认并限制到用户项目。",
+      "website": "https://github.com/matlab/matlab-mcp-core-server",
+      "tutorial": "https://github.com/matlab/matlab-mcp-core-server",
+      "publisherVendorId": "mathworks",
+      "publisher": "MathWorks",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "matlab"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "代码检查可只读；代码执行、文件写入、测试、启动或退出 MATLAB 必须确认并限制到用户项目。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "只移除枕星 AI 收据内的 MCP 与客户端配置；保留 MATLAB、许可证、Toolbox 和工程。",
+      "provenanceEvidence": [
+        "https://github.com/matlab/matlab-mcp-core-server"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "nvidia-omniverse-mcp",
+      "enabled": true,
+      "order": 28,
+      "name": "NVIDIA Omniverse MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "首版只提供官方说明；修改 USD、执行代码、渲染、物理仿真和云 API 调用必须确认。",
+      "website": "https://github.com/NVIDIA-Omniverse",
+      "tutorial": "https://github.com/NVIDIA-Omniverse",
+      "publisherVendorId": "nvidia",
+      "publisher": "NVIDIA",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "nvidia-omniverse"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "首版只提供官方说明；修改 USD、执行代码、渲染、物理仿真和云 API 调用必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "只移除枕星 AI 收据内的连接配置；保留 Omniverse 工程、USD、纹理和缓存。",
+      "provenanceEvidence": [
+        "https://github.com/NVIDIA-Omniverse"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
     }
   ],
   "categories": [
@@ -2341,6 +3220,10 @@
     "智能设备",
     "工作流自动化",
     "直播与录制",
-    "办公自动化"
+    "办公自动化",
+    "数据库与数据",
+    "可观测性",
+    "工程计算与仿真",
+    "3D 与工业仿真"
   ]
 }

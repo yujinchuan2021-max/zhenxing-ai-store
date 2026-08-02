@@ -57,6 +57,21 @@ test("validates the complete phase-four catalog before publication", () => {
   assert.equal(report.summary.enabledChinaMirrors, 2);
 });
 
+test("reviewed letter logos are reported separately from missing logos", () => {
+  const catalog = validateCatalog(catalogFixture());
+  const fallbackIds = catalog.vendors
+    .filter((vendor) => !vendor.iconAsset)
+    .map((vendor) => vendor.id);
+  const report = validatePublication(catalog, defaultReleaseSettings(), {
+    reviewedVendorLogoFallbackIds: fallbackIds
+  });
+  assert.equal(report.summary.vendorLogoFallbacks, fallbackIds.length);
+  assert.equal(
+    report.warnings.some((warning) => warning.includes("尚未上传审核 Logo")),
+    false
+  );
+});
+
 test("publication excludes resources with no client-visible targets", () => {
   const catalog = validateCatalog(catalogFixture());
   const baseline = validatePublication(catalog, defaultReleaseSettings());

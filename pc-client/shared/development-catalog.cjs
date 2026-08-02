@@ -36,6 +36,19 @@ function builtInFallback(error) {
   };
 }
 
+function proxyPublishedIconUrls(catalog) {
+  return {
+    ...catalog,
+    vendors: catalog.vendors.map((vendor) => {
+      if (!/^https:\/\//i.test(vendor.iconUrl || "")) return vendor;
+      return {
+        ...vendor,
+        iconUrl: `/__aihub-local-catalog${new URL(vendor.iconUrl).pathname}`
+      };
+    })
+  };
+}
+
 async function loadDevelopmentCatalog(fetchCatalog) {
   if (typeof fetchCatalog !== "function") {
     return builtInFallback("development catalog fetch is unavailable");
@@ -64,9 +77,11 @@ async function loadDevelopmentCatalog(fetchCatalog) {
     }
     return {
       source: "remote",
-      catalog: resolveCatalogIconUrls(
-        catalog,
-        response.url || DEVELOPMENT_CATALOG_URL
+      catalog: proxyPublishedIconUrls(
+        resolveCatalogIconUrls(
+          catalog,
+          response.url || DEVELOPMENT_CATALOG_URL
+        )
       ),
       catalogVersion,
       error: ""

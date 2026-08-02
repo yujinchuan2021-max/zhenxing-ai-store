@@ -1186,6 +1186,56 @@
       "vendorIds": [
         "quora"
       ]
+    },
+    "f63fa2b7f1d7cdbaa984af8b0eb933af113248b90120d29001e1c2e690ff55a8": {
+      "path": "vendor-icons/f63fa2b7f1d7cdbaa984af8b0eb933af113248b90120d29001e1c2e690ff55a8.png",
+      "sha256": "f63fa2b7f1d7cdbaa984af8b0eb933af113248b90120d29001e1c2e690ff55a8",
+      "mimeType": "image/png",
+      "sourceUrl": "https://brand.webflow.com/brand-assets",
+      "updatedAt": "2026-08-02T14:16:20.258Z",
+      "vendorIds": [
+        "webflow"
+      ]
+    },
+    "733fdd5c9e5b3020cbae07b0f9f6b0e21653b4975b400f8fe230c2a4e10f931a": {
+      "path": "vendor-icons/733fdd5c9e5b3020cbae07b0f9f6b0e21653b4975b400f8fe230c2a4e10f931a.ico",
+      "sha256": "733fdd5c9e5b3020cbae07b0f9f6b0e21653b4975b400f8fe230c2a4e10f931a",
+      "mimeType": "image/x-icon",
+      "sourceUrl": "https://zapier.com/press",
+      "updatedAt": "2026-08-02T14:16:20.284Z",
+      "vendorIds": [
+        "zapier"
+      ]
+    },
+    "9c47320445ace2ee639807cd2732da5c8e532f9ad2eb518c1870e339c4e02bf6": {
+      "path": "vendor-icons/9c47320445ace2ee639807cd2732da5c8e532f9ad2eb518c1870e339c4e02bf6.webp",
+      "sha256": "9c47320445ace2ee639807cd2732da5c8e532f9ad2eb518c1870e339c4e02bf6",
+      "mimeType": "image/webp",
+      "sourceUrl": "https://www.datadoghq.com/about/resources/",
+      "updatedAt": "2026-08-02T14:16:20.485Z",
+      "vendorIds": [
+        "datadog"
+      ]
+    },
+    "1143ff8a5619ad9d016e3d94462f44ae9047ab4ac4c39722d265c88961591a1a": {
+      "path": "vendor-icons/1143ff8a5619ad9d016e3d94462f44ae9047ab4ac4c39722d265c88961591a1a.ico",
+      "sha256": "1143ff8a5619ad9d016e3d94462f44ae9047ab4ac4c39722d265c88961591a1a",
+      "mimeType": "image/x-icon",
+      "sourceUrl": "https://www.mongodb.com/company/newsroom/brand-resources",
+      "updatedAt": "2026-08-02T14:16:20.584Z",
+      "vendorIds": [
+        "mongodb"
+      ]
+    },
+    "a7ebde783da47b748a9fe1e0f4eca87f690d44daca3e66301bf46203c33c647d": {
+      "path": "vendor-icons/a7ebde783da47b748a9fe1e0f4eca87f690d44daca3e66301bf46203c33c647d.ico",
+      "sha256": "a7ebde783da47b748a9fe1e0f4eca87f690d44daca3e66301bf46203c33c647d",
+      "mimeType": "image/x-icon",
+      "sourceUrl": "https://penpot.app/media-kit",
+      "updatedAt": "2026-08-02T14:16:21.345Z",
+      "vendorIds": [
+        "penpot"
+      ]
     }
   }
 }

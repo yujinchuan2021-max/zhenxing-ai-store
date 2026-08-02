@@ -6,6 +6,7 @@ const path = require("node:path");
 const test = require("node:test");
 const catalog = require("../admin/data/catalog-v1.json");
 const sources = require("../admin/data/vendor-icon-sources.json");
+const fallbacks = require("../admin/data/vendor-icon-fallbacks.json");
 const {
   verifyVendorIconAssetFile
 } = require("../shared/vendor-icon.cjs");
@@ -35,7 +36,17 @@ test("vendor logos fail back to the catalog mark without leaking referrers", () 
 test("published catalog uses reviewed local logo assets with reliable fallbacks", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
   const withLogo = catalog.vendors.filter((vendor) => vendor.iconAsset);
-  assert.ok(withLogo.length / catalog.vendors.length >= 0.95);
+  const withoutLogo = catalog.vendors.filter((vendor) => !vendor.iconAsset);
+  assert.deepEqual(
+    new Set(Object.keys(fallbacks.vendors)),
+    new Set(withoutLogo.map((vendor) => vendor.id)),
+    "every letter fallback must be explicitly reviewed"
+  );
+  for (const vendor of withoutLogo) {
+    const fallback = fallbacks.vendors[vendor.id];
+    assert.match(fallback.evidenceUrl, /^https:\/\//);
+    assert.ok(fallback.reason.length >= 12);
+  }
   assert.equal(
     catalog.vendors.every((vendor) => !vendor.iconUrl),
     true,

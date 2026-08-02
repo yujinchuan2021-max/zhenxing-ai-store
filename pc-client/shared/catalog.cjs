@@ -20,6 +20,9 @@ const {
   validateProductComponentLinks
 } = require("./product-components.cjs");
 const {
+  isAllowedPublishedVendorIconUrl
+} = require("./catalog-published-icon-url.cjs");
+const {
   validateVendorIconAsset
 } = require("./vendor-icon.cjs");
 
@@ -237,7 +240,10 @@ function validateCatalog(catalog) {
       !isShortText(vendor.description, 500) ||
       !isAllowedUrl(vendor.website) ||
       !isAllowedUrl(vendor.tutorial) ||
-      (vendor.iconUrl !== undefined && vendor.iconUrl !== "") ||
+      (vendor.iconUrl !== undefined &&
+        vendor.iconUrl !== "" &&
+        !isAllowedPublishedVendorIconUrl(vendor.iconUrl)) ||
+      (vendor.iconAsset !== undefined && Boolean(vendor.iconUrl)) ||
       (vendor.iconAsset !== undefined &&
         (() => {
           try {

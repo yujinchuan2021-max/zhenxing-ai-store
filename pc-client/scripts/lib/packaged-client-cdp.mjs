@@ -361,6 +361,7 @@ export async function openPackagedResource({
     throw new Error("Packaged resource input is invalid");
   }
   const deadline = Date.now() + timeoutMs;
+  let lastResult = "not-started";
   while (Date.now() < deadline) {
     const result = await evaluate(`(() => {
       const storeId = ${JSON.stringify(storeId)};
@@ -370,6 +371,12 @@ export async function openPackagedResource({
       if (detail?.getAttribute("data-aihub-resource-detail-id") === resourceId) {
         return "ready";
       }
+      const legacyResource = Array.from(
+        document.querySelectorAll("[data-aihub-resource-id]")
+      ).find(
+        (element) => element.getAttribute("data-aihub-resource-id") === resourceId
+      );
+      if (legacyResource instanceof HTMLElement) return "ready";
       const resource = Array.from(
         document.querySelectorAll('button[data-aihub-action="open-resource-detail"]')
       ).find((element) => element.getAttribute("data-aihub-resource-id") === resourceId);
@@ -387,26 +394,58 @@ export async function openPackagedResource({
         product.click();
         return "product-opened";
       }
-      const store = Array.from(
+      let store = Array.from(
         document.querySelectorAll("button[data-aihub-resource-store-id]")
       ).find(
         (element) =>
           element.getAttribute("data-aihub-resource-store-id") === storeId
       );
+      if (!(store instanceof HTMLButtonElement)) {
+        const labels = {
+          skill: "Skill 商店",
+          mcp: "MCP 商店",
+          plugin: "插件商店",
+          connector: "连接器商店"
+        };
+        store = Array.from(document.querySelectorAll("button.navItem")).find(
+          (element) => element.innerText.trim().includes(labels[storeId] || "")
+        );
+      }
       if (!(store instanceof HTMLButtonElement) || store.disabled) return "missing";
       if (!store.classList.contains("active")) store.click();
       return "store-opened";
     })()`);
+    lastResult = result;
     if (result === "ready") {
       return { storeId, productId, resourceId, opened: true };
     }
     await delay(100);
   }
+  const snapshot = await evaluate(`(async () => {
+    const catalogResult = await window.aihubPC?.getCatalog?.();
+    return ({
+    stores: Array.from(document.querySelectorAll("button[data-aihub-resource-store-id]"))
+      .map((element) => element.getAttribute("data-aihub-resource-store-id")),
+    products: Array.from(document.querySelectorAll('button[data-aihub-action="open-resource-tool"]'))
+      .map((element) => element.getAttribute("data-aihub-resource-product-id")),
+    resources: Array.from(document.querySelectorAll('button[data-aihub-action="open-resource-detail"]'))
+      .map((element) => element.getAttribute("data-aihub-resource-id")),
+    detail: document.querySelector("[data-aihub-resource-detail-id]")
+      ?.getAttribute("data-aihub-resource-detail-id") || "",
+    catalogSource: catalogResult?.source || "",
+    catalogError: catalogResult?.error || "",
+    catalogVendors: catalogResult?.catalog?.vendors?.length || 0,
+    catalogResources: catalogResult?.catalog?.resources?.length || 0,
+    body: document.body.innerText.slice(0, 800)
+  });
+  })()`);
   throw new Error(
     `Packaged resource was not available: ${JSON.stringify({
       storeId,
       productId,
       resourceId,
+      lastResult,
+      snapshot,
     })}`
   );
 }

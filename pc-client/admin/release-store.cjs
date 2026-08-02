@@ -222,13 +222,15 @@ function normalizeSigningKey(value) {
 function createReleaseStore({
   rootDirectory,
   clock = () => new Date(),
-  signingKeyProvider
+  signingKeyProvider,
+  transformCatalogForRelease = (catalog) => catalog
 }) {
   if (
     typeof rootDirectory !== "string" ||
     !path.isAbsolute(rootDirectory) ||
     typeof clock !== "function" ||
-    typeof signingKeyProvider !== "function"
+    typeof signingKeyProvider !== "function" ||
+    typeof transformCatalogForRelease !== "function"
   ) {
     throw new TypeError("目录发布存储配置无效");
   }
@@ -308,7 +310,9 @@ function createReleaseStore({
     ) {
       throw new Error("目录草稿或活动版本已变化，请重新读取");
     }
-    const normalizedCatalog = validateCatalog(clone(catalog));
+    const normalizedCatalog = validateCatalog(
+      transformCatalogForRelease(clone(catalog))
+    );
     const signingKey = normalizeSigningKey(await signingKeyProvider());
     const publishedAt = timestamp(clock);
     const catalogVersion = state.activeCatalogVersion + 1;

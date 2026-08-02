@@ -9,7 +9,7 @@ LABEL com.aihub.source-revision=$AIHUB_SOURCE_REVISION \
 WORKDIR /app
 COPY --chown=node:node admin/*.cjs /app/admin/
 COPY --chown=node:node admin/public /app/admin/public
-COPY --chown=node:node admin/data/catalog-v1.json admin/data/release-settings.json /app/admin/data/
+COPY --chown=node:node admin/data/catalog-v1.json admin/data/release-settings.json admin/data/vendor-icon-fallbacks.json /app/admin/data/
 COPY --chown=node:node admin/data/vendor-icon-sources.json /app/admin/data/
 COPY --chown=node:node admin/data/vendor-icons /app/admin/data/vendor-icons
 COPY --chown=node:node shared /app/shared

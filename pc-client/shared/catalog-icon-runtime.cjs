@@ -1,5 +1,9 @@
 "use strict";
 
+const {
+  isAllowedPublishedVendorIconUrl
+} = require("./catalog-published-icon-url.cjs");
+
 const ICON_ASSET_PATTERN = /^vendor-icons\/([a-f0-9]{64})\.(png|jpg|webp|ico|svg)$/;
 const MIME_BY_EXTENSION = Object.freeze({
   png: "image/png",
@@ -36,6 +40,12 @@ function resolveCatalogIconUrls(catalog, releaseUrl) {
   return {
     ...catalog,
     vendors: catalog.vendors.map((vendor) => {
+      if (vendor.iconUrl) {
+        if (!isAllowedPublishedVendorIconUrl(vendor.iconUrl)) {
+          throw new Error("厂商 Logo 运行时地址无效");
+        }
+        return vendor;
+      }
       if (!vendor.iconAsset) return vendor;
       const asset = validateRuntimeAsset(vendor.iconAsset);
       return {

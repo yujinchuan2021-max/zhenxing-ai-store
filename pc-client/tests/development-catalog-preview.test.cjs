@@ -37,6 +37,10 @@ test("browser development preview loads the published backend catalog", async ()
                         mimeType: "image/png"
                       }
                     }
+                  : index === 1
+                    ? {
+                        iconUrl: `https://127.0.0.1:4443/vendor-icons/${"b".repeat(64)}.png`
+                      }
                   : {}),
                 products: []
               }))
@@ -55,6 +59,10 @@ test("browser development preview loads the published backend catalog", async ()
   assert.equal(
     result.catalog.vendors[0].iconUrl,
     `/__aihub-local-catalog/vendor-icons/${"a".repeat(64)}.png`
+  );
+  assert.equal(
+    result.catalog.vendors[1].iconUrl,
+    `/__aihub-local-catalog/vendor-icons/${"b".repeat(64)}.png`
   );
 
   const app = fs.readFileSync(path.join(root, "src", "App.tsx"), "utf8");

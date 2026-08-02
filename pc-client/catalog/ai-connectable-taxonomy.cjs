@@ -35,7 +35,20 @@ const CONNECTABLE_CATEGORY_BY_PRODUCT_ID = Object.freeze({
   "uipath-platform": "办公自动化",
   "unreal-engine": "游戏开发",
   "affinity": "图像与设计",
-  "vercel-projects": "云服务与运维"
+  "vercel-projects": "云服务与运维",
+  "zapier-platform": "工作流自动化",
+  "monday-work-management": "项目与协作",
+  "mongodb-platform": "数据库与数据",
+  "grafana-platform": "可观测性",
+  "datadog-platform": "可观测性",
+  "elastic-platform": "数据库与数据",
+  "roblox-studio": "游戏开发",
+  "penpot-platform": "图像与设计",
+  "webflow-platform": "图像与设计",
+  "miro-workspace": "项目与协作",
+  "matlab": "工程计算与仿真",
+  "simulink": "工程计算与仿真",
+  "nvidia-omniverse": "3D 与工业仿真"
 });
 
 const CONNECTABLE_CATEGORIES = Object.freeze([

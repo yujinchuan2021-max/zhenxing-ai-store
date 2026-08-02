@@ -132,6 +132,45 @@ try {
     catalog: await evaluate("window.aihubPC.getCatalog()"),
     minimumCatalogVersion: manifest.catalog.catalogVersion
   });
+  const expectedSlogan = catalog.catalog.brand?.slogan;
+  if (typeof expectedSlogan !== "string" || !expectedSlogan) {
+    throw new Error("Remote signed catalog is missing its renderer readiness marker");
+  }
+  let rendererCatalogReady = false;
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    rendererCatalogReady = await evaluate(
+      `document.body.innerText.includes(${JSON.stringify(expectedSlogan)})`
+    );
+    if (rendererCatalogReady) break;
+    await new Promise((resolve) => setTimeout(resolve, 250));
+  }
+  if (!rendererCatalogReady) {
+    throw new Error("Packaged renderer did not apply the remote signed catalog");
+  }
+  const vendorIconUrl = catalog.catalog.vendors.find(
+    (vendor) => typeof vendor.iconUrl === "string" && vendor.iconUrl
+  )?.iconUrl;
+  const vendorIcon = await evaluate(`new Promise((resolve) => {
+    const image = new Image();
+    const timeout = setTimeout(
+      () => resolve({ ok: false, reason: "timeout" }),
+      10000
+    );
+    image.onload = () => {
+      clearTimeout(timeout);
+      resolve({ ok: true, width: image.naturalWidth, height: image.naturalHeight });
+    };
+    image.onerror = () => {
+      clearTimeout(timeout);
+      resolve({ ok: false, reason: "load-error" });
+    };
+    image.src = ${JSON.stringify(vendorIconUrl)};
+  })`);
+  if (!vendorIconUrl || vendorIcon?.ok !== true) {
+    throw new Error(
+      `Packaged vendor icon did not load: ${JSON.stringify({ vendorIconUrl, vendorIcon })}`
+    );
+  }
   const findCatalogProduct = (productId) => {
     for (const vendor of catalog.catalog.vendors) {
       const product = Array.isArray(vendor?.products)
@@ -359,7 +398,8 @@ try {
         catalog: {
           source: catalog.source,
           catalogVersion: catalog.catalogVersion,
-          vendors: catalog.catalog.vendors.length
+          vendors: catalog.catalog.vendors.length,
+          vendorIcon
         },
         update,
         domActions: {

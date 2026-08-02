@@ -15,6 +15,28 @@ const store = createVendorIconStore({
 });
 const timeoutMs = 6500;
 const concurrency = 8;
+const reviewedIconSources = Object.freeze({
+  zapier: {
+    assetUrl: "https://zapier.com/favicon.ico",
+    sourceUrl: "https://zapier.com/press"
+  },
+  mongodb: {
+    assetUrl: "https://www.mongodb.com/assets/images/global/favicon.ico",
+    sourceUrl: "https://www.mongodb.com/company/newsroom/brand-resources"
+  },
+  datadog: {
+    assetUrl: "https://corp.dd-static.net/img/favicons/apple-touch-icon.png",
+    sourceUrl: "https://www.datadoghq.com/about/resources/"
+  },
+  penpot: {
+    assetUrl: "https://penpot.app/favicon.ico",
+    sourceUrl: "https://penpot.app/media-kit"
+  },
+  webflow: {
+    assetUrl: "https://dhygzobemt712.cloudfront.net/Logo/Social_Circle_Blue.png",
+    sourceUrl: "https://brand.webflow.com/brand-assets"
+  }
+});
 const officialGitHubOrganizations = Object.freeze({
   openai: ["openai", "14957082"],
   bytedance: ["bytedance", "4158466"],
@@ -171,6 +193,27 @@ async function readLimited(response, limit) {
 }
 
 async function discover(vendor) {
+  const reviewedSource = reviewedIconSources[vendor.id];
+  if (reviewedSource) {
+    try {
+      const response = await fetchWithTimeout(reviewedSource.assetUrl, {
+        accept: "image/png,image/jpeg,image/webp,image/x-icon,image/svg+xml,*/*;q=0.2",
+        timeoutMs: 20_000
+      });
+      if (!response.ok) throw new Error(`icon HTTP ${response.status}`);
+      const data = await readLimited(response, 384 * 1024);
+      const mimeType = mimeTypeFor(data);
+      if (!mimeType) throw new Error("unsupported icon format");
+      const asset = store.save({
+        vendorId: vendor.id,
+        dataUrl: `data:${mimeType};base64,${data.toString("base64")}`,
+        sourceUrl: reviewedSource.sourceUrl
+      });
+      return { vendor, asset, sourceUrl: reviewedSource.sourceUrl };
+    } catch (error) {
+      return { vendor, error: `reviewed icon unavailable: ${error.message}` };
+    }
+  }
   const githubOrganization = officialGitHubOrganizations[vendor.id];
   if (githubOrganization) {
     const [organization, avatarId] = githubOrganization;
@@ -194,6 +237,9 @@ async function discover(vendor) {
     } catch {
       // Fall back to the vendor's own site declarations below.
     }
+  }
+  if (!githubOrganization) {
+    return { vendor, error: "no reviewed official icon source" };
   }
   let pageUrl = vendor.website;
   let html = "";

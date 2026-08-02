@@ -142,7 +142,11 @@ function validateUpdateSettings(update) {
   );
 }
 
-function validatePublication(catalog, rawSettings) {
+function validatePublication(
+  catalog,
+  rawSettings,
+  { reviewedVendorLogoFallbackIds = [] } = {}
+) {
   const validatedCatalog = validateCatalog(normalizeCatalog(catalog));
   const settings = validateReleaseSettings(rawSettings);
   validateUpdateSettings(settings.update);
@@ -214,11 +218,19 @@ function validatePublication(catalog, rawSettings) {
   if (!settings.update.enabled) {
     warnings.push("客户端自动更新当前未启用");
   }
+  const reviewedFallbacks = new Set(reviewedVendorLogoFallbackIds);
   const vendorsWithoutLogos = enabledVendors.filter(
     (vendor) => !vendor.iconAsset
+  );
+  const reviewedLetterFallbacks = vendorsWithoutLogos.filter((vendor) =>
+    reviewedFallbacks.has(vendor.id)
   ).length;
-  if (vendorsWithoutLogos) {
-    warnings.push(`${vendorsWithoutLogos} 个启用厂商尚未上传审核 Logo`);
+  const unreviewedLogoCount = vendorsWithoutLogos.length - reviewedLetterFallbacks;
+  if (reviewedLetterFallbacks) {
+    warnings.push(`${reviewedLetterFallbacks} 个启用厂商使用已审核字母 Logo 兜底`);
+  }
+  if (unreviewedLogoCount) {
+    warnings.push(`${unreviewedLogoCount} 个启用厂商尚未上传审核 Logo`);
   }
   const sourceRegistry = getApprovedEnvironmentDownloadSources();
   const enabledMirrors = validatedCatalog.environmentDownloads.sources.filter(
@@ -235,7 +247,8 @@ function validatePublication(catalog, rawSettings) {
     ok: true,
     summary: {
       vendors: enabledVendors.length,
-      vendorLogos: enabledVendors.length - vendorsWithoutLogos,
+      vendorLogos: enabledVendors.length - vendorsWithoutLogos.length,
+      vendorLogoFallbacks: reviewedLetterFallbacks,
       products: enabledProducts.length,
       resources: enabledResources.length,
       resourceStores: enabledStoreIds.size,

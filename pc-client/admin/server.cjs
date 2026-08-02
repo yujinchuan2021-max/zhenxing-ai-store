@@ -54,11 +54,15 @@ const { createVendorIconStore } = require("./vendor-icon-store.cjs");
 const {
   vendorIconAssetFromPath
 } = require("../shared/vendor-icon.cjs");
+const {
+  materializeLegacyVendorIconUrls
+} = require("../shared/catalog-release-icon-compat.cjs");
 
 const host = process.env.AIHUB_ADMIN_HOST || "127.0.0.1";
 const port = Number(process.env.AIHUB_ADMIN_PORT || 4173);
 const publicOrigin =
   process.env.AIHUB_ADMIN_PUBLIC_ORIGIN || `http://${host}:${port}`;
+const catalogAssetOrigin = process.env.AIHUB_CATALOG_ASSET_ORIGIN || "";
 const root = path.resolve(__dirname, "..");
 const publicDirectory = path.join(__dirname, "public");
 const draftPath = path.join(__dirname, "data", "catalog-v1.json");
@@ -69,6 +73,11 @@ const vendorIconSourcePath = path.join(
   __dirname,
   "data",
   "vendor-icon-sources.json"
+);
+const vendorIconFallbackPath = path.join(
+  __dirname,
+  "data",
+  "vendor-icon-fallbacks.json"
 );
 const updateReleasePath = path.join(publishedDirectory, "update-release.json");
 const channelPath = path.join(root, "catalog", "channel.json");
@@ -94,7 +103,10 @@ const signingKey = loadSigningKey({
 });
 const releaseStore = createReleaseStore({
   rootDirectory: releaseStoreDirectory,
-  signingKeyProvider: async () => signingKey
+  signingKeyProvider: async () => signingKey,
+  transformCatalogForRelease: catalogAssetOrigin
+    ? (catalog) => materializeLegacyVendorIconUrls(catalog, catalogAssetOrigin)
+    : (catalog) => catalog
 });
 const productCertification = createProductCertification({
   filePath: productAcceptancePath
@@ -103,6 +115,21 @@ const vendorIconStore = createVendorIconStore({
   rootDirectory: path.join(__dirname, "data"),
   manifestPath: vendorIconSourcePath
 });
+
+function reviewedVendorLogoFallbackIds() {
+  try {
+    const value = JSON.parse(fs.readFileSync(vendorIconFallbackPath, "utf8"));
+    return Object.keys(value?.vendors || {});
+  } catch {
+    return [];
+  }
+}
+
+function validateCurrentPublication(catalog, settings) {
+  return validatePublication(catalog, settings, {
+    reviewedVendorLogoFallbackIds: reviewedVendorLogoFallbackIds()
+  });
+}
 
 function sendJson(response, status, value) {
   response.writeHead(status, {
@@ -462,7 +489,7 @@ async function handleApi(request, response, pathname) {
   if (request.method === "GET" && pathname === "/ready") {
     const state = await ensureDraft();
     vendorIconStore.verifyCatalog(state.draft.catalog);
-    validatePublication(state.draft.catalog, readReleaseSettings());
+    validateCurrentPublication(state.draft.catalog, readReleaseSettings());
     productCertification.snapshot();
     sendJson(response, 200, {
       status: "ready",
@@ -514,7 +541,7 @@ async function handleApi(request, response, pathname) {
   if (request.method === "POST" && pathname === "/api/validate") {
     const state = await ensureDraft();
     vendorIconStore.verifyCatalog(state.draft.catalog);
-    const report = validatePublication(
+    const report = validateCurrentPublication(
       state.draft.catalog,
       readReleaseSettings()
     );
@@ -536,7 +563,7 @@ async function handleApi(request, response, pathname) {
     const state = await ensureDraft();
     const settings = readReleaseSettings();
     vendorIconStore.verifyCatalog(state.draft.catalog);
-    validatePublication(state.draft.catalog, settings);
+    validateCurrentPublication(state.draft.catalog, settings);
     productCertification.validateCatalog(state.draft.catalog);
     const published = await releaseStore.publish({
       expectedDraftRevision:
@@ -571,7 +598,7 @@ async function handleApi(request, response, pathname) {
     const body = await readJson(request);
     const settings = readReleaseSettings();
     const state = await ensureDraft();
-    validatePublication(state.draft.catalog, settings);
+    validateCurrentPublication(state.draft.catalog, settings);
     productCertification.validateCatalog(state.draft.catalog);
     const result = await releaseStore.rollback({
       releaseId: body.releaseId,
