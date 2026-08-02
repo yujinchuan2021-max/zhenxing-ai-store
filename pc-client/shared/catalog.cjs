@@ -19,6 +19,9 @@ const {
 const {
   validateProductComponentLinks
 } = require("./product-components.cjs");
+const {
+  validateVendorIconAsset
+} = require("./vendor-icon.cjs");
 
 const PRODUCT_KINDS = new Set(["桌面端", "CLI", "其他产品"]);
 const DEFAULT_PRODUCT_CATEGORIES = Object.freeze([
@@ -63,6 +66,7 @@ const VENDOR_FIELDS = new Set([
   "requiresCrossBorderNetwork",
   "mark",
   "iconUrl",
+  "iconAsset",
   "color",
   "description",
   "website",
@@ -233,9 +237,16 @@ function validateCatalog(catalog) {
       !isShortText(vendor.description, 500) ||
       !isAllowedUrl(vendor.website) ||
       !isAllowedUrl(vendor.tutorial) ||
-      (vendor.iconUrl !== undefined &&
-        vendor.iconUrl !== "" &&
-        !isAllowedUrl(vendor.iconUrl)) ||
+      (vendor.iconUrl !== undefined && vendor.iconUrl !== "") ||
+      (vendor.iconAsset !== undefined &&
+        (() => {
+          try {
+            validateVendorIconAsset(vendor.iconAsset);
+            return false;
+          } catch {
+            return true;
+          }
+        })()) ||
       !Array.isArray(vendor.products) ||
       vendor.products.length > 100
     ) {

@@ -50,6 +50,10 @@ const { createDiscoveryReview } = require("./discovery-review.cjs");
 const {
   createProductCertification
 } = require("./product-certification.cjs");
+const { createVendorIconStore } = require("./vendor-icon-store.cjs");
+const {
+  vendorIconAssetFromPath
+} = require("../shared/vendor-icon.cjs");
 
 const host = process.env.AIHUB_ADMIN_HOST || "127.0.0.1";
 const port = Number(process.env.AIHUB_ADMIN_PORT || 4173);
@@ -61,6 +65,11 @@ const draftPath = path.join(__dirname, "data", "catalog-v1.json");
 const publishedDirectory = path.join(__dirname, "published");
 const releaseStoreDirectory = path.join(publishedDirectory, "catalog-store");
 const releaseSettingsPath = path.join(__dirname, "data", "release-settings.json");
+const vendorIconSourcePath = path.join(
+  __dirname,
+  "data",
+  "vendor-icon-sources.json"
+);
 const updateReleasePath = path.join(publishedDirectory, "update-release.json");
 const channelPath = path.join(root, "catalog", "channel.json");
 const updateChannelPath = path.join(root, "updates", "channel.json");
@@ -89,6 +98,10 @@ const releaseStore = createReleaseStore({
 });
 const productCertification = createProductCertification({
   filePath: productAcceptancePath
+});
+const vendorIconStore = createVendorIconStore({
+  rootDirectory: path.join(__dirname, "data"),
+  manifestPath: vendorIconSourcePath
 });
 
 function sendJson(response, status, value) {
@@ -139,6 +152,7 @@ function writeJsonAtomic(filePath, value) {
 
 async function saveCatalogDraft({ catalog, expectedRevision }) {
   const validated = validateCatalog(normalizeCatalog(catalog));
+  vendorIconStore.verifyCatalog(validated);
   const saved = await releaseStore.saveDraft({
     catalog: validated,
     expectedRevision
@@ -366,6 +380,17 @@ async function handleApi(request, response, pathname) {
     return true;
   }
 
+  if (request.method === "POST" && pathname === "/api/vendor-icon") {
+    const body = await readJson(request);
+    const state = await ensureDraft();
+    if (!state.draft.catalog.vendors.some((vendor) => vendor.id === body.vendorId)) {
+      throw new Error("厂商不存在");
+    }
+    const asset = vendorIconStore.save(body);
+    sendJson(response, 200, { ok: true, asset });
+    return true;
+  }
+
   if (
     request.method === "GET" &&
     pathname === "/api/product-certifications"
@@ -436,6 +461,7 @@ async function handleApi(request, response, pathname) {
 
   if (request.method === "GET" && pathname === "/ready") {
     const state = await ensureDraft();
+    vendorIconStore.verifyCatalog(state.draft.catalog);
     validatePublication(state.draft.catalog, readReleaseSettings());
     productCertification.snapshot();
     sendJson(response, 200, {
@@ -487,6 +513,7 @@ async function handleApi(request, response, pathname) {
 
   if (request.method === "POST" && pathname === "/api/validate") {
     const state = await ensureDraft();
+    vendorIconStore.verifyCatalog(state.draft.catalog);
     const report = validatePublication(
       state.draft.catalog,
       readReleaseSettings()
@@ -508,6 +535,7 @@ async function handleApi(request, response, pathname) {
     const body = await readJson(request);
     const state = await ensureDraft();
     const settings = readReleaseSettings();
+    vendorIconStore.verifyCatalog(state.draft.catalog);
     validatePublication(state.draft.catalog, settings);
     productCertification.validateCatalog(state.draft.catalog);
     const published = await releaseStore.publish({
@@ -617,6 +645,21 @@ const server = http.createServer(async (request, response) => {
   try {
     const url = new URL(request.url, `http://${host}:${port}`);
     if (await handleApi(request, response, url.pathname)) return;
+
+    if (request.method === "GET" && url.pathname.startsWith("/vendor-icons/")) {
+      const asset = vendorIconAssetFromPath(url.pathname.slice(1));
+      const verified = vendorIconStore.verifyCatalog({
+        vendors: [{ iconAsset: asset }]
+      });
+      if (verified !== 1) throw new Error("厂商 Logo 资产无效");
+      serveFile(
+        response,
+        path.join(__dirname, "data", ...asset.path.split("/")),
+        asset.mimeType,
+        "public, max-age=31536000, immutable"
+      );
+      return;
+    }
 
     if (
       request.method === "GET" &&

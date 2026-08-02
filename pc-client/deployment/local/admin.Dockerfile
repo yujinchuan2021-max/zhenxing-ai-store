@@ -10,6 +10,8 @@ WORKDIR /app
 COPY --chown=node:node admin/*.cjs /app/admin/
 COPY --chown=node:node admin/public /app/admin/public
 COPY --chown=node:node admin/data/catalog-v1.json admin/data/release-settings.json /app/admin/data/
+COPY --chown=node:node admin/data/vendor-icon-sources.json /app/admin/data/
+COPY --chown=node:node admin/data/vendor-icons /app/admin/data/vendor-icons
 COPY --chown=node:node shared /app/shared
 COPY --chown=node:node scripts/discover-official-products.mjs /app/scripts/discover-official-products.mjs
 

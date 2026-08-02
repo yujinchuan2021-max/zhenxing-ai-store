@@ -8244,13 +8244,24 @@ function VendorMark({
   large?: boolean;
   hero?: boolean;
 }) {
+  const [iconFailed, setIconFailed] = useState(false);
+
+  useEffect(() => setIconFailed(false), [vendor.iconUrl]);
+
   return (
     <span
       className={`vendorMark${large ? " large" : ""}${hero ? " heroMark" : ""}`}
       style={{ background: vendor.color }}
     >
-      {vendor.iconUrl ? (
-        <img src={vendor.iconUrl} alt="" referrerPolicy="no-referrer" />
+      {vendor.iconUrl && !iconFailed ? (
+        <img
+          src={vendor.iconUrl}
+          alt=""
+          loading={hero ? "eager" : "lazy"}
+          decoding="async"
+          referrerPolicy="no-referrer"
+          onError={() => setIconFailed(true)}
+        />
       ) : (
         vendor.mark
       )}

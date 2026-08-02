@@ -27,6 +27,16 @@ https://localhost:4443 {
     }
   }
 
+  @vendorIcons path /vendor-icons/*
+  handle @vendorIcons {
+    header Cache-Control "public, max-age=31536000, immutable"
+    header X-Content-Type-Options "nosniff"
+    reverse_proxy admin:4173 {
+      header_down -Cache-Control
+      header_down -X-Content-Type-Options
+    }
+  }
+
   @update path /update-release.json
   header @update {
     Cache-Control "public, max-age=0, must-revalidate"

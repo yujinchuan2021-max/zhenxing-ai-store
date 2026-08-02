@@ -57,9 +57,9 @@ const HIGH_VALUE_RESEARCH_PRODUCTS = Object.freeze([
 
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 116);
+  assert.equal(catalog.vendors.length, 128);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 244);
+  assert.equal(products.length, 257);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of HIGH_VALUE_RESEARCH_PRODUCTS) {
     assert.equal(productIds.has(productId), true, productId);
@@ -171,7 +171,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 244);
+  assert.equal(products.length, 257);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -208,8 +208,8 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 81,
-    "desktop-official": 89,
+    web: 84,
+    "desktop-official": 99,
     "desktop-reviewed": 26,
     "cli-official": 3,
     cli: 14,
@@ -228,10 +228,11 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
     true
   );
   const resources = catalog.resources;
-  assert.equal(resources.length, 43);
+  assert.equal(resources.length, 56);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("skill")).length, 10);
-  assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 30);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 40);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("plugin")).length, 7);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("connector")).length, 3);
   const managed = resources.find(
     (item) => item.id === "openai-chatgpt-apps-skill"
   );

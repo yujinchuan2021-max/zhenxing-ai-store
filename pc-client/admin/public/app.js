@@ -564,7 +564,7 @@ function renderVendors() {
       <section class="panel itemList">${state.catalog.vendors
         .map(
           (item) => `<button data-vendor="${escapeHtml(item.id)}" class="${item.id === state.selectedVendorId ? "active" : ""}">
-          <i style="background:${escapeHtml(item.color)}">${escapeHtml(item.mark)}</i><span>${escapeHtml(item.name)}
+          <i style="background:${escapeHtml(item.color)}">${item.iconAsset ? `<img src="/${escapeHtml(item.iconAsset.path)}" alt="">` : escapeHtml(item.mark)}</i><span>${escapeHtml(item.name)}
           <small>${item.enabled === false ? "已停用" : "已启用"} · 顺序 ${escapeHtml(item.order ?? 0)}</small></span></button>`
         )
         .join("")}</section>
@@ -580,7 +580,20 @@ function renderVendors() {
              <label>显示顺序<input type="number" min="0" max="100000" data-vendor-number="order" value="${escapeHtml(vendor.order ?? 0)}"></label>
              <label>首字母<input maxlength="1" data-vendor-field="initial" value="${escapeHtml(vendor.initial)}"></label>
              <label>图标文字<input maxlength="4" data-vendor-field="mark" value="${escapeHtml(vendor.mark)}"></label>
-             <label class="wide">图片图标（HTTPS，可留空）<input data-vendor-field="iconUrl" value="${escapeHtml(vendor.iconUrl || "")}" placeholder="https://…"></label>
+             <div class="wide vendorLogoEditor">
+               <div class="vendorLogoPreview" style="background:${escapeHtml(vendor.color)}">
+                 ${vendor.iconAsset ? `<img src="/${escapeHtml(vendor.iconAsset.path)}" alt="${escapeHtml(vendor.name)} Logo">` : `<b>${escapeHtml(vendor.mark)}</b>`}
+               </div>
+               <div class="vendorLogoFields">
+                 <label>官方 Logo 来源<input data-vendor-icon-source placeholder="https://厂商官网/品牌资源页"></label>
+                 <label>上传图片<input type="file" accept="image/png,image/jpeg,image/webp,image/x-icon,image/svg+xml,.ico,.svg" data-vendor-icon-file></label>
+                 <div class="vendorLogoActions">
+                   <button class="smallButton" data-action="upload-vendor-icon">上传并校验</button>
+                   ${vendor.iconAsset ? `<button class="dangerButton" data-action="remove-vendor-icon">移除 Logo</button>` : ""}
+                 </div>
+                 <small>${vendor.iconAsset ? `已审核资产 · ${escapeHtml(vendor.iconAsset.sha256.slice(0, 12))}…` : "未上传时客户端显示图标文字；只接受官方来源的 PNG、JPG、WebP、ICO 或安全 SVG。"}</small>
+               </div>
+             </div>
             <label>品牌颜色<input type="color" data-vendor-field="color" value="${escapeHtml(vendor.color)}"></label>
             <label>厂商官网<input data-vendor-field="website" value="${escapeHtml(vendor.website)}"></label>
             <label class="wide">教程地址<input data-vendor-field="tutorial" value="${escapeHtml(vendor.tutorial)}"></label>
@@ -1258,6 +1271,45 @@ content.addEventListener("click", async (event) => {
       tutorial: "https://example.com", products: []
     });
     state.selectedVendorId = id; markDirty(); render();
+  } else if (target.dataset.action === "upload-vendor-icon") {
+    const vendor = selectedVendor();
+    const file = content.querySelector("[data-vendor-icon-file]")?.files?.[0];
+    const sourceUrl = content.querySelector("[data-vendor-icon-source]")?.value.trim();
+    if (!vendor || !file) return toast("请选择 Logo 图片", true);
+    if (!sourceUrl?.startsWith("https://")) {
+      return toast("请填写厂商官方 HTTPS Logo 来源", true);
+    }
+    if (file.size > 384 * 1024) return toast("Logo 不能超过 384 KB", true);
+    target.disabled = true;
+    target.textContent = "正在上传…";
+    try {
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("无法读取 Logo 图片"));
+        reader.readAsDataURL(file);
+      });
+      const result = await request("/api/vendor-icon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ vendorId: vendor.id, dataUrl, sourceUrl })
+      });
+      vendor.iconAsset = result.asset;
+      vendor.iconUrl = "";
+      markDirty();
+      renderVendors();
+      toast("Logo 已上传并通过校验，请保存草稿");
+    } catch (error) {
+      toast(error.message, true);
+      renderVendors();
+    }
+  } else if (target.dataset.action === "remove-vendor-icon") {
+    const vendor = selectedVendor();
+    if (!vendor) return;
+    delete vendor.iconAsset;
+    vendor.iconUrl = "";
+    markDirty();
+    renderVendors();
   } else if (target.dataset.action === "delete-vendor") {
     const vendor = selectedVendor();
     if (!vendor || vendor.products.length) return toast("请先删除或移动该厂商下的产品", true);

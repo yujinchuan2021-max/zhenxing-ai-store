@@ -78,6 +78,11 @@ export type Vendor = {
   enabled?: boolean;
   order?: number;
   iconUrl?: string;
+  iconAsset?: {
+    path: string;
+    sha256: string;
+    mimeType: "image/png" | "image/jpeg" | "image/webp" | "image/x-icon" | "image/svg+xml";
+  };
   name: string;
   initial: string;
   requiresCrossBorderNetwork?: boolean;

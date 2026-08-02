@@ -44,7 +44,8 @@ const IDENTITY_SHARED_FILES = new Set([
 ]);
 const ADMIN_DATA_FILES = new Set([
   "admin/data/catalog-v1.json",
-  "admin/data/release-settings.json"
+  "admin/data/release-settings.json",
+  "admin/data/vendor-icon-sources.json"
 ]);
 const COMMUNITY_CONTAINER_PATHS = Object.freeze({
   "community/flarum/apache.conf":
@@ -81,7 +82,8 @@ function sourcePathsForService(service, revisionFiles) {
         (file.startsWith("admin/") &&
           (/^admin\/[^/]+\.cjs$/.test(file) ||
             file.startsWith("admin/public/") ||
-            ADMIN_DATA_FILES.has(file))) ||
+            ADMIN_DATA_FILES.has(file) ||
+            file.startsWith("admin/data/vendor-icons/"))) ||
         file.startsWith("shared/") ||
         file === "scripts/discover-official-products.mjs"
     );

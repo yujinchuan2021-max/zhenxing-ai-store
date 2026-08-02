@@ -43,6 +43,9 @@ const {
   resolvePackagedCatalogFallback
 } = require("../shared/catalog-runtime-policy.cjs");
 const {
+  resolveCatalogIconUrls
+} = require("../shared/catalog-icon-runtime.cjs");
+const {
   authorizeFreshCatalogProduct,
   runFreshCatalogAuthorizedOperation
 } = require("../shared/managed-catalog-install-authorization.cjs");
@@ -2275,7 +2278,7 @@ async function fetchRemoteCatalogRelease(channel, clientId, highest = null) {
 }
 
 function readCachedCatalogRelease(channel, clientId) {
-  return verifyCatalogReleaseCache(
+  const release = verifyCatalogReleaseCache(
     JSON.parse(fs.readFileSync(catalogCachePath(), "utf8")),
     {
       expectedSourceUrl: channel.releaseUrl,
@@ -2284,6 +2287,10 @@ function readCachedCatalogRelease(channel, clientId) {
       allowLocalhost: !app.isPackaged
     }
   );
+  return {
+    ...release,
+    catalog: resolveCatalogIconUrls(release.catalog, channel.releaseUrl)
+  };
 }
 
 async function resolveCatalog() {
@@ -2324,7 +2331,10 @@ async function resolveCatalog() {
     });
     return {
       source: "remote",
-      catalog: result.release.catalog,
+      catalog: resolveCatalogIconUrls(
+        result.release.catalog,
+        channel.releaseUrl
+      ),
       catalogVersion: result.release.catalogVersion,
       error: ""
     };

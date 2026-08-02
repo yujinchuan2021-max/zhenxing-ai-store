@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-02T12:00:00.000Z",
+  "updatedAt": "2026-08-02T13:00:00.000Z",
   "brand": {
     "name": "枕星 AI",
     "mark": "枕",
@@ -327,6 +327,30 @@
           "downloadPolicy": "none",
           "signaturePolicy": "not-applicable",
           "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        },
+        {
+          "id": "affinity",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Affinity",
+          "kind": "桌面端",
+          "category": "图像与设计",
+          "description": "Windows 图像、矢量与排版工具，官方 AI Connector 当前只提供 Claude 接入说明。",
+          "website": "https://www.affinity.studio/",
+          "tutorial": "https://www.canva.com/newsroom/news/canva-create-2026-launches/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
@@ -967,6 +991,474 @@
         }
       ],
       "order": 20
+    },
+    {
+      "id": "blender",
+      "enabled": true,
+      "name": "Blender Foundation",
+      "initial": "B",
+      "mark": "B",
+      "iconUrl": "",
+      "color": "#e87d0d",
+      "description": "维护 Blender 开源 3D 创作套件。",
+      "website": "https://www.blender.org/",
+      "tutorial": "https://www.blender.org/support/",
+      "products": [
+        {
+          "id": "blender",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Blender",
+          "kind": "桌面端",
+          "category": "3D 创作",
+          "description": "Windows 3D 建模、动画和渲染工具，可通过经过审核的社区 MCP 接入 AI 客户端。",
+          "website": "https://www.blender.org/download/",
+          "tutorial": "https://github.com/ahujasid/blender-mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 21
+    },
+    {
+      "id": "godot",
+      "enabled": true,
+      "name": "Godot Engine",
+      "initial": "G",
+      "mark": "G",
+      "iconUrl": "",
+      "color": "#478cbf",
+      "description": "维护 Godot 开源游戏与交互应用引擎。",
+      "website": "https://godotengine.org/",
+      "tutorial": "https://docs.godotengine.org/",
+      "products": [
+        {
+          "id": "godot-engine",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Godot Engine",
+          "kind": "桌面端",
+          "category": "游戏开发",
+          "description": "Windows 游戏与交互应用引擎，可通过社区 MCP 为 AI 工具提供项目上下文。",
+          "website": "https://godotengine.org/download/windows/",
+          "tutorial": "https://github.com/tomyud1/godot-mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 22
+    },
+    {
+      "id": "epic-games",
+      "enabled": true,
+      "name": "Epic Games",
+      "initial": "E",
+      "mark": "E",
+      "iconUrl": "",
+      "color": "#202020",
+      "description": "提供 Unreal Engine 与实时 3D 创作平台。",
+      "website": "https://www.epicgames.com/",
+      "tutorial": "https://dev.epicgames.com/documentation/en-us/unreal-engine/",
+      "products": [
+        {
+          "id": "unreal-engine",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Unreal Engine",
+          "kind": "桌面端",
+          "category": "游戏开发",
+          "description": "实时 3D 与游戏开发引擎；社区 MCP 只能在用户指定项目中工作。",
+          "website": "https://www.unrealengine.com/download",
+          "tutorial": "https://github.com/GenOrca/unreal-mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 23
+    },
+    {
+      "id": "ableton",
+      "enabled": true,
+      "name": "Ableton",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#111111",
+      "description": "提供 Live 音乐制作与现场演出软件。",
+      "website": "https://www.ableton.com/",
+      "tutorial": "https://help.ableton.com/",
+      "products": [
+        {
+          "id": "ableton-live",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Ableton Live",
+          "kind": "桌面端",
+          "category": "音频制作",
+          "description": "Windows 音乐制作软件；社区连接器可控制当前 Live Session。",
+          "website": "https://www.ableton.com/en/trial/",
+          "tutorial": "https://github.com/uisato/ableton-mcp-extended",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 24
+    },
+    {
+      "id": "obs-project",
+      "enabled": true,
+      "name": "OBS Project",
+      "initial": "O",
+      "mark": "O",
+      "iconUrl": "",
+      "color": "#302e31",
+      "description": "维护 OBS Studio 直播与录制软件。",
+      "website": "https://obsproject.com/",
+      "tutorial": "https://obsproject.com/kb/",
+      "products": [
+        {
+          "id": "obs-studio",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "OBS Studio",
+          "kind": "桌面端",
+          "category": "直播与录制",
+          "description": "Windows 直播与录制软件；实验性社区 MCP 通过本机 obs-websocket 连接。",
+          "website": "https://obsproject.com/download",
+          "tutorial": "https://github.com/sbroenne/mcp-server-obs",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 25
+    },
+    {
+      "id": "n8n",
+      "enabled": true,
+      "name": "n8n",
+      "initial": "N",
+      "mark": "n",
+      "iconUrl": "",
+      "color": "#ea4b71",
+      "description": "提供可自托管的工作流自动化平台。",
+      "website": "https://n8n.io/",
+      "tutorial": "https://docs.n8n.io/",
+      "products": [
+        {
+          "id": "n8n-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "n8n",
+          "kind": "其他产品",
+          "category": "工作流自动化",
+          "description": "云端或自托管工作流自动化平台，内置官方实例级 MCP Server。",
+          "website": "https://n8n.io/",
+          "tutorial": "https://docs.n8n.io/advanced-ai/accessing-n8n-mcp-server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 26
+    },
+    {
+      "id": "uipath",
+      "enabled": true,
+      "name": "UiPath",
+      "initial": "U",
+      "mark": "U",
+      "iconUrl": "",
+      "color": "#fa4616",
+      "description": "提供桌面 RPA 与企业自动化平台。",
+      "website": "https://www.uipath.com/",
+      "tutorial": "https://docs.uipath.com/",
+      "products": [
+        {
+          "id": "uipath-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "UiPath Platform",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "通过 Orchestrator 官方 MCP Server 把经过授权的 RPA 工件提供给 AI 客户端。",
+          "website": "https://cloud.uipath.com/",
+          "tutorial": "https://docs.uipath.com/orchestrator/automation-cloud/latest/user-guide/about-mcp-servers",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 27
+    },
+    {
+      "id": "open-home-foundation",
+      "enabled": true,
+      "name": "Open Home Foundation",
+      "initial": "H",
+      "mark": "H",
+      "iconUrl": "",
+      "color": "#18bcf2",
+      "description": "维护 Home Assistant 开源智能家居平台。",
+      "website": "https://www.openhomefoundation.org/",
+      "tutorial": "https://www.home-assistant.io/docs/",
+      "products": [
+        {
+          "id": "home-assistant",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Home Assistant",
+          "kind": "其他产品",
+          "category": "智能设备",
+          "description": "智能家居与设备自动化平台，内置官方 Model Context Protocol Server 集成。",
+          "website": "https://www.home-assistant.io/installation/windows/",
+          "tutorial": "https://www.home-assistant.io/integrations/mcp_server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 28
+    },
+    {
+      "id": "adobe",
+      "enabled": true,
+      "name": "Adobe",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#eb1000",
+      "description": "提供 Creative Cloud 创意软件与服务。",
+      "website": "https://www.adobe.com/",
+      "tutorial": "https://helpx.adobe.com/creative-cloud.html",
+      "products": [
+        {
+          "id": "adobe-creative-cloud",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Adobe Creative Cloud",
+          "kind": "桌面端",
+          "category": "图像与设计",
+          "description": "Adobe 创意工具可通过官方 Adobe for creativity 连接器接入 Claude。",
+          "website": "https://www.adobe.com/creativecloud.html",
+          "tutorial": "https://developer.adobe.com/adobe-for-creativity/getting-started/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 29
+    },
+    {
+      "id": "autodesk",
+      "enabled": true,
+      "name": "Autodesk",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#0696d7",
+      "description": "提供设计、工程、制造与 3D 创作软件。",
+      "website": "https://www.autodesk.com/",
+      "tutorial": "https://help.autodesk.com/",
+      "products": [
+        {
+          "id": "autodesk-fusion",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Autodesk Fusion",
+          "kind": "桌面端",
+          "category": "3D 创作",
+          "description": "Windows CAD 与制造设计软件，内置官方本地 Fusion MCP。",
+          "website": "https://www.autodesk.com/products/fusion-360/",
+          "tutorial": "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 30
+    },
+    {
+      "id": "trimble",
+      "enabled": true,
+      "name": "Trimble",
+      "initial": "T",
+      "mark": "T",
+      "iconUrl": "",
+      "color": "#0063a3",
+      "description": "提供 SketchUp 等建筑、空间与建模产品。",
+      "website": "https://www.trimble.com/",
+      "tutorial": "https://help.sketchup.com/",
+      "products": [
+        {
+          "id": "sketchup",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "SketchUp",
+          "kind": "桌面端",
+          "category": "3D 创作",
+          "description": "Windows 3D 建模产品，官方 Claude Connector 当前用于生成新的 SKP 文件。",
+          "website": "https://sketchup.trimble.com/en/download/all",
+          "tutorial": "https://help.sketchup.com/pl/sketchup-claude-connector",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 31
+    },
+    {
+      "id": "blackmagic-design",
+      "enabled": true,
+      "name": "Blackmagic Design",
+      "initial": "B",
+      "mark": "B",
+      "iconUrl": "",
+      "color": "#222222",
+      "description": "提供 DaVinci Resolve 视频后期制作软件。",
+      "website": "https://www.blackmagicdesign.com/",
+      "tutorial": "https://www.blackmagicdesign.com/support/",
+      "products": [
+        {
+          "id": "davinci-resolve",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "DaVinci Resolve",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows 视频剪辑、调色、音频与 VFX 软件；社区 MCP 需固定版本审计后再安装。",
+          "website": "https://www.blackmagicdesign.com/products/davinciresolve",
+          "tutorial": "https://github.com/samuelgursky/davinci-resolve-mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 32
     }
   ],
   "resourceStores": [
@@ -987,6 +1479,12 @@
       "label": "插件商店",
       "enabled": true,
       "order": 2
+    },
+    {
+      "id": "connector",
+      "label": "连接器商店",
+      "enabled": true,
+      "order": 3
     }
   ],
   "resources": [
@@ -1347,6 +1845,479 @@
         "https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server"
       ],
       "lastVerifiedAt": "2026-08-02T00:00:00.000Z"
+    },
+    {
+      "id": "blender-mcp",
+      "enabled": true,
+      "order": 9,
+      "name": "Blender MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "可读写 Blender 场景并执行 Python；任意代码、删除和外部素材导入必须确认。",
+      "website": "https://github.com/ahujasid/blender-mcp",
+      "tutorial": "https://github.com/ahujasid/blender-mcp",
+      "publisherVendorId": "blender",
+      "publisher": "Blender Foundation",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "blender"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "可读写 Blender 场景并执行 Python；任意代码、删除和外部素材导入必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "禁用并删除 Blender add-on，再移除目标 AI 工具配置；保留 Blender 与工程。",
+      "provenanceEvidence": [
+        "https://github.com/ahujasid/blender-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "godot-mcp",
+      "enabled": true,
+      "order": 10,
+      "name": "Godot MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅授权用户选择的 Godot 工程；运行、删除节点和批量改写必须确认。",
+      "website": "https://github.com/tomyud1/godot-mcp",
+      "tutorial": "https://github.com/tomyud1/godot-mcp",
+      "publisherVendorId": "godot",
+      "publisher": "Godot Engine",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "godot-engine"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "仅授权用户选择的 Godot 工程；运行、删除节点和批量改写必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除项目插件与客户端配置；保留 Godot 和项目。",
+      "provenanceEvidence": [
+        "https://github.com/tomyud1/godot-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "unreal-mcp",
+      "enabled": true,
+      "order": 11,
+      "name": "Unreal MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅授权单个 Unreal 项目；Python、删除资产、构建和打包必须确认。",
+      "website": "https://github.com/GenOrca/unreal-mcp",
+      "tutorial": "https://github.com/GenOrca/unreal-mcp",
+      "publisherVendorId": "epic-games",
+      "publisher": "Epic Games",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "unreal-engine"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "仅授权单个 Unreal 项目；Python、删除资产、构建和打包必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "关闭编辑器后移除项目插件和客户端配置；保留引擎与项目内容。",
+      "provenanceEvidence": [
+        "https://github.com/GenOrca/unreal-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "ableton-mcp-extended",
+      "enabled": true,
+      "order": 12,
+      "name": "Ableton MCP Extended",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "会修改当前 Live Session；写入前提示保存，批量生成与外部音频导入必须确认。",
+      "website": "https://github.com/uisato/ableton-mcp-extended",
+      "tutorial": "https://github.com/uisato/ableton-mcp-extended",
+      "publisherVendorId": "ableton",
+      "publisher": "Ableton",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "ableton-live"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "会修改当前 Live Session；写入前提示保存，批量生成与外部音频导入必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "停用 Control Surface，删除 Remote Script 和客户端配置；保留 Live Set 与素材库。",
+      "provenanceEvidence": [
+        "https://github.com/uisato/ableton-mcp-extended"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "obs-mcp",
+      "enabled": true,
+      "order": 13,
+      "name": "MCP Server for OBS",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "实验性资源；开始直播/录制、截图和切换敏感场景必须逐次确认。",
+      "website": "https://github.com/sbroenne/mcp-server-obs",
+      "tutorial": "https://github.com/sbroenne/mcp-server-obs",
+      "publisherVendorId": "obs-project",
+      "publisher": "OBS Project",
+      "sourceKind": "community",
+      "sourceProductIds": [
+        "obs-studio"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "实验性资源；开始直播/录制、截图和切换敏感场景必须逐次确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除客户端连接并关闭或轮换 OBS WebSocket；保留 OBS 配置与录制文件。",
+      "provenanceEvidence": [
+        "https://github.com/sbroenne/mcp-server-obs"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "n8n-mcp-server",
+      "enabled": true,
+      "order": 14,
+      "name": "n8n MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "按工作区最小授权；创建、更新和运行工作流必须确认。",
+      "website": "https://blog.n8n.io/n8n-mcp-server/",
+      "tutorial": "https://blog.n8n.io/n8n-mcp-server/",
+      "publisherVendorId": "n8n",
+      "publisher": "n8n",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "n8n-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "按工作区最小授权；创建、更新和运行工作流必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "关闭 MCP 并撤销令牌；保留实例、卷、凭据和工作流。",
+      "provenanceEvidence": [
+        "https://blog.n8n.io/n8n-mcp-server/"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "adobe-for-creativity",
+      "enabled": true,
+      "order": 15,
+      "name": "Adobe for creativity",
+      "resourceTypes": [
+        "connector"
+      ],
+      "description": "用户明确选择的文件会发送到 Adobe 与 Claude 云服务；组织授权由用户完成。",
+      "website": "https://developer.adobe.com/adobe-for-creativity/",
+      "tutorial": "https://developer.adobe.com/adobe-for-creativity/",
+      "publisherVendorId": "adobe",
+      "publisher": "Adobe",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "adobe-creative-cloud"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "用户明确选择的文件会发送到 Adobe 与 Claude 云服务；组织授权由用户完成。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "在 Claude 断开连接器并按需在 Adobe 账号撤销授权；保留 Creative Cloud 软件与资产。",
+      "provenanceEvidence": [
+        "https://developer.adobe.com/adobe-for-creativity/"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "autodesk-fusion-mcp",
+      "enabled": true,
+      "order": 16,
+      "name": "Autodesk Fusion MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只允许 127.0.0.1；运行脚本、删除对象和覆盖设计必须确认。",
+      "website": "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW",
+      "tutorial": "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW",
+      "publisherVendorId": "autodesk",
+      "publisher": "Autodesk",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "autodesk-fusion"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只允许 127.0.0.1；运行脚本、删除对象和覆盖设计必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除客户端连接并在 Fusion 关闭 MCP Server；保留 Fusion 与设计数据。",
+      "provenanceEvidence": [
+        "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "sketchup-claude-connector",
+      "enabled": true,
+      "order": 17,
+      "name": "SketchUp Connector for Claude",
+      "resourceTypes": [
+        "connector"
+      ],
+      "description": "当前只生成新的 SKP 文件，不能描述为接管用户本机 SketchUp。",
+      "website": "https://help.sketchup.com/pl/sketchup-claude-connector",
+      "tutorial": "https://help.sketchup.com/pl/sketchup-claude-connector",
+      "publisherVendorId": "trimble",
+      "publisher": "Trimble",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "sketchup"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "当前只生成新的 SKP 文件，不能描述为接管用户本机 SketchUp。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "在 Claude 断开 Connector 并撤销 Trimble 授权；保留 SketchUp 与用户模型。",
+      "provenanceEvidence": [
+        "https://help.sketchup.com/pl/sketchup-claude-connector"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "davinci-resolve-mcp",
+      "enabled": true,
+      "order": 18,
+      "name": "DaVinci Resolve MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "固定版本审核前只展示说明；修改项目、素材、渲染设置和脚本必须确认。",
+      "website": "https://github.com/samuelgursky/davinci-resolve-mcp",
+      "tutorial": "https://github.com/samuelgursky/davinci-resolve-mcp",
+      "publisherVendorId": "blackmagic-design",
+      "publisher": "Blackmagic Design",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "davinci-resolve"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "固定版本审核前只展示说明；修改项目、素材、渲染设置和脚本必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "只删除安装收据记录的 MCP 配置、托管副本和虚拟环境；保留 Resolve、项目和媒体。",
+      "provenanceEvidence": [
+        "https://github.com/samuelgursky/davinci-resolve-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "affinity-ai-connector",
+      "enabled": true,
+      "order": 19,
+      "name": "Affinity AI Connector",
+      "resourceTypes": [
+        "connector"
+      ],
+      "description": "官方撤销文档尚未完整；生成脚本首次运行必须展示写入范围并确认。",
+      "website": "https://www.canva.com/newsroom/news/canva-create-2026-launches/",
+      "tutorial": "https://www.canva.com/newsroom/news/canva-create-2026-launches/",
+      "publisherVendorId": "canva",
+      "publisher": "Canva",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "affinity"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方撤销文档尚未完整；生成脚本首次运行必须展示写入范围并确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "当前只提供官方说明；断开连接时保留 Affinity、文档与用户脚本。",
+      "provenanceEvidence": [
+        "https://www.canva.com/newsroom/news/canva-create-2026-launches/"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
     }
   ],
   "categories": [
@@ -1364,6 +2335,12 @@
     "远程控制",
     "游戏开发",
     "编程与调试",
-    "图像与设计"
+    "图像与设计",
+    "音频制作",
+    "3D 创作",
+    "智能设备",
+    "工作流自动化",
+    "直播与录制",
+    "办公自动化"
   ]
 }

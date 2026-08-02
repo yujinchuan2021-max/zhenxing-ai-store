@@ -214,6 +214,12 @@ function validatePublication(catalog, rawSettings) {
   if (!settings.update.enabled) {
     warnings.push("客户端自动更新当前未启用");
   }
+  const vendorsWithoutLogos = enabledVendors.filter(
+    (vendor) => !vendor.iconAsset
+  ).length;
+  if (vendorsWithoutLogos) {
+    warnings.push(`${vendorsWithoutLogos} 个启用厂商尚未上传审核 Logo`);
+  }
   const sourceRegistry = getApprovedEnvironmentDownloadSources();
   const enabledMirrors = validatedCatalog.environmentDownloads.sources.filter(
     (entry) =>
@@ -229,6 +235,7 @@ function validatePublication(catalog, rawSettings) {
     ok: true,
     summary: {
       vendors: enabledVendors.length,
+      vendorLogos: enabledVendors.length - vendorsWithoutLogos,
       products: enabledProducts.length,
       resources: enabledResources.length,
       resourceStores: enabledStoreIds.size,

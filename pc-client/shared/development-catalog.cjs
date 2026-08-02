@@ -1,5 +1,9 @@
 "use strict";
 
+const {
+  resolveCatalogIconUrls
+} = require("./catalog-icon-runtime.cjs");
+
 const DEVELOPMENT_CATALOG_URL =
   "/__aihub-local-catalog/catalog-release.json";
 
@@ -60,7 +64,10 @@ async function loadDevelopmentCatalog(fetchCatalog) {
     }
     return {
       source: "remote",
-      catalog,
+      catalog: resolveCatalogIconUrls(
+        catalog,
+        response.url || DEVELOPMENT_CATALOG_URL
+      ),
       catalogVersion,
       error: ""
     };

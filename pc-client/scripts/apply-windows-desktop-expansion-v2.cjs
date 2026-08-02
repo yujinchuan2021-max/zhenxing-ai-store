@@ -8,6 +8,7 @@ const {
   existingVendorProducts,
   newVendors
 } = require("../catalog/windows-desktop-expansion-v2.cjs");
+const { applyDefinition } = require("../shared/catalog-maintenance.cjs");
 
 const root = path.resolve(__dirname, "..");
 const catalogPath = path.join(root, "admin", "data", "catalog-v1.json");
@@ -30,10 +31,11 @@ function nextOrder(items) {
 function upsertProduct(vendor, definition) {
   const existing = vendor.products.find((product) => product.id === definition.id);
   if (existing) {
-    const order = existing.order;
-    Object.assign(existing, definition, { directoryKind: "ai-tool" });
+    applyDefinition(existing, { ...definition, directoryKind: "ai-tool" }, [
+      "enabled",
+      "order"
+    ]);
     delete existing.extensions;
-    existing.order = order;
     return "updated";
   }
   const product = {
@@ -76,9 +78,7 @@ for (const definition of newVendors) {
     addedVendors += 1;
   } else {
     const { products, ...metadata } = definition;
-    const order = target.order;
-    Object.assign(target, metadata);
-    target.order = order;
+    applyDefinition(target, metadata, ["enabled", "order", "iconAsset", "iconUrl"]);
   }
   for (const product of definition.products) {
     const result = upsertProduct(target, product);
@@ -90,11 +90,12 @@ for (const definition of newVendors) {
 for (const [productId, update] of Object.entries(existingProductUpdates)) {
   const located = findProduct(productId);
   if (!located) throw new Error(`catalog product not found: ${productId}`);
-  const order = located.product.order;
-  Object.assign(located.product, update);
-  located.product.directoryKind = "ai-tool";
+  applyDefinition(
+    located.product,
+    { ...update, directoryKind: "ai-tool" },
+    ["enabled", "order"]
+  );
   delete located.product.extensions;
-  located.product.order = order;
   updatedProducts += 1;
 }
 

@@ -29,6 +29,15 @@ test("browser development preview loads the published backend catalog", async ()
               vendors: Array.from({ length: 49 }, (_, index) => ({
                 id: `vendor-${index}`,
                 name: `Vendor ${index}`,
+                ...(index === 0
+                  ? {
+                      iconAsset: {
+                        path: `vendor-icons/${"a".repeat(64)}.png`,
+                        sha256: "a".repeat(64),
+                        mimeType: "image/png"
+                      }
+                    }
+                  : {}),
                 products: []
               }))
             }
@@ -43,6 +52,10 @@ test("browser development preview loads the published backend catalog", async ()
   assert.equal(result.source, "remote");
   assert.equal(result.catalogVersion, 13);
   assert.equal(result.catalog.vendors.length, 49);
+  assert.equal(
+    result.catalog.vendors[0].iconUrl,
+    `/__aihub-local-catalog/vendor-icons/${"a".repeat(64)}.png`
+  );
 
   const app = fs.readFileSync(path.join(root, "src", "App.tsx"), "utf8");
   const vite = fs.readFileSync(path.join(root, "vite.config.ts"), "utf8");

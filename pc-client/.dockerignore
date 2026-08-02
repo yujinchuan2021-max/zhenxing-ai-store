@@ -6,6 +6,9 @@
 !admin/data/
 !admin/data/catalog-v1.json
 !admin/data/release-settings.json
+!admin/data/vendor-icon-sources.json
+!admin/data/vendor-icons/
+!admin/data/vendor-icons/**
 !shared/
 !shared/**
 !scripts/

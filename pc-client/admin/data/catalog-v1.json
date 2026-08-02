@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-02T12:42:15.714Z",
+  "updatedAt": "2026-08-02T13:34:29.003Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -16,7 +16,13 @@
     "远程控制",
     "游戏开发",
     "编程与调试",
-    "图像与设计"
+    "图像与设计",
+    "音频制作",
+    "3D 创作",
+    "智能设备",
+    "工作流自动化",
+    "直播与录制",
+    "办公自动化"
   ],
   "brand": {
     "name": "枕星 AI",
@@ -195,7 +201,12 @@
       ],
       "enabled": true,
       "order": 0,
-      "iconUrl": ""
+      "iconUrl": "",
+      "iconAsset": {
+        "path": "vendor-icons/6025a4347a8eaed17e31eaebf7834e33ec4af26cc7f59be586ac59ba5157fa1c.png",
+        "sha256": "6025a4347a8eaed17e31eaebf7834e33ec4af26cc7f59be586ac59ba5157fa1c",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "anthropic",
@@ -359,7 +370,12 @@
       ],
       "enabled": true,
       "order": 1,
-      "iconUrl": ""
+      "iconUrl": "",
+      "iconAsset": {
+        "path": "vendor-icons/c91922918edeef31af5e969413c0eecf583707d14588de3fecc1d649b4303bf7.png",
+        "sha256": "c91922918edeef31af5e969413c0eecf583707d14588de3fecc1d649b4303bf7",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "bytedance",
@@ -618,7 +634,12 @@
       ],
       "enabled": true,
       "order": 2,
-      "iconUrl": ""
+      "iconUrl": "",
+      "iconAsset": {
+        "path": "vendor-icons/866cadd60d270c4c1b6eef6d8d39154dc18a1391c50b511331665f58ce8de552.png",
+        "sha256": "866cadd60d270c4c1b6eef6d8d39154dc18a1391c50b511331665f58ce8de552",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "comfy",
@@ -716,7 +737,12 @@
       ],
       "enabled": true,
       "order": 3,
-      "iconUrl": ""
+      "iconUrl": "",
+      "iconAsset": {
+        "path": "vendor-icons/afcac0031b36dad16aab2fd828327e761b7aaca9fc65d5add9eab98427a92c7e.png",
+        "sha256": "afcac0031b36dad16aab2fd828327e761b7aaca9fc65d5add9eab98427a92c7e",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "deepseek",
@@ -801,7 +827,12 @@
       ],
       "enabled": true,
       "order": 4,
-      "iconUrl": ""
+      "iconUrl": "",
+      "iconAsset": {
+        "path": "vendor-icons/30a4420e6e4dcb17fd7de560c5004346c2bc8cd971d2d5f5ee15326603e51321.ico",
+        "sha256": "30a4420e6e4dcb17fd7de560c5004346c2bc8cd971d2d5f5ee15326603e51321",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "google",
@@ -1191,7 +1222,12 @@
       ],
       "enabled": true,
       "order": 5,
-      "iconUrl": ""
+      "iconUrl": "",
+      "iconAsset": {
+        "path": "vendor-icons/ec91f8765a42b45acf0de8d78272a411177495b48a9e9109dba1418955e111ff.png",
+        "sha256": "ec91f8765a42b45acf0de8d78272a411177495b48a9e9109dba1418955e111ff",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "dify",
@@ -1230,7 +1266,12 @@
       ],
       "enabled": true,
       "order": 6,
-      "iconUrl": ""
+      "iconUrl": "",
+      "iconAsset": {
+        "path": "vendor-icons/72348ce12b2fe799a1787df6cf837d4c202389640bab83eadd5cbcc0ac253799.svg",
+        "sha256": "72348ce12b2fe799a1787df6cf837d4c202389640bab83eadd5cbcc0ac253799",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "ollama",
@@ -1299,7 +1340,12 @@
       ],
       "enabled": true,
       "order": 7,
-      "iconUrl": ""
+      "iconUrl": "",
+      "iconAsset": {
+        "path": "vendor-icons/8a5d4f0444d756d1d64c6615eb163ecd71fba180bd07c4199e88461c921778d1.png",
+        "sha256": "8a5d4f0444d756d1d64c6615eb163ecd71fba180bd07c4199e88461c921778d1",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "microsoft",
@@ -1489,7 +1535,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 8
+      "order": 8,
+      "iconAsset": {
+        "path": "vendor-icons/90cdaf487716184e4034000935c605d1633926d348116d198f355a98b8c6cd21.ico",
+        "sha256": "90cdaf487716184e4034000935c605d1633926d348116d198f355a98b8c6cd21",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "github",
@@ -1580,7 +1631,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 9
+      "order": 9,
+      "iconAsset": {
+        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
+        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "anysphere",
@@ -1650,7 +1706,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 10
+      "order": 10,
+      "iconAsset": {
+        "path": "vendor-icons/a57fcff6994c83bd2acc0ea84d8b950b0ace6e00c1bf25d9abc7d15704de73db.png",
+        "sha256": "a57fcff6994c83bd2acc0ea84d8b950b0ace6e00c1bf25d9abc7d15704de73db",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "moonshot",
@@ -1843,7 +1904,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 11
+      "order": 11,
+      "iconAsset": {
+        "path": "vendor-icons/b963e8d74a9a4f6986fee2662e333ae4b4379f0553c8bf9eee50d40a3077014f.ico",
+        "sha256": "b963e8d74a9a4f6986fee2662e333ae4b4379f0553c8bf9eee50d40a3077014f",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "alibaba",
@@ -2190,7 +2256,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 12
+      "order": 12,
+      "iconAsset": {
+        "path": "vendor-icons/1c6a24d10ef34a6f255c75e0ecf47b5138e681c31eb47c846f0bf80601d1a04f.png",
+        "sha256": "1c6a24d10ef34a6f255c75e0ecf47b5138e681c31eb47c846f0bf80601d1a04f",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "tencent",
@@ -2483,7 +2554,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 13
+      "order": 13,
+      "iconAsset": {
+        "path": "vendor-icons/a4f9bdeedcbc3851f15a234da08ed2bd34e84f384e597e59175677601106c924.png",
+        "sha256": "a4f9bdeedcbc3851f15a234da08ed2bd34e84f384e597e59175677601106c924",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "zhipu",
@@ -2569,7 +2645,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 14
+      "order": 14,
+      "iconAsset": {
+        "path": "vendor-icons/3e979232af050c67d2a8ceda1359e6b38301f6d9d6b00ac9c7e0e8a77df167ea.png",
+        "sha256": "3e979232af050c67d2a8ceda1359e6b38301f6d9d6b00ac9c7e0e8a77df167ea",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "midjourney",
@@ -2672,7 +2753,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 16
+      "order": 16,
+      "iconAsset": {
+        "path": "vendor-icons/f545e0e706d0c6be0e8602a8e8d685d4f43ab72880bd5e6a234916e765ff2b70.png",
+        "sha256": "f545e0e706d0c6be0e8602a8e8d685d4f43ab72880bd5e6a234916e765ff2b70",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "elevenlabs",
@@ -2759,7 +2845,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 17
+      "order": 17,
+      "iconAsset": {
+        "path": "vendor-icons/7936b8ae0c53b049edec573876bfb2b44b450fdce10675bd98f29182833d373e.png",
+        "sha256": "7936b8ae0c53b049edec573876bfb2b44b450fdce10675bd98f29182833d373e",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "suno",
@@ -2798,7 +2889,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 18
+      "order": 18,
+      "iconAsset": {
+        "path": "vendor-icons/839eb38c2561de2d792fcba7d89715ff6b4568306bb75baab92ac535aed7701c.jpg",
+        "sha256": "839eb38c2561de2d792fcba7d89715ff6b4568306bb75baab92ac535aed7701c",
+        "mimeType": "image/jpeg"
+      }
     },
     {
       "id": "lmstudio",
@@ -2844,7 +2940,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 19
+      "order": 19,
+      "iconAsset": {
+        "path": "vendor-icons/e79ff2ac0fece5c0a76fcb8b20a29226794d11824ee7c7a2f521dcde0f88e12b.png",
+        "sha256": "e79ff2ac0fece5c0a76fcb8b20a29226794d11824ee7c7a2f521dcde0f88e12b",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "nomic",
@@ -2890,7 +2991,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 20
+      "order": 20,
+      "iconAsset": {
+        "path": "vendor-icons/0dd387932d2066d3bb8cabadb52470a961ec902b4886b4202ada59de1191718b.png",
+        "sha256": "0dd387932d2066d3bb8cabadb52470a961ec902b4886b4202ada59de1191718b",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "mintplex",
@@ -2936,7 +3042,12 @@
       ],
       "iconUrl": "",
       "enabled": true,
-      "order": 21
+      "order": 21,
+      "iconAsset": {
+        "path": "vendor-icons/4a650703d2de75f4223c41c10fca33d7114ecf95a83a5f46d1ced3abedc31aa9.png",
+        "sha256": "4a650703d2de75f4223c41c10fca33d7114ecf95a83a5f46d1ced3abedc31aa9",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "meta",
@@ -3022,7 +3133,12 @@
         }
       ],
       "enabled": true,
-      "order": 22
+      "order": 22,
+      "iconAsset": {
+        "path": "vendor-icons/bbb79831877fea12041592faa8275afcfe41ee9f0cf005752be23122ce4d9976.png",
+        "sha256": "bbb79831877fea12041592faa8275afcfe41ee9f0cf005752be23122ce4d9976",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "amazon",
@@ -3142,7 +3258,12 @@
         }
       ],
       "enabled": true,
-      "order": 23
+      "order": 23,
+      "iconAsset": {
+        "path": "vendor-icons/eaf4e3a56ad089982e2b06d1d7bcbded64b24b7df946a3991ad8fcc778ee46c6.png",
+        "sha256": "eaf4e3a56ad089982e2b06d1d7bcbded64b24b7df946a3991ad8fcc778ee46c6",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "xai",
@@ -3205,7 +3326,12 @@
         }
       ],
       "enabled": true,
-      "order": 24
+      "order": 24,
+      "iconAsset": {
+        "path": "vendor-icons/50de0e62f8e778bc221ebc89846931ba89fd94c69790468494f86b047ff79f0f.png",
+        "sha256": "50de0e62f8e778bc221ebc89846931ba89fd94c69790468494f86b047ff79f0f",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "mistral",
@@ -3297,7 +3423,12 @@
         }
       ],
       "enabled": true,
-      "order": 25
+      "order": 25,
+      "iconAsset": {
+        "path": "vendor-icons/8a1c91c5df671d58c3b3219885511860e5c77144c9acec97b8d58415628805ba.png",
+        "sha256": "8a1c91c5df671d58c3b3219885511860e5c77144c9acec97b8d58415628805ba",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "cohere",
@@ -3360,7 +3491,12 @@
         }
       ],
       "enabled": true,
-      "order": 26
+      "order": 26,
+      "iconAsset": {
+        "path": "vendor-icons/3403a04361a061b7e765e85e746b961a601a73015d4569baef9e781ec89a0286.png",
+        "sha256": "3403a04361a061b7e765e85e746b961a601a73015d4569baef9e781ec89a0286",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "perplexity",
@@ -3470,7 +3606,12 @@
         }
       ],
       "enabled": true,
-      "order": 27
+      "order": 27,
+      "iconAsset": {
+        "path": "vendor-icons/66b8e337b8bec26ef2014dad60642867fff2f020c02c17dfeb4763cd416d4e71.png",
+        "sha256": "66b8e337b8bec26ef2014dad60642867fff2f020c02c17dfeb4763cd416d4e71",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "baidu",
@@ -3592,7 +3733,12 @@
         }
       ],
       "enabled": true,
-      "order": 28
+      "order": 28,
+      "iconAsset": {
+        "path": "vendor-icons/c70088079fe9441a726c66ce0e73ae38315ec80051d3dd542c41b82fa0a1993a.ico",
+        "sha256": "c70088079fe9441a726c66ce0e73ae38315ec80051d3dd542c41b82fa0a1993a",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "minimax",
@@ -3731,7 +3877,12 @@
         }
       ],
       "enabled": true,
-      "order": 29
+      "order": 29,
+      "iconAsset": {
+        "path": "vendor-icons/22f67fd8f681ae6dd3891a26d934315abc589c44fa541f1bbb63d6506e859e8b.png",
+        "sha256": "22f67fd8f681ae6dd3891a26d934315abc589c44fa541f1bbb63d6506e859e8b",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "01ai",
@@ -3792,7 +3943,12 @@
         }
       ],
       "enabled": true,
-      "order": 30
+      "order": 30,
+      "iconAsset": {
+        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
+        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "baichuan",
@@ -3855,7 +4011,12 @@
         }
       ],
       "enabled": true,
-      "order": 31
+      "order": 31,
+      "iconAsset": {
+        "path": "vendor-icons/7c3431cf2fba38d9ccce1a0166943f8d4ac15a53a28efd80e1812e54a044fd98.png",
+        "sha256": "7c3431cf2fba38d9ccce1a0166943f8d4ac15a53a28efd80e1812e54a044fd98",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "kuaishou",
@@ -3894,7 +4055,12 @@
         }
       ],
       "enabled": true,
-      "order": 32
+      "order": 32,
+      "iconAsset": {
+        "path": "vendor-icons/6cb6f7857be8c718a6d6768da67389e169abdacbe5402933378a19a812da9995.png",
+        "sha256": "6cb6f7857be8c718a6d6768da67389e169abdacbe5402933378a19a812da9995",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "sensetime",
@@ -3933,7 +4099,12 @@
         }
       ],
       "enabled": true,
-      "order": 33
+      "order": 33,
+      "iconAsset": {
+        "path": "vendor-icons/bf17338c27e13784346a1d494d6b9d0f930b6da3fb71e3e9290620d72bff6fb7.png",
+        "sha256": "bf17338c27e13784346a1d494d6b9d0f930b6da3fb71e3e9290620d72bff6fb7",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "stability",
@@ -4019,7 +4190,12 @@
         }
       ],
       "enabled": true,
-      "order": 34
+      "order": 34,
+      "iconAsset": {
+        "path": "vendor-icons/506d00e5c45719aa426bff790c3defb0fbc8c9b954c51597f667ed17dc1e2c68.png",
+        "sha256": "506d00e5c45719aa426bff790c3defb0fbc8c9b954c51597f667ed17dc1e2c68",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "pika",
@@ -4144,7 +4320,12 @@
         }
       ],
       "enabled": true,
-      "order": 36
+      "order": 36,
+      "iconAsset": {
+        "path": "vendor-icons/60b3c10c98bd2680db003867193dd1ed79ab1ed7a297d6bea3fc22188551c11f.png",
+        "sha256": "60b3c10c98bd2680db003867193dd1ed79ab1ed7a297d6bea3fc22188551c11f",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "huggingface",
@@ -4212,7 +4393,12 @@
         }
       ],
       "enabled": true,
-      "order": 37
+      "order": 37,
+      "iconAsset": {
+        "path": "vendor-icons/2beab7574ed81434d9f8ee9c0f18bd505756c97b9b8d6746197529a2c88b6533.png",
+        "sha256": "2beab7574ed81434d9f8ee9c0f18bd505756c97b9b8d6746197529a2c88b6533",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "replicate",
@@ -4274,7 +4460,12 @@
         }
       ],
       "enabled": true,
-      "order": 38
+      "order": 38,
+      "iconAsset": {
+        "path": "vendor-icons/f37c94aa13c296973edb190f845161aaf4dc80eb18165e44bca1c090a7b638ae.png",
+        "sha256": "f37c94aa13c296973edb190f845161aaf4dc80eb18165e44bca1c090a7b638ae",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "together",
@@ -4336,7 +4527,12 @@
         }
       ],
       "enabled": true,
-      "order": 39
+      "order": 39,
+      "iconAsset": {
+        "path": "vendor-icons/f81b2378ae32ee8d794f4651831fbbd8299dea9f27a95c92455af83fa5e1f7ad.png",
+        "sha256": "f81b2378ae32ee8d794f4651831fbbd8299dea9f27a95c92455af83fa5e1f7ad",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "groq",
@@ -4398,7 +4594,12 @@
         }
       ],
       "enabled": true,
-      "order": 40
+      "order": 40,
+      "iconAsset": {
+        "path": "vendor-icons/a405251668eb7c06e11be4c79dcc811094d8923facf5795a6f6af7165c325b75.png",
+        "sha256": "a405251668eb7c06e11be4c79dcc811094d8923facf5795a6f6af7165c325b75",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "nvidia",
@@ -4560,7 +4761,12 @@
         }
       ],
       "enabled": true,
-      "order": 41
+      "order": 41,
+      "iconAsset": {
+        "path": "vendor-icons/bedcb14e0470ff8abe26405a630e9604ac4fa581b385a7cfb00420c22f541b6e.ico",
+        "sha256": "bedcb14e0470ff8abe26405a630e9604ac4fa581b385a7cfb00420c22f541b6e",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "openclaw",
@@ -4664,7 +4870,12 @@
         }
       ],
       "enabled": true,
-      "order": 42
+      "order": 42,
+      "iconAsset": {
+        "path": "vendor-icons/e8c7ce0a3a6c52bd904cc55e31a5b3a8b6392dcd70ba9e220ecf0ef1d6bd8c16.png",
+        "sha256": "e8c7ce0a3a6c52bd904cc55e31a5b3a8b6392dcd70ba9e220ecf0ef1d6bd8c16",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "nousresearch",
@@ -4738,7 +4949,12 @@
         }
       ],
       "enabled": true,
-      "order": 43
+      "order": 43,
+      "iconAsset": {
+        "path": "vendor-icons/8ebc732956a301137cca3f1cd9118158cbaed2cc0ae310d96c9a26a4b0c5a4de.ico",
+        "sha256": "8ebc732956a301137cca3f1cd9118158cbaed2cc0ae310d96c9a26a4b0c5a4de",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "cline",
@@ -4776,7 +4992,12 @@
         }
       ],
       "enabled": true,
-      "order": 44
+      "order": 44,
+      "iconAsset": {
+        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
+        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "anomalyco",
@@ -4822,7 +5043,12 @@
         }
       ],
       "enabled": true,
-      "order": 45
+      "order": 45,
+      "iconAsset": {
+        "path": "vendor-icons/2f2d5687a641f7fc1c3931072249a5984660375c091064fe8b374e4e43a8656c.png",
+        "sha256": "2f2d5687a641f7fc1c3931072249a5984660375c091064fe8b374e4e43a8656c",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "langchain",
@@ -4860,7 +5086,12 @@
         }
       ],
       "enabled": true,
-      "order": 46
+      "order": 46,
+      "iconAsset": {
+        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
+        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "crewai",
@@ -4898,7 +5129,12 @@
         }
       ],
       "enabled": true,
-      "order": 47
+      "order": 47,
+      "iconAsset": {
+        "path": "vendor-icons/6c99302f3c9d539063e4fbff0c087b26d3e45d76b8272ae0c29d23b87a47a4f6.png",
+        "sha256": "6c99302f3c9d539063e4fbff0c087b26d3e45d76b8272ae0c29d23b87a47a4f6",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "openwebui",
@@ -4948,7 +5184,12 @@
         }
       ],
       "enabled": true,
-      "order": 48
+      "order": 48,
+      "iconAsset": {
+        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
+        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "jan",
@@ -4998,7 +5239,12 @@
         }
       ],
       "enabled": true,
-      "order": 49
+      "order": 49,
+      "iconAsset": {
+        "path": "vendor-icons/c47adcf162dbbe759249ca97256f9e78b5391b4457b90ef4e21af0743e112c1c.png",
+        "sha256": "c47adcf162dbbe759249ca97256f9e78b5391b4457b90ef4e21af0743e112c1c",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "cherryhq",
@@ -5048,7 +5294,12 @@
         }
       ],
       "enabled": true,
-      "order": 50
+      "order": 50,
+      "iconAsset": {
+        "path": "vendor-icons/5f742ba1de17aac360cffbc1ab77aac3cfa1632cf8be0abe66cc3f97dc719b8b.png",
+        "sha256": "5f742ba1de17aac360cffbc1ab77aac3cfa1632cf8be0abe66cc3f97dc719b8b",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "chatboxai",
@@ -5098,7 +5349,12 @@
         }
       ],
       "enabled": true,
-      "order": 51
+      "order": 51,
+      "iconAsset": {
+        "path": "vendor-icons/97ca90e508849dc5ae71c30dec311bcd704e9134cd33964c9179caeb6a82ee04.png",
+        "sha256": "97ca90e508849dc5ae71c30dec311bcd704e9134cd33964c9179caeb6a82ee04",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "msty",
@@ -5218,7 +5474,12 @@
         }
       ],
       "enabled": true,
-      "order": 52
+      "order": 52,
+      "iconAsset": {
+        "path": "vendor-icons/b52dd02131ab4ece3cc971dc9ccea29a4a8514bdeb68e39bcdd224c5cf606044.webp",
+        "sha256": "b52dd02131ab4ece3cc971dc9ccea29a4a8514bdeb68e39bcdd224c5cf606044",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "lobehub",
@@ -5268,7 +5529,12 @@
         }
       ],
       "enabled": true,
-      "order": 53
+      "order": 53,
+      "iconAsset": {
+        "path": "vendor-icons/78c02223aadcd181f25e71adb28bc3b7a12d1561170ae61af68b851894bd2b13.webp",
+        "sha256": "78c02223aadcd181f25e71adb28bc3b7a12d1561170ae61af68b851894bd2b13",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "pieces",
@@ -5318,7 +5584,12 @@
         }
       ],
       "enabled": true,
-      "order": 54
+      "order": 54,
+      "iconAsset": {
+        "path": "vendor-icons/77e6d88a89aee45e06aabe5bfab2603ac367444b32d4d94d0463a5152e6e91a5.svg",
+        "sha256": "77e6d88a89aee45e06aabe5bfab2603ac367444b32d4d94d0463a5152e6e91a5",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "windsurf",
@@ -5368,7 +5639,12 @@
         }
       ],
       "enabled": true,
-      "order": 55
+      "order": 55,
+      "iconAsset": {
+        "path": "vendor-icons/8724ba9cc5fbc34281500e69ca0a37954d391da196caa3909599962cbccd6c2d.png",
+        "sha256": "8724ba9cc5fbc34281500e69ca0a37954d391da196caa3909599962cbccd6c2d",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "warp",
@@ -5418,7 +5694,12 @@
         }
       ],
       "enabled": true,
-      "order": 56
+      "order": 56,
+      "iconAsset": {
+        "path": "vendor-icons/ecc8232e177681aefc52c5df63ce41c89c9b30b62724150d619724fda9efe819.png",
+        "sha256": "ecc8232e177681aefc52c5df63ce41c89c9b30b62724150d619724fda9efe819",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "zed-industries",
@@ -5468,7 +5749,12 @@
         }
       ],
       "enabled": true,
-      "order": 57
+      "order": 57,
+      "iconAsset": {
+        "path": "vendor-icons/e6d703fa4b26308665ef48a2a75029703f7efbafa4727095514a47f1838cace0.png",
+        "sha256": "e6d703fa4b26308665ef48a2a75029703f7efbafa4727095514a47f1838cace0",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "raycast",
@@ -5518,7 +5804,12 @@
         }
       ],
       "enabled": true,
-      "order": 58
+      "order": 58,
+      "iconAsset": {
+        "path": "vendor-icons/dfb8e06943ab2ce35278cda54b137137442d01094bbcf92d7d649a2d1e186043.png",
+        "sha256": "dfb8e06943ab2ce35278cda54b137137442d01094bbcf92d7d649a2d1e186043",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "manus",
@@ -5573,7 +5864,12 @@
         }
       ],
       "enabled": true,
-      "order": 59
+      "order": 59,
+      "iconAsset": {
+        "path": "vendor-icons/f2d85a63d5b04117183ec4650d7b897583c902aae5349148c187c62478169cb6.png",
+        "sha256": "f2d85a63d5b04117183ec4650d7b897583c902aae5349148c187c62478169cb6",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "quora",
@@ -5628,7 +5924,12 @@
         }
       ],
       "enabled": true,
-      "order": 60
+      "order": 60,
+      "iconAsset": {
+        "path": "vendor-icons/d37a7abdcf39b4c1933b7e3bec349f266e5942e510e517275182b81151442542.jpg",
+        "sha256": "d37a7abdcf39b4c1933b7e3bec349f266e5942e510e517275182b81151442542",
+        "mimeType": "image/jpeg"
+      }
     },
     {
       "id": "pinokio",
@@ -5678,7 +5979,12 @@
         }
       ],
       "enabled": true,
-      "order": 61
+      "order": 61,
+      "iconAsset": {
+        "path": "vendor-icons/c985dd42b49a67e2f0ab6272d8b081e827f3e7de03284e2ae244540224d72de6.png",
+        "sha256": "c985dd42b49a67e2f0ab6272d8b081e827f3e7de03284e2ae244540224d72de6",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "lykos-ai",
@@ -5728,7 +6034,12 @@
         }
       ],
       "enabled": true,
-      "order": 62
+      "order": 62,
+      "iconAsset": {
+        "path": "vendor-icons/8f18812c6f5ab2e1a6f3bbfefc7bc2aad7ff6efc9d2c2eb3c33add8fff639038.svg",
+        "sha256": "8f18812c6f5ab2e1a6f3bbfefc7bc2aad7ff6efc9d2c2eb3c33add8fff639038",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "intel",
@@ -5778,7 +6089,12 @@
         }
       ],
       "enabled": true,
-      "order": 63
+      "order": 63,
+      "iconAsset": {
+        "path": "vendor-icons/088c63817baec01eaac723c25a5845feaf35f6483a41029484aa43fae35e3a4e.png",
+        "sha256": "088c63817baec01eaac723c25a5845feaf35f6483a41029484aa43fae35e3a4e",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "amd",
@@ -5828,7 +6144,12 @@
         }
       ],
       "enabled": true,
-      "order": 64
+      "order": 64,
+      "iconAsset": {
+        "path": "vendor-icons/028434e4bbb42cfd4554998bd89f7e6eb71f32a2cbc8ca618d0470280cd1e28a.ico",
+        "sha256": "028434e4bbb42cfd4554998bd89f7e6eb71f32a2cbc8ca618d0470280cd1e28a",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "aaif",
@@ -5878,7 +6199,12 @@
         }
       ],
       "enabled": true,
-      "order": 65
+      "order": 65,
+      "iconAsset": {
+        "path": "vendor-icons/d319c78cc9d8c4c2573b3a0961ff7b59ba8214ca9bc9af30087d0861bbfbfd69.png",
+        "sha256": "d319c78cc9d8c4c2573b3a0961ff7b59ba8214ca9bc9af30087d0861bbfbfd69",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "thinkinai",
@@ -5928,7 +6254,12 @@
         }
       ],
       "enabled": true,
-      "order": 66
+      "order": 66,
+      "iconAsset": {
+        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
+        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "fiveire",
@@ -5978,7 +6309,12 @@
         }
       ],
       "enabled": true,
-      "order": 67
+      "order": 67,
+      "iconAsset": {
+        "path": "vendor-icons/0fcc3677be4ed212c587c22b1207d0edd9340a181316082996d61f72d898c330.png",
+        "sha256": "0fcc3677be4ed212c587c22b1207d0edd9340a181316082996d61f72d898c330",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "browseros",
@@ -6028,7 +6364,12 @@
         }
       ],
       "enabled": true,
-      "order": 68
+      "order": 68,
+      "iconAsset": {
+        "path": "vendor-icons/9e4e3ab826060e33e64f9a1e20684e2ce2f4cb213a51785416f7507d1b1227ea.png",
+        "sha256": "9e4e3ab826060e33e64f9a1e20684e2ce2f4cb213a51785416f7507d1b1227ea",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "genspark",
@@ -6198,7 +6539,12 @@
         }
       ],
       "enabled": true,
-      "order": 70
+      "order": 70,
+      "iconAsset": {
+        "path": "vendor-icons/46879e0991b68f0d6759eec8bd7e3f416dde30247f18a999e29f318aa92741f3.png",
+        "sha256": "46879e0991b68f0d6759eec8bd7e3f416dde30247f18a999e29f318aa92741f3",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "lostruins",
@@ -6248,7 +6594,12 @@
         }
       ],
       "enabled": true,
-      "order": 71
+      "order": 71,
+      "iconAsset": {
+        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
+        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "deepl",
@@ -6303,7 +6654,12 @@
         }
       ],
       "enabled": true,
-      "order": 72
+      "order": 72,
+      "iconAsset": {
+        "path": "vendor-icons/cc51785759c7b70705f1c343a4954579d25c043cec027c232d3c69786abd5649.png",
+        "sha256": "cc51785759c7b70705f1c343a4954579d25c043cec027c232d3c69786abd5649",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "grammarly",
@@ -6358,7 +6714,12 @@
         }
       ],
       "enabled": true,
-      "order": 73
+      "order": 73,
+      "iconAsset": {
+        "path": "vendor-icons/89df91925aef73d98ed5b38541213fa88a4235cd1b8c8344a54cede59b9a5bbe.png",
+        "sha256": "89df91925aef73d98ed5b38541213fa88a4235cd1b8c8344a54cede59b9a5bbe",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "notion",
@@ -6437,7 +6798,12 @@
         }
       ],
       "enabled": true,
-      "order": 74
+      "order": 74,
+      "iconAsset": {
+        "path": "vendor-icons/483846a85e43e22879445047b83b22033e70fcc25ab34809ebadb7f856507ee0.png",
+        "sha256": "483846a85e43e22879445047b83b22033e70fcc25ab34809ebadb7f856507ee0",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "descript",
@@ -6487,7 +6853,12 @@
         }
       ],
       "enabled": true,
-      "order": 75
+      "order": 75,
+      "iconAsset": {
+        "path": "vendor-icons/061f30ff5cbe2f60d3664cc95dd3c39c4bbb2a1d5770ee9ffababbdd65ed80b6.png",
+        "sha256": "061f30ff5cbe2f60d3664cc95dd3c39c4bbb2a1d5770ee9ffababbdd65ed80b6",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "read-ai",
@@ -6537,7 +6908,12 @@
         }
       ],
       "enabled": true,
-      "order": 76
+      "order": 76,
+      "iconAsset": {
+        "path": "vendor-icons/12f4e478c92b472b7d0afcb1b9dd02f305e4f27d3b23b8a95b07cc15b1898010.png",
+        "sha256": "12f4e478c92b472b7d0afcb1b9dd02f305e4f27d3b23b8a95b07cc15b1898010",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "canva",
@@ -6613,10 +6989,39 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "affinity",
+          "enabled": true,
+          "order": 2,
+          "directoryKind": "ai-connectable",
+          "name": "Affinity",
+          "kind": "桌面端",
+          "category": "图像与设计",
+          "description": "Windows 图像、矢量与排版工具，官方 AI Connector 当前只提供 Claude 接入说明。",
+          "website": "https://www.affinity.studio/",
+          "tutorial": "https://www.canva.com/newsroom/news/canva-create-2026-launches/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
         }
       ],
       "enabled": true,
-      "order": 77
+      "order": 77,
+      "iconAsset": {
+        "path": "vendor-icons/b23d0e168099353085c10dfd1fd2f730014400e738645ccff6b1ed758af012ef.png",
+        "sha256": "b23d0e168099353085c10dfd1fd2f730014400e738645ccff6b1ed758af012ef",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "wondershare",
@@ -6771,7 +7176,12 @@
         }
       ],
       "enabled": true,
-      "order": 78
+      "order": 78,
+      "iconAsset": {
+        "path": "vendor-icons/fffb04270461d651b1c6c1c96ec81e6846b2516ca7bf7da34d33825f107a734d.ico",
+        "sha256": "fffb04270461d651b1c6c1c96ec81e6846b2516ca7bf7da34d33825f107a734d",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "skylum",
@@ -6941,7 +7351,12 @@
         }
       ],
       "enabled": true,
-      "order": 80
+      "order": 80,
+      "iconAsset": {
+        "path": "vendor-icons/3581778748092b978d1946f28b55a8a7a1a09bb21e5da4c6ee3356f9e65dc08c.png",
+        "sha256": "3581778748092b978d1946f28b55a8a7a1a09bb21e5da4c6ee3356f9e65dc08c",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "moises",
@@ -7026,7 +7441,12 @@
         }
       ],
       "enabled": true,
-      "order": 81
+      "order": 81,
+      "iconAsset": {
+        "path": "vendor-icons/994be997c02cf2868fc0a6284864fc91f1b2975a181b25408ae115b4c437d4ba.png",
+        "sha256": "994be997c02cf2868fc0a6284864fc91f1b2975a181b25408ae115b4c437d4ba",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "voicemod",
@@ -7076,7 +7496,12 @@
         }
       ],
       "enabled": true,
-      "order": 82
+      "order": 82,
+      "iconAsset": {
+        "path": "vendor-icons/97f7d3a6a97333f01d151db09ae86133cd58c5cd9b42073c365d051ac551f1d9.png",
+        "sha256": "97f7d3a6a97333f01d151db09ae86133cd58c5cd9b42073c365d051ac551f1d9",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "lalalai",
@@ -7131,7 +7556,12 @@
         }
       ],
       "enabled": true,
-      "order": 83
+      "order": 83,
+      "iconAsset": {
+        "path": "vendor-icons/2c6f68f3ed402925b4eb907b40a88f0d91dac546a7bd01cec28857b9b26a5806.png",
+        "sha256": "2c6f68f3ed402925b4eb907b40a88f0d91dac546a7bd01cec28857b9b26a5806",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "otterai",
@@ -7186,7 +7616,12 @@
         }
       ],
       "enabled": true,
-      "order": 84
+      "order": 84,
+      "iconAsset": {
+        "path": "vendor-icons/c3c1e1bd914136b91d541da523a65b0ae02bfe4602530356b5187f1139adacae.png",
+        "sha256": "c3c1e1bd914136b91d541da523a65b0ae02bfe4602530356b5187f1139adacae",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "firefliesai",
@@ -7241,7 +7676,12 @@
         }
       ],
       "enabled": true,
-      "order": 85
+      "order": 85,
+      "iconAsset": {
+        "path": "vendor-icons/6bec3ebd0ef7bca5053c76ca55cdb59efd17604ce63f9ae47c80c3298f563b7b.png",
+        "sha256": "6bec3ebd0ef7bca5053c76ca55cdb59efd17604ce63f9ae47c80c3298f563b7b",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "fathom",
@@ -7296,7 +7736,12 @@
         }
       ],
       "enabled": true,
-      "order": 86
+      "order": 86,
+      "iconAsset": {
+        "path": "vendor-icons/6c724fc21164caa5262adc675db0410af3324f45dce3c35bc6755bb2ed495446.png",
+        "sha256": "6c724fc21164caa5262adc675db0410af3324f45dce3c35bc6755bb2ed495446",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "granola",
@@ -7346,7 +7791,12 @@
         }
       ],
       "enabled": true,
-      "order": 87
+      "order": 87,
+      "iconAsset": {
+        "path": "vendor-icons/906af4dff73c2ea4cc10601974f9855ae25d965c09679e62ffe84091e29dafbd.png",
+        "sha256": "906af4dff73c2ea4cc10601974f9855ae25d965c09679e62ffe84091e29dafbd",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "krisp",
@@ -7396,7 +7846,12 @@
         }
       ],
       "enabled": true,
-      "order": 88
+      "order": 88,
+      "iconAsset": {
+        "path": "vendor-icons/ccb15b692487dd76fa7dd4d47100c2c4f04d99f756a90faba16569c404157028.png",
+        "sha256": "ccb15b692487dd76fa7dd4d47100c2c4f04d99f756a90faba16569c404157028",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "wisprflow",
@@ -7446,7 +7901,12 @@
         }
       ],
       "enabled": true,
-      "order": 89
+      "order": 89,
+      "iconAsset": {
+        "path": "vendor-icons/bcd62d7ca4ecd8dfc0e427d9834958a51860a8613fc384b636ed99f0ca453371.png",
+        "sha256": "bcd62d7ca4ecd8dfc0e427d9834958a51860a8613fc384b636ed99f0ca453371",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "qihoo360",
@@ -7636,7 +8096,12 @@
         }
       ],
       "enabled": true,
-      "order": 90
+      "order": 90,
+      "iconAsset": {
+        "path": "vendor-icons/1021e4ed40b71ac80fd412ff345f39a861a6adb029408a04760af1e79e3bf799.ico",
+        "sha256": "1021e4ed40b71ac80fd412ff345f39a861a6adb029408a04760af1e79e3bf799",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "iflytek",
@@ -7761,7 +8226,12 @@
         }
       ],
       "enabled": true,
-      "order": 91
+      "order": 91,
+      "iconAsset": {
+        "path": "vendor-icons/108902094e31ce86a5a16d36f03868f194539ac18979db86b6bbfacb43045b8f.jpg",
+        "sha256": "108902094e31ce86a5a16d36f03868f194539ac18979db86b6bbfacb43045b8f",
+        "mimeType": "image/jpeg"
+      }
     },
     {
       "id": "youdao",
@@ -7891,7 +8361,12 @@
         }
       ],
       "enabled": true,
-      "order": 92
+      "order": 92,
+      "iconAsset": {
+        "path": "vendor-icons/a676340a10eaf66f819ac6f93b9b8a92eebd304743d0017aaf2f9cdf5614608a.png",
+        "sha256": "a676340a10eaf66f819ac6f93b9b8a92eebd304743d0017aaf2f9cdf5614608a",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "laiye",
@@ -7941,7 +8416,12 @@
         }
       ],
       "enabled": true,
-      "order": 93
+      "order": 93,
+      "iconAsset": {
+        "path": "vendor-icons/e1ba8fb90595928ff4c6cae755ddf04bed236d4b8d46488ad1a56cbd674bc516.png",
+        "sha256": "e1ba8fb90595928ff4c6cae755ddf04bed236d4b8d46488ad1a56cbd674bc516",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "skywork",
@@ -7996,7 +8476,12 @@
         }
       ],
       "enabled": true,
-      "order": 94
+      "order": 94,
+      "iconAsset": {
+        "path": "vendor-icons/928f41d2198a7e88075b7ea7205db0237702a07abe3abc84052910ed35eb7277.png",
+        "sha256": "928f41d2198a7e88075b7ea7205db0237702a07abe3abc84052910ed35eb7277",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "monica",
@@ -8051,7 +8536,12 @@
         }
       ],
       "enabled": true,
-      "order": 95
+      "order": 95,
+      "iconAsset": {
+        "path": "vendor-icons/e0989666118032536d55ded091a1ecd6886b85df9eaad8c9f4b92c2ae4ed20ac.png",
+        "sha256": "e0989666118032536d55ded091a1ecd6886b85df9eaad8c9f4b92c2ae4ed20ac",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "kingsoft",
@@ -8106,7 +8596,12 @@
         }
       ],
       "enabled": true,
-      "order": 96
+      "order": 96,
+      "iconAsset": {
+        "path": "vendor-icons/974402efc5dbbc84c0d5b9a0f2b4033a090d5714836b49cde8c619d4890f92b5.png",
+        "sha256": "974402efc5dbbc84c0d5b9a0f2b4033a090d5714836b49cde8c619d4890f92b5",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "xmind",
@@ -8161,7 +8656,12 @@
         }
       ],
       "enabled": true,
-      "order": 97
+      "order": 97,
+      "iconAsset": {
+        "path": "vendor-icons/d61cdbb5f86bc806cfd97e99ea2f87f0bd53191cb6e5a45d6da9ce58de5a599c.webp",
+        "sha256": "d61cdbb5f86bc806cfd97e99ea2f87f0bd53191cb6e5a45d6da9ce58de5a599c",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "meitu",
@@ -8246,7 +8746,12 @@
         }
       ],
       "enabled": true,
-      "order": 98
+      "order": 98,
+      "iconAsset": {
+        "path": "vendor-icons/03b49c30eaa69b81b3a162608fa514a7174aacef4456c7177ea7da9d4dabcad7.svg",
+        "sha256": "03b49c30eaa69b81b3a162608fa514a7174aacef4456c7177ea7da9d4dabcad7",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "yingdao",
@@ -8296,7 +8801,12 @@
         }
       ],
       "enabled": true,
-      "order": 99
+      "order": 99,
+      "iconAsset": {
+        "path": "vendor-icons/75ed3e09db048119f99bd9bb4d05d7bad2b5b9894a7b098c96cd738411b3241d.png",
+        "sha256": "75ed3e09db048119f99bd9bb4d05d7bad2b5b9894a7b098c96cd738411b3241d",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "unity-technologies",
@@ -8387,7 +8897,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/3fdf0b9149ea23a695bb22498a0f7af3b9ff66d4274dc30d6da497e640b31d8b.ico",
+        "sha256": "3fdf0b9149ea23a695bb22498a0f7af3b9ff66d4274dc30d6da497e640b31d8b",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "oray",
@@ -8442,7 +8957,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/fa4e55d65eed880d7147576d3cc1239956e036f279211fd5e2562d00d3d0ece0.png",
+        "sha256": "fa4e55d65eed880d7147576d3cc1239956e036f279211fd5e2562d00d3d0ece0",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "figma",
@@ -8481,7 +9001,12 @@
           ]
         }
       ],
-      "order": 102
+      "order": 102,
+      "iconAsset": {
+        "path": "vendor-icons/9dcf5f02c319af4c130fc365042f1abf259f7d788299e2670753276c8febee39.png",
+        "sha256": "9dcf5f02c319af4c130fc365042f1abf259f7d788299e2670753276c8febee39",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "atlassian",
@@ -8568,7 +9093,12 @@
           ]
         }
       ],
-      "order": 103
+      "order": 103,
+      "iconAsset": {
+        "path": "vendor-icons/54a4140b008fed64cbe5a054ae08c39ffafe73cad4ce3cfb2b1b78bb08738781.png",
+        "sha256": "54a4140b008fed64cbe5a054ae08c39ffafe73cad4ce3cfb2b1b78bb08738781",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "docker",
@@ -8607,7 +9137,12 @@
           ]
         }
       ],
-      "order": 104
+      "order": 104,
+      "iconAsset": {
+        "path": "vendor-icons/b8fa2b06988d794701063c52f76f271d9affb815363f614e2b6cca57236a8c71.webp",
+        "sha256": "b8fa2b06988d794701063c52f76f271d9affb815363f614e2b6cca57236a8c71",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "cloudflare",
@@ -8646,7 +9181,12 @@
           ]
         }
       ],
-      "order": 105
+      "order": 105,
+      "iconAsset": {
+        "path": "vendor-icons/5414bc6e4b3f6e10f99b5d37abf4420da4dcaece66f8f2c08e090e87267adbc5.png",
+        "sha256": "5414bc6e4b3f6e10f99b5d37abf4420da4dcaece66f8f2c08e090e87267adbc5",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "linear",
@@ -8685,7 +9225,12 @@
           ]
         }
       ],
-      "order": 106
+      "order": 106,
+      "iconAsset": {
+        "path": "vendor-icons/3d22d53907820245ec1724a4954d3e180b70f21b2552697986b3f141a6730ef7.png",
+        "sha256": "3d22d53907820245ec1724a4954d3e180b70f21b2552697986b3f141a6730ef7",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "sentry",
@@ -8724,7 +9269,12 @@
           ]
         }
       ],
-      "order": 107
+      "order": 107,
+      "iconAsset": {
+        "path": "vendor-icons/49a1d2db07116397feff5454872ecec134df7cad81aa366c0ced3a2940f13355.ico",
+        "sha256": "49a1d2db07116397feff5454872ecec134df7cad81aa366c0ced3a2940f13355",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "stripe",
@@ -8763,7 +9313,12 @@
           ]
         }
       ],
-      "order": 108
+      "order": 108,
+      "iconAsset": {
+        "path": "vendor-icons/50630726cbd85299c64dbb510f051e5d70013abcd620fa2b23be82e618140150.ico",
+        "sha256": "50630726cbd85299c64dbb510f051e5d70013abcd620fa2b23be82e618140150",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "supabase",
@@ -8802,7 +9357,12 @@
           ]
         }
       ],
-      "order": 109
+      "order": 109,
+      "iconAsset": {
+        "path": "vendor-icons/47267628af20b00fe9d76b98ed249f4b0a59c0a3555bf9adf77432060d933346.ico",
+        "sha256": "47267628af20b00fe9d76b98ed249f4b0a59c0a3555bf9adf77432060d933346",
+        "mimeType": "image/x-icon"
+      }
     },
     {
       "id": "slack",
@@ -8841,7 +9401,12 @@
           ]
         }
       ],
-      "order": 110
+      "order": 110,
+      "iconAsset": {
+        "path": "vendor-icons/568bd0d33b14abbff1e64bb1cec8e10e7d4d10395c969d9a2f2d36be368a8198.png",
+        "sha256": "568bd0d33b14abbff1e64bb1cec8e10e7d4d10395c969d9a2f2d36be368a8198",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "jetbrains",
@@ -8880,7 +9445,12 @@
           ]
         }
       ],
-      "order": 111
+      "order": 111,
+      "iconAsset": {
+        "path": "vendor-icons/55e86573e99a7687f6cbb4d3e4e43315b2cd17e40e80905dd114c0a725e6390e.webp",
+        "sha256": "55e86573e99a7687f6cbb4d3e4e43315b2cd17e40e80905dd114c0a725e6390e",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "vercel",
@@ -8919,7 +9489,12 @@
           ]
         }
       ],
-      "order": 112
+      "order": 112,
+      "iconAsset": {
+        "path": "vendor-icons/004f0e08cdbab6da3f70ae43ebc8353b12320c68e1162337718febcac3c1ee75.png",
+        "sha256": "004f0e08cdbab6da3f70ae43ebc8353b12320c68e1162337718febcac3c1ee75",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "postman",
@@ -8958,7 +9533,12 @@
           ]
         }
       ],
-      "order": 113
+      "order": 113,
+      "iconAsset": {
+        "path": "vendor-icons/220398d5192622fcb1fbfef612f6fb40b98c199f9e3b35ff154770204a4f332a.png",
+        "sha256": "220398d5192622fcb1fbfef612f6fb40b98c199f9e3b35ff154770204a4f332a",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "asana",
@@ -8997,7 +9577,12 @@
           ]
         }
       ],
-      "order": 114
+      "order": 114,
+      "iconAsset": {
+        "path": "vendor-icons/b1afcf14cdcf1bfe4bbc30fa206b60d4944e6bfafbd998af81dfe9d1fd19a3a2.png",
+        "sha256": "b1afcf14cdcf1bfe4bbc30fa206b60d4944e6bfafbd998af81dfe9d1fd19a3a2",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "hubspot",
@@ -9036,7 +9621,540 @@
           ]
         }
       ],
-      "order": 115
+      "order": 115,
+      "iconAsset": {
+        "path": "vendor-icons/66544353561916e1a5815e2189cbb46ca76dac1af228557f53ca5c63c0212262.webp",
+        "sha256": "66544353561916e1a5815e2189cbb46ca76dac1af228557f53ca5c63c0212262",
+        "mimeType": "image/webp"
+      }
+    },
+    {
+      "id": "blender",
+      "enabled": true,
+      "name": "Blender Foundation",
+      "initial": "B",
+      "mark": "B",
+      "iconUrl": "",
+      "color": "#e87d0d",
+      "description": "维护 Blender 开源 3D 创作套件。",
+      "website": "https://www.blender.org/",
+      "tutorial": "https://www.blender.org/support/",
+      "products": [
+        {
+          "id": "blender",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Blender",
+          "kind": "桌面端",
+          "category": "3D 创作",
+          "description": "Windows 3D 建模、动画和渲染工具，可通过经过审核的社区 MCP 接入 AI 客户端。",
+          "website": "https://www.blender.org/download/",
+          "tutorial": "https://github.com/ahujasid/blender-mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 116,
+      "iconAsset": {
+        "path": "vendor-icons/ece3ba8cda6bd3ab025337b814415cc349474dbce56b6bddf83bdcb50fd486b4.png",
+        "sha256": "ece3ba8cda6bd3ab025337b814415cc349474dbce56b6bddf83bdcb50fd486b4",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "godot",
+      "enabled": true,
+      "name": "Godot Engine",
+      "initial": "G",
+      "mark": "G",
+      "iconUrl": "",
+      "color": "#478cbf",
+      "description": "维护 Godot 开源游戏与交互应用引擎。",
+      "website": "https://godotengine.org/",
+      "tutorial": "https://docs.godotengine.org/",
+      "products": [
+        {
+          "id": "godot-engine",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Godot Engine",
+          "kind": "桌面端",
+          "category": "游戏开发",
+          "description": "Windows 游戏与交互应用引擎，可通过社区 MCP 为 AI 工具提供项目上下文。",
+          "website": "https://godotengine.org/download/windows/",
+          "tutorial": "https://github.com/tomyud1/godot-mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 117,
+      "iconAsset": {
+        "path": "vendor-icons/172e548a2f290b00a912a37428b8391d02c43486bf3d13f1a7318c8b657b9655.png",
+        "sha256": "172e548a2f290b00a912a37428b8391d02c43486bf3d13f1a7318c8b657b9655",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "epic-games",
+      "enabled": true,
+      "name": "Epic Games",
+      "initial": "E",
+      "mark": "E",
+      "iconUrl": "",
+      "color": "#202020",
+      "description": "提供 Unreal Engine 与实时 3D 创作平台。",
+      "website": "https://www.epicgames.com/",
+      "tutorial": "https://dev.epicgames.com/documentation/en-us/unreal-engine/",
+      "products": [
+        {
+          "id": "unreal-engine",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Unreal Engine",
+          "kind": "桌面端",
+          "category": "游戏开发",
+          "description": "实时 3D 与游戏开发引擎；社区 MCP 只能在用户指定项目中工作。",
+          "website": "https://www.unrealengine.com/download",
+          "tutorial": "https://github.com/GenOrca/unreal-mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 118,
+      "iconAsset": {
+        "path": "vendor-icons/66e285da2d83710aaf6319da2bdbc496b8e74fb4cc9f9fcc05da7106055f1f58.png",
+        "sha256": "66e285da2d83710aaf6319da2bdbc496b8e74fb4cc9f9fcc05da7106055f1f58",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "ableton",
+      "enabled": true,
+      "name": "Ableton",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#111111",
+      "description": "提供 Live 音乐制作与现场演出软件。",
+      "website": "https://www.ableton.com/",
+      "tutorial": "https://help.ableton.com/",
+      "products": [
+        {
+          "id": "ableton-live",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Ableton Live",
+          "kind": "桌面端",
+          "category": "音频制作",
+          "description": "Windows 音乐制作软件；社区连接器可控制当前 Live Session。",
+          "website": "https://www.ableton.com/en/trial/",
+          "tutorial": "https://github.com/uisato/ableton-mcp-extended",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 119,
+      "iconAsset": {
+        "path": "vendor-icons/efd39f7c8c0102e6a0e2704f1e129336658fe02dd6971feb080716e36600dbb9.ico",
+        "sha256": "efd39f7c8c0102e6a0e2704f1e129336658fe02dd6971feb080716e36600dbb9",
+        "mimeType": "image/x-icon"
+      }
+    },
+    {
+      "id": "obs-project",
+      "enabled": true,
+      "name": "OBS Project",
+      "initial": "O",
+      "mark": "O",
+      "iconUrl": "",
+      "color": "#302e31",
+      "description": "维护 OBS Studio 直播与录制软件。",
+      "website": "https://obsproject.com/",
+      "tutorial": "https://obsproject.com/kb/",
+      "products": [
+        {
+          "id": "obs-studio",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "OBS Studio",
+          "kind": "桌面端",
+          "category": "直播与录制",
+          "description": "Windows 直播与录制软件；实验性社区 MCP 通过本机 obs-websocket 连接。",
+          "website": "https://obsproject.com/download",
+          "tutorial": "https://github.com/sbroenne/mcp-server-obs",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 120,
+      "iconAsset": {
+        "path": "vendor-icons/36328acb7effb071c194d63b641027d54f8f6cde409eb00cf05e31f1f6d80a35.png",
+        "sha256": "36328acb7effb071c194d63b641027d54f8f6cde409eb00cf05e31f1f6d80a35",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "n8n",
+      "enabled": true,
+      "name": "n8n",
+      "initial": "N",
+      "mark": "n",
+      "iconUrl": "",
+      "color": "#ea4b71",
+      "description": "提供可自托管的工作流自动化平台。",
+      "website": "https://n8n.io/",
+      "tutorial": "https://docs.n8n.io/",
+      "products": [
+        {
+          "id": "n8n-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "n8n",
+          "kind": "其他产品",
+          "category": "工作流自动化",
+          "description": "云端或自托管工作流自动化平台，内置官方实例级 MCP Server。",
+          "website": "https://n8n.io/",
+          "tutorial": "https://docs.n8n.io/advanced-ai/accessing-n8n-mcp-server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 121,
+      "iconAsset": {
+        "path": "vendor-icons/14867498cad6f247b9ebd0bb18446e7e2769aa399750ab1f80061d4ae6fb475b.png",
+        "sha256": "14867498cad6f247b9ebd0bb18446e7e2769aa399750ab1f80061d4ae6fb475b",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "uipath",
+      "enabled": true,
+      "name": "UiPath",
+      "initial": "U",
+      "mark": "U",
+      "iconUrl": "",
+      "color": "#fa4616",
+      "description": "提供桌面 RPA 与企业自动化平台。",
+      "website": "https://www.uipath.com/",
+      "tutorial": "https://docs.uipath.com/",
+      "products": [
+        {
+          "id": "uipath-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "UiPath Platform",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "通过 Orchestrator 官方 MCP Server 把经过授权的 RPA 工件提供给 AI 客户端。",
+          "website": "https://cloud.uipath.com/",
+          "tutorial": "https://docs.uipath.com/orchestrator/automation-cloud/latest/user-guide/about-mcp-servers",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 122,
+      "iconAsset": {
+        "path": "vendor-icons/e4f7f87d7a5dc41070bc90bd180ced4f21682aef7aca52207e65d89b647adf3f.png",
+        "sha256": "e4f7f87d7a5dc41070bc90bd180ced4f21682aef7aca52207e65d89b647adf3f",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "open-home-foundation",
+      "enabled": true,
+      "name": "Open Home Foundation",
+      "initial": "H",
+      "mark": "H",
+      "iconUrl": "",
+      "color": "#18bcf2",
+      "description": "维护 Home Assistant 开源智能家居平台。",
+      "website": "https://www.openhomefoundation.org/",
+      "tutorial": "https://www.home-assistant.io/docs/",
+      "products": [
+        {
+          "id": "home-assistant",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Home Assistant",
+          "kind": "其他产品",
+          "category": "智能设备",
+          "description": "智能家居与设备自动化平台，内置官方 Model Context Protocol Server 集成。",
+          "website": "https://www.home-assistant.io/installation/windows/",
+          "tutorial": "https://www.home-assistant.io/integrations/mcp_server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 123,
+      "iconAsset": {
+        "path": "vendor-icons/64fc26e145878847fb5498f4d02a105f98fa8f8cd95eaf2cdc955d6854d99284.png",
+        "sha256": "64fc26e145878847fb5498f4d02a105f98fa8f8cd95eaf2cdc955d6854d99284",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "adobe",
+      "enabled": true,
+      "name": "Adobe",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#eb1000",
+      "description": "提供 Creative Cloud 创意软件与服务。",
+      "website": "https://www.adobe.com/",
+      "tutorial": "https://helpx.adobe.com/creative-cloud.html",
+      "products": [
+        {
+          "id": "adobe-creative-cloud",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Adobe Creative Cloud",
+          "kind": "桌面端",
+          "category": "图像与设计",
+          "description": "Adobe 创意工具可通过官方 Adobe for creativity 连接器接入 Claude。",
+          "website": "https://www.adobe.com/creativecloud.html",
+          "tutorial": "https://developer.adobe.com/adobe-for-creativity/getting-started/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 124,
+      "iconAsset": {
+        "path": "vendor-icons/5eed69e764f1d40b943a19b4b36aca72519b2626dd519891173d7728a74d821c.ico",
+        "sha256": "5eed69e764f1d40b943a19b4b36aca72519b2626dd519891173d7728a74d821c",
+        "mimeType": "image/x-icon"
+      }
+    },
+    {
+      "id": "autodesk",
+      "enabled": true,
+      "name": "Autodesk",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#0696d7",
+      "description": "提供设计、工程、制造与 3D 创作软件。",
+      "website": "https://www.autodesk.com/",
+      "tutorial": "https://help.autodesk.com/",
+      "products": [
+        {
+          "id": "autodesk-fusion",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Autodesk Fusion",
+          "kind": "桌面端",
+          "category": "3D 创作",
+          "description": "Windows CAD 与制造设计软件，内置官方本地 Fusion MCP。",
+          "website": "https://www.autodesk.com/products/fusion-360/",
+          "tutorial": "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 125,
+      "iconAsset": {
+        "path": "vendor-icons/e30b135998b07768fb3f3eb8d73161592379602574f595d9d7e2712a090dbde1.ico",
+        "sha256": "e30b135998b07768fb3f3eb8d73161592379602574f595d9d7e2712a090dbde1",
+        "mimeType": "image/x-icon"
+      }
+    },
+    {
+      "id": "trimble",
+      "enabled": true,
+      "name": "Trimble",
+      "initial": "T",
+      "mark": "T",
+      "iconUrl": "",
+      "color": "#0063a3",
+      "description": "提供 SketchUp 等建筑、空间与建模产品。",
+      "website": "https://www.trimble.com/",
+      "tutorial": "https://help.sketchup.com/",
+      "products": [
+        {
+          "id": "sketchup",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "SketchUp",
+          "kind": "桌面端",
+          "category": "3D 创作",
+          "description": "Windows 3D 建模产品，官方 Claude Connector 当前用于生成新的 SKP 文件。",
+          "website": "https://sketchup.trimble.com/en/download/all",
+          "tutorial": "https://help.sketchup.com/pl/sketchup-claude-connector",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 126,
+      "iconAsset": {
+        "path": "vendor-icons/a7c3c0f809991918be2440054d9b070d91895c9b692ed0f96e34310f9dfbb238.png",
+        "sha256": "a7c3c0f809991918be2440054d9b070d91895c9b692ed0f96e34310f9dfbb238",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "blackmagic-design",
+      "enabled": true,
+      "name": "Blackmagic Design",
+      "initial": "B",
+      "mark": "B",
+      "iconUrl": "",
+      "color": "#222222",
+      "description": "提供 DaVinci Resolve 视频后期制作软件。",
+      "website": "https://www.blackmagicdesign.com/",
+      "tutorial": "https://www.blackmagicdesign.com/support/",
+      "products": [
+        {
+          "id": "davinci-resolve",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "DaVinci Resolve",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows 视频剪辑、调色、音频与 VFX 软件；社区 MCP 需固定版本审计后再安装。",
+          "website": "https://www.blackmagicdesign.com/products/davinciresolve",
+          "tutorial": "https://github.com/samuelgursky/davinci-resolve-mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 127,
+      "iconAsset": {
+        "path": "vendor-icons/92b4d4239e25ca5c1d5cd26334eabb6627bcc6910340ba138a9cef1d6517b0bd.png",
+        "sha256": "92b4d4239e25ca5c1d5cd26334eabb6627bcc6910340ba138a9cef1d6517b0bd",
+        "mimeType": "image/png"
+      }
     }
   ],
   "environmentDownloads": {
@@ -9099,6 +10217,12 @@
       "label": "插件商店",
       "enabled": true,
       "order": 2
+    },
+    {
+      "id": "connector",
+      "label": "连接器商店",
+      "enabled": true,
+      "order": 3
     }
   ],
   "resources": [
@@ -11642,6 +12766,795 @@
         "https://github.com/ChromeDevTools/chrome-devtools-mcp"
       ],
       "lastVerifiedAt": "2026-08-02T00:00:00.000Z"
+    },
+    {
+      "id": "blender-mcp",
+      "enabled": true,
+      "order": 44,
+      "name": "Blender MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "可读写 Blender 场景并执行 Python；任意代码、删除和外部素材导入必须确认。",
+      "website": "https://github.com/ahujasid/blender-mcp",
+      "tutorial": "https://github.com/ahujasid/blender-mcp",
+      "publisherVendorId": "blender",
+      "publisher": "Blender Foundation",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "blender"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "可读写 Blender 场景并执行 Python；任意代码、删除和外部素材导入必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "禁用并删除 Blender add-on，再移除目标 AI 工具配置；保留 Blender 与工程。",
+      "provenanceEvidence": [
+        "https://github.com/ahujasid/blender-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "godot-mcp",
+      "enabled": true,
+      "order": 45,
+      "name": "Godot MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅授权用户选择的 Godot 工程；运行、删除节点和批量改写必须确认。",
+      "website": "https://github.com/tomyud1/godot-mcp",
+      "tutorial": "https://github.com/tomyud1/godot-mcp",
+      "publisherVendorId": "godot",
+      "publisher": "Godot Engine",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "godot-engine"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "windsurf-editor",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "仅授权用户选择的 Godot 工程；运行、删除节点和批量改写必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除项目插件与客户端配置；保留 Godot 和项目。",
+      "provenanceEvidence": [
+        "https://github.com/tomyud1/godot-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "unreal-mcp",
+      "enabled": true,
+      "order": 46,
+      "name": "Unreal MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅授权单个 Unreal 项目；Python、删除资产、构建和打包必须确认。",
+      "website": "https://github.com/GenOrca/unreal-mcp",
+      "tutorial": "https://github.com/GenOrca/unreal-mcp",
+      "publisherVendorId": "epic-games",
+      "publisher": "Epic Games",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "unreal-engine"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "github-copilot",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "仅授权单个 Unreal 项目；Python、删除资产、构建和打包必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "关闭编辑器后移除项目插件和客户端配置；保留引擎与项目内容。",
+      "provenanceEvidence": [
+        "https://github.com/GenOrca/unreal-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "ableton-mcp-extended",
+      "enabled": true,
+      "order": 47,
+      "name": "Ableton MCP Extended",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "会修改当前 Live Session；写入前提示保存，批量生成与外部音频导入必须确认。",
+      "website": "https://github.com/uisato/ableton-mcp-extended",
+      "tutorial": "https://github.com/uisato/ableton-mcp-extended",
+      "publisherVendorId": "ableton",
+      "publisher": "Ableton",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "ableton-live"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "会修改当前 Live Session；写入前提示保存，批量生成与外部音频导入必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "停用 Control Surface，删除 Remote Script 和客户端配置；保留 Live Set 与素材库。",
+      "provenanceEvidence": [
+        "https://github.com/uisato/ableton-mcp-extended"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "obs-mcp",
+      "enabled": true,
+      "order": 48,
+      "name": "MCP Server for OBS",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "实验性资源；开始直播/录制、截图和切换敏感场景必须逐次确认。",
+      "website": "https://github.com/sbroenne/mcp-server-obs",
+      "tutorial": "https://github.com/sbroenne/mcp-server-obs",
+      "publisherVendorId": "obs-project",
+      "publisher": "OBS Project",
+      "sourceKind": "community",
+      "sourceProductIds": [
+        "obs-studio"
+      ],
+      "targets": [
+        {
+          "productId": "github-copilot",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "windsurf-editor",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "实验性资源；开始直播/录制、截图和切换敏感场景必须逐次确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除客户端连接并关闭或轮换 OBS WebSocket；保留 OBS 配置与录制文件。",
+      "provenanceEvidence": [
+        "https://github.com/sbroenne/mcp-server-obs"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "n8n-mcp-server",
+      "enabled": true,
+      "order": 49,
+      "name": "n8n MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "按工作区最小授权；创建、更新和运行工作流必须确认。",
+      "website": "https://blog.n8n.io/n8n-mcp-server/",
+      "tutorial": "https://blog.n8n.io/n8n-mcp-server/",
+      "publisherVendorId": "n8n",
+      "publisher": "n8n",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "n8n-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "codex-cli",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "chatgpt-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "windsurf-editor",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "按工作区最小授权；创建、更新和运行工作流必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "关闭 MCP 并撤销令牌；保留实例、卷、凭据和工作流。",
+      "provenanceEvidence": [
+        "https://blog.n8n.io/n8n-mcp-server/"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "uipath-mcp-server",
+      "enabled": true,
+      "order": 50,
+      "name": "UiPath MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "按 Orchestrator Folder 最小授权；每次运行 RPA Job 都必须确认。",
+      "website": "https://docs.uipath.com/orchestrator/automation-cloud/latest/user-guide/about-mcp-servers",
+      "tutorial": "https://docs.uipath.com/orchestrator/automation-cloud/latest/user-guide/about-mcp-servers",
+      "publisherVendorId": "uipath",
+      "publisher": "UiPath",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "uipath-platform"
+      ],
+      "targets": [
+        {
+          "productId": "github-copilot",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "chatgpt-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "按 Orchestrator Folder 最小授权；每次运行 RPA Job 都必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "在 Orchestrator 停用 MCP Server 并撤销 OAuth/PAT；保留流程和作业记录。",
+      "provenanceEvidence": [
+        "https://docs.uipath.com/orchestrator/automation-cloud/latest/user-guide/about-mcp-servers"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "home-assistant-mcp-server",
+      "enabled": true,
+      "order": 51,
+      "name": "Home Assistant MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只暴露用户选择的实体；设备控制默认关闭，门锁、安防等敏感操作逐次确认。",
+      "website": "https://www.home-assistant.io/integrations/mcp_server/",
+      "tutorial": "https://www.home-assistant.io/integrations/mcp_server/",
+      "publisherVendorId": "open-home-foundation",
+      "publisher": "Open Home Foundation",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "home-assistant"
+      ],
+      "targets": [
+        {
+          "productId": "chatgpt-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只暴露用户选择的实体；设备控制默认关闭，门锁、安防等敏感操作逐次确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除集成并撤销令牌；保留 Home Assistant 实例、配置和自动化。",
+      "provenanceEvidence": [
+        "https://www.home-assistant.io/integrations/mcp_server/"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "adobe-for-creativity",
+      "enabled": true,
+      "order": 52,
+      "name": "Adobe for creativity",
+      "resourceTypes": [
+        "connector"
+      ],
+      "description": "用户明确选择的文件会发送到 Adobe 与 Claude 云服务；组织授权由用户完成。",
+      "website": "https://developer.adobe.com/adobe-for-creativity/",
+      "tutorial": "https://developer.adobe.com/adobe-for-creativity/",
+      "publisherVendorId": "adobe",
+      "publisher": "Adobe",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "adobe-creative-cloud"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "用户明确选择的文件会发送到 Adobe 与 Claude 云服务；组织授权由用户完成。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "在 Claude 断开连接器并按需在 Adobe 账号撤销授权；保留 Creative Cloud 软件与资产。",
+      "provenanceEvidence": [
+        "https://developer.adobe.com/adobe-for-creativity/"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "autodesk-fusion-mcp",
+      "enabled": true,
+      "order": 53,
+      "name": "Autodesk Fusion MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只允许 127.0.0.1；运行脚本、删除对象和覆盖设计必须确认。",
+      "website": "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW",
+      "tutorial": "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW",
+      "publisherVendorId": "autodesk",
+      "publisher": "Autodesk",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "autodesk-fusion"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只允许 127.0.0.1；运行脚本、删除对象和覆盖设计必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除客户端连接并在 Fusion 关闭 MCP Server；保留 Fusion 与设计数据。",
+      "provenanceEvidence": [
+        "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "sketchup-claude-connector",
+      "enabled": true,
+      "order": 54,
+      "name": "SketchUp Connector for Claude",
+      "resourceTypes": [
+        "connector"
+      ],
+      "description": "当前只生成新的 SKP 文件，不能描述为接管用户本机 SketchUp。",
+      "website": "https://help.sketchup.com/pl/sketchup-claude-connector",
+      "tutorial": "https://help.sketchup.com/pl/sketchup-claude-connector",
+      "publisherVendorId": "trimble",
+      "publisher": "Trimble",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "sketchup"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "当前只生成新的 SKP 文件，不能描述为接管用户本机 SketchUp。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "在 Claude 断开 Connector 并撤销 Trimble 授权；保留 SketchUp 与用户模型。",
+      "provenanceEvidence": [
+        "https://help.sketchup.com/pl/sketchup-claude-connector"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "davinci-resolve-mcp",
+      "enabled": true,
+      "order": 55,
+      "name": "DaVinci Resolve MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "固定版本审核前只展示说明；修改项目、素材、渲染设置和脚本必须确认。",
+      "website": "https://github.com/samuelgursky/davinci-resolve-mcp",
+      "tutorial": "https://github.com/samuelgursky/davinci-resolve-mcp",
+      "publisherVendorId": "blackmagic-design",
+      "publisher": "Blackmagic Design",
+      "sourceKind": "reviewed-community",
+      "sourceProductIds": [
+        "davinci-resolve"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "github-copilot",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "windsurf-editor",
+          "compatibility": "verified",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "review-required",
+      "requestedPermissions": [
+        "固定版本审核前只展示说明；修改项目、素材、渲染设置和脚本必须确认。"
+      ],
+      "credentialRequirements": [
+        "社区资源固定版本审核前只提供说明入口，不写入本地配置。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "只删除安装收据记录的 MCP 配置、托管副本和虚拟环境；保留 Resolve、项目和媒体。",
+      "provenanceEvidence": [
+        "https://github.com/samuelgursky/davinci-resolve-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+    },
+    {
+      "id": "affinity-ai-connector",
+      "enabled": true,
+      "order": 56,
+      "name": "Affinity AI Connector",
+      "resourceTypes": [
+        "connector"
+      ],
+      "description": "官方撤销文档尚未完整；生成脚本首次运行必须展示写入范围并确认。",
+      "website": "https://www.canva.com/newsroom/news/canva-create-2026-launches/",
+      "tutorial": "https://www.canva.com/newsroom/news/canva-create-2026-launches/",
+      "publisherVendorId": "canva",
+      "publisher": "Canva",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "affinity"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方撤销文档尚未完整；生成脚本首次运行必须展示写入范围并确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "当前只提供官方说明；断开连接时保留 Affinity、文档与用户脚本。",
+      "provenanceEvidence": [
+        "https://www.canva.com/newsroom/news/canva-create-2026-launches/"
+      ],
+      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
     }
   ]
 }

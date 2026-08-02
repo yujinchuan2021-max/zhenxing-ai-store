@@ -10,6 +10,7 @@ const {
   applyConnectableTaxonomy,
   categoryForConnectableProduct
 } = require("../catalog/ai-connectable-taxonomy.cjs");
+const { applyDefinition } = require("../shared/catalog-maintenance.cjs");
 
 const root = path.resolve(__dirname, "..");
 const catalogPaths = [
@@ -21,6 +22,15 @@ function upsertById(items, next) {
   const index = items.findIndex((item) => item.id === next.id);
   if (index >= 0) items[index] = next;
   else items.push(next);
+}
+
+function upsertVendorById(items, next) {
+  const existing = items.find((item) => item.id === next.id);
+  if (!existing) {
+    items.push(next);
+    return;
+  }
+  applyDefinition(existing, next, ["enabled", "order", "iconAsset", "iconUrl"]);
 }
 
 function target(productId, compatibility = "official") {
@@ -45,7 +55,7 @@ for (const catalogPath of catalogPaths) {
     catalog.vendors.find((vendor) => vendor.id === "oray")?.order ??
     unityOrder + 1;
 
-  upsertById(catalog.vendors, {
+  upsertVendorById(catalog.vendors, {
     id: "unity-technologies",
     enabled: true,
     order: unityOrder,
@@ -136,7 +146,7 @@ for (const catalogPath of catalogPaths) {
   const availableTargets = (ids) =>
     ids.filter((productId) => productIds.has(productId)).map((productId) => target(productId));
 
-  upsertById(catalog.vendors, {
+  upsertVendorById(catalog.vendors, {
     id: "oray",
     enabled: true,
     order: orayOrder,
