@@ -106,7 +106,12 @@ test("high-risk vendor logos use their reviewed official organization identity",
     redis: "https://github.com/redis",
     stability: "https://github.com/Stability-AI",
     supabase: "https://github.com/supabase",
-    uipath: "https://github.com/UiPath"
+    uipath: "https://github.com/UiPath",
+    krea: "https://github.com/krea-ai",
+    meshy: "https://github.com/meshy-dev",
+    shengshu: "https://github.com/shengshu-ai",
+    pixverse: "https://github.com/PixVerseAI",
+    discord: "https://github.com/discord"
   };
   for (const [vendorId, expectedSource] of Object.entries(expectedSources)) {
     const vendor = catalog.vendors.find((entry) => entry.id === vendorId);

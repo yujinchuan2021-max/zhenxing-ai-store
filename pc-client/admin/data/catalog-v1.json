@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-03T12:00:00.000Z",
+  "updatedAt": "2026-08-02T18:03:53.812Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -639,6 +639,51 @@
           "enabled": true,
           "order": 7,
           "directoryKind": "ai-tool"
+        },
+        {
+          "id": "bytedance-capcut-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "CapCut",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "CapCut 官方 Windows 视频编辑器，包含 AI 视频、字幕和画面处理能力。",
+          "website": "https://www.capcut.com/tools/desktop-video-editor",
+          "tutorial": "https://www.capcut.com/resource",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.capcut.com/"
+            },
+            {
+              "type": "web",
+              "label": "CapCut 网页版",
+              "url": "https://www.capcut.com/editor"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.capcut.com/resource"
+            }
+          ]
         }
       ],
       "enabled": true,
@@ -1611,6 +1656,46 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "microsoft-vscode",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Visual Studio Code",
+          "kind": "桌面端",
+          "category": "编程与调试",
+          "description": "Windows 代码编辑器，支持 AI 编程扩展、Agent 模式与 MCP Server。",
+          "website": "https://code.visualstudio.com/download",
+          "tutorial": "https://code.visualstudio.com/docs/copilot/chat/mcp-servers",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://code.visualstudio.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://code.visualstudio.com/docs/copilot/chat/mcp-servers"
+            }
           ]
         }
       ],
@@ -9325,22 +9410,38 @@
           "order": 0,
           "directoryKind": "ai-connectable",
           "name": "Linear",
-          "kind": "其他产品",
+          "kind": "桌面端",
           "category": "项目与协作",
-          "description": "可通过 Linear MCP Server 向兼容 AI 工具提供 Issue、项目和评论。",
-          "website": "https://linear.app/",
+          "description": "项目与 Issue 管理工作空间，可通过官方 MCP 接入兼容 AI 工具。",
+          "website": "https://linear.app/download",
           "tutorial": "https://linear.app/docs/mcp",
-          "productType": "web",
-          "moduleId": "web-link",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://linear.app/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://linear.app/docs/mcp"
+            }
           ]
         }
       ],
@@ -9500,23 +9601,44 @@
           "enabled": true,
           "order": 0,
           "directoryKind": "ai-connectable",
-          "name": "Slack Workspace",
-          "kind": "其他产品",
+          "name": "Slack",
+          "kind": "桌面端",
           "category": "项目与协作",
-          "description": "可通过 Slack MCP Server 向已登记并获授权的 AI 客户端提供工作区能力。",
-          "website": "https://slack.com/",
+          "description": "团队协作工作空间，可通过官方 MCP 向已授权的 AI 客户端提供内容与操作能力。",
+          "website": "https://slack.com/downloads/windows",
           "tutorial": "https://docs.slack.dev/ai/slack-mcp-server/",
-          "productType": "web",
-          "moduleId": "web-link",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://slack.com/"
+            },
+            {
+              "type": "web",
+              "label": "Slack 网页版",
+              "url": "https://app.slack.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.slack.dev/ai/slack-mcp-server/"
+            }
           ]
         }
       ],
@@ -10669,22 +10791,43 @@
           "order": 0,
           "directoryKind": "ai-connectable",
           "name": "Miro",
-          "kind": "其他产品",
+          "kind": "桌面端",
           "category": "项目与协作",
-          "description": "协作白板与工作空间，可通过官方远程 MCP 读取或更新用户授权的看板。",
-          "website": "https://miro.com/",
+          "description": "协作白板与 Windows 工作空间，可通过官方 MCP 读取或更新用户授权的看板。",
+          "website": "https://miro.com/apps/",
           "tutorial": "https://help.miro.com/hc/en-us/articles/31625301583890-How-to-enable-Miro-s-MCP-Server-user-guide",
-          "productType": "web",
-          "moduleId": "web-link",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://miro.com/"
+            },
+            {
+              "type": "web",
+              "label": "Miro 网页版",
+              "url": "https://miro.com/app/dashboard/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.miro.com/hc/en-us/articles/31625301583890-How-to-enable-Miro-s-MCP-Server-user-guide"
+            }
           ]
         }
       ],
@@ -11043,23 +11186,79 @@
           "enabled": true,
           "order": 0,
           "directoryKind": "ai-connectable",
-          "name": "ClickUp Workspace",
-          "kind": "其他产品",
+          "name": "ClickUp",
+          "kind": "桌面端",
           "category": "项目与协作",
-          "description": "任务、文档与团队协作工作空间，可通过官方远程 MCP 接入授权 AI 客户端。",
-          "website": "https://clickup.com/",
+          "description": "任务、文档与团队协作工作空间，可通过官方 MCP 接入授权 AI 客户端。",
+          "website": "https://clickup.com/download",
           "tutorial": "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server",
-          "productType": "web",
-          "moduleId": "web-link",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://clickup.com/"
+            },
+            {
+              "type": "web",
+              "label": "ClickUp 网页版",
+              "url": "https://app.clickup.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server"
+            }
+          ]
+        },
+        {
+          "id": "clickup-brain-max",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "ClickUp Brain MAX",
+          "kind": "桌面端",
+          "category": "智能体",
+          "description": "面向桌面工作的 AI 超级应用，可搜索工作内容并执行跨应用任务。",
+          "website": "https://clickup.com/brain/max",
+          "tutorial": "https://clickup.com/brain/max",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://clickup.com/brain"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            }
           ]
         }
       ],
@@ -11200,22 +11399,43 @@
           "order": 0,
           "directoryKind": "ai-connectable",
           "name": "Zoom Workplace",
-          "kind": "其他产品",
+          "kind": "桌面端",
           "category": "项目与协作",
-          "description": "会议、聊天、日历、邮件、白板与协作工作空间，可通过官方 MCP 接入授权 AI 客户端。",
-          "website": "https://www.zoom.com/en/products/collaboration-tools/",
+          "description": "会议、聊天、白板与 Windows 协作空间，可通过官方 MCP 接入授权 AI 客户端。",
+          "website": "https://www.zoom.com/en/products/virtual-meetings/download-center/",
           "tutorial": "https://developers.zoom.us/docs/mcp/zoom-mcp-server/",
-          "productType": "web",
-          "moduleId": "web-link",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.zoom.com/"
+            },
+            {
+              "type": "web",
+              "label": "Zoom Workplace 网页版",
+              "url": "https://app.zoom.us/wc/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developers.zoom.us/docs/mcp/zoom-mcp-server/"
+            }
           ]
         }
       ],
@@ -12520,6 +12740,648 @@
           ]
         }
       ]
+    },
+    {
+      "id": "gamma",
+      "name": "Gamma",
+      "initial": "G",
+      "mark": "G",
+      "color": "#7c5cff",
+      "description": "提供 AI 演示文稿、文档和网页内容生成工具。",
+      "website": "https://gamma.app/",
+      "tutorial": "https://help.gamma.app/en/articles/11080604-what-s-gamma",
+      "enabled": true,
+      "order": 183,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "gamma-app",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Gamma",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "在浏览器中通过 AI 创建演示文稿、文档和可分享网页。",
+          "website": "https://gamma.app/",
+          "tutorial": "https://help.gamma.app/en/articles/11080604-what-s-gamma",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Gamma",
+              "url": "https://gamma.app/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.gamma.app/en/articles/11080604-what-s-gamma"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "krea",
+      "name": "Krea",
+      "initial": "K",
+      "mark": "K",
+      "color": "#111111",
+      "description": "提供实时图像、视频生成与视觉内容增强工具。",
+      "website": "https://www.krea.ai/",
+      "tutorial": "https://docs.krea.ai/",
+      "enabled": true,
+      "order": 184,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "krea-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Krea",
+          "kind": "其他产品",
+          "category": "图像创作",
+          "description": "在浏览器中生成、编辑、增强图像和视频内容。",
+          "website": "https://www.krea.ai/",
+          "tutorial": "https://docs.krea.ai/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Krea",
+              "url": "https://www.krea.ai/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.krea.ai/"
+            }
+          ]
+        },
+        {
+          "id": "krea-agent-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Krea Agent Platform",
+          "kind": "其他产品",
+          "category": "图像与设计",
+          "description": "提供官方 MCP 与 Agent Skills，把 Krea 图像、视频和增强能力连接到兼容 AI 工具。",
+          "website": "https://www.krea.ai/mcp",
+          "tutorial": "https://www.krea.ai/skills",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Krea Agent Platform",
+              "url": "https://www.krea.ai/mcp"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.krea.ai/skills"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/086960fa74a13ebb516c8bdec0cd5f7deb1c0a87e38fa7978b48f73b6a67c75b.png",
+        "sha256": "086960fa74a13ebb516c8bdec0cd5f7deb1c0a87e38fa7978b48f73b6a67c75b",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "meshy",
+      "name": "Meshy",
+      "initial": "M",
+      "mark": "M",
+      "color": "#6c5ce7",
+      "description": "提供 AI 3D 模型生成、贴图和智能体工作流。",
+      "website": "https://www.meshy.ai/",
+      "tutorial": "https://docs.meshy.ai/",
+      "enabled": true,
+      "order": 185,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "meshy-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Meshy",
+          "kind": "其他产品",
+          "category": "3D 创作",
+          "description": "通过文本或图像生成 3D 模型、纹理和动画资产。",
+          "website": "https://www.meshy.ai/",
+          "tutorial": "https://docs.meshy.ai/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Meshy",
+              "url": "https://www.meshy.ai/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.meshy.ai/"
+            }
+          ]
+        },
+        {
+          "id": "meshy-3d-agent",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Meshy 3D Agent",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "面向 3D 创作任务的智能体，可通过官方 MCP 与 Skill 接入兼容 AI 工具。",
+          "website": "https://www.meshy.ai/3d-agent",
+          "tutorial": "https://docs.meshy.ai/en/agent/overview",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Meshy 3D Agent",
+              "url": "https://www.meshy.ai/3d-agent"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.meshy.ai/en/agent/overview"
+            }
+          ]
+        },
+        {
+          "id": "meshy-developer-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Meshy Developer Platform",
+          "kind": "其他产品",
+          "category": "3D 创作",
+          "description": "提供官方 API、MCP 与 Skill 接入说明，用于把 Meshy 3D 能力连接到兼容 AI 工具。",
+          "website": "https://docs.meshy.ai/",
+          "tutorial": "https://docs.meshy.ai/en/agent/mcp-and-skill",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Meshy Developer Platform",
+              "url": "https://docs.meshy.ai/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.meshy.ai/en/agent/mcp-and-skill"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/42e7d4ed28bfe0de0100823849968e7e47d6f4192dc60b866b769da6635d4188.png",
+        "sha256": "42e7d4ed28bfe0de0100823849968e7e47d6f4192dc60b866b769da6635d4188",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "shengshu",
+      "name": "生数科技",
+      "initial": "S",
+      "mark": "S",
+      "color": "#4967ff",
+      "description": "开发 Vidu 视频生成模型及面向创作流程的智能体产品。",
+      "website": "https://www.shengshu.com/",
+      "tutorial": "https://www.vidu.com/zh/",
+      "enabled": true,
+      "order": 186,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "shengshu-vidu",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Vidu",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "通过文本、图片或参考主体生成与编辑视频。",
+          "website": "https://www.vidu.com/zh/",
+          "tutorial": "https://www.vidu.com/zh/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Vidu",
+              "url": "https://www.vidu.com/zh/"
+            }
+          ]
+        },
+        {
+          "id": "shengshu-vidu-claw",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Vidu Claw",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "面向视频创作流程的智能体，可规划并执行多步骤内容生产任务。",
+          "website": "https://www.vidu.com/zh/vidu-claw",
+          "tutorial": "https://www.vidu.com/zh/vidu-claw",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Vidu Claw",
+              "url": "https://www.vidu.com/zh/vidu-claw"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/c418494a576716620ac9336fcef2220214ad35ee5eabc1f669d7dddc4b1e33a7.jpg",
+        "sha256": "c418494a576716620ac9336fcef2220214ad35ee5eabc1f669d7dddc4b1e33a7",
+        "mimeType": "image/jpeg"
+      }
+    },
+    {
+      "id": "pixverse",
+      "name": "PixVerse",
+      "initial": "P",
+      "mark": "P",
+      "color": "#7c3aed",
+      "description": "提供 AI 视频生成、编辑和创作智能体。",
+      "website": "https://pixverse.ai/en",
+      "tutorial": "https://pixverse.ai/en",
+      "enabled": true,
+      "order": 187,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "pixverse-ai-video",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "PixVerse",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "在浏览器中通过文本、图像和角色素材生成视频。",
+          "website": "https://pixverse.ai/en",
+          "tutorial": "https://pixverse.ai/en",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 PixVerse",
+              "url": "https://pixverse.ai/en"
+            }
+          ]
+        },
+        {
+          "id": "pixverse-agent",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "PixVerse Agent",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "理解自然语言创作意图并自动组织视频生成步骤的智能体。",
+          "website": "https://pixverse.ai/en/agent",
+          "tutorial": "https://pixverse.ai/en/agent",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 PixVerse Agent",
+              "url": "https://pixverse.ai/en/agent"
+            }
+          ]
+        },
+        {
+          "id": "pixverse-developer-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "PixVerse Developer Platform",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "提供官方 API 与 MCP Server，把 PixVerse 视频能力连接到兼容 AI 工具。",
+          "website": "https://platform.pixverse.ai/",
+          "tutorial": "https://github.com/PixVerseAI/PixVerse-MCP",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 PixVerse Developer Platform",
+              "url": "https://platform.pixverse.ai/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://github.com/PixVerseAI/PixVerse-MCP"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/2d3f70cd58b607f0da3fa749e89f550a6db00eaefb7d7d0006b898150f4b4e41.png",
+        "sha256": "2d3f70cd58b607f0da3fa749e89f550a6db00eaefb7d7d0006b898150f4b4e41",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "udio",
+      "name": "Udio",
+      "initial": "U",
+      "mark": "U",
+      "color": "#171717",
+      "description": "提供基于提示词的 AI 音乐创作与分享服务。",
+      "website": "https://www.udio.com/",
+      "tutorial": "https://help.udio.com/en/",
+      "enabled": true,
+      "order": 188,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "udio-ai-music",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Udio",
+          "kind": "其他产品",
+          "category": "音频创作",
+          "description": "在浏览器中创作、编辑和分享 AI 音乐作品。",
+          "website": "https://www.udio.com/",
+          "tutorial": "https://help.udio.com/en/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Udio",
+              "url": "https://www.udio.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.udio.com/en/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "initial": "O",
+      "mark": "O",
+      "color": "#7c3aed",
+      "description": "提供本地优先的知识库与可扩展笔记工具。",
+      "website": "https://obsidian.md/",
+      "tutorial": "https://help.obsidian.md/",
+      "enabled": true,
+      "order": 189,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "obsidian-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Obsidian",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "本地优先的 Windows 知识库，可通过官方插件机制接入 AI 扩展。",
+          "website": "https://obsidian.md/download",
+          "tutorial": "https://help.obsidian.md/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://obsidian.md/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.obsidian.md/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "initial": "D",
+      "mark": "D",
+      "color": "#5865f2",
+      "description": "提供社区通信平台及可接入 AI 的官方 App 与 Bot 开发能力。",
+      "website": "https://discord.com/",
+      "tutorial": "https://discord.com/developers/docs/intro",
+      "enabled": true,
+      "order": 190,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "discord-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Discord",
+          "kind": "桌面端",
+          "category": "项目与协作",
+          "description": "Windows 社区通信客户端，可通过官方 App 与 Bot 平台连接 AI 服务。",
+          "website": "https://discord.com/download",
+          "tutorial": "https://discord.com/developers/docs/intro",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://discord.com/"
+            },
+            {
+              "type": "web",
+              "label": "Discord 网页版",
+              "url": "https://discord.com/app"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://discord.com/developers/docs/intro"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/552d26ec6f986f2d44b4753a690423919d034ef6efce5fa78e424d75562bb2be.png",
+        "sha256": "552d26ec6f986f2d44b4753a690423919d034ef6efce5fa78e424d75562bb2be",
+        "mimeType": "image/png"
+      }
     }
   ],
   "environmentDownloads": {
@@ -14377,6 +15239,16 @@
         },
         {
           "productId": "zed-editor",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "microsoft-vscode",
           "compatibility": "official",
           "moduleId": "resource-link",
           "installProfileId": "",
@@ -16686,6 +17558,16 @@
         },
         {
           "productId": "windsurf-editor",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "microsoft-vscode",
           "compatibility": "official",
           "moduleId": "resource-link",
           "installProfileId": "",
@@ -20049,6 +20931,392 @@
         "https://www.intercom.com/help/en/articles/15481203-fin-agent-api-mcp-server"
       ],
       "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "meshy-mcp-server",
+      "name": "Meshy MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Meshy 官方 MCP 接入说明，可从兼容 AI 工具创建和管理 3D 生成任务。",
+      "website": "https://docs.meshy.ai/en/agent/mcp-and-skill",
+      "tutorial": "https://docs.meshy.ai/en/agent/mcp-and-skill",
+      "publisherVendorId": "meshy",
+      "publisher": "Meshy",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "meshy-developer-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "windsurf-editor",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "codex-cli",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "microsoft-vscode",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "提交 3D 生成或下载任务前必须确认，相关操作可能消耗 Meshy 账户额度。"
+      ],
+      "credentialRequirements": [
+        "使用 Meshy API Key；凭据必须由目标工具或系统凭据存储管理。"
+      ],
+      "installScope": "仅打开官方接入说明；当前不写入本地配置。",
+      "uninstallPlan": "从目标工具删除 MCP 连接，并在 Meshy 控制台撤销对应 API Key。",
+      "provenanceEvidence": [
+        "https://docs.meshy.ai/en/agent/mcp-and-skill"
+      ],
+      "lastVerifiedAt": "2026-08-02T16:00:00.000Z",
+      "enabled": true,
+      "order": 114
+    },
+    {
+      "id": "meshy-3d-skill",
+      "name": "Meshy 3D Skill",
+      "resourceTypes": [
+        "skill"
+      ],
+      "description": "Meshy 官方 3D Skill 接入说明，用于从兼容编程智能体调用 3D 创作能力。",
+      "website": "https://docs.meshy.ai/en/agent/mcp-and-skill",
+      "tutorial": "https://docs.meshy.ai/en/agent/mcp-and-skill",
+      "publisherVendorId": "meshy",
+      "publisher": "Meshy",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "meshy-developer-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-code",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "gemini-cli",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "opencode",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "openclaw-agent",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "执行生成任务前必须确认，相关操作可能消耗 Meshy 账户额度。"
+      ],
+      "credentialRequirements": [
+        "使用 Meshy API Key；凭据必须由目标工具或系统凭据存储管理。"
+      ],
+      "installScope": "仅打开官方 Skill 安装说明；当前不写入本地目录。",
+      "uninstallPlan": "从目标智能体删除 Skill 文件，并在 Meshy 控制台撤销对应 API Key。",
+      "provenanceEvidence": [
+        "https://docs.meshy.ai/en/agent/mcp-and-skill"
+      ],
+      "lastVerifiedAt": "2026-08-02T16:00:00.000Z",
+      "enabled": true,
+      "order": 115
+    },
+    {
+      "id": "krea-mcp-server",
+      "name": "Krea MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Krea 官方远程 MCP，可从兼容智能体生成图像、视频并运行增强工作流。",
+      "website": "https://www.krea.ai/mcp",
+      "tutorial": "https://www.krea.ai/mcp",
+      "publisherVendorId": "krea",
+      "publisher": "Krea",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "krea-agent-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "openclaw-agent",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "codex-cli",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "nous-hermes-agent",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "提交生成、增强或工作流任务前必须确认，相关操作可能消耗 Krea 账户额度。"
+      ],
+      "credentialRequirements": [
+        "使用 Krea OAuth 登录；目录与客户端不保存账号凭据。"
+      ],
+      "installScope": "仅打开官方连接说明；当前不写入本地配置。",
+      "uninstallPlan": "从目标 AI 工具删除 MCP 连接，并在 Krea 撤销授权会话。",
+      "provenanceEvidence": [
+        "https://www.krea.ai/mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T16:00:00.000Z",
+      "enabled": true,
+      "order": 116
+    },
+    {
+      "id": "krea-agent-skills",
+      "name": "Krea Agent Skills",
+      "resourceTypes": [
+        "skill"
+      ],
+      "description": "Krea 官方 Skill 包，可从兼容编程智能体调用图像、视频与增强工作流。",
+      "website": "https://www.krea.ai/skills",
+      "tutorial": "https://www.krea.ai/skills",
+      "publisherVendorId": "krea",
+      "publisher": "Krea",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "krea-agent-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-code",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "github-copilot",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "codex-cli",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "windsurf-editor",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "openclaw-agent",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-repository",
+      "requestedPermissions": [
+        "执行生成或增强任务前必须确认，相关操作可能消耗 Krea 账户额度。"
+      ],
+      "credentialRequirements": [
+        "使用 Krea API Token；凭据必须由目标工具或系统凭据存储管理。"
+      ],
+      "installScope": "仅打开官方 Skill 安装说明；当前不写入本地目录。",
+      "uninstallPlan": "从目标智能体删除 Skill 文件，并在 Krea 设置中撤销对应 API Token。",
+      "provenanceEvidence": [
+        "https://www.krea.ai/skills",
+        "https://github.com/krea-ai/skills"
+      ],
+      "lastVerifiedAt": "2026-08-02T16:00:00.000Z",
+      "enabled": true,
+      "order": 117
+    },
+    {
+      "id": "pixverse-mcp-server",
+      "name": "PixVerse MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "PixVerse 官方 MCP Server，可从兼容 AI 工具调用视频生成、延长、转场和声音能力。",
+      "website": "https://github.com/PixVerseAI/PixVerse-MCP",
+      "tutorial": "https://github.com/PixVerseAI/PixVerse-MCP",
+      "publisherVendorId": "pixverse",
+      "publisher": "PixVerse",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "pixverse-developer-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "v2.0.0",
+      "requestedPermissions": [
+        "提交视频生成或素材上传任务前必须确认，相关操作可能消耗 PixVerse API Credits。"
+      ],
+      "credentialRequirements": [
+        "需要 PixVerse API Key；凭据必须由目标工具或系统凭据存储管理。"
+      ],
+      "installScope": "仅打开官方安装说明；当前不安装 Python、UV 或 MCP 包。",
+      "uninstallPlan": "从目标 AI 工具删除 MCP 配置，并在 PixVerse Platform 撤销 API Key。",
+      "provenanceEvidence": [
+        "https://github.com/PixVerseAI/PixVerse-MCP"
+      ],
+      "lastVerifiedAt": "2026-08-02T16:00:00.000Z",
+      "enabled": true,
+      "order": 118
     }
   ]
 }

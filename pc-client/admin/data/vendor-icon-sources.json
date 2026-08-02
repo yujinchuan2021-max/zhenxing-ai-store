@@ -1280,6 +1280,56 @@
       "vendorIds": [
         "supabase"
       ]
+    },
+    "086960fa74a13ebb516c8bdec0cd5f7deb1c0a87e38fa7978b48f73b6a67c75b": {
+      "path": "vendor-icons/086960fa74a13ebb516c8bdec0cd5f7deb1c0a87e38fa7978b48f73b6a67c75b.png",
+      "sha256": "086960fa74a13ebb516c8bdec0cd5f7deb1c0a87e38fa7978b48f73b6a67c75b",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/krea-ai",
+      "updatedAt": "2026-08-02T18:02:27.935Z",
+      "vendorIds": [
+        "krea"
+      ]
+    },
+    "42e7d4ed28bfe0de0100823849968e7e47d6f4192dc60b866b769da6635d4188": {
+      "path": "vendor-icons/42e7d4ed28bfe0de0100823849968e7e47d6f4192dc60b866b769da6635d4188.png",
+      "sha256": "42e7d4ed28bfe0de0100823849968e7e47d6f4192dc60b866b769da6635d4188",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/meshy-dev",
+      "updatedAt": "2026-08-02T18:02:27.948Z",
+      "vendorIds": [
+        "meshy"
+      ]
+    },
+    "552d26ec6f986f2d44b4753a690423919d034ef6efce5fa78e424d75562bb2be": {
+      "path": "vendor-icons/552d26ec6f986f2d44b4753a690423919d034ef6efce5fa78e424d75562bb2be.png",
+      "sha256": "552d26ec6f986f2d44b4753a690423919d034ef6efce5fa78e424d75562bb2be",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/discord",
+      "updatedAt": "2026-08-02T18:02:28.075Z",
+      "vendorIds": [
+        "discord"
+      ]
+    },
+    "c418494a576716620ac9336fcef2220214ad35ee5eabc1f669d7dddc4b1e33a7": {
+      "path": "vendor-icons/c418494a576716620ac9336fcef2220214ad35ee5eabc1f669d7dddc4b1e33a7.jpg",
+      "sha256": "c418494a576716620ac9336fcef2220214ad35ee5eabc1f669d7dddc4b1e33a7",
+      "mimeType": "image/jpeg",
+      "sourceUrl": "https://github.com/shengshu-ai",
+      "updatedAt": "2026-08-02T18:02:28.118Z",
+      "vendorIds": [
+        "shengshu"
+      ]
+    },
+    "2d3f70cd58b607f0da3fa749e89f550a6db00eaefb7d7d0006b898150f4b4e41": {
+      "path": "vendor-icons/2d3f70cd58b607f0da3fa749e89f550a6db00eaefb7d7d0006b898150f4b4e41.png",
+      "sha256": "2d3f70cd58b607f0da3fa749e89f550a6db00eaefb7d7d0006b898150f4b4e41",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/PixVerseAI",
+      "updatedAt": "2026-08-02T18:02:28.274Z",
+      "vendorIds": [
+        "pixverse"
+      ]
     }
   }
 }

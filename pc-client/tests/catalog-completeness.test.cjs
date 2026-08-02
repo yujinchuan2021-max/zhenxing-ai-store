@@ -73,15 +73,36 @@ const VENDOR_EXPANSION_BATCH5 = Object.freeze([
   "sap-business-ai-platform"
 ]);
 
+const VENDOR_EXPANSION_BATCH6 = Object.freeze([
+  "bytedance-capcut-desktop",
+  "microsoft-vscode",
+  "clickup-brain-max",
+  "gamma-app",
+  "krea-ai",
+  "krea-agent-platform",
+  "meshy-ai",
+  "meshy-3d-agent",
+  "meshy-developer-platform",
+  "shengshu-vidu",
+  "shengshu-vidu-claw",
+  "pixverse-ai-video",
+  "pixverse-agent",
+  "pixverse-developer-platform",
+  "udio-ai-music",
+  "obsidian-desktop",
+  "discord-desktop"
+]);
+
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 183);
+  assert.equal(catalog.vendors.length, 191);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 320);
+  assert.equal(products.length, 337);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of [
     ...HIGH_VALUE_RESEARCH_PRODUCTS,
-    ...VENDOR_EXPANSION_BATCH5
+    ...VENDOR_EXPANSION_BATCH5,
+    ...VENDOR_EXPANSION_BATCH6
   ]) {
     assert.equal(productIds.has(productId), true, productId);
   }
@@ -150,6 +171,7 @@ test("Chinese vendor names use their displayed-name pinyin bucket", () => {
     moonshot: "Y",
     oray: "B",
     sensetime: "S",
+    shengshu: "S",
     tencent: "T",
     yingdao: "Y",
     youdao: "W",
@@ -192,7 +214,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 320);
+  assert.equal(products.length, 337);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -229,8 +251,8 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 139,
-    "desktop-official": 106,
+    web: 146,
+    "desktop-official": 116,
     "desktop-reviewed": 26,
     "cli-official": 3,
     cli: 14,
@@ -249,14 +271,14 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
     true
   );
   const resources = catalog.resources;
-  assert.equal(resources.length, 113);
+  assert.equal(resources.length, 118);
   assert.equal(
     resources.every((item) => item.publisherVendorId),
     true,
     "every resource must link to its single backend vendor record"
   );
-  assert.equal(resources.filter((item) => item.resourceTypes.includes("skill")).length, 14);
-  assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 93);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("skill")).length, 16);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 96);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("plugin")).length, 7);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("connector")).length, 3);
   const managed = resources.find(
@@ -297,9 +319,48 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
     "openclaw-clawhub-skills",
     "comfy-custom-nodes",
     "unity-official-mcp-server",
-    "oray-awesun-mcp"
+    "oray-awesun-mcp",
+    "meshy-mcp-server",
+    "meshy-3d-skill",
+    "krea-mcp-server",
+    "krea-agent-skills",
+    "pixverse-mcp-server"
   ]) {
     assert.equal(resourceIds.has(resourceId), true, resourceId);
+  }
+});
+
+test("batch 6 merges web and Windows entry points instead of duplicating products", () => {
+  const products = catalog.vendors.flatMap((vendor) => vendor.products);
+  for (const productId of [
+    "slack-workspace",
+    "miro-workspace",
+    "linear-workspace",
+    "clickup-workspace",
+    "zoom-workplace",
+    "bytedance-capcut-desktop",
+    "microsoft-vscode",
+    "clickup-brain-max",
+    "obsidian-desktop",
+    "discord-desktop"
+  ]) {
+    const matches = products.filter((product) => product.id === productId);
+    assert.equal(matches.length, 1, productId);
+    assert.equal(matches[0].productType, "desktop-official", productId);
+    assert.equal(
+      matches[0].entryPoints.filter((entry) => entry.type === "desktop").length,
+      1,
+      productId
+    );
+  }
+  for (const duplicateId of [
+    "slack-desktop",
+    "miro-desktop",
+    "linear-desktop",
+    "clickup-desktop",
+    "zoom-desktop"
+  ]) {
+    assert.equal(products.some((product) => product.id === duplicateId), false, duplicateId);
   }
 });
 

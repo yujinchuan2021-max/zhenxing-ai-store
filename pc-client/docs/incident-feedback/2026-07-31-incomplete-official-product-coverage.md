@@ -84,3 +84,12 @@
 - Confluent Global / Regional 按端点、Key 与数据范围拆成两项资源；Intercom Platform / Fin 按产品边界拆开。Databricks、Snowflake 等动态端点只提供官方说明，后台不能保存用户的账号地址、数据库地址或自定义 MCP URL。
 - 本轮复发并修复了 compact example 的宿主过滤问题：正式目录已有 AWS 厂商而示例没有，且 Confluent 官方宿主列表未包含示例唯一宿主。扩充脚本现在为缺失厂商补最小资料，并允许资源对标准 MCP 宿主声明 `protocol-compatible`，而不是把协议兼容冒充厂商官方适配。
 - 完整性基线同步更新为 168/305/113；扩充脚本连续执行后正式目录、示例目录与 Logo 兜底清单哈希保持不变。资源目标继续只允许 `ai-tool` 产品，Semrush 明确不再挂载已停止支持的 Gemini CLI。
+
+## 2026-08-02 AI 工具与 Windows 入口第六批扩充
+
+- 官方资料审查记录在 `docs/research/2026-08-02-vendor-expansion-batch6.md`。本轮新增 Gamma、Krea、Meshy、生数科技、PixVerse、Udio、Obsidian、Discord 共 8 个厂商，并为字节跳动、Microsoft、ClickUp、Slack、Miro、Linear、Zoom 补齐已确认产品或 Windows 入口。
+- 同一可视产品的官网、Web 与 Windows 下载入口合并在一个模块中，不再用重复产品卡制造选择成本；CLI 仍保持独立产品，本批次没有扩充 CLI。
+- 新增 Krea MCP、Krea Agent Skills、Meshy MCP、Meshy 3D Skill 和 PixVerse MCP 共 5 项官方资源。全部使用 `resource-link`，只打开官方说明，不下载依赖、不保存凭据、不由后台下发命令。
+- 目录基线达到 191 个厂商、337 个产品、118 项生态资源和 405 条目标关系；其中 91 个产品、83 个厂商进入 AI 可接入目录。
+- 扩充脚本连续执行后目录与 Logo 兜底清单 SHA-256 保持不变；完整发布测试、TypeScript 检查和 Vite 生产构建通过。本地后台签名发布目录 v49，草稿修订为 52。
+- 五个新增图形 Logo 使用已核验的官方 GitHub 组织身份；Gamma、Udio、Obsidian 在未确认可复用方形品牌素材前保留审核文字兜底，避免再次把 favicon 或第三方图片当作厂商 Logo。

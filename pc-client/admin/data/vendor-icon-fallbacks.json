@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewedAt": "2026-08-03T12:00:00.000Z",
+  "reviewedAt": "2026-08-02T16:00:00.000Z",
   "vendors": {
     "midjourney": {
       "evidenceUrl": "https://docs.midjourney.com/hc/en-us/articles/32084281102349-Midjourney-Trademark-Policy",
@@ -221,6 +221,18 @@
     "01ai": {
       "evidenceUrl": "https://platform.01.ai/useragreement",
       "reason": "官方品牌条款要求取得事先书面许可后才能使用 01.AI Logo，当前目录使用文字标识。"
+    },
+    "obsidian": {
+      "evidenceUrl": "https://obsidian.md/brand",
+      "reason": "官方品牌页要求商业场景先联系授权，当前使用经过审阅的文字兜底标识。"
+    },
+    "gamma": {
+      "evidenceUrl": "https://gamma.app/about",
+      "reason": "官方页面未提供可独立核验并适用于第三方目录的方形品牌素材，当前使用文字兜底标识。"
+    },
+    "udio": {
+      "evidenceUrl": "https://help.udio.com/en/",
+      "reason": "官方帮助中心已确认产品身份，但尚未找到可独立核验并适用于第三方目录的品牌素材，当前使用文字兜底标识。"
     }
   }
 }

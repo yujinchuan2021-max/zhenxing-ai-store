@@ -83,7 +83,12 @@ const officialGitHubOrganizations = Object.freeze({
   redis: ["redis", "1529926"],
   stability: ["Stability-AI", "100950301"],
   supabase: ["supabase", "54469796"],
-  uipath: ["UiPath", "375663"]
+  uipath: ["UiPath", "375663"],
+  krea: ["krea-ai", "108735617"],
+  meshy: ["meshy-dev", "160386200"],
+  shengshu: ["shengshu-ai", "133188292"],
+  pixverse: ["PixVerseAI", "204290266"],
+  discord: ["discord", "1965106"]
 });
 
 function attributes(tag) {
