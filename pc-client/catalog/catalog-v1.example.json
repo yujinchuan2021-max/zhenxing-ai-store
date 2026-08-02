@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-02T15:00:00.000Z",
+  "updatedAt": "2026-08-02T15:48:46.000Z",
   "brand": {
     "name": "枕星 AI",
     "mark": "枕",
@@ -2011,6 +2011,30 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "azure-cloud-platform",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Microsoft Azure",
+          "kind": "其他产品",
+          "category": "云服务与运维",
+          "description": "云计算平台；官方 Azure MCP 通过 Entra ID 与 Azure RBAC 访问用户授权的资源。",
+          "website": "https://azure.microsoft.com/",
+          "tutorial": "https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
         }
       ],
       "order": 45
@@ -2779,6 +2803,459 @@
         }
       ],
       "order": 64
+    },
+    {
+      "id": "amazon",
+      "enabled": true,
+      "name": "Amazon Web Services",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#ff9900",
+      "description": "提供云计算、开发者工具与人工智能服务。",
+      "website": "https://aws.amazon.com/",
+      "tutorial": "https://github.com/awslabs/mcp",
+      "products": [
+        {
+          "id": "aws-cloud-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Amazon Web Services",
+          "kind": "其他产品",
+          "category": "云服务与运维",
+          "description": "云计算平台；官方 MCP 资源包含托管服务与成熟度不同的 AWS Labs 开源服务器。",
+          "website": "https://aws.amazon.com/",
+          "tutorial": "https://docs.aws.amazon.com/general/latest/gr/aws-mcp.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 65
+    },
+    {
+      "id": "databricks",
+      "enabled": true,
+      "name": "Databricks",
+      "initial": "D",
+      "mark": "D",
+      "iconUrl": "",
+      "color": "#ff3621",
+      "description": "提供统一的数据、分析与人工智能平台。",
+      "website": "https://www.databricks.com/",
+      "tutorial": "https://docs.databricks.com/aws/en/agents/mcp/managed-mcp",
+      "products": [
+        {
+          "id": "databricks-data-intelligence-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Databricks Data Intelligence Platform",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "统一数据、分析与 AI 平台；官方托管 MCP 覆盖 Genie、AI Search、SQL 与 Unity Catalog 函数，不同能力仍可能处于 Preview 或 Beta。",
+          "website": "https://www.databricks.com/product/data-intelligence-platform",
+          "tutorial": "https://docs.databricks.com/aws/en/agents/mcp/managed-mcp",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 66
+    },
+    {
+      "id": "snowflake",
+      "enabled": true,
+      "name": "Snowflake",
+      "initial": "S",
+      "mark": "S",
+      "iconUrl": "",
+      "color": "#29b5e8",
+      "description": "提供云端数据、分析与人工智能平台。",
+      "website": "https://www.snowflake.com/",
+      "tutorial": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents-mcp",
+      "products": [
+        {
+          "id": "snowflake-ai-data-cloud",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Snowflake AI Data Cloud",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "云端数据平台；Snowflake 托管 MCP 可按账号、数据库和 Schema 暴露受 RBAC 约束的数据与工具。",
+          "website": "https://www.snowflake.com/en/data-cloud/overview/",
+          "tutorial": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents-mcp",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 67
+    },
+    {
+      "id": "redis",
+      "enabled": true,
+      "name": "Redis",
+      "initial": "R",
+      "mark": "R",
+      "iconUrl": "",
+      "color": "#dc382d",
+      "description": "提供实时数据平台、缓存、向量检索与数据库服务。",
+      "website": "https://redis.io/",
+      "tutorial": "https://redis.io/docs/latest/integrate/redis-mcp/",
+      "products": [
+        {
+          "id": "redis-database",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Redis",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "实时数据与数据库平台；官方 MCP 可读取、写入、搜索和管理用户指定的 Redis 数据。",
+          "website": "https://redis.io/",
+          "tutorial": "https://redis.io/docs/latest/integrate/redis-mcp/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 68
+    },
+    {
+      "id": "neo4j",
+      "enabled": true,
+      "name": "Neo4j",
+      "initial": "N",
+      "mark": "N",
+      "iconUrl": "",
+      "color": "#018bff",
+      "description": "提供图数据库、图分析与知识图谱平台。",
+      "website": "https://neo4j.com/",
+      "tutorial": "https://neo4j.com/docs/mcp/current/",
+      "products": [
+        {
+          "id": "neo4j-graph-database",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Neo4j Graph Database",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "图数据库平台；官方 MCP 可探索 Schema 并执行 Cypher，生产环境应使用受限账号和只读模式。",
+          "website": "https://neo4j.com/product/neo4j-graph-database/",
+          "tutorial": "https://neo4j.com/docs/mcp/current/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 69
+    },
+    {
+      "id": "confluent",
+      "enabled": true,
+      "name": "Confluent",
+      "initial": "C",
+      "mark": "C",
+      "iconUrl": "",
+      "color": "#173361",
+      "description": "提供基于 Apache Kafka 的实时数据流平台。",
+      "website": "https://www.confluent.io/",
+      "tutorial": "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html",
+      "products": [
+        {
+          "id": "confluent-cloud",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Confluent Cloud",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "实时数据流平台；官方 Global 与 Regional 托管 MCP 使用不同端点、凭据和可见数据范围。",
+          "website": "https://www.confluent.io/confluent-cloud/",
+          "tutorial": "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 70
+    },
+    {
+      "id": "paypal",
+      "enabled": true,
+      "name": "PayPal",
+      "initial": "P",
+      "mark": "P",
+      "iconUrl": "",
+      "color": "#003087",
+      "description": "提供在线支付、商户与商业服务平台。",
+      "website": "https://www.paypal.com/",
+      "tutorial": "https://developer.paypal.com/community/blog/paypal-model-context-protocol/",
+      "products": [
+        {
+          "id": "paypal-commerce-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "PayPal Commerce Platform",
+          "kind": "其他产品",
+          "category": "商业与支付",
+          "description": "支付与商业平台；官方 MCP 与 Agent Toolkit 可访问订单、发票、退款和争议等高风险业务能力。",
+          "website": "https://developer.paypal.com/",
+          "tutorial": "https://developer.paypal.com/community/blog/paypal-model-context-protocol/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 71
+    },
+    {
+      "id": "wix",
+      "enabled": true,
+      "name": "Wix",
+      "initial": "W",
+      "mark": "W",
+      "iconUrl": "",
+      "color": "#0c0c0c",
+      "description": "提供网站、应用、内容和在线商业构建平台。",
+      "website": "https://www.wix.com/",
+      "tutorial": "https://dev.wix.com/docs/sdk/articles/use-the-wix-mcp/about-the-wix-mcp",
+      "products": [
+        {
+          "id": "wix-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Wix Platform",
+          "kind": "其他产品",
+          "category": "网站与建站",
+          "description": "网站与应用构建平台；官方 MCP 可搜索文档、调用站点 API，并创建或管理 Wix 站点。",
+          "website": "https://dev.wix.com/",
+          "tutorial": "https://dev.wix.com/docs/sdk/articles/use-the-wix-mcp/about-the-wix-mcp",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 72
+    },
+    {
+      "id": "automattic",
+      "enabled": true,
+      "name": "Automattic",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#3858e9",
+      "description": "提供 WordPress.com 等内容发布与网站服务。",
+      "website": "https://automattic.com/",
+      "tutorial": "https://developer.wordpress.com/docs/mcp/",
+      "products": [
+        {
+          "id": "wordpress-com",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "WordPress.com",
+          "kind": "其他产品",
+          "category": "内容管理与发布",
+          "description": "托管网站与内容发布平台；官方远程 MCP 通过 OAuth 访问用户启用的 WordPress.com 站点。",
+          "website": "https://wordpress.com/",
+          "tutorial": "https://developer.wordpress.com/docs/mcp/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 73
+    },
+    {
+      "id": "semrush",
+      "enabled": true,
+      "name": "Semrush",
+      "initial": "S",
+      "mark": "S",
+      "iconUrl": "",
+      "color": "#ff642d",
+      "description": "提供搜索营销、竞争情报与网站分析平台。",
+      "website": "https://www.semrush.com/",
+      "tutorial": "https://developer.semrush.com/api/v3/introduction/semrush-mcp/",
+      "products": [
+        {
+          "id": "semrush-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Semrush",
+          "kind": "其他产品",
+          "category": "营销与搜索",
+          "description": "搜索营销与竞争情报平台；官方远程 MCP 当前为只读，但会访问项目、域名、关键词和流量数据并消耗配额。",
+          "website": "https://www.semrush.com/",
+          "tutorial": "https://developer.semrush.com/api/v3/introduction/semrush-mcp/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 74
+    },
+    {
+      "id": "intercom",
+      "enabled": true,
+      "name": "Intercom",
+      "initial": "I",
+      "mark": "I",
+      "iconUrl": "",
+      "color": "#1f8ded",
+      "description": "提供客户服务、消息沟通与 Fin 人工智能客服平台。",
+      "website": "https://www.intercom.com/",
+      "tutorial": "https://developers.intercom.com/docs/guides/mcp",
+      "products": [
+        {
+          "id": "intercom-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Intercom Platform",
+          "kind": "其他产品",
+          "category": "客户服务",
+          "description": "客户服务平台；官方远程 MCP 可访问联系人、公司、会话和帮助中心内容，当前只支持美国区工作区。",
+          "website": "https://www.intercom.com/",
+          "tutorial": "https://developers.intercom.com/docs/guides/mcp",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        },
+        {
+          "id": "intercom-fin",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Intercom Fin",
+          "kind": "其他产品",
+          "category": "客户服务",
+          "description": "人工智能客服产品；Fin Agent API MCP 的 Beta 能力可查询知识、开启对话并执行经过配置的业务流程。",
+          "website": "https://www.intercom.com/fin",
+          "tutorial": "https://www.intercom.com/help/en/articles/15481203-fin-agent-api-mcp-server",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 75
     }
   ],
   "resourceStores": [
@@ -3207,7 +3684,7 @@
       "provenanceEvidence": [
         "https://github.com/ahujasid/blender-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "godot-mcp",
@@ -3250,7 +3727,7 @@
       "provenanceEvidence": [
         "https://github.com/tomyud1/godot-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "unreal-mcp",
@@ -3293,7 +3770,7 @@
       "provenanceEvidence": [
         "https://github.com/GenOrca/unreal-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "ableton-mcp-extended",
@@ -3336,7 +3813,7 @@
       "provenanceEvidence": [
         "https://github.com/uisato/ableton-mcp-extended"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "obs-mcp",
@@ -3379,7 +3856,7 @@
       "provenanceEvidence": [
         "https://github.com/sbroenne/mcp-server-obs"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "n8n-mcp-server",
@@ -3422,7 +3899,7 @@
       "provenanceEvidence": [
         "https://blog.n8n.io/n8n-mcp-server/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "adobe-for-creativity",
@@ -3465,7 +3942,7 @@
       "provenanceEvidence": [
         "https://developer.adobe.com/adobe-for-creativity/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "autodesk-fusion-mcp",
@@ -3508,7 +3985,7 @@
       "provenanceEvidence": [
         "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "sketchup-claude-connector",
@@ -3551,7 +4028,7 @@
       "provenanceEvidence": [
         "https://help.sketchup.com/pl/sketchup-claude-connector"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "davinci-resolve-mcp",
@@ -3594,7 +4071,7 @@
       "provenanceEvidence": [
         "https://github.com/samuelgursky/davinci-resolve-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "affinity-ai-connector",
@@ -3637,7 +4114,7 @@
       "provenanceEvidence": [
         "https://www.canva.com/newsroom/news/canva-create-2026-launches/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "zapier-mcp",
@@ -3680,7 +4157,7 @@
       "provenanceEvidence": [
         "https://docs.zapier.com/mcp/get-started/quickstart"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "monday-platform-mcp",
@@ -3723,7 +4200,7 @@
       "provenanceEvidence": [
         "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "mongodb-mcp-server",
@@ -3766,7 +4243,7 @@
       "provenanceEvidence": [
         "https://www.mongodb.com/docs/mcp-server/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "grafana-mcp",
@@ -3809,7 +4286,7 @@
       "provenanceEvidence": [
         "https://grafana.com/docs/grafana/latest/developer-resources/mcp/set-up/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "elastic-agent-builder-mcp",
@@ -3852,7 +4329,7 @@
       "provenanceEvidence": [
         "https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "roblox-studio-mcp-server",
@@ -3895,7 +4372,7 @@
       "provenanceEvidence": [
         "https://create.roblox.com/docs/studio/mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "webflow-mcp-server",
@@ -3938,7 +4415,7 @@
       "provenanceEvidence": [
         "https://developers.webflow.com/mcp/reference/getting-started"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "matlab-mcp-core-server",
@@ -3981,7 +4458,7 @@
       "provenanceEvidence": [
         "https://github.com/matlab/matlab-mcp-core-server"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "nvidia-omniverse-mcp",
@@ -4024,7 +4501,7 @@
       "provenanceEvidence": [
         "https://github.com/NVIDIA-Omniverse"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "salesforce-hosted-mcp-servers",
@@ -4067,7 +4544,7 @@
       "provenanceEvidence": [
         "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/hosted-mcp-servers-overview.html"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "servicenow-mcp-server",
@@ -4110,7 +4587,7 @@
       "provenanceEvidence": [
         "https://www.servicenow.com/docs/r/intelligent-experiences/create-mcp-server.html"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "pulumi-mcp-server",
@@ -4153,7 +4630,7 @@
       "provenanceEvidence": [
         "https://www.pulumi.com/docs/ai/mcp-server/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "browserstack-mcp-server",
@@ -4196,7 +4673,7 @@
       "provenanceEvidence": [
         "https://www.browserstack.com/docs/browserstack-mcp-server/get-started/remote-mcp-server"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "clickup-mcp-server",
@@ -4239,7 +4716,7 @@
       "provenanceEvidence": [
         "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "pipedream-mcp",
@@ -4282,7 +4759,7 @@
       "provenanceEvidence": [
         "https://pipedream.com/docs/connect/mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "make-mcp-server",
@@ -4325,7 +4802,7 @@
       "provenanceEvidence": [
         "https://help.make.com/make-mcp-server"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "google-gmail-mcp",
@@ -4368,7 +4845,7 @@
       "provenanceEvidence": [
         "https://developers.google.com/workspace/guides/configure-mcp-servers"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "google-drive-mcp",
@@ -4411,7 +4888,7 @@
       "provenanceEvidence": [
         "https://developers.google.com/workspace/guides/configure-mcp-servers"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "google-docs-mcp",
@@ -4454,7 +4931,7 @@
       "provenanceEvidence": [
         "https://developers.google.com/workspace/guides/configure-mcp-servers"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "google-sheets-mcp",
@@ -4497,7 +4974,7 @@
       "provenanceEvidence": [
         "https://developers.google.com/workspace/guides/configure-mcp-servers"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "google-slides-mcp",
@@ -4540,7 +5017,7 @@
       "provenanceEvidence": [
         "https://developers.google.com/workspace/guides/configure-mcp-servers"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "google-calendar-mcp",
@@ -4583,7 +5060,7 @@
       "provenanceEvidence": [
         "https://developers.google.com/workspace/guides/configure-mcp-servers"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "google-chat-mcp",
@@ -4626,7 +5103,7 @@
       "provenanceEvidence": [
         "https://developers.google.com/workspace/guides/configure-mcp-servers"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "google-people-mcp",
@@ -4669,7 +5146,7 @@
       "provenanceEvidence": [
         "https://developers.google.com/workspace/guides/configure-mcp-servers"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "zoom-mcp-server",
@@ -4712,7 +5189,7 @@
       "provenanceEvidence": [
         "https://developers.zoom.us/docs/mcp/zoom-mcp-server/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "gitlab-mcp-server",
@@ -4755,7 +5232,7 @@
       "provenanceEvidence": [
         "https://docs.gitlab.com/user/model_context_protocol/mcp_server/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "microsoft-azure-devops-mcp",
@@ -4798,7 +5275,7 @@
       "provenanceEvidence": [
         "https://github.com/microsoft/azure-devops-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "terraform-mcp-server",
@@ -4841,7 +5318,7 @@
       "provenanceEvidence": [
         "https://developer.hashicorp.com/terraform/mcp-server/deploy"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "circleci-mcp",
@@ -4884,7 +5361,7 @@
       "provenanceEvidence": [
         "https://circleci.com/docs/guides/toolkit/circleci-mcp-overview/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "box-mcp-server",
@@ -4927,7 +5404,7 @@
       "provenanceEvidence": [
         "https://developer.box.com/guides/box-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "shopify-storefront-mcp",
@@ -4970,7 +5447,7 @@
       "provenanceEvidence": [
         "https://shopify.dev/docs/apps/build/storefront-mcp/servers/storefront"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "wolfram-local-mcp",
@@ -5013,7 +5490,7 @@
       "provenanceEvidence": [
         "https://www.wolfram.com/artificial-intelligence/mcp/local/wolfram-mcp-local/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "wolfram-cloud-mcp",
@@ -5056,7 +5533,7 @@
       "provenanceEvidence": [
         "https://www.wolfram.com/artificial-intelligence/mcp/cloud/wolfram-mcp-cloud/"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "ansys-pylumerical-mcp",
@@ -5099,7 +5576,7 @@
       "provenanceEvidence": [
         "https://github.com/ansys/pylumerical-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "cesium-ai-integrations-mcp",
@@ -5142,7 +5619,7 @@
       "provenanceEvidence": [
         "https://github.com/CesiumGS/cesium-ai-integrations/blob/main/mcp/README.md"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "cesium-agent-skills",
@@ -5185,7 +5662,7 @@
       "provenanceEvidence": [
         "https://github.com/CesiumGS/cesium-ai-integrations/blob/main/skills/README.md"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "siemens-xcelerator-developer-portal-mcp",
@@ -5228,7 +5705,7 @@
       "provenanceEvidence": [
         "https://developer.siemens.com/ai-registry/developer-portal/developer-portal-mcp.html"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "esri-arcgis-location-platform-mcp",
@@ -5271,7 +5748,7 @@
       "provenanceEvidence": [
         "https://www.esri.com/arcgis-blog/products/platform/developers/mcp-support-beta-and-arcgis-static-maps-service-in-arcgis-location-platform-release"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     },
     {
       "id": "synopsys-verdi-assistant-mcp",
@@ -5314,7 +5791,523 @@
       "provenanceEvidence": [
         "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html"
       ],
-      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "databricks-managed-mcp-directory",
+      "enabled": true,
+      "order": 59,
+      "name": "Databricks Managed MCP Servers",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "不同服务器仍可能处于 Preview 或 Beta；Databricks SQL 可读写数据，Unity Catalog 函数可执行业务逻辑，必须按工作区、Scope 和对象权限最小授权。",
+      "website": "https://docs.databricks.com/aws/en/agents/mcp/managed-mcp",
+      "tutorial": "https://docs.databricks.com/aws/en/agents/mcp/managed-mcp",
+      "publisherVendorId": "databricks",
+      "publisher": "Databricks",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "databricks-data-intelligence-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "不同服务器仍可能处于 Preview 或 Beta；Databricks SQL 可读写数据，Unity Catalog 函数可执行业务逻辑，必须按工作区、Scope 和对象权限最小授权。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Databricks MCP 连接并撤销 OAuth；保留工作区、Catalog、Schema、表、索引、函数、Notebook 与任务。",
+      "provenanceEvidence": [
+        "https://docs.databricks.com/aws/en/agents/mcp/managed-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "snowflake-managed-mcp",
+      "enabled": true,
+      "order": 60,
+      "name": "Snowflake-managed MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只授权指定角色、数据库、Schema 和工具；SQL、UDF、存储过程与 Cortex Agent 可能读取或改变数据并产生计算费用，执行前必须确认。",
+      "website": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents-mcp",
+      "tutorial": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents-mcp",
+      "publisherVendorId": "snowflake",
+      "publisher": "Snowflake",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "snowflake-ai-data-cloud"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只授权指定角色、数据库、Schema 和工具；SQL、UDF、存储过程与 Cortex Agent 可能读取或改变数据并产生计算费用，执行前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Snowflake MCP 连接并撤销授权；保留账号、数据库、Schema、表、服务、Agent 与查询历史。",
+      "provenanceEvidence": [
+        "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "redis-mcp-server",
+      "enabled": true,
+      "order": 61,
+      "name": "Redis MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "默认使用只读、最小权限 Redis ACL 与加密连接；写入、删除、索引变更、服务器管理和生产数据查询前必须确认。",
+      "website": "https://redis.io/docs/latest/integrate/redis-mcp/",
+      "tutorial": "https://redis.io/docs/latest/integrate/redis-mcp/",
+      "publisherVendorId": "redis",
+      "publisher": "Redis",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "redis-database"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "默认使用只读、最小权限 Redis ACL 与加密连接；写入、删除、索引变更、服务器管理和生产数据查询前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Redis MCP 连接并撤销专用凭据；保留 Redis 实例、数据库、Key、索引、持久化文件与云账号。",
+      "provenanceEvidence": [
+        "https://redis.io/docs/latest/integrate/redis-mcp/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "neo4j-mcp-server",
+      "enabled": true,
+      "order": 62,
+      "name": "Neo4j MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "官方默认可写；接入生产库时必须启用只读模式并使用受限账号。任何写 Cypher、APOC、GDS 或大范围查询前必须确认。",
+      "website": "https://neo4j.com/docs/mcp/current/",
+      "tutorial": "https://neo4j.com/docs/mcp/current/",
+      "publisherVendorId": "neo4j",
+      "publisher": "Neo4j",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "neo4j-graph-database"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方默认可写；接入生产库时必须启用只读模式并使用受限账号。任何写 Cypher、APOC、GDS 或大范围查询前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Neo4j MCP 连接并撤销专用凭据；保留 Neo4j 实例、图数据、索引、约束和备份。",
+      "provenanceEvidence": [
+        "https://neo4j.com/docs/mcp/current/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "paypal-mcp-server",
+      "enabled": true,
+      "order": 63,
+      "name": "PayPal MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "优先使用 Sandbox；创建订单、发送或取消发票、付款、退款和争议处理会影响真实商户与资金，生产环境每次都必须确认。",
+      "website": "https://developer.paypal.com/community/blog/paypal-model-context-protocol/",
+      "tutorial": "https://developer.paypal.com/community/blog/paypal-model-context-protocol/",
+      "publisherVendorId": "paypal",
+      "publisher": "PayPal",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "paypal-commerce-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "优先使用 Sandbox；创建订单、发送或取消发票、付款、退款和争议处理会影响真实商户与资金，生产环境每次都必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 PayPal MCP 连接并撤销应用凭据；保留商户账号、订单、发票、退款、争议和法定交易记录。",
+      "provenanceEvidence": [
+        "https://developer.paypal.com/community/blog/paypal-model-context-protocol/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "wix-mcp",
+      "enabled": true,
+      "order": 64,
+      "name": "Wix MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "除文档检索外还可调用站点 API、创建或管理站点；所有工具默认启用，发布、删除、安装应用和批量修改站点前必须确认。",
+      "website": "https://dev.wix.com/docs/sdk/articles/use-the-wix-mcp/about-the-wix-mcp",
+      "tutorial": "https://dev.wix.com/docs/sdk/articles/use-the-wix-mcp/about-the-wix-mcp",
+      "publisherVendorId": "wix",
+      "publisher": "Wix",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "wix-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "除文档检索外还可调用站点 API、创建或管理站点；所有工具默认启用，发布、删除、安装应用和批量修改站点前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Wix MCP 连接并撤销 OAuth 或 API Key；保留 Wix 账号、站点、应用、内容、订单和发布记录。",
+      "provenanceEvidence": [
+        "https://dev.wix.com/docs/sdk/articles/use-the-wix-mcp/about-the-wix-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "wordpress-com-mcp",
+      "enabled": true,
+      "order": 65,
+      "name": "WordPress.com MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅适用于用户启用的 WordPress.com 站点；发布、更新、删除内容，切换主题、管理插件、设置或 DNS 前必须展示目标并确认。",
+      "website": "https://developer.wordpress.com/docs/mcp/",
+      "tutorial": "https://developer.wordpress.com/docs/mcp/",
+      "publisherVendorId": "automattic",
+      "publisher": "Automattic",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "wordpress-com"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "仅适用于用户启用的 WordPress.com 站点；发布、更新、删除内容，切换主题、管理插件、设置或 DNS 前必须展示目标并确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 WordPress.com MCP 连接，并在 Connected Apps 撤销 OAuth；保留账号、站点、文章、页面、媒体、主题、插件和域名。",
+      "provenanceEvidence": [
+        "https://developer.wordpress.com/docs/mcp/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "semrush-mcp",
+      "enabled": true,
+      "order": 66,
+      "name": "Semrush MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "当前为只读，但会访问客户域名、关键词、竞争情报、项目与流量数据并消耗订阅或 API Units；OAuth 与 API Key 不得进入目录。",
+      "website": "https://developer.semrush.com/api/v3/introduction/semrush-mcp/",
+      "tutorial": "https://developer.semrush.com/api/v3/introduction/semrush-mcp/",
+      "publisherVendorId": "semrush",
+      "publisher": "Semrush",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "semrush-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "当前为只读，但会访问客户域名、关键词、竞争情报、项目与流量数据并消耗订阅或 API Units；OAuth 与 API Key 不得进入目录。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Semrush MCP 连接并撤销 OAuth 或 API Key；保留 Semrush 账号、项目、报表、配额和历史数据。",
+      "provenanceEvidence": [
+        "https://developer.semrush.com/api/v3/introduction/semrush-mcp/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "intercom-mcp-server",
+      "enabled": true,
+      "order": 67,
+      "name": "Intercom MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "当前只支持美国区工作区；联系人、公司、会话和帮助中心内容包含客户 PII，读取、更新文章或任何外发动作前必须确认。",
+      "website": "https://developers.intercom.com/docs/guides/mcp",
+      "tutorial": "https://developers.intercom.com/docs/guides/mcp",
+      "publisherVendorId": "intercom",
+      "publisher": "Intercom",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "intercom-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "当前只支持美国区工作区；联系人、公司、会话和帮助中心内容包含客户 PII，读取、更新文章或任何外发动作前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Intercom MCP 连接并撤销 OAuth 或 Token；保留工作区、联系人、公司、会话、文章和审计记录。",
+      "provenanceEvidence": [
+        "https://developers.intercom.com/docs/guides/mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "intercom-fin-agent-api-mcp",
+      "enabled": true,
+      "order": 68,
+      "name": "Fin Agent API MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Beta 能力可查询知识、开启对话并运行退款、升级、取消等 Procedure；生产流程必须逐次确认，Messenger Secret 绝不能进入客户端。",
+      "website": "https://www.intercom.com/help/en/articles/15481203-fin-agent-api-mcp-server",
+      "tutorial": "https://www.intercom.com/help/en/articles/15481203-fin-agent-api-mcp-server",
+      "publisherVendorId": "intercom",
+      "publisher": "Intercom",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "intercom-fin"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "Beta 能力可查询知识、开启对话并运行退款、升级、取消等 Procedure；生产流程必须逐次确认，Messenger Secret 绝不能进入客户端。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Fin MCP 连接并撤销 API Key/OAuth；保留 Fin 配置、知识库、会话、Procedure 与业务记录。",
+      "provenanceEvidence": [
+        "https://www.intercom.com/help/en/articles/15481203-fin-agent-api-mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "confluent-cloud-global-mcp",
+      "enabled": true,
+      "order": 69,
+      "name": "Confluent Cloud Global MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "官方 Global 端点当前只读，但可枚举环境、集群、Connector 与指标；组织级 API Key 和元数据不得进入目录或普通日志。",
+      "website": "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html",
+      "tutorial": "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html",
+      "publisherVendorId": "confluent",
+      "publisher": "Confluent",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "confluent-cloud"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方 Global 端点当前只读，但可枚举环境、集群、Connector 与指标；组织级 API Key 和元数据不得进入目录或普通日志。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Global MCP 连接并撤销对应 API Key；保留 Confluent 组织、环境、集群、Connector、指标与账单。",
+      "provenanceEvidence": [
+        "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
+    },
+    {
+      "id": "confluent-cloud-regional-mcp",
+      "enabled": true,
+      "order": 70,
+      "name": "Confluent Cloud Regional MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "官方 Regional 端点当前只读，但可读取 Topic 样本消息、Schema 与区域资源；区域、云、组织 ID 和专用 Key 必须受约束并避免日志泄露。",
+      "website": "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html",
+      "tutorial": "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html",
+      "publisherVendorId": "confluent",
+      "publisher": "Confluent",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "confluent-cloud"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方 Regional 端点当前只读，但可读取 Topic 样本消息、Schema 与区域资源；区域、云、组织 ID 和专用 Key 必须受约束并避免日志泄露。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Regional MCP 连接并撤销对应 API Key；保留 Topic、消息、Schema、集群、网络和组织资源。",
+      "provenanceEvidence": [
+        "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:48:46.000Z"
     }
   ],
   "categories": [
@@ -5343,6 +6336,10 @@
     "可观测性",
     "工程计算与仿真",
     "3D 与工业仿真",
-    "地图与地理空间"
+    "地图与地理空间",
+    "网站与建站",
+    "内容管理与发布",
+    "营销与搜索",
+    "客户服务"
   ]
 }

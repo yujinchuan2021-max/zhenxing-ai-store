@@ -70,7 +70,20 @@ const CONNECTABLE_CATEGORY_BY_PRODUCT_ID = Object.freeze({
   "cesiumjs": "地图与地理空间",
   "siemens-xcelerator-developer-portal": "文档与知识库",
   "arcgis-location-platform": "地图与地理空间",
-  "synopsys-verdi": "工程计算与仿真"
+  "synopsys-verdi": "工程计算与仿真",
+  "azure-cloud-platform": "云服务与运维",
+  "aws-cloud-platform": "云服务与运维",
+  "databricks-data-intelligence-platform": "数据库与数据",
+  "snowflake-ai-data-cloud": "数据库与数据",
+  "redis-database": "数据库与数据",
+  "neo4j-graph-database": "数据库与数据",
+  "confluent-cloud": "数据库与数据",
+  "paypal-commerce-platform": "商业与支付",
+  "wix-platform": "网站与建站",
+  "wordpress-com": "内容管理与发布",
+  "semrush-platform": "营销与搜索",
+  "intercom-platform": "客户服务",
+  "intercom-fin": "客户服务"
 });
 
 const CONNECTABLE_CATEGORIES = Object.freeze([

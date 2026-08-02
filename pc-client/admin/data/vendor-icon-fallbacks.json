@@ -117,6 +117,42 @@
     "synopsys": {
       "evidenceUrl": "https://www.synopsys.com/",
       "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "databricks": {
+      "evidenceUrl": "https://brand.databricks.com/iconography",
+      "reason": "官方品牌页提供下载包，但尚未固定可独立校验的单张目录图标，当前使用字母兜底。"
+    },
+    "snowflake": {
+      "evidenceUrl": "https://www.snowflake.com/brand-guidelines/",
+      "reason": "官方品牌指南未提供已核验且可直接用于本目录的稳定单张图标地址。"
+    },
+    "neo4j": {
+      "evidenceUrl": "https://legal.neo4j.com/",
+      "reason": "官方法律说明要求公司 Logo 和专有图形取得明确书面许可，当前使用字母兜底。"
+    },
+    "confluent": {
+      "evidenceUrl": "https://www.confluent.io/confluent-trademark-guidelines",
+      "reason": "官方商标指南未提供已核验且可用于本目录的公开单张图标素材。"
+    },
+    "paypal": {
+      "evidenceUrl": "https://newsroom.paypal-corp.com/media-resources?cat=3201",
+      "reason": "官方媒体页只提供压缩品牌包，尚未固定包内单张图标与版本，当前使用字母兜底。"
+    },
+    "wix": {
+      "evidenceUrl": "https://www.wix.com/about/design-assets",
+      "reason": "官方设计资产以压缩包发布，尚未固定包内单张图标与版本，当前使用字母兜底。"
+    },
+    "automattic": {
+      "evidenceUrl": "https://automattic.com/press/brand-materials/",
+      "reason": "官方品牌素材限制为 Automattic、授权合作方及编辑用途，当前目录继续使用字母兜底。"
+    },
+    "semrush": {
+      "evidenceUrl": "https://www.semrush.com/company/press/",
+      "reason": "尚未取得并核验可用于第三方产品目录展示的官方稳定图标素材。"
+    },
+    "intercom": {
+      "evidenceUrl": "https://www.intercom.com/legal/trademark-usage",
+      "reason": "官方商标政策要求书面许可或特定许可计划，当前仅以文字方式指称厂商。"
     }
   }
 }

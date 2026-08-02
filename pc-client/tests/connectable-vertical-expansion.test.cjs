@@ -52,8 +52,24 @@ const industryResourceIds = ["wolfram-local-mcp", "wolfram-cloud-mcp",
   "cesium-agent-skills", "siemens-xcelerator-developer-portal-mcp",
   "esri-arcgis-location-platform-mcp", "synopsys-verdi-assistant-mcp"];
 
-productIds.push(...batch3ProductIds, ...industryProductIds);
-resourceIds.push(...batch3ResourceIds, ...industryResourceIds);
+const batch4VendorIds = ["databricks", "snowflake", "redis", "neo4j",
+  "confluent", "paypal", "wix", "automattic", "semrush", "intercom"];
+const batch4ProductIds = ["azure-cloud-platform", "aws-cloud-platform",
+  "databricks-data-intelligence-platform", "snowflake-ai-data-cloud",
+  "redis-database", "neo4j-graph-database", "confluent-cloud",
+  "paypal-commerce-platform", "wix-platform", "wordpress-com",
+  "semrush-platform", "intercom-platform", "intercom-fin"];
+const batch4UpdatedResourceIds = ["microsoft-azure-mcp", "aws-mcp-servers"];
+const batch4NewResourceIds = ["databricks-managed-mcp-directory",
+  "snowflake-managed-mcp",
+  "redis-mcp-server", "neo4j-mcp-server", "confluent-cloud-global-mcp",
+  "confluent-cloud-regional-mcp", "paypal-mcp-server", "wix-mcp",
+  "wordpress-com-mcp", "semrush-mcp", "intercom-mcp-server",
+  "intercom-fin-agent-api-mcp"];
+const batch4ResourceIds = [...batch4UpdatedResourceIds, ...batch4NewResourceIds];
+
+productIds.push(...batch3ProductIds, ...industryProductIds, ...batch4ProductIds);
+resourceIds.push(...batch3ResourceIds, ...industryResourceIds, ...batch4ResourceIds);
 
 function read(relative) {
   return JSON.parse(fs.readFileSync(path.join(__dirname, "..", relative), "utf8"));
@@ -68,8 +84,10 @@ test("vertical AI-connectable expansion is categorized and remains link-only", (
   const resources = new Map(catalog.resources.map((resource) => [resource.id, resource]));
   for (const id of batch3VendorIds) assert.ok(vendors.has(id), `missing vendor ${id}`);
   for (const id of industryVendorIds) assert.ok(vendors.has(id), `missing vendor ${id}`);
+  for (const id of batch4VendorIds) assert.ok(vendors.has(id), `missing vendor ${id}`);
   assert.equal(catalog.vendors.filter((vendor) => vendor.id === "microsoft").length, 1);
   assert.equal(catalog.vendors.filter((vendor) => vendor.id === "google").length, 1);
+  assert.equal(catalog.vendors.filter((vendor) => vendor.id === "amazon").length, 1);
   for (const id of productIds) {
     assert.equal(products.get(id)?.directoryKind, "ai-connectable", `missing ${id}`);
     assert.notEqual(products.get(id)?.category, "AI 接入");
@@ -95,6 +113,27 @@ test("vertical AI-connectable expansion is categorized and remains link-only", (
     assert.deepEqual(resources.get(id)?.resourceTypes,
       [id === "cesium-agent-skills" ? "skill" : "mcp"], `wrong type ${id}`);
   }
+  for (const id of batch4ResourceIds) {
+    assert.equal(resources.get(id)?.sourceKind, "official", `non-official ${id}`);
+    assert.deepEqual(resources.get(id)?.resourceTypes, ["mcp"], `wrong type ${id}`);
+  }
+  assert.deepEqual(resources.get("microsoft-azure-mcp")?.sourceProductIds,
+    ["azure-cloud-platform"]);
+  assert.deepEqual(resources.get("aws-mcp-servers")?.sourceProductIds,
+    ["aws-cloud-platform"]);
+  assert.equal(resources.get("confluent-cloud-global-mcp")?.sourceProductIds[0],
+    "confluent-cloud");
+  assert.equal(resources.get("confluent-cloud-regional-mcp")?.sourceProductIds[0],
+    "confluent-cloud");
+  assert.equal(resources.get("confluent-cloud-global-mcp")?.targets.find(
+    (entry) => entry.productId === "claude-desktop")?.compatibility,
+    "protocol-compatible");
+  assert.equal(resources.get("intercom-mcp-server")?.sourceProductIds[0],
+    "intercom-platform");
+  assert.equal(resources.get("intercom-fin-agent-api-mcp")?.sourceProductIds[0],
+    "intercom-fin");
+  assert.equal(resources.get("semrush-mcp")?.targets.some(
+    (entry) => entry.productId === "gemini-cli"), false);
   const googleResources = batch3ResourceIds.filter((id) => id.startsWith("google-"));
   assert.equal(googleResources.length, 8);
   assert.equal(new Set(googleResources.map((id) => resources.get(id)?.website)).size, 1);
@@ -112,6 +151,12 @@ test("vertical AI-connectable expansion is categorized and remains link-only", (
   assert.equal(products.get("wolfram-mathematica").category, "工程计算与仿真");
   assert.equal(products.get("cesiumjs").category, "地图与地理空间");
   assert.equal(products.get("arcgis-location-platform").category, "地图与地理空间");
+  assert.equal(products.get("databricks-data-intelligence-platform").category,
+    "数据库与数据");
+  assert.equal(products.get("wix-platform").category, "网站与建站");
+  assert.equal(products.get("wordpress-com").category, "内容管理与发布");
+  assert.equal(products.get("semrush-platform").category, "营销与搜索");
+  assert.equal(products.get("intercom-fin").category, "客户服务");
 });
 
 test("compact example receives all source products and remains valid", () => {
@@ -122,7 +167,7 @@ test("compact example receives all source products and remains valid", () => {
   const ids = new Set(products.keys());
   for (const id of productIds) assert.ok(ids.has(id), `missing example ${id}`);
   const resources = new Map(catalog.resources.map((resource) => [resource.id, resource]));
-  for (const id of [...batch3ResourceIds, ...industryResourceIds]) {
+  for (const id of [...batch3ResourceIds, ...industryResourceIds, ...batch4NewResourceIds]) {
     assert.ok(resources.has(id), `missing example resource ${id}`);
     assert.ok(resources.get(id).targets.length > 0, `targetless example resource ${id}`);
     for (const target of resources.get(id).targets) {

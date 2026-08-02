@@ -67,3 +67,11 @@
 - 首次录入暴露出四个会造成“后台有数据、前台没出现”的复发条件：资源 target 误指向 `ai-connectable` 产品；compact example 不含正式目录已有的 Microsoft/Google；示例目录没有任一兼容 AI 宿主时资源会被过滤；目录总量与类型断言仍停留在旧基线。
 - 修复后，资源目标只允许已存在的 `ai-tool` 产品；扩充脚本为正式目录复用厂商、为 compact example 幂等补齐最小厂商资料；每项资源至少覆盖示例目录已有宿主；完整性测试同步约束 158/292/101 新基线。
 - 扩充脚本连续执行后正式目录、示例目录和 Logo 兜底清单 SHA-256 均保持不变。29 个暂无明确可用官方图形资产的厂商进入审核兜底清单，不允许随意抓取搜索图片或第三方 Logo。
+
+## 2026-08-02 AI 可接入厂商第四批扩充
+
+- 官方资料审查记录在 `docs/research/2026-08-02-connectable-cloud-data-business-batch4.md`。本轮补入 Databricks、Snowflake、Redis、Neo4j、Confluent、PayPal、Wix、Automattic / WordPress.com、Semrush 与 Intercom；同时为已有 Microsoft Azure 和 Amazon Web Services 补齐 AI 可接入产品卡，不重复创建厂商。
+- 目录现为 168 个厂商、305 个产品、113 项生态资源，其中 83 个产品、75 个厂商属于“AI 可接入厂商”。新增 12 项资源全部为官方 `resource-link`，没有后台命令、任意 URL、安装包或自动部署权限。
+- Confluent Global / Regional 按端点、Key 与数据范围拆成两项资源；Intercom Platform / Fin 按产品边界拆开。Databricks、Snowflake 等动态端点只提供官方说明，后台不能保存用户的账号地址、数据库地址或自定义 MCP URL。
+- 本轮复发并修复了 compact example 的宿主过滤问题：正式目录已有 AWS 厂商而示例没有，且 Confluent 官方宿主列表未包含示例唯一宿主。扩充脚本现在为缺失厂商补最小资料，并允许资源对标准 MCP 宿主声明 `protocol-compatible`，而不是把协议兼容冒充厂商官方适配。
+- 完整性基线同步更新为 168/305/113；扩充脚本连续执行后正式目录、示例目录与 Logo 兜底清单哈希保持不变。资源目标继续只允许 `ai-tool` 产品，Semrush 明确不再挂载已停止支持的 Gemini CLI。

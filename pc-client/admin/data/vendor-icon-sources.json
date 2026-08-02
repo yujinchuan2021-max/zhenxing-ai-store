@@ -1236,6 +1236,16 @@
       "vendorIds": [
         "penpot"
       ]
+    },
+    "ce1a1a9178e58aff898a1e76603309557ee36c3257e30faf2a8d9012a394ea77": {
+      "path": "vendor-icons/ce1a1a9178e58aff898a1e76603309557ee36c3257e30faf2a8d9012a394ea77.png",
+      "sha256": "ce1a1a9178e58aff898a1e76603309557ee36c3257e30faf2a8d9012a394ea77",
+      "mimeType": "image/png",
+      "sourceUrl": "https://redis.io/company/news/",
+      "updatedAt": "2026-08-02T15:46:07.079Z",
+      "vendorIds": [
+        "redis"
+      ]
     }
   }
 }

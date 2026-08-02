@@ -35,6 +35,10 @@ const reviewedIconSources = Object.freeze({
   webflow: {
     assetUrl: "https://dhygzobemt712.cloudfront.net/Logo/Social_Circle_Blue.png",
     sourceUrl: "https://brand.webflow.com/brand-assets"
+  },
+  redis: {
+    assetUrl: "https://cdn.sanity.io/files/sy1jschh/production/8fdff0c54a41649281d9d2cb309263811d641d35.png",
+    sourceUrl: "https://redis.io/company/news/"
   }
 });
 const officialGitHubOrganizations = Object.freeze({

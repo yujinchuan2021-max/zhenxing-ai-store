@@ -13,7 +13,7 @@ const catalogPaths = [
   path.join(root, "admin", "data", "catalog-v1.json"),
   path.join(root, "catalog", "catalog-v1.example.json")
 ];
-const verifiedAt = "2026-08-02T15:00:00.000Z";
+const verifiedAt = "2026-08-02T15:48:46.000Z";
 
 function vendor(id, name, mark, color, description, website, tutorial) {
   return { id, enabled: true, name, initial: mark[0].toUpperCase(), mark, iconUrl: "", color,
@@ -62,6 +62,7 @@ const vendors = [
   vendor("mathworks", "MathWorks", "M", "#d95319", "提供 MATLAB、Simulink 与工程计算产品。", "https://www.mathworks.com/", "https://www.mathworks.com/products/matlab-mcp-server.html"),
   vendor("nvidia", "NVIDIA", "N", "#76b900", "提供 GPU、AI、仿真与开发平台。", "https://developer.nvidia.com/omniverse", "https://developer.nvidia.com/omniverse"),
   vendor("microsoft", "Microsoft", "M", "#2563EB", "提供面向个人与组织的 AI 助手、开发工具和生产力服务。", "https://www.microsoft.com/ai", "https://support.microsoft.com/en-US/microsoft-copilot/getting-started-with-microsoft-copilot"),
+  vendor("amazon", "Amazon Web Services", "A", "#ff9900", "提供云计算、开发者工具与人工智能服务。", "https://aws.amazon.com/", "https://github.com/awslabs/mcp"),
   vendor("google", "Google", "G", "#4285f4", "提供模型、生产力工具和开发者人工智能服务。", "https://ai.google", "https://ai.google.dev"),
   vendor("gitlab", "GitLab", "G", "#fc6d26", "提供代码托管、DevSecOps、CI/CD 与项目协作平台。", "https://about.gitlab.com/", "https://docs.gitlab.com/user/model_context_protocol/mcp_server/"),
   vendor("salesforce", "Salesforce", "S", "#00a1e0", "提供客户关系管理、数据与业务自动化平台。", "https://www.salesforce.com/", "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/hosted-mcp-servers-overview.html"),
@@ -82,6 +83,16 @@ const vendors = [
   vendor("siemens", "Siemens", "S", "#009999", "提供工业软件、自动化与 Xcelerator 开发者平台。", "https://www.siemens.com/", "https://developer.siemens.com/"),
   vendor("esri", "Esri", "E", "#007ac2", "提供 ArcGIS 地理信息与位置服务平台。", "https://www.esri.com/", "https://www.esri.com/en-us/arcgis/products/arcgis-location-platform/overview"),
   vendor("synopsys", "Synopsys", "S", "#5b2c83", "提供芯片设计、验证与软件安全产品。", "https://www.synopsys.com/", "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html"),
+  vendor("databricks", "Databricks", "D", "#ff3621", "提供统一的数据、分析与人工智能平台。", "https://www.databricks.com/", "https://docs.databricks.com/aws/en/agents/mcp/managed-mcp"),
+  vendor("snowflake", "Snowflake", "S", "#29b5e8", "提供云端数据、分析与人工智能平台。", "https://www.snowflake.com/", "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents-mcp"),
+  vendor("redis", "Redis", "R", "#dc382d", "提供实时数据平台、缓存、向量检索与数据库服务。", "https://redis.io/", "https://redis.io/docs/latest/integrate/redis-mcp/"),
+  vendor("neo4j", "Neo4j", "N", "#018bff", "提供图数据库、图分析与知识图谱平台。", "https://neo4j.com/", "https://neo4j.com/docs/mcp/current/"),
+  vendor("confluent", "Confluent", "C", "#173361", "提供基于 Apache Kafka 的实时数据流平台。", "https://www.confluent.io/", "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html"),
+  vendor("paypal", "PayPal", "P", "#003087", "提供在线支付、商户与商业服务平台。", "https://www.paypal.com/", "https://developer.paypal.com/community/blog/paypal-model-context-protocol/"),
+  vendor("wix", "Wix", "W", "#0c0c0c", "提供网站、应用、内容和在线商业构建平台。", "https://www.wix.com/", "https://dev.wix.com/docs/sdk/articles/use-the-wix-mcp/about-the-wix-mcp"),
+  vendor("automattic", "Automattic", "A", "#3858e9", "提供 WordPress.com 等内容发布与网站服务。", "https://automattic.com/", "https://developer.wordpress.com/docs/mcp/"),
+  vendor("semrush", "Semrush", "S", "#ff642d", "提供搜索营销、竞争情报与网站分析平台。", "https://www.semrush.com/", "https://developer.semrush.com/api/v3/introduction/semrush-mcp/"),
+  vendor("intercom", "Intercom", "I", "#1f8ded", "提供客户服务、消息沟通与 Fin 人工智能客服平台。", "https://www.intercom.com/", "https://developers.intercom.com/docs/guides/mcp"),
 ];
 
 const products = [
@@ -132,7 +143,20 @@ const products = [
   ["cesium", product("cesiumjs", "CesiumJS", "面向浏览器的开源 3D 地球与地图开发库；官方 AI integrations 仓库目前属于实验性参考实现。", "https://cesium.com/platform/cesiumjs/", "https://github.com/CesiumGS/cesium-ai-integrations", false)],
   ["siemens", product("siemens-xcelerator-developer-portal", "Siemens Xcelerator Developer Portal", "工业开发者文档、产品与 API 目录；官方远程 MCP 当前仅提供开发者门户问答工具。", "https://developer.siemens.com/", "https://developer.siemens.com/ai-registry/developer-portal/developer-portal-mcp.html", false)],
   ["esri", product("arcgis-location-platform", "ArcGIS Location Platform", "在线地图、地理编码、路线和位置服务平台；官方 MCP 支持仍处于 Beta 与 Early Adopter 阶段。", "https://www.esri.com/en-us/arcgis/products/arcgis-location-platform/overview", "https://www.esri.com/arcgis-blog/products/platform/developers/mcp-support-beta-and-arcgis-static-maps-service-in-arcgis-location-platform-release", false)],
-  ["synopsys", product("synopsys-verdi", "Synopsys Verdi", "商业芯片调试与验证产品；Verdi Assistant MCP 目前仅有官方能力说明，没有公开安装入口。", "https://www.synopsys.com/verification/debug/verdi.html", "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html")]
+  ["synopsys", product("synopsys-verdi", "Synopsys Verdi", "商业芯片调试与验证产品；Verdi Assistant MCP 目前仅有官方能力说明，没有公开安装入口。", "https://www.synopsys.com/verification/debug/verdi.html", "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html")],
+  ["microsoft", product("azure-cloud-platform", "Microsoft Azure", "云计算平台；官方 Azure MCP 通过 Entra ID 与 Azure RBAC 访问用户授权的资源。", "https://azure.microsoft.com/", "https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/", false)],
+  ["amazon", product("aws-cloud-platform", "Amazon Web Services", "云计算平台；官方 MCP 资源包含托管服务与成熟度不同的 AWS Labs 开源服务器。", "https://aws.amazon.com/", "https://docs.aws.amazon.com/general/latest/gr/aws-mcp.html", false)],
+  ["databricks", product("databricks-data-intelligence-platform", "Databricks Data Intelligence Platform", "统一数据、分析与 AI 平台；官方托管 MCP 覆盖 Genie、AI Search、SQL 与 Unity Catalog 函数，不同能力仍可能处于 Preview 或 Beta。", "https://www.databricks.com/product/data-intelligence-platform", "https://docs.databricks.com/aws/en/agents/mcp/managed-mcp", false)],
+  ["snowflake", product("snowflake-ai-data-cloud", "Snowflake AI Data Cloud", "云端数据平台；Snowflake 托管 MCP 可按账号、数据库和 Schema 暴露受 RBAC 约束的数据与工具。", "https://www.snowflake.com/en/data-cloud/overview/", "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents-mcp", false)],
+  ["redis", product("redis-database", "Redis", "实时数据与数据库平台；官方 MCP 可读取、写入、搜索和管理用户指定的 Redis 数据。", "https://redis.io/", "https://redis.io/docs/latest/integrate/redis-mcp/", false)],
+  ["neo4j", product("neo4j-graph-database", "Neo4j Graph Database", "图数据库平台；官方 MCP 可探索 Schema 并执行 Cypher，生产环境应使用受限账号和只读模式。", "https://neo4j.com/product/neo4j-graph-database/", "https://neo4j.com/docs/mcp/current/", false)],
+  ["confluent", product("confluent-cloud", "Confluent Cloud", "实时数据流平台；官方 Global 与 Regional 托管 MCP 使用不同端点、凭据和可见数据范围。", "https://www.confluent.io/confluent-cloud/", "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html", false)],
+  ["paypal", product("paypal-commerce-platform", "PayPal Commerce Platform", "支付与商业平台；官方 MCP 与 Agent Toolkit 可访问订单、发票、退款和争议等高风险业务能力。", "https://developer.paypal.com/", "https://developer.paypal.com/community/blog/paypal-model-context-protocol/", false)],
+  ["wix", product("wix-platform", "Wix Platform", "网站与应用构建平台；官方 MCP 可搜索文档、调用站点 API，并创建或管理 Wix 站点。", "https://dev.wix.com/", "https://dev.wix.com/docs/sdk/articles/use-the-wix-mcp/about-the-wix-mcp", false)],
+  ["automattic", product("wordpress-com", "WordPress.com", "托管网站与内容发布平台；官方远程 MCP 通过 OAuth 访问用户启用的 WordPress.com 站点。", "https://wordpress.com/", "https://developer.wordpress.com/docs/mcp/", false)],
+  ["semrush", product("semrush-platform", "Semrush", "搜索营销与竞争情报平台；官方远程 MCP 当前为只读，但会访问项目、域名、关键词和流量数据并消耗配额。", "https://www.semrush.com/", "https://developer.semrush.com/api/v3/introduction/semrush-mcp/", false)],
+  ["intercom", product("intercom-platform", "Intercom Platform", "客户服务平台；官方远程 MCP 可访问联系人、公司、会话和帮助中心内容，当前只支持美国区工作区。", "https://www.intercom.com/", "https://developers.intercom.com/docs/guides/mcp", false)],
+  ["intercom", product("intercom-fin", "Intercom Fin", "人工智能客服产品；Fin Agent API MCP 的 Beta 能力可查询知识、开启对话并执行经过配置的业务流程。", "https://www.intercom.com/fin", "https://www.intercom.com/help/en/articles/15481203-fin-agent-api-mcp-server", false)]
 ];
 
 function target(productId, compatibility) {
@@ -198,7 +222,21 @@ const resources = [
   ["cesium-agent-skills", "Cesium Agent Skills", "cesium", ["cesiumjs"], "skill", "official", "https://github.com/CesiumGS/cesium-ai-integrations/blob/main/skills/README.md", ["claude-desktop", "claude-code", "codex-cli", "github-copilot"], "官方实验性 Skills，只提供资源入口；使用前必须审核指令、固定版本与代码生成范围，生成或覆盖 CesiumJS 项目文件前必须确认。", "只移除用户从官方仓库导入的 Cesium Skills；保留 Claude、Codex、Copilot、CesiumJS 项目与用户源码。"],
   ["siemens-xcelerator-developer-portal-mcp", "Siemens Xcelerator Developer Portal MCP", "siemens", ["siemens-xcelerator-developer-portal"], "mcp", "official", "https://developer.siemens.com/ai-registry/developer-portal/developer-portal-mcp.html", ["claude-desktop", "cursor-desktop", "github-copilot"], "官方远程 MCP 当前只有 askDeveloperPortal 文档问答工具；它不控制工业设备，也不应被描述为工业自动化执行入口。", "删除目标 AI 工具中的远程 MCP 连接；保留 Siemens 账号、开发者门户资料、项目与工业系统。"],
   ["esri-arcgis-location-platform-mcp", "ArcGIS Location Platform MCP", "esri", ["arcgis-location-platform"], "mcp", "official", "https://www.esri.com/arcgis-blog/products/platform/developers/mcp-support-beta-and-arcgis-static-maps-service-in-arcgis-location-platform-release", ["claude-desktop", "github-copilot", "microsoft-365-copilot"], "Beta/Early Adopter 能力，仅提供官方说明入口；位置查询会离开本机并可能产生 ArcGIS 用量费用，动态工具与数据写入前必须确认。", "删除目标 AI 工具中的 ArcGIS MCP 连接并撤销访问令牌；保留 ArcGIS 账号、Hosted Layer、地图、位置数据与账单记录。"],
-  ["synopsys-verdi-assistant-mcp", "Synopsys Verdi Assistant MCP", "synopsys", ["synopsys-verdi"], "mcp", "official", "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html", ["claude-desktop", "github-copilot"], "官方目前只公布能力说明，没有公开安装或配置入口；它可读取芯片源码、日志、波形与调试数据库并执行调试动作，当前仅展示文档。", "当前无公开安装项可卸载；如由厂商交付，按 Synopsys 管理方式断开，并保留 Verdi、许可证、源码、日志、波形与调试数据库。"]
+  ["synopsys-verdi-assistant-mcp", "Synopsys Verdi Assistant MCP", "synopsys", ["synopsys-verdi"], "mcp", "official", "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html", ["claude-desktop", "github-copilot"], "官方目前只公布能力说明，没有公开安装或配置入口；它可读取芯片源码、日志、波形与调试数据库并执行调试动作，当前仅展示文档。", "当前无公开安装项可卸载；如由厂商交付，按 Synopsys 管理方式断开，并保留 Verdi、许可证、源码、日志、波形与调试数据库。"],
+  ["microsoft-azure-mcp", "Microsoft Azure MCP", "microsoft", ["azure-cloud-platform"], "mcp", "official", "https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/", ["codex-cli", "cursor-desktop", "github-copilot", "windsurf-editor"], "继承 Azure Entra ID 与 RBAC；列出资源可只读，创建、修改、部署或删除任何云资源前必须展示订阅、资源组和影响并确认。", "删除目标 AI 工具中的 Azure MCP 连接并撤销相关授权；保留 Azure 订阅、资源、日志和账单记录。"],
+  ["aws-mcp-servers", "AWS MCP Servers", "amazon", ["aws-cloud-platform"], "mcp", "official", "https://github.com/awslabs/mcp", ["amazon-kiro-ide", "claude-code", "cursor-desktop"], "AWS Labs 目录中的各服务器成熟度、依赖和权限不同；目录当前只提供官方说明，不能把整个仓库视为一个可自动部署的软件包。", "删除用户自行添加的 MCP 连接并撤销对应 AWS 凭据；保留 AWS 账号、云资源、日志和账单记录。"],
+  ["databricks-managed-mcp-directory", "Databricks Managed MCP Servers", "databricks", ["databricks-data-intelligence-platform"], "mcp", "official", "https://docs.databricks.com/aws/en/agents/mcp/managed-mcp", ["chatgpt-desktop", "claude-desktop", "claude-code", "cursor-desktop", "windsurf-editor"], "不同服务器仍可能处于 Preview 或 Beta；Databricks SQL 可读写数据，Unity Catalog 函数可执行业务逻辑，必须按工作区、Scope 和对象权限最小授权。", "删除目标 AI 工具中的 Databricks MCP 连接并撤销 OAuth；保留工作区、Catalog、Schema、表、索引、函数、Notebook 与任务。"],
+  ["snowflake-managed-mcp", "Snowflake-managed MCP Server", "snowflake", ["snowflake-ai-data-cloud"], "mcp", "official", "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents-mcp", ["chatgpt-desktop", "claude-desktop", "cursor-desktop"], "只授权指定角色、数据库、Schema 和工具；SQL、UDF、存储过程与 Cortex Agent 可能读取或改变数据并产生计算费用，执行前必须确认。", "删除目标 AI 工具中的 Snowflake MCP 连接并撤销授权；保留账号、数据库、Schema、表、服务、Agent 与查询历史。"],
+  ["redis-mcp-server", "Redis MCP Server", "redis", ["redis-database"], "mcp", "official", "https://redis.io/docs/latest/integrate/redis-mcp/", ["claude-desktop", "github-copilot"], "默认使用只读、最小权限 Redis ACL 与加密连接；写入、删除、索引变更、服务器管理和生产数据查询前必须确认。", "删除目标 AI 工具中的 Redis MCP 连接并撤销专用凭据；保留 Redis 实例、数据库、Key、索引、持久化文件与云账号。"],
+  ["neo4j-mcp-server", "Neo4j MCP Server", "neo4j", ["neo4j-graph-database"], "mcp", "official", "https://neo4j.com/docs/mcp/current/", ["claude-desktop", "claude-code", "cursor-desktop", "github-copilot"], "官方默认可写；接入生产库时必须启用只读模式并使用受限账号。任何写 Cypher、APOC、GDS 或大范围查询前必须确认。", "删除目标 AI 工具中的 Neo4j MCP 连接并撤销专用凭据；保留 Neo4j 实例、图数据、索引、约束和备份。"],
+  ["confluent-cloud-global-mcp", "Confluent Cloud Global MCP", "confluent", ["confluent-cloud"], "mcp", "official", "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html", [{ id: "claude-desktop", compatibility: "protocol-compatible" }, "claude-code", "cursor-desktop", "github-copilot"], "官方 Global 端点当前只读，但可枚举环境、集群、Connector 与指标；组织级 API Key 和元数据不得进入目录或普通日志。", "删除目标 AI 工具中的 Global MCP 连接并撤销对应 API Key；保留 Confluent 组织、环境、集群、Connector、指标与账单。"],
+  ["confluent-cloud-regional-mcp", "Confluent Cloud Regional MCP", "confluent", ["confluent-cloud"], "mcp", "official", "https://docs.confluent.io/cloud/current/ai/ai-tools/managed-mcp-server.html", [{ id: "claude-desktop", compatibility: "protocol-compatible" }, "claude-code", "cursor-desktop", "github-copilot"], "官方 Regional 端点当前只读，但可读取 Topic 样本消息、Schema 与区域资源；区域、云、组织 ID 和专用 Key 必须受约束并避免日志泄露。", "删除目标 AI 工具中的 Regional MCP 连接并撤销对应 API Key；保留 Topic、消息、Schema、集群、网络和组织资源。"],
+  ["paypal-mcp-server", "PayPal MCP Server", "paypal", ["paypal-commerce-platform"], "mcp", "official", "https://developer.paypal.com/community/blog/paypal-model-context-protocol/", ["claude-desktop", "cursor-desktop"], "优先使用 Sandbox；创建订单、发送或取消发票、付款、退款和争议处理会影响真实商户与资金，生产环境每次都必须确认。", "删除目标 AI 工具中的 PayPal MCP 连接并撤销应用凭据；保留商户账号、订单、发票、退款、争议和法定交易记录。"],
+  ["wix-mcp", "Wix MCP", "wix", ["wix-platform"], "mcp", "official", "https://dev.wix.com/docs/sdk/articles/use-the-wix-mcp/about-the-wix-mcp", ["claude-desktop", "cursor-desktop", "github-copilot", "windsurf-editor"], "除文档检索外还可调用站点 API、创建或管理站点；所有工具默认启用，发布、删除、安装应用和批量修改站点前必须确认。", "删除目标 AI 工具中的 Wix MCP 连接并撤销 OAuth 或 API Key；保留 Wix 账号、站点、应用、内容、订单和发布记录。"],
+  ["wordpress-com-mcp", "WordPress.com MCP", "automattic", ["wordpress-com"], "mcp", "official", "https://developer.wordpress.com/docs/mcp/", ["chatgpt-desktop", "claude-desktop", "claude-code", "codex-cli", "cursor-desktop", "github-copilot"], "仅适用于用户启用的 WordPress.com 站点；发布、更新、删除内容，切换主题、管理插件、设置或 DNS 前必须展示目标并确认。", "删除目标 AI 工具中的 WordPress.com MCP 连接，并在 Connected Apps 撤销 OAuth；保留账号、站点、文章、页面、媒体、主题、插件和域名。"],
+  ["semrush-mcp", "Semrush MCP", "semrush", ["semrush-platform"], "mcp", "official", "https://developer.semrush.com/api/v3/introduction/semrush-mcp/", ["chatgpt-desktop", "claude-desktop", "claude-code", "cursor-desktop", "github-copilot", "perplexity-web"], "当前为只读，但会访问客户域名、关键词、竞争情报、项目与流量数据并消耗订阅或 API Units；OAuth 与 API Key 不得进入目录。", "删除目标 AI 工具中的 Semrush MCP 连接并撤销 OAuth 或 API Key；保留 Semrush 账号、项目、报表、配额和历史数据。"],
+  ["intercom-mcp-server", "Intercom MCP Server", "intercom", ["intercom-platform"], "mcp", "official", "https://developers.intercom.com/docs/guides/mcp", ["chatgpt-desktop", "claude-desktop", "claude-code", "cursor-desktop", "github-copilot", "windsurf-editor"], "当前只支持美国区工作区；联系人、公司、会话和帮助中心内容包含客户 PII，读取、更新文章或任何外发动作前必须确认。", "删除目标 AI 工具中的 Intercom MCP 连接并撤销 OAuth 或 Token；保留工作区、联系人、公司、会话、文章和审计记录。"],
+  ["intercom-fin-agent-api-mcp", "Fin Agent API MCP Server", "intercom", ["intercom-fin"], "mcp", "official", "https://www.intercom.com/help/en/articles/15481203-fin-agent-api-mcp-server", ["claude-desktop", "claude-code"], "Beta 能力可查询知识、开启对话并运行退款、升级、取消等 Procedure；生产流程必须逐次确认，Messenger Secret 绝不能进入客户端。", "删除目标 AI 工具中的 Fin MCP 连接并撤销 API Key/OAuth；保留 Fin 配置、知识库、会话、Procedure 与业务记录。"]
 ];
 
 function ensureVendor(catalog, spec) {
@@ -231,8 +269,12 @@ function upsertResource(catalog, spec) {
   const [id, name, vendorId, sourceProductIds, type, sourceKind, website,
     targetIds, permission, uninstallPlan] = spec;
   const productIds = new Set(catalog.vendors.flatMap((entry) => entry.products.map((item) => item.id)));
-  const targets = targetIds.filter((targetId) => productIds.has(targetId))
-    .map((targetId) => target(targetId, sourceKind === "official" ? "official" : "verified"));
+  const targets = targetIds
+    .map((entry) => typeof entry === "string"
+      ? { id: entry, compatibility: sourceKind === "official" ? "official" : "verified" }
+      : entry)
+    .filter((entry) => productIds.has(entry.id))
+    .map((entry) => target(entry.id, entry.compatibility));
   if (!targets.length) return;
   const index = catalog.resources.findIndex((entry) => entry.id === id);
   const previous = index >= 0 ? catalog.resources[index] : null;
