@@ -103,3 +103,13 @@
 - 6 个新厂商均使用从各自官网逐图核验并落库的内容寻址 Logo；导入器通过固定官方素材 URL 和来源页约束，禁止退回共享站点图标或搜索图片。
 - 目录基线达到 197 个厂商、351 个产品、118 项生态资源和 405 条目标关系；其中 100 个产品、85 个厂商进入 AI 可接入目录。扩充脚本连续执行后目录 SHA-256 保持不变。
 - 定向目录与 Logo 测试、完整发布测试、TypeScript 检查和 Vite 生产构建通过；本地后台签名发布目录 v51，草稿修订为 54。本轮没有扩充 CLI，也没有重新封装 PC 安装包。
+
+## 2026-08-03 Windows 图形产品第八批扩充
+
+- 官方资料审查记录在 `docs/research/2026-08-03-vendor-expansion-batch8.md`。新增 ON1、Capture One、DxO、Craft、Capacities、Evernote、Dropbox、Tana、Heptabase、ACD Systems、Boris FX、Zoner 共 12 个厂商及 12 个 Windows 图形产品；没有扩充 CLI。
+- Craft、Capacities、Evernote、Dropbox Dash、Tana 与 Heptabase 的 Web 和 Windows 入口合并在同一个产品模块中；Capture One Live 明确标成网页协作，不冒充完整网页编辑器。Vegas Pro 按 2026 年官方收购公告归属 Boris FX，不沿用旧 MAGIX 关系。
+- 12 个产品全部继续使用 `desktop-official`：客户端只打开厂商长期维护的官方页面，不下载、解析、校验或启动图形安装器，也不主动探测环境。MCP、API 或连接器能力留在资源商店，不重复创建产品。
+- ON1、Capture One、DxO、Craft、Capacities、Evernote、Dropbox、Tana、Heptabase 与 Zoner 使用逐图核验、内容寻址落库的官方图标；ACD Systems 因商标条款和方形素材辨识度不足、Boris FX 因仅有横向文字标识，保留审核文字兜底。
+- 精准搜索补上身份词边界：`Craft` 只返回 Craft，不再误命中 Recraft；`Dash` 仍可命中 Dropbox Dash。该修复有独立回归测试，并在重启长期运行的 Vite 进程后完成真实页面复验。
+- 目录基线达到 209 个厂商、363 个产品、118 项生态资源和 405 条目标关系；图标清单为 149 个本地官方素材与 60 个审核文字兜底。扩充与图标导入脚本连续执行后目录及两份图标清单 SHA-256 均保持不变。
+- 定向目录、图标与搜索测试通过；完整发布测试、TypeScript 检查和 Vite 生产构建通过。本地后台签名发布目录 v52，草稿修订为 55，后台健康检查为 `ok`。客户端实测确认 Craft 单一搜索结果、合并入口按钮和 Zoner 最新目录记录均已生效。本轮没有重新封装 PC 安装包。

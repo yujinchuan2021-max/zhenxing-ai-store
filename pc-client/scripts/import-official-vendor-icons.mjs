@@ -18,6 +18,46 @@ const store = createVendorIconStore({
 const timeoutMs = 6500;
 const concurrency = 8;
 const reviewedIconSources = Object.freeze({
+  zoner: {
+    assetUrl: "https://www.zoner.com/__img/zs/favicon/apple-touch-icon.png",
+    sourceUrl: "https://www.zoner.com/en"
+  },
+  on1: {
+    assetUrl: "https://on1-wp.s3.amazonaws.com/wp-content/uploads/2019/10/08141917/cropped-site-icon-black-bg-512-192x192.png",
+    sourceUrl: "https://www.on1.com/press/"
+  },
+  "capture-one": {
+    assetUrl: "https://www.captureone.com/apple-icon.png?2733b5e0918cb121",
+    sourceUrl: "https://www.captureone.com/en/products/capture-one-pro"
+  },
+  dxo: {
+    assetUrl: "https://www.dxo.com/icon.svg",
+    sourceUrl: "https://www.dxo.com/en/dxo-photolab/"
+  },
+  craft: {
+    assetUrl: "https://www.craft.do/favicons/light/light_192.png",
+    sourceUrl: "https://www.craft.do/download"
+  },
+  capacities: {
+    assetUrl: "https://capacities.io/favicon.png",
+    sourceUrl: "https://capacities.io/download-app"
+  },
+  evernote: {
+    assetUrl: "https://evernote.com/images/evernote-logo-serp.png",
+    sourceUrl: "https://evernote.com/blog/introducing-v11"
+  },
+  dropbox: {
+    assetUrl: "https://cdn.prod.website-files.com/65dcd70b48edc3a7b446950e/68f7935417b88ae7c10aaad8_webclip-256px.png",
+    sourceUrl: "https://dash.dropbox.com/"
+  },
+  tana: {
+    assetUrl: "https://tana.inc/apple-touch-icon-tana.png",
+    sourceUrl: "https://tana.inc/download"
+  },
+  heptabase: {
+    assetUrl: "https://heptabase.com/assets/images/apple-touch-icon.png",
+    sourceUrl: "https://heptabase.com/download"
+  },
   opera: {
     assetUrl: "https://cdn-production-opera-website.operacdn.com/staticfiles/assets/images/favicon/opera/apple-touch-icon-180x180.00d9278d6de6.png",
     sourceUrl: "https://www.opera.com/one"

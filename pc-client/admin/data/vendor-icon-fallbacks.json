@@ -1,7 +1,15 @@
 {
   "version": 1,
-  "reviewedAt": "2026-08-02T16:00:00.000Z",
+  "reviewedAt": "2026-08-03T14:30:00.000Z",
   "vendors": {
+    "acd-systems": {
+      "evidenceUrl": "https://www.acdsee.com/en/legal-notices/",
+      "reason": "官方法律说明要求未经明确许可不得复制 ACD Logo，且站点方形图标缺少可辨识文字，保留文字兜底。"
+    },
+    "boris-fx": {
+      "evidenceUrl": "https://borisfx.com/",
+      "reason": "官方当前只提供横向文字标识，缩入方形厂商卡后难以辨认，保留清晰的文字兜底避免误导。"
+    },
     "midjourney": {
       "evidenceUrl": "https://docs.midjourney.com/hc/en-us/articles/32084281102349-Midjourney-Trademark-Policy",
       "reason": "官方商标政策要求归属及非关联声明，当前卡片没有稳定的声明承载位置。"

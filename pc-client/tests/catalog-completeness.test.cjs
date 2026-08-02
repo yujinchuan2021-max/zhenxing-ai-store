@@ -114,17 +114,33 @@ const VENDOR_EXPANSION_BATCH7 = Object.freeze([
   "cyberlink-photodirector"
 ]);
 
+const VENDOR_EXPANSION_BATCH8 = Object.freeze([
+  "on1-photo-raw",
+  "capture-one-pro",
+  "dxo-photolab",
+  "craft-desktop",
+  "capacities-desktop",
+  "evernote-desktop",
+  "dropbox-dash",
+  "tana-outliner",
+  "heptabase-desktop",
+  "acdsee-photo-studio-ultimate",
+  "vegas-pro",
+  "zoner-studio"
+]);
+
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 197);
+  assert.equal(catalog.vendors.length, 209);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 351);
+  assert.equal(products.length, 363);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of [
     ...HIGH_VALUE_RESEARCH_PRODUCTS,
     ...VENDOR_EXPANSION_BATCH5,
     ...VENDOR_EXPANSION_BATCH6,
-    ...VENDOR_EXPANSION_BATCH7
+    ...VENDOR_EXPANSION_BATCH7,
+    ...VENDOR_EXPANSION_BATCH8
   ]) {
     assert.equal(productIds.has(productId), true, productId);
   }
@@ -236,7 +252,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 351);
+  assert.equal(products.length, 363);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -274,7 +290,7 @@ test("the seven product behavior modules classify every catalog entry", () => {
   }
   assert.deepEqual(counts, {
     web: 143,
-    "desktop-official": 133,
+    "desktop-official": 145,
     "desktop-reviewed": 26,
     "cli-official": 3,
     cli: 14,
@@ -418,6 +434,45 @@ test("batch 7 keeps each Web and Windows product on one backend-owned card", () 
     "google-chrome-ai"
   ]) {
     assert.equal(products.some((product) => product.id === duplicateId), false, duplicateId);
+  }
+});
+
+test("batch 8 keeps verified AI products on official Windows entry modules", () => {
+  const products = catalog.vendors.flatMap((vendor) => vendor.products);
+  for (const productId of VENDOR_EXPANSION_BATCH8) {
+    const matches = products.filter((product) => product.id === productId);
+    assert.equal(matches.length, 1, productId);
+    assert.equal(matches[0].productType, "desktop-official", productId);
+    assert.equal(matches[0].directoryKind, "ai-tool", productId);
+    assert.equal(
+      matches[0].entryPoints.filter((entry) => entry.type === "desktop").length,
+      1,
+      productId
+    );
+  }
+  for (const productId of [
+    "capture-one-pro",
+    "craft-desktop",
+    "capacities-desktop",
+    "evernote-desktop",
+    "dropbox-dash",
+    "tana-outliner",
+    "heptabase-desktop"
+  ]) {
+    assert.equal(
+      products.find((product) => product.id === productId).entryPoints
+        .filter((entry) => entry.type === "web").length,
+      1,
+      productId
+    );
+  }
+  assert.equal(
+    products.find((product) => product.id === "capture-one-pro").entryPoints
+      .find((entry) => entry.type === "web").label,
+    "Capture One Live 网页协作"
+  );
+  for (const obsoleteId of ["craft-docs", "capacities-notes", "tana-desktop"]) {
+    assert.equal(products.some((product) => product.id === obsoleteId), false, obsoleteId);
   }
 });
 

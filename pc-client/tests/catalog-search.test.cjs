@@ -54,6 +54,20 @@ test("catalog search accepts Chinese product identities", () => {
   ]);
 });
 
+test("catalog search does not match text hidden inside another identity", () => {
+  const craft = search("Craft");
+  assert.deepEqual(
+    craft.vendors.map(({ vendor }) => vendor.id),
+    ["craft"]
+  );
+
+  const dash = search("Dash");
+  assert.deepEqual(
+    dash.vendors.map(({ vendor }) => vendor.id),
+    ["dropbox"]
+  );
+});
+
 test("catalog search projects resources into every enabled current or future store", () => {
   const source = {
     vendors: [

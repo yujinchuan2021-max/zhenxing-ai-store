@@ -82,6 +82,11 @@ function normalizedSearchIdentity(value) {
     : "";
 }
 
+function includesAtIdentityBoundary(identity, query) {
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(?:^|[^\\p{L}\\p{N}])${escaped}`, "u").test(identity);
+}
+
 function identityMatchRank(query, ...values) {
   let rank = Number.POSITIVE_INFINITY;
   for (const value of values) {
@@ -89,7 +94,9 @@ function identityMatchRank(query, ...values) {
     if (!identity) continue;
     if (identity === query) return 0;
     if (identity.startsWith(query)) rank = Math.min(rank, 1);
-    else if (identity.includes(query)) rank = Math.min(rank, 2);
+    else if (includesAtIdentityBoundary(identity, query)) {
+      rank = Math.min(rank, 2);
+    }
   }
   return rank;
 }

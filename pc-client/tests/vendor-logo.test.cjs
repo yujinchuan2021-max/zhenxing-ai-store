@@ -98,6 +98,16 @@ test("vendor logo assets cannot be shared across unrelated vendors", () => {
 
 test("high-risk vendor logos use their reviewed official organization identity", () => {
   const expectedSources = {
+    zoner: "https://www.zoner.com/en",
+    on1: "https://www.on1.com/press/",
+    "capture-one": "https://www.captureone.com/en/products/capture-one-pro",
+    dxo: "https://www.dxo.com/en/dxo-photolab/",
+    craft: "https://www.craft.do/download",
+    capacities: "https://capacities.io/download-app",
+    evernote: "https://evernote.com/blog/introducing-v11",
+    dropbox: "https://dash.dropbox.com/",
+    tana: "https://tana.inc/download",
+    heptabase: "https://heptabase.com/download",
     opera: "https://www.opera.com/one",
     mozilla: "https://www.firefox.com/en-US/download/windows/",
     invokeai: "https://invoke.ai/download/",

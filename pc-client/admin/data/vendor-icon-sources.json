@@ -1390,6 +1390,106 @@
       "vendorIds": [
         "fotor"
       ]
+    },
+    "6b12350d518a197df55c354f2d40e5b7b95186c913f8d13e21d9e628500896f2": {
+      "path": "vendor-icons/6b12350d518a197df55c354f2d40e5b7b95186c913f8d13e21d9e628500896f2.png",
+      "sha256": "6b12350d518a197df55c354f2d40e5b7b95186c913f8d13e21d9e628500896f2",
+      "mimeType": "image/png",
+      "sourceUrl": "https://dash.dropbox.com/",
+      "updatedAt": "2026-08-02T18:32:43.171Z",
+      "vendorIds": [
+        "dropbox"
+      ]
+    },
+    "7d563b134bc0d182a4d53f3af8f686215220440ac715e2e4b165fdfbc7ac0c6a": {
+      "path": "vendor-icons/7d563b134bc0d182a4d53f3af8f686215220440ac715e2e4b165fdfbc7ac0c6a.png",
+      "sha256": "7d563b134bc0d182a4d53f3af8f686215220440ac715e2e4b165fdfbc7ac0c6a",
+      "mimeType": "image/png",
+      "sourceUrl": "https://capacities.io/download-app",
+      "updatedAt": "2026-08-02T18:32:43.192Z",
+      "vendorIds": [
+        "capacities"
+      ]
+    },
+    "15589bb109ec8a4dc3828f7e8992caf036f3e12e415342420079671873985b84": {
+      "path": "vendor-icons/15589bb109ec8a4dc3828f7e8992caf036f3e12e415342420079671873985b84.png",
+      "sha256": "15589bb109ec8a4dc3828f7e8992caf036f3e12e415342420079671873985b84",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.captureone.com/en/products/capture-one-pro",
+      "updatedAt": "2026-08-02T18:32:43.198Z",
+      "vendorIds": [
+        "capture-one"
+      ]
+    },
+    "61a47e6b9df395342a37651d5ef8cc017f5f4f7fc501ef8a6fa2fc5be9aac3ca": {
+      "path": "vendor-icons/61a47e6b9df395342a37651d5ef8cc017f5f4f7fc501ef8a6fa2fc5be9aac3ca.png",
+      "sha256": "61a47e6b9df395342a37651d5ef8cc017f5f4f7fc501ef8a6fa2fc5be9aac3ca",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.craft.do/download",
+      "updatedAt": "2026-08-02T18:32:43.209Z",
+      "vendorIds": [
+        "craft"
+      ]
+    },
+    "ed676a15f2031049991a5d382453cf4dcb5e520b8797633f3652e8184cb66aee": {
+      "path": "vendor-icons/ed676a15f2031049991a5d382453cf4dcb5e520b8797633f3652e8184cb66aee.png",
+      "sha256": "ed676a15f2031049991a5d382453cf4dcb5e520b8797633f3652e8184cb66aee",
+      "mimeType": "image/png",
+      "sourceUrl": "https://tana.inc/download",
+      "updatedAt": "2026-08-02T18:32:43.238Z",
+      "vendorIds": [
+        "tana"
+      ]
+    },
+    "80c9be54b9e4ec8f051aa327d68f92f886b2d910f997fffa854db5b128a1f725": {
+      "path": "vendor-icons/80c9be54b9e4ec8f051aa327d68f92f886b2d910f997fffa854db5b128a1f725.svg",
+      "sha256": "80c9be54b9e4ec8f051aa327d68f92f886b2d910f997fffa854db5b128a1f725",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://www.dxo.com/en/dxo-photolab/",
+      "updatedAt": "2026-08-02T18:32:43.337Z",
+      "vendorIds": [
+        "dxo"
+      ]
+    },
+    "5d45301cfc45bcd6ee38caf0278c4e507bebc2e1cd537b029945affcbce143df": {
+      "path": "vendor-icons/5d45301cfc45bcd6ee38caf0278c4e507bebc2e1cd537b029945affcbce143df.png",
+      "sha256": "5d45301cfc45bcd6ee38caf0278c4e507bebc2e1cd537b029945affcbce143df",
+      "mimeType": "image/png",
+      "sourceUrl": "https://evernote.com/blog/introducing-v11",
+      "updatedAt": "2026-08-02T18:32:43.362Z",
+      "vendorIds": [
+        "evernote"
+      ]
+    },
+    "1fa967578c1b39a3637250b87acf3c945720f1b65f2f62949886026b5606fce6": {
+      "path": "vendor-icons/1fa967578c1b39a3637250b87acf3c945720f1b65f2f62949886026b5606fce6.png",
+      "sha256": "1fa967578c1b39a3637250b87acf3c945720f1b65f2f62949886026b5606fce6",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.on1.com/press/",
+      "updatedAt": "2026-08-02T18:32:43.407Z",
+      "vendorIds": [
+        "on1"
+      ]
+    },
+    "8505a39e5bf2dad47a051432038e3f1c4a15c5485088764d1dd862bcf43ceaec": {
+      "path": "vendor-icons/8505a39e5bf2dad47a051432038e3f1c4a15c5485088764d1dd862bcf43ceaec.png",
+      "sha256": "8505a39e5bf2dad47a051432038e3f1c4a15c5485088764d1dd862bcf43ceaec",
+      "mimeType": "image/png",
+      "sourceUrl": "https://heptabase.com/download",
+      "updatedAt": "2026-08-02T18:32:43.584Z",
+      "vendorIds": [
+        "heptabase"
+      ]
+    },
+    "fdf94c651f0b0e76c145d6993f9e60aef9d25c092a3b33b67f9dc7983262d447": {
+      "path": "vendor-icons/fdf94c651f0b0e76c145d6993f9e60aef9d25c092a3b33b67f9dc7983262d447.png",
+      "sha256": "fdf94c651f0b0e76c145d6993f9e60aef9d25c092a3b33b67f9dc7983262d447",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.zoner.com/en",
+      "updatedAt": "2026-08-02T18:35:34.881Z",
+      "vendorIds": [
+        "zoner"
+      ]
     }
   }
 }
