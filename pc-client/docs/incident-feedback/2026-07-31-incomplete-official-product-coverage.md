@@ -93,3 +93,13 @@
 - 目录基线达到 191 个厂商、337 个产品、118 项生态资源和 405 条目标关系；其中 91 个产品、83 个厂商进入 AI 可接入目录。
 - 扩充脚本连续执行后目录与 Logo 兜底清单 SHA-256 保持不变；完整发布测试、TypeScript 检查和 Vite 生产构建通过。本地后台签名发布目录 v49，草稿修订为 52。
 - 五个新增图形 Logo 使用已核验的官方 GitHub 组织身份；Gamma、Udio、Obsidian 在未确认可复用方形品牌素材前保留审核文字兜底，避免再次把 favicon 或第三方图片当作厂商 Logo。
+
+## 2026-08-03 Windows 图形产品第七批扩充
+
+- 官方资料审查记录在 `docs/research/2026-08-02-vendor-expansion-batch7.md`。新增 Opera、Mozilla、InvokeAI、Upscayl、Fotor、CyberLink 共 6 个厂商，并补齐 Visual Studio、Android Studio、Acrobat Reader、Edge、Redis Insight、Neo4j Desktop、MongoDB Compass 等 Windows 图形产品。
+- Asana、monday.com、Box、Acrobat 与 Fotor 的官网、Web 和 Windows 入口保持在单个后台产品模块中；Chrome 复用已有产品 ID，从而保留 Chrome DevTools MCP 的来源关系，没有再创建重复浏览器卡片。
+- 新增后台分类“浏览器与搜索”，用于 Chrome、Edge、Opera 和 Firefox；AI 能力存在地区、账号、版本、订阅或第三方数据边界时，产品描述不承诺安装后必然可用。
+- 全部新增图形软件继续使用 `desktop-official`：客户端只打开厂商官方下载页，不保存版本化 EXE/MSI 直链，不执行安装器、环境探测或卸载命令。
+- 6 个新厂商均使用从各自官网逐图核验并落库的内容寻址 Logo；导入器通过固定官方素材 URL 和来源页约束，禁止退回共享站点图标或搜索图片。
+- 目录基线达到 197 个厂商、351 个产品、118 项生态资源和 405 条目标关系；其中 100 个产品、85 个厂商进入 AI 可接入目录。扩充脚本连续执行后目录 SHA-256 保持不变。
+- 定向目录与 Logo 测试、完整发布测试、TypeScript 检查和 Vite 生产构建通过；本地后台签名发布目录 v51，草稿修订为 54。本轮没有扩充 CLI，也没有重新封装 PC 安装包。

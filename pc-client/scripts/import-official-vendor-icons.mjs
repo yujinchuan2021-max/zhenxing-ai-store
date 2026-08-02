@@ -18,6 +18,30 @@ const store = createVendorIconStore({
 const timeoutMs = 6500;
 const concurrency = 8;
 const reviewedIconSources = Object.freeze({
+  opera: {
+    assetUrl: "https://cdn-production-opera-website.operacdn.com/staticfiles/assets/images/favicon/opera/apple-touch-icon-180x180.00d9278d6de6.png",
+    sourceUrl: "https://www.opera.com/one"
+  },
+  mozilla: {
+    assetUrl: "https://www.firefox.com/media/img/favicons/firefox/browser/favicon-196x196.59e3822720be.png",
+    sourceUrl: "https://www.firefox.com/en-US/download/windows/"
+  },
+  invokeai: {
+    assetUrl: "https://invoke.ai/favicon.svg",
+    sourceUrl: "https://invoke.ai/download/"
+  },
+  upscayl: {
+    assetUrl: "https://upscayl.org/logo/64x64.png",
+    sourceUrl: "https://upscayl.org/download"
+  },
+  fotor: {
+    assetUrl: "https://static.fotor.com/web/_next/static/images/favicon-d4b8dbe4630a2bc790117e61267bbb33.png",
+    sourceUrl: "https://www.fotor.com/windows/index.html"
+  },
+  cyberlink: {
+    assetUrl: "https://dl-asset.cyberlink.com/web/stat/edms/prog/newhomepage/img/logo-630x630.jpg",
+    sourceUrl: "https://www.cyberlink.com/"
+  },
   amd: {
     assetUrl: "https://avatars.githubusercontent.com/u/430818?s=256&v=4",
     sourceUrl: "https://github.com/amd"

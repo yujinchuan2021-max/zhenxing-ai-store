@@ -98,6 +98,12 @@ test("vendor logo assets cannot be shared across unrelated vendors", () => {
 
 test("high-risk vendor logos use their reviewed official organization identity", () => {
   const expectedSources = {
+    opera: "https://www.opera.com/one",
+    mozilla: "https://www.firefox.com/en-US/download/windows/",
+    invokeai: "https://invoke.ai/download/",
+    upscayl: "https://upscayl.org/download",
+    fotor: "https://www.fotor.com/windows/index.html",
+    cyberlink: "https://www.cyberlink.com/",
     ableton: "https://github.com/Ableton",
     amazon: "https://github.com/aws",
     nvidia: "https://github.com/NVIDIA",

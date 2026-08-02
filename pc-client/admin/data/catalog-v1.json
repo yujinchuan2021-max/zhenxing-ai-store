@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-02T18:03:53.812Z",
+  "updatedAt": "2026-08-02T18:21:54.221Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -31,7 +31,8 @@
     "网站与建站",
     "内容管理与发布",
     "营销与搜索",
-    "客户服务"
+    "客户服务",
+    "浏览器与搜索"
   ],
   "brand": {
     "name": "枕星 AI",
@@ -1254,12 +1255,12 @@
           "enabled": true,
           "order": 14,
           "directoryKind": "ai-connectable",
-          "name": "Google Chrome DevTools",
+          "name": "Google Chrome",
           "kind": "桌面端",
-          "category": "编程与调试",
-          "description": "Google Chrome 可通过官方 Chrome DevTools MCP Server 向兼容 AI 编程工具提供页面检查、调试与浏览器自动化能力。",
-          "website": "https://www.google.com/chrome/",
-          "tutorial": "https://developer.chrome.com/docs/devtools/agents/get-started",
+          "category": "浏览器与搜索",
+          "description": "Windows 浏览器，受支持地区与账号可使用 Gemini，并保留面向开发工具智能体的官方 DevTools 接入能力。",
+          "website": "https://www.google.com/chrome/download-chrome/",
+          "tutorial": "https://support.google.com/chrome/answer/16283624",
           "productType": "desktop-official",
           "moduleId": "desktop-official",
           "installProfileId": "",
@@ -1271,6 +1272,22 @@
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.google.com/chrome/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.google.com/chrome/answer/16283624"
+            }
           ]
         },
         {
@@ -1295,6 +1312,46 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "google-android-studio",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Android Studio",
+          "kind": "桌面端",
+          "category": "编程与调试",
+          "description": "Android 官方 Windows 开发环境，受支持版本可使用 Gemini 辅助编程；能力取决于系统、账号与地区。",
+          "website": "https://developer.android.com/studio",
+          "tutorial": "https://developer.android.com/studio/gemini/overview",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://developer.android.com/studio"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developer.android.com/studio/gemini/overview"
+            }
           ]
         }
       ],
@@ -1695,6 +1752,86 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://code.visualstudio.com/docs/copilot/chat/mcp-servers"
+            }
+          ]
+        },
+        {
+          "id": "microsoft-visual-studio",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Visual Studio",
+          "kind": "桌面端",
+          "category": "编程与调试",
+          "description": "Windows 集成开发环境，提供 GitHub Copilot 辅助与兼容 MCP Server 的开发工作流。",
+          "website": "https://visualstudio.microsoft.com/downloads/",
+          "tutorial": "https://learn.microsoft.com/en-us/visualstudio/ide/visual-studio-github-copilot-install-and-states?view=visualstudio",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://visualstudio.microsoft.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://learn.microsoft.com/en-us/visualstudio/ide/visual-studio-github-copilot-install-and-states?view=visualstudio"
+            }
+          ]
+        },
+        {
+          "id": "microsoft-edge-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Microsoft Edge",
+          "kind": "桌面端",
+          "category": "浏览器与搜索",
+          "description": "Windows 浏览器，可在侧栏使用 Copilot 处理用户授权的网页上下文；可用性取决于设备、市场与版本。",
+          "website": "https://www.microsoft.com/en-us/edge/download",
+          "tutorial": "https://support.microsoft.com/en-us/microsoft-copilot/getting-started-with-copilot-in-microsoft-edge",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.microsoft.com/en-us/edge/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.microsoft.com/en-us/microsoft-copilot/getting-started-with-copilot-in-microsoft-edge"
             }
           ]
         }
@@ -9798,23 +9935,44 @@
           "enabled": true,
           "order": 0,
           "directoryKind": "ai-connectable",
-          "name": "Asana Work Graph",
-          "kind": "其他产品",
+          "name": "Asana",
+          "kind": "桌面端",
           "category": "项目与协作",
-          "description": "可通过 Asana MCP Server V2 向兼容 AI 工具提供工作管理能力。",
-          "website": "https://asana.com/",
-          "tutorial": "https://developers.asana.com/docs/mcp-server",
-          "productType": "web",
-          "moduleId": "web-link",
+          "description": "合并网页与 Windows 入口的工作管理产品，并可通过官方 MCP 接入已授权的项目数据。",
+          "website": "https://asana.com/download",
+          "tutorial": "https://help.asana.com/s/article/asana-desktop-app?language=en_US",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://asana.com/"
+            },
+            {
+              "type": "web",
+              "label": "Asana 网页版",
+              "url": "https://app.asana.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.asana.com/s/article/asana-desktop-app?language=en_US"
+            }
           ]
         }
       ],
@@ -10256,6 +10414,51 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "adobe-acrobat-reader-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Adobe Acrobat Reader",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "合并 Acrobat Web 与 Windows Reader 入口；AI Assistant 的方案、登录与额度以官方说明为准。",
+          "website": "https://www.adobe.com/acrobat/pdf-reader.html",
+          "tutorial": "https://helpx.adobe.com/acrobat/desktop/use-acrobat-ai/generative-ai-features/ai-get-answers.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.adobe.com/acrobat.html"
+            },
+            {
+              "type": "web",
+              "label": "Adobe Acrobat Reader 网页版",
+              "url": "https://acrobat.adobe.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://helpx.adobe.com/acrobat/desktop/use-acrobat-ai/generative-ai-features/ai-get-answers.html"
+            }
+          ]
         }
       ],
       "order": 124,
@@ -10458,23 +10661,44 @@
           "enabled": true,
           "order": 0,
           "directoryKind": "ai-connectable",
-          "name": "monday Work Management",
-          "kind": "其他产品",
+          "name": "monday.com",
+          "kind": "桌面端",
           "category": "项目与协作",
-          "description": "通过官方 MCP 把用户有权限的工作区、看板和事项接入 AI 工具。",
-          "website": "https://monday.com/work-management",
+          "description": "合并网页与 Windows 入口的工作管理平台，并可通过官方 MCP 接入已授权的工作区。",
+          "website": "https://support.monday.com/hc/en-us/articles/115005316885-monday-com-s-desktop-app",
           "tutorial": "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp",
-          "productType": "web",
-          "moduleId": "web-link",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://monday.com/"
+            },
+            {
+              "type": "web",
+              "label": "monday.com 网页版",
+              "url": "https://auth.monday.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp"
+            }
           ]
         }
       ],
@@ -10514,6 +10738,46 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "mongodb-compass",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "MongoDB Compass",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "MongoDB 官方 Windows 图形界面，支持通过自然语言生成查询并检查结果。",
+          "website": "https://www.mongodb.com/try/download/compass",
+          "tutorial": "https://www.mongodb.com/docs/compass/query-with-natural-language/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.mongodb.com/products/tools/compass"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.mongodb.com/docs/compass/query-with-natural-language/"
+            }
           ]
         }
       ],
@@ -11281,23 +11545,44 @@
           "enabled": true,
           "order": 0,
           "directoryKind": "ai-connectable",
-          "name": "Box Content Cloud",
-          "kind": "其他产品",
+          "name": "Box",
+          "kind": "桌面端",
           "category": "文档与知识库",
-          "description": "企业文件与内容协作平台，可通过官方托管 MCP 搜索和处理授权内容。",
-          "website": "https://www.box.com/",
-          "tutorial": "https://developer.box.com/guides/box-mcp",
-          "productType": "web",
-          "moduleId": "web-link",
+          "description": "合并 Box 网页端与 Box Drive Windows 入口，并可通过 Box AI 和官方 MCP 处理授权内容。",
+          "website": "https://www.box.com/drive",
+          "tutorial": "https://support.box.com/hc/en-us/articles/50483150712723-Box-AI-for-Drive",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.box.com/"
+            },
+            {
+              "type": "web",
+              "label": "Box 网页版",
+              "url": "https://app.box.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.box.com/hc/en-us/articles/50483150712723-Box-AI-for-Drive"
+            }
           ]
         }
       ],
@@ -11851,6 +12136,46 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "redis-insight",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Redis Insight",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Redis 官方 Windows 图形管理工具，包含用于数据库操作与排障的 AI 助手。",
+          "website": "https://redis.io/docs/latest/operate/redisinsight/install/install-on-desktop/",
+          "tutorial": "https://redis.io/docs/latest/operate/redisinsight/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://redis.io/insight/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://redis.io/docs/latest/operate/redisinsight/"
+            }
+          ]
         }
       ],
       "order": 160,
@@ -11894,6 +12219,46 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "neo4j-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Neo4j Desktop",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Neo4j 官方 Windows 图形工作台，用于创建、管理和探索本地图数据库项目。",
+          "website": "https://neo4j.com/download/",
+          "tutorial": "https://neo4j.com/docs/desktop/current/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://neo4j.com/product/developer-tools/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://neo4j.com/docs/desktop/current/"
+            }
           ]
         }
       ],
@@ -13381,6 +13746,411 @@
         "path": "vendor-icons/552d26ec6f986f2d44b4753a690423919d034ef6efce5fa78e424d75562bb2be.png",
         "sha256": "552d26ec6f986f2d44b4753a690423919d034ef6efce5fa78e424d75562bb2be",
         "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "opera",
+      "name": "Opera",
+      "initial": "O",
+      "mark": "O",
+      "color": "#ff1b2d",
+      "description": "提供内置 Opera AI 与页面上下文能力的桌面浏览器。",
+      "website": "https://www.opera.com/one",
+      "tutorial": "https://help.opera.com/en/browser-ai-faq/",
+      "enabled": true,
+      "order": 191,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "opera-one",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Opera One",
+          "kind": "桌面端",
+          "category": "浏览器与搜索",
+          "description": "Windows 浏览器，内置 Opera AI；页面上下文能力的可用范围以官方版本与地区说明为准。",
+          "website": "https://www.opera.com/one",
+          "tutorial": "https://help.opera.com/en/browser-ai-faq/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.opera.com/one"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.opera.com/en/browser-ai-faq/"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/729ab8ffb0ff0445af3c709273550b951d80a5321efc77b7b3223f57df991542.png",
+        "sha256": "729ab8ffb0ff0445af3c709273550b951d80a5321efc77b7b3223f57df991542",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "mozilla",
+      "name": "Mozilla",
+      "initial": "M",
+      "mark": "M",
+      "color": "#ff7139",
+      "description": "开发 Firefox 浏览器及其可选择第三方 AI 服务的侧栏能力。",
+      "website": "https://www.mozilla.org/",
+      "tutorial": "https://support.mozilla.org/en-US/kb/ai-chatbot",
+      "enabled": true,
+      "order": 192,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "mozilla-firefox",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Firefox",
+          "kind": "桌面端",
+          "category": "浏览器与搜索",
+          "description": "Windows 浏览器，可在侧栏选择兼容 AI 服务；发送内容前需确认第三方服务的数据规则。",
+          "website": "https://www.firefox.com/en-US/download/windows/",
+          "tutorial": "https://support.mozilla.org/en-US/kb/ai-chatbot",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.firefox.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.mozilla.org/en-US/kb/ai-chatbot"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/1d58e7af9c848ae3ae30c795a16732d6ebc72d216a8e63078cf4efde4beb3805.png",
+        "sha256": "1d58e7af9c848ae3ae30c795a16732d6ebc72d216a8e63078cf4efde4beb3805",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "invokeai",
+      "name": "InvokeAI",
+      "initial": "I",
+      "mark": "I",
+      "color": "#e6fd13",
+      "description": "提供本地运行的开源生成式图像工作流与官方桌面启动器。",
+      "website": "https://invoke.ai/",
+      "tutorial": "https://invoke.ai/start-here/installation/",
+      "enabled": true,
+      "order": 193,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "invokeai-community-edition",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Invoke Community Edition",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "通过官方 Windows Launcher 安装、更新和启动本地生成式图像工作流。",
+          "website": "https://invoke.ai/download/",
+          "tutorial": "https://invoke.ai/start-here/installation/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://invoke.ai/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://invoke.ai/start-here/installation/"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/f800c6e60e9b1e8140220f72716cb399816f07aa85223d74b3998f19291fb14c.svg",
+        "sha256": "f800c6e60e9b1e8140220f72716cb399816f07aa85223d74b3998f19291fb14c",
+        "mimeType": "image/svg+xml"
+      }
+    },
+    {
+      "id": "upscayl",
+      "name": "Upscayl",
+      "initial": "U",
+      "mark": "U",
+      "color": "#4d8fe8",
+      "description": "提供在本地使用 AI 模型放大和增强图像的开源桌面工具。",
+      "website": "https://upscayl.org/",
+      "tutorial": "https://docs.upscayl.org/",
+      "enabled": true,
+      "order": 194,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "upscayl-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Upscayl Desktop",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 本地图像放大工具，通常需要兼容 Vulkan 的显卡。",
+          "website": "https://upscayl.org/download",
+          "tutorial": "https://docs.upscayl.org/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://upscayl.org/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.upscayl.org/"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/5dc5eb26c01df8052c726aca0d85a40bd5bcd208ddd528e914353a88e213c006.png",
+        "sha256": "5dc5eb26c01df8052c726aca0d85a40bd5bcd208ddd528e914353a88e213c006",
+        "mimeType": "image/png"
+      }
+    },
+    {
+      "id": "fotor",
+      "name": "Fotor",
+      "initial": "F",
+      "mark": "F",
+      "color": "#12c2e9",
+      "description": "提供网页与 Windows 端的 AI 图像编辑、增强和设计工具。",
+      "website": "https://www.fotor.com/",
+      "tutorial": "https://support.fotor.com/hc/en-us",
+      "enabled": true,
+      "order": 195,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "fotor-windows",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Fotor",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "合并网页与 Windows 入口的 AI 图片编辑、增强、批处理和设计工具。",
+          "website": "https://www.fotor.com/windows/index.html",
+          "tutorial": "https://support.fotor.com/hc/en-us",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.fotor.com/"
+            },
+            {
+              "type": "web",
+              "label": "Fotor 网页版",
+              "url": "https://www.fotor.com/photo-editor-app/editor/basic"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.fotor.com/hc/en-us"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/4ff0a73846b777755bd44d63f4146575c7cabecd9a20f6141c83958b1a411e82.webp",
+        "sha256": "4ff0a73846b777755bd44d63f4146575c7cabecd9a20f6141c83958b1a411e82",
+        "mimeType": "image/webp"
+      }
+    },
+    {
+      "id": "cyberlink",
+      "name": "CyberLink",
+      "initial": "C",
+      "mark": "C",
+      "color": "#111111",
+      "description": "提供带生成式 AI 与智能增强能力的 Windows 视频和图片创作软件。",
+      "website": "https://www.cyberlink.com/",
+      "tutorial": "https://www.cyberlink.com/learning",
+      "enabled": true,
+      "order": 196,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "cyberlink-powerdirector",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "PowerDirector",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows 视频编辑器，包含生成、字幕、背景处理与音视频增强等 AI 能力；具体额度以官方方案为准。",
+          "website": "https://www.cyberlink.com/products/powerdirector-video-editing-software/overview_en_US.html",
+          "tutorial": "https://www.cyberlink.com/learning",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.cyberlink.com/products/powerdirector-video-editing-software/overview_en_US.html"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.cyberlink.com/learning"
+            }
+          ]
+        },
+        {
+          "id": "cyberlink-photodirector",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "PhotoDirector",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 图片编辑器，包含生成式 AI、替换、增强与 AI Agent；具体额度以官方方案为准。",
+          "website": "https://www.cyberlink.com/products/photodirector-photo-editing-software-365/features_en_AU.html",
+          "tutorial": "https://www.cyberlink.com/learning/photodirector-photo-editing-software",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.cyberlink.com/products/photodirector-photo-editing-software-365/features_en_AU.html"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Windows 客户端"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.cyberlink.com/learning/photodirector-photo-editing-software"
+            }
+          ]
+        }
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/c95b1c1d57c3425ef9f68208ddb2a9b13d4beb699b96b7eba813557cd83d72ef.jpg",
+        "sha256": "c95b1c1d57c3425ef9f68208ddb2a9b13d4beb699b96b7eba813557cd83d72ef",
+        "mimeType": "image/jpeg"
       }
     }
   ],

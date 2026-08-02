@@ -1330,6 +1330,66 @@
       "vendorIds": [
         "pixverse"
       ]
+    },
+    "729ab8ffb0ff0445af3c709273550b951d80a5321efc77b7b3223f57df991542": {
+      "path": "vendor-icons/729ab8ffb0ff0445af3c709273550b951d80a5321efc77b7b3223f57df991542.png",
+      "sha256": "729ab8ffb0ff0445af3c709273550b951d80a5321efc77b7b3223f57df991542",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.opera.com/one",
+      "updatedAt": "2026-08-02T18:17:26.520Z",
+      "vendorIds": [
+        "opera"
+      ]
+    },
+    "c95b1c1d57c3425ef9f68208ddb2a9b13d4beb699b96b7eba813557cd83d72ef": {
+      "path": "vendor-icons/c95b1c1d57c3425ef9f68208ddb2a9b13d4beb699b96b7eba813557cd83d72ef.jpg",
+      "sha256": "c95b1c1d57c3425ef9f68208ddb2a9b13d4beb699b96b7eba813557cd83d72ef",
+      "mimeType": "image/jpeg",
+      "sourceUrl": "https://www.cyberlink.com/",
+      "updatedAt": "2026-08-02T18:17:26.531Z",
+      "vendorIds": [
+        "cyberlink"
+      ]
+    },
+    "1d58e7af9c848ae3ae30c795a16732d6ebc72d216a8e63078cf4efde4beb3805": {
+      "path": "vendor-icons/1d58e7af9c848ae3ae30c795a16732d6ebc72d216a8e63078cf4efde4beb3805.png",
+      "sha256": "1d58e7af9c848ae3ae30c795a16732d6ebc72d216a8e63078cf4efde4beb3805",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.firefox.com/en-US/download/windows/",
+      "updatedAt": "2026-08-02T18:17:26.540Z",
+      "vendorIds": [
+        "mozilla"
+      ]
+    },
+    "5dc5eb26c01df8052c726aca0d85a40bd5bcd208ddd528e914353a88e213c006": {
+      "path": "vendor-icons/5dc5eb26c01df8052c726aca0d85a40bd5bcd208ddd528e914353a88e213c006.png",
+      "sha256": "5dc5eb26c01df8052c726aca0d85a40bd5bcd208ddd528e914353a88e213c006",
+      "mimeType": "image/png",
+      "sourceUrl": "https://upscayl.org/download",
+      "updatedAt": "2026-08-02T18:17:26.549Z",
+      "vendorIds": [
+        "upscayl"
+      ]
+    },
+    "f800c6e60e9b1e8140220f72716cb399816f07aa85223d74b3998f19291fb14c": {
+      "path": "vendor-icons/f800c6e60e9b1e8140220f72716cb399816f07aa85223d74b3998f19291fb14c.svg",
+      "sha256": "f800c6e60e9b1e8140220f72716cb399816f07aa85223d74b3998f19291fb14c",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://invoke.ai/download/",
+      "updatedAt": "2026-08-02T18:17:26.557Z",
+      "vendorIds": [
+        "invokeai"
+      ]
+    },
+    "4ff0a73846b777755bd44d63f4146575c7cabecd9a20f6141c83958b1a411e82": {
+      "path": "vendor-icons/4ff0a73846b777755bd44d63f4146575c7cabecd9a20f6141c83958b1a411e82.webp",
+      "sha256": "4ff0a73846b777755bd44d63f4146575c7cabecd9a20f6141c83958b1a411e82",
+      "mimeType": "image/webp",
+      "sourceUrl": "https://www.fotor.com/windows/index.html",
+      "updatedAt": "2026-08-02T18:17:26.567Z",
+      "vendorIds": [
+        "fotor"
+      ]
     }
   }
 }

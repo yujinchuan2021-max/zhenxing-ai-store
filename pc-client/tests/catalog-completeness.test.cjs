@@ -93,16 +93,38 @@ const VENDOR_EXPANSION_BATCH6 = Object.freeze([
   "discord-desktop"
 ]);
 
+const VENDOR_EXPANSION_BATCH7 = Object.freeze([
+  "asana-work-graph",
+  "monday-work-management",
+  "box-content-cloud",
+  "redis-insight",
+  "neo4j-desktop",
+  "mongodb-compass",
+  "microsoft-visual-studio",
+  "google-android-studio",
+  "adobe-acrobat-reader-ai",
+  "google-chrome-devtools",
+  "microsoft-edge-ai",
+  "opera-one",
+  "mozilla-firefox",
+  "invokeai-community-edition",
+  "upscayl-desktop",
+  "fotor-windows",
+  "cyberlink-powerdirector",
+  "cyberlink-photodirector"
+]);
+
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 191);
+  assert.equal(catalog.vendors.length, 197);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 337);
+  assert.equal(products.length, 351);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of [
     ...HIGH_VALUE_RESEARCH_PRODUCTS,
     ...VENDOR_EXPANSION_BATCH5,
-    ...VENDOR_EXPANSION_BATCH6
+    ...VENDOR_EXPANSION_BATCH6,
+    ...VENDOR_EXPANSION_BATCH7
   ]) {
     assert.equal(productIds.has(productId), true, productId);
   }
@@ -214,7 +236,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 337);
+  assert.equal(products.length, 351);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -251,8 +273,8 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 146,
-    "desktop-official": 116,
+    web: 143,
+    "desktop-official": 133,
     "desktop-reviewed": 26,
     "cli-official": 3,
     cli: 14,
@@ -359,6 +381,41 @@ test("batch 6 merges web and Windows entry points instead of duplicating product
     "linear-desktop",
     "clickup-desktop",
     "zoom-desktop"
+  ]) {
+    assert.equal(products.some((product) => product.id === duplicateId), false, duplicateId);
+  }
+});
+
+test("batch 7 keeps each Web and Windows product on one backend-owned card", () => {
+  const products = catalog.vendors.flatMap((vendor) => vendor.products);
+  for (const productId of [
+    "asana-work-graph",
+    "monday-work-management",
+    "box-content-cloud",
+    "adobe-acrobat-reader-ai",
+    "fotor-windows"
+  ]) {
+    const matches = products.filter((product) => product.id === productId);
+    assert.equal(matches.length, 1, productId);
+    assert.equal(matches[0].productType, "desktop-official", productId);
+    assert.equal(
+      matches[0].entryPoints.filter((entry) => entry.type === "web").length,
+      1,
+      productId
+    );
+    assert.equal(
+      matches[0].entryPoints.filter((entry) => entry.type === "desktop").length,
+      1,
+      productId
+    );
+  }
+  for (const duplicateId of [
+    "asana-desktop",
+    "monday-desktop",
+    "box-drive",
+    "adobe-acrobat-web",
+    "fotor-web",
+    "google-chrome-ai"
   ]) {
     assert.equal(products.some((product) => product.id === duplicateId), false, duplicateId);
   }
