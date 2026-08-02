@@ -787,6 +787,41 @@ test("never discards a corrupted v2 current during legacy migration", () => {
   }
 });
 
+test("preserves the original v2 verification error during legacy migration", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
+  const runtimeDirectory = path.join(root, "runtime");
+  try {
+    activateStagedBundle({
+      runtimeDirectory,
+      stagedBundleDirectory: createBundle(root, "first", "0.1.1")
+    });
+    const current = path.join(runtimeDirectory, "current");
+    const manifestPath = path.join(
+      current,
+      "public",
+      "release-manifest.json"
+    );
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    manifest.update.artifactUrl = new URL(
+      "artifacts/invalid.exe",
+      manifest.baseUrl
+    ).href;
+    fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+
+    assert.throws(
+      () =>
+        activateStagedBundle({
+          runtimeDirectory,
+          stagedBundleDirectory: createBundle(root, "second", "0.1.2"),
+          allowLegacyV1Migration: true
+        }),
+      /发布包安装包文件名与版本不一致/
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("rejects v1-shaped metadata that retains undeclared v2 files", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-deploy-"));
   const runtimeDirectory = path.join(root, "runtime");

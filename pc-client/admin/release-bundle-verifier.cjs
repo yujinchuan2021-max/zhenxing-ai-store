@@ -138,6 +138,13 @@ function validIsoTimestamp(value) {
   );
 }
 
+function releaseArtifactVersion(artifactName) {
+  const match = /^(?:ZhenXing-AI|AI-Hub)-(?:Local-)?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)-Windows-x64-Setup\.exe$/i.exec(
+    artifactName
+  );
+  return match ? match[1] : null;
+}
+
 function sameSigningKey(left, right) {
   return (
     exactKeys(left, ["keyId", "publicKey"]) &&
@@ -256,10 +263,7 @@ function verifyCommonReleaseBundle({
   } catch {
     throw new Error("发布包地址无效");
   }
-  const artifactMatch = /^ZhenXing-AI-(?:Local-)?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)-Windows-x64-Setup\.exe$/i.exec(
-    artifactName
-  );
-  if (!artifactMatch || artifactMatch[1] !== manifest.update.version) {
+  if (releaseArtifactVersion(artifactName) !== manifest.update.version) {
     throw new Error("发布包安装包文件名与版本不一致");
   }
   const expectedPaths = new Set([
@@ -495,7 +499,29 @@ function verifyLegacyReleaseBundleV1({
   };
 }
 
+function verifyMigratableReleaseBundle(options) {
+  try {
+    return verifyReleaseBundle(options);
+  } catch (verificationError) {
+    let schemaVersion;
+    try {
+      const rootDirectory = assertTrustedReleaseBundleLayout(
+        options.bundleDirectory
+      );
+      schemaVersion = readJson(
+        path.join(rootDirectory, "public", "release-manifest.json")
+      ).schemaVersion;
+    } catch {
+      throw verificationError;
+    }
+    if (schemaVersion !== 1) throw verificationError;
+    return verifyLegacyReleaseBundleV1(options);
+  }
+}
+
 module.exports = {
+  releaseArtifactVersion,
   verifyLegacyReleaseBundleV1,
+  verifyMigratableReleaseBundle,
   verifyReleaseBundle
 };

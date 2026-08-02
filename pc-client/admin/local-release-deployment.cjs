@@ -5,6 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const {
   verifyLegacyReleaseBundleV1,
+  verifyMigratableReleaseBundle,
   verifyReleaseBundle
 } = require("./release-bundle-verifier.cjs");
 const {
@@ -705,21 +706,18 @@ function activateStagedBundleLocked({
     let currentVerification = null;
     let currentIsLegacyV1 = false;
     if (fs.existsSync(current)) {
-      try {
-        currentVerification = verifyReleaseBundle({
+      currentVerification = allowLegacyV1Migration
+        ? verifyMigratableReleaseBundle({
+            bundleDirectory: current,
+            allowCatalogPolicyDrift: true,
+            allowLocalRuntimeTrust: true
+          })
+        : verifyReleaseBundle({
           bundleDirectory: current,
           allowCatalogPolicyDrift: true,
           allowLocalRuntimeTrust: true
         });
-      } catch (error) {
-        if (!allowLegacyV1Migration) throw error;
-        currentVerification = verifyLegacyReleaseBundleV1({
-          bundleDirectory: current,
-          allowCatalogPolicyDrift: true,
-          allowLocalRuntimeTrust: true
-        });
-        currentIsLegacyV1 = true;
-      }
+      currentIsLegacyV1 = currentVerification.legacySchemaVersion === 1;
     }
     assertActivationVersionPolicy({
       currentBundleDirectory: current,

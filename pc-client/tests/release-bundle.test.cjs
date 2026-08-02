@@ -14,6 +14,7 @@ const {
   prepareReleaseBundle
 } = require("../admin/release-bundle.cjs");
 const {
+  releaseArtifactVersion,
   verifyReleaseBundle
 } = require("../admin/release-bundle-verifier.cjs");
 const {
@@ -100,6 +101,22 @@ function fixture(catalogOverride) {
   });
   return { root, installer, catalogEnvelope, buildProvenance };
 }
+
+test("recognizes historical AI Hub installer names for upgrade verification", () => {
+  assert.equal(
+    releaseArtifactVersion(
+      "AI-Hub-Local-0.1.26-Windows-x64-Setup.exe"
+    ),
+    "0.1.26"
+  );
+  assert.equal(
+    releaseArtifactVersion(
+      "ZhenXing-AI-Local-0.1.27-Windows-x64-Setup.exe"
+    ),
+    "0.1.27"
+  );
+  assert.equal(releaseArtifactVersion("unknown-0.1.27.exe"), null);
+});
 
 test("builds and verifies a server-migratable signed release bundle", () => {
   const value = fixture(legacyCatalog());
