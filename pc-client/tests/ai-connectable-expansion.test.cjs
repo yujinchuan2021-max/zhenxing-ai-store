@@ -9,6 +9,9 @@ const { validateCatalog } = require("../shared/catalog.cjs");
 const {
   projectVendorsByDirectory
 } = require("../shared/catalog-projections.cjs");
+const {
+  applyConnectableTaxonomy
+} = require("../catalog/ai-connectable-taxonomy.cjs");
 
 const vendorIds = [
   "figma", "notion", "atlassian", "github", "google", "docker", "cloudflare",
@@ -64,7 +67,23 @@ test("first official AI-connectable expansion keeps vendors singular and directo
     assert.doesNotMatch(`${product.id} ${product.name}`, /\bmcp\b/i);
     assert.equal(new URL(product.website).protocol, "https:");
     assert.equal(new URL(product.tutorial).protocol, "https:");
+    assert.notEqual(product.category, "AI 接入");
   }
+
+  const expectedCategories = {
+    "unity-editor": "游戏开发",
+    "sunlogin-windows": "远程控制",
+    "figma-design": "图像与设计",
+    "canva-design": "图像与设计",
+    "github-platform": "编程与调试",
+    "notion-workspace": "文档与知识库"
+  };
+  for (const [productId, expectedCategory] of Object.entries(
+    expectedCategories
+  )) {
+    assert.equal(productById.get(productId)?.category, expectedCategory);
+  }
+  assert.equal(catalog.categories.includes("AI 接入"), false);
 
   assert.equal(productById.get("notion-desktop").directoryKind, "ai-tool");
   assert.equal(productById.get("github-copilot").directoryKind, "ai-tool");
@@ -152,7 +171,29 @@ test("the compact example catalog receives the same source products and remains 
     catalog.vendors.flatMap((vendor) => vendor.products.map((product) => product.id))
   );
   for (const id of productIds) assert.ok(products.has(id), `missing example product ${id}`);
+  assert.equal(catalog.categories.includes("AI 接入"), false);
   for (const resource of catalog.resources) {
     for (const target of resource.targets) assert.equal(target.moduleId, "resource-link");
   }
+});
+
+test("the seed taxonomy preserves backend-defined categories for future products", () => {
+  const catalog = {
+    categories: ["自定义工具"],
+    vendors: [
+      {
+        products: [
+          {
+            id: "future-connectable-product",
+            directoryKind: "ai-connectable",
+            category: "自定义工具"
+          }
+        ]
+      }
+    ]
+  };
+
+  assert.doesNotThrow(() => applyConnectableTaxonomy(catalog));
+  assert.equal(catalog.vendors[0].products[0].category, "自定义工具");
+  assert.ok(catalog.categories.includes("自定义工具"));
 });

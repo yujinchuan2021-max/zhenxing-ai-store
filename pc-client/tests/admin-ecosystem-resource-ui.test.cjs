@@ -89,4 +89,16 @@ test("every resource store drills down from tools to resources to one detail", (
   ]) {
     assert.match(app, new RegExp(`data-aihub-action=["']${action}["']`));
   }
+  assert.match(app, /data-aihub-resource-filter="letter"/);
+  assert.match(app, /filteredProductDirectories/);
+});
+
+test("global search owns one result page across vendor and resource channels", () => {
+  const app = read("src/App.tsx");
+
+  assert.match(app, /searchCatalog\(/);
+  assert.match(app, /view === "search"/);
+  assert.match(app, /function SearchResultsPage\(/);
+  assert.match(app, /data-aihub-search-result-kind="vendor"/);
+  assert.match(app, /data-aihub-search-result-kind="resource"/);
 });

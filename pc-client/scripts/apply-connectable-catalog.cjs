@@ -6,6 +6,10 @@ const {
   DEFAULT_PRODUCT_CATEGORIES,
   validateCatalog
 } = require("../shared/catalog.cjs");
+const {
+  applyConnectableTaxonomy,
+  categoryForConnectableProduct
+} = require("../catalog/ai-connectable-taxonomy.cjs");
 
 const root = path.resolve(__dirname, "..");
 const catalogPaths = [
@@ -33,7 +37,6 @@ function target(productId, compatibility = "official") {
 for (const catalogPath of catalogPaths) {
   const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
   catalog.categories ||= [...DEFAULT_PRODUCT_CATEGORIES];
-  if (!catalog.categories.includes("AI 接入")) catalog.categories.push("AI 接入");
   const nextOrder = Math.max(0, ...catalog.vendors.map((vendor) => vendor.order || 0)) + 1;
   const unityOrder =
     catalog.vendors.find((vendor) => vendor.id === "unity-technologies")?.order ??
@@ -50,6 +53,7 @@ for (const catalogPath of catalogPaths) {
     initial: "U",
     mark: "U",
     color: "#111111",
+    iconUrl: "",
     description: "提供 Unity 实时开发平台、编辑器内 AI 助手和官方 MCP 接入能力。",
     website: "https://unity.com",
     tutorial: "https://unity.com/features/ai",
@@ -94,7 +98,7 @@ for (const catalogPath of catalogPaths) {
         directoryKind: "ai-connectable",
         name: "Unity Editor",
         kind: "桌面端",
-        category: "AI 接入",
+        category: categoryForConnectableProduct("unity-editor"),
         description: "Unity 6 编辑器可通过官方 MCP Server 向兼容的 AI 编程工具提供项目上下文和编辑器操作。",
         website: "https://unity.com/download",
         tutorial: "https://docs.unity3d.com/Packages/com.unity.ai.assistant@latest/index.html?subfolder=%2Fmanual%2Fintegration%2Funity-mcp-get-started.html",
@@ -140,6 +144,7 @@ for (const catalogPath of catalogPaths) {
     initial: "B",
     mark: "贝",
     color: "#f47b20",
+    iconUrl: "",
     description: "提供向日葵远程控制、设备管理和 AweSun MCP 服务。",
     website: "https://www.oray.com",
     tutorial: "https://activity.sunlogin.oray.com/mcp",
@@ -151,7 +156,7 @@ for (const catalogPath of catalogPaths) {
         directoryKind: "ai-connectable",
         name: "向日葵远程控制 Windows 版",
         kind: "桌面端",
-        category: "AI 接入",
+        category: categoryForConnectableProduct("sunlogin-windows"),
         description: "向日葵 Windows 客户端可启用 AweSun MCP，把设备管理和远程操作能力提供给兼容的 AI 工具。",
         website: "https://sunlogin.oray.com/download",
         tutorial: "https://service.oray.com/question/50091.html",
@@ -238,7 +243,8 @@ for (const catalogPath of catalogPaths) {
     lastVerifiedAt: "2026-08-02T00:00:00.000Z"
   });
 
-  catalog.updatedAt = "2026-08-02T00:00:00.000Z";
+  applyConnectableTaxonomy(catalog);
+  catalog.updatedAt = "2026-08-02T12:00:00.000Z";
   validateCatalog(catalog);
   fs.writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
   process.stdout.write(`Updated ${catalogPath}\n`);

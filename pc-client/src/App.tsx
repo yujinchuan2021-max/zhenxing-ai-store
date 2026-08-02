@@ -32,7 +32,8 @@ import { runVerifiedManagedInstall } from "@aihub-shared/verified-managed-instal
 import { buildProductDirectory } from "@aihub-shared/product-components.cjs";
 import {
   projectVendorsByDirectory,
-  resourceProductsByType
+  resourceProductsByType,
+  searchCatalog
 } from "@aihub-shared/catalog-projections.cjs";
 import { BRAND } from "@aihub-shared/brand.cjs";
 import packageJson from "../package.json";
@@ -62,6 +63,7 @@ type View =
   | "home"
   | "vendors"
   | "resources"
+  | "search"
   | "community"
   | "management"
   | "account";
@@ -119,6 +121,24 @@ const ENVIRONMENT_BUSY_STAGES = new Set<EnvironmentPackageStage>([
   "opening-uninstall",
   "awaiting-uninstall"
 ]);
+
+const ALL_FILTER = "全部" as const;
+
+type CatalogSearchResults = {
+  query: string;
+  vendors: Array<{
+    vendor: Vendor;
+    products: Product[];
+    directoryKind: ProductDirectoryKind;
+  }>;
+  resources: Array<{
+    store: ResourceStore;
+    resource: EcosystemResource;
+    target: ResourceTarget;
+    product: Product;
+    vendor: Vendor;
+  }>;
+};
 
 function environmentStageIsBusy(stage?: EnvironmentPackageStage) {
   return stage ? ENVIRONMENT_BUSY_STAGES.has(stage) : false;
@@ -470,9 +490,15 @@ export default function App() {
   const [selectedResourceStoreId, setSelectedResourceStoreId] =
     useState("skill");
   const [resourceStoreVisit, setResourceStoreVisit] = useState(0);
+  const [resourceStoreSelection, setResourceStoreSelection] = useState({
+    productId: "",
+    resourceKey: ""
+  });
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState<"全部" | ProductCategory>("全部");
-  const [letter, setLetter] = useState("全部");
+  const [category, setCategory] = useState<
+    typeof ALL_FILTER | ProductCategory
+  >(ALL_FILTER);
+  const [letter, setLetter] = useState<string>(ALL_FILTER);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [identity, setIdentity] = useState<IdentitySnapshot>({
@@ -624,14 +650,33 @@ export default function App() {
       (store) => store.id === selectedResourceStoreId
     ) || activeResourceStores[0] || null;
   useEffect(() => {
-    if (category !== "全部" && !directoryCategories.includes(category)) {
-      setCategory("全部");
+    if (
+      category !== ALL_FILTER &&
+      !directoryCategories.includes(category)
+    ) {
+      setCategory(ALL_FILTER);
     }
   }, [category, directoryCategories]);
-  const letters = [
-    uiText("auto.5c55a67935af"),
-    ...[...new Set(directoryVendors.map((vendor) => vendor.initial))].sort()
-  ];
+  const letters = useMemo(
+    () => [
+      ALL_FILTER,
+      ...[...new Set(directoryVendors.map((vendor) => vendor.initial))].sort()
+    ],
+    [directoryVendors]
+  );
+  useEffect(() => {
+    if (!letters.includes(letter)) setLetter(ALL_FILTER);
+  }, [letter, letters]);
+  const searchResults = useMemo(
+    () =>
+      searchCatalog({
+        vendors: catalogVendors,
+        resources: catalogResources,
+        resourceStores: catalogResourceStores,
+        query: search
+      }) as CatalogSearchResults,
+    [catalogVendors, catalogResources, catalogResourceStores, search]
+  );
   const downloadTaskNames = useMemo(() => {
     const names: Record<string, string> = {};
     for (const vendor of catalogAllVendors) {
@@ -1635,9 +1680,9 @@ export default function App() {
           setCatalogResourceStores(catalog.resourceStores || []);
           setCatalogCategories(nextCategories);
           setCategory((current) =>
-            current === "全部" || nextCategories.includes(current)
+            current === ALL_FILTER || nextCategories.includes(current)
               ? current
-              : "全部"
+              : ALL_FILTER
           );
           setBrand(catalog.brand || builtInBrand);
           setExtraSections(catalog.extraSections || []);
@@ -1792,32 +1837,21 @@ export default function App() {
   }, []);
 
   const visibleVendors = useMemo(() => {
-    const normalized = search.trim().toLowerCase();
     return directoryVendors
       .filter((vendor) => {
         const categoryProducts = vendor.products.filter(
-          (product) => category === "全部" || product.category === category
+          (product) =>
+            category === ALL_FILTER || product.category === category
         );
         if (!categoryProducts.length) return false;
-        if (letter !== "全部" && vendor.initial !== letter) return false;
-        if (!normalized) return true;
-        return (
-          `${vendor.name} ${vendor.description}`
-            .toLowerCase()
-            .includes(normalized) ||
-          categoryProducts.some((product) =>
-            `${product.name} ${product.description}`
-              .toLowerCase()
-              .includes(normalized)
-          )
-        );
+        return letter === ALL_FILTER || vendor.initial === letter;
       })
       .sort(
         (left, right) =>
           left.initial.localeCompare(right.initial, "en") ||
           left.name.localeCompare(right.name, "zh-CN")
       );
-  }, [directoryVendors, category, letter, search]);
+  }, [directoryVendors, category, letter]);
 
   const navigate = (next: View) => {
     setSelectedVendorId("");
@@ -1827,8 +1861,8 @@ export default function App() {
   const openVendorDirectory = (directoryKind: ProductDirectoryKind) => {
     setVendorDirectory(directoryKind);
     setSelectedVendorId("");
-    setCategory("全部");
-    setLetter("全部");
+    setCategory(ALL_FILTER);
+    setLetter(ALL_FILTER);
     setSearch("");
     setView("vendors");
   };
@@ -1836,14 +1870,31 @@ export default function App() {
   const openResourceStore = (storeId: string) => {
     setSelectedResourceStoreId(storeId);
     setResourceStoreVisit((current) => current + 1);
+    setResourceStoreSelection({ productId: "", resourceKey: "" });
     setSelectedVendorId("");
     setView("resources");
   };
 
   const submitSearch = (event: FormEvent) => {
     event.preventDefault();
+    setSearch((current) => current.trim());
     setSelectedVendorId("");
-    setView("vendors");
+    setCategory(ALL_FILTER);
+    setLetter(ALL_FILTER);
+    setView("search");
+  };
+
+  const openSearchResource = (
+    result: CatalogSearchResults["resources"][number]
+  ) => {
+    setSelectedResourceStoreId(result.store.id);
+    setResourceStoreSelection({
+      productId: result.product.id,
+      resourceKey: `${result.resource.id}:${result.target.productId}`
+    });
+    setResourceStoreVisit((current) => current + 1);
+    setSelectedVendorId("");
+    setView("resources");
   };
 
   const chooseDownloadDirectory = async () => {
@@ -4115,7 +4166,7 @@ export default function App() {
             <VendorsPage
               vendors={visibleVendors}
               catalogError={catalogError}
-              categoryOptions={["全部", ...directoryCategories]}
+              categoryOptions={[ALL_FILTER, ...directoryCategories]}
               category={category}
               letter={letter}
               letters={letters}
@@ -4125,12 +4176,24 @@ export default function App() {
               directoryKind={vendorDirectory}
               onOpenVendor={(vendor) => setSelectedVendorId(vendor.id)}
             />
+          ) : view === "search" ? (
+            <SearchResultsPage
+              results={searchResults}
+              catalogError={catalogError}
+              onOpenVendor={(result) => {
+                setVendorDirectory(result.directoryKind);
+                setSelectedVendorId(result.vendor.id);
+              }}
+              onOpenResource={openSearchResource}
+            />
           ) : view === "resources" ? (
             <ResourceStorePage
               key={`${selectedResourceStore?.id || "empty"}:${resourceStoreVisit}`}
               store={selectedResourceStore}
               resources={catalogResources}
               vendors={catalogVendors}
+              initialProductId={resourceStoreSelection.productId}
+              initialResourceKey={resourceStoreSelection.resourceKey}
             />
           ) : view === "management" ? (
             <InstalledProductsPage
@@ -4395,6 +4458,139 @@ function HomePage({
   );
 }
 
+function SearchResultsPage({
+  results,
+  catalogError,
+  onOpenVendor,
+  onOpenResource
+}: {
+  results: CatalogSearchResults;
+  catalogError: string;
+  onOpenVendor: (result: CatalogSearchResults["vendors"][number]) => void;
+  onOpenResource: (result: CatalogSearchResults["resources"][number]) => void;
+}) {
+  const resultCount = results.vendors.length + results.resources.length;
+  return (
+    <>
+      <header className="pageHeader" data-aihub-search-results>
+        <p>{uiText("nav.search")}</p>
+        <h1>
+          {results.query
+            ? uiText("auto.ce30bf880263", { value1: results.query })
+            : uiText("nav.search")}
+        </h1>
+        <span>
+          {results.vendors.length} {uiText("auto.cad10bb229ea")} ·{" "}
+          {results.resources.length} {uiText("resources.count")}
+        </span>
+      </header>
+
+      {catalogError ? (
+        <section className="catalogUnavailable" role="status">
+          <b>{uiText("catalog.unavailableTitle")}</b>
+          <span>
+            {runtimeMessage(
+              catalogError,
+              "CATALOG_UNAVAILABLE",
+              "catalog.unavailableDescription"
+            )}
+          </span>
+        </section>
+      ) : resultCount === 0 ? (
+        <section className="catalogUnavailable" role="status">
+          <b>{uiText("directory.emptyTitle")}</b>
+          <span>{uiText("nav.searchPlaceholder")}</span>
+        </section>
+      ) : (
+        <>
+          {results.vendors.length > 0 && (
+            <section className="homeSection">
+              <div className="sectionHeading">
+                <div>
+                  <p>{uiText("auto.9900470a1321")}</p>
+                  <h2>{uiText("auto.9900470a1321")}</h2>
+                </div>
+              </div>
+              <div className="vendorGrid">
+                {results.vendors.map((result) => (
+                  <button
+                    type="button"
+                    className="vendorCard"
+                    key={`${result.directoryKind}:${result.vendor.id}`}
+                    data-aihub-search-result-kind="vendor"
+                    data-aihub-search-directory-kind={result.directoryKind}
+                    data-aihub-vendor-id={result.vendor.id}
+                    onClick={() => onOpenVendor(result)}
+                  >
+                    <div className="vendorCardTop">
+                      <VendorMark vendor={result.vendor} large />
+                      <span>
+                        {result.directoryKind === "ai-tool"
+                          ? uiText("directory.ai.eyebrow")
+                          : uiText("directory.connectable.eyebrow")}
+                      </span>
+                    </div>
+                    <h2>{vendorDisplayName(result.vendor)}</h2>
+                    <p>{result.vendor.description}</p>
+                    <div className="productTags">
+                      {result.products.map((product) => (
+                        <span key={product.id}>{product.name}</span>
+                      ))}
+                    </div>
+                    <footer>
+                      <span>
+                        {result.products.length} {uiText("auto.ab2dacacbc82")}
+                      </span>
+                      <b>{uiText("auto.0eca81598063")}</b>
+                    </footer>
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {results.resources.length > 0 && (
+            <section className="homeSection">
+              <div className="sectionHeading">
+                <div>
+                  <p>{uiText("resources.eyebrow")}</p>
+                  <h2>{uiText("resources.eyebrow")}</h2>
+                </div>
+              </div>
+              <div className="resourceCardGrid">
+                {results.resources.map((result) => (
+                  <button
+                    type="button"
+                    className="resourceSummaryCard"
+                    key={`${result.store.id}:${result.resource.id}:${result.target.productId}`}
+                    data-aihub-search-result-kind="resource"
+                    data-aihub-resource-store-id={result.store.id}
+                    data-aihub-resource-id={result.resource.id}
+                    data-aihub-resource-product-id={result.product.id}
+                    onClick={() => onOpenResource(result)}
+                  >
+                    <span>{resourceStoreDisplayLabel(result.store)}</span>
+                    <b>{result.resource.name}</b>
+                    <small>
+                      {vendorDisplayName(result.vendor)} · {result.product.name}
+                    </small>
+                    <footer>
+                      <span>
+                        {resourceCompatibilityLabel(result.target.compatibility)}
+                      </span>
+                      <strong>{uiText("resources.viewDetail")} →</strong>
+                    </footer>
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
+        </>
+      )}
+    </>
+  );
+}
+
 function VendorsPage({
   vendors: visible,
   catalogError,
@@ -4410,13 +4606,13 @@ function VendorsPage({
 }: {
   vendors: Vendor[];
   catalogError: string;
-  categoryOptions: Array<"全部" | ProductCategory>;
-  category: "全部" | ProductCategory;
+  categoryOptions: Array<typeof ALL_FILTER | ProductCategory>;
+  category: typeof ALL_FILTER | ProductCategory;
   letter: string;
   letters: string[];
   search: string;
   directoryKind: ProductDirectoryKind;
-  onCategory: (value: "全部" | ProductCategory) => void;
+  onCategory: (value: typeof ALL_FILTER | ProductCategory) => void;
   onLetter: (value: string) => void;
   onOpenVendor: (vendor: Vendor) => void;
 }) {
@@ -4445,7 +4641,9 @@ function VendorsPage({
           label={uiText("auto.a74a788ef2ea")}
           values={categoryOptions}
           active={category}
-          onChange={(value) => onCategory(value as "全部" | ProductCategory)}
+          onChange={(value) =>
+            onCategory(value as typeof ALL_FILTER | ProductCategory)
+          }
         />
         <FilterRow
           label={uiText("auto.4f06c63c2949")}
@@ -4527,9 +4725,13 @@ function FilterRow({
           <button
             key={value}
             className={active === value ? "active" : ""}
+            data-aihub-filter-value={value}
+            aria-pressed={active === value}
             onClick={() => onChange(value)}
           >
-            {value}
+            {value === ALL_FILTER
+              ? uiText("auto.5c55a67935af")
+              : value}
           </button>
         ))}
       </div>
@@ -4734,27 +4936,24 @@ function VendorPage({
 function ResourceStorePage({
   store,
   resources,
-  vendors
+  vendors,
+  initialProductId = "",
+  initialResourceKey = ""
 }: {
   store: ResourceStore | null;
   resources: EcosystemResource[];
   vendors: Vendor[];
+  initialProductId?: string;
+  initialResourceKey?: string;
 }) {
-  const [selectedProductId, setSelectedProductId] = useState("");
-  const [selectedResourceKey, setSelectedResourceKey] = useState("");
-  if (!store) {
-    return (
-      <section className="catalogUnavailable" role="status">
-        <b>{uiText("resources.emptyTitle")}</b>
-        <span>{uiText("resources.emptyDescription")}</span>
-      </section>
-    );
-  }
-  const productDirectories = resourceProductsByType(
-    resources,
-    vendors,
-    store.id
-  ) as Array<{
+  const [selectedProductId, setSelectedProductId] =
+    useState(initialProductId);
+  const [selectedResourceKey, setSelectedResourceKey] =
+    useState(initialResourceKey);
+  const [letter, setLetter] = useState<string>(ALL_FILTER);
+  const productDirectories = (store
+    ? resourceProductsByType(resources, vendors, store.id)
+    : []) as Array<{
     vendor: Vendor;
     product: Product;
     rows: Array<{
@@ -4764,6 +4963,24 @@ function ResourceStorePage({
       vendor: Vendor;
     }>;
   }>;
+  const letters = [
+    ALL_FILTER,
+    ...[...new Set(productDirectories.map(({ vendor }) => vendor.initial))].sort()
+  ];
+  useEffect(() => {
+    if (!letters.includes(letter)) setLetter(ALL_FILTER);
+  }, [letter, letters]);
+  if (!store) {
+    return (
+      <section className="catalogUnavailable" role="status">
+        <b>{uiText("resources.emptyTitle")}</b>
+        <span>{uiText("resources.emptyDescription")}</span>
+      </section>
+    );
+  }
+  const filteredProductDirectories = productDirectories.filter(
+    ({ vendor }) => letter === ALL_FILTER || vendor.initial === letter
+  );
   const storeLabel = resourceStoreDisplayLabel(store);
   const selectedDirectory =
     productDirectories.find(({ product }) => product.id === selectedProductId) ||
@@ -4864,31 +5081,50 @@ function ResourceStorePage({
           </div>
         </section>
       ) : (
-        <div className="resourceToolGrid" data-aihub-resource-level="tools">
-          {productDirectories.map(({ vendor, product, rows }) => (
-            <button
-              type="button"
-              className="resourceToolCard"
-              key={product.id}
-              data-aihub-action="open-resource-tool"
-              data-aihub-resource-product-id={product.id}
-              onClick={() => openProduct(product.id)}
-            >
-              <span className="resourceToolIdentity">
-                <VendorMark vendor={vendor} />
-                <span>
-                  <small>{vendorDisplayName(vendor)}</small>
-                  <b>{product.name}</b>
+        <section data-aihub-resource-level="tools">
+          <div className="filters" data-aihub-resource-filter="letter">
+            <FilterRow
+              label={uiText("auto.4f06c63c2949")}
+              values={letters}
+              active={letter}
+              onChange={setLetter}
+            />
+          </div>
+          <div className="directorySummary">
+            <b>{storeLabel}</b>
+            <span>
+              {filteredProductDirectories.length} {uiText("resources.targetProduct")}
+            </span>
+          </div>
+          <div className="resourceToolGrid">
+            {filteredProductDirectories.map(({ vendor, product, rows }) => (
+              <button
+                type="button"
+                className="resourceToolCard"
+                key={product.id}
+                data-aihub-action="open-resource-tool"
+                data-aihub-resource-product-id={product.id}
+                data-aihub-resource-vendor-initial={vendor.initial}
+                onClick={() => openProduct(product.id)}
+              >
+                <span className="resourceToolIdentity">
+                  <VendorMark vendor={vendor} />
+                  <span>
+                    <small>{vendorDisplayName(vendor)}</small>
+                    <b>{product.name}</b>
+                  </span>
                 </span>
-              </span>
-              <span className="resourceToolDescription">{product.description}</span>
-              <footer>
-                <span>{rows.length} {uiText("resources.count")}</span>
-                <strong>{uiText("resources.viewResources")} →</strong>
-              </footer>
-            </button>
-          ))}
-        </div>
+                <span className="resourceToolDescription">
+                  {product.description}
+                </span>
+                <footer>
+                  <span>{rows.length} {uiText("resources.count")}</span>
+                  <strong>{uiText("resources.viewResources")} →</strong>
+                </footer>
+              </button>
+            ))}
+          </div>
+        </section>
       )}
     </>
   );

@@ -121,10 +121,17 @@ test("Chinese vendor names use their displayed-name pinyin bucket", () => {
     baidu: "B",
     bytedance: "Z",
     deepseek: "S",
+    iflytek: "K",
+    kingsoft: "J",
     kuaishou: "K",
+    laiye: "L",
+    meitu: "M",
     moonshot: "Y",
+    oray: "B",
     sensetime: "S",
     tencent: "T",
+    yingdao: "Y",
+    youdao: "W",
     zhipu: "Z"
   };
   for (const [vendorId, initial] of Object.entries(expected)) {

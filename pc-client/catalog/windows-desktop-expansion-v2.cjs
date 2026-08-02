@@ -623,7 +623,7 @@ const newVendors = Object.freeze([
   vendor({
     id: "iflytek",
     name: "科大讯飞",
-    initial: "I",
+    initial: "K",
     mark: "讯",
     color: "#2563eb",
     description: "提供星火大模型、语音转写和实时同传产品。",
@@ -638,7 +638,7 @@ const newVendors = Object.freeze([
   vendor({
     id: "youdao",
     name: "网易有道",
-    initial: "N",
+    initial: "W",
     mark: "有",
     color: "#dc2626",
     description: "提供个人 Agent、翻译、写作和智能笔记产品。",
@@ -682,7 +682,7 @@ const newVendors = Object.freeze([
   vendor({
     id: "kingsoft",
     name: "金山办公",
-    initial: "K",
+    initial: "J",
     mark: "WPS",
     color: "#dc2626",
     description: "提供集成 WPS AI 的文档、演示、表格和阅读软件。",

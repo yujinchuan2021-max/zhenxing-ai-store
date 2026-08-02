@@ -29,4 +29,68 @@ export function resourceProductsByType(
   rows: Array<Record<string, unknown>>;
 }>;
 
+export type CatalogSearchProduct = {
+  id: string;
+  name: string;
+  enabled?: boolean;
+  order?: number;
+  directoryKind?: DirectoryKind;
+};
+
+export type CatalogSearchVendor<P extends CatalogSearchProduct> = {
+  id: string;
+  name: string;
+  enabled?: boolean;
+  order?: number;
+  products: P[];
+};
+
+export type CatalogSearchTarget = {
+  productId: string;
+  enabled?: boolean;
+};
+
+export type CatalogSearchResource<T extends CatalogSearchTarget> = {
+  id: string;
+  name: string;
+  enabled?: boolean;
+  order?: number;
+  resourceTypes?: string[];
+  targets?: T[];
+};
+
+export type CatalogSearchStore = {
+  id: string;
+  label: string;
+  enabled?: boolean;
+  order?: number;
+};
+
+export function searchCatalog<
+  P extends CatalogSearchProduct,
+  V extends CatalogSearchVendor<P>,
+  T extends CatalogSearchTarget,
+  R extends CatalogSearchResource<T>,
+  S extends CatalogSearchStore
+>(input: {
+  vendors: V[];
+  resources: R[];
+  resourceStores: S[];
+  query: string;
+}): {
+  query: string;
+  vendors: Array<{
+    vendor: V;
+    products: P[];
+    directoryKind: DirectoryKind;
+  }>;
+  resources: Array<{
+    store: S;
+    resource: R;
+    target: T;
+    product: P;
+    vendor: V;
+  }>;
+};
+
 export const DIRECTORY_KINDS: readonly DirectoryKind[];

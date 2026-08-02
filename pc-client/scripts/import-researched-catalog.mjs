@@ -5,6 +5,7 @@ import path from "node:path";
 
 const require = createRequire(import.meta.url);
 const { normalizeCatalog, validateCatalog } = require("../shared/catalog.cjs");
+const { applyConnectableTaxonomy } = require("../catalog/ai-connectable-taxonomy.cjs");
 
 const root = path.resolve(import.meta.dirname, "..");
 const researchPath = path.join(
@@ -310,10 +311,17 @@ const REVIEWED_VENDOR_INITIALS = new Map([
   ["baidu", "B"],
   ["bytedance", "Z"],
   ["deepseek", "S"],
+  ["iflytek", "K"],
+  ["kingsoft", "J"],
   ["kuaishou", "K"],
+  ["laiye", "L"],
+  ["meitu", "M"],
   ["moonshot", "Y"],
+  ["oray", "B"],
   ["sensetime", "S"],
   ["tencent", "T"],
+  ["yingdao", "Y"],
+  ["youdao", "W"],
   ["zhipu", "Z"]
 ]);
 
@@ -1156,6 +1164,7 @@ catalog.resources.forEach((resource, resourceOrder) => {
   }
   resource.order = resourceOrder;
 });
+applyConnectableTaxonomy(catalog);
 if (addedVendors || addedProducts || addedResources) {
   catalog.updatedAt = new Date().toISOString();
 }

@@ -6,6 +6,10 @@ const {
   DEFAULT_PRODUCT_CATEGORIES,
   validateCatalog
 } = require("../shared/catalog.cjs");
+const {
+  applyConnectableTaxonomy,
+  categoryForConnectableProduct
+} = require("../catalog/ai-connectable-taxonomy.cjs");
 
 const root = path.resolve(__dirname, "..");
 const catalogPaths = [
@@ -22,7 +26,7 @@ function webProduct(id, name, description, website, tutorial) {
     directoryKind: "ai-connectable",
     name,
     kind: "其他产品",
-    category: "AI 接入",
+    category: categoryForConnectableProduct(id),
     description,
     website,
     tutorial,
@@ -46,7 +50,7 @@ function desktopProduct(id, name, description, website, tutorial) {
     directoryKind: "ai-connectable",
     name,
     kind: "桌面端",
-    category: "AI 接入",
+    category: categoryForConnectableProduct(id),
     description,
     website,
     tutorial,
@@ -467,7 +471,6 @@ function retargetExistingResource(catalog, resourceId, targetIds, metadata) {
 for (const catalogPath of catalogPaths) {
   const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
   catalog.categories ||= [...DEFAULT_PRODUCT_CATEGORIES];
-  if (!catalog.categories.includes("AI 接入")) catalog.categories.push("AI 接入");
   catalog.resources ||= [];
   catalog.resources = catalog.resources.filter(
     (resource) => resource.id !== "github-mcp-server"
@@ -520,6 +523,8 @@ for (const catalogPath of catalogPaths) {
       installScope: "仅打开官方接入说明；不写入本地配置。"
     }
   );
+
+  applyConnectableTaxonomy(catalog);
 
   catalog.updatedAt = "2026-08-02T12:00:00.000Z";
   validateCatalog(catalog);
