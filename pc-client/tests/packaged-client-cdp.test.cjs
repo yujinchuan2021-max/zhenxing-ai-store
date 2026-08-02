@@ -290,6 +290,11 @@ test("the packaged release gate does not bypass renderer actions", () => {
     source,
     /window\.aihubPC\.(?:installExtension|uninstallExtension|startDownload|pauseDownload)\(/
   );
+  assert.doesNotMatch(
+    source,
+    /expectedSlogan|renderer readiness marker/,
+    "renderer readiness must come from a remote catalog resource in the real DOM, not shared brand copy"
+  );
   for (const action of [
     "install-extension",
     "uninstall-extension",

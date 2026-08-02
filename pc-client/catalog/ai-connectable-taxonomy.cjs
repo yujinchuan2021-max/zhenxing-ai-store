@@ -48,7 +48,29 @@ const CONNECTABLE_CATEGORY_BY_PRODUCT_ID = Object.freeze({
   "miro-workspace": "项目与协作",
   "matlab": "工程计算与仿真",
   "simulink": "工程计算与仿真",
-  "nvidia-omniverse": "3D 与工业仿真"
+  "nvidia-omniverse": "3D 与工业仿真",
+  "gitlab-platform": "编程与调试",
+  "salesforce-platform": "办公自动化",
+  "servicenow-platform": "工作流自动化",
+  "azure-devops": "编程与调试",
+  "terraform-platform": "云服务与运维",
+  "pulumi-cloud": "云服务与运维",
+  "browserstack-test-platform": "编程与调试",
+  "circleci-platform": "编程与调试",
+  "clickup-workspace": "项目与协作",
+  "box-content-cloud": "文档与知识库",
+  "pipedream-platform": "工作流自动化",
+  "make-platform": "工作流自动化",
+  "google-workspace": "办公自动化",
+  "zoom-workplace": "项目与协作",
+  "shopify-storefront": "商业与支付",
+  "wolfram-mathematica": "工程计算与仿真",
+  "wolfram-cloud": "工程计算与仿真",
+  "ansys-lumerical": "工程计算与仿真",
+  "cesiumjs": "地图与地理空间",
+  "siemens-xcelerator-developer-portal": "文档与知识库",
+  "arcgis-location-platform": "地图与地理空间",
+  "synopsys-verdi": "工程计算与仿真"
 });
 
 const CONNECTABLE_CATEGORIES = Object.freeze([

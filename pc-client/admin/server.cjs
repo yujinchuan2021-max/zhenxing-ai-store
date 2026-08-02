@@ -104,9 +104,8 @@ const signingKey = loadSigningKey({
 const releaseStore = createReleaseStore({
   rootDirectory: releaseStoreDirectory,
   signingKeyProvider: async () => signingKey,
-  transformCatalogForRelease: catalogAssetOrigin
-    ? (catalog) => materializeLegacyVendorIconUrls(catalog, catalogAssetOrigin)
-    : (catalog) => catalog
+  transformCatalogForRelease: (catalog) =>
+    materializeLegacyVendorIconUrls(catalog, catalogAssetOrigin)
 });
 const productCertification = createProductCertification({
   filePath: productAcceptancePath

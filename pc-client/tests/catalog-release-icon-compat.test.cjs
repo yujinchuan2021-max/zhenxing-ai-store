@@ -54,3 +54,21 @@ test("new clients accept only branded or loopback content-addressed logo URLs", 
     /Logo 运行时地址无效/
   );
 });
+
+test("missing asset origin fails closed only when a release contains logo assets", () => {
+  assert.throws(
+    () => materializeLegacyVendorIconUrls(catalog, ""),
+    /目录 Logo 发布来源无效/
+  );
+
+  const withoutLogoAssets = structuredClone(catalog);
+  for (const vendor of withoutLogoAssets.vendors) {
+    delete vendor.iconAsset;
+  }
+  withoutLogoAssets.vendors[0].iconUrl =
+    `https://localhost:4443/vendor-icons/${"a".repeat(64)}.png`;
+  assert.deepEqual(
+    materializeLegacyVendorIconUrls(withoutLogoAssets, ""),
+    withoutLogoAssets
+  );
+});

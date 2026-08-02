@@ -58,3 +58,12 @@
 - 本地 Docker 后台校验后发布目录版本 35：100 个厂商、221 个产品、24 个扩展资源。客户端开发目录加载器实读版本 35，并确认 Poe、Hermes Desktop 已出现且 Skales 未混入。
 - 目录与策略定向测试 35/35 通过；生产构建和 Electron 布局验收通过，实际渲染 100 张厂商卡，新增中文、数字和英文厂商均能进入对应 A-Z 分组。
 - 后续每轮继续先运行自动发现，再做人审和来源分级；只有逐产品完成下载、签名、检测、启动、更新与卸载审计后，才允许从 `desktop-official` 升级到 `desktop-managed`。
+
+## 2026-08-02 AI 可接入厂商第三批扩充
+
+- 官方资料审查记录在 `docs/research/2026-08-02-connectable-dev-productivity-batch3.md` 与 `docs/research/2026-08-02-connectable-industry-science-batch3.md`。本轮新增 GitLab、Salesforce、ServiceNow、Terraform、Pulumi、BrowserStack、CircleCI、ClickUp、Box、Pipedream、Make、Zoom、Shopify、Wolfram、Ansys、Cesium、Siemens、Esri、Synopsys 等能力，并复用已有 Microsoft 与 Google 厂商资料。
+- 目录现为 158 个厂商、292 个产品、101 项生态资源，其中 70 个产品属于“AI 可接入厂商”。新增资源全部保持 `resource-link`，没有后台命令、任意包地址或自动安装 profile。
+- Google Workspace 按 Gmail、Drive、Docs、Sheets、Slides、Calendar、Chat、People 拆成 8 个真实资源；Wolfram Local 与 Cloud 也分开。PTC Onshape MCP 仍是“即将推出”，只保留研究记录；设备控制社区演示没有冒充厂商正式能力。
+- 首次录入暴露出四个会造成“后台有数据、前台没出现”的复发条件：资源 target 误指向 `ai-connectable` 产品；compact example 不含正式目录已有的 Microsoft/Google；示例目录没有任一兼容 AI 宿主时资源会被过滤；目录总量与类型断言仍停留在旧基线。
+- 修复后，资源目标只允许已存在的 `ai-tool` 产品；扩充脚本为正式目录复用厂商、为 compact example 幂等补齐最小厂商资料；每项资源至少覆盖示例目录已有宿主；完整性测试同步约束 158/292/101 新基线。
+- 扩充脚本连续执行后正式目录、示例目录和 Logo 兜底清单 SHA-256 均保持不变。29 个暂无明确可用官方图形资产的厂商进入审核兜底清单，不允许随意抓取搜索图片或第三方 Logo。

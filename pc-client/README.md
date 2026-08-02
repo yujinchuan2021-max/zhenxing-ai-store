@@ -12,6 +12,10 @@ npm.cmd run catalog:discover -- --max-pages=3 --timeout-ms=3500 --concurrency=8 
 
 枕星 AI 是一个以厂商为第一层的 Windows AI 产品、AI 可接入产品与生态资源目录。页面内容由后台目录驱动，本机探测、下载、校验、安装和卸载能力由客户端固定白名单控制。
 
+## 问题记录与防复发
+
+修改安装、目录、网络、发布、账号或界面前，必须先搜索 [用户问题与防复发台账](docs/incident-feedback/README.md)。真实用户问题修复后要更新对应事件记录；自动化通过不等于真实 Windows 验收完成。
+
 ## 本地运行
 
 安装依赖并启动桌面客户端：

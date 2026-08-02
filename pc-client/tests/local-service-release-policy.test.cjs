@@ -20,6 +20,7 @@ const revisionFiles = [
   "admin/config-validation.cjs",
   "admin/data/catalog-v1.json",
   "admin/data/release-settings.json",
+  "admin/data/vendor-icon-fallbacks.json",
   "admin/public/app.js",
   "admin/public/index.html",
   "admin/public/styles.css",
@@ -90,6 +91,12 @@ test("service release manifests cover every source copied into the three images"
   assert.equal(
     admin.sourceFiles.some(
       (entry) => entry.sourcePath === "scripts/discover-official-products.mjs"
+    ),
+    true
+  );
+  assert.equal(
+    admin.sourceFiles.some(
+      (entry) => entry.sourcePath === "admin/data/vendor-icon-fallbacks.json"
     ),
     true
   );
@@ -280,4 +287,33 @@ test("self-built image definitions pin bases, community dependencies and admin c
   assert.doesNotMatch(admin, /COPY --chown=node:node admin \/app\/admin/);
   assert.doesNotMatch(admin, /COPY --chown=node:node scripts \/app\/scripts/);
   assert.doesNotMatch(admin, /COPY --chown=node:node (?:catalog|updates) /);
+});
+
+test("every explicit admin data file copied by Docker is release-hash protected", () => {
+  const root = path.resolve(__dirname, "..");
+  const dockerfile = fs.readFileSync(
+    path.join(root, "deployment/local/admin.Dockerfile"),
+    "utf8"
+  );
+  const copiedAdminDataFiles = [...dockerfile.matchAll(/^COPY\s+--chown=\S+\s+(.+?)\s+\/app\/admin\/data\/$/gm)]
+    .flatMap((match) => match[1].trim().split(/\s+/))
+    .filter((sourcePath) => sourcePath.startsWith("admin/data/") && !sourcePath.endsWith("/"));
+  const manifest = createLocalServiceReleaseManifest({
+    revision,
+    version,
+    revisionFiles: [...new Set([...revisionFiles, ...copiedAdminDataFiles])],
+    readRevisionFile(sourcePath) {
+      return Buffer.from(`source:${sourcePath}\n`, "utf8");
+    }
+  });
+  const protectedSources = new Set(
+    manifest.services
+      .find((entry) => entry.service === "admin")
+      .sourceFiles.map((entry) => entry.sourcePath)
+  );
+
+  assert.deepEqual(
+    copiedAdminDataFiles.filter((sourcePath) => !protectedSources.has(sourcePath)),
+    []
+  );
 });

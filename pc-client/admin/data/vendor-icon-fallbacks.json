@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewedAt": "2026-08-02T13:00:00.000Z",
+  "reviewedAt": "2026-08-02T15:00:00.000Z",
   "vendors": {
     "midjourney": {
       "evidenceUrl": "https://docs.midjourney.com/hc/en-us/articles/32084281102349-Midjourney-Trademark-Policy",
@@ -41,6 +41,82 @@
     "mathworks": {
       "evidenceUrl": "https://www.mathworks.com/brand.html",
       "reason": "官方品牌指南要求申请 Logo 文件，当前未取得目录展示许可。"
+    },
+    "gitlab": {
+      "evidenceUrl": "https://about.gitlab.com/press/press-kit/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "salesforce": {
+      "evidenceUrl": "https://www.salesforce.com/news/stories/media-library/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "servicenow": {
+      "evidenceUrl": "https://www.servicenow.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "hashicorp": {
+      "evidenceUrl": "https://www.hashicorp.com/brand",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "pulumi": {
+      "evidenceUrl": "https://www.pulumi.com/brand/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "browserstack": {
+      "evidenceUrl": "https://www.browserstack.com/company",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "circleci": {
+      "evidenceUrl": "https://circleci.com/press/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "clickup": {
+      "evidenceUrl": "https://clickup.com/brand",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "box": {
+      "evidenceUrl": "https://www.box.com/about-us/press",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "pipedream": {
+      "evidenceUrl": "https://pipedream.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "make": {
+      "evidenceUrl": "https://www.make.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "zoom": {
+      "evidenceUrl": "https://www.zoom.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "shopify": {
+      "evidenceUrl": "https://www.shopify.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "wolfram-research": {
+      "evidenceUrl": "https://www.wolfram.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "ansys": {
+      "evidenceUrl": "https://www.ansys.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "cesium": {
+      "evidenceUrl": "https://cesium.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "siemens": {
+      "evidenceUrl": "https://www.siemens.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "esri": {
+      "evidenceUrl": "https://www.esri.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
+    },
+    "synopsys": {
+      "evidenceUrl": "https://www.synopsys.com/",
+      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
     }
   }
 }

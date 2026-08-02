@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-02T13:00:00.000Z",
+  "updatedAt": "2026-08-02T15:00:00.000Z",
   "brand": {
     "name": "枕星 AI",
     "mark": "枕",
@@ -988,6 +988,30 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "google-workspace",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Google Workspace",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "Gmail、Drive、Docs、Sheets、Slides、Calendar 与 Chat 办公套件，每个产品使用独立官方 MCP。",
+          "website": "https://workspace.google.com/",
+          "tutorial": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
         }
       ],
       "order": 20
@@ -1951,6 +1975,810 @@
         }
       ],
       "order": 44
+    },
+    {
+      "id": "microsoft",
+      "enabled": true,
+      "name": "Microsoft",
+      "initial": "M",
+      "mark": "M",
+      "iconUrl": "",
+      "color": "#2563EB",
+      "description": "提供面向个人与组织的 AI 助手、开发工具和生产力服务。",
+      "website": "https://www.microsoft.com/ai",
+      "tutorial": "https://support.microsoft.com/en-US/microsoft-copilot/getting-started-with-microsoft-copilot",
+      "products": [
+        {
+          "id": "azure-devops",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Azure DevOps",
+          "kind": "其他产品",
+          "category": "编程与调试",
+          "description": "代码、工作项、测试与流水线平台，可通过 Microsoft 官方 MCP 接入 AI 编程工具。",
+          "website": "https://azure.microsoft.com/products/devops",
+          "tutorial": "https://github.com/microsoft/azure-devops-mcp",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 45
+    },
+    {
+      "id": "gitlab",
+      "enabled": true,
+      "name": "GitLab",
+      "initial": "G",
+      "mark": "G",
+      "iconUrl": "",
+      "color": "#fc6d26",
+      "description": "提供代码托管、DevSecOps、CI/CD 与项目协作平台。",
+      "website": "https://about.gitlab.com/",
+      "tutorial": "https://docs.gitlab.com/user/model_context_protocol/mcp_server/",
+      "products": [
+        {
+          "id": "gitlab-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "GitLab",
+          "kind": "其他产品",
+          "category": "编程与调试",
+          "description": "代码托管、DevSecOps、CI/CD 与项目协作平台，可通过官方 MCP 接入 AI 编程工具。",
+          "website": "https://gitlab.com/",
+          "tutorial": "https://docs.gitlab.com/user/model_context_protocol/mcp_server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 46
+    },
+    {
+      "id": "salesforce",
+      "enabled": true,
+      "name": "Salesforce",
+      "initial": "S",
+      "mark": "S",
+      "iconUrl": "",
+      "color": "#00a1e0",
+      "description": "提供客户关系管理、数据与业务自动化平台。",
+      "website": "https://www.salesforce.com/",
+      "tutorial": "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/hosted-mcp-servers-overview.html",
+      "products": [
+        {
+          "id": "salesforce-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Salesforce Platform",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "客户关系管理、数据与业务自动化平台，可通过官方托管 MCP 向授权 AI 客户端开放能力。",
+          "website": "https://www.salesforce.com/",
+          "tutorial": "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/hosted-mcp-servers-overview.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 47
+    },
+    {
+      "id": "servicenow",
+      "enabled": true,
+      "name": "ServiceNow",
+      "initial": "S",
+      "mark": "S",
+      "iconUrl": "",
+      "color": "#293e40",
+      "description": "提供企业服务管理、工作流与自动化平台。",
+      "website": "https://www.servicenow.com/",
+      "tutorial": "https://www.servicenow.com/docs/r/intelligent-experiences/create-mcp-server.html",
+      "products": [
+        {
+          "id": "servicenow-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "ServiceNow AI Platform",
+          "kind": "其他产品",
+          "category": "工作流自动化",
+          "description": "企业服务管理与工作流平台，可由管理员创建 MCP Server 并选择允许的工具。",
+          "website": "https://www.servicenow.com/",
+          "tutorial": "https://www.servicenow.com/docs/r/intelligent-experiences/create-mcp-server.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 48
+    },
+    {
+      "id": "hashicorp",
+      "enabled": true,
+      "name": "HashiCorp",
+      "initial": "H",
+      "mark": "H",
+      "iconUrl": "",
+      "color": "#000000",
+      "description": "提供 Terraform 基础设施即代码及云基础设施管理工具。",
+      "website": "https://www.hashicorp.com/",
+      "tutorial": "https://developer.hashicorp.com/terraform/mcp-server/deploy",
+      "products": [
+        {
+          "id": "terraform-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Terraform",
+          "kind": "其他产品",
+          "category": "云服务与运维",
+          "description": "基础设施即代码与 HCP Terraform 平台，可通过官方 MCP 查询 Registry 与授权组织资源。",
+          "website": "https://developer.hashicorp.com/terraform",
+          "tutorial": "https://developer.hashicorp.com/terraform/mcp-server/deploy",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 49
+    },
+    {
+      "id": "pulumi",
+      "enabled": true,
+      "name": "Pulumi",
+      "initial": "P",
+      "mark": "P",
+      "iconUrl": "",
+      "color": "#8a3391",
+      "description": "提供使用通用编程语言管理云基础设施的平台。",
+      "website": "https://www.pulumi.com/",
+      "tutorial": "https://www.pulumi.com/docs/ai/mcp-server/",
+      "products": [
+        {
+          "id": "pulumi-cloud",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Pulumi Cloud",
+          "kind": "其他产品",
+          "category": "云服务与运维",
+          "description": "云基础设施管理平台，可通过官方托管 MCP 查询 Stack、Registry 与委派自动化任务。",
+          "website": "https://www.pulumi.com/product/",
+          "tutorial": "https://www.pulumi.com/docs/ai/mcp-server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 50
+    },
+    {
+      "id": "browserstack",
+      "enabled": true,
+      "name": "BrowserStack",
+      "initial": "B",
+      "mark": "B",
+      "iconUrl": "",
+      "color": "#f5b400",
+      "description": "提供真实设备与浏览器云测试平台。",
+      "website": "https://www.browserstack.com/",
+      "tutorial": "https://www.browserstack.com/docs/browserstack-mcp-server/overview",
+      "products": [
+        {
+          "id": "browserstack-test-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "BrowserStack Test Platform",
+          "kind": "其他产品",
+          "category": "编程与调试",
+          "description": "真实设备与浏览器云测试平台，可通过官方 MCP 运行、调试和管理测试。",
+          "website": "https://www.browserstack.com/",
+          "tutorial": "https://www.browserstack.com/docs/browserstack-mcp-server/overview",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 51
+    },
+    {
+      "id": "circleci",
+      "enabled": true,
+      "name": "CircleCI",
+      "initial": "C",
+      "mark": "C",
+      "iconUrl": "",
+      "color": "#343434",
+      "description": "提供持续集成、持续交付与软件交付自动化平台。",
+      "website": "https://circleci.com/",
+      "tutorial": "https://circleci.com/docs/guides/toolkit/circleci-mcp-overview/",
+      "products": [
+        {
+          "id": "circleci-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "CircleCI",
+          "kind": "其他产品",
+          "category": "编程与调试",
+          "description": "持续集成与交付平台，可通过官方托管 MCP 检查、重跑或取消流水线。",
+          "website": "https://circleci.com/",
+          "tutorial": "https://circleci.com/docs/guides/toolkit/circleci-mcp-overview/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 52
+    },
+    {
+      "id": "clickup",
+      "enabled": true,
+      "name": "ClickUp",
+      "initial": "C",
+      "mark": "C",
+      "iconUrl": "",
+      "color": "#7b68ee",
+      "description": "提供项目、任务、文档与团队生产力工作空间。",
+      "website": "https://clickup.com/",
+      "tutorial": "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server",
+      "products": [
+        {
+          "id": "clickup-workspace",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "ClickUp Workspace",
+          "kind": "其他产品",
+          "category": "项目与协作",
+          "description": "任务、文档与团队协作工作空间，可通过官方远程 MCP 接入授权 AI 客户端。",
+          "website": "https://clickup.com/",
+          "tutorial": "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 53
+    },
+    {
+      "id": "box",
+      "enabled": true,
+      "name": "Box",
+      "initial": "B",
+      "mark": "B",
+      "iconUrl": "",
+      "color": "#0061d5",
+      "description": "提供企业内容云、文件协作与内容智能平台。",
+      "website": "https://www.box.com/",
+      "tutorial": "https://developer.box.com/guides/box-mcp",
+      "products": [
+        {
+          "id": "box-content-cloud",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Box Content Cloud",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "企业文件与内容协作平台，可通过官方托管 MCP 搜索和处理授权内容。",
+          "website": "https://www.box.com/",
+          "tutorial": "https://developer.box.com/guides/box-mcp",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 54
+    },
+    {
+      "id": "pipedream",
+      "enabled": true,
+      "name": "Pipedream",
+      "initial": "P",
+      "mark": "P",
+      "iconUrl": "",
+      "color": "#111111",
+      "description": "提供 API 集成、工作流与开发者自动化平台。",
+      "website": "https://pipedream.com/",
+      "tutorial": "https://pipedream.com/docs/connect/mcp",
+      "products": [
+        {
+          "id": "pipedream-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Pipedream",
+          "kind": "其他产品",
+          "category": "工作流自动化",
+          "description": "连接 API 与应用的开发者自动化平台，可通过官方 MCP 使用用户授权的工具。",
+          "website": "https://pipedream.com/",
+          "tutorial": "https://pipedream.com/docs/connect/mcp",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 55
+    },
+    {
+      "id": "make",
+      "enabled": true,
+      "name": "Make",
+      "initial": "M",
+      "mark": "M",
+      "iconUrl": "",
+      "color": "#6d00cc",
+      "description": "提供可视化工作流与跨应用自动化平台。",
+      "website": "https://www.make.com/",
+      "tutorial": "https://help.make.com/make-mcp-server",
+      "products": [
+        {
+          "id": "make-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Make",
+          "kind": "其他产品",
+          "category": "工作流自动化",
+          "description": "可视化跨应用工作流平台，可通过官方 MCP 运行场景或访问受限管理能力。",
+          "website": "https://www.make.com/",
+          "tutorial": "https://help.make.com/make-mcp-server",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 56
+    },
+    {
+      "id": "zoom",
+      "enabled": true,
+      "name": "Zoom",
+      "initial": "Z",
+      "mark": "Z",
+      "iconUrl": "",
+      "color": "#2d8cff",
+      "description": "提供会议、聊天、日历、文档与协作工作空间。",
+      "website": "https://www.zoom.com/",
+      "tutorial": "https://developers.zoom.us/docs/mcp/zoom-mcp-server/",
+      "products": [
+        {
+          "id": "zoom-workplace",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Zoom Workplace",
+          "kind": "其他产品",
+          "category": "项目与协作",
+          "description": "会议、聊天、日历、邮件、白板与协作工作空间，可通过官方 MCP 接入授权 AI 客户端。",
+          "website": "https://www.zoom.com/en/products/collaboration-tools/",
+          "tutorial": "https://developers.zoom.us/docs/mcp/zoom-mcp-server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 57
+    },
+    {
+      "id": "shopify",
+      "enabled": true,
+      "name": "Shopify",
+      "initial": "S",
+      "mark": "S",
+      "iconUrl": "",
+      "color": "#95bf47",
+      "description": "提供电商建站、商品、购物车与商家服务平台。",
+      "website": "https://www.shopify.com/",
+      "tutorial": "https://shopify.dev/docs/apps/build/storefront-mcp/servers/storefront",
+      "products": [
+        {
+          "id": "shopify-storefront",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Shopify Storefront",
+          "kind": "其他产品",
+          "category": "商业与支付",
+          "description": "面向商家与开发者的商品、政策和购物车平台，可通过每个商店的官方 MCP 构建 AI 购物体验。",
+          "website": "https://www.shopify.com/",
+          "tutorial": "https://shopify.dev/docs/apps/build/storefront-mcp/servers/storefront",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 58
+    },
+    {
+      "id": "wolfram-research",
+      "enabled": true,
+      "name": "Wolfram Research",
+      "initial": "W",
+      "mark": "W",
+      "iconUrl": "",
+      "color": "#dd1100",
+      "description": "提供 Mathematica、Wolfram Cloud 与计算知识服务。",
+      "website": "https://www.wolfram.com/",
+      "tutorial": "https://www.wolfram.com/artificial-intelligence/mcp/",
+      "products": [
+        {
+          "id": "wolfram-mathematica",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Wolfram Mathematica",
+          "kind": "桌面端",
+          "category": "工程计算与仿真",
+          "description": "桌面科学计算与符号计算产品；官方本地 MCP 可执行 Wolfram Language 并读写 Notebook。",
+          "website": "https://www.wolfram.com/mathematica/",
+          "tutorial": "https://www.wolfram.com/artificial-intelligence/mcp/local/wolfram-mcp-local/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        },
+        {
+          "id": "wolfram-cloud",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Wolfram Cloud",
+          "kind": "其他产品",
+          "category": "工程计算与仿真",
+          "description": "云端计算与 Notebook 平台；官方云 MCP 只把用户提出的特定计算请求发送到 Wolfram 服务。",
+          "website": "https://www.wolframcloud.com/",
+          "tutorial": "https://www.wolfram.com/artificial-intelligence/mcp/cloud/wolfram-mcp-cloud/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 59
+    },
+    {
+      "id": "ansys",
+      "enabled": true,
+      "name": "Ansys",
+      "initial": "A",
+      "mark": "A",
+      "iconUrl": "",
+      "color": "#ffb71b",
+      "description": "提供工程仿真、光子设计与数字工程软件。",
+      "website": "https://www.ansys.com/",
+      "tutorial": "https://developer.ansys.com/docs/lumerical",
+      "products": [
+        {
+          "id": "ansys-lumerical",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Ansys Lumerical",
+          "kind": "桌面端",
+          "category": "工程计算与仿真",
+          "description": "商业光子与器件仿真软件；官方 PyLumerical MCP 参考项目依赖已安装产品、许可证和受支持的 Python。",
+          "website": "https://www.ansys.com/products/optics",
+          "tutorial": "https://github.com/ansys/pylumerical-mcp",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 60
+    },
+    {
+      "id": "cesium",
+      "enabled": true,
+      "name": "Cesium",
+      "initial": "C",
+      "mark": "C",
+      "iconUrl": "",
+      "color": "#6cad45",
+      "description": "提供 CesiumJS 与开放地理空间 3D 开发平台。",
+      "website": "https://cesium.com/",
+      "tutorial": "https://github.com/CesiumGS/cesium-ai-integrations",
+      "products": [
+        {
+          "id": "cesiumjs",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "CesiumJS",
+          "kind": "其他产品",
+          "category": "地图与地理空间",
+          "description": "面向浏览器的开源 3D 地球与地图开发库；官方 AI integrations 仓库目前属于实验性参考实现。",
+          "website": "https://cesium.com/platform/cesiumjs/",
+          "tutorial": "https://github.com/CesiumGS/cesium-ai-integrations",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 61
+    },
+    {
+      "id": "siemens",
+      "enabled": true,
+      "name": "Siemens",
+      "initial": "S",
+      "mark": "S",
+      "iconUrl": "",
+      "color": "#009999",
+      "description": "提供工业软件、自动化与 Xcelerator 开发者平台。",
+      "website": "https://www.siemens.com/",
+      "tutorial": "https://developer.siemens.com/",
+      "products": [
+        {
+          "id": "siemens-xcelerator-developer-portal",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Siemens Xcelerator Developer Portal",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "工业开发者文档、产品与 API 目录；官方远程 MCP 当前仅提供开发者门户问答工具。",
+          "website": "https://developer.siemens.com/",
+          "tutorial": "https://developer.siemens.com/ai-registry/developer-portal/developer-portal-mcp.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 62
+    },
+    {
+      "id": "esri",
+      "enabled": true,
+      "name": "Esri",
+      "initial": "E",
+      "mark": "E",
+      "iconUrl": "",
+      "color": "#007ac2",
+      "description": "提供 ArcGIS 地理信息与位置服务平台。",
+      "website": "https://www.esri.com/",
+      "tutorial": "https://www.esri.com/en-us/arcgis/products/arcgis-location-platform/overview",
+      "products": [
+        {
+          "id": "arcgis-location-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "ArcGIS Location Platform",
+          "kind": "其他产品",
+          "category": "地图与地理空间",
+          "description": "在线地图、地理编码、路线和位置服务平台；官方 MCP 支持仍处于 Beta 与 Early Adopter 阶段。",
+          "website": "https://www.esri.com/en-us/arcgis/products/arcgis-location-platform/overview",
+          "tutorial": "https://www.esri.com/arcgis-blog/products/platform/developers/mcp-support-beta-and-arcgis-static-maps-service-in-arcgis-location-platform-release",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 63
+    },
+    {
+      "id": "synopsys",
+      "enabled": true,
+      "name": "Synopsys",
+      "initial": "S",
+      "mark": "S",
+      "iconUrl": "",
+      "color": "#5b2c83",
+      "description": "提供芯片设计、验证与软件安全产品。",
+      "website": "https://www.synopsys.com/",
+      "tutorial": "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html",
+      "products": [
+        {
+          "id": "synopsys-verdi",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Synopsys Verdi",
+          "kind": "桌面端",
+          "category": "工程计算与仿真",
+          "description": "商业芯片调试与验证产品；Verdi Assistant MCP 目前仅有官方能力说明，没有公开安装入口。",
+          "website": "https://www.synopsys.com/verification/debug/verdi.html",
+          "tutorial": "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ],
+      "order": 64
     }
   ],
   "resourceStores": [
@@ -2379,7 +3207,7 @@
       "provenanceEvidence": [
         "https://github.com/ahujasid/blender-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "godot-mcp",
@@ -2422,7 +3250,7 @@
       "provenanceEvidence": [
         "https://github.com/tomyud1/godot-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "unreal-mcp",
@@ -2465,7 +3293,7 @@
       "provenanceEvidence": [
         "https://github.com/GenOrca/unreal-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "ableton-mcp-extended",
@@ -2508,7 +3336,7 @@
       "provenanceEvidence": [
         "https://github.com/uisato/ableton-mcp-extended"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "obs-mcp",
@@ -2551,7 +3379,7 @@
       "provenanceEvidence": [
         "https://github.com/sbroenne/mcp-server-obs"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "n8n-mcp-server",
@@ -2594,7 +3422,7 @@
       "provenanceEvidence": [
         "https://blog.n8n.io/n8n-mcp-server/"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "adobe-for-creativity",
@@ -2637,7 +3465,7 @@
       "provenanceEvidence": [
         "https://developer.adobe.com/adobe-for-creativity/"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "autodesk-fusion-mcp",
@@ -2680,7 +3508,7 @@
       "provenanceEvidence": [
         "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "sketchup-claude-connector",
@@ -2723,7 +3551,7 @@
       "provenanceEvidence": [
         "https://help.sketchup.com/pl/sketchup-claude-connector"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "davinci-resolve-mcp",
@@ -2766,7 +3594,7 @@
       "provenanceEvidence": [
         "https://github.com/samuelgursky/davinci-resolve-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "affinity-ai-connector",
@@ -2809,7 +3637,7 @@
       "provenanceEvidence": [
         "https://www.canva.com/newsroom/news/canva-create-2026-launches/"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "zapier-mcp",
@@ -2852,7 +3680,7 @@
       "provenanceEvidence": [
         "https://docs.zapier.com/mcp/get-started/quickstart"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "monday-platform-mcp",
@@ -2895,7 +3723,7 @@
       "provenanceEvidence": [
         "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "mongodb-mcp-server",
@@ -2938,7 +3766,7 @@
       "provenanceEvidence": [
         "https://www.mongodb.com/docs/mcp-server/"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "grafana-mcp",
@@ -2981,7 +3809,7 @@
       "provenanceEvidence": [
         "https://grafana.com/docs/grafana/latest/developer-resources/mcp/set-up/"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "elastic-agent-builder-mcp",
@@ -3024,7 +3852,7 @@
       "provenanceEvidence": [
         "https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "roblox-studio-mcp-server",
@@ -3067,7 +3895,7 @@
       "provenanceEvidence": [
         "https://create.roblox.com/docs/studio/mcp"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "webflow-mcp-server",
@@ -3110,7 +3938,7 @@
       "provenanceEvidence": [
         "https://developers.webflow.com/mcp/reference/getting-started"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "matlab-mcp-core-server",
@@ -3153,7 +3981,7 @@
       "provenanceEvidence": [
         "https://github.com/matlab/matlab-mcp-core-server"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     },
     {
       "id": "nvidia-omniverse-mcp",
@@ -3196,7 +4024,1297 @@
       "provenanceEvidence": [
         "https://github.com/NVIDIA-Omniverse"
       ],
-      "lastVerifiedAt": "2026-08-02T13:00:00.000Z"
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "salesforce-hosted-mcp-servers",
+      "enabled": true,
+      "order": 29,
+      "name": "Salesforce Hosted MCP Servers",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "继承当前 Salesforce 用户的对象、字段与共享权限；记录写入、Flow、Apex 和自动化调用必须逐次确认。",
+      "website": "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/hosted-mcp-servers-overview.html",
+      "tutorial": "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/hosted-mcp-servers-overview.html",
+      "publisherVendorId": "salesforce",
+      "publisher": "Salesforce",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "salesforce-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "继承当前 Salesforce 用户的对象、字段与共享权限；记录写入、Flow、Apex 和自动化调用必须逐次确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并由用户撤销 OAuth；保留 Salesforce Org、记录、Flow、Apex 与审计数据。",
+      "provenanceEvidence": [
+        "https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/hosted-mcp-servers-overview.html"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "servicenow-mcp-server",
+      "enabled": true,
+      "order": 30,
+      "name": "ServiceNow MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只连接管理员批准的实例与工具；ITSM、CMDB、HR 和工作流记录的创建、修改、删除或执行必须确认。",
+      "website": "https://www.servicenow.com/docs/r/intelligent-experiences/create-mcp-server.html",
+      "tutorial": "https://www.servicenow.com/docs/r/intelligent-experiences/create-mcp-server.html",
+      "publisherVendorId": "servicenow",
+      "publisher": "ServiceNow",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "servicenow-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只连接管理员批准的实例与工具；ITSM、CMDB、HR 和工作流记录的创建、修改、删除或执行必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 OAuth 入站集成；保留 ServiceNow 实例、服务器定义、业务记录与工作流。",
+      "provenanceEvidence": [
+        "https://www.servicenow.com/docs/r/intelligent-experiences/create-mcp-server.html"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "pulumi-mcp-server",
+      "enabled": true,
+      "order": 31,
+      "name": "Pulumi MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "查询 Stack 与 Registry 可只读；部署、Pulumi Neo 任务和组织成员管理会改变云资源或权限，必须明确确认。",
+      "website": "https://www.pulumi.com/docs/ai/mcp-server/",
+      "tutorial": "https://www.pulumi.com/docs/ai/mcp-server/",
+      "publisherVendorId": "pulumi",
+      "publisher": "Pulumi",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "pulumi-cloud"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "查询 Stack 与 Registry 可只读；部署、Pulumi Neo 任务和组织成员管理会改变云资源或权限，必须明确确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 Pulumi 授权；保留组织、Stack、State、代码、Policy 与云资源。",
+      "provenanceEvidence": [
+        "https://www.pulumi.com/docs/ai/mcp-server/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "browserstack-mcp-server",
+      "enabled": true,
+      "order": 32,
+      "name": "BrowserStack MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "继承当前 BrowserStack 用户权限；启动真实设备测试、修改测试用例或消耗套餐额度前必须确认。",
+      "website": "https://www.browserstack.com/docs/browserstack-mcp-server/get-started/remote-mcp-server",
+      "tutorial": "https://www.browserstack.com/docs/browserstack-mcp-server/get-started/remote-mcp-server",
+      "publisherVendorId": "browserstack",
+      "publisher": "BrowserStack",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "browserstack-test-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "继承当前 BrowserStack 用户权限；启动真实设备测试、修改测试用例或消耗套餐额度前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 BrowserStack OAuth；保留项目、测试、报告、日志与组织设置。",
+      "provenanceEvidence": [
+        "https://www.browserstack.com/docs/browserstack-mcp-server/get-started/remote-mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "clickup-mcp-server",
+      "enabled": true,
+      "order": 33,
+      "name": "ClickUp MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅使用 OAuth 2.1 与当前用户权限；创建或修改任务、评论、聊天和时间记录前必须确认。",
+      "website": "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server",
+      "tutorial": "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server",
+      "publisherVendorId": "clickup",
+      "publisher": "ClickUp",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "clickup-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "仅使用 OAuth 2.1 与当前用户权限；创建或修改任务、评论、聊天和时间记录前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 ClickUp OAuth；保留 Workspace、任务、文档、评论、聊天与时间记录。",
+      "provenanceEvidence": [
+        "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "pipedream-mcp",
+      "enabled": true,
+      "order": 34,
+      "name": "Pipedream MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只开放用户明确选择的 App 与工具；跨应用写入、发送、部署、删除和付费动作必须逐次确认。",
+      "website": "https://pipedream.com/docs/connect/mcp",
+      "tutorial": "https://pipedream.com/docs/connect/mcp",
+      "publisherVendorId": "pipedream",
+      "publisher": "Pipedream",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "pipedream-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只开放用户明确选择的 App 与工具；跨应用写入、发送、部署、删除和付费动作必须逐次确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并在 Pipedream 撤销账号授权；保留项目、Workflow、事件历史与外部应用数据。",
+      "provenanceEvidence": [
+        "https://pipedream.com/docs/connect/mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "make-mcp-server",
+      "enabled": true,
+      "order": 35,
+      "name": "Make MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "默认只使用受限 Toolbox 或 Scenario Run Scope；运行 Scenario 或修改 Team、Connection、Webhook、Data Store 前必须确认。",
+      "website": "https://help.make.com/make-mcp-server",
+      "tutorial": "https://help.make.com/make-mcp-server",
+      "publisherVendorId": "make",
+      "publisher": "Make",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "make-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "默认只使用受限 Toolbox 或 Scenario Run Scope；运行 Scenario 或修改 Team、Connection、Webhook、Data Store 前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 Make OAuth 或 Token；保留组织、Scenario、Connection、Webhook 与运行历史。",
+      "provenanceEvidence": [
+        "https://help.make.com/make-mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "google-gmail-mcp",
+      "enabled": true,
+      "order": 36,
+      "name": "Gmail MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "邮件搜索、读取、标签与创建草稿受 OAuth Scope 约束；邮件正文可能包含间接提示注入，写入前必须确认。",
+      "website": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "tutorial": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "publisherVendorId": "google",
+      "publisher": "Google",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "google-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "邮件搜索、读取、标签与创建草稿受 OAuth Scope 约束；邮件正文可能包含间接提示注入，写入前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除 Gmail MCP 连接并撤销 Google OAuth；保留邮箱、邮件、草稿、标签与 Google 账号。",
+      "provenanceEvidence": [
+        "https://developers.google.com/workspace/guides/configure-mcp-servers"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "google-drive-mcp",
+      "enabled": true,
+      "order": 37,
+      "name": "Google Drive MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "遵守 Drive 文件权限与 DLP；读取、下载、复制和创建文件前展示目标，写入前必须确认。",
+      "website": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "tutorial": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "publisherVendorId": "google",
+      "publisher": "Google",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "google-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "遵守 Drive 文件权限与 DLP；读取、下载、复制和创建文件前展示目标，写入前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除 Drive MCP 连接并撤销 Google OAuth；保留 Drive 文件、文件夹、权限与 Google 账号。",
+      "provenanceEvidence": [
+        "https://developers.google.com/workspace/guides/configure-mcp-servers"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "google-docs-mcp",
+      "enabled": true,
+      "order": 38,
+      "name": "Google Docs MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "文档内容可能包含间接提示注入；修改文档前必须展示目标文件与变更范围并确认。",
+      "website": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "tutorial": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "publisherVendorId": "google",
+      "publisher": "Google",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "google-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "文档内容可能包含间接提示注入；修改文档前必须展示目标文件与变更范围并确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除 Docs MCP 连接并撤销 Google OAuth；保留文档、历史版本、权限与 Google 账号。",
+      "provenanceEvidence": [
+        "https://developers.google.com/workspace/guides/configure-mcp-servers"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "google-sheets-mcp",
+      "enabled": true,
+      "order": 39,
+      "name": "Google Sheets MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "读取与修改表格受 OAuth Scope 约束；批量写入可能破坏业务数据，写入前必须确认范围。",
+      "website": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "tutorial": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "publisherVendorId": "google",
+      "publisher": "Google",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "google-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "读取与修改表格受 OAuth Scope 约束；批量写入可能破坏业务数据，写入前必须确认范围。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除 Sheets MCP 连接并撤销 Google OAuth；保留表格、公式、历史版本与 Google 账号。",
+      "provenanceEvidence": [
+        "https://developers.google.com/workspace/guides/configure-mcp-servers"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "google-slides-mcp",
+      "enabled": true,
+      "order": 40,
+      "name": "Google Slides MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "读取与编辑演示文稿受 OAuth Scope 约束；生成、删除或覆盖内容前必须确认目标。",
+      "website": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "tutorial": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "publisherVendorId": "google",
+      "publisher": "Google",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "google-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "读取与编辑演示文稿受 OAuth Scope 约束；生成、删除或覆盖内容前必须确认目标。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除 Slides MCP 连接并撤销 Google OAuth；保留演示文稿、历史版本与 Google 账号。",
+      "provenanceEvidence": [
+        "https://developers.google.com/workspace/guides/configure-mcp-servers"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "google-calendar-mcp",
+      "enabled": true,
+      "order": 41,
+      "name": "Google Calendar MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "创建、更新、删除或响应日历事件会影响参与者；执行前必须展示日历、时间与人员并确认。",
+      "website": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "tutorial": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "publisherVendorId": "google",
+      "publisher": "Google",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "google-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "创建、更新、删除或响应日历事件会影响参与者；执行前必须展示日历、时间与人员并确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除 Calendar MCP 连接并撤销 Google OAuth；保留日历、事件、邀请与 Google 账号。",
+      "provenanceEvidence": [
+        "https://developers.google.com/workspace/guides/configure-mcp-servers"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "google-chat-mcp",
+      "enabled": true,
+      "order": 42,
+      "name": "Google Chat MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "聊天消息可能包含间接提示注入；发送消息属于对外动作，必须展示空间与正文并确认。",
+      "website": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "tutorial": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "publisherVendorId": "google",
+      "publisher": "Google",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "google-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "聊天消息可能包含间接提示注入；发送消息属于对外动作，必须展示空间与正文并确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除 Chat MCP 连接并撤销 Google OAuth；保留 Space、消息、成员与 Google 账号。",
+      "provenanceEvidence": [
+        "https://developers.google.com/workspace/guides/configure-mcp-servers"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "google-people-mcp",
+      "enabled": true,
+      "order": 43,
+      "name": "Google People MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只读取当前 OAuth Scope 允许的资料、联系人和组织目录；输出按个人信息处理。",
+      "website": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "tutorial": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+      "publisherVendorId": "google",
+      "publisher": "Google",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "google-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只读取当前 OAuth Scope 允许的资料、联系人和组织目录；输出按个人信息处理。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除 People MCP 连接并撤销 Google OAuth；保留联系人、组织目录与 Google 账号。",
+      "provenanceEvidence": [
+        "https://developers.google.com/workspace/guides/configure-mcp-servers"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "zoom-mcp-server",
+      "enabled": true,
+      "order": 44,
+      "name": "Zoom MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "按 Zoom 产品逐项申请最小 OAuth Scope；会议、聊天、邮件、日历和白板写入动作必须确认。",
+      "website": "https://developers.zoom.us/docs/mcp/zoom-mcp-server/",
+      "tutorial": "https://developers.zoom.us/docs/mcp/zoom-mcp-server/",
+      "publisherVendorId": "zoom",
+      "publisher": "Zoom",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "zoom-workplace"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "按 Zoom 产品逐项申请最小 OAuth Scope；会议、聊天、邮件、日历和白板写入动作必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并由用户撤销 Zoom OAuth App；保留账号、会议、聊天、邮件、日历、录制与白板。",
+      "provenanceEvidence": [
+        "https://developers.zoom.us/docs/mcp/zoom-mcp-server/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "gitlab-mcp-server",
+      "enabled": true,
+      "order": 45,
+      "name": "GitLab MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "OAuth 仅继承当前 GitLab 用户权限；读取代码、Issue、Merge Request 与任何写入动作均受项目权限限制，写入前必须确认。",
+      "website": "https://docs.gitlab.com/user/model_context_protocol/mcp_server/",
+      "tutorial": "https://docs.gitlab.com/user/model_context_protocol/mcp_server/",
+      "publisherVendorId": "gitlab",
+      "publisher": "GitLab",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "gitlab-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "OAuth 仅继承当前 GitLab 用户权限；读取代码、Issue、Merge Request 与任何写入动作均受项目权限限制，写入前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 GitLab MCP 连接并撤销 OAuth；保留账号、项目、仓库、Issue、Merge Request 与流水线。",
+      "provenanceEvidence": [
+        "https://docs.gitlab.com/user/model_context_protocol/mcp_server/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "microsoft-azure-devops-mcp",
+      "enabled": true,
+      "order": 46,
+      "name": "Azure DevOps MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅授权指定 Azure DevOps 组织和工具域；创建分支、Pull Request、工作项、Wiki 或运行流水线前必须确认。",
+      "website": "https://github.com/microsoft/azure-devops-mcp",
+      "tutorial": "https://github.com/microsoft/azure-devops-mcp",
+      "publisherVendorId": "microsoft",
+      "publisher": "Microsoft",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "azure-devops"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "仅授权指定 Azure DevOps 组织和工具域；创建分支、Pull Request、工作项、Wiki 或运行流水线前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 Microsoft 授权；保留组织、项目、仓库、工作项、测试与流水线。",
+      "provenanceEvidence": [
+        "https://github.com/microsoft/azure-devops-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "terraform-mcp-server",
+      "enabled": true,
+      "order": 47,
+      "name": "Terraform MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "首版只提供官方说明入口；私有 Registry 与 HCP Terraform 令牌必须最小权限，生成的基础设施变更必须人工审查。",
+      "website": "https://developer.hashicorp.com/terraform/mcp-server/deploy",
+      "tutorial": "https://developer.hashicorp.com/terraform/mcp-server/deploy",
+      "publisherVendorId": "hashicorp",
+      "publisher": "HashiCorp",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "terraform-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "首版只提供官方说明入口；私有 Registry 与 HCP Terraform 令牌必须最小权限，生成的基础设施变更必须人工审查。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "只移除枕星 AI 收据内的 MCP 配置；撤销专用令牌，保留 Terraform、State、Workspace、Module 与云资源。",
+      "provenanceEvidence": [
+        "https://developer.hashicorp.com/terraform/mcp-server/deploy"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "circleci-mcp",
+      "enabled": true,
+      "order": 48,
+      "name": "CircleCI MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "托管 MCP 可读取构建日志并重跑或取消 Workflow；任何执行和取消动作必须确认，日志输出按敏感数据处理。",
+      "website": "https://circleci.com/docs/guides/toolkit/circleci-mcp-overview/",
+      "tutorial": "https://circleci.com/docs/guides/toolkit/circleci-mcp-overview/",
+      "publisherVendorId": "circleci",
+      "publisher": "CircleCI",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "circleci-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "托管 MCP 可读取构建日志并重跑或取消 Workflow；任何执行和取消动作必须确认，日志输出按敏感数据处理。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的托管 MCP 连接并撤销 OAuth；保留项目、配置、Context、Workflow 与构建记录。",
+      "provenanceEvidence": [
+        "https://circleci.com/docs/guides/toolkit/circleci-mcp-overview/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "box-mcp-server",
+      "enabled": true,
+      "order": 49,
+      "name": "Box MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅使用管理员批准的 OAuth Scope；搜索、读取和 Box AI 可能暴露企业文件，内容写入动作必须确认。",
+      "website": "https://developer.box.com/guides/box-mcp",
+      "tutorial": "https://developer.box.com/guides/box-mcp",
+      "publisherVendorId": "box",
+      "publisher": "Box",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "box-content-cloud"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "仅使用管理员批准的 OAuth Scope；搜索、读取和 Box AI 可能暴露企业文件，内容写入动作必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 Box OAuth；保留 Box 账号、文件、文件夹、协作关系与审计记录。",
+      "provenanceEvidence": [
+        "https://developer.box.com/guides/box-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "shopify-storefront-mcp",
+      "enabled": true,
+      "order": 50,
+      "name": "Shopify Storefront MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "只接受经过校验的 Shopify 商店域名；商品查询可只读，购物车修改和进入结账前必须确认。",
+      "website": "https://shopify.dev/docs/apps/build/storefront-mcp/servers/storefront",
+      "tutorial": "https://shopify.dev/docs/apps/build/storefront-mcp/servers/storefront",
+      "publisherVendorId": "shopify",
+      "publisher": "Shopify",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "shopify-storefront"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "只接受经过校验的 Shopify 商店域名；商品查询可只读，购物车修改和进入结账前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的商店 MCP 配置；保留 Shopify 商店、商品、购物车、订单、客户与商家账号。",
+      "provenanceEvidence": [
+        "https://shopify.dev/docs/apps/build/storefront-mcp/servers/storefront"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "wolfram-local-mcp",
+      "enabled": true,
+      "order": 51,
+      "name": "Wolfram MCP Local",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅提供官方配置说明；本地服务可执行 Wolfram Language、读写 Notebook 与文件，运行代码、覆盖文件和访问外部数据前必须确认。",
+      "website": "https://www.wolfram.com/artificial-intelligence/mcp/local/wolfram-mcp-local/",
+      "tutorial": "https://www.wolfram.com/artificial-intelligence/mcp/local/wolfram-mcp-local/",
+      "publisherVendorId": "wolfram-research",
+      "publisher": "Wolfram Research",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "wolfram-mathematica"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "仅提供官方配置说明；本地服务可执行 Wolfram Language、读写 Notebook 与文件，运行代码、覆盖文件和访问外部数据前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的本地 MCP 连接并停止服务；保留 Mathematica、许可证、Notebook、文件与计算结果。",
+      "provenanceEvidence": [
+        "https://www.wolfram.com/artificial-intelligence/mcp/local/wolfram-mcp-local/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "wolfram-cloud-mcp",
+      "enabled": true,
+      "order": 52,
+      "name": "Wolfram MCP Cloud",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅提供官方远程端点说明；用户提交的具体计算查询会发送给 Wolfram 云服务，敏感数据和付费计算前必须确认。",
+      "website": "https://www.wolfram.com/artificial-intelligence/mcp/cloud/wolfram-mcp-cloud/",
+      "tutorial": "https://www.wolfram.com/artificial-intelligence/mcp/cloud/wolfram-mcp-cloud/",
+      "publisherVendorId": "wolfram-research",
+      "publisher": "Wolfram Research",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "wolfram-cloud"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "仅提供官方远程端点说明；用户提交的具体计算查询会发送给 Wolfram 云服务，敏感数据和付费计算前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 Wolfram Cloud MCP 连接并撤销相关授权；保留 Wolfram 账号、Cloud Object 与计算数据。",
+      "provenanceEvidence": [
+        "https://www.wolfram.com/artificial-intelligence/mcp/cloud/wolfram-mcp-cloud/"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "ansys-pylumerical-mcp",
+      "enabled": true,
+      "order": 53,
+      "name": "PyLumerical MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "官方开源参考项目，当前只提供说明入口；可持久执行任意 Python/PyLumerical 并修改仿真工程，代码、文件写入、求解与许可证消耗前必须确认。",
+      "website": "https://github.com/ansys/pylumerical-mcp",
+      "tutorial": "https://github.com/ansys/pylumerical-mcp",
+      "publisherVendorId": "ansys",
+      "publisher": "Ansys",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "ansys-lumerical"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方开源参考项目，当前只提供说明入口；可持久执行任意 Python/PyLumerical 并修改仿真工程，代码、文件写入、求解与许可证消耗前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "只删除用户按官方文档建立的客户端连接；保留 Ansys Lumerical、许可证、Python 环境、工程与仿真结果。",
+      "provenanceEvidence": [
+        "https://github.com/ansys/pylumerical-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "cesium-ai-integrations-mcp",
+      "enabled": true,
+      "order": 54,
+      "name": "Cesium AI Integrations MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "官方实验性参考实现，仅提供说明入口；可修改场景、相机、实体、影像、地形和 3D Tiles，并可能向 Nominatim、Overpass 或 OSRM 发送位置查询。",
+      "website": "https://github.com/CesiumGS/cesium-ai-integrations/blob/main/mcp/README.md",
+      "tutorial": "https://github.com/CesiumGS/cesium-ai-integrations/blob/main/mcp/README.md",
+      "publisherVendorId": "cesium",
+      "publisher": "Cesium",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "cesiumjs"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方实验性参考实现，仅提供说明入口；可修改场景、相机、实体、影像、地形和 3D Tiles，并可能向 Nominatim、Overpass 或 OSRM 发送位置查询。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 MCP 连接和用户自行部署的参考服务；保留 CesiumJS 项目、Cesium ion 资产、场景数据与源码。",
+      "provenanceEvidence": [
+        "https://github.com/CesiumGS/cesium-ai-integrations/blob/main/mcp/README.md"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "cesium-agent-skills",
+      "enabled": true,
+      "order": 55,
+      "name": "Cesium Agent Skills",
+      "resourceTypes": [
+        "skill"
+      ],
+      "description": "官方实验性 Skills，只提供资源入口；使用前必须审核指令、固定版本与代码生成范围，生成或覆盖 CesiumJS 项目文件前必须确认。",
+      "website": "https://github.com/CesiumGS/cesium-ai-integrations/blob/main/skills/README.md",
+      "tutorial": "https://github.com/CesiumGS/cesium-ai-integrations/blob/main/skills/README.md",
+      "publisherVendorId": "cesium",
+      "publisher": "Cesium",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "cesiumjs"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方实验性 Skills，只提供资源入口；使用前必须审核指令、固定版本与代码生成范围，生成或覆盖 CesiumJS 项目文件前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "只移除用户从官方仓库导入的 Cesium Skills；保留 Claude、Codex、Copilot、CesiumJS 项目与用户源码。",
+      "provenanceEvidence": [
+        "https://github.com/CesiumGS/cesium-ai-integrations/blob/main/skills/README.md"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "siemens-xcelerator-developer-portal-mcp",
+      "enabled": true,
+      "order": 56,
+      "name": "Siemens Xcelerator Developer Portal MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "官方远程 MCP 当前只有 askDeveloperPortal 文档问答工具；它不控制工业设备，也不应被描述为工业自动化执行入口。",
+      "website": "https://developer.siemens.com/ai-registry/developer-portal/developer-portal-mcp.html",
+      "tutorial": "https://developer.siemens.com/ai-registry/developer-portal/developer-portal-mcp.html",
+      "publisherVendorId": "siemens",
+      "publisher": "Siemens",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "siemens-xcelerator-developer-portal"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方远程 MCP 当前只有 askDeveloperPortal 文档问答工具；它不控制工业设备，也不应被描述为工业自动化执行入口。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的远程 MCP 连接；保留 Siemens 账号、开发者门户资料、项目与工业系统。",
+      "provenanceEvidence": [
+        "https://developer.siemens.com/ai-registry/developer-portal/developer-portal-mcp.html"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "esri-arcgis-location-platform-mcp",
+      "enabled": true,
+      "order": 57,
+      "name": "ArcGIS Location Platform MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Beta/Early Adopter 能力，仅提供官方说明入口；位置查询会离开本机并可能产生 ArcGIS 用量费用，动态工具与数据写入前必须确认。",
+      "website": "https://www.esri.com/arcgis-blog/products/platform/developers/mcp-support-beta-and-arcgis-static-maps-service-in-arcgis-location-platform-release",
+      "tutorial": "https://www.esri.com/arcgis-blog/products/platform/developers/mcp-support-beta-and-arcgis-static-maps-service-in-arcgis-location-platform-release",
+      "publisherVendorId": "esri",
+      "publisher": "Esri",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "arcgis-location-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "Beta/Early Adopter 能力，仅提供官方说明入口；位置查询会离开本机并可能产生 ArcGIS 用量费用，动态工具与数据写入前必须确认。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具中的 ArcGIS MCP 连接并撤销访问令牌；保留 ArcGIS 账号、Hosted Layer、地图、位置数据与账单记录。",
+      "provenanceEvidence": [
+        "https://www.esri.com/arcgis-blog/products/platform/developers/mcp-support-beta-and-arcgis-static-maps-service-in-arcgis-location-platform-release"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
+    },
+    {
+      "id": "synopsys-verdi-assistant-mcp",
+      "enabled": true,
+      "order": 58,
+      "name": "Synopsys Verdi Assistant MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "官方目前只公布能力说明，没有公开安装或配置入口；它可读取芯片源码、日志、波形与调试数据库并执行调试动作，当前仅展示文档。",
+      "website": "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html",
+      "tutorial": "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html",
+      "publisherVendorId": "synopsys",
+      "publisher": "Synopsys",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "synopsys-verdi"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "官方目前只公布能力说明，没有公开安装或配置入口；它可读取芯片源码、日志、波形与调试数据库并执行调试动作，当前仅展示文档。"
+      ],
+      "credentialRequirements": [
+        "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
+      "uninstallPlan": "当前无公开安装项可卸载；如由厂商交付，按 Synopsys 管理方式断开，并保留 Verdi、许可证、源码、日志、波形与调试数据库。",
+      "provenanceEvidence": [
+        "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html"
+      ],
+      "lastVerifiedAt": "2026-08-02T15:00:00.000Z"
     }
   ],
   "categories": [
@@ -3224,6 +5342,7 @@
     "数据库与数据",
     "可观测性",
     "工程计算与仿真",
-    "3D 与工业仿真"
+    "3D 与工业仿真",
+    "地图与地理空间"
   ]
 }

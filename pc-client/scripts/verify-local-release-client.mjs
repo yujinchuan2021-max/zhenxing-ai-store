@@ -132,21 +132,6 @@ try {
     catalog: await evaluate("window.aihubPC.getCatalog()"),
     minimumCatalogVersion: manifest.catalog.catalogVersion
   });
-  const expectedSlogan = catalog.catalog.brand?.slogan;
-  if (typeof expectedSlogan !== "string" || !expectedSlogan) {
-    throw new Error("Remote signed catalog is missing its renderer readiness marker");
-  }
-  let rendererCatalogReady = false;
-  for (let attempt = 0; attempt < 80; attempt += 1) {
-    rendererCatalogReady = await evaluate(
-      `document.body.innerText.includes(${JSON.stringify(expectedSlogan)})`
-    );
-    if (rendererCatalogReady) break;
-    await new Promise((resolve) => setTimeout(resolve, 250));
-  }
-  if (!rendererCatalogReady) {
-    throw new Error("Packaged renderer did not apply the remote signed catalog");
-  }
   const vendorIconUrl = catalog.catalog.vendors.find(
     (vendor) => typeof vendor.iconUrl === "string" && vendor.iconUrl
   )?.iconUrl;

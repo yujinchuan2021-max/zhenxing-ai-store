@@ -9,23 +9,28 @@ const {
 } = require("./catalog-published-icon-url.cjs");
 
 function materializeLegacyVendorIconUrls(catalog, assetOrigin) {
-  let base;
-  try {
-    base = new URL(assetOrigin);
-  } catch {
-    throw new Error("目录 Logo 发布来源无效");
-  }
-  if (
-    base.protocol !== "https:" ||
-    !allowedAssetHost(base.hostname.toLowerCase()) ||
-    base.username ||
-    base.password ||
-    base.search ||
-    base.hash
-  ) {
-    throw new Error("目录 Logo 发布来源无效");
-  }
   const released = structuredClone(catalog);
+  const needsAssetOrigin = (released.vendors || []).some(
+    (vendor) => vendor.iconAsset
+  );
+  let base = null;
+  if (needsAssetOrigin) {
+    try {
+      base = new URL(assetOrigin);
+    } catch {
+      throw new Error("目录 Logo 发布来源无效");
+    }
+    if (
+      base.protocol !== "https:" ||
+      !allowedAssetHost(base.hostname.toLowerCase()) ||
+      base.username ||
+      base.password ||
+      base.search ||
+      base.hash
+    ) {
+      throw new Error("目录 Logo 发布来源无效");
+    }
+  }
   for (const vendor of released.vendors || []) {
     if (vendor.iconAsset) {
       const asset = validateVendorIconAsset(vendor.iconAsset);

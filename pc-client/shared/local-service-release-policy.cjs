@@ -45,6 +45,7 @@ const IDENTITY_SHARED_FILES = new Set([
 const ADMIN_DATA_FILES = new Set([
   "admin/data/catalog-v1.json",
   "admin/data/release-settings.json",
+  "admin/data/vendor-icon-fallbacks.json",
   "admin/data/vendor-icon-sources.json"
 ]);
 const COMMUNITY_CONTAINER_PATHS = Object.freeze({
@@ -121,6 +122,7 @@ function assertRequiredSourceFiles(service, sourcePaths) {
       "admin/server.cjs",
       "admin/data/catalog-v1.json",
       "admin/data/release-settings.json",
+      "admin/data/vendor-icon-fallbacks.json",
       "scripts/discover-official-products.mjs"
     ],
     "identity-community": [
