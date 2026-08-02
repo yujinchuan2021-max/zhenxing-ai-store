@@ -38,7 +38,7 @@ curl_close($curl);
 
 if ($status !== 200 || !is_string($body)) {
     http_response_code(401);
-    exit('社区登录票据已失效，请返回 AI Hub 重新进入');
+    exit('社区登录票据已失效，请返回枕星 AI 重新进入');
 }
 
 $payload = json_decode($body, true, 32, JSON_THROW_ON_ERROR);

@@ -1,3 +1,5 @@
+import type { ProductEntryPoint } from "./product-entry-points.cjs";
+
 export type ProductBehavior = {
   productType: string;
   directUrl: string;
@@ -18,6 +20,7 @@ export type ProductBehavior = {
     | "managed-installer"
     | "official-installer-page"
     | "direct-open";
+  entryPoints: readonly ProductEntryPoint[];
   primaryLabel: string;
 };
 
@@ -26,6 +29,8 @@ export function resolveProductBehavior(product: {
   productType: string;
   website: string;
   tutorial: string;
+  kind: string;
+  entryPoints?: ProductEntryPoint[];
   moduleId?: string;
   capabilities?: string[];
   downloadPolicy: string;

@@ -58,12 +58,12 @@ const installerPath = path.resolve(
     path.join(
       root,
       "release-local-server-client",
-      `AI-Hub-Local-${packageVersion}-Windows-x64-Setup.exe`
+      `ZhenXing-AI-Local-${packageVersion}-Windows-x64-Setup.exe`
     )
 );
 const portablePath = path.join(
   path.dirname(installerPath),
-  `AI-Hub-Local-${packageVersion}-Windows-x64-Portable.exe`
+  `ZhenXing-AI-Local-${packageVersion}-Windows-x64-Portable.exe`
 );
 const releaseVersion = process.env.AIHUB_RELEASE_VERSION || packageVersion;
 if (releaseVersion !== packageVersion) {

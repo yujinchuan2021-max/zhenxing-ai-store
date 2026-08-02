@@ -37,11 +37,11 @@ app
           taskCenterOpened = true;
         }
       },
-      { label: "打开 AI Hub" },
+      { label: "打开枕星 AI" },
       { type: "separator" },
       { label: "完全退出" }
     ]);
-    tray.setToolTip("AI Hub · 2 个任务进行中");
+    tray.setToolTip("枕星 AI · 2 个任务进行中");
     tray.setContextMenu(menu);
     menu.items[0].click();
 
@@ -71,7 +71,7 @@ app
           JSON.stringify([
             "2 个任务进行中",
             "打开任务中心",
-            "打开 AI Hub",
+            "打开枕星 AI",
             "完全退出"
           ]);
       finish(result, ok ? 0 : 1);

@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 if (-not $InstallerPath) {
   $InstallerPath = Join-Path `
     $PSScriptRoot `
-    "..\release\AI-Hub-0.1.10-Windows-x64-Setup.exe"
+    "..\release\ZhenXing-AI-0.1.27-Windows-x64-Setup.exe"
 }
 
 function Get-AIHubUninstallEntries {
@@ -23,7 +23,7 @@ function Get-AIHubUninstallEntries {
     }
     foreach ($key in Get-ChildItem -LiteralPath $root -ErrorAction SilentlyContinue) {
       $value = Get-ItemProperty -LiteralPath $key.PSPath -ErrorAction SilentlyContinue
-      if ([string]$value.DisplayName -match '^AI Hub(?:\s+\d+\.\d+\.\d+)?$') {
+      if ([string]$value.DisplayName -match '^(?:枕星 AI|AI Hub)(?:\s+\d+\.\d+\.\d+)?$') {
         $entries += [pscustomobject]@{
           key = $key.PSPath
           name = [string]$value.DisplayName
@@ -65,7 +65,7 @@ function Get-ProcessesAtPath {
 
   $resolved = [System.IO.Path]::GetFullPath($ExecutablePath)
   return @(
-    Get-Process -Name "AI Hub" -ErrorAction SilentlyContinue |
+    Get-Process -Name "枕星 AI", "AI Hub" -ErrorAction SilentlyContinue |
       Where-Object {
         try {
           [System.IO.Path]::GetFullPath($_.Path) -eq $resolved
@@ -79,7 +79,7 @@ function Get-ProcessesAtPath {
 $installer = (Resolve-Path -LiteralPath $InstallerPath).Path
 $acceptanceRoot = Join-Path $env:LOCALAPPDATA "AIHubAcceptance"
 $installDirectory = Join-Path $acceptanceRoot (
-  "AI-Hub-{0}" -f [guid]::NewGuid().ToString("N")
+  "ZhenXing-AI-{0}" -f [guid]::NewGuid().ToString("N")
 )
 $expectedPrefix = [System.IO.Path]::GetFullPath($acceptanceRoot) +
   [System.IO.Path]::DirectorySeparatorChar
@@ -105,10 +105,10 @@ if (Test-Path -LiteralPath $resolvedTarget) {
 }
 
 $beforeEntries = @(Get-AIHubUninstallEntries)
-$desktopShortcut = Join-Path ([Environment]::GetFolderPath("Desktop")) "AI Hub.lnk"
+$desktopShortcut = Join-Path ([Environment]::GetFolderPath("Desktop")) "枕星 AI.lnk"
 $startMenuShortcut = Join-Path (
   [Environment]::GetFolderPath("Programs")
-) "AI Hub.lnk"
+) "枕星 AI.lnk"
 $desktopBefore = Test-Path -LiteralPath $desktopShortcut
 $startMenuBefore = Test-Path -LiteralPath $startMenuShortcut
 if (
@@ -117,7 +117,7 @@ if (
   $startMenuBefore
 ) {
   throw (
-    "Installer acceptance refuses to overwrite an existing AI Hub " +
+    "Installer acceptance refuses to overwrite an existing 枕星 AI " +
     "registration or shortcut. Run it only on an isolated Windows account."
   )
 }
@@ -131,9 +131,9 @@ if ($installProcess.ExitCode -ne 0) {
   throw "Installer exit code: $($installProcess.ExitCode)"
 }
 
-$installedExecutable = Join-Path $resolvedTarget "AI Hub.exe"
+$installedExecutable = Join-Path $resolvedTarget "枕星 AI.exe"
 if (-not (Test-Path -LiteralPath $installedExecutable)) {
-  throw "AI Hub.exe was not found after installation."
+  throw "枕星 AI.exe was not found after installation."
 }
 $afterInstallEntries = @(Get-AIHubUninstallEntries)
 $newEntries = @(

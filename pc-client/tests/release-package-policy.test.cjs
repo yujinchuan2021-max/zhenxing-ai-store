@@ -59,8 +59,8 @@ test("production packaging is blocked while its server channels are disabled", (
 });
 
 test("the local Docker package has distinct names and active trusted channels", () => {
-  assert.match(localReleaseConfig.portable.artifactName, /AI-Hub-Local-/);
-  assert.match(localReleaseConfig.nsis.artifactName, /AI-Hub-Local-/);
+  assert.match(localReleaseConfig.portable.artifactName, /ZhenXing-AI-Local-/);
+  assert.match(localReleaseConfig.nsis.artifactName, /ZhenXing-AI-Local-/);
   for (const destination of [
     "catalog/channel.json",
     "updates/channel.json",

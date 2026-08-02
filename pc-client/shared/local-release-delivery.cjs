@@ -18,7 +18,7 @@ function localReleaseDeliveryNames(version) {
   if (!RELEASE_VERSION.test(version || "")) {
     throw new TypeError("Local release delivery version is invalid");
   }
-  const prefix = `AI-Hub-Local-${version}`;
+  const prefix = `ZhenXing-AI-Local-${version}`;
   return Object.freeze({
     artifacts: Object.freeze([
       `${prefix}-Windows-x64-Portable.exe`,

@@ -18,11 +18,11 @@ module.exports = {
   },
   portable: {
     ...packageJson.build.portable,
-    artifactName: "AI-Hub-Local-${version}-Windows-${arch}-Portable.${ext}"
+    artifactName: "ZhenXing-AI-Local-${version}-Windows-${arch}-Portable.${ext}"
   },
   nsis: {
     ...packageJson.build.nsis,
-    artifactName: "AI-Hub-Local-${version}-Windows-${arch}-Setup.${ext}"
+    artifactName: "ZhenXing-AI-Local-${version}-Windows-${arch}-Setup.${ext}"
   },
   extraResources: [
     {

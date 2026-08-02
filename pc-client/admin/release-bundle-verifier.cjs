@@ -256,7 +256,7 @@ function verifyCommonReleaseBundle({
   } catch {
     throw new Error("发布包地址无效");
   }
-  const artifactMatch = /^AI-Hub-(?:Local-)?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)-Windows-x64-Setup\.exe$/i.exec(
+  const artifactMatch = /^ZhenXing-AI-(?:Local-)?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)-Windows-x64-Setup\.exe$/i.exec(
     artifactName
   );
   if (!artifactMatch || artifactMatch[1] !== manifest.update.version) {

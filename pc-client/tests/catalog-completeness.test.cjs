@@ -8,8 +8,8 @@ const {
 } = require("../shared/product-policy.cjs");
 
 const PRESERVED_MANAGED_PRODUCTS = Object.freeze({
-  openai: ["chatgpt-desktop", "codex-cli", "chatgpt-web"],
-  anthropic: ["claude-desktop", "claude-code", "claude-web"],
+  openai: ["chatgpt-desktop", "codex-cli"],
+  anthropic: ["claude-desktop", "claude-code"],
   comfy: ["comfy-desktop"],
   google: ["gemini-cli"],
   ollama: ["ollama-cli"]
@@ -55,13 +55,20 @@ const HIGH_VALUE_RESEARCH_PRODUCTS = Object.freeze([
   "comfy-cli"
 ]);
 
-test("the researched catalog contains the 49-vendor, 148-product audited batch", () => {
+test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 49);
+  assert.equal(catalog.vendors.length, 116);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 148);
+  assert.equal(products.length, 244);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of HIGH_VALUE_RESEARCH_PRODUCTS) {
+    assert.equal(productIds.has(productId), true, productId);
+  }
+  for (const productId of [
+    "unity-ai-assistant",
+    "unity-editor",
+    "sunlogin-windows"
+  ]) {
     assert.equal(productIds.has(productId), true, productId);
   }
   for (const [vendorId, expectedProductIds] of Object.entries(
@@ -80,11 +87,84 @@ test("the researched catalog contains the 49-vendor, 148-product audited batch",
   assert.equal(productIds.has("openai-sora-retired"), false);
   assert.equal(productIds.has("amazon-q-developer-transition"), false);
   assert.equal(productIds.has("microsoft-autogen-maintenance"), false);
+  for (const mergedId of [
+    "chatgpt-web",
+    "claude-web",
+    "doubao",
+    "microsoft-copilot-web",
+    "qianwen-web",
+    "tencent-yuanbao-web"
+  ]) {
+    assert.equal(productIds.has(mergedId), false, mergedId);
+  }
+  for (const productId of [
+    "chatgpt-desktop",
+    "claude-desktop",
+    "bytedance-doubao",
+    "microsoft-copilot-desktop",
+    "alibaba-qwen-studio",
+    "tencent-yuanbao-desktop"
+  ]) {
+    const product = products.find((item) => item.id === productId);
+    assert.deepEqual(
+      product.entryPoints.map((entry) => entry.type),
+      ["website", "web", "desktop"],
+      productId
+    );
+  }
+});
+
+test("Chinese vendor names use their displayed-name pinyin bucket", () => {
+  const expected = {
+    alibaba: "A",
+    baichuan: "B",
+    baidu: "B",
+    bytedance: "Z",
+    deepseek: "S",
+    kuaishou: "K",
+    moonshot: "Y",
+    sensetime: "S",
+    tencent: "T",
+    zhipu: "Z"
+  };
+  for (const [vendorId, initial] of Object.entries(expected)) {
+    assert.equal(
+      catalog.vendors.find((vendor) => vendor.id === vendorId)?.initial,
+      initial,
+      vendorId
+    );
+  }
+});
+
+test("only the reviewed mainland China network notices are enabled", () => {
+  const expected = new Set([
+    "anthropic",
+    "google",
+    "meta",
+    "midjourney",
+    "openai",
+    "perplexity",
+    "xai"
+  ]);
+  const actual = new Set(
+    catalog.vendors
+      .filter((vendor) => vendor.requiresCrossBorderNetwork === true)
+      .map((vendor) => vendor.id)
+  );
+  assert.deepEqual(actual, expected);
+  assert.equal(
+    catalog.vendors.every(
+      (vendor) =>
+        vendor.requiresCrossBorderNetwork === undefined ||
+        typeof vendor.requiresCrossBorderNetwork === "boolean"
+    ),
+    true
+  );
 });
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 148);
+  assert.equal(products.length, 244);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -121,31 +201,40 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 72,
-    "desktop-official": 1,
+    web: 81,
+    "desktop-official": 89,
     "desktop-reviewed": 26,
     "cli-official": 3,
     cli: 14,
     "local-model": 1,
-    tutorial: 31
+    tutorial: 30
   });
 });
 
-test("skills and MCP entries stay under products with one reviewed managed Skill", () => {
+test("ecosystem resources are top-level, typed and keep one reviewed managed Skill", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  const extensions = products.flatMap((product) => product.extensions || []);
-  assert.equal(extensions.length, 24);
-  assert.equal(extensions.filter((item) => item.extensionType === "skill").length, 15);
-  assert.equal(extensions.filter((item) => item.extensionType === "mcp").length, 9);
-  const managed = extensions.find(
+  assert.equal(products.every((product) => !("extensions" in product)), true);
+  assert.equal(
+    products.every((product) =>
+      ["ai-tool", "ai-connectable"].includes(product.directoryKind)
+    ),
+    true
+  );
+  const resources = catalog.resources;
+  assert.equal(resources.length, 43);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("skill")).length, 10);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 30);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("plugin")).length, 7);
+  const managed = resources.find(
     (item) => item.id === "openai-chatgpt-apps-skill"
   );
+  const managedTarget = managed.targets[0];
   assert.deepEqual(
     {
-      moduleId: managed.moduleId,
-      installProfileId: managed.installProfileId,
+      moduleId: managedTarget.moduleId,
+      installProfileId: managedTarget.installProfileId,
       versionRef: managed.versionRef,
-      capabilities: managed.capabilities
+      capabilities: managedTarget.capabilities
     },
     {
       moduleId: "skill-managed",
@@ -155,24 +244,27 @@ test("skills and MCP entries stay under products with one reviewed managed Skill
     }
   );
   assert.equal(
-    extensions.every(
-      (item) =>
+    resources.every(
+      (item) => item.targets.every((target) =>
         item.id === "openai-chatgpt-apps-skill" ||
-        (item.moduleId === `${item.extensionType}-link` &&
-          item.installProfileId === "" &&
-          item.capabilities.length === 1 &&
-          item.capabilities[0] === "website")
+        (target.moduleId === "resource-link" &&
+          target.installProfileId === "" &&
+          target.capabilities.length === 1 &&
+          target.capabilities[0] === "website")
+      )
     ),
     true
   );
-  const extensionIds = new Set(extensions.map((item) => item.id));
-  for (const extensionId of [
+  const resourceIds = new Set(resources.map((item) => item.id));
+  for (const resourceId of [
     "openai-codex-skills-catalog",
     "openai-chatgpt-apps-skill",
     "anthropic-claude-code-mcp",
     "openclaw-clawhub-skills",
-    "comfy-custom-nodes"
+    "comfy-custom-nodes",
+    "unity-official-mcp-server",
+    "oray-awesun-mcp"
   ]) {
-    assert.equal(extensionIds.has(extensionId), true, extensionId);
+    assert.equal(resourceIds.has(resourceId), true, resourceId);
   }
 });

@@ -842,27 +842,53 @@ button:not(:disabled):active {
   line-height: 1.55;
 }
 
-.productExtensions {
-  grid-column: 1 / -1;
-  border-top: 1px solid var(--line);
-  padding-top: 12px;
-}
-
-.productExtensions summary {
-  width: fit-content;
-  color: var(--ink);
-  font-size: var(--font-small);
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.productExtensionList {
+.resourceDirectory,
+.resourceList {
   display: grid;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 12px;
 }
 
-.productExtension {
+.resourceVendorGroup {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.resourceVendorGroup > header,
+.resourceProductHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.resourceVendorGroup > header > div,
+.resourceProductHeading > div {
+  min-width: 0;
+}
+
+.resourceVendorGroup h2,
+.resourceProductGroup h3 {
+  margin: 3px 0 0;
+}
+
+.resourceVendorGroup small,
+.resourceProductHeading span {
+  color: var(--muted);
+  font-size: var(--font-caption);
+}
+
+.resourceProductGroup {
+  display: grid;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.resourceRow {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
@@ -873,33 +899,39 @@ button:not(:disabled):active {
   background: var(--paper);
 }
 
-.productExtension > span {
+.resourceRow > span {
   color: #6da23f;
   font-size: var(--font-caption);
   font-weight: 900;
 }
 
-.productExtension div {
+.resourceRow > div {
   display: grid;
   gap: 3px;
 }
 
-.productExtension small {
+.resourceRow small {
   color: var(--muted);
 }
 
-.productExtension small.extensionError {
+.resourceRow small.resourceError {
   color: #bd5e4c;
 }
 
-.extensionActions {
+.resourceFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 12px;
+}
+
+.resourceActions {
   display: flex !important;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 7px;
 }
 
-.extensionActions button {
+.resourceActions button {
   min-height: 36px;
   padding: 0 10px;
   border: 1px solid var(--line);
@@ -910,13 +942,13 @@ button:not(:disabled):active {
   font-weight: 800;
 }
 
-.extensionActions button.accentButton {
+.resourceActions button.accentButton {
   border-color: var(--accent);
   color: var(--accent-ink);
   background: var(--accent);
 }
 
-.extensionActions button:disabled {
+.resourceActions button:disabled {
   cursor: wait;
   opacity: 0.55;
 }
@@ -2413,6 +2445,14 @@ button:disabled {
   }
 
   .productActions {
+    justify-content: flex-start;
+  }
+
+  .resourceRow {
+    grid-template-columns: 1fr;
+  }
+
+  .resourceActions {
     justify-content: flex-start;
   }
 

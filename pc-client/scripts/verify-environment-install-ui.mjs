@@ -85,7 +85,7 @@ if (process.argv.includes("--inspect-openclaw-ima")) {
   ) {
     throw new Error(`OpenClaw Gateway layers are incorrect: ${JSON.stringify(state.gateway)}`);
   }
-  if (state.catalogVersion !== 28 || state.vendorCount !== 49 || state.productCount !== 148) {
+  if (state.catalogVersion !== 28 || state.vendorCount !== 49 || state.productCount !== 142) {
     throw new Error(`The client did not load catalog v28: ${JSON.stringify(state)}`);
   }
   await evaluate(`([...document.querySelectorAll("button")]

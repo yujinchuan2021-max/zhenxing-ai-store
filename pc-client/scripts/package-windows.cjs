@@ -97,7 +97,10 @@ try {
     "--win",
     ...(upgradeFixture ? ["nsis"] : ["portable", "nsis"]),
     ...(upgradeFixture
-      ? [`--config.extraMetadata.version=${upgradeVersion}`]
+      ? [
+          `--config.extraMetadata.version=${upgradeVersion}`,
+          "--config.extraMetadata.upgradeFixture=true"
+        ]
       : []),
     `--config.directories.output=${temporaryOutput}`
   ];
@@ -134,7 +137,7 @@ try {
     source: inspectGitReleaseSource({ root, version: artifactVersion }),
     artifactPaths: artifacts.map((entry) => path.join(artifactOutput, entry.name))
   });
-  const buildMetadataName = `AI-Hub-${artifactVersion}-BUILD.json`;
+  const buildMetadataName = `ZhenXing-AI-${artifactVersion}-BUILD.json`;
   fs.writeFileSync(
     path.join(artifactOutput, buildMetadataName),
     `${JSON.stringify(buildMetadata, null, 2)}\n`,

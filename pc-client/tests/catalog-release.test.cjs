@@ -105,7 +105,8 @@ test("verifies a signed catalog release and makes rollout stable per client", ()
   const second = verifyCatalogRelease(envelope, options);
 
   assert.equal(first.catalogVersion, 3);
-  assert.equal(first.catalogSha256, catalogReleaseSha256(first.catalog));
+  assert.equal(first.catalogSha256, envelope.payload.catalogSha256);
+  assert.equal(first.catalog.schemaVersion, 2);
   assert.equal(first.eligible, second.eligible);
   assert.equal(first.highestCatalogVersion, 3);
 });

@@ -25,9 +25,44 @@ function signingKey() {
   return { privateKey, source: "environment" };
 }
 
-function fixture() {
+function legacyCatalog() {
+  return {
+    schemaVersion: 1,
+    vendors: [
+      {
+        id: "legacy",
+        name: "Legacy",
+        initial: "L",
+        mark: "L",
+        color: "#123456",
+        description: "旧目录兼容测试",
+        website: "https://example.com",
+        tutorial: "https://example.com/docs",
+        products: [
+          {
+            id: "legacy-web",
+            name: "Legacy Web",
+            kind: "其他产品",
+            category: "AI 对话",
+            description: "旧版网页产品",
+            website: "https://example.com/app",
+            tutorial: "https://example.com/docs",
+            productType: "web",
+            requirements: [],
+            installPolicy: "open-product-website",
+            downloadPolicy: "none",
+            signaturePolicy: "not-applicable",
+            uninstallPolicy: "not-managed"
+          }
+        ]
+      }
+    ]
+  };
+}
+
+function fixture(catalogOverride) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-bundle-"));
-  const catalog = JSON.parse(
+  const catalog = catalogOverride ?? JSON.parse(
     fs.readFileSync(
       path.resolve(__dirname, "..", "admin", "data", "catalog-v1.json"),
       "utf8"
@@ -35,7 +70,7 @@ function fixture() {
   );
   const installer = path.join(
     root,
-    "AI-Hub-0.1.1-Windows-x64-Setup.exe"
+    "ZhenXing-AI-0.1.1-Windows-x64-Setup.exe"
   );
   fs.writeFileSync(installer, crypto.randomBytes(4096));
   const catalogEnvelope = {
@@ -67,7 +102,7 @@ function fixture() {
 }
 
 test("builds and verifies a server-migratable signed release bundle", () => {
-  const value = fixture();
+  const value = fixture(legacyCatalog());
   try {
     const outputDirectory = path.join(value.root, "bundle");
     const result = prepareReleaseBundle({
@@ -89,6 +124,17 @@ test("builds and verifies a server-migratable signed release bundle", () => {
     assert.notEqual(verified.catalogKeyId, verified.updateKeyId);
     assert.equal(verified.source.revision, "a".repeat(40));
     assert.equal(result.update.sha256.length, 64);
+    const signedCatalog = JSON.parse(
+      fs.readFileSync(
+        path.join(result.publicDirectory, "catalog-release.json"),
+        "utf8"
+      )
+    );
+    assert.equal(signedCatalog.payload.catalog.schemaVersion, 1);
+    assert.equal(
+      signedCatalog.payload.catalogSha256,
+      catalogReleaseSha256(signedCatalog.payload.catalog)
+    );
 
     const allPublicText = fs
       .readdirSync(result.publicDirectory, { recursive: true })
@@ -109,7 +155,7 @@ test("signed build provenance binds both Setup and Portable acceptance bytes", (
   try {
     const portable = path.join(
       value.root,
-      "AI-Hub-0.1.1-Windows-x64-Portable.exe"
+      "ZhenXing-AI-0.1.1-Windows-x64-Portable.exe"
     );
     fs.writeFileSync(portable, crypto.randomBytes(3072));
     const buildProvenance = createArtifactBuildMetadata({
@@ -193,7 +239,7 @@ test("accepts only the fixed local Docker installer name variant", () => {
   try {
     const localInstaller = path.join(
       value.root,
-      "AI-Hub-Local-0.1.1-Windows-x64-Setup.exe"
+      "ZhenXing-AI-Local-0.1.1-Windows-x64-Setup.exe"
     );
     fs.copyFileSync(value.installer, localInstaller);
     const localBuildProvenance = createArtifactBuildMetadata({
@@ -217,7 +263,7 @@ test("accepts only the fixed local Docker installer name variant", () => {
     });
     assert.equal(
       path.basename(new URL(result.update.downloadUrl).pathname),
-      "AI-Hub-Local-0.1.1-Windows-x64-Setup.exe"
+      "ZhenXing-AI-Local-0.1.1-Windows-x64-Setup.exe"
     );
   } finally {
     fs.rmSync(value.root, { recursive: true, force: true });

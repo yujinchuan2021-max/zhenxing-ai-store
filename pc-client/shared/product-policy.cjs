@@ -11,6 +11,10 @@ const {
   getProductModule,
   moduleIdForProductType
 } = require("./product-modules.cjs");
+const {
+  resolveProductEntryPoints,
+  validateProductEntryPoints
+} = require("./product-entry-points.cjs");
 
 const PRODUCT_TYPES = new Set([
   "web",
@@ -72,6 +76,7 @@ const ALLOWED_PRODUCT_FIELDS = new Set([
   "id",
   "enabled",
   "order",
+  "directoryKind",
   "name",
   "kind",
   "category",
@@ -89,6 +94,7 @@ const ALLOWED_PRODUCT_FIELDS = new Set([
   "capabilities",
   "download",
   "componentProductIds",
+  "entryPoints",
   "extensions"
 ]);
 const ALLOWED_DOWNLOAD_FIELDS = new Set(["url", "fileName"]);
@@ -140,6 +146,8 @@ function validateProductPolicy(product, vendorId) {
   if (!hasOnlyAllowedFields(product, ALLOWED_PRODUCT_FIELDS)) {
     return "产品包含客户端不支持的策略字段";
   }
+  const entryPointError = validateProductEntryPoints(product);
+  if (entryPointError) return entryPointError;
   if (
     product.componentProductIds !== undefined &&
     (!Array.isArray(product.componentProductIds) ||
@@ -296,6 +304,7 @@ function resolveProductBehavior(product) {
         : product.productType === "cli-official"
           ? "official-cli-install-page"
         : "direct-open"),
+    entryPoints: resolveProductEntryPoints(product),
     primaryLabel:
       managedCli || managedDesktop
         ? "一键安装"

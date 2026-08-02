@@ -147,7 +147,7 @@ services:
       AIHUB_FORUM_DB_PASSWORD: ${AIHUB_FORUM_DB_PASSWORD:-aihub-forum-local-only}
       AIHUB_FORUM_ADMIN_USER: aihub_admin
       AIHUB_FORUM_ADMIN_PASSWORD: ${AIHUB_FORUM_ADMIN_PASSWORD:-AIHub-Forum-Local-Admin-2026}
-      AIHUB_FORUM_ADMIN_EMAIL: admin@aihub.local
+      AIHUB_FORUM_ADMIN_EMAIL: admin@zhenxingai.com
       AIHUB_FORUM_API_KEY: ${AIHUB_FORUM_API_KEY:-aihub-local-forum-api-key-change-before-production}
       AIHUB_FORUM_PASSWORD_TOKEN: ${AIHUB_FORUM_PASSWORD_TOKEN:-aihub-local-forum-password-token-change-before-production}
       AIHUB_IDENTITY_INTERNAL_URL: http://identity-community:4180

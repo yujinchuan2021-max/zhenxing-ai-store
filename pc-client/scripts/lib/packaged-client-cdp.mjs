@@ -40,20 +40,23 @@ export function assertPackagedRemoteCatalog({
 function assertPackagedDomActionInput({
   evaluate,
   productId,
+  resourceId = "",
   action,
   extensionProfileId = "",
   timeoutMs
 }) {
+  const resourceAction =
+    action === "install-extension" || action === "uninstall-extension";
   if (
     typeof evaluate !== "function" ||
     typeof productId !== "string" ||
-    !productId ||
+    typeof resourceId !== "string" ||
     !PACKAGED_DOM_ACTIONS.has(action) ||
     typeof extensionProfileId !== "string" ||
     !Number.isSafeInteger(timeoutMs) ||
     timeoutMs < 1 ||
-    ((action === "install-extension" || action === "uninstall-extension") &&
-      !extensionProfileId)
+    (resourceAction && (!resourceId || !extensionProfileId)) ||
+    (!resourceAction && !productId)
   ) {
     throw new Error("Packaged DOM action input is invalid");
   }
@@ -61,11 +64,13 @@ function assertPackagedDomActionInput({
 
 function packagedDomActionSnapshotExpression({
   productId,
+  resourceId = "",
   action,
   extensionProfileId = ""
 }) {
   return `(() => {
     const productId = ${JSON.stringify(productId)};
+    const resourceId = ${JSON.stringify(resourceId)};
     const action = ${JSON.stringify(action)};
     const extensionProfileId = ${JSON.stringify(extensionProfileId)};
     const byAttribute = (root, attribute, value) =>
@@ -73,12 +78,13 @@ function packagedDomActionSnapshotExpression({
         (element) => element.getAttribute(attribute) === value
       );
     const product = byAttribute(document, "data-aihub-product-id", productId);
+    const resource = byAttribute(document, "data-aihub-resource-id", resourceId);
     const actionRoot = extensionProfileId
-      ? product && byAttribute(
-          product,
-          "data-aihub-extension-profile-id",
+      ? resource &&
+        resource.getAttribute("data-aihub-extension-profile-id") ===
           extensionProfileId
-        )
+        ? resource
+        : null
       : product;
     const button = actionRoot && byAttribute(
       actionRoot,
@@ -96,6 +102,7 @@ function packagedDomActionSnapshotExpression({
 export async function waitForPackagedDomAction({
   evaluate,
   productId,
+  resourceId = "",
   action,
   extensionProfileId = "",
   requireEnabled = true,
@@ -104,6 +111,7 @@ export async function waitForPackagedDomAction({
   assertPackagedDomActionInput({
     evaluate,
     productId,
+    resourceId,
     action,
     extensionProfileId,
     timeoutMs
@@ -117,6 +125,7 @@ export async function waitForPackagedDomAction({
     snapshot = await evaluate(
       packagedDomActionSnapshotExpression({
         productId,
+        resourceId,
         action,
         extensionProfileId
       })
@@ -132,6 +141,7 @@ export async function waitForPackagedDomAction({
   throw new Error(
     `Packaged DOM action was not ready: ${JSON.stringify({
       productId,
+      resourceId,
       action,
       extensionProfileId,
       snapshot
@@ -142,6 +152,7 @@ export async function waitForPackagedDomAction({
 export async function clickPackagedDomAction({
   evaluate,
   productId,
+  resourceId = "",
   action,
   extensionProfileId = "",
   timeoutMs = 8_000
@@ -149,12 +160,14 @@ export async function clickPackagedDomAction({
   assertPackagedDomActionInput({
     evaluate,
     productId,
+    resourceId,
     action,
     extensionProfileId,
     timeoutMs
   });
   const result = await evaluate(`(() => {
     const productId = ${JSON.stringify(productId)};
+    const resourceId = ${JSON.stringify(resourceId)};
     const action = ${JSON.stringify(action)};
     const extensionProfileId = ${JSON.stringify(extensionProfileId)};
     const timeoutMs = ${timeoutMs};
@@ -163,12 +176,13 @@ export async function clickPackagedDomAction({
         (element) => element.getAttribute(attribute) === value
       );
     const product = byAttribute(document, "data-aihub-product-id", productId);
+    const resource = byAttribute(document, "data-aihub-resource-id", resourceId);
     const actionRoot = extensionProfileId
-      ? product && byAttribute(
-          product,
-          "data-aihub-extension-profile-id",
+      ? resource &&
+        resource.getAttribute("data-aihub-extension-profile-id") ===
           extensionProfileId
-        )
+        ? resource
+        : null
       : product;
     const actionButton = actionRoot && byAttribute(
       actionRoot,
@@ -195,17 +209,18 @@ export async function clickPackagedDomAction({
         resolve({ clicked, busyObserved, label });
       };
       const inspect = () => {
-        const currentProduct = byAttribute(
+        const currentProduct = byAttribute(document, "data-aihub-product-id", productId);
+        const currentResource = byAttribute(
           document,
-          "data-aihub-product-id",
-          productId
+          "data-aihub-resource-id",
+          resourceId
         );
         const currentRoot = extensionProfileId
-          ? currentProduct && byAttribute(
-              currentProduct,
-              "data-aihub-extension-profile-id",
+          ? currentResource &&
+            currentResource.getAttribute("data-aihub-extension-profile-id") ===
               extensionProfileId
-            )
+            ? currentResource
+            : null
           : currentProduct;
         const busyAction = ["install-product", "refresh-product"].includes(action)
           ? "product-busy"
@@ -220,7 +235,7 @@ export async function clickPackagedDomAction({
         }
       };
       const observer = new MutationObserver(inspect);
-      observer.observe(product, {
+      observer.observe(actionRoot, {
         attributes: true,
         attributeFilter: ["disabled", "data-aihub-action"],
         childList: true,
@@ -236,6 +251,7 @@ export async function clickPackagedDomAction({
     throw new Error(
       `Packaged DOM action did not expose disabled busy feedback: ${JSON.stringify({
         productId,
+        resourceId,
         action,
         extensionProfileId,
         result
@@ -324,39 +340,53 @@ export async function openPackagedCatalogProduct({
   throw new Error(`Packaged product row was not available: ${productId}`);
 }
 
-export async function openPackagedProductExtensions({
+export async function openPackagedResourceStore({
   evaluate,
-  productId,
+  storeLabel,
+  resourceId,
   timeoutMs = 10_000
 }) {
   if (
     typeof evaluate !== "function" ||
-    typeof productId !== "string" ||
-    !productId ||
+    typeof storeLabel !== "string" ||
+    !storeLabel ||
+    typeof resourceId !== "string" ||
+    !resourceId ||
     !Number.isSafeInteger(timeoutMs) ||
     timeoutMs < 1
   ) {
-    throw new Error("Packaged extension directory input is invalid");
+    throw new Error("Packaged resource store input is invalid");
   }
   const deadline = Date.now() + timeoutMs;
+  let storeOpened = false;
   while (Date.now() < deadline) {
-    const opened = await evaluate(`(() => {
-      const productId = ${JSON.stringify(productId)};
-      const product = Array.from(
-        document.querySelectorAll("[data-aihub-product-id]")
-      ).find((element) => element.getAttribute("data-aihub-product-id") === productId);
-      const details = product && product.querySelector("details.productExtensions");
-      const summary = details && details.querySelector("summary");
-      if (!(details instanceof HTMLDetailsElement) || !(summary instanceof HTMLElement)) {
-        return false;
-      }
-      if (!details.open) summary.click();
-      return details.open;
+    const result = await evaluate(`(() => {
+      const storeLabel = ${JSON.stringify(storeLabel)};
+      const resourceId = ${JSON.stringify(resourceId)};
+      const resource = Array.from(
+        document.querySelectorAll("[data-aihub-resource-id]")
+      ).find((element) => element.getAttribute("data-aihub-resource-id") === resourceId);
+      if (resource instanceof HTMLElement) return "ready";
+      const button = Array.from(
+        document.querySelectorAll(".sidebar button.navItem")
+      ).find((element) => element.innerText.includes(storeLabel));
+      if (!(button instanceof HTMLButtonElement) || button.disabled) return "missing";
+      if (!button.classList.contains("active")) button.click();
+      return "opened";
     })()`);
-    if (opened === true) return { productId, opened: true };
+    if (result === "ready") {
+      return { storeLabel, resourceId, opened: true };
+    }
+    if (result === "opened") storeOpened = true;
     await delay(100);
   }
-  throw new Error(`Packaged extension directory was not available: ${productId}`);
+  throw new Error(
+    `Packaged resource store was not available: ${JSON.stringify({
+      storeLabel,
+      resourceId,
+      storeOpened
+    })}`
+  );
 }
 
 function assertWithinTemporaryRoot(target, label) {
@@ -389,7 +419,7 @@ export async function availableLoopbackPort() {
 export function assertNoExistingAIHubProcesses() {
   if (process.platform !== "win32") return;
   const command = [
-    "$items=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'AI Hub.exe' -or $_.Name -like 'AI-Hub-Local-*-Portable.exe' })",
+    "$items=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq '枕星 AI.exe' -or $_.Name -eq 'AI Hub.exe' -or $_.Name -like 'ZhenXing-AI-Local-*-Portable.exe' -or $_.Name -like 'AI-Hub-Local-*-Portable.exe' })",
     "[Console]::Out.Write($items.Count)"
   ].join("; ");
   const result = spawnSync(
@@ -400,11 +430,11 @@ export function assertNoExistingAIHubProcesses() {
   if (result.error) throw result.error;
   const count = Number.parseInt(String(result.stdout || "").trim(), 10);
   if (result.status !== 0 || !Number.isSafeInteger(count) || count < 0) {
-    throw new Error("Unable to inspect existing AI Hub processes safely");
+    throw new Error("Unable to inspect existing ZhenXing AI processes safely");
   }
   if (count > 0) {
     throw new Error(
-      "Close the running AI Hub client before packaged acceptance; the gate refuses to reuse or terminate a live user session"
+      "Close the running ZhenXing AI client before packaged acceptance; the gate refuses to reuse or terminate a live user session"
     );
   }
 }

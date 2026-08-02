@@ -149,6 +149,27 @@ CREATE INDEX IF NOT EXISTS discussions_created
 CREATE INDEX IF NOT EXISTS discussions_product
   ON discussions(product_id, created_at DESC);
 
+-- Product entry aggregation keeps existing discussions attached to the
+-- stable managed product identity instead of the retired Web-only record.
+UPDATE discussions
+SET product_id = CASE product_id
+  WHEN 'chatgpt-web' THEN 'chatgpt-desktop'
+  WHEN 'claude-web' THEN 'claude-desktop'
+  WHEN 'doubao' THEN 'bytedance-doubao'
+  WHEN 'microsoft-copilot-web' THEN 'microsoft-copilot-desktop'
+  WHEN 'qianwen-web' THEN 'alibaba-qwen-studio'
+  WHEN 'tencent-yuanbao-web' THEN 'tencent-yuanbao-desktop'
+  ELSE product_id
+END
+WHERE product_id IN (
+  'chatgpt-web',
+  'claude-web',
+  'doubao',
+  'microsoft-copilot-web',
+  'qianwen-web',
+  'tencent-yuanbao-web'
+);
+
 CREATE TABLE IF NOT EXISTS discussion_replies (
   id uuid PRIMARY KEY,
   discussion_id uuid NOT NULL REFERENCES discussions(id) ON DELETE CASCADE,

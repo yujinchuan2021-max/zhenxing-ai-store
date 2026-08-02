@@ -48,7 +48,7 @@ test("missing resources and runtime errors become safe messages", () => {
     ok: false,
     state: "unavailable",
     managed: false,
-    error: "扩展安装资源不可用，请更新 AI Hub 后重试"
+    error: "扩展安装资源不可用，请更新枕星 AI 后重试"
   });
   const facade = createExtensionIpcFacade({
     getStatus() {
@@ -58,7 +58,7 @@ test("missing resources and runtime errors become safe messages", () => {
     }
   });
   const result = facade.status("skill.example");
-  assert.equal(result.error, "扩展安装资源缺失，请更新 AI Hub 后重试");
+  assert.equal(result.error, "扩展安装资源缺失，请更新枕星 AI 后重试");
   assert.equal(JSON.stringify(result).includes("secret-path"), false);
   assert.equal(safeExtensionError(new Error("private detail")), "扩展操作失败，请稍后重试");
 });
@@ -100,7 +100,7 @@ test("Electron exposes extension IPC with profileId as its only renderer input",
   );
 });
 
-test("managed extension UI uses status and busy install or uninstall actions", () => {
+test("managed resource UI probes only after an explicit action", () => {
   const app = fs.readFileSync(
     path.join(__dirname, "..", "src", "App.tsx"),
     "utf8"
@@ -109,12 +109,12 @@ test("managed extension UI uses status and busy install or uninstall actions", (
     path.join(__dirname, "..", "src", "language", "index.ts"),
     "utf8"
   );
-  assert.match(app, /function ExtensionResourceRow/);
-  assert.match(app, /getExtensionStatus\(extension\.installProfileId\)/);
-  assert.match(app, /installExtension\(extension\.installProfileId\)/);
-  assert.match(app, /uninstallExtension\(extension\.installProfileId\)/);
+  assert.match(app, /function ResourceRow/);
+  assert.doesNotMatch(app, /getExtensionStatus\(target\.installProfileId\)/);
+  assert.match(app, /installExtension\(target\.installProfileId\)/);
+  assert.match(app, /uninstallExtension\(target\.installProfileId\)/);
   assert.match(app, /disabled=\{busyAction !== null\}/);
-  assert.match(app, /extension\.capabilities\.includes\("website"\)/);
+  assert.match(app, /target\.capabilities\.includes\("website"\)/);
   for (const key of [
     "extensions.checking",
     "extensions.installing",

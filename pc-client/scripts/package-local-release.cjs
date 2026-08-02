@@ -174,7 +174,7 @@ try {
     source: releaseSource,
     artifactPaths: packagedArtifactPaths
   });
-  const buildMetadataName = `AI-Hub-Local-${packageVersion}-BUILD.json`;
+  const buildMetadataName = `ZhenXing-AI-Local-${packageVersion}-BUILD.json`;
   fs.writeFileSync(
     path.join(candidateOutput, buildMetadataName),
     `${JSON.stringify(buildMetadata, null, 2)}\n`,
@@ -191,7 +191,7 @@ try {
       sha256: sha256File(filePath)
     };
   });
-  const checksumName = `AI-Hub-Local-${packageVersion}-SHA256.txt`;
+  const checksumName = `ZhenXing-AI-Local-${packageVersion}-SHA256.txt`;
   fs.writeFileSync(
     path.join(candidateOutput, checksumName),
     formatLocalReleaseChecksums(checksumEntries),

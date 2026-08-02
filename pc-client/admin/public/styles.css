@@ -203,7 +203,31 @@ textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
 .certificationMeta b { color: #315d1c; }
 .certificationMeta code { overflow-wrap: anywhere; color: #52615c; }
 .certificationForm { margin-top: 16px; }
+.resourceStores { display: grid; gap: 10px; }
+.resourceStores > div {
+  display: grid; grid-template-columns: 90px minmax(220px, 1fr) 120px 90px;
+  align-items: center; gap: 12px; padding: 12px 14px;
+  border: 1px solid #dbe5e0; border-radius: 12px; background: #fbfdfb;
+}
+.resourceStores label, .targetEnabled {
+  display: flex; align-items: center; gap: 7px;
+}
+.resourceStores input[type="checkbox"], .targetEnabled input { width: auto; }
+.resourceColumns { grid-template-columns: 340px minmax(0, 1fr); }
+.resourceColumns .itemList i { min-width: 32px; width: auto; padding: 0 7px; background: #173129; }
+.resourceTargets {
+  padding: 16px; border: 1px solid #dce6df; border-radius: 12px; background: #f8fbf9;
+}
+.resourceTargets > .panelHeader small { display: block; margin-top: 6px; color: #718079; }
+.resourceTarget {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
+  margin-top: 12px; padding: 14px; border: 1px solid #dbe5e0;
+  border-radius: 11px; background: #fff;
+}
+.resourceTarget .wide { grid-column: 1 / -1; }
+.resourceTarget > .dangerButton { justify-self: end; }
 @media (max-width: 980px) {
   .sourceList > div { grid-template-columns: 1fr 1fr; }
   .reviewSummary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .resourceStores > div { grid-template-columns: 1fr 1fr; }
 }

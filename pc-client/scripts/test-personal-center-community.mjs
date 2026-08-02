@@ -116,7 +116,7 @@ async function waitForPage() {
       const page = targets.find(
         (target) =>
           target.type === "page" &&
-          (target.url.startsWith("file:") || target.title.includes("AI Hub"))
+          (target.url.startsWith("file:") || target.title.includes("枕星 AI"))
       );
       if (page) return page;
     } catch {
@@ -183,7 +183,7 @@ try {
   await send("Page.enable");
   await waitFor(
     "Boolean(document.querySelector('.topActions'))",
-    "AI Hub main view did not render"
+    "ZhenXing AI main view did not render"
   );
   await evaluate(
     "[...document.querySelectorAll('.topActions button')].find((button) => button.textContent.trim() === '登录').click()"

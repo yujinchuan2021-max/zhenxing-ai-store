@@ -62,7 +62,7 @@ function buildInstalledProductManagement({
         String(entry?.vendorName || "") ||
         vendorNames.get(vendorId) ||
         vendorId ||
-        "AI Hub"
+        "枕星 AI"
     });
   }
 

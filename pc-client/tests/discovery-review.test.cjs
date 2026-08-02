@@ -150,6 +150,7 @@ test("accepted candidates enter a disabled safe draft and never gain local execu
   });
   assert.equal(result.revision, 18);
   assert.equal(result.product.enabled, false);
+  assert.equal(result.product.directoryKind, "ai-tool");
   assert.equal(result.product.moduleId, "web-link");
   assert.deepEqual(result.product.capabilities, ["website", "tutorial"]);
   assert.equal(commits.length, 1);
@@ -210,6 +211,25 @@ test("candidate review accepts categories declared by the current backend catalo
     }
   });
   assert.equal(result.product.category, "语音交互");
+});
+
+test("candidate review can place a product in the AI-connectable directory", async (t) => {
+  const { catalog, review } = setup(t);
+  const result = await review.acceptCandidate({
+    catalog,
+    candidateId: candidateId("openai", "https://openai.com/future-product"),
+    expectedRevision: 18,
+    product: {
+      id: "openai-connectable-future",
+      name: "Future Connectable Product",
+      description: "Official product with an AI integration.",
+      directoryKind: "ai-connectable",
+      category: "AI 对话",
+      moduleId: "web-link",
+      tutorial: "https://openai.com/future-product"
+    }
+  });
+  assert.equal(result.product.directoryKind, "ai-connectable");
 });
 
 test("only one fixed scan runs at a time and exposes bounded status", async (t) => {

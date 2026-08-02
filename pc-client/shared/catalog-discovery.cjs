@@ -87,6 +87,9 @@ function collectVendorSources(vendor) {
   const values = [vendor.website, vendor.tutorial];
   for (const product of vendor.products || []) {
     values.push(product.website, product.tutorial);
+    for (const entry of product.entryPoints || []) {
+      if (entry.url) values.push(entry.url);
+    }
   }
   const urls = [];
   const scopes = [];
@@ -251,6 +254,11 @@ function matchExistingProduct(link, products) {
   const candidate = new URL(candidateUrl);
   const textTokens = new Set(productTokens(link.text));
   for (const product of products || []) {
+    for (const entry of product.entryPoints || []) {
+      if (entry.url && normalizeUrl(entry.url) === candidateUrl) {
+        return product.id;
+      }
+    }
     const productUrl = normalizeUrl(product.website);
     if (productUrl === candidateUrl) return product.id;
     if (productUrl) {

@@ -26,7 +26,7 @@ test("binds an installer to its exact version, bytes and source revision", () =>
   try {
     const installer = path.join(
       root,
-      "AI-Hub-Local-0.1.21-Windows-x64-Setup.exe"
+      "ZhenXing-AI-Local-0.1.21-Windows-x64-Setup.exe"
     );
     fs.writeFileSync(installer, "installer");
     const metadata = createArtifactBuildMetadata({
@@ -37,7 +37,7 @@ test("binds an installer to its exact version, bytes and source revision", () =>
     });
     assert.equal(
       artifactBuildMetadataPath(installer),
-      path.join(root, "AI-Hub-Local-0.1.21-BUILD.json")
+      path.join(root, "ZhenXing-AI-Local-0.1.21-BUILD.json")
     );
     assert.deepEqual(
       verifyArtifactBuildMetadata({
@@ -67,11 +67,11 @@ test("binds the Portable acceptance client to the same build manifest before lau
   try {
     const installer = path.join(
       root,
-      "AI-Hub-Local-0.1.21-Windows-x64-Setup.exe"
+      "ZhenXing-AI-Local-0.1.21-Windows-x64-Setup.exe"
     );
     const portable = path.join(
       root,
-      "AI-Hub-Local-0.1.21-Windows-x64-Portable.exe"
+      "ZhenXing-AI-Local-0.1.21-Windows-x64-Portable.exe"
     );
     fs.writeFileSync(installer, "installer");
     fs.writeFileSync(portable, "portable");
@@ -82,7 +82,7 @@ test("binds the Portable acceptance client to the same build manifest before lau
       builtAt: "2026-08-01T00:00:00.000Z"
     });
     fs.writeFileSync(
-      path.join(root, "AI-Hub-Local-0.1.21-BUILD.json"),
+      path.join(root, "ZhenXing-AI-Local-0.1.21-BUILD.json"),
       `${JSON.stringify(metadata, null, 2)}\n`,
       "utf8"
     );

@@ -46,7 +46,7 @@ https://localhost:4443 {
     Accept-Ranges "bytes"
   }
 
-  @allowedFiles path /update-release.json /release-manifest.json /build-provenance.json /artifacts/AI-Hub-*-Windows-x64-Setup.exe
+  @allowedFiles path /update-release.json /release-manifest.json /build-provenance.json /artifacts/ZhenXing-AI-*-Windows-x64-Setup.exe
   handle @allowedFiles {
     file_server
   }

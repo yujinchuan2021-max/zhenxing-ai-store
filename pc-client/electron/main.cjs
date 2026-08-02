@@ -17,10 +17,21 @@ const { once } = require("node:events");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const { BRAND } = require("../shared/brand.cjs");
 const { Readable, Transform } = require("node:stream");
 const { pipeline } = require("node:stream/promises");
 const { pathToFileURL } = require("node:url");
 const { promisify } = require("node:util");
+
+// Keep existing accounts, receipts, downloads and settings across the public
+// brand rename. Explicit test/user-data overrides still take precedence.
+if (!app.commandLine.hasSwitch("user-data-dir")) {
+  app.setPath(
+    "userData",
+    path.join(app.getPath("appData"), BRAND.legacyUserDataDirectory)
+  );
+}
+
 const {
   isAllowedUrl
 } = require("../shared/catalog.cjs");
@@ -308,7 +319,7 @@ let updateCheckGeneration = 0;
 let activeEnvironmentSourcePreferences;
 let managedDownloadTransportInstance = null;
 const DOWNLOAD_USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AI-Hub/0.1";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ZhenXing-AI/0.1";
 const ENVIRONMENT_PLANS = Object.freeze({
   node: {
     name: "Node.js",
@@ -652,7 +663,7 @@ function taskNotificationProductName(productId) {
   if (DESKTOP_PROBES[productId]?.names?.[0]) {
     return DESKTOP_PROBES[productId].names[0];
   }
-  return "AI Hub 任务";
+  return `${BRAND.name} 任务`;
 }
 
 function taskNotificationTarget(productId) {
@@ -692,7 +703,7 @@ function updateTrayPresentation() {
     count === 0
       ? runtimeText("TRAY_BACKGROUND", language)
       : count === 1
-        ? `AI Hub · ${states[0]}`
+        ? `${BRAND.name} · ${states[0]}`
         : runtimeText("TRAY_TASKS", language, { count })
   );
   tray.setContextMenu(
@@ -701,7 +712,7 @@ function updateTrayPresentation() {
         label:
           count > 0
             ? runtimeText("TRAY_TASKS", language, { count }).replace(
-                /^AI Hub · /,
+                `${BRAND.name} · `,
                 ""
               )
             : runtimeText("TRAY_NONE", language),
@@ -2639,13 +2650,13 @@ function createNpmExecutionContext() {
   );
   const userConfigPath = path.join(directory, "user.npmrc");
   const globalConfigPath = path.join(directory, "global.npmrc");
-  fs.writeFileSync(userConfigPath, "# Isolated AI Hub user npm configuration\n", {
+  fs.writeFileSync(userConfigPath, "# Isolated ZhenXing AI user npm configuration\n", {
     encoding: "utf8",
     flag: "wx"
   });
   fs.writeFileSync(
     globalConfigPath,
-    "# Isolated AI Hub global npm configuration\n",
+    "# Isolated ZhenXing AI global npm configuration\n",
     { encoding: "utf8", flag: "wx" }
   );
   return { directory, userConfigPath, globalConfigPath, temporaryRoot };
@@ -3425,7 +3436,7 @@ async function openManagedCliTerminal(productId) {
     return {
       ok: false,
       error: status.installed
-        ? "CLI 启动入口与 AI Hub 管理记录不一致"
+        ? `CLI 启动入口与${BRAND.name}管理记录不一致`
         : "该 CLI 尚未安装"
     };
   }
@@ -3988,7 +3999,7 @@ async function deployManagedWslCli(sender, productId, plan) {
 
   const before = await inspectManagedWslStatus(productId, plan);
   if (before.installed) {
-    return { ok: false, error: before.managed ? "该 WSL 产品已由 AI Hub 部署" : "检测到同路径的非受管安装，AI Hub 不会覆盖" };
+    return { ok: false, error: before.managed ? `该 WSL 产品已由${BRAND.name}部署` : `检测到同路径的非受管安装，${BRAND.name}不会覆盖` };
   }
   const bootstrapAction = createManagedWslBootstrapAction({
     plan,
@@ -4054,13 +4065,13 @@ async function deployManagedWslCli(sender, productId, plan) {
 async function uninstallManagedWslCli(sender, productId, plan) {
   const status = await inspectManagedWslStatus(productId, plan);
   if (!status.canUninstall) {
-    return { ok: false, error: status.installed ? "该 WSL 产品不属于当前 AI Hub 管理收据" : "未找到可安全卸载的 WSL 产品" };
+    return { ok: false, error: status.installed ? `该 WSL 产品不属于当前${BRAND.name}管理收据` : "未找到可安全卸载的 WSL 产品" };
   }
   const confirmation = await showLocalizedMessageBox({
     type: "warning",
     title: `卸载 ${plan.name}`,
     message: `确认卸载 ${plan.name}？`,
-    detail: `仅移除 ${plan.distribution} 中由 AI Hub 管理的 ${plan.packageName} 和 Gateway 服务；不会注销 WSL 发行版，也不会删除用户配置。`,
+    detail: `仅移除 ${plan.distribution} 中由${BRAND.name}管理的 ${plan.packageName} 和 Gateway 服务；不会注销 WSL 发行版，也不会删除用户配置。`,
     buttons: ["取消", "确认卸载"],
     defaultId: 0,
     cancelId: 0,
@@ -4251,7 +4262,7 @@ async function deployManagedBinaryCli(sender, productId, plan) {
     return { ok: false, error: "受管 CLI 目录存在未登记内容或状态无法确认" };
   }
   if (currentStatus.installed) {
-    return { ok: false, error: "该 CLI 已由 AI Hub 部署" };
+    return { ok: false, error: `该 CLI 已由${BRAND.name}部署` };
   }
   const prefixKey = layout.directory.toLowerCase();
   if (activeCliPrefixes.has(prefixKey)) {
@@ -4389,7 +4400,7 @@ async function uninstallManagedBinaryCli(productId, plan) {
       detail: [
         `当前版本：${action.version}`,
         `安装位置：${action.directory}`,
-        "只删除 AI Hub 管理的程序文件；账号、设置和会话数据会保留。"
+        `只删除${BRAND.name}管理的程序文件；账号、设置和会话数据会保留。`
       ].join("\n"),
       buttons: ["取消", "确认卸载"],
       defaultId: 0,
@@ -4525,7 +4536,7 @@ async function deployManagedPythonCli(sender, productId, plan) {
   if (currentStatus.detection === "unknown") {
     return { ok: false, error: "受管 Python CLI 目录存在未登记内容或状态无法确认" };
   }
-  if (currentStatus.installed) return { ok: false, error: "该 CLI 已由 AI Hub 部署" };
+  if (currentStatus.installed) return { ok: false, error: `该 CLI 已由${BRAND.name}部署` };
   const prefixKey = layout.directory.toLowerCase();
   if (activeCliPrefixes.has(prefixKey)) return { ok: false, error: "该 CLI 安装位置正在执行其他操作" };
   activeCliPrefixes.add(prefixKey);
@@ -4632,7 +4643,7 @@ async function uninstallManagedPythonCli(productId, plan) {
       detail: [
         `当前版本：${action.version}`,
         `安装位置：${action.directory}`,
-        "只删除 AI Hub 创建的独立 Python 环境；账号、设置、项目和缓存数据会保留。"
+        `只删除${BRAND.name}创建的独立 Python 环境；账号、设置、项目和缓存数据会保留。`
       ].join("\n"),
       buttons: ["取消", "确认卸载"], defaultId: 0, cancelId: 0, noLink: true
     });
@@ -4717,7 +4728,7 @@ async function deployManagedMsiCli(sender, productId, plan) {
   if (!layout) return { ok: false, error: "Kiro CLI 安装白名单无效" };
   const status = getCliStatus(productId);
   if (status.detection === "unknown") return { ok: false, error: "检测到未登记的 Kiro CLI，客户端不会覆盖或接管" };
-  if (status.installed) return { ok: false, error: "Kiro CLI 已由 AI Hub 部署" };
+  if (status.installed) return { ok: false, error: `Kiro CLI 已由${BRAND.name}部署` };
   const prefixKey = layout.directory.toLowerCase();
   if (activeCliPrefixes.has(prefixKey)) return { ok: false, error: "Kiro CLI 正在执行其他操作" };
   activeCliPrefixes.add(prefixKey);
@@ -6231,7 +6242,7 @@ function ensureEnvironmentDownloadDirectory() {
   ) {
     return settings.downloadDirectory;
   }
-  const downloadDirectory = path.join(app.getPath("downloads"), "AI Hub");
+  const downloadDirectory = path.join(app.getPath("downloads"), BRAND.name);
   fs.mkdirSync(downloadDirectory, { recursive: true });
   writeSettings({ ...settings, downloadDirectory });
   return downloadDirectory;
@@ -6694,7 +6705,7 @@ async function clearCompletedDownloadHistory(productId, confirm = true) {
     const confirmation = await showLocalizedMessageBox({
       type: "question",
       title: "清除下载记录",
-      message: "确认从 AI Hub 下载任务中清除这条完成记录？",
+      message: `确认从${BRAND.name}下载任务中清除这条完成记录？`,
       detail:
         "只清除任务和验证记录，不会删除电脑上的安装包文件。之后如需再次安装，请从原文件位置打开或重新下载。",
       buttons: ["保留记录", "清除记录"],
@@ -6772,7 +6783,7 @@ async function clearAllCompletedDownloadHistories() {
     title: "清除全部已完成任务",
     message: `确认清除 ${productIds.length} 条已完成下载记录？`,
     detail:
-      "只清除 AI Hub 的任务和验证记录，不会删除电脑上的安装包文件。",
+      `只清除${BRAND.name}的任务和验证记录，不会删除电脑上的安装包文件。`,
     buttons: ["保留记录", "全部清除"],
     defaultId: 0,
     cancelId: 0,
@@ -7023,8 +7034,8 @@ async function deployManagedNpmCli(sender, productId, plan) {
     return {
       ok: false,
       error: currentStatus.managed
-        ? "该 CLI 已由 AI Hub 部署"
-        : "检测到非 AI Hub 管理的同名 CLI，客户端不会覆盖或接管"
+        ? `该 CLI 已由${BRAND.name}部署`
+        : `检测到非${BRAND.name}管理的同名 CLI，客户端不会覆盖或接管`
     };
   }
 
@@ -7112,7 +7123,7 @@ async function uninstallManagedNpmCli(sender, productId, plan) {
       ok: false,
       error: status.installed
         ? "该 CLI 的身份或安装位置无法安全确认，已停止卸载"
-        : "未找到可安全卸载的 AI Hub 受管 CLI"
+        : `未找到可安全卸载的${BRAND.name}受管 CLI`
     };
   }
 
@@ -7490,8 +7501,8 @@ function registerIpc() {
       const verified = verifyUpdateInstallerDownload(result, plan);
       const confirmation = await showLocalizedMessageBox({
         type: "warning",
-        title: "安装 AI Hub 更新",
-        message: `AI Hub ${offer.version} 已下载并通过完整性校验`,
+        title: `安装${BRAND.name}更新`,
+        message: `${BRAND.name} ${offer.version} 已下载并通过完整性校验`,
         detail: [
           `安装包：${path.basename(verified.filePath)}`,
           `SHA-256：${verified.sha256}`,
@@ -7516,7 +7527,7 @@ function registerIpc() {
         command: verified.filePath,
         graceMs: 2_000,
         env: isolatedThirdPartyEnvironment(),
-        processLabel: "AI Hub 更新安装器"
+        processLabel: `${BRAND.name}更新安装器`
       });
       if (!launch.launched) {
         return {
@@ -7599,6 +7610,27 @@ function registerIpc() {
       return false;
     }
     return (await shell.openPath(target)) === "";
+  });
+
+  ipcMain.handle("settings:open-cli-directory", async () => {
+    const configured = readSettings().cliInstallDirectory;
+    if (!configured || !path.isAbsolute(configured)) return false;
+    try {
+      const target = fs.realpathSync(configured);
+      if (!fs.statSync(target).isDirectory()) return false;
+      return (await shell.openPath(target)) === "";
+    } catch {
+      return false;
+    }
+  });
+
+  ipcMain.handle("settings:open-windows-uninstall", async () => {
+    try {
+      await shell.openExternal("ms-settings:appsfeatures");
+      return true;
+    } catch {
+      return false;
+    }
   });
 
   ipcMain.handle("settings:clear-download-directory", () => {
@@ -8054,8 +8086,8 @@ function registerIpc() {
           title: "卸载 WSL",
           message: "卸载 WSL 平台？",
           detail: distributions.length
-            ? `检测到 ${distributions.length} 个发行版：${distributions.join("、")}。AI Hub 不会注销发行版，也不会执行会删除发行版数据的命令。卸载平台后，这些发行版将暂时无法运行。`
-            : "AI Hub 只卸载 WSL 平台，不会执行发行版注销命令。",
+            ? `检测到 ${distributions.length} 个发行版：${distributions.join("、")}。${BRAND.name}不会注销发行版，也不会执行会删除发行版数据的命令。卸载平台后，这些发行版将暂时无法运行。`
+            : `${BRAND.name}只卸载 WSL 平台，不会执行发行版注销命令。`,
           buttons: ["取消", "继续卸载"],
           defaultId: 0,
           cancelId: 0,
@@ -8164,7 +8196,7 @@ function registerIpc() {
         detail: [
           `Windows 登记名称：${entry.displayname}`,
           `发布者：${entry.publisher}`,
-          "卸载程序打开不代表卸载已经完成；AI Hub 会继续确认可信安装证据是否消失。"
+          `卸载程序打开不代表卸载已经完成；${BRAND.name}会继续确认可信安装证据是否消失。`
         ].join("\n"),
         buttons: ["取消", "继续卸载"],
         defaultId: 0,
@@ -9226,7 +9258,7 @@ function createWindow() {
     minHeight: 700,
     show: false,
     backgroundColor: "#0e1714",
-    title: "AI Hub PC",
+    title: `${BRAND.name} PC`,
     webPreferences: {
       preload: path.join(__dirname, "preload.cjs"),
       contextIsolation: true,
@@ -9430,7 +9462,7 @@ if (!hasSingleInstanceLock) {
     .whenReady()
     .then(async () => {
       if (process.platform === "win32") {
-        app.setAppUserModelId("com.aihub.desktop");
+        app.setAppUserModelId(BRAND.legacyAppId);
       }
       configureLocalReleaseCertificateTrust();
       await configureSystemNetwork();
@@ -9469,7 +9501,7 @@ if (!hasSingleInstanceLock) {
       });
     })
     .catch((error) => {
-      console.error("AI Hub failed to initialize", error);
+      console.error("ZhenXing AI failed to initialize", error);
       app.quit();
     });
 

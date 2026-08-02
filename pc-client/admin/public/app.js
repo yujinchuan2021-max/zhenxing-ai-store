@@ -3,7 +3,7 @@ const state = {
   view: "home",
   selectedVendorId: "",
   selectedProductId: "",
-  selectedExtensionId: "",
+  selectedResourceId: "",
   selectedDiscoveryId: "",
   discoveryFilter: "pending",
   discovery: null,
@@ -20,14 +20,15 @@ const state = {
   },
   productModules: {
     modules: [],
+    entryPointTypes: [],
     installProfiles: [],
-    extensionModules: [],
+    resourceModules: [],
     extensionInstallProfiles: []
   }
 };
 
 const kinds = ["桌面端", "CLI", "其他产品"];
-const requirements = ["node", "git", "python", "docker"];
+const requirements = ["node", "git", "python", "docker", "wsl"];
 const content = document.querySelector("#content");
 const title = document.querySelector("#pageTitle");
 const saveState = document.querySelector("#saveState");
@@ -61,16 +62,8 @@ function updateCounts() {
     (total, vendor) => total + vendor.products.length,
     0
   );
-  document.querySelector("#extensionCount").textContent = vendors.reduce(
-    (total, vendor) =>
-      total +
-      vendor.products.reduce(
-        (productTotal, product) =>
-          productTotal + (product.extensions || []).length,
-        0
-      ),
-    0
-  );
+  document.querySelector("#resourceCount").textContent =
+    state.catalog?.resources?.length || 0;
 }
 
 async function request(url, options) {
@@ -98,13 +91,13 @@ async function loadCatalog() {
     state.releaseData = await request("/api/release");
     state.discovery = await request("/api/discovery");
     state.catalog.brand ||= {
-      name: "AI Hub",
-      mark: "A",
+      name: "枕星 AI",
+      mark: "枕",
       slogan: "一个地方，找到并安装你的 AI 工具"
     };
     state.catalog.extraSections ||= [];
     state.catalog.community ||= {
-      title: "AI Hub 社区",
+      title: "枕星 AI 社区",
       description: "交流 AI 工具的安装、使用经验与工作流。",
       provider: "Flarum",
       url: "",
@@ -120,12 +113,15 @@ async function loadCatalog() {
     if (!state.catalog.categories.length) {
       state.catalog.categories.push("未分类");
     }
-    for (const vendor of state.catalog.vendors) {
-      for (const product of vendor.products) product.extensions ||= [];
-    }
+    state.catalog.resourceStores ||= [
+      { id: "skill", label: "Skill 商店", enabled: true, order: 0 },
+      { id: "mcp", label: "MCP 商店", enabled: true, order: 1 },
+      { id: "plugin", label: "插件商店", enabled: true, order: 2 }
+    ];
+    state.catalog.resources ||= [];
     state.selectedVendorId = state.catalog.vendors[0]?.id || "";
     state.selectedProductId = state.catalog.vendors[0]?.products[0]?.id || "";
-    state.selectedExtensionId = allExtensions()[0]?.extension.id || "";
+    state.selectedResourceId = state.catalog.resources[0]?.id || "";
     state.selectedDiscoveryId =
       state.discovery.candidates.find((candidate) => candidate.status === "pending")?.id ||
       state.discovery.candidates[0]?.id ||
@@ -309,85 +305,173 @@ function applyModule(product, moduleId, vendorId) {
   } else {
     delete product.download;
   }
+  if (Array.isArray(product.entryPoints)) {
+    product.entryPoints = product.entryPoints.filter(
+      (entry) => !["desktop", "cli"].includes(entry.type)
+    );
+    if (module.kind === "桌面端") {
+      product.entryPoints.push({
+        type: "desktop",
+        label: module.requiresProfile ? "客户端一键安装" : "获取 Windows 客户端"
+      });
+    } else if (module.kind === "CLI") {
+      product.entryPoints.push({
+        type: "cli",
+        label: module.requiresProfile ? "CLI 一键安装" : "查看 CLI 安装说明"
+      });
+    }
+  }
 }
 
-function allExtensions() {
-  return state.catalog.vendors.flatMap((vendor) =>
-    vendor.products.flatMap((product) =>
-      (product.extensions || []).map((extension) => ({
-        vendor,
-        product,
-        extension
-      }))
+function productEntryTypeOptions(product, selected) {
+  return (state.productModules.entryPointTypes || [])
+    .filter((entry) => {
+      if (entry.type === "desktop") return product.kind === "桌面端";
+      if (entry.type === "cli") return product.kind === "CLI";
+      if (entry.type === "web") return product.kind !== "CLI";
+      return true;
+    })
+    .map(
+      (entry) =>
+        `<option value="${escapeHtml(entry.type)}"${entry.type === selected ? " selected" : ""}>${escapeHtml(entry.label)}</option>`
     )
+    .join("");
+}
+
+function productEntryEditor(product) {
+  const entries = Array.isArray(product.entryPoints) ? product.entryPoints : [];
+  const rows = entries.length
+    ? entries
+        .map((entry, index) => {
+          const link = ["website", "web", "tutorial", "external"].includes(
+            entry.type
+          );
+          return `<div>
+            <select data-product-entry-field="${index}:type">${productEntryTypeOptions(product, entry.type)}</select>
+            <input maxlength="48" data-product-entry-field="${index}:label" value="${escapeHtml(entry.label)}" placeholder="按钮文字">
+            ${link ? `<input data-product-entry-field="${index}:url" value="${escapeHtml(entry.url || "")}" placeholder="https://...">` : `<small>调用当前产品的固定客户端模块</small>`}
+            <button class="smallButton" data-action="move-product-entry" data-index="${index}" data-offset="-1" ${index === 0 ? "disabled" : ""}>上移</button>
+            <button class="smallButton" data-action="move-product-entry" data-index="${index}" data-offset="1" ${index === entries.length - 1 ? "disabled" : ""}>下移</button>
+            <button class="dangerButton" data-action="delete-product-entry" data-index="${index}">删除</button>
+          </div>`;
+        })
+        .join("")
+    : `<div class="empty">尚未配置入口；旧目录会继续使用兼容入口。</div>`;
+  return `<div class="wide moduleNotice">
+    <b>产品入口</b>
+    <small>数组顺序就是客户端按钮顺序。链接仅允许 HTTPS；桌面端和 CLI 只调用当前产品已审核模块，不能填写命令、参数或本地路径。</small>
+    <div class="sourceList">${rows}</div>
+    <button class="smallButton" data-action="add-product-entry">＋ 新增入口</button>
+  </div>`;
+}
+
+function allResources() {
+  return state.catalog.resources || [];
+}
+
+function selectedResource() {
+  return allResources().find(
+    (resource) => resource.id === state.selectedResourceId
   );
 }
 
-function selectedExtensionRecord() {
-  return allExtensions().find(
-    ({ extension }) => extension.id === state.selectedExtensionId
+function resourceModuleFor(target) {
+  return state.productModules.resourceModules.find(
+    (module) => module.id === target.moduleId
   );
 }
 
-function extensionModuleFor(extension) {
-  return state.productModules.extensionModules.find(
-    (module) => module.id === extension.moduleId
-  );
-}
-
-function extensionModuleOptions(extension, hostProductId) {
-  return state.productModules.extensionModules
+function resourceModuleOptions(resource, target) {
+  return state.productModules.resourceModules
+    .filter(
+      (module) =>
+        !module.resourceType || resource.resourceTypes.includes(module.resourceType)
+    )
     .map((module) => {
       const approved =
         !module.requiresProfile ||
         state.productModules.extensionInstallProfiles.some(
           (profile) =>
             profile.moduleId === module.id &&
-            profile.extensionId === extension.id &&
-            profile.hostProductId === hostProductId
+            profile.extensionId === resource.id &&
+            profile.hostProductId === target.productId
         );
-      return `<option value="${escapeHtml(module.id)}"${module.id === extension.moduleId ? " selected" : ""}${approved ? "" : " disabled"}>${escapeHtml(module.label)}${approved ? "" : "（需先发布客户端配置）"}</option>`;
+      return `<option value="${escapeHtml(module.id)}"${module.id === target.moduleId ? " selected" : ""}${approved ? "" : " disabled"}>${escapeHtml(module.label)}${approved ? "" : "（需先发布客户端配置）"}</option>`;
     })
     .join("");
 }
 
-function extensionInstallProfileOptions(extension, hostProductId) {
-  const module = extensionModuleFor(extension);
+function resourceInstallProfileOptions(resource, target) {
+  const module = resourceModuleFor(target);
   if (!module?.requiresProfile) return "";
   const profiles = state.productModules.extensionInstallProfiles.filter(
     (profile) =>
       profile.moduleId === module.id &&
-      profile.extensionId === extension.id &&
-      profile.hostProductId === hostProductId
+      profile.extensionId === resource.id &&
+      profile.hostProductId === target.productId
   );
   return [
     `<option value="">请选择客户端已审核配置</option>`,
     ...profiles.map(
       (profile) =>
-        `<option value="${escapeHtml(profile.id)}"${profile.id === extension.installProfileId ? " selected" : ""}>${escapeHtml(profile.label)} · ${escapeHtml(profile.hostProductId)}（匹配）</option>`
+        `<option value="${escapeHtml(profile.id)}"${profile.id === target.installProfileId ? " selected" : ""}>${escapeHtml(profile.label)} · ${escapeHtml(profile.hostProductId)}（匹配）</option>`
     )
   ].join("");
 }
 
-function applyExtensionModule(extension, moduleId, hostProductId) {
-  const module = state.productModules.extensionModules.find(
+function applyResourceModule(resource, target, moduleId) {
+  const module = state.productModules.resourceModules.find(
     (candidate) => candidate.id === moduleId
   );
   if (!module) return;
-  extension.moduleId = module.id;
-  extension.extensionType = module.extensionType;
+  target.moduleId = module.id;
   const matchingProfile = state.productModules.extensionInstallProfiles.find(
     (profile) =>
       profile.moduleId === module.id &&
-      profile.extensionId === extension.id &&
-      profile.hostProductId === hostProductId
+      profile.extensionId === resource.id &&
+      profile.hostProductId === target.productId
   );
-  extension.installProfileId = module.requiresProfile
+  if (module.requiresProfile && !matchingProfile) {
+    const fallback = state.productModules.resourceModules.find(
+      (candidate) => candidate.id === "resource-link"
+    );
+    target.moduleId = fallback?.id || "resource-link";
+    target.installProfileId = "";
+    target.capabilities = [...(fallback?.capabilities || ["website"])];
+    return;
+  }
+  target.installProfileId = module.requiresProfile
     ? matchingProfile?.id || ""
     : "";
-  extension.capabilities = [
+  target.capabilities = [
     ...(matchingProfile?.capabilities || module.capabilities || [])
   ];
+}
+
+function productLabel(productId) {
+  const record = allProducts().find(({ product }) => product.id === productId);
+  return record ? `${record.vendor.name} / ${record.product.name}` : productId;
+}
+
+function resourceTargetProductOptions(resource, target) {
+  const module = resourceModuleFor(target);
+  return allProducts()
+    .filter(
+      ({ product }) =>
+        product.directoryKind === "ai-tool" &&
+        (!module?.requiresProfile ||
+          state.productModules.extensionInstallProfiles.some(
+            (profile) =>
+              profile.moduleId === module.id &&
+              profile.extensionId === resource.id &&
+              profile.hostProductId === product.id
+          ))
+    )
+    .map(
+      ({ vendor, product }) =>
+        `<option value="${escapeHtml(product.id)}"${product.id === target.productId ? " selected" : ""}>${escapeHtml(vendor.name)} / ${escapeHtml(product.name)}</option>`
+    )
+    .join("");
 }
 
 function moveItem(items, index, offset) {
@@ -490,6 +574,7 @@ function renderVendors() {
           <div class="panelHeader"><h3>${escapeHtml(vendor.name)}</h3>
           <button class="dangerButton" data-action="delete-vendor">删除厂商</button></div>
           <div class="formGrid">
+             <label class="toggleLabel"><input type="checkbox" data-vendor-requires-cross-border-network ${vendor.requiresCrossBorderNetwork ? "checked" : ""}>中国用户需要科学上网</label>
              <label>厂商 ID<input data-vendor-field="id" value="${escapeHtml(vendor.id)}"></label>
              <label>厂商名称<input data-vendor-field="name" value="${escapeHtml(vendor.name)}"></label>
              <label>显示顺序<input type="number" min="0" max="100000" data-vendor-number="order" value="${escapeHtml(vendor.order ?? 0)}"></label>
@@ -599,7 +684,7 @@ function renderProducts() {
         .map(
           ({ vendor, product: item }) => `<button data-product="${escapeHtml(item.id)}" class="${item.id === state.selectedProductId ? "active" : ""}">
           <i style="background:${escapeHtml(vendor.color)}">${escapeHtml(vendor.mark)}</i>
-          <span>${escapeHtml(item.name)}<br><small>${escapeHtml(vendor.name)} · ${escapeHtml(item.kind)} · ${item.enabled === false ? "已停用" : `顺序 ${escapeHtml(item.order ?? 0)}`}${productCertificationFor(item.id) ? ` · ${escapeHtml(certificationLabels[productCertificationFor(item.id).status])}` : ""}</small></span></button>`
+          <span>${escapeHtml(item.name)}<br><small>${escapeHtml(vendor.name)} · ${item.directoryKind === "ai-connectable" ? "AI 可接入" : "AI 工具"} · ${escapeHtml(item.kind)} · ${item.enabled === false ? "已停用" : `顺序 ${escapeHtml(item.order ?? 0)}`}${productCertificationFor(item.id) ? ` · ${escapeHtml(certificationLabels[productCertificationFor(item.id).status])}` : ""}</small></span></button>`
         )
         .join("")}</section>
       ${
@@ -612,6 +697,10 @@ function renderProducts() {
              <label>所属厂商<select data-product-field="vendorId">${optionList(state.catalog.vendors.map((item) => item.id), record.vendor.id)}</select></label>
              <label>产品名称<input data-product-field="name" value="${escapeHtml(product.name)}"></label>
              <label>显示顺序<input type="number" min="0" max="100000" data-product-number="order" value="${escapeHtml(product.order ?? 0)}"></label>
+             <label>所属目录<select data-product-field="directoryKind">
+               <option value="ai-tool"${product.directoryKind === "ai-tool" ? " selected" : ""}>全部 AI 厂商</option>
+               <option value="ai-connectable"${product.directoryKind === "ai-connectable" ? " selected" : ""}>全部 AI 可接入厂商</option>
+             </select></label>
              <label>产品模块<select data-product-module>${productModuleOptions(product, record.vendor.id)}</select></label>
              <label>产品形态<input value="${escapeHtml(product.kind)}" readonly></label>
              ${productModule?.requiresProfile ? `
@@ -628,8 +717,12 @@ function renderProducts() {
              <label>产品官网<input data-product-field="website" value="${escapeHtml(product.website)}"></label>
              <label class="wide">教程地址<input data-product-field="tutorial" value="${escapeHtml(product.tutorial)}"></label>
              <label class="wide">产品描述<textarea data-product-field="description">${escapeHtml(product.description)}</textarea></label>
+             ${productEntryEditor(product)}
              <label class="wide">产品组件子目录<div class="checks">${record.vendor.products
-               .filter((candidate) => candidate.id !== product.id)
+               .filter(
+                 (candidate) =>
+                   candidate.id !== product.id && candidate.kind !== "CLI"
+               )
                .map(
                  (candidate) => `<label><input type="checkbox" data-product-component="${escapeHtml(candidate.id)}"
                  ${(product.componentProductIds || []).includes(candidate.id) ? "checked" : ""}>${escapeHtml(candidate.name)}</label>`
@@ -655,58 +748,92 @@ function renderProducts() {
     </div>`;
 }
 
-function renderExtensions() {
-  title.textContent = "扩展资源";
-  const record = selectedExtensionRecord();
-  const extension = record?.extension;
-  const module = extension ? extensionModuleFor(extension) : null;
-  const productOptions = allProducts().map(({ vendor, product }) => ({
-    id: product.id,
-    label: `${vendor.name} / ${product.name}`
-  }));
+function renderResources() {
+  title.textContent = "生态资源";
+  const resource = selectedResource();
+  const resourceIdLocked = Boolean(
+    resource?.targets.some((target) => resourceModuleFor(target)?.requiresProfile)
+  );
+  const sourceProducts = allProducts().filter(
+    ({ product }) => product.directoryKind === "ai-connectable"
+  );
+  const targetProducts = allProducts().filter(
+    ({ product }) => product.directoryKind === "ai-tool"
+  );
   content.innerHTML = `
-    <section class="intro"><div><p class="eyebrow">目录 / 产品 / 扩展资源</p><h2>Skill 与 MCP 子目录</h2>
-    <p>扩展资源只显示在所属产品内部；一键安装必须绑定客户端已审核配置。</p></div>
-    <button class="smallButton" data-action="add-extension">＋ 新增扩展资源</button></section>
-    <div class="twoColumn">
-      <section class="panel itemList">${allExtensions().length
-        ? allExtensions().map(({ vendor, product, extension: item }) => `
-          <button data-extension="${escapeHtml(item.id)}" class="${item.id === state.selectedExtensionId ? "active" : ""}">
-          <i style="background:${escapeHtml(vendor.color)}">${item.extensionType === "skill" ? "S" : "M"}</i>
-          <span>${escapeHtml(item.name)}<br><small>${escapeHtml(product.name)} · ${item.extensionType.toUpperCase()} · ${item.enabled === false ? "已停用" : `顺序 ${escapeHtml(item.order ?? 0)}`}</small></span></button>`).join("")
-        : `<div class="empty">暂无扩展资源</div>`}</section>
-      ${extension ? `<section class="panel">
-        <div class="panelHeader"><h3>${escapeHtml(extension.name)}</h3>
-        <button class="dangerButton" data-action="delete-extension">删除扩展资源</button></div>
+    <section class="intro"><div><p class="eyebrow">目录 / 生态资源</p><h2>Skill、MCP 与插件商店</h2>
+    <p>资源独立于厂商产品保存，可关联来源产品并接入多个 AI 工具。后台只能选择客户端固定模块和已审核配置，不能下发命令。</p></div>
+    <button class="smallButton" data-action="add-resource">＋ 新增资源</button></section>
+    <section class="panel">
+      <div class="panelHeader"><div><h3>商店入口</h3><small>入口固定为 Skill、MCP 和插件；可调整名称、顺序和启停。</small></div></div>
+      <div class="resourceStores">${state.catalog.resourceStores
+        .map(
+          (store, index) => `<div>
+            <b>${escapeHtml(store.id.toUpperCase())}</b>
+            <input maxlength="40" data-resource-store-field="${index}:label" value="${escapeHtml(store.label)}">
+            <input type="number" min="0" max="100000" data-resource-store-field="${index}:order" value="${escapeHtml(store.order)}">
+            <label><input type="checkbox" data-resource-store-enabled="${index}" ${store.enabled !== false ? "checked" : ""}>启用</label>
+          </div>`
+        )
+        .join("")}</div>
+    </section>
+    <div class="twoColumn resourceColumns">
+      <section class="panel itemList">${allResources().length
+        ? allResources().map((item) => `
+          <button data-resource="${escapeHtml(item.id)}" class="${item.id === state.selectedResourceId ? "active" : ""}">
+          <i>${escapeHtml(item.resourceTypes.map((type) => type[0].toUpperCase()).join("/"))}</i>
+          <span>${escapeHtml(item.name)}<br><small>${escapeHtml(item.resourceTypes.join(" + ").toUpperCase())} · ${item.enabled === false ? "已停用" : `顺序 ${escapeHtml(item.order ?? 0)}`} · ${escapeHtml(item.targets.length)} 个目标</small></span></button>`).join("")
+        : `<div class="empty">暂无生态资源</div>`}</section>
+      ${resource ? `<section class="panel">
+        <div class="panelHeader"><h3>${escapeHtml(resource.name)}</h3>
+        <button class="dangerButton" data-action="delete-resource">删除资源</button></div>
         <div class="formGrid">
-          <label>扩展 ID<input data-extension-field="id" value="${escapeHtml(extension.id)}"></label>
-          <label>所属产品<select data-extension-field="hostProductId">${productOptions.map((option) => `<option value="${escapeHtml(option.id)}"${option.id === record.product.id ? " selected" : ""}>${escapeHtml(option.label)}</option>`).join("")}</select></label>
-          <label>名称<input data-extension-field="name" value="${escapeHtml(extension.name)}"></label>
-          <label>显示顺序<input type="number" min="0" max="100000" data-extension-number="order" value="${escapeHtml(extension.order ?? 0)}"></label>
-          <label>扩展模块<select data-extension-module>${extensionModuleOptions(extension, record.product.id)}</select></label>
-          <label>资源类型<input value="${escapeHtml(extension.extensionType.toUpperCase())}" readonly></label>
-          ${module?.requiresProfile ? `<label class="wide">已审核安装配置<select data-extension-install-profile>${extensionInstallProfileOptions(extension, record.product.id)}</select></label>` : ""}
-          <label class="wide moduleNotice">模块说明<small>${escapeHtml(module?.description || "请选择扩展模块")}</small></label>
-          <label class="wide">模块功能<div class="checks">${(module?.capabilities || []).map((capability) => `<label><input type="checkbox" data-extension-capability="${escapeHtml(capability)}" ${(extension.capabilities || []).includes(capability) ? "checked" : ""}>${escapeHtml(capabilityLabels[capability] || capability)}</label>`).join("")}</div><small>后台只能关闭客户端已审核能力，不能增加执行命令。</small></label>
-          <label class="wide">官网<input data-extension-field="website" value="${escapeHtml(extension.website)}"></label>
-          <label class="wide">教程地址<input data-extension-field="tutorial" value="${escapeHtml(extension.tutorial)}"></label>
-          <label class="wide">描述<textarea data-extension-field="description">${escapeHtml(extension.description)}</textarea></label>
-          <label>发布者<input data-extension-optional-field="publisher" value="${escapeHtml(extension.publisher || "")}" placeholder="厂商、组织或维护者"></label>
-          <label>来源类型<select data-extension-optional-field="sourceKind">
+          <label>资源 ID<input data-resource-field="id" value="${escapeHtml(resource.id)}" ${resourceIdLocked ? "readonly" : ""}>${resourceIdLocked ? "<small>已绑定客户端安装白名单，升级客户端配置后才能更换 ID。</small>" : ""}</label>
+          <label>名称<input data-resource-field="name" value="${escapeHtml(resource.name)}"></label>
+          <label>显示顺序<input type="number" min="0" max="100000" data-resource-number="order" value="${escapeHtml(resource.order ?? 0)}"></label>
+          <label>发布厂商<select data-resource-optional-field="publisherVendorId"><option value="">未关联厂商</option>${state.catalog.vendors.map((vendor) => `<option value="${escapeHtml(vendor.id)}"${vendor.id === resource.publisherVendorId ? " selected" : ""}>${escapeHtml(vendor.name)}</option>`).join("")}</select></label>
+          <label>发布者<input data-resource-optional-field="publisher" value="${escapeHtml(resource.publisher || "")}" placeholder="厂商、组织或维护者"></label>
+          <label>来源类型<select data-resource-optional-field="sourceKind">
             <option value="">未标注</option>
-            <option value="official"${extension.sourceKind === "official" ? " selected" : ""}>官方</option>
-            <option value="reviewed-community"${extension.sourceKind === "reviewed-community" ? " selected" : ""}>已审核社区</option>
-            <option value="community"${extension.sourceKind === "community" ? " selected" : ""}>社区</option>
+            <option value="official"${resource.sourceKind === "official" ? " selected" : ""}>官方</option>
+            <option value="reviewed-community"${resource.sourceKind === "reviewed-community" ? " selected" : ""}>已审核社区</option>
+            <option value="community"${resource.sourceKind === "community" ? " selected" : ""}>社区</option>
           </select></label>
-          <label>版本引用<input data-extension-optional-field="versionRef" value="${escapeHtml(extension.versionRef || "")}" placeholder="版本号、标签或提交号"></label>
-          <label>安装范围<input data-extension-optional-field="installScope" value="${escapeHtml(extension.installScope || "")}" placeholder="用户级、项目级或宿主范围"></label>
-          <label class="wide">请求权限<textarea data-extension-list-field="requestedPermissions" placeholder="一行一项">${escapeHtml((extension.requestedPermissions || []).join("\n"))}</textarea></label>
-          <label class="wide">凭据要求<textarea data-extension-list-field="credentialRequirements" placeholder="一行一项，不填写密钥值">${escapeHtml((extension.credentialRequirements || []).join("\n"))}</textarea></label>
-          <label class="wide">卸载方案<textarea data-extension-optional-field="uninstallPlan" placeholder="说明如何移除以及保留哪些用户数据">${escapeHtml(extension.uninstallPlan || "")}</textarea></label>
-          <label class="wide">来源证据<textarea data-extension-list-field="provenanceEvidence" placeholder="一行一个 HTTPS 官方或审核证据链接">${escapeHtml((extension.provenanceEvidence || []).join("\n"))}</textarea></label>
-          <label class="wide">最后核验时间<input data-extension-optional-field="lastVerifiedAt" value="${escapeHtml(extension.lastVerifiedAt || "")}" placeholder="2026-07-31T12:00:00Z"></label>
-          <label class="toggleLabel"><input type="checkbox" data-extension-enabled ${extension.enabled !== false ? "checked" : ""}>在产品子目录中启用</label>
-        </div></section>` : `<div class="empty">选择或新增一个扩展资源</div>`}
+          <label class="wide">资源类型<div class="checks">${state.catalog.resourceStores.map((store) => `<label><input type="checkbox" data-resource-type="${escapeHtml(store.id)}" ${resource.resourceTypes.includes(store.id) ? "checked" : ""}>${escapeHtml(store.label)}</label>`).join("")}</div><small>同一个资源可以同时属于多个商店。</small></label>
+          <label class="wide">官网<input data-resource-field="website" value="${escapeHtml(resource.website)}"></label>
+          <label class="wide">教程地址<input data-resource-field="tutorial" value="${escapeHtml(resource.tutorial)}"></label>
+          <label class="wide">描述<textarea data-resource-field="description">${escapeHtml(resource.description)}</textarea></label>
+          <label class="wide">来源产品<div class="checks">${sourceProducts.length
+            ? sourceProducts.map(({ vendor, product }) => `<label><input type="checkbox" data-resource-source-product="${escapeHtml(product.id)}" ${(resource.sourceProductIds || []).includes(product.id) ? "checked" : ""}>${escapeHtml(vendor.name)} / ${escapeHtml(product.name)}</label>`).join("")
+            : "暂无 AI 可接入产品"}</div><small>这里只能选择“AI 可接入厂商”目录中的产品。</small></label>
+          <div class="wide resourceTargets">
+            <div class="panelHeader"><div><b>接入目标</b><small>每个目标选择一个 AI 工具、兼容性和固定客户端模块。</small></div><button class="smallButton" data-action="add-resource-target" ${targetProducts.length ? "" : "disabled"}>＋ 添加目标</button></div>
+            ${(resource.targets || []).map((target, index) => {
+              const module = resourceModuleFor(target);
+              return `<div class="resourceTarget">
+                <label>AI 工具<select data-resource-target-field="${index}:productId">${resourceTargetProductOptions(resource, target)}</select></label>
+                <label>兼容性<select data-resource-target-field="${index}:compatibility">
+                  <option value="official"${target.compatibility === "official" ? " selected" : ""}>官方支持</option>
+                  <option value="protocol-compatible"${target.compatibility === "protocol-compatible" ? " selected" : ""}>协议兼容</option>
+                  <option value="verified"${target.compatibility === "verified" ? " selected" : ""}>已验证</option>
+                </select></label>
+                <label>客户端模块<select data-resource-target-module="${index}">${resourceModuleOptions(resource, target)}</select></label>
+                ${module?.requiresProfile ? `<label>已审核安装配置<select data-resource-target-profile="${index}">${resourceInstallProfileOptions(resource, target)}</select></label>` : ""}
+                <label class="wide">模块功能<div class="checks">${(module?.capabilities || []).map((capability) => `<label><input type="checkbox" data-resource-target-capability="${index}:${escapeHtml(capability)}" ${(target.capabilities || []).includes(capability) ? "checked" : ""}>${escapeHtml(capabilityLabels[capability] || capability)}</label>`).join("")}</div><small>${escapeHtml(module?.description || "请选择资源模块")} 后台只能关闭已审核能力。</small></label>
+                <label class="targetEnabled"><input type="checkbox" data-resource-target-enabled="${index}" ${target.enabled !== false ? "checked" : ""}>启用该目标</label>
+                <button class="dangerButton" data-action="delete-resource-target" data-index="${index}" ${resource.targets.length <= 1 ? "disabled" : ""}>删除目标</button>
+              </div>`;
+            }).join("")}
+          </div>
+          <label>版本引用<input data-resource-optional-field="versionRef" value="${escapeHtml(resource.versionRef || "")}" placeholder="版本号、标签或提交号"></label>
+          <label>安装范围<input data-resource-optional-field="installScope" value="${escapeHtml(resource.installScope || "")}" placeholder="用户级、项目级或宿主范围"></label>
+          <label class="wide">请求权限<textarea data-resource-list-field="requestedPermissions" placeholder="一行一项">${escapeHtml((resource.requestedPermissions || []).join("\n"))}</textarea></label>
+          <label class="wide">凭据要求<textarea data-resource-list-field="credentialRequirements" placeholder="一行一项，不填写密钥值">${escapeHtml((resource.credentialRequirements || []).join("\n"))}</textarea></label>
+          <label class="wide">卸载方案<textarea data-resource-optional-field="uninstallPlan" placeholder="说明如何移除以及保留哪些用户数据">${escapeHtml(resource.uninstallPlan || "")}</textarea></label>
+          <label class="wide">来源证据<textarea data-resource-list-field="provenanceEvidence" placeholder="一行一个 HTTPS 官方或审核证据链接">${escapeHtml((resource.provenanceEvidence || []).join("\n"))}</textarea></label>
+          <label class="wide">最后核验时间<input data-resource-optional-field="lastVerifiedAt" value="${escapeHtml(resource.lastVerifiedAt || "")}" placeholder="2026-07-31T12:00:00Z"></label>
+          <label class="toggleLabel"><input type="checkbox" data-resource-enabled ${resource.enabled !== false ? "checked" : ""}>在生态资源商店中启用</label>
+        </div></section>` : `<div class="empty">选择或新增一个生态资源</div>`}
     </div>`;
 }
 
@@ -777,6 +904,7 @@ function renderDiscovery() {
                 <label>产品 ID<input data-discovery-product="id" value="${escapeHtml(suggestedDiscoveryProductId(selected))}"></label>
                 <label>产品名称<input data-discovery-product="name" value="${escapeHtml(selected.label)}"></label>
                 <label>产品类别<select data-discovery-product="category">${optionList(catalogCategories(), catalogCategories().includes(selected.suggestedCategory) ? selected.suggestedCategory : catalogCategories()[0])}</select></label>
+                <label>所属目录<select data-discovery-product="directoryKind"><option value="ai-tool">全部 AI 厂商</option><option value="ai-connectable">全部 AI 可接入厂商</option></select></label>
                 <label>产品模块<select data-discovery-product="moduleId">${safeModules.map((module) => `<option value="${escapeHtml(module.id)}"${module.id === selected.suggestedModuleId ? " selected" : ""}>${escapeHtml(module.label)}</option>`).join("")}</select></label>
                 <label class="wide">教程地址<input data-discovery-product="tutorial" value="${escapeHtml(selected.evidenceUrl)}"></label>
                 <label class="wide">产品描述<textarea data-discovery-product="description">${escapeHtml(`${selected.label}，来源于 ${selected.vendorName} 官方页面。`)}</textarea></label>
@@ -873,7 +1001,7 @@ function renderPublish() {
       <button class="secondary" data-action="validate">发布前校验</button>
       <button class="primary" data-action="publish">立即发布</button>
       ${validation ? `<div class="validationReport"><b>校验通过</b>
-      <span>${validation.summary.vendors} 个厂商 · ${validation.summary.products} 个产品 · ${validation.summary.extensions || 0} 个扩展资源 · ${validation.summary.approvedDownloadSources} 个下载源${validation.certifications ? ` · 桌面认证 ${validation.certifications.accepted}/${validation.certifications.total}` : ""}</span>
+      <span>${validation.summary.vendors} 个厂商 · ${validation.summary.products} 个产品 · ${validation.summary.resources || 0} 个生态资源 · ${validation.summary.approvedDownloadSources} 个下载源${validation.certifications ? ` · 桌面认证 ${validation.certifications.accepted}/${validation.certifications.total}` : ""}</span>
       ${(validation.warnings || []).map((warning) => `<em>${escapeHtml(warning)}</em>`).join("")}</div>` : ""}
       <div class="publishMeta">
         <span>活动版本</span><code>v${escapeHtml(release?.state?.activeCatalogVersion || 0)}</code>
@@ -954,7 +1082,7 @@ function render() {
   if (state.view === "community") renderCommunity();
   if (state.view === "vendors") renderVendors();
   if (state.view === "products") renderProducts();
-  if (state.view === "extensions") renderExtensions();
+  if (state.view === "resources") renderResources();
   if (state.view === "discovery") renderDiscovery();
   if (state.view === "sections") renderSections();
   if (state.view === "publish") renderPublish();
@@ -1028,8 +1156,8 @@ content.addEventListener("click", async (event) => {
   } else if (target.dataset.product) {
     state.selectedProductId = target.dataset.product;
     render();
-  } else if (target.dataset.extension) {
-    state.selectedExtensionId = target.dataset.extension;
+  } else if (target.dataset.resource) {
+    state.selectedResourceId = target.dataset.resource;
     render();
   } else if (target.dataset.discovery) {
     state.selectedDiscoveryId = target.dataset.discovery;
@@ -1108,10 +1236,10 @@ content.addEventListener("click", async (event) => {
     }
   } else if (target.dataset.action === "add-banner") {
     state.catalog.home.banners.push({
-      eyebrow: "AI HUB · PC",
+      eyebrow: "枕星 AI · PC",
       title: "新轮播标题",
       description: "请输入轮播说明。",
-      action: "查看全部厂商"
+      action: "查看全部 AI 厂商"
     });
     markDirty(); render();
   } else if (target.dataset.action === "delete-banner") {
@@ -1133,6 +1261,9 @@ content.addEventListener("click", async (event) => {
   } else if (target.dataset.action === "delete-vendor") {
     const vendor = selectedVendor();
     if (!vendor || vendor.products.length) return toast("请先删除或移动该厂商下的产品", true);
+    if (state.catalog.resources.some((resource) => resource.publisherVendorId === vendor.id)) {
+      return toast("请先移除生态资源中的发布厂商引用", true);
+    }
     if (!confirm(`确定删除厂商“${vendor.name}”吗？`)) return;
     state.catalog.vendors = state.catalog.vendors.filter((item) => item.id !== vendor.id);
     state.catalog.home.featuredVendorIds = state.catalog.home.featuredVendorIds.filter((id) => id !== vendor.id);
@@ -1190,19 +1321,56 @@ content.addEventListener("click", async (event) => {
     state.catalog.categories.splice(index, 1);
     markDirty();
     renderProducts();
+  } else if (target.dataset.action === "add-product-entry") {
+    const product = selectedProductRecord()?.product;
+    if (!product) return;
+    product.entryPoints ||= [];
+    const actionType = product.kind === "CLI" ? "cli" : "website";
+    product.entryPoints.push(
+      actionType === "cli"
+        ? { type: "cli", label: "CLI 一键安装" }
+        : {
+            type: "website",
+            label: "工具官网",
+            url: product.website
+          }
+    );
+    markDirty();
+    renderProducts();
+  } else if (target.dataset.action === "delete-product-entry") {
+    const product = selectedProductRecord()?.product;
+    if (!product?.entryPoints) return;
+    product.entryPoints.splice(Number(target.dataset.index), 1);
+    markDirty();
+    renderProducts();
+  } else if (target.dataset.action === "move-product-entry") {
+    const product = selectedProductRecord()?.product;
+    if (
+      product?.entryPoints &&
+      moveItem(
+        product.entryPoints,
+        Number(target.dataset.index),
+        Number(target.dataset.offset)
+      )
+    ) {
+      markDirty();
+      renderProducts();
+    }
   } else if (target.dataset.action === "add-product") {
     const vendor = state.catalog.vendors[0];
     if (!vendor) return toast("请先创建厂商", true);
     const id = `product-${Date.now()}`;
     vendor.products.push({
       id, enabled: true, order: vendor.products.length, name: "新产品",
-      kind: "其他产品", category: catalogCategories()[0],
+      kind: "其他产品", directoryKind: "ai-tool", category: catalogCategories()[0],
       description: "请输入产品描述。", website: "https://example.com",
       tutorial: "https://example.com", productType: "web", requirements: [],
       moduleId: "web-link", installProfileId: "",
       installPolicy: "open-product-website", downloadPolicy: "none",
       signaturePolicy: "not-applicable", uninstallPolicy: "not-managed"
-      , capabilities: ["website", "tutorial"], componentProductIds: [], extensions: []
+      , capabilities: ["website", "tutorial"], entryPoints: [
+        { type: "web", label: "打开网页版", url: "https://example.com" }
+      ], componentProductIds: []
     });
     state.selectedProductId = id; markDirty(); render();
   } else if (target.dataset.action === "delete-product") {
@@ -1216,42 +1384,81 @@ content.addEventListener("click", async (event) => {
     if (record?.product.componentProductIds?.length) {
       return toast("请先移除该产品下的组件关系", true);
     }
-    if (record?.product.extensions?.length) {
-      return toast("请先删除或移动该产品下的扩展资源", true);
+    const resourceReference = state.catalog.resources.find(
+      (resource) =>
+        (resource.sourceProductIds || []).includes(record?.product.id) ||
+        resource.targets.some((resourceTarget) => resourceTarget.productId === record?.product.id)
+    );
+    if (resourceReference) {
+      return toast(`请先从生态资源“${resourceReference.name}”中移除该产品引用`, true);
     }
     if (!record || !confirm(`确定删除产品“${record.product.name}”吗？`)) return;
     record.vendor.products = record.vendor.products.filter((item) => item.id !== record.product.id);
     state.selectedProductId = allProducts()[0]?.product.id || ""; markDirty(); render();
-  } else if (target.dataset.action === "add-extension") {
-    const host = selectedProductRecord()?.product || allProducts()[0]?.product;
-    if (!host) return toast("请先创建产品", true);
-    const id = `extension-${Date.now()}`;
-    host.extensions ||= [];
-    host.extensions.push({
+  } else if (target.dataset.action === "add-resource") {
+    const firstTarget = allProducts().find(
+      ({ product }) => product.directoryKind === "ai-tool"
+    )?.product;
+    if (!firstTarget) return toast("请先创建一个 AI 工具类产品", true);
+    const id = `resource-${Date.now()}`;
+    state.catalog.resources.push({
       id,
       enabled: true,
-      order: host.extensions.length,
-      name: "新 Skill",
-      extensionType: "skill",
-      description: "请输入扩展资源描述。",
+      order: state.catalog.resources.length,
+      name: "新生态资源",
+      resourceTypes: ["skill"],
+      description: "请输入生态资源描述。",
       website: "https://example.com",
       tutorial: "https://example.com",
-      moduleId: "skill-link",
-      installProfileId: "",
-      capabilities: ["website"]
+      sourceProductIds: [],
+      targets: [{
+        productId: firstTarget.id,
+        compatibility: "protocol-compatible",
+        moduleId: "resource-link",
+        installProfileId: "",
+        capabilities: ["website"],
+        enabled: true
+      }]
     });
-    state.selectedExtensionId = id;
+    state.selectedResourceId = id;
     markDirty();
     render();
-  } else if (target.dataset.action === "delete-extension") {
-    const record = selectedExtensionRecord();
-    if (!record || !confirm(`确定删除扩展资源“${record.extension.name}”吗？`)) return;
-    record.product.extensions = record.product.extensions.filter(
-      (item) => item.id !== record.extension.id
+  } else if (target.dataset.action === "delete-resource") {
+    const resource = selectedResource();
+    if (!resource || !confirm(`确定删除生态资源“${resource.name}”吗？`)) return;
+    state.catalog.resources = state.catalog.resources.filter(
+      (item) => item.id !== resource.id
     );
-    state.selectedExtensionId = allExtensions()[0]?.extension.id || "";
+    state.selectedResourceId = allResources()[0]?.id || "";
     markDirty();
     render();
+  } else if (target.dataset.action === "add-resource-target") {
+    const resource = selectedResource();
+    if (!resource) return;
+    const product = allProducts().find(
+      ({ product }) =>
+        product.directoryKind === "ai-tool" &&
+        !resource.targets.some((item) => item.productId === product.id)
+    )?.product;
+    if (!product) return toast("没有可添加的 AI 工具目标", true);
+    resource.targets.push({
+      productId: product.id,
+      compatibility: "protocol-compatible",
+      moduleId: "resource-link",
+      installProfileId: "",
+      capabilities: ["website"],
+      enabled: true
+    });
+    markDirty();
+    renderResources();
+  } else if (target.dataset.action === "delete-resource-target") {
+    const resource = selectedResource();
+    if (!resource || resource.targets.length <= 1) {
+      return toast("生态资源至少需要保留一个接入目标", true);
+    }
+    resource.targets.splice(Number(target.dataset.index), 1);
+    markDirty();
+    renderResources();
   } else if (target.dataset.action === "add-section") {
     state.catalog.extraSections.push({
       id: `section-${Date.now()}`,
@@ -1344,9 +1551,16 @@ content.addEventListener("input", (event) => {
       state.catalog.home.featuredVendorIds = state.catalog.home.featuredVendorIds.map((id) =>
         id === previousId ? input.value : id
       );
+      for (const resource of state.catalog.resources) {
+        if (resource.publisherVendorId === previousId) {
+          resource.publisherVendorId = input.value;
+        }
+      }
     }
   } else if (input.dataset.vendorNumber) {
     selectedVendor()[input.dataset.vendorNumber] = Number(input.value);
+  } else if ("vendorRequiresCrossBorderNetwork" in input.dataset) {
+    selectedVendor().requiresCrossBorderNetwork = input.checked;
   } else if ("vendorEnabled" in input.dataset) {
     const vendor = selectedVendor();
     vendor.enabled = input.checked;
@@ -1362,6 +1576,22 @@ content.addEventListener("input", (event) => {
       record.vendor.products = record.vendor.products.filter((item) => item.id !== record.product.id);
       state.catalog.vendors.find((vendor) => vendor.id === input.value).products.push(record.product);
     } else {
+      if (field === "directoryKind") {
+        const isTarget = state.catalog.resources.some((resource) =>
+          resource.targets.some((target) => target.productId === record.product.id)
+        );
+        const isSource = state.catalog.resources.some((resource) =>
+          (resource.sourceProductIds || []).includes(record.product.id)
+        );
+        if (input.value === "ai-connectable" && isTarget) {
+          input.value = record.product.directoryKind;
+          return toast("请先移除该产品的生态资源接入目标", true);
+        }
+        if (input.value === "ai-tool" && isSource) {
+          input.value = record.product.directoryKind;
+          return toast("请先移除该产品的生态资源来源引用", true);
+        }
+      }
       record.product[field] = input.value;
       if (field === "id") {
         for (const { product } of allProducts()) {
@@ -1369,9 +1599,34 @@ content.addEventListener("input", (event) => {
             (id) => id === previousId ? input.value : id
           );
         }
+        for (const resource of state.catalog.resources) {
+          resource.sourceProductIds = (resource.sourceProductIds || []).map(
+            (id) => id === previousId ? input.value : id
+          );
+          for (const target of resource.targets) {
+            if (target.productId === previousId) target.productId = input.value;
+          }
+        }
         state.selectedProductId = input.value;
       }
     }
+  } else if (input.dataset.productEntryField) {
+    const product = selectedProductRecord().product;
+    const [indexText, field] = input.dataset.productEntryField.split(":");
+    const entry = product.entryPoints?.[Number(indexText)];
+    if (!entry) return;
+    if (field === "type") {
+      entry.type = input.value;
+      if (["website", "web", "tutorial", "external"].includes(entry.type)) {
+        entry.url ||= product.website;
+      } else {
+        delete entry.url;
+      }
+      markDirty();
+      renderProducts();
+      return;
+    }
+    entry[field] = input.value;
   } else if (input.dataset.productComponent) {
     const product = selectedProductRecord().product;
     product.componentProductIds = input.checked
@@ -1424,76 +1679,111 @@ content.addEventListener("input", (event) => {
     const urlInput = content.querySelector('[data-download-field="url"]').value.trim();
     const fileInput = content.querySelector('[data-download-field="fileName"]').value.trim();
     product.download = urlInput || fileInput ? { url: urlInput, fileName: fileInput } : undefined;
-  } else if (input.dataset.extensionField) {
-    const record = selectedExtensionRecord();
-    const field = input.dataset.extensionField;
-    if (field === "hostProductId") {
-      const destination = allProducts().find(
-        ({ product }) => product.id === input.value
-      )?.product;
-      if (!destination) return;
-      record.product.extensions = record.product.extensions.filter(
-        (item) => item.id !== record.extension.id
-      );
-      destination.extensions ||= [];
-      destination.extensions.push(record.extension);
-      applyExtensionModule(
-        record.extension,
-        record.extension.moduleId,
-        destination.id
-      );
-      markDirty();
-      render();
-      return;
-    }
-    record.extension[field] = input.value;
-    if (field === "id") state.selectedExtensionId = input.value;
-  } else if (input.dataset.extensionOptionalField) {
-    const extension = selectedExtensionRecord().extension;
-    const field = input.dataset.extensionOptionalField;
+  } else if (input.dataset.resourceStoreField) {
+    const [indexText, field] = input.dataset.resourceStoreField.split(":");
+    state.catalog.resourceStores[Number(indexText)][field] =
+      field === "order" ? Number(input.value) : input.value;
+  } else if (input.dataset.resourceStoreEnabled) {
+    state.catalog.resourceStores[Number(input.dataset.resourceStoreEnabled)].enabled =
+      input.checked;
+  } else if (input.dataset.resourceField) {
+    const resource = selectedResource();
+    const field = input.dataset.resourceField;
+    resource[field] = input.value;
+    if (field === "id") state.selectedResourceId = input.value;
+  } else if (input.dataset.resourceOptionalField) {
+    const resource = selectedResource();
+    const field = input.dataset.resourceOptionalField;
     const value = input.value.trim();
-    if (value) extension[field] = value;
-    else delete extension[field];
-  } else if (input.dataset.extensionListField) {
-    const extension = selectedExtensionRecord().extension;
-    const field = input.dataset.extensionListField;
+    if (value) resource[field] = value;
+    else delete resource[field];
+  } else if (input.dataset.resourceListField) {
+    const resource = selectedResource();
+    const field = input.dataset.resourceListField;
     const values = input.value
       .split("\n")
       .map((item) => item.trim())
       .filter(Boolean);
-    if (values.length) extension[field] = [...new Set(values)];
-    else delete extension[field];
-  } else if (input.dataset.extensionNumber) {
-    selectedExtensionRecord().extension[input.dataset.extensionNumber] = Number(
-      input.value
+    if (values.length) resource[field] = [...new Set(values)];
+    else delete resource[field];
+  } else if (input.dataset.resourceNumber) {
+    selectedResource()[input.dataset.resourceNumber] = Number(input.value);
+  } else if ("resourceEnabled" in input.dataset) {
+    selectedResource().enabled = input.checked;
+  } else if (input.dataset.resourceType) {
+    const resource = selectedResource();
+    const type = input.dataset.resourceType;
+    const usedByTarget = resource.targets.some(
+      (target) => resourceModuleFor(target)?.resourceType === type
     );
-  } else if ("extensionEnabled" in input.dataset) {
-    selectedExtensionRecord().extension.enabled = input.checked;
-  } else if ("extensionModule" in input.dataset) {
-    const record = selectedExtensionRecord();
-    applyExtensionModule(record.extension, input.value, record.product.id);
+    if (!input.checked && (resource.resourceTypes.length === 1 || usedByTarget)) {
+      input.checked = true;
+      return toast(
+        usedByTarget
+          ? "请先更改使用该类型的目标模块"
+          : "生态资源至少需要保留一个类型",
+        true
+      );
+    }
+    resource.resourceTypes = input.checked
+      ? [...new Set([...resource.resourceTypes, type])]
+      : resource.resourceTypes.filter((item) => item !== type);
     markDirty();
-    render();
+    renderResources();
     return;
-  } else if ("extensionInstallProfile" in input.dataset) {
-    const extension = selectedExtensionRecord().extension;
+  } else if (input.dataset.resourceSourceProduct) {
+    const resource = selectedResource();
+    const productId = input.dataset.resourceSourceProduct;
+    resource.sourceProductIds = input.checked
+      ? [...new Set([...(resource.sourceProductIds || []), productId])]
+      : (resource.sourceProductIds || []).filter((item) => item !== productId);
+  } else if (input.dataset.resourceTargetField) {
+    const resource = selectedResource();
+    const [indexText, field] = input.dataset.resourceTargetField.split(":");
+    const target = resource.targets[Number(indexText)];
+    if (field === "productId" && resource.targets.some(
+      (item, index) => index !== Number(indexText) && item.productId === input.value
+    )) {
+      input.value = target.productId;
+      return toast("同一资源不能重复添加同一个 AI 工具目标", true);
+    }
+    target[field] = input.value;
+    if (field === "productId") {
+      applyResourceModule(resource, target, target.moduleId);
+      markDirty();
+      renderResources();
+      return;
+    }
+  } else if (input.dataset.resourceTargetModule) {
+    const resource = selectedResource();
+    const target = resource.targets[Number(input.dataset.resourceTargetModule)];
+    applyResourceModule(resource, target, input.value);
+    markDirty();
+    renderResources();
+    return;
+  } else if (input.dataset.resourceTargetProfile) {
+    const resource = selectedResource();
+    const target = resource.targets[Number(input.dataset.resourceTargetProfile)];
     const profile = state.productModules.extensionInstallProfiles.find(
       (candidate) => candidate.id === input.value
     );
-    extension.installProfileId = input.value;
-    extension.capabilities = [
-      ...(profile?.capabilities || extensionModuleFor(extension)?.capabilities || [])
+    target.installProfileId = input.value;
+    target.capabilities = [
+      ...(profile?.capabilities || resourceModuleFor(target)?.capabilities || [])
     ];
     markDirty();
-    render();
+    renderResources();
     return;
-  } else if (input.dataset.extensionCapability) {
-    const extension = selectedExtensionRecord().extension;
-    extension.capabilities = input.checked
-      ? [...new Set([...(extension.capabilities || []), input.dataset.extensionCapability])]
-      : (extension.capabilities || []).filter(
-          (item) => item !== input.dataset.extensionCapability
-        );
+  } else if (input.dataset.resourceTargetCapability) {
+    const resource = selectedResource();
+    const [indexText, capability] = input.dataset.resourceTargetCapability.split(":");
+    const target = resource.targets[Number(indexText)];
+    target.capabilities = input.checked
+      ? [...new Set([...(target.capabilities || []), capability])]
+      : (target.capabilities || []).filter((item) => item !== capability);
+  } else if (input.dataset.resourceTargetEnabled) {
+    selectedResource().targets[Number(input.dataset.resourceTargetEnabled)].enabled =
+      input.checked;
   } else if (input.dataset.section) {
     const [index, field] = input.dataset.section.split(":");
     state.catalog.extraSections[Number(index)][field] = input.value;

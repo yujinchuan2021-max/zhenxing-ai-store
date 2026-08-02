@@ -10,37 +10,37 @@ const updates = Object.freeze({
   "alibaba-qwen-code": {
     installProfileId: "cli.qwen-code",
     requirements: ["node"],
-    description: "Qwen 官方终端编程智能体。AI Hub 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。"
+    description: "Qwen 官方终端编程智能体。枕星 AI 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。"
   },
   "github-copilot-cli": {
     installProfileId: "cli.github-copilot",
     requirements: ["node"],
-    description: "GitHub 官方 Copilot 终端智能体。AI Hub 使用固定版本官方 npm 包部署，首次打开后由用户登录 GitHub。"
+    description: "GitHub 官方 Copilot 终端智能体。枕星 AI 使用固定版本官方 npm 包部署，首次打开后由用户登录 GitHub。"
   },
   "minimax-cli": {
     installProfileId: "cli.minimax",
     requirements: ["node"],
-    description: "MiniMax 官方终端智能体。AI Hub 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。"
+    description: "MiniMax 官方终端智能体。枕星 AI 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。"
   },
   "comfy-cli": {
     installProfileId: "cli.comfy",
     requirements: ["python"],
-    description: "Comfy 官方命令行管理工具。AI Hub 会自动检测 Python，并安装到独立虚拟环境。"
+    description: "Comfy 官方命令行管理工具。枕星 AI 会自动检测 Python，并安装到独立虚拟环境。"
   },
   "hf-cli": {
     installProfileId: "cli.hugging-face",
     requirements: ["python"],
-    description: "Hugging Face 官方命令行工具。AI Hub 会自动检测 Python，并安装到独立虚拟环境。"
+    description: "Hugging Face 官方命令行工具。枕星 AI 会自动检测 Python，并安装到独立虚拟环境。"
   },
   "mistral-vibe-code-cli": {
     installProfileId: "cli.mistral-vibe",
     requirements: ["python"],
-    description: "Mistral 官方 Vibe 编程智能体。AI Hub 会自动检测 Python，并安装到独立虚拟环境。"
+    description: "Mistral 官方 Vibe 编程智能体。枕星 AI 会自动检测 Python，并安装到独立虚拟环境。"
   },
   "amazon-kiro-cli": {
     installProfileId: "cli.kiro",
     requirements: [],
-    description: "Amazon 官方 Kiro CLI。AI Hub 下载固定 Windows x64 MSI，校验哈希与数字签名后安装。"
+    description: "Amazon 官方 Kiro CLI。枕星 AI 下载固定 Windows x64 MSI，校验哈希与数字签名后安装。"
   }
 });
 
@@ -96,7 +96,7 @@ for (const vendor of catalog.vendors) {
     }
     if (product.id === "claude-code") {
       product.requirements = ["node", "git"];
-      product.description = "Anthropic 官方 Claude Code。AI Hub 使用固定版本 npm 专用模块安装，并关闭未经审核的依赖脚本。";
+      product.description = "Anthropic 官方 Claude Code。枕星 AI 使用固定版本 npm 专用模块安装，并关闭未经审核的依赖脚本。";
     }
   }
 }

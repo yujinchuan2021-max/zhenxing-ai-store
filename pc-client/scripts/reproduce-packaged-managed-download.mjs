@@ -24,10 +24,10 @@ if (process.argv.includes("--live-profile")) {
 const portablePath = path.join(
   root,
   "release-local-server-client",
-  `AI-Hub-Local-${packageJson.version}-Windows-x64-Portable.exe`
+  `ZhenXing-AI-Local-${packageJson.version}-Windows-x64-Portable.exe`
 );
 const installedPath =
-  process.env.AIHUB_INSTALLED_CLIENT || "C:\\Program Files\\AI Hub\\AI Hub.exe";
+  process.env.AIHUB_INSTALLED_CLIENT || "C:\\Program Files\\枕星 AI\\枕星 AI.exe";
 const clientExecutable = useDevelopmentClient
   ? path.join(root, "node_modules", "electron", "dist", "electron.exe")
   : useInstalledClient

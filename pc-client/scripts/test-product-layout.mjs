@@ -17,7 +17,7 @@ const userData = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-layout-"));
 const fixtureDirectory = path.join(userData, "fixture-download");
 const fixturePath = path.join(fixtureDirectory, "Claude-Setup-x64.exe");
 fs.mkdirSync(fixtureDirectory);
-fs.writeFileSync(fixturePath, "AI Hub downloaded package layout fixture");
+fs.writeFileSync(fixturePath, "ZhenXing AI downloaded package layout fixture");
 const fixtureBytes = fs.statSync(fixturePath).size;
 const fixtureSha256 = crypto
   .createHash("sha256")
@@ -140,7 +140,7 @@ try {
   let vendorDirectoryReady = false;
   for (let attempt = 0; attempt < 100; attempt += 1) {
     const ready = await evaluate(
-      "Boolean([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Anthropic')))"
+      "Boolean([...document.querySelectorAll('.vendorCard')].find((button) => button.textContent.includes('OpenAI')))"
     );
     if (ready) {
       vendorDirectoryReady = true;
@@ -161,40 +161,93 @@ try {
       `vendor directory did not render at ${page.url}: ${JSON.stringify(startupState)}`
     );
   }
+  const catalogExpansionResult = await evaluate(`(() => {
+    const ids = [...document.querySelectorAll('.vendorCard')]
+      .map((card) => card.dataset.aihubVendorId);
+    const required = [
+      'quora',
+      'jan',
+      'cherryhq',
+      'msty',
+      'genspark',
+      'qihoo360',
+      'iflytek',
+      'youdao',
+      'topazlabs'
+    ];
+    return {
+      ok: ids.length === 100 && required.every((id) => ids.includes(id)),
+      vendorCount: ids.length,
+      missing: required.filter((id) => !ids.includes(id))
+    };
+  })()`);
+  const vendorFilterResult = {};
+  for (const [initial, expectedVendorIds] of Object.entries({
+    A: ["alibaba", "anthropic"],
+    S: ["deepseek", "sensetime"],
+    Y: ["moonshot"],
+    Z: ["bytedance", "zhipu"]
+  })) {
+    const clicked = await evaluate(`(() => {
+      const rows = [...document.querySelectorAll('.filterRow')];
+      const button = [...(rows[1]?.querySelectorAll('button') || [])].find(
+        (candidate) => candidate.textContent.trim() === ${JSON.stringify(initial)}
+      );
+      if (!button) return false;
+      button.click();
+      return true;
+    })()`);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const visibleVendorIds = await evaluate(
+      "[...document.querySelectorAll('.vendorCard')].map((card) => card.dataset.aihubVendorId)"
+    );
+    vendorFilterResult[initial] = {
+      clicked,
+      visibleVendorIds,
+      ok:
+        clicked &&
+        expectedVendorIds.every((vendorId) => visibleVendorIds.includes(vendorId))
+    };
+  }
+  await evaluate(`(() => {
+    const rows = [...document.querySelectorAll('.filterRow')];
+    const button = [...(rows[1]?.querySelectorAll('button') || [])].find(
+      (candidate) => candidate.textContent.trim() === '全部'
+    );
+    button?.click();
+  })()`);
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  const networkNoticeVisible = await evaluate(
+    "Boolean(document.querySelector('[data-aihub-vendor-id=\"openai\"]')?.textContent.includes('（中国用户需要科学上网）'))"
+  );
   await evaluate(
-    "[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Anthropic')).click()"
+    "[...document.querySelectorAll('.vendorCard')].find((button) => button.textContent.includes('OpenAI')).click()"
   );
   await new Promise((resolve) => setTimeout(resolve, 150));
   const productResult = await evaluate(`(() => {
-    const row = [...document.querySelectorAll('.productRow')].find((item) =>
-      item.textContent.includes('Claude Desktop')
+    const row = document.querySelector('[data-aihub-product-id="chatgpt-desktop"]');
+    const cli = document.querySelector('[data-aihub-product-id="codex-cli"]');
+    if (!row) return { ok: false, reason: 'ChatGPT row not found' };
+    if (!cli) return { ok: false, reason: 'Codex CLI row not found' };
+    const buttons = [...row.querySelectorAll('button')].map((button) =>
+      button.textContent.trim()
     );
-    if (!row) return { ok: false, reason: 'Claude row not found' };
-    const buttons = [...row.querySelectorAll('button')];
-    const centers = buttons.map((button) => {
-      const rect = button.getBoundingClientRect();
-      return {
-        text: button.textContent.trim(),
-        x: Math.round(rect.x),
-        y: Math.round(rect.y),
-        centerY: Math.round(rect.y + rect.height / 2)
-      };
-    });
-    const spread = Math.max(...centers.map((item) => item.centerY)) -
-      Math.min(...centers.map((item) => item.centerY));
-    const packagePath = row.querySelector('.packagePath')?.textContent.trim() || '';
+    const rows = [...document.querySelectorAll('.productRow')];
     return {
       ok:
-        buttons.length === 3 &&
-        spread <= 4 &&
-        packagePath.endsWith('Claude-Setup-x64.exe') &&
-        buttons.some((button) => button.textContent.trim() === '立即安装') &&
+        row.querySelector('h4')?.textContent.trim() === 'ChatGPT' &&
+        buttons.includes('工具官网 ↗') &&
+        buttons.includes('ChatGPT 网页版 ↗') &&
+        row.textContent.includes('可视化应用') &&
+        cli.textContent.includes('命令行工具') &&
+        cli.textContent.includes('终端窗口') &&
+        rows.filter((item) => item.querySelector('h4')?.textContent.trim() === 'ChatGPT').length === 1 &&
+        !document.body.textContent.includes('ChatGPT Web') &&
         !row.textContent.includes('SHA-256') &&
         !row.textContent.includes('任务记录'),
       width: Math.round(row.getBoundingClientRect().width),
-      spread,
-      packagePath,
-      centers
+      buttons,
+      cliText: cli.textContent.trim().replace(/\s+/g, ' ')
     };
   })()`);
   await evaluate(
@@ -214,11 +267,11 @@ try {
       item.textContent.includes('运行环境')
     );
     const chatgpt = cards.find((item) =>
-      item.textContent.includes('ChatGPT Desktop') &&
+      item.textContent.includes('ChatGPT') &&
       item.textContent.includes('桌面端')
     );
     const installer = cards.find((item) =>
-      item.textContent.includes('Claude Desktop') &&
+      item.textContent.includes('Claude') &&
       item.textContent.includes('Claude-Setup-x64.exe')
     );
     const dockerButtons = docker
@@ -288,7 +341,16 @@ try {
   })()`);
   socket.close();
   const result = {
-    ok: productResult.ok && managementResult.ok && settingsResult.ok,
+    ok:
+      catalogExpansionResult.ok &&
+      Object.values(vendorFilterResult).every((item) => item.ok) &&
+      networkNoticeVisible &&
+      productResult.ok &&
+      managementResult.ok &&
+      settingsResult.ok,
+    vendorFilters: vendorFilterResult,
+    catalogExpansion: catalogExpansionResult,
+    networkNoticeVisible,
     product: productResult,
     management: managementResult,
     settings: settingsResult

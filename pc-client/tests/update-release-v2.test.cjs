@@ -32,7 +32,7 @@ function payload(overrides = {}) {
     version: "0.2.0",
     publishedAt: "2026-07-30T00:00:00.000Z",
     downloadUrl:
-      "https://downloads.aihub.example/releases/AI-Hub-0.2.0-x64.exe",
+      "https://downloads.zhenxingai.com/releases/ZhenXing-AI-0.2.0-x64.exe",
     sha256: "a".repeat(64),
     fileSize: 123456789,
     platform: "win32",
@@ -60,7 +60,7 @@ function signed(updatePayload = payload()) {
   };
 }
 
-const allowedDownloadOrigins = ["https://downloads.aihub.example"];
+const allowedDownloadOrigins = ["https://downloads.zhenxingai.com"];
 
 test("verifies and normalizes an exact signed Windows x64 update", () => {
   const { keys, envelope } = signed();
@@ -85,7 +85,7 @@ test("rejects a payload changed after it was signed", () => {
     ...envelope,
     payload: {
       ...envelope.payload,
-      downloadUrl: "https://downloads.aihub.example/releases/attacker.exe"
+      downloadUrl: "https://downloads.zhenxingai.com/releases/attacker.exe"
     }
   };
   assert.throws(
@@ -117,9 +117,9 @@ test("strictly validates every security-sensitive payload field", () => {
     ["version", "v0.2.0"],
     ["publishedAt", "2026-07-30"],
     ["publishedAt", "2026-07-30T00:00:00Z"],
-    ["downloadUrl", "http://downloads.aihub.example/release.exe"],
-    ["downloadUrl", "https://user:pass@downloads.aihub.example/release.exe"],
-    ["downloadUrl", "https://downloads.aihub.example/release.exe#fragment"],
+    ["downloadUrl", "http://downloads.zhenxingai.com/release.exe"],
+    ["downloadUrl", "https://user:pass@downloads.zhenxingai.com/release.exe"],
+    ["downloadUrl", "https://downloads.zhenxingai.com/release.exe#fragment"],
     ["sha256", "A".repeat(64)],
     ["sha256", "a".repeat(63)],
     ["fileSize", 0],
@@ -151,7 +151,7 @@ test("accepts only an exact pinned HTTPS download origin", () => {
     () =>
       validateUpdatePayload(
         payload({
-          downloadUrl: "https://cdn.aihub.example/release.exe"
+          downloadUrl: "https://cdn.zhenxingai.com/release.exe"
         }),
         allowedDownloadOrigins
       ),
@@ -160,12 +160,12 @@ test("accepts only an exact pinned HTTPS download origin", () => {
 
   for (const origins of [
     [],
-    ["http://downloads.aihub.example"],
-    ["https://downloads.aihub.example/releases"],
-    ["https://*.aihub.example"],
+    ["http://downloads.zhenxingai.com"],
+    ["https://downloads.zhenxingai.com/releases"],
+    ["https://*.zhenxingai.com"],
     [
-      "https://downloads.aihub.example",
-      "https://downloads.aihub.example"
+      "https://downloads.zhenxingai.com",
+      "https://downloads.zhenxingai.com"
     ]
   ]) {
     assert.throws(
@@ -177,7 +177,7 @@ test("accepts only an exact pinned HTTPS download origin", () => {
 
 test("loopback HTTP is available only to an explicit local test adapter", () => {
   const local = payload({
-    downloadUrl: "http://127.0.0.1:4180/AI-Hub-0.2.0.exe"
+    downloadUrl: "http://127.0.0.1:4180/ZhenXing-AI-0.2.0.exe"
   });
   assert.throws(
     () => validateUpdatePayload(local, ["http://127.0.0.1:4180"]),

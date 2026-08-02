@@ -60,8 +60,12 @@ contextBridge.exposeInMainWorld("aihubPC", {
     ipcRenderer.invoke("settings:choose-download-directory"),
   chooseCliDirectory: () =>
     ipcRenderer.invoke("settings:choose-cli-directory"),
+  openCliDirectory: () =>
+    ipcRenderer.invoke("settings:open-cli-directory"),
   openDownloadDirectory: () =>
     ipcRenderer.invoke("settings:open-download-directory"),
+  openWindowsUninstallSettings: () =>
+    ipcRenderer.invoke("settings:open-windows-uninstall"),
   clearDownloadDirectory: () =>
     ipcRenderer.invoke("settings:clear-download-directory"),
   scanEnvironment: () => ipcRenderer.invoke("environment:scan"),

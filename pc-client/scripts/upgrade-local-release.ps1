@@ -554,7 +554,7 @@ function Assert-ExpectedReleaseSource {
 function Assert-PackagedBuildSource {
   param([Parameter(Mandatory = $true)][object]$Source)
   $BuildPath = Join-Path $ProjectRoot (
-    "release-local-server-client\AI-Hub-Local-{0}-BUILD.json" -f `
+    "release-local-server-client\ZhenXing-AI-Local-{0}-BUILD.json" -f `
       [string]$Source.version
   )
   $Build = Read-TrustedReceiptJson -Path $BuildPath

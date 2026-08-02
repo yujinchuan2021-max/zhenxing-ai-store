@@ -26,12 +26,49 @@ function catalogFixture() {
 }
 
 test("validates the complete phase-four catalog before publication", () => {
-  const report = validatePublication(catalogFixture(), defaultReleaseSettings());
+  const catalog = validateCatalog(catalogFixture());
+  const report = validatePublication(catalog, defaultReleaseSettings());
+  const enabledVendors = catalog.vendors.filter(
+    (vendor) => vendor.enabled !== false
+  );
+  const enabledProducts = enabledVendors.flatMap((vendor) =>
+    vendor.products.filter((product) => product.enabled !== false)
+  );
+  const enabledStoreIds = new Set(
+    catalog.resourceStores
+      .filter((store) => store.enabled !== false)
+      .map((store) => store.id)
+  );
+  const enabledResources = catalog.resources.filter(
+    (resource) =>
+      resource.enabled !== false &&
+      resource.resourceTypes.some((type) => enabledStoreIds.has(type)) &&
+      resource.targets.some(
+        (target) =>
+          target.enabled !== false &&
+          enabledProducts.some((product) => product.id === target.productId)
+      )
+  );
   assert.equal(report.ok, true);
-  assert.equal(report.summary.vendors, 49);
-  assert.equal(report.summary.products, 148);
-  assert.equal(report.summary.extensions, 24);
+  assert.equal(report.summary.vendors, enabledVendors.length);
+  assert.equal(report.summary.products, enabledProducts.length);
+  assert.equal(report.summary.resources, enabledResources.length);
+  assert.equal(report.summary.resourceStores, enabledStoreIds.size);
   assert.equal(report.summary.enabledChinaMirrors, 2);
+});
+
+test("publication excludes resources with no client-visible targets", () => {
+  const catalog = validateCatalog(catalogFixture());
+  const baseline = validatePublication(catalog, defaultReleaseSettings());
+  const resource = catalog.resources.find(
+    (candidate) =>
+      candidate.enabled !== false &&
+      candidate.targets.some((target) => target.enabled !== false)
+  );
+  assert.ok(resource);
+  resource.targets.forEach((target) => (target.enabled = false));
+  const report = validatePublication(catalog, defaultReleaseSettings());
+  assert.equal(report.summary.resources, baseline.summary.resources - 1);
 });
 
 test("download source preferences accept only local approved source identities", () => {

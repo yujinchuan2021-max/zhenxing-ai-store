@@ -17,7 +17,7 @@ if (
   throw "local acceptance client delivery directory is not trusted"
 }
 
-$PortableName = '^AI-Hub-Local-(?:0|[1-9][0-9]*)\.[0-9]+\.[0-9]+-Windows-x64-Portable\.exe$'
+$PortableName = '^(?:ZhenXing-AI|AI-Hub)-Local-(?:0|[1-9][0-9]*)\.[0-9]+\.[0-9]+-Windows-x64-Portable\.exe$'
 $Snapshot = @(Get-CimInstance Win32_Process)
 $Targets = @{}
 foreach ($Candidate in $Snapshot) {

@@ -1,6 +1,9 @@
 "use strict";
 
-const { validateCatalog } = require("../shared/catalog.cjs");
+const {
+  normalizeCatalog,
+  validateCatalog
+} = require("../shared/catalog.cjs");
 const {
   getApprovedEnvironmentDownloadSources
 } = require("../shared/environment-download.cjs");
@@ -140,7 +143,7 @@ function validateUpdateSettings(update) {
 }
 
 function validatePublication(catalog, rawSettings) {
-  const validatedCatalog = validateCatalog(catalog);
+  const validatedCatalog = validateCatalog(normalizeCatalog(catalog));
   const settings = validateReleaseSettings(rawSettings);
   validateUpdateSettings(settings.update);
   const warnings = [];
@@ -150,8 +153,22 @@ function validatePublication(catalog, rawSettings) {
   const enabledProducts = enabledVendors.flatMap((vendor) =>
     vendor.products.filter((product) => product.enabled !== false)
   );
-  const enabledExtensions = enabledProducts.flatMap((product) =>
-    (product.extensions || []).filter((extension) => extension.enabled !== false)
+  const enabledProductIds = new Set(
+    enabledProducts.map((product) => product.id)
+  );
+  const enabledStoreIds = new Set(
+    validatedCatalog.resourceStores
+      .filter((store) => store.enabled !== false)
+      .map((store) => store.id)
+  );
+  const enabledResources = validatedCatalog.resources.filter(
+    (resource) =>
+      resource.enabled !== false &&
+      resource.resourceTypes.some((type) => enabledStoreIds.has(type)) &&
+      resource.targets.some(
+        (target) =>
+          target.enabled !== false && enabledProductIds.has(target.productId)
+      )
   );
   for (const vendor of validatedCatalog.vendors) {
     for (const product of vendor.products) {
@@ -213,7 +230,8 @@ function validatePublication(catalog, rawSettings) {
     summary: {
       vendors: enabledVendors.length,
       products: enabledProducts.length,
-      extensions: enabledExtensions.length,
+      resources: enabledResources.length,
+      resourceStores: enabledStoreIds.size,
       banners: validatedCatalog.home.banners.length,
       featuredVendors: validatedCatalog.home.featuredVendorIds.length,
       approvedDownloadSources: validatedCatalog.environmentDownloads.sources.filter(

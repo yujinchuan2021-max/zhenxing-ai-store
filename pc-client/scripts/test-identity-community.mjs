@@ -157,10 +157,10 @@ const discussion = await request("/v1/discussions", {
   body: {
     title: `AI Hub 社区验收 ${suffix}`,
     body: "验证统一账号可以直接发布产品讨论。",
-    productId: "chatgpt-web"
+    productId: "chatgpt-desktop"
   }
 });
-assert.equal(discussion.productId, "chatgpt-web");
+assert.equal(discussion.productId, "chatgpt-desktop");
 
 const replied = await request(`/v1/discussions/${discussion.id}/replies`, {
   method: "POST",

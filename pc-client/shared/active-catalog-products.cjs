@@ -25,7 +25,11 @@ function normalizeCatalogUrl(value) {
 }
 
 function enabledProductIdsFromCatalog(catalog) {
-  if (!catalog || catalog.schemaVersion !== 1 || !Array.isArray(catalog.vendors)) {
+  if (
+    !catalog ||
+    ![1, 2].includes(catalog.schemaVersion) ||
+    !Array.isArray(catalog.vendors)
+  ) {
     throw new Error("Identity active catalog response is invalid");
   }
   const ids = [];

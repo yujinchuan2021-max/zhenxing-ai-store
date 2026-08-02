@@ -13,6 +13,10 @@ const {
   validateProductExtension
 } = require("./product-extensions.cjs");
 const {
+  validateEcosystemResource,
+  validateResourceStore
+} = require("./ecosystem-resources.cjs");
+const {
   validateProductComponentLinks
 } = require("./product-components.cjs");
 
@@ -34,7 +38,7 @@ const ENVIRONMENT_REQUIREMENTS = new Set([
   "docker",
   "wsl"
 ]);
-const CATALOG_FIELDS = new Set([
+const LEGACY_CATALOG_FIELDS = new Set([
   "schemaVersion",
   "updatedAt",
   "categories",
@@ -45,12 +49,18 @@ const CATALOG_FIELDS = new Set([
   "environmentDownloads",
   "vendors"
 ]);
+const CATALOG_FIELDS = new Set([
+  ...LEGACY_CATALOG_FIELDS,
+  "resourceStores",
+  "resources"
+]);
 const VENDOR_FIELDS = new Set([
   "id",
   "enabled",
   "order",
   "name",
   "initial",
+  "requiresCrossBorderNetwork",
   "mark",
   "iconUrl",
   "color",
@@ -58,6 +68,12 @@ const VENDOR_FIELDS = new Set([
   "website",
   "tutorial",
   "products"
+]);
+const PRODUCT_DIRECTORY_KINDS = new Set(["ai-tool", "ai-connectable"]);
+const DEFAULT_RESOURCE_STORES = Object.freeze([
+  Object.freeze({ id: "skill", label: "Skill 商店", enabled: true, order: 0 }),
+  Object.freeze({ id: "mcp", label: "MCP 商店", enabled: true, order: 1 }),
+  Object.freeze({ id: "plugin", label: "插件商店", enabled: true, order: 2 })
 ]);
 
 function hasOnlyFields(value, allowed) {
@@ -93,11 +109,66 @@ function resolveCatalogCategories(catalog) {
   return Array.isArray(catalog.categories) ? [...catalog.categories] : [];
 }
 
+function normalizeCatalog(catalog) {
+  if (!catalog || typeof catalog !== "object" || Array.isArray(catalog)) {
+    return catalog;
+  }
+  if (catalog.schemaVersion === 2) return catalog;
+  if (catalog.schemaVersion !== 1) return catalog;
+
+  const normalized = structuredClone(catalog);
+  const resources = [];
+  for (const vendor of normalized.vendors || []) {
+    for (const product of vendor.products || []) {
+      product.directoryKind = "ai-tool";
+      for (const extension of product.extensions || []) {
+        const {
+          extensionType,
+          moduleId,
+          installProfileId,
+          capabilities,
+          ...resource
+        } = extension;
+        resources.push({
+          ...resource,
+          resourceTypes: [extensionType],
+          sourceProductIds: [],
+          targets: [
+            {
+              productId: product.id,
+              compatibility:
+                extension.sourceKind === "official" ? "official" : "verified",
+              moduleId:
+                moduleId === "skill-link" || moduleId === "mcp-link"
+                  ? "resource-link"
+                  : moduleId,
+              installProfileId,
+              capabilities,
+              enabled: true
+            }
+          ]
+        });
+      }
+      delete product.extensions;
+    }
+  }
+  normalized.schemaVersion = 2;
+  normalized.resourceStores = DEFAULT_RESOURCE_STORES.map((store) => ({
+    ...store
+  }));
+  normalized.resources = resources;
+  return normalized;
+}
+
 function validateCatalog(catalog) {
+  const inputSchemaVersion = catalog?.schemaVersion;
   if (
     !catalog ||
-    catalog.schemaVersion !== 1 ||
-    !hasOnlyFields(catalog, CATALOG_FIELDS) ||
+    ![1, 2].includes(inputSchemaVersion) ||
+    !hasOnlyFields(
+      catalog,
+      inputSchemaVersion === 1 ? LEGACY_CATALOG_FIELDS : CATALOG_FIELDS
+    ) ||
     !Array.isArray(catalog.vendors) ||
     catalog.vendors.length < 1 ||
     catalog.vendors.length > 1000
@@ -119,8 +190,29 @@ function validateCatalog(catalog) {
   }
   const allowedProductCategories = new Set(productCategories);
 
+  const resourceStoreIds = new Set();
+  if (inputSchemaVersion === 2) {
+    if (
+      !Array.isArray(catalog.resourceStores) ||
+      catalog.resourceStores.length < 1 ||
+      catalog.resourceStores.length > 20 ||
+      !Array.isArray(catalog.resources) ||
+      catalog.resources.length > 10000
+    ) {
+      throw new Error("生态资源目录结构无效");
+    }
+    for (const store of catalog.resourceStores) {
+      const storeError = validateResourceStore(store);
+      if (storeError || resourceStoreIds.has(store.id)) {
+        throw new Error(`${storeError || "资源商店 ID 重复"}：${store?.id || "unknown"}`);
+      }
+      resourceStoreIds.add(store.id);
+    }
+  }
+
   const vendorIds = new Set();
   const productIds = new Set();
+  const productById = new Map();
   const extensionIds = new Set();
   for (const vendor of catalog.vendors) {
     if (
@@ -129,6 +221,8 @@ function validateCatalog(catalog) {
       vendorIds.has(vendor.id) ||
       !isShortText(vendor.name, 100) ||
       (vendor.enabled !== undefined && typeof vendor.enabled !== "boolean") ||
+      (vendor.requiresCrossBorderNetwork !== undefined &&
+        typeof vendor.requiresCrossBorderNetwork !== "boolean") ||
       (vendor.order !== undefined &&
         (!Number.isInteger(vendor.order) ||
           vendor.order < 0 ||
@@ -160,6 +254,9 @@ function validateCatalog(catalog) {
           (!Number.isInteger(product.order) ||
             product.order < 0 ||
             product.order > 100000)) ||
+        (inputSchemaVersion === 1 && product.directoryKind !== undefined) ||
+        (inputSchemaVersion === 2 &&
+          !PRODUCT_DIRECTORY_KINDS.has(product.directoryKind)) ||
         !PRODUCT_KINDS.has(product.kind) ||
         !allowedProductCategories.has(product.category) ||
         !isShortText(product.description, 500) ||
@@ -175,12 +272,20 @@ function validateCatalog(catalog) {
         throw new Error(`产品教程地址无效：${product.id}`);
       }
       if (
+        inputSchemaVersion === 2 &&
+        product.extensions !== undefined
+      ) {
+        throw new Error(`产品不能再包含扩展子目录：${product.id}`);
+      }
+      if (
+        inputSchemaVersion === 1 &&
         product.extensions !== undefined &&
         (!Array.isArray(product.extensions) || product.extensions.length > 200)
       ) {
         throw new Error(`产品扩展目录无效：${product.id}`);
       }
-      for (const extension of product.extensions || []) {
+      for (const extension of
+        inputSchemaVersion === 1 ? product.extensions || [] : []) {
         if (
           !isShortText(extension.id, 120) ||
           extensionIds.has(extension.id) ||
@@ -231,6 +336,25 @@ function validateCatalog(catalog) {
         throw new Error(`${policyError}：${product.id}`);
       }
       productIds.add(product.id);
+      productById.set(product.id, product);
+    }
+  }
+
+  if (inputSchemaVersion === 2) {
+    const resourceIds = new Set();
+    for (const resource of catalog.resources) {
+      if (resourceIds.has(resource?.id)) {
+        throw new Error(`生态资源 ID 重复：${resource?.id || "unknown"}`);
+      }
+      const resourceError = validateEcosystemResource(resource, {
+        productById,
+        vendorIds,
+        resourceStoreIds
+      });
+      if (resourceError) {
+        throw new Error(`${resourceError}：${resource?.id || "unknown"}`);
+      }
+      resourceIds.add(resource.id);
     }
   }
 
@@ -317,7 +441,9 @@ function validateCatalog(catalog) {
       throw new Error("首页配置无效");
     }
   }
-  return catalog;
+  return inputSchemaVersion === 1
+    ? validateCatalog(normalizeCatalog(catalog))
+    : catalog;
 }
 
 function sha256(raw) {
@@ -327,9 +453,12 @@ function sha256(raw) {
 module.exports = {
   DEFAULT_PRODUCT_CATEGORIES,
   ENVIRONMENT_REQUIREMENTS,
+  DEFAULT_RESOURCE_STORES,
+  PRODUCT_DIRECTORY_KINDS,
   PRODUCT_CATEGORIES,
   PRODUCT_KINDS,
   isAllowedUrl,
+  normalizeCatalog,
   resolveCatalogCategories,
   sha256,
   validateCatalog

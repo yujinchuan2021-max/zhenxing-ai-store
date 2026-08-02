@@ -28,6 +28,7 @@ function product(input, order) {
   return {
     ...input,
     ...policy[input.productType],
+    directoryKind: "ai-tool",
     requirements: [],
     enabled: true,
     order
@@ -46,19 +47,17 @@ const newVendors = [
     tutorial: "https://support.microsoft.com/en-US/microsoft-copilot/getting-started-with-microsoft-copilot",
     products: [
       product({
-        id: "microsoft-copilot-web", name: "Microsoft Copilot",
-        category: "AI 对话", productType: "web",
-        description: "Microsoft 面向个人用户的 Web AI 助手。",
-        website: "https://copilot.com/",
-        tutorial: "https://support.microsoft.com/en-US/microsoft-copilot/getting-started-with-microsoft-copilot"
-      }, 0),
-      product({
-        id: "microsoft-copilot-desktop", name: "Microsoft Copilot for Windows",
+        id: "microsoft-copilot-desktop", name: "Microsoft Copilot",
         category: "AI 对话", productType: "desktop-official",
         description: "通过 Microsoft 官方入口获取的 Windows AI 助手。",
         website: "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/get-copilot",
-        tutorial: "https://support.microsoft.com/en-US/microsoft-copilot/getting-started-with-microsoft-copilot"
-      }, 1)
+        tutorial: "https://support.microsoft.com/en-US/microsoft-copilot/getting-started-with-microsoft-copilot",
+        entryPoints: [
+          { type: "website", label: "工具官网", url: "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/get-copilot" },
+          { type: "web", label: "Copilot 网页版", url: "https://copilot.com/" },
+          { type: "desktop", label: "Copilot 客户端官方下载" }
+        ]
+      }, 0)
     ]
   },
   {
@@ -84,7 +83,7 @@ const newVendors = [
     }, 0)]
   },
   {
-    id: "moonshot", name: "月之暗面", initial: "M", mark: "月", color: "#111827",
+    id: "moonshot", name: "月之暗面", initial: "Y", mark: "月", color: "#111827",
     description: "提供长文本、多模态、联网搜索和智能体能力的 Kimi AI 助手。",
     website: "https://www.moonshot.cn/", tutorial: "https://www.kimi.com/zh-cn/help",
     products: [product({
@@ -99,9 +98,13 @@ const newVendors = [
     description: "通过千问及阿里云模型服务提供个人助手和开发者 AI 能力。",
     website: "https://www.alibabagroup.com/", tutorial: "https://help.aliyun.com/zh/model-studio/",
     products: [product({
-      id: "qianwen-web", name: "千问", category: "AI 对话", productType: "web",
+      id: "alibaba-qwen-studio", name: "千问", category: "AI 对话", productType: "web",
       description: "阿里巴巴面向个人用户的通用在线 AI 助手。",
-      website: "https://www.qianwen.com/", tutorial: "https://www.qianwen.com/"
+      website: "https://www.qianwen.com/", tutorial: "https://www.qianwen.com/",
+      entryPoints: [
+        { type: "website", label: "工具官网", url: "https://www.qianwen.com/" },
+        { type: "web", label: "千问网页版", url: "https://www.qianwen.com/" }
+      ]
     }, 0)]
   },
   {
@@ -110,15 +113,15 @@ const newVendors = [
     website: "https://www.tencent.com/", tutorial: "https://yuanbao.tencent.com/",
     products: [
       product({
-        id: "tencent-yuanbao-web", name: "腾讯元宝", category: "AI 对话",
-        productType: "web", description: "覆盖问答、文档阅读和内容创作的在线 AI 助手。",
-        website: "https://yuanbao.tencent.com/", tutorial: "https://yuanbao.tencent.com/"
-      }, 0),
-      product({
-        id: "tencent-yuanbao-desktop", name: "腾讯元宝电脑版", category: "AI 对话",
+        id: "tencent-yuanbao-desktop", name: "腾讯元宝", category: "AI 对话",
         productType: "desktop-official", description: "由腾讯官方页面提供的元宝桌面客户端入口。",
-        website: "https://yuanbao.tencent.com/evt/dl", tutorial: "https://yuanbao.tencent.com/evt/dl"
-      }, 1)
+        website: "https://yuanbao.tencent.com/evt/dl", tutorial: "https://yuanbao.tencent.com/evt/dl",
+        entryPoints: [
+          { type: "website", label: "工具官网", url: "https://yuanbao.tencent.com/evt/dl" },
+          { type: "web", label: "元宝网页版", url: "https://yuanbao.tencent.com/" },
+          { type: "desktop", label: "元宝客户端官方下载" }
+        ]
+      }, 0)
     ]
   },
   {

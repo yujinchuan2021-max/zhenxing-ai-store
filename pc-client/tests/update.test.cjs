@@ -51,7 +51,7 @@ test("requires configured update channels to pin download origins", () => {
       validateUpdateChannel(
         {
           schemaVersion: 1,
-          manifestUrl: "https://updates.aihub.example/update-v1.json",
+        manifestUrl: "https://updates.zhenxingai.com/update-v1.json",
           allowedDownloadOrigins: []
         },
         isAllowedUrl
@@ -62,15 +62,15 @@ test("requires configured update channels to pin download origins", () => {
 
 test("rejects download origins that contain paths or wildcards", () => {
   for (const origin of [
-    "https://downloads.aihub.example/releases",
-    "https://*.aihub.example"
+    "https://downloads.zhenxingai.com/releases",
+    "https://*.zhenxingai.com"
   ]) {
     assert.throws(
       () =>
         validateUpdateChannel(
           {
             schemaVersion: 1,
-            manifestUrl: "https://updates.aihub.example/update-v1.json",
+            manifestUrl: "https://updates.zhenxingai.com/update-v1.json",
             allowedDownloadOrigins: [origin]
           },
           isAllowedUrl
@@ -84,8 +84,8 @@ test("accepts a manifest only from a pinned download origin", () => {
   const channel = validateUpdateChannel(
     {
       schemaVersion: 1,
-      manifestUrl: "https://updates.aihub.example/update-v1.json",
-      allowedDownloadOrigins: ["https://downloads.aihub.example"]
+      manifestUrl: "https://updates.zhenxingai.com/update-v1.json",
+      allowedDownloadOrigins: ["https://downloads.zhenxingai.com"]
     },
     isAllowedUrl
   );
@@ -95,7 +95,7 @@ test("accepts a manifest only from a pinned download origin", () => {
       version: "0.1.1",
       publishedAt: "2026-07-29T00:00:00.000Z",
       downloadUrl:
-        "https://downloads.aihub.example/AI-Hub-0.1.1-Windows-x64-Setup.exe",
+        "https://downloads.zhenxingai.com/ZhenXing-AI-0.1.1-Windows-x64-Setup.exe",
       notes: ["修复更新通道。"]
     },
     isAllowedUrl,
@@ -114,11 +114,11 @@ test("rejects a manifest that redirects users to an unpinned origin", () => {
           version: "0.1.1",
           publishedAt: "2026-07-29T00:00:00.000Z",
           downloadUrl:
-            "https://attacker.example/AI-Hub-0.1.1-Windows-x64-Setup.exe",
+            "https://attacker.example/ZhenXing-AI-0.1.1-Windows-x64-Setup.exe",
           notes: ["伪造更新。"]
         },
         isAllowedUrl,
-        ["https://downloads.aihub.example"]
+        ["https://downloads.zhenxingai.com"]
       ),
     /下载来源/
   );

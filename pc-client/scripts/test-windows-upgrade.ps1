@@ -9,12 +9,12 @@ $ErrorActionPreference = "Stop"
 if (-not $BaseInstallerPath) {
   $BaseInstallerPath = Join-Path `
     $PSScriptRoot `
-    "..\release\AI-Hub-0.1.0-Windows-x64-Setup.exe"
+    "..\release\ZhenXing-AI-0.1.0-Windows-x64-Setup.exe"
 }
 if (-not $UpgradeInstallerPath) {
   $UpgradeInstallerPath = Join-Path `
     $PSScriptRoot `
-    "..\release-upgrade-$ExpectedUpgradeVersion\AI-Hub-$ExpectedUpgradeVersion-Windows-x64-Setup.exe"
+    "..\release-upgrade-$ExpectedUpgradeVersion\ZhenXing-AI-$ExpectedUpgradeVersion-Windows-x64-Setup.exe"
 }
 
 function Get-AIHubUninstallEntries {
@@ -30,7 +30,7 @@ function Get-AIHubUninstallEntries {
     }
     foreach ($key in Get-ChildItem -LiteralPath $root -ErrorAction SilentlyContinue) {
       $value = Get-ItemProperty -LiteralPath $key.PSPath -ErrorAction SilentlyContinue
-      if ([string]$value.DisplayName -match '^AI Hub(?:\s+\d+\.\d+\.\d+)?$') {
+      if ([string]$value.DisplayName -match '^(?:枕星 AI|AI Hub)(?:\s+\d+\.\d+\.\d+)?$') {
         $entries += [pscustomobject]@{
           key = $key.PSPath
           name = [string]$value.DisplayName
@@ -84,7 +84,7 @@ function Get-ProcessesAtPath {
 
   $resolved = [System.IO.Path]::GetFullPath($ExecutablePath)
   return @(
-    Get-Process -Name "AI Hub" -ErrorAction SilentlyContinue |
+    Get-Process -Name "枕星 AI", "AI Hub" -ErrorAction SilentlyContinue |
       Where-Object {
         try {
           [System.IO.Path]::GetFullPath($_.Path) -eq $resolved
@@ -124,12 +124,12 @@ function Stop-InstalledApplication {
 $baseInstaller = (Resolve-Path -LiteralPath $BaseInstallerPath).Path
 $upgradeInstaller = (Resolve-Path -LiteralPath $UpgradeInstallerPath).Path
 if ((Get-AIHubUninstallEntries).Count -ne 0) {
-  throw "A registered AI Hub installation already exists; refusing upgrade test."
+  throw "A registered 枕星 AI installation already exists; refusing upgrade test."
 }
 
 $acceptanceRoot = Join-Path $env:LOCALAPPDATA "AIHubAcceptance"
 $installDirectory = Join-Path $acceptanceRoot (
-  "AI-Hub-Upgrade-{0}" -f [guid]::NewGuid().ToString("N")
+  "ZhenXing-AI-Upgrade-{0}" -f [guid]::NewGuid().ToString("N")
 )
 $expectedPrefix = [System.IO.Path]::GetFullPath($acceptanceRoot) +
   [System.IO.Path]::DirectorySeparatorChar
@@ -146,10 +146,10 @@ if (Test-Path -LiteralPath $resolvedTarget) {
 
 $desktopShortcut = Join-Path (
   [Environment]::GetFolderPath("Desktop")
-) "AI Hub.lnk"
+) "枕星 AI.lnk"
 $startMenuShortcut = Join-Path (
   [Environment]::GetFolderPath("Programs")
-) "AI Hub.lnk"
+) "枕星 AI.lnk"
 $desktopBefore = Test-Path -LiteralPath $desktopShortcut
 $startMenuBefore = Test-Path -LiteralPath $startMenuShortcut
 $userDataDirectory = Join-Path $env:APPDATA "AI Hub"
@@ -166,9 +166,9 @@ try {
   Invoke-SilentInstaller `
     -Installer $baseInstaller `
     -InstallDirectory $resolvedTarget
-  $installedExecutable = Join-Path $resolvedTarget "AI Hub.exe"
+  $installedExecutable = Join-Path $resolvedTarget "枕星 AI.exe"
   if (-not (Test-Path -LiteralPath $installedExecutable)) {
-    throw "Base installation did not create AI Hub.exe."
+    throw "Base installation did not create 枕星 AI.exe."
   }
   $baseEntries = @(Get-EntryAtDirectory -InstallDirectory $resolvedTarget)
   if ($baseEntries.Count -ne 1 -or $baseEntries[0].version -ne "0.1.0") {
@@ -232,7 +232,7 @@ try {
     Remove-Item -LiteralPath $markerPath -Force
   }
   if (Test-Path -LiteralPath $resolvedTarget) {
-    $installedExecutable = Join-Path $resolvedTarget "AI Hub.exe"
+    $installedExecutable = Join-Path $resolvedTarget "枕星 AI.exe"
     if (Test-Path -LiteralPath $installedExecutable) {
       Stop-InstalledApplication -ExecutablePath $installedExecutable | Out-Null
     }

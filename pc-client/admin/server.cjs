@@ -3,6 +3,7 @@ const http = require("node:http");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
 const {
+  normalizeCatalog,
   validateCatalog
 } = require("../shared/catalog.cjs");
 const {
@@ -22,8 +23,11 @@ const {
   publicProductModules
 } = require("../shared/product-modules.cjs");
 const {
-  publicExtensionModules
-} = require("../shared/product-extensions.cjs");
+  entryPointTypeMetadata
+} = require("../shared/product-entry-points.cjs");
+const {
+  publicResourceModules
+} = require("../shared/ecosystem-resources.cjs");
 const {
   publicExtensionInstallProfiles
 } = require("../shared/extension-install-registry.cjs");
@@ -121,7 +125,9 @@ function readJson(request) {
 }
 
 function readCatalog(filePath) {
-  return validateCatalog(JSON.parse(fs.readFileSync(filePath, "utf8")));
+  return validateCatalog(
+    normalizeCatalog(JSON.parse(fs.readFileSync(filePath, "utf8")))
+  );
 }
 
 function writeJsonAtomic(filePath, value) {
@@ -132,7 +138,7 @@ function writeJsonAtomic(filePath, value) {
 }
 
 async function saveCatalogDraft({ catalog, expectedRevision }) {
-  const validated = validateCatalog(catalog);
+  const validated = validateCatalog(normalizeCatalog(catalog));
   const saved = await releaseStore.saveDraft({
     catalog: validated,
     expectedRevision
@@ -220,15 +226,34 @@ function readReleaseSettings() {
 async function ensureDraft() {
   let state = await releaseStore.readState();
   if (!state.draft) {
+    const catalog = readCatalog(draftPath);
     await releaseStore.saveDraft({
-      catalog: readCatalog(draftPath),
+      catalog,
       expectedRevision: 0
     });
+    writeJsonAtomic(draftPath, catalog);
     state = await releaseStore.readState();
   }
+  const diskInput = JSON.parse(fs.readFileSync(draftPath, "utf8"));
   if (
-    !state.draft.catalog.environmentDownloads ||
-    state.draft.catalog.vendors.some(
+    Number.isSafeInteger(diskInput?.schemaVersion) &&
+    diskInput.schemaVersion > state.draft.catalog.schemaVersion
+  ) {
+    const catalog = validateCatalog(normalizeCatalog(diskInput));
+    await releaseStore.saveDraft({
+      catalog,
+      expectedRevision: state.draft.revision
+    });
+    writeJsonAtomic(draftPath, catalog);
+    state = await releaseStore.readState();
+  }
+  const normalizedCatalog = normalizeCatalog(
+    structuredClone(state.draft.catalog)
+  );
+  if (
+    JSON.stringify(normalizedCatalog) !== JSON.stringify(state.draft.catalog) ||
+    !normalizedCatalog.environmentDownloads ||
+    normalizedCatalog.vendors.some(
       (vendor) =>
         vendor.enabled === undefined ||
         vendor.order === undefined ||
@@ -243,7 +268,7 @@ async function ensureDraft() {
         )
     )
   ) {
-    const catalog = structuredClone(state.draft.catalog);
+    const catalog = normalizedCatalog;
     catalog.environmentDownloads ||= {
       strategy: "official-first",
       probeTimeoutMs: 5000,
@@ -329,10 +354,13 @@ async function handleApi(request, response, pathname) {
   }
 
   if (request.method === "GET" && pathname === "/api/product-modules") {
+    const resourceModules = publicResourceModules();
     sendJson(response, 200, {
       modules: publicProductModules(),
+      entryPointTypes: entryPointTypeMetadata(),
       installProfiles: publicInstallProfiles(),
-      extensionModules: publicExtensionModules(),
+      resourceModules,
+      extensionModules: resourceModules,
       extensionInstallProfiles: publicExtensionInstallProfiles()
     });
     return true;
@@ -657,5 +685,5 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`AI Hub CMS 已启动：http://${host}:${port}`);
+  console.log(`枕星 AI CMS 已启动：http://${host}:${port}`);
 });

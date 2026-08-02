@@ -1,6 +1,10 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
+import { createRequire } from "node:module";
 import path from "node:path";
+
+const require = createRequire(import.meta.url);
+const { normalizeCatalog, validateCatalog } = require("../shared/catalog.cjs");
 
 const root = path.resolve(import.meta.dirname, "..");
 const researchPath = path.join(
@@ -16,10 +20,10 @@ const vendorAliases = new Map([
 ]);
 
 const productAliases = new Map([
-  ["openai-chatgpt-web", "chatgpt-web"],
+  ["openai-chatgpt-web", "chatgpt-desktop"],
   ["openai-chatgpt-desktop", "chatgpt-desktop"],
   ["openai-codex-cli", "codex-cli"],
-  ["anthropic-claude-web", "claude-web"],
+  ["anthropic-claude-web", "claude-desktop"],
   ["anthropic-claude-desktop", "claude-desktop"],
   ["anthropic-claude-code-cli", "claude-code"],
   ["anthropic-claude-code-desktop", "claude-desktop"],
@@ -30,7 +34,9 @@ const productAliases = new Map([
   ["bytedance-trae", "trae-desktop"],
   ["bytedance-coze", "coze-web"],
   ["bytedance-jimeng", "jimeng-web"],
+  ["doubao", "bytedance-doubao"],
   ["tencent-yuanbao", "tencent-yuanbao-desktop"],
+  ["qianwen-web", "alibaba-qwen-studio"],
   ["deepseek-chat-web", "deepseek-web"],
   ["moonshot-kimi", "kimi-web"],
   ["zhipu-qingyan", "zhipu-qingyan-web"],
@@ -43,7 +49,7 @@ const productAliases = new Map([
   ["anythingllm", "anythingllm-desktop"]
 ]);
 
-const extensionTargetAliases = new Map([
+const resourceTargetAliases = new Map([
   ["openai-codex", "codex-cli"],
   ["anthropic-claude-code-cli", "claude-code"],
   ["google-gemini-cli", "gemini-cli"],
@@ -57,14 +63,15 @@ const productTypeOverrides = new Map([
 ]);
 
 const productNameOverrides = new Map([
-  ["doubao", "豆包网页版"],
-  ["bytedance-doubao", "豆包桌面版"],
-  ["qianwen-web", "千问网页版"],
-  ["alibaba-qwen-studio", "千问桌面版（Qwen Studio）"],
-  ["microsoft-copilot-desktop", "Microsoft Copilot Windows 客户端"]
+  ["bytedance-doubao", "豆包"],
+  ["alibaba-qwen-studio", "千问"],
+  ["microsoft-copilot-desktop", "Microsoft Copilot"],
+  ["tencent-yuanbao-desktop", "腾讯元宝"],
+  ["chatgpt-desktop", "ChatGPT"],
+  ["claude-desktop", "Claude"]
 ]);
 
-const extensionNameOverrides = new Map([
+const resourceNameOverrides = new Map([
   ["openai-codex-skills-catalog", "OpenAI Codex Skills"],
   ["openai-codex-mcp-config", "Codex MCP 配置"],
   ["anthropic-official-plugin-marketplace", "Claude Code 官方插件市场"],
@@ -92,19 +99,27 @@ const extensionNameOverrides = new Map([
 
 const CHATGPT_APPS_COMMIT = "49f948faa9258a0c61caceaf225e179651397431";
 
-function managedChatgptAppsExtension(order) {
+function managedChatgptAppsResource(order) {
   const treeUrl = `https://github.com/openai/skills/tree/${CHATGPT_APPS_COMMIT}/skills/.curated/chatgpt-apps`;
   return {
     id: "openai-chatgpt-apps-skill",
     name: "ChatGPT Apps Skill",
-    extensionType: "skill",
+    resourceTypes: ["skill"],
     description:
-      "OpenAI 官方 curated Skill，用于设计、搭建和检查基于 Apps SDK 的 ChatGPT 应用。AI Hub 固定安装经过审核的目录快照。",
+      "OpenAI 官方 curated Skill，用于设计、搭建和检查基于 Apps SDK 的 ChatGPT 应用。枕星 AI 固定安装经过审核的目录快照。",
     website: treeUrl,
     tutorial: `https://github.com/openai/skills/blob/${CHATGPT_APPS_COMMIT}/skills/.curated/chatgpt-apps/SKILL.md`,
-    moduleId: "skill-managed",
-    installProfileId: "skill.codex.chatgpt-apps",
-    capabilities: ["website", "install", "uninstall"],
+    sourceProductIds: [],
+    targets: [
+      {
+        productId: "codex-cli",
+        compatibility: "official",
+        moduleId: "skill-managed",
+        installProfileId: "skill.codex.chatgpt-apps",
+        capabilities: ["website", "install", "uninstall"],
+        enabled: true
+      }
+    ],
     enabled: true,
     order,
     sourceKind: "official",
@@ -113,7 +128,7 @@ function managedChatgptAppsExtension(order) {
     credentialRequirements: [],
     installScope: "Codex 用户级 skills/chatgpt-apps 目录",
     uninstallPlan:
-      "仅删除 AI Hub 回执记录的 chatgpt-apps 目录；保留 Codex skills 根目录和其他 Skill。",
+      "仅删除枕星 AI 回执记录的 chatgpt-apps 目录；保留 Codex skills 根目录和其他 Skill。",
     provenanceEvidence: [
       "https://github.com/openai/skills",
       `https://github.com/openai/skills/commit/${CHATGPT_APPS_COMMIT}`,
@@ -126,6 +141,7 @@ function managedChatgptAppsExtension(order) {
 
 const productPolicies = Object.freeze({
   web: Object.freeze({
+    directoryKind: "ai-tool",
     kind: "其他产品",
     moduleId: "web-link",
     installPolicy: "open-product-website",
@@ -135,6 +151,7 @@ const productPolicies = Object.freeze({
     capabilities: ["website", "tutorial"]
   }),
   "desktop-official": Object.freeze({
+    directoryKind: "ai-tool",
     kind: "桌面端",
     moduleId: "desktop-official",
     installPolicy: "open-official-download",
@@ -144,6 +161,7 @@ const productPolicies = Object.freeze({
     capabilities: ["website", "tutorial"]
   }),
   "cli-official": Object.freeze({
+    directoryKind: "ai-tool",
     kind: "CLI",
     moduleId: "cli-official",
     installPolicy: "open-official-install",
@@ -153,6 +171,7 @@ const productPolicies = Object.freeze({
     capabilities: ["website", "tutorial"]
   }),
   cli: Object.freeze({
+    directoryKind: "ai-tool",
     kind: "CLI",
     moduleId: "cli-managed",
     installPolicy: "client-managed-cli",
@@ -162,6 +181,7 @@ const productPolicies = Object.freeze({
     capabilities: ["website", "tutorial", "install", "open", "uninstall"]
   }),
   tutorial: Object.freeze({
+    directoryKind: "ai-tool",
     kind: "其他产品",
     moduleId: "tutorial-link",
     installPolicy: "open-tutorial",
@@ -210,7 +230,7 @@ function researchRows(markdown) {
   for (const line of lines) {
     if (/^### 3\./.test(line)) section = "products";
     else if (/^## 4\./.test(line)) section = "agents";
-    else if (/^## 5\./.test(line)) section = "extensions";
+    else if (/^## 5\./.test(line)) section = "resources";
     if (!line.startsWith("| `")) continue;
     const cells = splitTableRow(line);
     if (section === "products" && cells.length === 8) {
@@ -233,10 +253,10 @@ function researchRows(markdown) {
         candidate: cells[5],
         notes: cells[6]
       });
-    } else if (section === "extensions" && cells.length === 6) {
+    } else if (section === "resources" && cells.length === 6) {
       rows.push({
         section,
-        extension: cells[0],
+        resource: cells[0],
         target: cells[1],
         rawType: cells[2],
         links: cells[3],
@@ -284,7 +304,22 @@ function chooseCategory(row, productName) {
   return "AI 对话";
 }
 
+const REVIEWED_VENDOR_INITIALS = new Map([
+  ["alibaba", "A"],
+  ["baichuan", "B"],
+  ["baidu", "B"],
+  ["bytedance", "Z"],
+  ["deepseek", "S"],
+  ["kuaishou", "K"],
+  ["moonshot", "Y"],
+  ["sensetime", "S"],
+  ["tencent", "T"],
+  ["zhipu", "Z"]
+]);
+
 function vendorInitial(name, id) {
+  const reviewedInitial = REVIEWED_VENDOR_INITIALS.get(id);
+  if (reviewedInitial) return reviewedInitial;
   return (name.match(/[A-Za-z]/)?.[0] || id.match(/[A-Za-z]/)?.[0] || "A").toUpperCase();
 }
 
@@ -314,35 +349,66 @@ function makeProduct(row, productId, productName, order) {
   };
 }
 
-function closestExtensionType(rawType, extensionId) {
-  if (rawType === "mcp") return "mcp";
-  if (rawType === "skill") return "skill";
-  return extensionId.includes("mcp") ? "mcp" : "skill";
+const reviewedResourceTypes = new Map([
+  ["anthropic-official-plugin-marketplace", ["plugin"]],
+  ["comfy-custom-nodes", ["plugin"]],
+  ["google-gemini-cli-extensions", ["plugin"]],
+  ["moonshot-kimi-plugins", ["plugin"]],
+  ["anythingllm-agent-skills", ["skill", "mcp"]],
+  ["amazon-kiro-powers", ["plugin"]],
+  ["pika-mcp-skills", ["mcp", "skill"]],
+  ["openclaw-clawhub-plugins", ["plugin"]],
+  ["cline-official-skills-plugins", ["skill", "mcp", "plugin"]]
+]);
+
+function resourceTypesFor(rawType, resourceId) {
+  const reviewed = reviewedResourceTypes.get(resourceId);
+  if (reviewed) return [...reviewed];
+  const declared = [...new Set(rawType.toLowerCase().match(/skill|mcp|plugin/g) || [])];
+  if (declared.length) return declared;
+  if (resourceId.includes("plugin")) return ["plugin"];
+  return [resourceId.includes("mcp") ? "mcp" : "skill"];
 }
 
-function makeExtension(row, extensionId, order) {
+function cleanLegacyResourceDescription(value) {
+  return value
+    .replace(
+      /\s*原始形态为 [^。]+，当前按最接近的 (?:skill|mcp) 子目录展示。/g,
+      ""
+    )
+    .trim();
+}
+
+function makeResource(row, resourceId, targetProductId, publisher, order) {
   const urls = parseLinks(row.links);
-  if (!urls.length) throw new Error(`扩展记录缺少官方 URL：${extensionId}`);
-  const extensionType = closestExtensionType(row.rawType, extensionId);
-  const mappedTypeNote = ["skill", "mcp"].includes(row.rawType)
-    ? ""
-    : ` 原始形态为 ${row.rawType}，当前按最接近的 ${extensionType} 子目录展示。`;
+  if (!urls.length) throw new Error(`资源记录缺少官方 URL：${resourceId}`);
   return {
-    id: extensionId,
+    id: resourceId,
     name:
-      extensionNameOverrides.get(extensionId) ||
-      extensionId
+      resourceNameOverrides.get(resourceId) ||
+      resourceId
         .split("-")
         .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
         .join(" "),
-    extensionType,
-    description: cleanText(`${row.notes}${mappedTypeNote}`, `${extensionId} 官方扩展入口。`),
+    resourceTypes: resourceTypesFor(row.rawType, resourceId),
+    description: cleanLegacyResourceDescription(
+      cleanText(row.notes, `${resourceId} 官方资源入口。`)
+    ),
     website: urls[0],
     tutorial: urls[1] || urls[0],
-    moduleId: `${extensionType}-link`,
-    installProfileId: "",
-    capabilities: ["website"],
+    sourceProductIds: [],
+    targets: [
+      {
+        productId: targetProductId,
+        compatibility: "official",
+        moduleId: "resource-link",
+        installProfileId: "",
+        capabilities: ["website"],
+        enabled: true
+      }
+    ],
     sourceKind: "official",
+    publisher,
     versionRef: "rolling-directory",
     requestedPermissions: [],
     credentialRequirements: [],
@@ -355,12 +421,31 @@ function makeExtension(row, extensionId, order) {
   };
 }
 
-function findProduct(catalog, productId) {
+function findProductOwner(catalog, productId) {
   for (const vendor of catalog.vendors) {
     const product = vendor.products.find((item) => item.id === productId);
-    if (product) return product;
+    if (product) return { vendor, product };
   }
   return null;
+}
+
+function findProduct(catalog, productId) {
+  return findProductOwner(catalog, productId)?.product || null;
+}
+
+function upsertResource(catalog, resource) {
+  const existingIndex = catalog.resources.findIndex(
+    (candidate) => candidate.id === resource.id
+  );
+  if (existingIndex === -1) {
+    catalog.resources.push(resource);
+    return true;
+  }
+  catalog.resources[existingIndex] = {
+    ...resource,
+    order: catalog.resources[existingIndex].order
+  };
+  return false;
 }
 
 const verifiedProductUpserts = Object.freeze([
@@ -439,7 +524,7 @@ const verifiedProductUpserts = Object.freeze([
       name: "Kimi Code CLI",
       ...productPolicies.cli,
       category: "编程开发",
-      description: "Moonshot AI 的原生终端智能体，支持 Windows x64 与 ARM64；由 AI Hub 固定版本下载、校验并管理。",
+      description: "Moonshot AI 的原生终端智能体，支持 Windows x64 与 ARM64；由枕星 AI 固定版本下载、校验并管理。",
       website: "https://code.kimi.com/",
       tutorial: "https://moonshotai.github.io/kimi-code/en/guides/getting-started.html",
       productType: "cli",
@@ -950,14 +1035,16 @@ const verifiedProductUpserts = Object.freeze([
 ]);
 
 const markdown = fs.readFileSync(researchPath, "utf8");
-const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
+const catalog = normalizeCatalog(
+  JSON.parse(fs.readFileSync(catalogPath, "utf8"))
+);
 const rows = researchRows(markdown);
 const vendorNames = new Map();
 let addedVendors = 0;
 let addedProducts = 0;
-let addedExtensions = 0;
+let addedResources = 0;
 
-for (const row of rows.filter((item) => item.section !== "extensions")) {
+for (const row of rows.filter((item) => item.section !== "resources")) {
   if (row.candidate.includes("X")) continue;
   const vendorIdentity = parseCodeAndLabel(row.vendor);
   const productIdentity = parseCodeAndLabel(row.product);
@@ -1004,8 +1091,8 @@ for (const entry of verifiedProductUpserts) {
   if (existingIndex === -1) {
     vendor.products.push({
       ...entry.product,
-      order: vendor.products.length,
-      extensions: []
+      directoryKind: entry.product.directoryKind || "ai-tool",
+      order: vendor.products.length
     });
     addedProducts += 1;
     continue;
@@ -1014,47 +1101,43 @@ for (const entry of verifiedProductUpserts) {
   vendor.products[existingIndex] = {
     ...existing,
     ...entry.product,
-    order: existing.order,
-    extensions: existing.extensions || []
+    directoryKind: entry.product.directoryKind || "ai-tool",
+    order: existing.order
   };
+  delete vendor.products[existingIndex].extensions;
 }
 
-for (const row of rows.filter((item) => item.section === "extensions")) {
+for (const row of rows.filter((item) => item.section === "resources")) {
   if (row.candidate.includes("X")) continue;
-  const extensionIdentity = parseCodeAndLabel(row.extension);
+  const resourceIdentity = parseCodeAndLabel(row.resource);
   const targetIdentity = parseCodeAndLabel(row.target);
-  if (!extensionIdentity || !targetIdentity) continue;
+  if (!resourceIdentity || !targetIdentity) continue;
   const targetId =
-    extensionTargetAliases.get(targetIdentity.id) ||
+    resourceTargetAliases.get(targetIdentity.id) ||
     productAliases.get(targetIdentity.id) ||
     targetIdentity.id;
-  const target = findProduct(catalog, targetId);
-  if (!target) {
-    throw new Error(`扩展宿主不存在：${extensionIdentity.id} -> ${targetId}`);
+  const targetOwner = findProductOwner(catalog, targetId);
+  if (!targetOwner) {
+    throw new Error(`资源宿主不存在：${resourceIdentity.id} -> ${targetId}`);
   }
-  target.extensions ||= [];
-  if (target.extensions.some((item) => item.id === extensionIdentity.id)) continue;
-  target.extensions.push(
-    makeExtension(row, extensionIdentity.id, target.extensions.length)
+  const resource = makeResource(
+    row,
+    resourceIdentity.id,
+    targetId,
+    targetOwner.vendor.name,
+    catalog.resources.length
   );
-  addedExtensions += 1;
+  resource.publisherVendorId = targetOwner.vendor.id;
+  if (upsertResource(catalog, resource)) addedResources += 1;
 }
 
 const codexCli = findProduct(catalog, "codex-cli");
-if (!codexCli) throw new Error("受控扩展宿主不存在：codex-cli");
-codexCli.extensions ||= [];
-const managedChatgptAppsIndex = codexCli.extensions.findIndex(
-  (extension) => extension.id === "openai-chatgpt-apps-skill"
+if (!codexCli) throw new Error("受控资源宿主不存在：codex-cli");
+const managedChatgptApps = managedChatgptAppsResource(
+  catalog.resources.length
 );
-if (managedChatgptAppsIndex === -1) {
-  codexCli.extensions.push(
-    managedChatgptAppsExtension(codexCli.extensions.length)
-  );
-  addedExtensions += 1;
-} else {
-  codexCli.extensions[managedChatgptAppsIndex] =
-    managedChatgptAppsExtension(managedChatgptAppsIndex);
-}
+managedChatgptApps.publisherVendorId = "openai";
+if (upsertResource(catalog, managedChatgptApps)) addedResources += 1;
 
 catalog.vendors.forEach((vendor, vendorOrder) => {
   vendor.order = vendorOrder;
@@ -1062,43 +1145,36 @@ catalog.vendors.forEach((vendor, vendorOrder) => {
     if (productNameOverrides.has(product.id)) {
       product.name = productNameOverrides.get(product.id);
     }
+    product.directoryKind ||= "ai-tool";
     product.order = productOrder;
-    product.extensions?.forEach((extension, extensionOrder) => {
-      if (extensionNameOverrides.has(extension.id)) {
-        extension.name = extensionNameOverrides.get(extension.id);
-      }
-      extension.sourceKind ||= "official";
-      extension.publisher ||= vendor.name;
-      extension.versionRef ||= "rolling-directory";
-      extension.requestedPermissions ||= [];
-      extension.credentialRequirements ||= [];
-      extension.installScope ||= "产品内扩展目录";
-      extension.uninstallPlan ||= "当前仅打开官方入口，不写入本地文件。";
-      extension.provenanceEvidence ||= [extension.website];
-      extension.lastVerifiedAt ||= "2026-07-31T00:00:00.000+08:00";
-      extension.order = extensionOrder;
-    });
+    delete product.extensions;
   });
 });
-if (addedVendors || addedProducts || addedExtensions) {
+catalog.resources.forEach((resource, resourceOrder) => {
+  if (resourceNameOverrides.has(resource.id)) {
+    resource.name = resourceNameOverrides.get(resource.id);
+  }
+  resource.order = resourceOrder;
+});
+if (addedVendors || addedProducts || addedResources) {
   catalog.updatedAt = new Date().toISOString();
 }
+validateCatalog(catalog);
 fs.writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
 
 const products = catalog.vendors.flatMap((vendor) => vendor.products);
-const extensions = products.flatMap((product) => product.extensions || []);
 console.log(
   JSON.stringify(
     {
       added: {
         vendors: addedVendors,
         products: addedProducts,
-        extensions: addedExtensions
+        resources: addedResources
       },
       totals: {
         vendors: catalog.vendors.length,
         products: products.length,
-        extensions: extensions.length
+        resources: catalog.resources.length
       }
     },
     null,

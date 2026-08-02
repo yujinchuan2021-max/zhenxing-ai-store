@@ -124,10 +124,10 @@ const identity = createIdentityCommunity({
   sendVerification: async ({ email, code, expiresAt, purpose }) => {
     const changingEmail = purpose === "email-change";
     await mailer.sendMail({
-      from: process.env.AIHUB_MAIL_FROM || "AI Hub <no-reply@aihub.local>",
+      from: process.env.AIHUB_MAIL_FROM || "枕星 AI <no-reply@zhenxingai.com>",
       to: email,
-      subject: changingEmail ? "AI Hub 更换邮箱验证码" : "AI Hub 注册验证码",
-      text: `你的 AI Hub ${changingEmail ? "更换邮箱" : "注册"}验证码是 ${code}。验证码将在 ${expiresAt.toISOString()} 过期。`
+      subject: changingEmail ? "枕星 AI 更换邮箱验证码" : "枕星 AI 注册验证码",
+      text: `你的枕星 AI ${changingEmail ? "更换邮箱" : "注册"}验证码是 ${code}。验证码将在 ${expiresAt.toISOString()} 过期。`
     });
   }
 });
@@ -465,7 +465,7 @@ initializeDatabase()
   .then(() => {
     ready = true;
     server.listen(port, host, () => {
-      console.log(`AI Hub identity and community listening on ${host}:${port}`);
+      console.log(`ZhenXing AI identity and community listening on ${host}:${port}`);
     });
   })
   .catch((error) => {

@@ -29,7 +29,7 @@ function fixture(sha256 = "a".repeat(64)) {
       },
       artifacts: [
         {
-          name: "AI-Hub-Local-0.1.22-Windows-x64-Setup.exe",
+          name: "ZhenXing-AI-Local-0.1.22-Windows-x64-Setup.exe",
           sha256,
           fileSize: 4096
         }

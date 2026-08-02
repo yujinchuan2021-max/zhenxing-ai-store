@@ -2,13 +2,13 @@
 
 const SAFE_EXTENSION_ERRORS = Object.freeze({
   EXTENSION_PROFILE_NOT_APPROVED: "该扩展尚未通过当前客户端审核",
-  EXTENSION_TARGET_EXISTS: "目标位置已有内容，AI Hub 未进行覆盖",
+  EXTENSION_TARGET_EXISTS: "目标位置已有内容，枕星 AI 未进行覆盖",
   EXTENSION_ALREADY_MANAGED: "该扩展已有本地安装记录",
   EXTENSION_RECEIPT_INVALID: "本地安装记录异常，未执行文件操作",
   EXTENSION_OWNED_PATH_UNSAFE: "扩展目录状态异常，未执行卸载",
   EXTENSION_SYMLINK_REJECTED: "扩展目录包含不安全的链接，操作已停止",
-  EXTENSION_SOURCE_MISSING: "扩展安装资源缺失，请更新 AI Hub 后重试",
-  EXTENSION_SOURCE_INVALID: "扩展安装资源无效，请更新 AI Hub 后重试",
+  EXTENSION_SOURCE_MISSING: "扩展安装资源缺失，请更新枕星 AI 后重试",
+  EXTENSION_SOURCE_INVALID: "扩展安装资源无效，请更新枕星 AI 后重试",
   EXTENSION_SOURCE_OUTSIDE_ROOT: "扩展安装资源未通过安全检查",
   EXTENSION_FILE_TYPE_REJECTED: "扩展安装资源包含不支持的文件",
   EXTENSION_PATH_INVALID: "扩展安装路径未通过安全检查",
@@ -40,7 +40,7 @@ function unavailableResult() {
     ok: false,
     state: "unavailable",
     managed: false,
-    error: "扩展安装资源不可用，请更新 AI Hub 后重试"
+    error: "扩展安装资源不可用，请更新枕星 AI 后重试"
   };
 }
 

@@ -58,7 +58,7 @@ npm.cmd run release:local:pin-tls
 npm.cmd run release:local:test-client
 ```
 
-先让现有本地发布源可用并刷新证书指纹，再运行 `package:win:local-release`；打包前会拒绝过期或无效的本地证书配置。随后运行 `release:local:prepare`。`BUILD.json` 会把安装包字节绑定到 Git 提交和工作区状态；发布时再生成由更新密钥签名的 `build-provenance.json`。本地候选允许明确标记为 dirty，正式生产发布则拒绝 dirty 来源并要求精确的 `v<version>` 标签。
+先让现有本地发布源可用并刷新证书指纹，再运行 `package:win:local-release`；打包前会拒绝过期或无效的本地证书配置。随后运行 `release:local:prepare`。`BUILD.json` 会把安装包字节绑定到 Git 提交和工作区状态；发布时再生成由更新密钥签名的 `build-provenance.json`。当前 Local 与正式生产发布都要求工作区干净并绑定精确的 `v<version>` 标签；开发中的脏工作区只能生成明确标记的临时验收包，不能进入发布运行时。
 
 Windows 有时会锁住“文档”目录里的 Electron 临时解包目录，因此本地验收打包会在系统临时目录完成解包，再只把发布文件复制到 `release-local-server-client`。
 

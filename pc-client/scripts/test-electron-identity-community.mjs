@@ -12,9 +12,9 @@ const password = `AIHub-${suffix}-Secure9`;
 
 const targets = await (await fetch(`${debuggerOrigin}/json/list`)).json();
 const target = targets.find(
-  (item) => item.type === "page" && item.title === "AI Hub PC"
+  (item) => item.type === "page" && item.title === "枕星 AI PC"
 );
-assert.ok(target?.webSocketDebuggerUrl, "没有找到 AI Hub Electron 渲染页");
+assert.ok(target?.webSocketDebuggerUrl, "没有找到枕星 AI Electron 渲染页");
 
 const socket = new WebSocket(target.webSocketDebuggerUrl);
 await new Promise((resolve, reject) => {
@@ -67,7 +67,7 @@ async function waitFor(expression, message, timeoutMs = 20_000) {
 await command("Runtime.enable");
 
 const catalog = await evaluate("window.aihubPC.getCatalog()");
-assert.equal(catalog.catalog.vendors.length, 49);
+assert.equal(catalog.catalog.vendors.length, 100);
 
 let identity = await evaluate("window.aihubPC.getIdentity()");
 if (identity.status !== "authenticated") {

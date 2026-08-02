@@ -325,7 +325,7 @@ type CatalogCommunity = {
 };
 
 type RemoteCatalog = {
-  schemaVersion: 1;
+  schemaVersion: 1 | 2;
   updatedAt?: string;
   categories?: import("./data").ProductCategory[];
   brand?: CatalogBrand;
@@ -336,6 +336,8 @@ type RemoteCatalog = {
     featuredVendorIds: string[];
   };
   vendors: import("./data").Vendor[];
+  resourceStores?: import("./data").ResourceStore[];
+  resources?: import("./data").EcosystemResource[];
 };
 
 type ClientInstallProfile = {
@@ -666,7 +668,9 @@ interface Window {
     setLanguage(language: "zh" | "en"): Promise<PCSettings>;
     chooseDownloadDirectory(): Promise<PCSettings>;
     chooseCliDirectory(): Promise<PCSettings>;
+    openCliDirectory(): Promise<boolean>;
     openDownloadDirectory(): Promise<boolean>;
+    openWindowsUninstallSettings(): Promise<boolean>;
     clearDownloadDirectory(): Promise<PCSettings>;
     scanEnvironment(): Promise<EnvironmentReport>;
     openEnvironmentLocation(environmentId: string): Promise<boolean>;

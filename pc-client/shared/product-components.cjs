@@ -27,6 +27,9 @@ function validateProductComponentLinks(vendors) {
       if (typeof childId !== "string" || !products.has(childId)) {
         return `missing component: ${productId}/${String(childId)}`;
       }
+      if (products.get(childId)?.kind === "CLI") {
+        return `CLI products must remain top-level: ${productId}/${childId}`;
+      }
       if (childId === productId) return `component cycle: ${productId}`;
       if (vendorByProduct.get(childId) !== vendorByProduct.get(productId)) {
         return `components must use the same vendor: ${productId}/${childId}`;

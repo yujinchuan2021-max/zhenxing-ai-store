@@ -17,13 +17,15 @@ function finish(result, exitCode) {
 app
   .whenReady()
   .then(() => {
+    // Keep the legacy application id so existing Windows notification
+    // permissions continue to apply after the public product rename.
     app.setAppUserModelId("com.aihub.desktop");
     if (!Notification.isSupported()) {
       finish({ supported: false, shown: false }, 1);
       return;
     }
     notification = new Notification({
-      title: "AI Hub 通知验收",
+      title: "枕星 AI 通知验收",
       body: "Windows 原生通知通道已成功调用。",
       silent: true,
       timeoutType: "default"

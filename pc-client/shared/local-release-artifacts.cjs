@@ -1,7 +1,7 @@
 "use strict";
 
 const LOCAL_RELEASE_ARTIFACT =
-  /^AI-Hub-Local-(\d+\.\d+\.\d+)-(?:BUILD\.json|SHA256\.txt|Windows-x64-(?:Portable\.exe|Setup\.exe(?:\.blockmap)?))$/;
+  /^ZhenXing-AI-Local-(\d+\.\d+\.\d+)-(?:BUILD\.json|SHA256\.txt|Windows-x64-(?:Portable\.exe|Setup\.exe(?:\.blockmap)?))$/;
 const RELEASE_VERSION = /^\d+\.\d+\.\d+$/;
 
 function supersededLocalReleaseArtifacts(fileNames, currentVersion) {

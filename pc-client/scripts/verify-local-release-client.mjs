@@ -46,7 +46,7 @@ const portablePath = path.resolve(
     path.join(
       root,
       "release-local-server-client",
-      `AI-Hub-Local-${baseVersion}-Windows-x64-Portable.exe`
+      `ZhenXing-AI-Local-${baseVersion}-Windows-x64-Portable.exe`
     )
 );
 const downloadProductId =
@@ -117,7 +117,7 @@ try {
     assertPackagedRemoteCatalog,
     clickPackagedDomAction,
     openPackagedCatalogProduct,
-    openPackagedProductExtensions,
+    openPackagedResourceStore,
     waitForPackagedDomAction
   } = await import("./lib/packaged-client-cdp.mjs");
 
@@ -141,16 +141,19 @@ try {
     }
     throw new Error(`远程签名目录缺少验收产品：${productId}`);
   };
-  const findCatalogExtension = (installProfileId) => {
-    for (const vendor of catalog.catalog.vendors) {
-      if (!Array.isArray(vendor?.products)) continue;
-      for (const product of vendor.products) {
-        const extension = Array.isArray(product?.extensions)
-          ? product.extensions.find(
-              (candidate) => candidate?.installProfileId === installProfileId
-            )
-          : null;
-        if (extension) return { vendor, product, extension };
+  const findCatalogResource = (installProfileId) => {
+    for (const resource of catalog.catalog.resources || []) {
+      const target = Array.isArray(resource?.targets)
+        ? resource.targets.find(
+            (candidate) => candidate?.installProfileId === installProfileId
+          )
+        : null;
+      if (target) {
+        return {
+          ...findCatalogProduct(target.productId),
+          resource,
+          target
+        };
       }
     }
     throw new Error(`远程签名目录缺少验收扩展：${installProfileId}`);
@@ -200,7 +203,7 @@ try {
   }
 
   const extensionProfileId = "skill.codex.chatgpt-apps";
-  const extensionTarget = findCatalogExtension(extensionProfileId);
+  const extensionTarget = findCatalogResource(extensionProfileId);
   const extensionBefore = await evaluate(
     `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
   );
@@ -209,35 +212,32 @@ try {
       `Packaged extension did not start cleanly: ${JSON.stringify(extensionBefore)}`
     );
   }
-  await openPackagedCatalogProduct({
+  await openPackagedResourceStore({
     evaluate,
-    vendorId: extensionTarget.vendor.id,
-    productId: extensionTarget.product.id,
-    searchText: extensionTarget.vendor.name,
-    timeoutMs: 10_000
-  });
-  await openPackagedProductExtensions({
-    evaluate,
-    productId: extensionTarget.product.id,
+    storeLabel: "Skill 商店",
+    resourceId: extensionTarget.resource.id,
     timeoutMs: 10_000
   });
   await waitForPackagedDomAction({
     evaluate,
-    productId: extensionTarget.product.id,
+    productId: "",
+    resourceId: extensionTarget.resource.id,
     action: "install-extension",
     extensionProfileId,
     timeoutMs: 10_000
   });
   const extensionInstallDom = await clickPackagedDomAction({
     evaluate,
-    productId: extensionTarget.product.id,
+    productId: "",
+    resourceId: extensionTarget.resource.id,
     action: "install-extension",
     extensionProfileId,
     timeoutMs: 8_000
   });
   await waitForPackagedDomAction({
     evaluate,
-    productId: extensionTarget.product.id,
+    productId: "",
+    resourceId: extensionTarget.resource.id,
     action: "uninstall-extension",
     extensionProfileId,
     timeoutMs: 20_000
@@ -258,14 +258,16 @@ try {
   }
   const extensionUninstallDom = await clickPackagedDomAction({
     evaluate,
-    productId: extensionTarget.product.id,
+    productId: "",
+    resourceId: extensionTarget.resource.id,
     action: "uninstall-extension",
     extensionProfileId,
     timeoutMs: 8_000
   });
   await waitForPackagedDomAction({
     evaluate,
-    productId: extensionTarget.product.id,
+    productId: "",
+    resourceId: extensionTarget.resource.id,
     action: "install-extension",
     extensionProfileId,
     timeoutMs: 20_000

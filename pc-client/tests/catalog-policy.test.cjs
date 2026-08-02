@@ -54,6 +54,17 @@ function webProduct(overrides = {}) {
   };
 }
 
+test("vendor cross-border network metadata is optional and boolean only", () => {
+  const catalog = catalogWith(webProduct());
+  assert.doesNotThrow(() => validateCatalog(catalog));
+
+  catalog.vendors[0].requiresCrossBorderNetwork = true;
+  assert.doesNotThrow(() => validateCatalog(catalog));
+
+  catalog.vendors[0].requiresCrossBorderNetwork = "yes";
+  assert.throws(() => validateCatalog(catalog));
+});
+
 test("resolves web, official desktop, and tutorial products as direct links", () => {
   const web = webProduct();
   const desktop = {

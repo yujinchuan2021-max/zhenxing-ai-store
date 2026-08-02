@@ -149,7 +149,8 @@ function prepareReleaseBundle({
     throw new Error("目录发布和更新发布必须使用不同的签名私钥");
   }
 
-  const catalogPayload = validateCatalogReleasePayload(catalogEnvelope.payload);
+  validateCatalogReleasePayload(catalogEnvelope.payload);
+  const catalogPayload = catalogEnvelope.payload;
   const signedCatalog = createSignedEnvelope({
     kind: "catalog",
     keyId: catalogKey.keyId,
@@ -158,11 +159,11 @@ function prepareReleaseBundle({
   });
 
   const artifactName = path.basename(installerPath);
-  const artifactMatch = /^AI-Hub-(?:Local-)?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)-Windows-x64-Setup\.exe$/i.exec(
+  const artifactMatch = /^ZhenXing-AI-(?:Local-)?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)-Windows-x64-Setup\.exe$/i.exec(
     artifactName
   );
   if (!artifactMatch) {
-    throw new Error("更新安装包文件名不符合 AI Hub Windows x64 规则");
+    throw new Error("更新安装包文件名不符合枕星 AI Windows x64 规则");
   }
   if (artifactMatch[1] !== version) {
     throw new Error("更新安装包文件名版本与发布版本不一致");

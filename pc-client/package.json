@@ -1,9 +1,9 @@
 {
   "name": "aihub-pc-client",
-  "version": "0.1.26",
+  "version": "0.1.27",
   "private": true,
-  "description": "AI Hub PC client rebuilt from the product mind map",
-  "author": "AI Hub",
+  "description": "枕星 AI Windows client",
+  "author": "ZhenXing AI",
   "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
@@ -25,6 +25,7 @@
     "test": "node --test tests/*.test.cjs",
     "catalog:seed": "node scripts/seed-admin-catalog.mjs",
     "catalog:discover": "node scripts/discover-official-products.mjs",
+    "catalog:expand:windows": "node scripts/apply-windows-desktop-expansion-v2.cjs",
     "catalog:publish:local": "node scripts/publish-local-catalog.cjs",
     "audit:desktop-sources": "node scripts/audit-managed-desktop-sources.cjs",
     "admin": "npm run catalog:seed && node admin/server.cjs",
@@ -67,11 +68,12 @@
   },
   "build": {
     "appId": "com.aihub.desktop",
-    "productName": "AI Hub",
+    "productName": "枕星 AI",
     "asar": true,
     "directories": {
       "output": "release"
     },
+    "beforePack": "scripts/electron-builder-before-pack.cjs",
     "files": [
       "dist/**/*",
       "electron/**/*",
@@ -111,15 +113,15 @@
       ]
     },
     "portable": {
-      "artifactName": "AI-Hub-${version}-Windows-${arch}-Portable.${ext}"
+      "artifactName": "ZhenXing-AI-${version}-Windows-${arch}-Portable.${ext}"
     },
     "nsis": {
-      "artifactName": "AI-Hub-${version}-Windows-${arch}-Setup.${ext}",
+      "artifactName": "ZhenXing-AI-${version}-Windows-${arch}-Setup.${ext}",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "AI Hub"
+      "shortcutName": "枕星 AI"
     }
   }
 }

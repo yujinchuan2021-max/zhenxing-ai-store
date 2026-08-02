@@ -27,7 +27,7 @@ if [ ! -f /var/lib/flarum/config.php ]; then
         "password" => getenv("AIHUB_FORUM_ADMIN_PASSWORD"),
         "email" => getenv("AIHUB_FORUM_ADMIN_EMAIL")
       ],
-      "settings" => ["forum_title" => "AI Hub 社区"],
+      "settings" => ["forum_title" => "枕星 AI 社区"],
       "queue" => ["driver" => "sync"]
     ];
     file_put_contents("/tmp/aihub-flarum-install.json", json_encode($config));
@@ -106,6 +106,11 @@ php -r '
     getenv("AIHUB_FORUM_API_KEY"),
     "127.0.0.1"
   ]);
+  $statement = $pdo->prepare(
+    "INSERT INTO settings (`key`, value) VALUES (?, ?)
+     ON DUPLICATE KEY UPDATE value = VALUES(value)"
+  );
+  $statement->execute(["forum_title", "枕星 AI 社区"]);
 '
 
 exec docker-php-entrypoint "$@"

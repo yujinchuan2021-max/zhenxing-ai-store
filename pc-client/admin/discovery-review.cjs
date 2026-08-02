@@ -5,6 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const {
   isAllowedUrl,
+  normalizeCatalog,
   resolveCatalogCategories,
   validateCatalog
 } = require("../shared/catalog.cjs");
@@ -197,6 +198,7 @@ function normalizeProductInput(candidate, input, vendor, catalog) {
   const category = String(
     input.category || defaultCategory(candidate.inferredType, catalog)
   );
+  const directoryKind = String(input.directoryKind || "ai-tool");
   const moduleId = String(input.moduleId || defaultModule(candidate.inferredType));
   const tutorial = normalizeUrl(input.tutorial || candidate.evidenceUrl);
   const scopes = collectVendorSources(vendor).scopes;
@@ -206,7 +208,15 @@ function normalizeProductInput(candidate, input, vendor, catalog) {
   if (catalog.vendors.some((item) => item.products.some((product) => product.id === id))) {
     throw new Error("产品 ID 已存在");
   }
-  if (vendor.products.some((product) => normalizeUrl(product.website) === candidate.url)) {
+  if (
+    vendor.products.some(
+      (product) =>
+        normalizeUrl(product.website) === candidate.url ||
+        (product.entryPoints || []).some(
+          (entry) => entry.url && normalizeUrl(entry.url) === candidate.url
+        )
+    )
+  ) {
     throw new Error("该候选网址已经存在于厂商产品目录");
   }
   if (!shortText(name, 150) || !shortText(description, 500)) {
@@ -214,6 +224,9 @@ function normalizeProductInput(candidate, input, vendor, catalog) {
   }
   if (!new Set(resolveCatalogCategories(catalog)).has(category)) {
     throw new Error("产品类别无效");
+  }
+  if (!["ai-tool", "ai-connectable"].includes(directoryKind)) {
+    throw new Error("产品所属目录无效");
   }
   if (!SAFE_DISCOVERY_MODULES.has(moduleId)) {
     throw new Error("自动发现候选只能使用不执行本地命令的安全模块");
@@ -226,13 +239,25 @@ function normalizeProductInput(candidate, input, vendor, catalog) {
     enabled: false,
     order: vendor.products.reduce((maximum, product) => Math.max(maximum, product.order || 0), -1) + 1,
     name,
+    directoryKind,
     category,
     description,
     website: candidate.url,
     tutorial,
     requirements: [],
     installProfileId: "",
-    extensions: []
+    entryPoints: [
+      {
+        type: candidate.inferredType === "web-or-feature" ? "web" : "website",
+        label:
+          candidate.inferredType === "desktop"
+            ? "官方下载页"
+            : candidate.inferredType === "cli"
+              ? "官方安装说明"
+              : name,
+        url: candidate.url
+      }
+    ]
   };
   return applyProductModule(baseProduct, moduleId);
 }
@@ -314,7 +339,7 @@ function createDiscoveryReview({
     if (!candidate || candidate.status === "accepted") {
       throw new Error("候选不存在或已经加入草稿");
     }
-    const nextCatalog = clone(catalog);
+    const nextCatalog = normalizeCatalog(clone(catalog));
     const vendor = nextCatalog.vendors.find((item) => item.id === candidate.vendorId);
     if (!vendor) throw new Error("候选所属厂商不存在");
     const product = normalizeProductInput(candidate, input, vendor, nextCatalog);

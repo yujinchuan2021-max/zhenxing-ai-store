@@ -53,7 +53,7 @@ function createBundle(
   fs.mkdirSync(artifactDirectory, { recursive: true });
   const installer = path.join(
     artifactDirectory,
-    `AI-Hub-${version}-Windows-x64-Setup.exe`
+    `ZhenXing-AI-${version}-Windows-x64-Setup.exe`
   );
   fs.writeFileSync(
     installer,
@@ -63,7 +63,7 @@ function createBundle(
   if (artifactContents.portable) {
     const portable = path.join(
       artifactDirectory,
-      `AI-Hub-${version}-Windows-x64-Portable.exe`
+      `ZhenXing-AI-${version}-Windows-x64-Portable.exe`
     );
     fs.writeFileSync(portable, artifactContents.portable);
     artifactPaths.push(portable);

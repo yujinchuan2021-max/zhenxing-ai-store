@@ -1,4 +1,4 @@
-# AI Hub Flarum 预发布环境
+# 枕星 AI Flarum 预发布环境
 
 该目录固定使用 Flarum `2.0.0-rc.5`。Flarum 2.0 尚处于 RC 阶段，因此这里只作为预发布验证环境，不代表已经完成生产验收。
 
@@ -28,4 +28,3 @@ docker compose --env-file .env up --build -d
 - 将 `FORUM_BIND_ADDRESS` 保持为 `127.0.0.1`，除非已有受控防火墙和反向代理。
 - 配置邮件服务后再开放注册和密码找回。
 - 完成备份恢复、升级、权限、垃圾内容治理和真实用户注册验收。
-

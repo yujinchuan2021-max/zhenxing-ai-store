@@ -31,6 +31,12 @@ import { getDesktopUninstallPresentation } from "@aihub-shared/uninstall-present
 import { runVerifiedManagedInstall } from "@aihub-shared/verified-managed-install.cjs";
 import { buildProductDirectory } from "@aihub-shared/product-components.cjs";
 import {
+  projectVendorsByDirectory,
+  resourceTargetsByType
+} from "@aihub-shared/catalog-projections.cjs";
+import { BRAND } from "@aihub-shared/brand.cjs";
+import packageJson from "../package.json";
+import {
   createLanguage,
   normalizeLanguage,
   runtimeMessage,
@@ -41,13 +47,24 @@ import {
 import {
   Product,
   ProductCategory,
-  ProductExtension,
+  ProductDirectoryKind,
+  EcosystemResource,
+  ResourceStore,
+  ResourceTarget,
   ProductKind,
   Vendor,
+  resourceStores as builtInResourceStores,
+  resources as builtInResources,
   vendors as builtInVendors
 } from "./data";
 
-type View = "home" | "vendors" | "community" | "management" | "account";
+type View =
+  | "home"
+  | "vendors"
+  | "resources"
+  | "community"
+  | "management"
+  | "account";
 type ProductStage =
   | "idle"
   | "blocked"
@@ -354,8 +371,8 @@ const builtInBanners: CatalogBanner[] = [
   }
 ];
 const builtInBrand: CatalogBrand = {
-  name: "AI Hub",
-  mark: "A",
+  name: BRAND.name,
+  mark: BRAND.mark,
   slogan: createLanguage("zh").text("brand.defaultSlogan")
 };
 
@@ -387,6 +404,31 @@ function visibleCatalogVendors(vendors: Vendor[]) {
     }));
 }
 
+function vendorDisplayName(vendor: Vendor) {
+  return vendor.requiresCrossBorderNetwork
+    ? `${vendor.name}${uiText("vendor.requiresCrossBorderNetwork")}`
+    : vendor.name;
+}
+
+function resourceStoreDisplayLabel(store: ResourceStore) {
+  if (store.id === "skill") return uiText("resources.store.skill");
+  if (store.id === "mcp") return uiText("resources.store.mcp");
+  if (store.id === "plugin") return uiText("resources.store.plugin");
+  return store.label;
+}
+
+function resourceCompatibilityLabel(
+  compatibility: ResourceTarget["compatibility"]
+) {
+  if (compatibility === "official") {
+    return uiText("resources.compatibility.official");
+  }
+  if (compatibility === "verified") {
+    return uiText("resources.compatibility.verified");
+  }
+  return uiText("resources.compatibility.protocolCompatible");
+}
+
 function inferCatalogCategories(vendors: Vendor[]) {
   return [
     ...new Set(
@@ -406,6 +448,12 @@ export default function App() {
     useState<Vendor[]>(() =>
       window.aihubPC ? [] : visibleCatalogVendors(builtInCatalogVendors)
     );
+  const [catalogResources, setCatalogResources] = useState<EcosystemResource[]>(
+    () => (window.aihubPC ? [] : builtInResources)
+  );
+  const [catalogResourceStores, setCatalogResourceStores] = useState<
+    ResourceStore[]
+  >(() => (window.aihubPC ? [] : builtInResourceStores));
   const [catalogCategories, setCatalogCategories] = useState<ProductCategory[]>(() =>
     inferCatalogCategories(window.aihubPC ? [] : builtInCatalogVendors)
   );
@@ -416,7 +464,11 @@ export default function App() {
   const [extraSections, setExtraSections] = useState<CatalogExtraSection[]>([]);
   const [featuredVendorIds, setFeaturedVendorIds] = useState<string[]>([]);
   const [view, setView] = useState<View>("home");
-  const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
+  const [vendorDirectory, setVendorDirectory] =
+    useState<ProductDirectoryKind>("ai-tool");
+  const [selectedVendorId, setSelectedVendorId] = useState("");
+  const [selectedResourceStoreId, setSelectedResourceStoreId] =
+    useState("skill");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<"全部" | ProductCategory>("全部");
   const [letter, setLetter] = useState("全部");
@@ -519,7 +571,8 @@ export default function App() {
   const languageModule = useMemo(() => createLanguage(language), [language]);
   const t = {
     home: languageModule.text("nav.home"),
-    vendors: languageModule.text("nav.vendors"),
+    aiVendors: languageModule.text("nav.aiVendors"),
+    connectableVendors: languageModule.text("nav.connectableVendors"),
     community: languageModule.text("nav.community"),
     navigation: languageModule.text("nav.navigation"),
     searchPlaceholder: languageModule.text("nav.searchPlaceholder"),
@@ -527,9 +580,64 @@ export default function App() {
     settings: languageModule.text("nav.settings"),
     login: languageModule.text("nav.login")
   };
+  const aiVendors = useMemo(
+    () =>
+      projectVendorsByDirectory(catalogVendors, "ai-tool") as Vendor[],
+    [catalogVendors]
+  );
+  const directoryVendors = useMemo(
+    () =>
+      projectVendorsByDirectory(
+        catalogVendors,
+        vendorDirectory
+      ) as Vendor[],
+    [catalogVendors, vendorDirectory]
+  );
+  const selectedVendor = useMemo(
+    () =>
+      directoryVendors.find((vendor) => vendor.id === selectedVendorId) || null,
+    [directoryVendors, selectedVendorId]
+  );
+  const directoryCategories = useMemo(() => {
+    const available = new Set(
+      directoryVendors.flatMap((vendor) =>
+        vendor.products.map((product) => product.category)
+      )
+    );
+    return catalogCategories.filter((categoryName) =>
+      available.has(categoryName)
+    );
+  }, [catalogCategories, directoryVendors]);
+  const activeResourceStores = useMemo(
+    () =>
+      [...catalogResourceStores]
+        .filter(
+          (store) =>
+            store.enabled &&
+            resourceTargetsByType(
+              catalogResources,
+              catalogVendors,
+              store.id
+            ).length > 0
+        )
+        .sort(
+          (left, right) =>
+            left.order - right.order || left.label.localeCompare(right.label)
+        ),
+    [catalogResourceStores, catalogResources]
+  );
+  const selectedResourceStore =
+    activeResourceStores.find(
+      (store) => store.id === selectedResourceStoreId
+    ) || activeResourceStores[0] || null;
+  useEffect(() => {
+    if (category !== "全部" && !directoryCategories.includes(category)) {
+      setCategory("全部");
+    }
+  }, [category, directoryCategories]);
   const letters = [
     uiText("auto.5c55a67935af"),
-    ...[...new Set(catalogVendors.map((vendor) => vendor.initial))].sort()
+    ...[...new Set(directoryVendors.map((vendor) => vendor.initial))].sort()
   ];
   const downloadTaskNames = useMemo(() => {
     const names: Record<string, string> = {};
@@ -1501,6 +1609,8 @@ export default function App() {
               };
               setCatalogAllVendors([]);
               setCatalogVendors([]);
+              setCatalogResources([]);
+              setCatalogResourceStores([]);
               setCatalogCategories([]);
               setCatalogError(
                 result.error || uiText("catalog.unavailableDescription")
@@ -1528,16 +1638,13 @@ export default function App() {
           setCatalogError("");
           setCatalogAllVendors(allVendors);
           setCatalogVendors(visibleVendors);
+          setCatalogResources(catalog.resources || []);
+          setCatalogResourceStores(catalog.resourceStores || []);
           setCatalogCategories(nextCategories);
           setCategory((current) =>
             current === "全部" || nextCategories.includes(current)
               ? current
               : "全部"
-          );
-          setSelectedVendor((current) =>
-            current
-              ? visibleVendors.find((vendor) => vendor.id === current.id) || null
-              : null
           );
           setBrand(catalog.brand || builtInBrand);
           setExtraSections(catalog.extraSections || []);
@@ -1552,6 +1659,8 @@ export default function App() {
           };
           setCatalogAllVendors([]);
           setCatalogVendors([]);
+          setCatalogResources([]);
+          setCatalogResourceStores([]);
           setCatalogCategories([]);
           setCatalogError(
             error instanceof Error
@@ -1633,19 +1742,25 @@ export default function App() {
         setSettingsOpen(true);
         return;
       }
-      const vendor = catalogVendors.find((candidate) =>
-        candidate.products.some((product) => product.id === target.productId)
-      );
-      if (!vendor) {
+      const owner = catalogAllVendors
+        .map((vendor) => ({
+          vendor,
+          product: vendor.products.find(
+            (product) => product.id === target.productId
+          )
+        }))
+        .find((entry) => entry.product);
+      if (!owner?.product) {
         setSettingsOpen(true);
         return;
       }
       setSettingsOpen(false);
+      setVendorDirectory(owner.product.directoryKind || "ai-tool");
       setView("vendors");
-      setSelectedVendor(vendor);
+      setSelectedVendorId(owner.vendor.id);
     });
     return typeof dispose === "function" ? dispose : undefined;
-  }, [catalogVendors]);
+  }, [catalogAllVendors]);
 
   useEffect(() => {
     return window.aihubPC?.onDownloadProgress((progress) => {
@@ -1685,7 +1800,7 @@ export default function App() {
 
   const visibleVendors = useMemo(() => {
     const normalized = search.trim().toLowerCase();
-    return catalogVendors
+    return directoryVendors
       .filter((vendor) => {
         const categoryProducts = vendor.products.filter(
           (product) => category === "全部" || product.category === category
@@ -1709,16 +1824,31 @@ export default function App() {
           left.initial.localeCompare(right.initial, "en") ||
           left.name.localeCompare(right.name, "zh-CN")
       );
-  }, [catalogVendors, category, letter, search]);
+  }, [directoryVendors, category, letter, search]);
 
   const navigate = (next: View) => {
-    setSelectedVendor(null);
+    setSelectedVendorId("");
     setView(next);
+  };
+
+  const openVendorDirectory = (directoryKind: ProductDirectoryKind) => {
+    setVendorDirectory(directoryKind);
+    setSelectedVendorId("");
+    setCategory("全部");
+    setLetter("全部");
+    setSearch("");
+    setView("vendors");
+  };
+
+  const openResourceStore = (storeId: string) => {
+    setSelectedResourceStoreId(storeId);
+    setSelectedVendorId("");
+    setView("resources");
   };
 
   const submitSearch = (event: FormEvent) => {
     event.preventDefault();
-    setSelectedVendor(null);
+    setSelectedVendorId("");
     setView("vendors");
   };
 
@@ -1726,7 +1856,7 @@ export default function App() {
     const settings = window.aihubPC
       ? await window.aihubPC.chooseDownloadDirectory()
       : {
-          downloadDirectory: "D:\\AI Hub\\Downloads",
+          downloadDirectory: `D:\\${BRAND.name}\\Downloads`,
           selectionCanceled: false
         };
     setDownloadDirectory(settings.downloadDirectory);
@@ -3018,7 +3148,7 @@ export default function App() {
   const chooseCliDirectory = async () => {
     const settings = window.aihubPC
       ? await window.aihubPC.chooseCliDirectory()
-      : { downloadDirectory: "", cliInstallDirectory: "D:\\AI Hub\\CLI" };
+      : { downloadDirectory: "", cliInstallDirectory: `D:\\${BRAND.name}\\CLI` };
     setCliInstallDirectory(settings.cliInstallDirectory || "");
     return settings.cliInstallDirectory || "";
   };
@@ -3491,7 +3621,7 @@ export default function App() {
         ? await window.aihubPC.checkForUpdate()
         : {
             status: "disabled" as const,
-            currentVersion: "0.1.0",
+            currentVersion: packageJson.version,
             message: uiText("auto.92ae7c88cf13")
           };
       setUpdateResult(result);
@@ -3601,6 +3731,26 @@ export default function App() {
     runExclusiveProductAction(product.id, uiText("auto.80d0f7903461"), () =>
       uninstallCli(product)
     );
+  const requestOpenCli = async (product: Product) => {
+    if (!window.aihubPC) return;
+    try {
+      const result = await window.aihubPC.openCli(product.id);
+      setProductErrors((current) => ({
+        ...current,
+        [product.id]: result.ok
+          ? ""
+          : result.error || uiText("product.cliOpenFailed")
+      }));
+    } catch (error) {
+      setProductErrors((current) => ({
+        ...current,
+        [product.id]:
+          error instanceof Error
+            ? error.message
+            : uiText("product.cliOpenFailed")
+      }));
+    }
+  };
   const requestDesktopUninstall = (product: Product) =>
     runExclusiveProductAction(product.id, uiText("auto.06bc14b60f35"), () =>
       uninstallDesktopProduct(product)
@@ -3749,11 +3899,16 @@ export default function App() {
       setAuthOpen(true);
       return;
     }
-    setSelectedVendor(null);
+    setSelectedVendorId("");
     setAccountInitialTab(tab);
     setView("account");
     void refreshPersonalCenter().catch(() => undefined);
   };
+
+  const displayBrandName =
+    language === "en" && brand.name === BRAND.name
+      ? BRAND.englishName
+      : brand.name;
 
   return (
     <div className="pcApp" data-theme={theme}>
@@ -3764,7 +3919,7 @@ export default function App() {
           onClick={() => navigate("home")}
         >
           <span className="brandMark">{brand.mark}</span>
-          <span>{brand.name}</span>
+          <span>{displayBrandName}</span>
           <small>{uiText("chrome.pc")}</small>
         </button>
 
@@ -3842,15 +3997,35 @@ export default function App() {
               <span>⌂</span>{t.home}
             </NavButton>
             <NavButton
-              active={view === "vendors"}
-              onClick={() => navigate("vendors")}
+              active={view === "vendors" && vendorDirectory === "ai-tool"}
+              onClick={() => openVendorDirectory("ai-tool")}
             >
-              <span>◇</span>{t.vendors}
+              <span>◇</span>{t.aiVendors}
             </NavButton>
+            <NavButton
+              active={
+                view === "vendors" && vendorDirectory === "ai-connectable"
+              }
+              onClick={() => openVendorDirectory("ai-connectable")}
+            >
+              <span>⌁</span>{t.connectableVendors}
+            </NavButton>
+            {activeResourceStores.map((store) => (
+              <NavButton
+                key={store.id}
+                active={
+                  view === "resources" &&
+                  selectedResourceStore?.id === store.id
+                }
+                onClick={() => openResourceStore(store.id)}
+              >
+                <span>▦</span>{resourceStoreDisplayLabel(store)}
+              </NavButton>
+            ))}
             <NavButton
               active={view === "community"}
               onClick={() => {
-                setSelectedVendor(null);
+                setSelectedVendorId("");
                 setView("community");
               }}
             >
@@ -3883,6 +4058,7 @@ export default function App() {
           {selectedVendor ? (
             <VendorPage
               vendor={selectedVendor}
+              directoryKind={vendorDirectory}
               language={language}
               environment={environment}
               productStages={productStages}
@@ -3900,7 +4076,7 @@ export default function App() {
               cliStatuses={cliStatuses}
               environmentMessages={environmentMessages}
               environmentPackageStages={environmentPackageStages}
-              onBack={() => setSelectedVendor(null)}
+              onBack={() => setSelectedVendorId("")}
               onInstallProduct={requestUnifiedInstall}
               onGetLatestDesktop={requestLatestDesktopInstaller}
               onResumeDownload={(product) =>
@@ -3913,6 +4089,7 @@ export default function App() {
               onCancelDownload={cancelProductDownload}
               onRelocateDownload={relocateProductDownload}
               onUninstallCli={requestCliUninstall}
+              onOpenCli={requestOpenCli}
               onUninstallDesktop={requestDesktopUninstall}
               onRecheckDesktopUninstall={recheckDesktopUninstall}
               onOpenDesktop={(product) =>
@@ -3921,32 +4098,43 @@ export default function App() {
               onOpenDesktopLocation={(product) =>
                 window.aihubPC?.openDesktopLocation(product.id)
               }
+              onOpenWindowsUninstall={() =>
+                window.aihubPC?.openWindowsUninstallSettings()
+              }
               onInstallEnvironment={installEnvironment}
               onOpenEnvironmentInstaller={openEnvironmentInstaller}
             />
           ) : view === "home" ? (
             <HomePage
-              vendors={catalogVendors}
+              vendors={aiVendors}
               banners={homeBanners}
               featuredVendorIds={featuredVendorIds}
-              onOpenVendors={() => navigate("vendors")}
+              onOpenVendors={() => openVendorDirectory("ai-tool")}
               onOpenVendor={(vendor) => {
+                setVendorDirectory("ai-tool");
                 setView("vendors");
-                setSelectedVendor(vendor);
+                setSelectedVendorId(vendor.id);
               }}
             />
           ) : view === "vendors" ? (
             <VendorsPage
               vendors={visibleVendors}
               catalogError={catalogError}
-              categoryOptions={["全部", ...catalogCategories]}
+              categoryOptions={["全部", ...directoryCategories]}
               category={category}
               letter={letter}
               letters={letters}
               search={search}
               onCategory={setCategory}
               onLetter={setLetter}
-              onOpenVendor={setSelectedVendor}
+              directoryKind={vendorDirectory}
+              onOpenVendor={(vendor) => setSelectedVendorId(vendor.id)}
+            />
+          ) : view === "resources" ? (
+            <ResourceStorePage
+              store={selectedResourceStore}
+              resources={catalogResources}
+              vendors={catalogVendors}
             />
           ) : view === "management" ? (
             <InstalledProductsPage
@@ -3970,6 +4158,9 @@ export default function App() {
                 void openCompletedDownloadTask(entry.id)
               }
               onUninstall={uninstallManagedProduct}
+              onOpenWindowsUninstall={() =>
+                window.aihubPC?.openWindowsUninstallSettings()
+              }
               onRepairWslEnvironment={async (entry) => {
                 const product = resolveProductActionContext(
                   entry.ownerProductId,
@@ -4058,6 +4249,9 @@ export default function App() {
           onLanguage={changeLanguage}
           onChooseDirectory={chooseDownloadDirectory}
           onChooseCliDirectory={chooseCliDirectory}
+          onOpenCliDirectory={() =>
+            window.aihubPC?.openCliDirectory() ?? Promise.resolve(false)
+          }
           onOpenDirectory={() => window.aihubPC?.openDownloadDirectory()}
           onClearDirectory={async () => {
             const settings = window.aihubPC
@@ -4176,7 +4370,7 @@ function HomePage({
             <p>{uiText("auto.cf2b91fc1b4a")}</p>
             <h2>{uiText("auto.1af1e69bc945")}</h2>
           </div>
-          <button onClick={onOpenVendors}>{uiText("auto.2b2b5d7f4271")}</button>
+          <button onClick={onOpenVendors}>{uiText("home.aiVendorsAction")}</button>
         </div>
         <div className="featuredGrid">
           {featured.map((vendor) => (
@@ -4188,7 +4382,7 @@ function HomePage({
               <VendorMark vendor={vendor} />
               <span>
                 <small>{uiText("auto.2e10281b39c0")}</small>
-                <b>{vendor.name}</b>
+                <b>{vendorDisplayName(vendor)}</b>
               </span>
               <i>→</i>
             </button>
@@ -4207,6 +4401,7 @@ function VendorsPage({
   letter,
   letters,
   search,
+  directoryKind,
   onCategory,
   onLetter,
   onOpenVendor
@@ -4218,6 +4413,7 @@ function VendorsPage({
   letter: string;
   letters: string[];
   search: string;
+  directoryKind: ProductDirectoryKind;
   onCategory: (value: "全部" | ProductCategory) => void;
   onLetter: (value: string) => void;
   onOpenVendor: (vendor: Vendor) => void;
@@ -4225,9 +4421,21 @@ function VendorsPage({
   return (
     <>
       <header className="pageHeader">
-        <p>{uiText("auto.98ee9e2f83f2")}</p>
-        <h1>{uiText("auto.6310cc279f00")}</h1>
-        <span>{uiText("auto.db289d57b452")}</span>
+        <p>
+          {directoryKind === "ai-tool"
+            ? uiText("directory.ai.eyebrow")
+            : uiText("directory.connectable.eyebrow")}
+        </p>
+        <h1>
+          {directoryKind === "ai-tool"
+            ? uiText("directory.ai.title")
+            : uiText("directory.connectable.title")}
+        </h1>
+        <span>
+          {directoryKind === "ai-tool"
+            ? uiText("directory.ai.description")
+            : uiText("directory.connectable.description")}
+        </span>
       </header>
 
       <section className="filters">
@@ -4261,6 +4469,11 @@ function VendorsPage({
             )}
           </span>
         </section>
+      ) : visible.length === 0 ? (
+        <section className="catalogUnavailable" role="status">
+          <b>{uiText("directory.emptyTitle")}</b>
+          <span>{uiText("directory.emptyDescription")}</span>
+        </section>
       ) : (
         <div className="vendorGrid">
           {visible.map((vendor) => (
@@ -4274,7 +4487,7 @@ function VendorsPage({
               <VendorMark vendor={vendor} large />
               <span>{vendor.products.length} {uiText("auto.ab2dacacbc82")}</span>
             </div>
-            <h2>{vendor.name}</h2>
+            <h2>{vendorDisplayName(vendor)}</h2>
             <p>{vendor.description}</p>
             <div className="productTags">
               {vendor.products.map((product) => (
@@ -4324,6 +4537,7 @@ function FilterRow({
 
 function VendorPage({
   vendor,
+  directoryKind,
   language,
   productStages,
   productMissing,
@@ -4349,14 +4563,17 @@ function VendorPage({
   onCancelDownload,
   onRelocateDownload,
   onUninstallCli,
+  onOpenCli,
   onUninstallDesktop,
   onRecheckDesktopUninstall,
   onOpenDesktop,
   onOpenDesktopLocation,
+  onOpenWindowsUninstall,
   onInstallEnvironment,
   onOpenEnvironmentInstaller
 }: {
   vendor: Vendor;
+  directoryKind: ProductDirectoryKind;
   language: Language;
   environment: EnvironmentReport | null;
   productStages: Record<string, ProductStage>;
@@ -4383,10 +4600,12 @@ function VendorPage({
   onCancelDownload: (product: Product) => void;
   onRelocateDownload: (product: Product) => void;
   onUninstallCli: (product: Product) => void;
+  onOpenCli: (product: Product) => void;
   onUninstallDesktop: (product: Product) => void;
   onRecheckDesktopUninstall: (product: Product) => void;
   onOpenDesktop: (product: Product) => void;
   onOpenDesktopLocation: (product: Product) => void;
+  onOpenWindowsUninstall: () => void;
   onInstallEnvironment: (environmentId: string) => void;
   onOpenEnvironmentInstaller: (environmentId: string) => void;
 }) {
@@ -4429,12 +4648,14 @@ function VendorPage({
           onCancelDownload={() => onCancelDownload(product)}
           onRelocateDownload={() => onRelocateDownload(product)}
           onUninstallCli={() => onUninstallCli(product)}
+          onOpenCli={() => onOpenCli(product)}
           onUninstallDesktop={() => onUninstallDesktop(product)}
           onRecheckDesktopUninstall={() =>
             onRecheckDesktopUninstall(product)
           }
           onOpenDesktop={() => onOpenDesktop(product)}
           onOpenDesktopLocation={() => onOpenDesktopLocation(product)}
+          onOpenWindowsUninstall={onOpenWindowsUninstall}
           onInstallEnvironment={onInstallEnvironment}
           onOpenEnvironmentInstaller={onOpenEnvironmentInstaller}
         />
@@ -4453,12 +4674,12 @@ function VendorPage({
   };
   return (
     <>
-      <button className="backButton" onClick={onBack}>{uiText("auto.897b497715a6")}</button>
+      <button className="backButton" onClick={onBack}>{uiText("directory.back")}</button>
       <section className="vendorHero">
         <VendorMark vendor={vendor} hero />
         <div>
           <p>{uiText("auto.1ffe67baf7b9")}</p>
-          <h1>{vendor.name}</h1>
+          <h1>{vendorDisplayName(vendor)}</h1>
           <span>{vendor.description}</span>
         </div>
         <button className="quietButton" onClick={() => window.open(vendor.website)}>
@@ -4469,7 +4690,11 @@ function VendorPage({
         <div className="sectionHeading">
           <div>
             <p>{uiText("auto.47935eda89dd")}</p>
-            <h2>{vendor.name} {uiText("auto.3a0cd01f42b9")}</h2>
+            <h2>
+              {vendorDisplayName(vendor)} {directoryKind === "ai-connectable"
+                ? uiText("directory.vendorProducts.connectable")
+                : uiText("directory.vendorProducts.ai")}
+            </h2>
           </div>
         </div>
         {groups.map((group) => {
@@ -4479,7 +4704,13 @@ function VendorPage({
           if (!products.length) return null;
           return (
             <section className="productGroup" key={group}>
-              <h3>{group}</h3>
+              <h3>
+                {group === "CLI"
+                  ? uiText("product.kind.cli")
+                  : group === "桌面端"
+                    ? uiText("product.kind.visual")
+                    : group}
+              </h3>
               {products.map((product) => renderProduct(product))}
             </section>
           );
@@ -4489,7 +4720,7 @@ function VendorPage({
       <section className="tutorialCard">
         <div>
           <p>{uiText("auto.ca89fe5c9aa4")}</p>
-          <h2>{vendor.name} {uiText("auto.8ef3fead5883")}</h2>
+          <h2>{vendorDisplayName(vendor)} {uiText("auto.8ef3fead5883")}</h2>
         </div>
         <button onClick={() => window.open(vendor.tutorial)}>
           {uiText("auto.08f7d323aada")}</button>
@@ -4498,73 +4729,141 @@ function VendorPage({
   );
 }
 
-function ExtensionResourceRow({
-  extension
+function ResourceStorePage({
+  store,
+  resources,
+  vendors
 }: {
-  extension: ProductExtension;
+  store: ResourceStore | null;
+  resources: EcosystemResource[];
+  vendors: Vendor[];
+}) {
+  if (!store) {
+    return (
+      <section className="catalogUnavailable" role="status">
+        <b>{uiText("resources.emptyTitle")}</b>
+        <span>{uiText("resources.emptyDescription")}</span>
+      </section>
+    );
+  }
+  const rows = resourceTargetsByType(
+    resources,
+    vendors,
+    store.id
+  ) as Array<{
+    resource: EcosystemResource;
+    target: ResourceTarget;
+    product: Product;
+    vendor: Vendor;
+  }>;
+  const storeLabel = resourceStoreDisplayLabel(store);
+  const vendorGroups = [...new Set(rows.map((row) => row.vendor.id))]
+    .map((vendorId) => {
+      const vendorRows = rows.filter((row) => row.vendor.id === vendorId);
+      return {
+        vendor: vendorRows[0].vendor,
+        products: [...new Set(vendorRows.map((row) => row.product.id))].map(
+          (productId) => ({
+            product: vendorRows.find((row) => row.product.id === productId)!
+              .product,
+            rows: vendorRows.filter((row) => row.product.id === productId)
+          })
+        )
+      };
+    });
+
+  return (
+    <>
+      <header className="pageHeader resourceStoreHeader">
+        <p>{uiText("resources.eyebrow")}</p>
+        <h1>{storeLabel}</h1>
+        <span>{uiText("resources.description")}</span>
+      </header>
+      {vendorGroups.length === 0 ? (
+        <section className="catalogUnavailable" role="status">
+          <b>{uiText("resources.emptyTitle")}</b>
+          <span>{uiText("resources.emptyDescription")}</span>
+        </section>
+      ) : (
+        <div className="resourceDirectory">
+          {vendorGroups.map(({ vendor, products }) => (
+            <section className="resourceVendorGroup" key={vendor.id}>
+              <header>
+                <VendorMark vendor={vendor} />
+                <div>
+                  <small>{uiText("resources.targetVendor")}</small>
+                  <h2>{vendorDisplayName(vendor)}</h2>
+                </div>
+              </header>
+              {products.map(({ product, rows: productRows }) => (
+                <section className="resourceProductGroup" key={product.id}>
+                  <div className="resourceProductHeading">
+                    <div>
+                      <small>{uiText("resources.targetProduct")}</small>
+                      <h3>{product.name}</h3>
+                    </div>
+                    <span>{productRows.length} {uiText("resources.count")}</span>
+                  </div>
+                  <div className="resourceList">
+                    {productRows.map(({ resource, target }) => (
+                      <ResourceRow
+                        key={`${resource.id}:${target.productId}`}
+                        resource={resource}
+                        target={target}
+                        storeLabel={storeLabel}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </section>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+function ResourceRow({
+  resource,
+  target,
+  storeLabel
+}: {
+  resource: EcosystemResource;
+  target: ResourceTarget;
+  storeLabel: string;
 }) {
   const canInstall =
-    extension.capabilities.includes("install") &&
-    Boolean(extension.installProfileId);
+    target.capabilities.includes("install") && Boolean(target.installProfileId);
   const canUninstall =
-    extension.capabilities.includes("uninstall") &&
-    Boolean(extension.installProfileId);
+    target.capabilities.includes("uninstall") &&
+    Boolean(target.installProfileId);
   const managed = canInstall || canUninstall;
+  const facts = [
+    resource.requestedPermissions?.length
+      ? `${uiText("resources.permissions")}: ${resource.requestedPermissions.join(" · ")}`
+      : "",
+    resource.credentialRequirements?.length
+      ? `${uiText("resources.credentials")}: ${resource.credentialRequirements.join(" · ")}`
+      : "",
+    resource.installScope
+      ? `${uiText("resources.installScope")}: ${resource.installScope}`
+      : ""
+  ].filter(Boolean);
   const [status, setStatus] = useState<ExtensionRuntimeResult | null>(null);
   const [busyAction, setBusyAction] = useState<
     "status" | "install" | "uninstall" | null
   >(null);
 
-  useEffect(() => {
-    if (!managed || !extension.installProfileId) {
-      setStatus(null);
-      setBusyAction(null);
-      return;
-    }
-    let disposed = false;
-    const api = window.aihubPC;
-    if (!api) {
-      setStatus({
-        ok: false,
-        state: "unavailable",
-        managed: false,
-        error: uiText("extensions.unavailable")
-      });
-      return;
-    }
-    setBusyAction("status");
-    void api
-      .getExtensionStatus(extension.installProfileId)
-      .then((result) => {
-        if (!disposed) setStatus(result);
-      })
-      .catch(() => {
-        if (!disposed) {
-          setStatus({
-            ok: false,
-            state: "error",
-            managed: false,
-            error: uiText("extensions.failed")
-          });
-        }
-      })
-      .finally(() => {
-        if (!disposed) setBusyAction(null);
-      });
-    return () => {
-      disposed = true;
-    };
-  }, [extension.installProfileId, managed]);
-
   const runAction = async (action: "install" | "uninstall") => {
     const api = window.aihubPC;
-    if (!api || !extension.installProfileId || busyAction) return;
+    if (!api || !target.installProfileId || busyAction) return;
     setBusyAction(action);
     try {
       const result =
         action === "install"
-          ? await api.installExtension(extension.installProfileId)
-          : await api.uninstallExtension(extension.installProfileId);
+          ? await api.installExtension(target.installProfileId)
+          : await api.uninstallExtension(target.installProfileId);
       setStatus(result);
     } catch {
       setStatus({
@@ -4581,7 +4880,9 @@ function ExtensionResourceRow({
   const shouldUninstall =
     canUninstall &&
     (status?.state === "installed" || status?.state === "stale");
-  const shouldInstall = canInstall && status?.state === "not-installed";
+  const shouldInstall =
+    canInstall &&
+    !["installed", "stale"].includes(status?.state || "not-installed");
   const statusLabel =
     busyAction === "status"
       ? uiText("extensions.checking")
@@ -4597,29 +4898,38 @@ function ExtensionResourceRow({
 
   return (
     <article
-      className="productExtension"
-      data-aihub-extension-profile-id={extension.installProfileId || undefined}
+      className="resourceRow"
+      data-aihub-resource-id={resource.id}
+      data-aihub-extension-profile-id={target.installProfileId || undefined}
     >
-      <span>
-        {extension.extensionType === "skill"
-          ? uiText("extensions.skill")
-          : uiText("extensions.mcp")}
-      </span>
+      <span>{storeLabel}</span>
       <div>
-        <b>{extension.name}</b>
-        <small>{extension.description}</small>
+        <b>{resource.name}</b>
+        <small>{resource.description}</small>
+        <div className="resourceFacts">
+          <small>
+            {uiText("resources.compatibility")}: {resourceCompatibilityLabel(target.compatibility)}
+          </small>
+          {facts.map((fact) => <small key={fact}>{fact}</small>)}
+        </div>
         {managed && statusLabel && (
-          <small className={status?.ok === false ? "extensionError" : ""}>
+          <small className={status?.ok === false ? "resourceError" : ""}>
             {statusLabel}
           </small>
         )}
       </div>
-      <div className="extensionActions">
-        {extension.capabilities.includes("website") && (
-          <button onClick={() => window.open(extension.website)}>
-            {uiText("extensions.openWebsite")} ↗
+      <div className="resourceActions">
+        {target.capabilities.includes("website") && (
+          <button onClick={() => window.open(resource.tutorial)}>
+            {uiText("resources.openOfficialGuide")} ↗
           </button>
         )}
+        {(resource.provenanceEvidence || []).map((evidence, index) => (
+          <button key={evidence} onClick={() => window.open(evidence)}>
+            {uiText("resources.provenance")}
+            {resource.provenanceEvidence!.length > 1 ? ` ${index + 1}` : ""} ↗
+          </button>
+        ))}
         {(shouldInstall || shouldUninstall) && (
           <button
             className={shouldInstall ? "accentButton" : ""}
@@ -4671,10 +4981,12 @@ function ProductRow({
   onCancelDownload,
   onRelocateDownload,
   onUninstallCli,
+  onOpenCli,
   onUninstallDesktop,
   onRecheckDesktopUninstall,
   onOpenDesktop,
   onOpenDesktopLocation,
+  onOpenWindowsUninstall,
   onInstallEnvironment,
   onOpenEnvironmentInstaller
 }: {
@@ -4703,10 +5015,12 @@ function ProductRow({
   onCancelDownload: () => void;
   onRelocateDownload: () => void;
   onUninstallCli: () => void;
+  onOpenCli: () => void;
   onUninstallDesktop: () => void;
   onRecheckDesktopUninstall: () => void;
   onOpenDesktop: () => void;
   onOpenDesktopLocation: () => void;
+  onOpenWindowsUninstall: () => void;
   onInstallEnvironment: (environmentId: string) => void;
   onOpenEnvironmentInstaller: (environmentId: string) => void;
 }) {
@@ -4723,7 +5037,21 @@ function ProductRow({
     desktopStatus?.uninstallMode,
     language
   );
+  // A stale development pre-bundle must not be able to blank the entire
+  // vendor page while the shared behavior module is being updated.
+  const entryPoints = behavior.entryPoints || [];
+  const actionEntry = entryPoints.find(
+    (entry) => entry.type === (product.kind === "CLI" ? "cli" : "desktop")
+  );
+  const linkEntries = entryPoints.filter(
+    (entry): entry is Extract<(typeof behavior.entryPoints)[number], { url: string }> =>
+      "url" in entry &&
+      (entry.type === "tutorial"
+        ? behavior.canOpenTutorial
+        : behavior.canOpenWebsite)
+  );
   const installButtonLabel =
+    actionEntry?.label ||
     behavior.primaryLabel ||
     (behavior.managedCli || behavior.managedDesktop
       ? uiText("auto.c5a01527da36")
@@ -4732,6 +5060,7 @@ function ProductRow({
         : uiText("auto.96b410ae01e3"));
   const installable = behavior.canInstall;
   const managedActionsAvailable =
+    Boolean(actionEntry) &&
     (behavior.managedCli || behavior.managedDesktop) &&
     (behavior.canInstall ||
       behavior.canOpenInstalled ||
@@ -4760,45 +5089,44 @@ function ProductRow({
   const environmentStatus = missing
     .map((environmentId) => environmentMessages[environmentId])
     .find(Boolean);
-  const extensions = (product.extensions || [])
-    .filter((extension) => extension.enabled !== false)
-    .sort((left, right) => (left.order || 0) - (right.order || 0));
   return (
     <article className="productRow" data-aihub-product-id={product.id}>
       <div className="productInfo">
-        <span>{product.kind}</span>
+        <span>
+          {product.kind === "CLI"
+            ? uiText("product.kind.cli")
+            : product.kind === "桌面端"
+              ? uiText("product.kind.visual")
+              : product.kind}
+        </span>
         <h4>{product.name}</h4>
         <p>{product.description}</p>
+        {product.kind === "CLI" && (
+          <small>{uiText("product.kind.cliHint")}</small>
+        )}
+        {product.kind === "桌面端" && (
+          <small>{uiText("product.kind.visualHint")}</small>
+        )}
         {desktopStatus?.legacyInstall === "comfy-desktop-v1" && (
           <small>{uiText("desktop.comfyLegacyMigration")}</small>
         )}
         {cliStatus?.summary && <small>{runtimeMessage(cliStatus.summary)}</small>}
       </div>
       <div className="productActions">
-      {behavior.canOpenWebsite && (
-        <button
-          className="websiteButton"
-          onClick={() => window.open(product.website)}
-        >
-          {product.productType === "web"
-            ? uiText("auto.82d9ce3a5b37")
-            : product.productType === "desktop-official"
-              ? uiText("auto.c1ac19efecee")
-              : product.kind === "CLI"
-                ? uiText("auto.2af802abaa86")
-                : product.kind === "桌面端"
-                  ? uiText("auto.2034e0d3f299")
-                  : uiText("auto.c4462f4f03f9")} ↗
+      {linkEntries.map((entry, index) => (
+          <button
+            key={`${entry.type}-${index}-${entry.url}`}
+            className="websiteButton"
+            onClick={() => window.open(entry.url)}
+          >
+            {entry.label} ↗
+          </button>
+      ))}
+      {actionEntry && !managedActionsAvailable && (
+        <button className="websiteButton" onClick={onInstallProduct}>
+          {actionEntry.label} ↗
         </button>
       )}
-      {behavior.canOpenTutorial &&
-        (!behavior.canOpenWebsite || product.tutorial !== product.website) && (
-          <button
-            className="websiteButton"
-            onClick={() => window.open(product.tutorial)}
-          >
-            {uiText("auto.51bd5a77da66")}</button>
-        )}
       {managedActionsAvailable ? (
         <div className="installFlow">
           {stage === "idle" && installable && (
@@ -5062,6 +5390,11 @@ function ProductRow({
                   {behavior.canUninstall && desktopStatus.canUninstall && (
                     <button onClick={onUninstallDesktop}>{uiText("auto.06bc14b60f35")}</button>
                   )}
+                  {behavior.canUninstall && !desktopStatus.canUninstall && (
+                    <button onClick={onOpenWindowsUninstall}>
+                      {uiText("desktop.openUninstallSettings")}
+                    </button>
+                  )}
                   {behavior.canInstall && (
                     <button
                       data-aihub-action="refresh-product"
@@ -5077,6 +5410,13 @@ function ProductRow({
                   {desktopUpdateOwnerLabel(updateOwner)}
                 </small>
               )}
+              {behavior.canOpenInstalled &&
+                cliDeployable &&
+                cliStatus?.installed && (
+                  <button onClick={onOpenCli}>
+                    {uiText("product.openCli")}
+                  </button>
+                )}
               {behavior.canUninstall &&
                 cliDeployable &&
                 cliStatus?.canUninstall && (
@@ -5097,21 +5437,6 @@ function ProductRow({
         </div>
       ) : null}
       </div>
-      {extensions.length > 0 && (
-        <details className="productExtensions">
-          <summary>
-            {uiText("extensions.directory")} · {extensions.length}
-          </summary>
-          <div className="productExtensionList">
-            {extensions.map((extension) => (
-              <ExtensionResourceRow
-                extension={extension}
-                key={extension.id}
-              />
-            ))}
-          </div>
-        </details>
-      )}
     </article>
   );
 }
@@ -6629,6 +6954,7 @@ function InstalledProductsPage({
   onGetLatest,
   onReinstallEnvironment,
   onUninstall,
+  onOpenWindowsUninstall,
   onRepairWslEnvironment,
   onInstallPackage,
   onShowPackage,
@@ -6676,6 +7002,7 @@ function InstalledProductsPage({
       typeof buildInstalledProductManagement
     >["products"][number]
   ) => Promise<void>;
+  onOpenWindowsUninstall: () => void;
   onRepairWslEnvironment: (entry: {
     ownerProductId: string;
   }) => Promise<void>;
@@ -6758,6 +7085,11 @@ function InstalledProductsPage({
                     onClick={() => void onUninstall(entry)}
                   >
                     {uiText("auto.06bc14b60f35")}</button>
+                )}
+                {entry.type === "desktop" && !entry.canUninstall && (
+                  <button onClick={onOpenWindowsUninstall}>
+                    {uiText("desktop.openUninstallSettings")}
+                  </button>
                 )}
               </div>
               {entry.children?.length ? (
@@ -6925,6 +7257,7 @@ function SettingsPanel({
   onLanguage,
   onChooseDirectory,
   onChooseCliDirectory,
+  onOpenCliDirectory,
   onOpenDirectory,
   onClearDirectory,
   onScan,
@@ -6973,6 +7306,7 @@ function SettingsPanel({
   onLanguage: (value: Language) => void;
   onChooseDirectory: () => void;
   onChooseCliDirectory: () => void;
+  onOpenCliDirectory: () => Promise<boolean>;
   onOpenDirectory: () => void;
   onClearDirectory: () => void;
   onScan: () => void;
@@ -6997,6 +7331,7 @@ function SettingsPanel({
 }) {
   type TaskFilter = "active" | "failed" | "completed";
   const [taskFilter, setTaskFilter] = useState<TaskFilter>("active");
+  const [cliDirectoryError, setCliDirectoryError] = useState("");
   const desktopTaskState = (task: DesktopOperationTask): TaskFilter =>
     task.phase === "installed" || task.phase === "uninstalled"
       ? "completed"
@@ -7414,8 +7749,28 @@ function SettingsPanel({
             {cliInstallDirectory || uiText("auto.f46842f98326")}
           </p>
           <div className="rowActions">
-            <button onClick={onChooseCliDirectory}>{uiText("auto.38418cc70d55")}</button>
+            <button
+              onClick={() => {
+                setCliDirectoryError("");
+                onChooseCliDirectory();
+              }}
+            >
+              {uiText("auto.38418cc70d55")}
+            </button>
+            <button
+              disabled={!cliInstallDirectory}
+              onClick={() => {
+                void onOpenCliDirectory().then((opened) => {
+                  setCliDirectoryError(
+                    opened ? "" : uiText("settings.cliFolderFailed")
+                  );
+                });
+              }}
+            >
+              {uiText("settings.openFolder")}
+            </button>
           </div>
+          {cliDirectoryError && <em>{cliDirectoryError}</em>}
         </SettingBlock>
 
         <SettingBlock title={uiText("auto.68ecdf839c52")}>
@@ -7519,7 +7874,8 @@ function SettingsPanel({
 
         <SettingBlock title={uiText("auto.42e40f432b6d")}>
           <p className="pathValue">
-            {uiText("auto.435bd0f89db5")}{updateResult?.currentVersion || "0.1.0"}
+            {uiText("auto.435bd0f89db5")}
+            {updateResult?.currentVersion || packageJson.version}
           </p>
           <div className="rowActions">
             <button onClick={onCheckForUpdate} disabled={checkingUpdate}>

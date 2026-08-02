@@ -7,7 +7,7 @@ const UPDATE_PRODUCT_ID = "aihub-update";
 
 function updateInstallerFileName(version) {
   parseVersion(version);
-  return `AI-Hub-${version}-Windows-x64-Setup.exe`;
+  return `ZhenXing-AI-${version}-Windows-x64-Setup.exe`;
 }
 
 function planUpdateInstallerDownload(offer, channel, downloadRoot) {
