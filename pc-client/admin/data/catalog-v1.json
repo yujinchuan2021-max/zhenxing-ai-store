@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-02T15:49:47.300Z",
+  "updatedAt": "2026-08-02T16:23:55.774Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -4050,8 +4050,8 @@
       "enabled": true,
       "order": 30,
       "iconAsset": {
-        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
-        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "path": "vendor-icons/8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f.png",
+        "sha256": "8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f",
         "mimeType": "image/png"
       }
     },
@@ -5123,8 +5123,8 @@
       "enabled": true,
       "order": 44,
       "iconAsset": {
-        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
-        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "path": "vendor-icons/3743e030729b57229fedbfc765759bd3e6c0c4709a467d5885b156947041e6a0.png",
+        "sha256": "3743e030729b57229fedbfc765759bd3e6c0c4709a467d5885b156947041e6a0",
         "mimeType": "image/png"
       }
     },
@@ -5217,8 +5217,8 @@
       "enabled": true,
       "order": 46,
       "iconAsset": {
-        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
-        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "path": "vendor-icons/bff49a906a639f211d2a112ddca518e3b786244785aecf43f7ad0179d1c6b983.png",
+        "sha256": "bff49a906a639f211d2a112ddca518e3b786244785aecf43f7ad0179d1c6b983",
         "mimeType": "image/png"
       }
     },
@@ -5315,8 +5315,8 @@
       "enabled": true,
       "order": 48,
       "iconAsset": {
-        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
-        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+        "path": "vendor-icons/aa03f14e732a0c399665f8a97abdd6b82491ff4cb8c526a76b5cb3024126e222.png",
+        "sha256": "aa03f14e732a0c399665f8a97abdd6b82491ff4cb8c526a76b5cb3024126e222",
         "mimeType": "image/png"
       }
     },
@@ -6275,9 +6275,9 @@
       "enabled": true,
       "order": 64,
       "iconAsset": {
-        "path": "vendor-icons/028434e4bbb42cfd4554998bd89f7e6eb71f32a2cbc8ca618d0470280cd1e28a.ico",
-        "sha256": "028434e4bbb42cfd4554998bd89f7e6eb71f32a2cbc8ca618d0470280cd1e28a",
-        "mimeType": "image/x-icon"
+        "path": "vendor-icons/673c20fc0939be3efecf3b522b6e189d9d7bb2a12126334358fe8cf6fd30ac58.png",
+        "sha256": "673c20fc0939be3efecf3b522b6e189d9d7bb2a12126334358fe8cf6fd30ac58",
+        "mimeType": "image/png"
       }
     },
     {
@@ -6385,9 +6385,9 @@
       "enabled": true,
       "order": 66,
       "iconAsset": {
-        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
-        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
-        "mimeType": "image/png"
+        "path": "vendor-icons/83020f1f790214bbb8de67a94de774c9f11c25a5513fffcd56cc127b4d7c1f3f.jpg",
+        "sha256": "83020f1f790214bbb8de67a94de774c9f11c25a5513fffcd56cc127b4d7c1f3f",
+        "mimeType": "image/jpeg"
       }
     },
     {
@@ -6723,12 +6723,7 @@
         }
       ],
       "enabled": true,
-      "order": 71,
-      "iconAsset": {
-        "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
-        "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
-        "mimeType": "image/png"
-      }
+      "order": 71
     },
     {
       "id": "deepl",

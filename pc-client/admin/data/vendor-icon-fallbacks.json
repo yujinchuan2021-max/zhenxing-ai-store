@@ -150,6 +150,10 @@
       "evidenceUrl": "https://www.semrush.com/company/press/",
       "reason": "尚未取得并核验可用于第三方产品目录展示的官方稳定图标素材。"
     },
+    "lostruins": {
+      "evidenceUrl": "https://github.com/LostRuins/koboldcpp",
+      "reason": "官方项目由个人维护，GitHub 个人头像不能冒充 KoboldCpp 或 LostRuins 的品牌 Logo，当前使用文字兜底。"
+    },
     "intercom": {
       "evidenceUrl": "https://www.intercom.com/legal/trademark-usage",
       "reason": "官方商标政策要求书面许可或特定许可计划，当前仅以文字方式指称厂商。"

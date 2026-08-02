@@ -22,6 +22,16 @@ test("vendor logos fail back to the catalog mark without leaking referrers", () 
   assert.match(app, /onError=\{\(\) => setIconFailed\(true\)\}/);
   assert.match(app, /referrerPolicy="no-referrer"/);
   assert.match(app, /loading=\{hero \? "eager" : "lazy"\}/);
+  assert.match(
+    app,
+    /background: vendor\.iconUrl && !iconFailed \? "#fff" : vendor\.color/,
+    "image-backed logos need a neutral background instead of the vendor fallback color"
+  );
+  const styles = fs.readFileSync(
+    path.join(__dirname, "..", "src", "styles.css"),
+    "utf8"
+  );
+  assert.match(styles, /\.vendorMark img \{[^}]*width: 100%;[^}]*height: 100%;/s);
 
   const admin = fs.readFileSync(
     path.join(__dirname, "..", "admin", "public", "app.js"),
@@ -63,6 +73,23 @@ test("published catalog uses reviewed local logo assets with reliable fallbacks"
     assert.ok(source, `${vendor.id} logo source missing`);
     assert.match(source.sourceUrl, /^https:\/\//);
     assert.ok(source.vendorIds.includes(vendor.id));
+  }
+});
+
+test("vendor logo assets cannot be shared across unrelated vendors", () => {
+  for (const source of Object.values(sources.assets)) {
+    assert.equal(
+      source.vendorIds.length,
+      1,
+      `${source.sourceUrl} is reused by ${source.vendorIds.join(", ")}`
+    );
+    if (new URL(source.sourceUrl).hostname === "github.githubassets.com") {
+      assert.deepEqual(
+        source.vendorIds,
+        ["github"],
+        "the GitHub site favicon is not another vendor's brand logo"
+      );
+    }
   }
 });
 

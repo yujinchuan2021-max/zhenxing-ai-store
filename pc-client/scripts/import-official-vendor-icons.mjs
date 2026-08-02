@@ -9,13 +9,26 @@ const { createVendorIconStore } = require("../admin/vendor-icon-store.cjs");
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const catalogPath = path.join(root, "admin", "data", "catalog-v1.json");
 const dataDirectory = path.join(root, "admin", "data");
+const sourceManifestPath = path.join(dataDirectory, "vendor-icon-sources.json");
 const store = createVendorIconStore({
   rootDirectory: dataDirectory,
-  manifestPath: path.join(dataDirectory, "vendor-icon-sources.json")
+  manifestPath: sourceManifestPath
 });
 const timeoutMs = 6500;
 const concurrency = 8;
 const reviewedIconSources = Object.freeze({
+  amd: {
+    assetUrl: "https://avatars.githubusercontent.com/u/430818?s=256&v=4",
+    sourceUrl: "https://github.com/amd"
+  },
+  github: {
+    assetUrl: "https://github.githubassets.com/favicons/favicon.png",
+    sourceUrl: "https://github.com/logos"
+  },
+  intel: {
+    assetUrl: "https://www.intel.cn/etc.clientlibs/settings/wcm/designs/intel/default/resources/favicon-32x32.png",
+    sourceUrl: "https://www.intel.com/"
+  },
   zapier: {
     assetUrl: "https://zapier.com/favicon.ico",
     sourceUrl: "https://zapier.com/press"
@@ -42,6 +55,11 @@ const reviewedIconSources = Object.freeze({
   }
 });
 const officialGitHubOrganizations = Object.freeze({
+  "01ai": ["01-ai", "139308978"],
+  cline: ["cline", "184127137"],
+  langchain: ["langchain-ai", "126733545"],
+  openwebui: ["open-webui", "158137808"],
+  thinkinai: ["ThinkInAIXYZ", "195535817"],
   openai: ["openai", "14957082"],
   bytedance: ["bytedance", "4158466"],
   google: ["google", "1342004"],
@@ -273,6 +291,12 @@ async function discover(vendor) {
   }
   for (const candidate of [...new Map(candidates.map((entry) => [entry.url, entry])).values()].slice(0, 12)) {
     try {
+      const candidateUrl = new URL(candidate.url);
+      if (
+        vendor.id !== "github" &&
+        candidateUrl.hostname === "github.githubassets.com" &&
+        candidateUrl.pathname.startsWith("/favicons/")
+      ) continue;
       let data;
       let sourceUrl = candidate.url;
       if (candidate.url.startsWith("data:")) {
@@ -301,8 +325,41 @@ async function discover(vendor) {
   return { vendor, error: "no supported raster icon found" };
 }
 
+function removeUnrelatedSharedAssets(catalog) {
+  const manifest = JSON.parse(fs.readFileSync(sourceManifestPath, "utf8"));
+  for (const vendor of catalog.vendors) {
+    const source = vendor.iconAsset && manifest.assets[vendor.iconAsset.sha256];
+    if (!source) continue;
+    const sourceUrl = new URL(source.sourceUrl);
+    const reviewedSource = reviewedIconSources[vendor.id];
+    if (
+      source.vendorIds.length > 1 ||
+      (reviewedSource && source.sourceUrl !== reviewedSource.sourceUrl) ||
+      (vendor.id !== "github" && sourceUrl.hostname === "github.githubassets.com")
+    ) delete vendor.iconAsset;
+  }
+}
+
+function syncSourceManifest(catalog) {
+  const manifest = JSON.parse(fs.readFileSync(sourceManifestPath, "utf8"));
+  const vendorIdsByHash = new Map();
+  for (const vendor of catalog.vendors) {
+    if (!vendor.iconAsset) continue;
+    const ids = vendorIdsByHash.get(vendor.iconAsset.sha256) || [];
+    ids.push(vendor.id);
+    vendorIdsByHash.set(vendor.iconAsset.sha256, ids);
+  }
+  for (const [sha256, source] of Object.entries(manifest.assets)) {
+    const vendorIds = vendorIdsByHash.get(sha256);
+    if (!vendorIds?.length) delete manifest.assets[sha256];
+    else source.vendorIds = vendorIds.sort();
+  }
+  fs.writeFileSync(sourceManifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+}
+
 async function main() {
   const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
+  removeUnrelatedSharedAssets(catalog);
   const queue = catalog.vendors.filter((vendor) => !vendor.iconAsset);
   const results = [];
   let cursor = 0;
@@ -322,6 +379,7 @@ async function main() {
     vendor.iconUrl = "";
   }
   fs.writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+  syncSourceManifest(catalog);
   const imported = results.filter((result) => result.asset).length;
   process.stdout.write(`Imported ${imported}/${queue.length}; total ${catalog.vendors.filter((vendor) => vendor.iconAsset).length}/${catalog.vendors.length}\n`);
 }

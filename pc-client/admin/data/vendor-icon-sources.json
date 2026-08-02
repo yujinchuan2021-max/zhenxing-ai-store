@@ -41,22 +41,6 @@
         "tencent"
       ]
     },
-    "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08": {
-      "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
-      "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
-      "mimeType": "image/png",
-      "sourceUrl": "https://github.githubassets.com/favicons/favicon.png",
-      "updatedAt": "2026-08-02T13:17:00.011Z",
-      "vendorIds": [
-        "01ai",
-        "cline",
-        "github",
-        "langchain",
-        "lostruins",
-        "openwebui",
-        "thinkinai"
-      ]
-    },
     "30a4420e6e4dcb17fd7de560c5004346c2bc8cd971d2d5f5ee15326603e51321": {
       "path": "vendor-icons/30a4420e6e4dcb17fd7de560c5004346c2bc8cd971d2d5f5ee15326603e51321.ico",
       "sha256": "30a4420e6e4dcb17fd7de560c5004346c2bc8cd971d2d5f5ee15326603e51321",
@@ -387,16 +371,6 @@
         "warp"
       ]
     },
-    "028434e4bbb42cfd4554998bd89f7e6eb71f32a2cbc8ca618d0470280cd1e28a": {
-      "path": "vendor-icons/028434e4bbb42cfd4554998bd89f7e6eb71f32a2cbc8ca618d0470280cd1e28a.ico",
-      "sha256": "028434e4bbb42cfd4554998bd89f7e6eb71f32a2cbc8ca618d0470280cd1e28a",
-      "mimeType": "image/x-icon",
-      "sourceUrl": "https://www.amd.com/content/dam/code/images/favicon/favicon.ico",
-      "updatedAt": "2026-08-02T13:16:57.295Z",
-      "vendorIds": [
-        "amd"
-      ]
-    },
     "e6d703fa4b26308665ef48a2a75029703f7efbafa4727095514a47f1838cace0": {
       "path": "vendor-icons/e6d703fa4b26308665ef48a2a75029703f7efbafa4727095514a47f1838cace0.png",
       "sha256": "e6d703fa4b26308665ef48a2a75029703f7efbafa4727095514a47f1838cace0",
@@ -405,16 +379,6 @@
       "updatedAt": "2026-08-02T13:16:57.765Z",
       "vendorIds": [
         "zed-industries"
-      ]
-    },
-    "088c63817baec01eaac723c25a5845feaf35f6483a41029484aa43fae35e3a4e": {
-      "path": "vendor-icons/088c63817baec01eaac723c25a5845feaf35f6483a41029484aa43fae35e3a4e.png",
-      "sha256": "088c63817baec01eaac723c25a5845feaf35f6483a41029484aa43fae35e3a4e",
-      "mimeType": "image/png",
-      "sourceUrl": "https://www.intel.cn/etc.clientlibs/settings/wcm/designs/intel/default/resources/favicon-32x32.png",
-      "updatedAt": "2026-08-02T13:16:58.330Z",
-      "vendorIds": [
-        "intel"
       ]
     },
     "0fcc3677be4ed212c587c22b1207d0edd9340a181316082996d61f72d898c330": {
@@ -1245,6 +1209,86 @@
       "updatedAt": "2026-08-02T15:46:07.079Z",
       "vendorIds": [
         "redis"
+      ]
+    },
+    "3743e030729b57229fedbfc765759bd3e6c0c4709a467d5885b156947041e6a0": {
+      "path": "vendor-icons/3743e030729b57229fedbfc765759bd3e6c0c4709a467d5885b156947041e6a0.png",
+      "sha256": "3743e030729b57229fedbfc765759bd3e6c0c4709a467d5885b156947041e6a0",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/cline",
+      "updatedAt": "2026-08-02T16:16:23.862Z",
+      "vendorIds": [
+        "cline"
+      ]
+    },
+    "8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f": {
+      "path": "vendor-icons/8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f.png",
+      "sha256": "8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/01-ai",
+      "updatedAt": "2026-08-02T16:16:24.068Z",
+      "vendorIds": [
+        "01ai"
+      ]
+    },
+    "bff49a906a639f211d2a112ddca518e3b786244785aecf43f7ad0179d1c6b983": {
+      "path": "vendor-icons/bff49a906a639f211d2a112ddca518e3b786244785aecf43f7ad0179d1c6b983.png",
+      "sha256": "bff49a906a639f211d2a112ddca518e3b786244785aecf43f7ad0179d1c6b983",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/langchain-ai",
+      "updatedAt": "2026-08-02T16:16:24.076Z",
+      "vendorIds": [
+        "langchain"
+      ]
+    },
+    "83020f1f790214bbb8de67a94de774c9f11c25a5513fffcd56cc127b4d7c1f3f": {
+      "path": "vendor-icons/83020f1f790214bbb8de67a94de774c9f11c25a5513fffcd56cc127b4d7c1f3f.jpg",
+      "sha256": "83020f1f790214bbb8de67a94de774c9f11c25a5513fffcd56cc127b4d7c1f3f",
+      "mimeType": "image/jpeg",
+      "sourceUrl": "https://github.com/ThinkInAIXYZ",
+      "updatedAt": "2026-08-02T16:16:24.116Z",
+      "vendorIds": [
+        "thinkinai"
+      ]
+    },
+    "aa03f14e732a0c399665f8a97abdd6b82491ff4cb8c526a76b5cb3024126e222": {
+      "path": "vendor-icons/aa03f14e732a0c399665f8a97abdd6b82491ff4cb8c526a76b5cb3024126e222.png",
+      "sha256": "aa03f14e732a0c399665f8a97abdd6b82491ff4cb8c526a76b5cb3024126e222",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/open-webui",
+      "updatedAt": "2026-08-02T16:16:25.005Z",
+      "vendorIds": [
+        "openwebui"
+      ]
+    },
+    "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08": {
+      "path": "vendor-icons/74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08.png",
+      "sha256": "74cf90ac2fe6624ab1056cacea11cf7ed4f8bef54bbb0e869638013bba45bc08",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/logos",
+      "updatedAt": "2026-08-02T16:16:39.481Z",
+      "vendorIds": [
+        "github"
+      ]
+    },
+    "088c63817baec01eaac723c25a5845feaf35f6483a41029484aa43fae35e3a4e": {
+      "path": "vendor-icons/088c63817baec01eaac723c25a5845feaf35f6483a41029484aa43fae35e3a4e.png",
+      "sha256": "088c63817baec01eaac723c25a5845feaf35f6483a41029484aa43fae35e3a4e",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.intel.com/",
+      "updatedAt": "2026-08-02T16:23:00.259Z",
+      "vendorIds": [
+        "intel"
+      ]
+    },
+    "673c20fc0939be3efecf3b522b6e189d9d7bb2a12126334358fe8cf6fd30ac58": {
+      "path": "vendor-icons/673c20fc0939be3efecf3b522b6e189d9d7bb2a12126334358fe8cf6fd30ac58.png",
+      "sha256": "673c20fc0939be3efecf3b522b6e189d9d7bb2a12126334358fe8cf6fd30ac58",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/amd",
+      "updatedAt": "2026-08-02T16:27:23.903Z",
+      "vendorIds": [
+        "amd"
       ]
     }
   }

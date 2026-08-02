@@ -8251,7 +8251,9 @@ function VendorMark({
   return (
     <span
       className={`vendorMark${large ? " large" : ""}${hero ? " heroMark" : ""}`}
-      style={{ background: vendor.color }}
+      style={{
+        background: vendor.iconUrl && !iconFailed ? "#fff" : vendor.color
+      }}
     >
       {vendor.iconUrl && !iconFailed ? (
         <img
