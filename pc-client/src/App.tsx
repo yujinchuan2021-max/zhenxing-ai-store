@@ -3952,6 +3952,9 @@ export default function App() {
             <InstalledProductsPage
               management={installedManagement}
               messages={managementMessages}
+              language={language}
+              productStages={productStages}
+              productErrors={productErrors}
               scanning={scanning}
               onRefresh={refreshInstalledManagement}
               onOpen={openManagedProduct}
@@ -5060,7 +5063,10 @@ function ProductRow({
                     <button onClick={onUninstallDesktop}>{uiText("auto.06bc14b60f35")}</button>
                   )}
                   {behavior.canInstall && (
-                    <button onClick={onGetLatestDesktop}>
+                    <button
+                      data-aihub-action="refresh-product"
+                      onClick={onGetLatestDesktop}
+                    >
                       {uiText("desktop.getLatestInstaller")}
                     </button>
                   )}
@@ -6611,6 +6617,9 @@ function CommunityPage({ community }: { community: CatalogCommunity }) {
 function InstalledProductsPage({
   management,
   messages,
+  language,
+  productStages,
+  productErrors,
   scanning,
   onRefresh,
   onOpen,
@@ -6627,6 +6636,9 @@ function InstalledProductsPage({
 }: {
   management: ReturnType<typeof buildInstalledProductManagement>;
   messages: Record<string, string>;
+  language: Language;
+  productStages: Record<string, ProductStage>;
+  productErrors: Record<string, string>;
   scanning: boolean;
   onRefresh: () => Promise<void>;
   onOpen: (
@@ -6840,33 +6852,43 @@ function InstalledProductsPage({
         </div>
         {management.packages.length ? (
           <div className="managementList">
-            {management.packages.map((entry) => (
-              <article className="managementCard packageCard" key={entry.id}>
-                <div className="managementInfo">
-                  <h3>{entry.name}</h3>
-                  <p title={entry.filePath}>{entry.filePath}</p>
-                  {messages[`package:${entry.id}`] && (
-                    <small>{messages[`package:${entry.id}`]}</small>
-                  )}
-                </div>
-                <div className="managementActions">
-                  {entry.canInstall && (
+            {management.packages.map((entry) => {
+              const installPresentation = getProductInstallPresentation({
+                stage: productStages[entry.id] || "downloaded",
+                filePath: entry.filePath,
+                language
+              });
+              const message =
+                productErrors[entry.id] || messages[`package:${entry.id}`];
+              return (
+                <article className="managementCard packageCard" key={entry.id}>
+                  <div className="managementInfo">
+                    <h3>{entry.name}</h3>
+                    <p title={entry.filePath}>{entry.filePath}</p>
+                    {message && <small>{runtimeMessage(message)}</small>}
+                  </div>
+                  <div className="managementActions">
+                    {entry.canInstall && (
+                      <button
+                        className="accentButton"
+                        disabled={installPresentation?.disabled}
+                        onClick={() => onInstallPackage(entry)}
+                      >
+                        {installPresentation?.buttonLabel ||
+                          uiText("auto.88eab834cb5f")}
+                      </button>
+                    )}
+                    <button onClick={() => onShowPackage(entry)}>
+                      {uiText("auto.fcf8b4bff0df")}</button>
                     <button
-                      className="accentButton"
-                      onClick={() => onInstallPackage(entry)}
+                      className="dangerButton"
+                      onClick={() => onDeletePackage(entry)}
                     >
-                      {uiText("auto.88eab834cb5f")}</button>
-                  )}
-                  <button onClick={() => onShowPackage(entry)}>
-                    {uiText("auto.fcf8b4bff0df")}</button>
-                  <button
-                    className="dangerButton"
-                    onClick={() => onDeletePackage(entry)}
-                  >
-                    {uiText("auto.200615f03adf")}</button>
-                </div>
-              </article>
-            ))}
+                      {uiText("auto.200615f03adf")}</button>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         ) : (
           <div className="emptyManagement">{uiText("auto.7f0386e672ea")}</div>

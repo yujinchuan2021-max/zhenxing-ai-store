@@ -98,6 +98,13 @@ test("local packaging stages and activates one complete sibling delivery", () =>
   );
   assert.match(source, /deliveryRecoveryPending/);
   assert.match(source, /stop-local-release-acceptance-clients\.ps1/);
+  const shutdown = fs.readFileSync(
+    path.resolve(__dirname, "../scripts/stop-local-release-acceptance-clients.ps1"),
+    "utf8"
+  );
+  assert.match(shutdown, /ParentProcessId/);
+  assert.match(shutdown, /Sort-Object Depth -Descending/);
+  assert.match(shutdown, /CreationDate/);
   assert.match(
     source,
     /!transactionReceiptCreated[\s\S]*!deliveryRecoveryPending/

@@ -30,6 +30,7 @@ const {
 const {
   createArtifactBuildMetadata
 } = require("../shared/release-provenance.cjs");
+const { rootTrust } = require("./local-release-certificates.cjs");
 
 function signingKey() {
   const { privateKey } = crypto.generateKeyPairSync("ed25519");
@@ -143,23 +144,13 @@ function writeLocalRuntimeTrust(bundleDirectory) {
   );
   fs.writeFileSync(
     trustPath,
-    `${JSON.stringify({
-      schemaVersion: 1,
-      origin: "https://localhost:4443",
-      fingerprint256: Array(32).fill("AA").join(":"),
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
-    })}\n`
+    `${JSON.stringify(rootTrust())}\n`
   );
   return trustPath;
 }
 
-function localRuntimeTrust(fingerprint = "AA") {
-  return {
-    schemaVersion: 1,
-    origin: "https://localhost:4443",
-    fingerprint256: Array(32).fill(fingerprint).join(":"),
-    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
-  };
+function localRuntimeTrust() {
+  return rootTrust();
 }
 
 test("activates, backs up, lists and restores only verified release bundles", () => {
@@ -381,7 +372,10 @@ test("writes the local TLS trust overlay through the verified runtime boundary",
       runtimeDirectory,
       trust: localRuntimeTrust("AB")
     });
-    assert.equal(result.fingerprint256, Array(32).fill("AB").join(":"));
+    assert.equal(
+      result.rootFingerprint256,
+      rootTrust().rootFingerprint256
+    );
     assert.equal(result.activationLockCleanupPending, false);
     assert.equal(
       verifyReleaseBundle({
@@ -494,10 +488,10 @@ test("TLS trust pinning can safely replace an expired runtime overlay", () => {
       trust: localRuntimeTrust("AF")
     });
 
-    assert.equal(renewed.fingerprint256, Array(32).fill("AF").join(":"));
+    assert.equal(renewed.rootFingerprint256, rootTrust().rootFingerprint256);
     assert.equal(
-      JSON.parse(fs.readFileSync(trustPath, "utf8")).fingerprint256,
-      renewed.fingerprint256
+      JSON.parse(fs.readFileSync(trustPath, "utf8")).rootFingerprint256,
+      renewed.rootFingerprint256
     );
   } finally {
     fs.rmSync(root, { recursive: true, force: true });

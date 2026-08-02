@@ -4,7 +4,7 @@
 
 ## 一、AI Hub 客户端
 
-- [ ] 双击 `release-local-server-client\AI-Hub-Local-0.1.25-Windows-x64-Setup.exe`，安装界面正常显示中文和安装路径。
+- [ ] 双击 `release-local-server-client\AI-Hub-Local-0.1.26-Windows-x64-Setup.exe`，安装界面正常显示中文和安装路径。
 - [ ] 安装完成后能从桌面和开始菜单启动。
 - [ ] 关闭主窗口后，托盘图标仍存在。
 - [ ] 从托盘重新打开主窗口，页面和任务状态保持正常。

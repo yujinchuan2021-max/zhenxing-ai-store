@@ -152,6 +152,22 @@ test("the product row routes resume and retry to their dedicated download comman
   );
 });
 
+test("package management reuses product install stage and error state", () => {
+  const source = fs.readFileSync(path.resolve(__dirname, "../src/App.tsx"), "utf8");
+  const page = source.match(
+    /function InstalledProductsPage\([\s\S]*?function SettingsPanel/
+  )?.[0];
+  assert.ok(page, "InstalledProductsPage source was not found");
+  assert.match(
+    page,
+    /getProductInstallPresentation\(\{[\s\S]*?productStages\[entry\.id\][\s\S]*?disabled=\{installPresentation\?\.disabled\}/
+  );
+  assert.match(
+    page,
+    /productErrors\[entry\.id\][\s\S]*?runtimeMessage\(message\)/
+  );
+});
+
 test("a failed refresh retains installed presentation instead of becoming a fresh install error", () => {
   const source = fs.readFileSync(path.resolve(__dirname, "../src/App.tsx"), "utf8");
   const taskHandler = source.match(

@@ -165,6 +165,30 @@ test("requires a real DOM action to expose disabled busy feedback", async () => 
   });
   assert.match(clickedExpression, /actionButton\.click\(\)/);
   assert.doesNotMatch(clickedExpression, /window\.aihubPC/);
+
+  const refreshed = await clickPackagedDomAction({
+    productId: "openclaw-windows-hub",
+    action: "refresh-product",
+    timeoutMs: 1000,
+    async evaluate() {
+      return { clicked: true, busyObserved: true, label: "正在检测" };
+    }
+  });
+  assert.equal(refreshed.busyObserved, true);
+});
+
+test("uses the refresh action when the managed desktop is already installed", async () => {
+  const { packagedManagedDownloadAction } = await import(
+    "../scripts/lib/packaged-client-cdp.mjs"
+  );
+  assert.equal(
+    packagedManagedDownloadAction({ installed: true }),
+    "refresh-product"
+  );
+  assert.equal(
+    packagedManagedDownloadAction({ installed: false }),
+    "install-product"
+  );
 });
 
 test("drives managed download start and pause through supplied DOM actions", async () => {
@@ -269,9 +293,10 @@ test("the packaged release gate does not bypass renderer actions", () => {
   for (const action of [
     "install-extension",
     "uninstall-extension",
-    "install-product",
     "pause-download"
   ]) {
     assert.match(source, new RegExp(`action: ["']${action}["']`));
   }
+  assert.match(source, /packagedManagedDownloadAction\(/);
+  assert.match(source, /action: downloadAction/);
 });

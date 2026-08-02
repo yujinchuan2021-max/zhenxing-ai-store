@@ -1,28 +1,65 @@
 "use strict";
 
-const FINGERPRINT_PATTERN = /^(?:[0-9A-F]{2}:){31}[0-9A-F]{2}$/;
+const { X509Certificate } = require("node:crypto");
+const {
+  shouldTrustLocalReleaseCertificate,
+  validateLocalReleaseTrust
+} = require("./local-release-trust.cjs");
 
-function localReleaseTrustFromCertificate(certificate, now = Date.now()) {
-  const certificateExpiry = Date.parse(certificate?.valid_to || "");
-  if (
-    !Buffer.isBuffer(certificate?.raw) ||
-    certificate.raw.length < 1 ||
-    certificate.subjectaltname !== "DNS:localhost" ||
-    !/Caddy Local Authority/.test(String(certificate.issuer?.CN || "")) ||
-    !FINGERPRINT_PATTERN.test(String(certificate.fingerprint256 || "")) ||
-    !Number.isFinite(certificateExpiry) ||
-    certificateExpiry <= now + 60_000
-  ) {
-    throw new Error("Caddy 返回的 localhost 证书结构无效");
-  }
+function electronFingerprint(certificate) {
+  return `sha256/${Buffer.from(
+    certificate.fingerprint256.replaceAll(":", ""),
+    "hex"
+  ).toString("base64")}`;
+}
+
+function peerCertificateChain(certificate, depth = 0) {
+  if (!Buffer.isBuffer(certificate?.raw) || depth >= 8) return null;
+  const parsed = new X509Certificate(certificate.raw);
+  const issuer = certificate.issuerCertificate;
   return {
-    schemaVersion: 1,
-    origin: "https://localhost:4443",
-    fingerprint256: certificate.fingerprint256,
-    expiresAt: new Date(
-      Math.min(now + 7 * 24 * 60 * 60 * 1000, certificateExpiry - 60_000)
-    ).toISOString()
+    data: parsed.toString(),
+    fingerprint: electronFingerprint(parsed),
+    issuerCert:
+      issuer && issuer !== certificate
+        ? peerCertificateChain(issuer, depth + 1)
+        : undefined
   };
+}
+
+function localReleaseTrustFromCertificate(
+  certificate,
+  rootCertificatePem,
+  now = Date.now()
+) {
+  let root;
+  try {
+    root = new X509Certificate(rootCertificatePem);
+  } catch {
+    throw new Error("Caddy 本地根证书结构无效");
+  }
+  const trust = validateLocalReleaseTrust(
+    {
+      schemaVersion: 2,
+      origin: "https://localhost:4443",
+      rootFingerprint256: root.fingerprint256,
+      rootCertificatePem: root.toString(),
+      expiresAt: new Date(Date.parse(root.validTo)).toISOString()
+    },
+    now
+  );
+  const requestCertificate = peerCertificateChain(certificate);
+  if (
+    !requestCertificate ||
+    !shouldTrustLocalReleaseCertificate(
+      trust,
+      { hostname: "localhost", certificate: requestCertificate },
+      now
+    )
+  ) {
+    throw new Error("Caddy 返回的 localhost 证书链未连接到固定根证书");
+  }
+  return trust;
 }
 
 async function retryLocalReleaseCertificateRead({

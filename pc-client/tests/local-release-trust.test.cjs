@@ -12,96 +12,87 @@ const {
   shouldTrustLocalReleaseCertificate,
   validateLocalReleaseTrust
 } = require("../shared/local-release-trust.cjs");
+const {
+  electronLocalhostChain,
+  rootTrust
+} = require("./local-release-certificates.cjs");
 
-const fingerprint = Array.from({ length: 32 }, () => "AA").join(":");
-const now = Date.parse("2026-07-30T00:00:00.000Z");
+const now = Date.parse("2026-08-02T02:00:00.000Z");
 
-function value(overrides = {}) {
-  return {
-    schemaVersion: 1,
-    origin: "https://localhost:4443",
-    fingerprint256: fingerprint,
-    expiresAt: "2026-07-31T00:00:00.000Z",
-    ...overrides
-  };
-}
-
-test("accepts only a short-lived exact localhost TLS fingerprint", () => {
-  const trust = validateLocalReleaseTrust(value(), now);
-  const electronFingerprint = `sha256/${Buffer.from(
-    fingerprint.replaceAll(":", ""),
-    "hex"
-  ).toString("base64")}`;
+test("accepts a rotated localhost leaf only when it chains to the pinned root", () => {
+  const trust = validateLocalReleaseTrust(rootTrust(), now);
   assert.equal(
-    shouldTrustLocalReleaseCertificate(trust, {
-      hostname: "localhost",
-      certificate: { fingerprint: electronFingerprint }
-    }, now),
+    shouldTrustLocalReleaseCertificate(
+      trust,
+      { hostname: "localhost", certificate: electronLocalhostChain() },
+      now
+    ),
     true
   );
+  assert.equal(
+    shouldTrustLocalReleaseCertificate(
+      trust,
+      { hostname: "localhost:4443", certificate: electronLocalhostChain() },
+      now
+    ),
+    true
+  );
+  assert.equal("fingerprint256" in trust, false);
+});
+
+test("rejects invalid trust schemas, roots and expiry metadata", () => {
+  const valid = rootTrust();
   for (const candidate of [
-    value({ origin: "https://example.com" }),
-    value({ fingerprint256: "AA" }),
-    value({ expiresAt: "2026-08-20T00:00:00.000Z" }),
-    { ...value(), extra: true }
+    { ...valid, schemaVersion: 1 },
+    { ...valid, origin: "https://example.com" },
+    { ...valid, rootFingerprint256: "AA" },
+    { ...valid, rootCertificatePem: "not a certificate" },
+    { ...valid, expiresAt: "2026-08-20T00:00:00.000Z" },
+    { ...valid, extra: true }
   ]) {
     assert.throws(() => validateLocalReleaseTrust(candidate, now));
   }
 });
 
-test("never trusts another hostname or certificate", () => {
-  const trust = validateLocalReleaseTrust(value(), now);
-  const electronFingerprint = `sha256/${Buffer.from(
-    fingerprint.replaceAll(":", ""),
-    "hex"
-  ).toString("base64")}`;
+test("never trusts another hostname, fingerprint, root or invalid leaf", () => {
+  const trust = validateLocalReleaseTrust(rootTrust(), now);
+  const wrongFingerprint = electronLocalhostChain();
+  wrongFingerprint.fingerprint = `sha256/${Buffer.alloc(32, 0xbb).toString("base64")}`;
+  for (const request of [
+    { hostname: "127.0.0.1", certificate: electronLocalhostChain() },
+    { hostname: "example.com", certificate: electronLocalhostChain() },
+    { hostname: "localhost", certificate: wrongFingerprint },
+    { hostname: "localhost", certificate: { data: "invalid", fingerprint: "invalid" } }
+  ]) {
+    assert.equal(shouldTrustLocalReleaseCertificate(trust, request, now), false);
+  }
   assert.equal(
-    shouldTrustLocalReleaseCertificate(trust, {
-      hostname: "127.0.0.1",
-      certificate: { fingerprint: electronFingerprint }
-    }, now),
+    shouldTrustLocalReleaseCertificate(
+      { ...trust, rootFingerprint256: Array(32).fill("AA").join(":") },
+      { hostname: "localhost", certificate: electronLocalhostChain() },
+      now
+    ),
     false
   );
   assert.equal(
-    shouldTrustLocalReleaseCertificate(trust, {
-      hostname: "localhost",
-      certificate: {
-        fingerprint: `sha256/${Buffer.alloc(32, 0xbb).toString("base64")}`
-      }
-    }, now),
+    shouldTrustLocalReleaseCertificate(
+      trust,
+      { hostname: "localhost", certificate: electronLocalhostChain() },
+      Date.parse("2026-08-03T00:00:00.000Z")
+    ),
     false
   );
 });
 
-test("normalizes Chromium certificate fingerprints and host ports", () => {
-  const trust = validateLocalReleaseTrust(value(), now);
-  assert.equal(
-    shouldTrustLocalReleaseCertificate(trust, {
-      hostname: "localhost:4443",
-      certificate: {
-        fingerprint: `sha256/${Buffer.from(
-          fingerprint.replaceAll(":", ""),
-          "hex"
-        ).toString("base64")}`
-      }
-    }, now),
-    true
-  );
-});
-
-test("overrides only the pinned localhost certificate and delegates every other certificate to Chromium", () => {
-  const trust = validateLocalReleaseTrust(value(), now);
-  const electronFingerprint = `sha256/${Buffer.from(
-    fingerprint.replaceAll(":", ""),
-    "hex"
-  ).toString("base64")}`;
-
+test("overrides only the pinned local chain and delegates every other certificate to Chromium", () => {
+  const trust = validateLocalReleaseTrust(rootTrust(), now);
   assert.equal(
     resolveCertificateVerificationCode(
       trust,
       {
         hostname: "localhost",
-        certificate: { fingerprint: electronFingerprint }
+        verificationResult: "net::ERR_CERT_AUTHORITY_INVALID",
+        certificate: electronLocalhostChain()
       },
       now
     ),
@@ -124,12 +115,38 @@ test("overrides only the pinned localhost certificate and delegates every other 
       trust,
       {
         hostname: "localhost",
-        verificationResult: "net::ERR_CERT_AUTHORITY_INVALID",
-        certificate: { fingerprint: "sha256/untrusted-certificate" }
+        verificationResult: "net::OK",
+        certificate: electronLocalhostChain()
       },
       now
     ),
     -3
+  );
+  assert.equal(
+    resolveCertificateVerificationCode(
+      trust,
+      {
+        hostname: "localhost",
+        verificationResult: "net::ERR_CERT_REVOKED",
+        certificate: electronLocalhostChain()
+      },
+      now
+    ),
+    -2
+  );
+  const wrongFingerprint = electronLocalhostChain();
+  wrongFingerprint.fingerprint = "sha256/untrusted-local-certificate";
+  assert.equal(
+    resolveCertificateVerificationCode(
+      trust,
+      {
+        hostname: "localhost",
+        verificationResult: "net::OK",
+        certificate: wrongFingerprint
+      },
+      now
+    ),
+    -2
   );
 });
 
@@ -144,12 +161,12 @@ test("production builds do not read the local trust resource", () => {
   );
 });
 
-test("acceptance builds require a valid pinned trust resource", () => {
+test("acceptance builds require a valid pinned root resource", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-local-trust-"));
   try {
     fs.writeFileSync(
       path.join(root, "local-release-trust.json"),
-      JSON.stringify(value()),
+      JSON.stringify(rootTrust()),
       "utf8"
     );
     assert.deepEqual(
@@ -158,7 +175,7 @@ test("acceptance builds require a valid pinned trust resource", () => {
         acceptanceBuild: true,
         now
       }),
-      value()
+      rootTrust()
     );
   } finally {
     fs.rmSync(root, { recursive: true, force: true });

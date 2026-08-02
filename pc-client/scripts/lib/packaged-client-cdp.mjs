@@ -10,6 +10,7 @@ function delay(milliseconds) {
 
 const PACKAGED_DOM_ACTIONS = new Set([
   "install-product",
+  "refresh-product",
   "pause-download",
   "install-extension",
   "uninstall-extension"
@@ -206,7 +207,7 @@ export async function clickPackagedDomAction({
               extensionProfileId
             )
           : currentProduct;
-        const busyAction = action === "install-product"
+        const busyAction = ["install-product", "refresh-product"].includes(action)
           ? "product-busy"
           : action;
         const busyButton = currentRoot && byAttribute(
@@ -242,6 +243,10 @@ export async function clickPackagedDomAction({
     );
   }
   return result;
+}
+
+export function packagedManagedDownloadAction(status) {
+  return status?.installed === true ? "refresh-product" : "install-product";
 }
 
 export async function openPackagedCatalogProduct({

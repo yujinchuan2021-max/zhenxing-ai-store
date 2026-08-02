@@ -18,8 +18,9 @@ if (
 }
 
 $PortableName = '^AI-Hub-Local-(?:0|[1-9][0-9]*)\.[0-9]+\.[0-9]+-Windows-x64-Portable\.exe$'
-$Stopped = 0
-foreach ($Candidate in @(Get-CimInstance Win32_Process)) {
+$Snapshot = @(Get-CimInstance Win32_Process)
+$Targets = @{}
+foreach ($Candidate in $Snapshot) {
   if (-not $Candidate.ExecutablePath) {
     continue
   }
@@ -31,11 +32,45 @@ foreach ($Candidate in @(Get-CimInstance Win32_Process)) {
     continue
   }
 
+  $Targets[[int]$Candidate.ProcessId] = $Candidate
+}
+
+do {
+  $Added = $false
+  foreach ($Candidate in $Snapshot) {
+    $ProcessId = [int]$Candidate.ProcessId
+    if (
+      -not $Targets.ContainsKey($ProcessId) -and
+      $Targets.ContainsKey([int]$Candidate.ParentProcessId)
+    ) {
+      $Targets[$ProcessId] = $Candidate
+      $Added = $true
+    }
+  }
+} while ($Added)
+
+$OrderedTargets = foreach ($Candidate in $Targets.Values) {
+  $Depth = 0
+  $ParentId = [int]$Candidate.ParentProcessId
+  while ($Targets.ContainsKey($ParentId)) {
+    $Depth += 1
+    $ParentId = [int]$Targets[$ParentId].ParentProcessId
+  }
+  [pscustomobject]@{ Process = $Candidate; Depth = $Depth }
+}
+
+$Stopped = 0
+foreach ($Target in @($OrderedTargets | Sort-Object Depth -Descending)) {
+  $Candidate = $Target.Process
+
   $ProcessId = [int]$Candidate.ProcessId
-  $Current = Get-CimInstance Win32_Process -Filter "ProcessId = $ProcessId"
+  $Current = Get-CimInstance Win32_Process -Filter "ProcessId = $ProcessId" -ErrorAction SilentlyContinue
+  if (-not $Current) {
+    continue
+  }
   if (
-    -not $Current -or
-    [System.IO.Path]::GetFullPath([string]$Current.ExecutablePath) -ine $Executable
+    [string]$Current.CreationDate -ne [string]$Candidate.CreationDate -or
+    [string]$Current.ExecutablePath -ne [string]$Candidate.ExecutablePath
   ) {
     throw "local acceptance client identity changed before shutdown"
   }

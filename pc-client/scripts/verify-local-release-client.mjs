@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import {
   createIsolatedAcceptanceProfile,
   launchPackagedClientCdp,
+  packagedManagedDownloadAction,
   removeIsolatedAcceptanceProfile,
   verifyManagedDownloadPause
 } from "./lib/packaged-client-cdp.mjs";
@@ -289,10 +290,15 @@ try {
     searchText: downloadTarget.vendor.name,
     timeoutMs: 10_000
   });
+  const downloadAction = packagedManagedDownloadAction(
+    await evaluate(
+      `window.aihubPC.getDesktopStatus(${JSON.stringify(downloadProductId)})`
+    )
+  );
   await waitForPackagedDomAction({
     evaluate,
     productId: downloadProductId,
-    action: "install-product",
+    action: downloadAction,
     timeoutMs: 10_000
   });
   let downloadStartDom = null;
@@ -305,7 +311,7 @@ try {
       downloadStartDom = await clickPackagedDomAction({
         evaluate,
         productId: downloadProductId,
-        action: "install-product",
+        action: downloadAction,
         timeoutMs: 8_000
       });
       const task = await waitForDownloadTask({
