@@ -55,13 +55,34 @@ const HIGH_VALUE_RESEARCH_PRODUCTS = Object.freeze([
   "comfy-cli"
 ]);
 
+const VENDOR_EXPANSION_BATCH5 = Object.freeze([
+  "replit-agent",
+  "bolt-new",
+  "lovable-ai-app-builder",
+  "brave-browser-leo",
+  "tabnine-ai-code-assistant",
+  "ideogram-web",
+  "recraft-studio",
+  "luma-app",
+  "heygen-ai-video",
+  "synthesia-ai-video",
+  "watsonx-ai",
+  "deepgram-voice-ai-platform",
+  "pinecone-vector-database",
+  "oracle-cloud-infrastructure",
+  "sap-business-ai-platform"
+]);
+
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 168);
+  assert.equal(catalog.vendors.length, 183);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 305);
+  assert.equal(products.length, 320);
   const productIds = new Set(products.map((product) => product.id));
-  for (const productId of HIGH_VALUE_RESEARCH_PRODUCTS) {
+  for (const productId of [
+    ...HIGH_VALUE_RESEARCH_PRODUCTS,
+    ...VENDOR_EXPANSION_BATCH5
+  ]) {
     assert.equal(productIds.has(productId), true, productId);
   }
   for (const productId of [
@@ -171,7 +192,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 305);
+  assert.equal(products.length, 320);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -208,13 +229,13 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 126,
-    "desktop-official": 105,
+    web: 139,
+    "desktop-official": 106,
     "desktop-reviewed": 26,
     "cli-official": 3,
     cli: 14,
     "local-model": 1,
-    tutorial: 30
+    tutorial: 31
   });
 });
 
@@ -229,6 +250,11 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
   );
   const resources = catalog.resources;
   assert.equal(resources.length, 113);
+  assert.equal(
+    resources.every((item) => item.publisherVendorId),
+    true,
+    "every resource must link to its single backend vendor record"
+  );
   assert.equal(resources.filter((item) => item.resourceTypes.includes("skill")).length, 14);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 93);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("plugin")).length, 7);
@@ -275,4 +301,14 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
   ]) {
     assert.equal(resourceIds.has(resourceId), true, resourceId);
   }
+});
+
+test("cross-directory products use names that explain their different roles", () => {
+  const products = catalog.vendors.flatMap((vendor) => vendor.products);
+  assert.equal(products.find((item) => item.id === "canva-windows")?.name, "Canva for Windows");
+  assert.equal(products.find((item) => item.id === "canva-design")?.name, "Canva Design Platform");
+  assert.doesNotMatch(
+    products.find((item) => item.id === "openai-codex")?.description || "",
+    /迁移证据$/
+  );
 });

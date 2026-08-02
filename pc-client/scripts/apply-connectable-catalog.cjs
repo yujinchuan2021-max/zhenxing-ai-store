@@ -220,6 +220,15 @@ for (const catalogPath of catalogPaths) {
     sourceKind: "official",
     sourceProductIds: ["unity-editor"],
     targets: unityTargets,
+    versionRef: "rolling-official-package",
+    requestedPermissions: [
+      "读取 Unity 项目的场景、GameObject、组件、控制台和编辑器上下文；执行编辑器修改前必须确认。"
+    ],
+    credentialRequirements: [
+      "Unity Editor 与目标 AI 工具在本机建立 MCP 连接；目录不保存账号或凭据。"
+    ],
+    installScope: "仅打开 Unity 官方 MCP 接入说明；当前不写入 Unity 项目或 AI 工具配置。",
+    uninstallPlan: "从目标 AI 工具移除 Unity MCP 配置，并在 Unity Package Manager 中移除或停用相关包；保留 Unity Editor、项目与资源。",
     provenanceEvidence: [
       "https://unity.com/blog/unity-ai-how-to-get-started",
       "https://unity.com/features/ai"
@@ -249,6 +258,15 @@ for (const catalogPath of catalogPaths) {
     sourceKind: "official",
     sourceProductIds: ["sunlogin-windows"],
     targets: orayTargets,
+    versionRef: "rolling-official-service",
+    requestedPermissions: [
+      "访问已授权的设备列表、远程会话和桌面控制能力；发起或变更远程控制前必须确认。"
+    ],
+    credentialRequirements: [
+      "向日葵账号、设备授权和服务凭据由贝锐与目标 AI 工具管理，目录不保存凭据。"
+    ],
+    installScope: "仅打开向日葵官方 MCP 接入说明；当前不写入本地配置。",
+    uninstallPlan: "从目标 AI 工具移除 AweSun MCP 连接并在向日葵撤销授权；保留向日葵客户端、设备和远程控制配置。",
     provenanceEvidence: ["https://activity.sunlogin.oray.com/mcp"],
     lastVerifiedAt: "2026-08-02T00:00:00.000Z"
   });

@@ -49,6 +49,15 @@
 
 自动发现只能证明官方页面存在，不能单独证明它是独立产品、仍在售、具备 Windows 客户端或适合一键安装；这些结论必须依据官方产品页和安装文档复核。
 
+## 2026-08-03 AI 工具第五批扩充
+
+- 研究记录位于 `docs/research/2026-08-03-vendor-expansion-batch5.md`，所有产品边界使用厂商官网、官方文档或官方帮助中心复核，不把普通 favicon、第三方图标和搜索结果当作品牌证据。
+- 新增 Replit、StackBlitz / Bolt、Lovable、Brave / Leo、Tabnine、Ideogram、Recraft、Luma AI、HeyGen、Synthesia、IBM watsonx、Deepgram、Pinecone、Oracle 和 SAP 共 15 个厂商及 15 个产品。
+- 目录基线达到 183 个厂商、320 个产品、113 项生态资源；12 个新产品进入 AI 工具目录，Pinecone、Oracle 和 SAP 进入 AI 可接入目录。
+- Brave Leo 明确归入 Brave Browser，不伪造独立安装器；Tabnine 只打开受支持 IDE 的官方安装说明；其余 Web 平台直接打开官方产品入口。
+- 新厂商在没有确认第三方目录展示授权前统一使用审核文字回退。扩充脚本重复执行保持 183/320/113，不复制厂商或产品身份。
+- 本地后台通过完整校验并签名发布目录 v48；开发客户端真实页面已显示新增厂商、精准 AMD 搜索结果和四个资源商店。本轮未重新封装 PC 安装包。
+
 ## 2026-08-02 第二轮 Windows 图形产品普查
 
 - 原有 49 个厂商、142 个产品只是首轮样本，不能作为“全部 AI 产品”的完成口径。本轮按海外产品、中国产品、Agent/开发/本地模型三路并行，以厂商官网、官方帮助、官方文档和官方 GitHub/Release 做了一手来源复核。

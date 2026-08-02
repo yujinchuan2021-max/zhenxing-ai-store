@@ -116,7 +116,8 @@ async function loadCatalog() {
     state.catalog.resourceStores ||= [
       { id: "skill", label: "Skill 商店", enabled: true, order: 0 },
       { id: "mcp", label: "MCP 商店", enabled: true, order: 1 },
-      { id: "plugin", label: "插件商店", enabled: true, order: 2 }
+      { id: "plugin", label: "插件商店", enabled: true, order: 2 },
+      { id: "connector", label: "连接器商店", enabled: true, order: 3 }
     ];
     state.catalog.resources ||= [];
     state.selectedVendorId = state.catalog.vendors[0]?.id || "";
@@ -774,11 +775,11 @@ function renderResources() {
     ({ product }) => product.directoryKind === "ai-tool"
   );
   content.innerHTML = `
-    <section class="intro"><div><p class="eyebrow">目录 / 生态资源</p><h2>Skill、MCP 与插件商店</h2>
+    <section class="intro"><div><p class="eyebrow">目录 / 生态资源</p><h2>Skill、MCP、插件与连接器商店</h2>
     <p>资源独立于厂商产品保存，可关联来源产品并接入多个 AI 工具。后台只能选择客户端固定模块和已审核配置，不能下发命令。</p></div>
     <button class="smallButton" data-action="add-resource">＋ 新增资源</button></section>
     <section class="panel">
-      <div class="panelHeader"><div><h3>商店入口</h3><small>入口固定为 Skill、MCP 和插件；可调整名称、顺序和启停。</small></div></div>
+      <div class="panelHeader"><div><h3>商店入口</h3><small>入口固定为 Skill、MCP、插件和连接器；可调整名称、顺序和启停。</small></div></div>
       <div class="resourceStores">${state.catalog.resourceStores
         .map(
           (store, index) => `<div>

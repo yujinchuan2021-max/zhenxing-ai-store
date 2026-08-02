@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-02T16:23:55.774Z",
+  "updatedAt": "2026-08-03T12:00:00.000Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -173,7 +173,7 @@
             "tutorial"
           ],
           "category": "智能体",
-          "description": "OpenAI 说明 Codex 可跨 app、CLI、IDE 和 Web 使用；Windows 独立 Codex 已迁移进统一 ChatGPT 应用。迁移证据",
+          "description": "OpenAI 说明 Codex 可跨 app、CLI、IDE 和 Web 使用；Windows 独立 Codex 已迁移进统一 ChatGPT 应用。",
           "website": "https://openai.com/codex/",
           "tutorial": "https://developers.openai.com/codex/",
           "productType": "web",
@@ -3365,8 +3365,8 @@
       "enabled": true,
       "order": 23,
       "iconAsset": {
-        "path": "vendor-icons/eaf4e3a56ad089982e2b06d1d7bcbded64b24b7df946a3991ad8fcc778ee46c6.png",
-        "sha256": "eaf4e3a56ad089982e2b06d1d7bcbded64b24b7df946a3991ad8fcc778ee46c6",
+        "path": "vendor-icons/ed4a872462794fe0deea223755d19956c61320d69f848e07ba5f4c7e54ace393.png",
+        "sha256": "ed4a872462794fe0deea223755d19956c61320d69f848e07ba5f4c7e54ace393",
         "mimeType": "image/png"
       }
     },
@@ -4048,12 +4048,7 @@
         }
       ],
       "enabled": true,
-      "order": 30,
-      "iconAsset": {
-        "path": "vendor-icons/8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f.png",
-        "sha256": "8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f",
-        "mimeType": "image/png"
-      }
+      "order": 30
     },
     {
       "id": "baichuan",
@@ -4297,8 +4292,8 @@
       "enabled": true,
       "order": 34,
       "iconAsset": {
-        "path": "vendor-icons/506d00e5c45719aa426bff790c3defb0fbc8c9b954c51597f667ed17dc1e2c68.png",
-        "sha256": "506d00e5c45719aa426bff790c3defb0fbc8c9b954c51597f667ed17dc1e2c68",
+        "path": "vendor-icons/6f74a52056673adec7c319bf098d22c432629878aa9b0aac8a68ef571c391c70.png",
+        "sha256": "6f74a52056673adec7c319bf098d22c432629878aa9b0aac8a68ef571c391c70",
         "mimeType": "image/png"
       }
     },
@@ -4892,9 +4887,9 @@
       "enabled": true,
       "order": 41,
       "iconAsset": {
-        "path": "vendor-icons/bedcb14e0470ff8abe26405a630e9604ac4fa581b385a7cfb00420c22f541b6e.ico",
-        "sha256": "bedcb14e0470ff8abe26405a630e9604ac4fa581b385a7cfb00420c22f541b6e",
-        "mimeType": "image/x-icon"
+        "path": "vendor-icons/7b2ddecc02c1f16dbe5cdb8d42fa82551e5eceb6f425a778baacb38641e4e04f.png",
+        "sha256": "7b2ddecc02c1f16dbe5cdb8d42fa82551e5eceb6f425a778baacb38641e4e04f",
+        "mimeType": "image/png"
       }
     },
     {
@@ -5080,9 +5075,9 @@
       "enabled": true,
       "order": 43,
       "iconAsset": {
-        "path": "vendor-icons/8ebc732956a301137cca3f1cd9118158cbaed2cc0ae310d96c9a26a4b0c5a4de.ico",
-        "sha256": "8ebc732956a301137cca3f1cd9118158cbaed2cc0ae310d96c9a26a4b0c5a4de",
-        "mimeType": "image/x-icon"
+        "path": "vendor-icons/6221973ca34b69a87fa0e152536fc03e28ef7356ae0de657600e37ca3bdbc7dd.png",
+        "sha256": "6221973ca34b69a87fa0e152536fc03e28ef7356ae0de657600e37ca3bdbc7dd",
+        "mimeType": "image/png"
       }
     },
     {
@@ -7052,7 +7047,7 @@
       "products": [
         {
           "id": "canva-windows",
-          "name": "Canva",
+          "name": "Canva for Windows",
           "kind": "桌面端",
           "category": "图像创作",
           "description": "集成 Magic Studio AI 创作能力的 Canva Windows 应用。",
@@ -7095,7 +7090,7 @@
           "enabled": true,
           "order": 1,
           "directoryKind": "ai-connectable",
-          "name": "Canva",
+          "name": "Canva Design Platform",
           "kind": "其他产品",
           "category": "图像与设计",
           "description": "可通过 Canva MCP / AI Connector 向获准的 AI 工具提供设计和品牌资产能力。",
@@ -9483,9 +9478,9 @@
       ],
       "order": 109,
       "iconAsset": {
-        "path": "vendor-icons/47267628af20b00fe9d76b98ed249f4b0a59c0a3555bf9adf77432060d933346.ico",
-        "sha256": "47267628af20b00fe9d76b98ed249f4b0a59c0a3555bf9adf77432060d933346",
-        "mimeType": "image/x-icon"
+        "path": "vendor-icons/f4d5f68693c038637679bda7226e63cbeab3cfda567af79d3b20ad45fbaf6a1d.png",
+        "sha256": "f4d5f68693c038637679bda7226e63cbeab3cfda567af79d3b20ad45fbaf6a1d",
+        "mimeType": "image/png"
       }
     },
     {
@@ -9923,9 +9918,9 @@
       ],
       "order": 119,
       "iconAsset": {
-        "path": "vendor-icons/efd39f7c8c0102e6a0e2704f1e129336658fe02dd6971feb080716e36600dbb9.ico",
-        "sha256": "efd39f7c8c0102e6a0e2704f1e129336658fe02dd6971feb080716e36600dbb9",
-        "mimeType": "image/x-icon"
+        "path": "vendor-icons/629f7f603be116c3a51159e1328c058301a0d901b28022c5ec12b417a95d12e1.png",
+        "sha256": "629f7f603be116c3a51159e1328c058301a0d901b28022c5ec12b417a95d12e1",
+        "mimeType": "image/png"
       }
     },
     {
@@ -10055,8 +10050,8 @@
       ],
       "order": 122,
       "iconAsset": {
-        "path": "vendor-icons/e4f7f87d7a5dc41070bc90bd180ced4f21682aef7aca52207e65d89b647adf3f.png",
-        "sha256": "e4f7f87d7a5dc41070bc90bd180ced4f21682aef7aca52207e65d89b647adf3f",
+        "path": "vendor-icons/d1f965fd627adac0330e962bd583400ded0f922366255979c347eea283e00080.png",
+        "sha256": "d1f965fd627adac0330e962bd583400ded0f922366255979c347eea283e00080",
         "mimeType": "image/png"
       }
     },
@@ -10099,8 +10094,8 @@
       ],
       "order": 123,
       "iconAsset": {
-        "path": "vendor-icons/64fc26e145878847fb5498f4d02a105f98fa8f8cd95eaf2cdc955d6854d99284.png",
-        "sha256": "64fc26e145878847fb5498f4d02a105f98fa8f8cd95eaf2cdc955d6854d99284",
+        "path": "vendor-icons/1e4652d649833c1a3a9eec122f0b608eb9060deac7d047882c34189207818a07.png",
+        "sha256": "1e4652d649833c1a3a9eec122f0b608eb9060deac7d047882c34189207818a07",
         "mimeType": "image/png"
       }
     },
@@ -11640,8 +11635,8 @@
       ],
       "order": 160,
       "iconAsset": {
-        "path": "vendor-icons/ce1a1a9178e58aff898a1e76603309557ee36c3257e30faf2a8d9012a394ea77.png",
-        "sha256": "ce1a1a9178e58aff898a1e76603309557ee36c3257e30faf2a8d9012a394ea77",
+        "path": "vendor-icons/d4ff4940f65ad3c7b4bbec3fc4b6c5051e3b51ee777b13b165f08d7d33196666.png",
+        "sha256": "d4ff4940f65ad3c7b4bbec3fc4b6c5051e3b51ee777b13b165f08d7d33196666",
         "mimeType": "image/png"
       }
     },
@@ -11941,6 +11936,590 @@
         }
       ],
       "order": 167
+    },
+    {
+      "id": "replit",
+      "name": "Replit",
+      "initial": "R",
+      "color": "#f26207",
+      "description": "提供浏览器内开发环境、部署平台和 AI 应用构建智能体。",
+      "website": "https://replit.com/",
+      "tutorial": "https://docs.replit.com/learn/build-with-agent",
+      "enabled": true,
+      "order": 168,
+      "mark": "R",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "replit-agent",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Replit Agent",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "通过自然语言规划、编写、调试并发布应用和网站的浏览器 AI 开发环境。",
+          "website": "https://replit.com/ai",
+          "tutorial": "https://docs.replit.com/learn/build-with-agent",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stackblitz",
+      "name": "StackBlitz",
+      "initial": "S",
+      "color": "#1389fd",
+      "description": "开发浏览器原生开发环境和 AI 全栈应用构建产品 Bolt。",
+      "website": "https://stackblitz.com/",
+      "tutorial": "https://support.bolt.new/building/intro-bolt",
+      "enabled": true,
+      "order": 169,
+      "mark": "S",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "bolt-new",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Bolt",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "在浏览器中通过 AI 生成、编辑和发布网站、Web 应用及移动应用。",
+          "website": "https://bolt.new/",
+          "tutorial": "https://support.bolt.new/building/intro-bolt",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lovable",
+      "name": "Lovable",
+      "initial": "L",
+      "color": "#ff5f87",
+      "description": "提供通过自然语言构建、迭代和部署 Web 应用的 AI 开发平台。",
+      "website": "https://lovable.dev/",
+      "tutorial": "https://docs.lovable.dev/introduction/welcome",
+      "enabled": true,
+      "order": 170,
+      "mark": "L",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "lovable-ai-app-builder",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Lovable",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "通过 AI 对话构建、迭代并部署全栈 Web 应用。",
+          "website": "https://lovable.dev/",
+          "tutorial": "https://docs.lovable.dev/introduction/welcome",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "brave",
+      "name": "Brave",
+      "initial": "B",
+      "color": "#fb542b",
+      "description": "开发注重隐私的浏览器及其内置 AI 助手 Leo。",
+      "website": "https://brave.com/",
+      "tutorial": "https://brave.com/leo/",
+      "enabled": true,
+      "order": 171,
+      "mark": "B",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "brave-browser-leo",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Brave Browser（含 Leo）",
+          "kind": "桌面端",
+          "category": "AI 对话",
+          "description": "Brave Windows 浏览器内置 Leo AI；Leo 不是独立安装的软件。",
+          "website": "https://brave.com/download/",
+          "tutorial": "https://brave.com/leo/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tabnine",
+      "name": "Tabnine",
+      "initial": "T",
+      "color": "#6f55ff",
+      "description": "提供面向多种 IDE 和企业代码库的 AI 编程助手。",
+      "website": "https://www.tabnine.com/",
+      "tutorial": "https://docs.tabnine.com/main/welcome/readme/supported-ides",
+      "enabled": true,
+      "order": 172,
+      "mark": "T",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "tabnine-ai-code-assistant",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Tabnine AI Code Assistant",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "安装在受支持 IDE 中的 AI 代码助手；不同 IDE 通过各自官方市场接入。",
+          "website": "https://www.tabnine.com/",
+          "tutorial": "https://docs.tabnine.com/main/welcome/readme/supported-ides",
+          "productType": "tutorial",
+          "moduleId": "tutorial-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ideogram",
+      "name": "Ideogram",
+      "initial": "I",
+      "color": "#111111",
+      "description": "提供浏览器中的 AI 图像生成、文字排版和图像编辑工具。",
+      "website": "https://ideogram.ai/",
+      "tutorial": "https://docs.ideogram.ai/using-ideogram/getting-started/generating-images",
+      "enabled": true,
+      "order": 173,
+      "mark": "I",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "ideogram-web",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Ideogram",
+          "kind": "其他产品",
+          "category": "图像创作",
+          "description": "直接在浏览器中通过文字提示浏览、生成和编辑图像。",
+          "website": "https://ideogram.ai/",
+          "tutorial": "https://docs.ideogram.ai/using-ideogram/getting-started/generating-images",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recraft",
+      "name": "Recraft",
+      "initial": "R",
+      "color": "#5a5cf0",
+      "description": "提供 AI 位图、矢量、品牌视觉和设计工作区。",
+      "website": "https://www.recraft.ai/",
+      "tutorial": "https://www.recraft.ai/docs",
+      "enabled": true,
+      "order": 174,
+      "mark": "R",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "recraft-studio",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Recraft Studio",
+          "kind": "其他产品",
+          "category": "图像创作",
+          "description": "浏览器中的 AI 图像、矢量、样机、背景和品牌视觉生成编辑平台。",
+          "website": "https://www.recraft.ai/",
+          "tutorial": "https://www.recraft.ai/docs",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "luma",
+      "name": "Luma AI",
+      "initial": "L",
+      "color": "#111111",
+      "description": "提供面向创作者的 AI 图像和视频生成平台。",
+      "website": "https://lumalabs.ai/",
+      "tutorial": "https://lumalabs.ai/llm-info",
+      "enabled": true,
+      "order": 175,
+      "mark": "L",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "luma-app",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Luma App",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "使用当前 Luma App 入口通过文本、图像和提示生成视频。",
+          "website": "https://app.lumalabs.ai/",
+          "tutorial": "https://lumalabs.ai/llm-info",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heygen",
+      "name": "HeyGen",
+      "initial": "H",
+      "color": "#7559ff",
+      "description": "提供浏览器中的 AI 视频、数字人和视频翻译平台。",
+      "website": "https://www.heygen.com/",
+      "tutorial": "https://www.heygen.com/tool/ai-video-generator",
+      "enabled": true,
+      "order": 176,
+      "mark": "H",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "heygen-ai-video",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "HeyGen AI Video",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "在浏览器中使用 AI 数字人、脚本和翻译能力制作视频。",
+          "website": "https://www.heygen.com/tool/ai-video-generator",
+          "tutorial": "https://www.heygen.com/tool/ai-video-generator",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "synthesia",
+      "name": "Synthesia",
+      "initial": "S",
+      "color": "#7257f2",
+      "description": "提供面向企业的浏览器 AI 视频与数字人制作平台。",
+      "website": "https://www.synthesia.io/",
+      "tutorial": "https://docs.synthesia.io/docs/video-creation",
+      "enabled": true,
+      "order": 177,
+      "mark": "S",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "synthesia-ai-video",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Synthesia",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "通过提示词、文档、URL、脚本和数字人在浏览器中创建企业视频。",
+          "website": "https://www.synthesia.io/",
+          "tutorial": "https://docs.synthesia.io/docs/video-creation",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ibm",
+      "name": "IBM",
+      "initial": "I",
+      "color": "#0f62fe",
+      "description": "提供企业软件、云服务以及 watsonx 人工智能平台。",
+      "website": "https://www.ibm.com/",
+      "tutorial": "https://www.ibm.com/products/watsonx-ai",
+      "enabled": true,
+      "order": 178,
+      "mark": "I",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "watsonx-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "IBM watsonx.ai",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "面向企业的 AI 开发 Studio，覆盖基础模型、Agent 工具、API、RAG 和部署。",
+          "website": "https://www.ibm.com/products/watsonx-ai",
+          "tutorial": "https://www.ibm.com/products/watsonx-ai",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deepgram",
+      "name": "Deepgram",
+      "initial": "D",
+      "color": "#13ef95",
+      "description": "提供语音识别、语音合成和实时 Voice Agent 开发平台。",
+      "website": "https://deepgram.com/",
+      "tutorial": "https://developers.deepgram.com/",
+      "enabled": true,
+      "order": 179,
+      "mark": "D",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "deepgram-voice-ai-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Deepgram Voice AI Platform",
+          "kind": "其他产品",
+          "category": "音频创作",
+          "description": "提供 Voice Agent、实时转写、语音合成、Playground 与 API/SDK 的开发平台。",
+          "website": "https://developers.deepgram.com/",
+          "tutorial": "https://developers.deepgram.com/reference/deepgram-api-overview",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pinecone",
+      "name": "Pinecone",
+      "initial": "P",
+      "color": "#11133f",
+      "description": "提供面向生产 AI 应用的托管向量数据库和检索能力。",
+      "website": "https://www.pinecone.io/",
+      "tutorial": "https://docs.pinecone.io/guides/get-started/overview",
+      "enabled": true,
+      "order": 180,
+      "mark": "P",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "pinecone-vector-database",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Pinecone Vector Database",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "面向 AI 应用的托管向量数据库，提供嵌入、检索、重排、API 和开发工具接入。",
+          "website": "https://www.pinecone.io/",
+          "tutorial": "https://docs.pinecone.io/guides/get-started/overview",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oracle",
+      "name": "Oracle",
+      "initial": "O",
+      "color": "#f80000",
+      "description": "提供数据库、企业软件和 Oracle Cloud Infrastructure。",
+      "website": "https://www.oracle.com/",
+      "tutorial": "https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm",
+      "enabled": true,
+      "order": 181,
+      "mark": "O",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "oracle-cloud-infrastructure",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Oracle Cloud Infrastructure",
+          "kind": "其他产品",
+          "category": "云服务与运维",
+          "description": "可连接企业数据、API 和 Agent 的云平台；枕星 AI 仅打开官方平台与文档。",
+          "website": "https://www.oracle.com/artificial-intelligence/enterprise-ai/",
+          "tutorial": "https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sap",
+      "name": "SAP",
+      "initial": "S",
+      "color": "#0a6ed1",
+      "description": "提供企业应用、数据平台以及 SAP Business AI。",
+      "website": "https://www.sap.com/",
+      "tutorial": "https://help.sap.com/docs/sap-ai-core/generative-ai/generative-ai-hub",
+      "enabled": true,
+      "order": 182,
+      "mark": "S",
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "sap-business-ai-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "SAP Business AI Platform",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "用于构建、集成和治理跨企业系统的 AI Agent、应用与工作流。",
+          "website": "https://www.sap.com/products/ai-platform.html",
+          "tutorial": "https://help.sap.com/docs/sap-ai-core/generative-ai/generative-ai-hub",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ]
+        }
+      ]
     }
   ],
   "environmentDownloads": {
@@ -12046,7 +12625,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "openai"
     },
     {
       "id": "openai-codex-mcp-config",
@@ -12082,7 +12662,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "openai"
     },
     {
       "id": "openai-chatgpt-apps-skill",
@@ -12124,7 +12705,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "openai"
     },
     {
       "id": "anthropic-official-plugin-marketplace",
@@ -12160,7 +12742,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "anthropic"
     },
     {
       "id": "anthropic-claude-code-mcp",
@@ -12196,7 +12779,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "anthropic"
     },
     {
       "id": "comfy-custom-nodes",
@@ -12232,7 +12816,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "comfy"
     },
     {
       "id": "google-gemini-cli-extensions",
@@ -12268,7 +12853,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "google"
     },
     {
       "id": "microsoft-azure-mcp",
@@ -12472,7 +13058,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "microsoft"
     },
     {
       "id": "github-copilot-mcp",
@@ -12643,7 +13230,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "moonshot"
     },
     {
       "id": "anythingllm-agent-skills",
@@ -12680,7 +13268,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "mintplex"
     },
     {
       "id": "amazon-kiro-powers",
@@ -12716,7 +13305,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "amazon"
     },
     {
       "id": "aws-mcp-servers",
@@ -12815,7 +13405,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "minimax"
     },
     {
       "id": "minimax-official-mcp",
@@ -12851,7 +13442,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "minimax"
     },
     {
       "id": "pika-mcp-skills",
@@ -12888,7 +13480,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "pika"
     },
     {
       "id": "hf-mcp-server",
@@ -12924,7 +13517,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "huggingface"
     },
     {
       "id": "hf-agent-skills",
@@ -12960,7 +13554,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "huggingface"
     },
     {
       "id": "openclaw-clawhub-skills",
@@ -12996,7 +13591,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "openclaw"
     },
     {
       "id": "openclaw-clawhub-plugins",
@@ -13032,7 +13628,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "openclaw"
     },
     {
       "id": "hermes-agent-skills",
@@ -13068,7 +13665,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "nousresearch"
     },
     {
       "id": "cline-official-skills-plugins",
@@ -13106,7 +13704,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "cline"
     },
     {
       "id": "opencode-agent-skills",
@@ -13142,7 +13741,8 @@
           ],
           "enabled": true
         }
-      ]
+      ],
+      "publisherVendorId": "anomalyco"
     },
     {
       "id": "unity-official-mcp-server",
@@ -13213,6 +13813,15 @@
           "enabled": true
         }
       ],
+      "versionRef": "rolling-official-package",
+      "requestedPermissions": [
+        "读取 Unity 项目的场景、GameObject、组件、控制台和编辑器上下文；执行编辑器修改前必须确认。"
+      ],
+      "credentialRequirements": [
+        "Unity Editor 与目标 AI 工具在本机建立 MCP 连接；目录不保存账号或凭据。"
+      ],
+      "installScope": "仅打开 Unity 官方 MCP 接入说明；当前不写入 Unity 项目或 AI 工具配置。",
+      "uninstallPlan": "从目标 AI 工具移除 Unity MCP 配置，并在 Unity Package Manager 中移除或停用相关包；保留 Unity Editor、项目与资源。",
       "provenanceEvidence": [
         "https://unity.com/blog/unity-ai-how-to-get-started",
         "https://unity.com/features/ai"
@@ -13268,6 +13877,15 @@
           "enabled": true
         }
       ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "访问已授权的设备列表、远程会话和桌面控制能力；发起或变更远程控制前必须确认。"
+      ],
+      "credentialRequirements": [
+        "向日葵账号、设备授权和服务凭据由贝锐与目标 AI 工具管理，目录不保存凭据。"
+      ],
+      "installScope": "仅打开向日葵官方 MCP 接入说明；当前不写入本地配置。",
+      "uninstallPlan": "从目标 AI 工具移除 AweSun MCP 连接并在向日葵撤销授权；保留向日葵客户端、设备和远程控制配置。",
       "provenanceEvidence": [
         "https://activity.sunlogin.oray.com/mcp"
       ],

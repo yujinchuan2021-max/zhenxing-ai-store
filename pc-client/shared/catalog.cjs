@@ -80,7 +80,8 @@ const PRODUCT_DIRECTORY_KINDS = new Set(["ai-tool", "ai-connectable"]);
 const DEFAULT_RESOURCE_STORES = Object.freeze([
   Object.freeze({ id: "skill", label: "Skill 商店", enabled: true, order: 0 }),
   Object.freeze({ id: "mcp", label: "MCP 商店", enabled: true, order: 1 }),
-  Object.freeze({ id: "plugin", label: "插件商店", enabled: true, order: 2 })
+  Object.freeze({ id: "plugin", label: "插件商店", enabled: true, order: 2 }),
+  Object.freeze({ id: "connector", label: "连接器商店", enabled: true, order: 3 })
 ]);
 
 function hasOnlyFields(value, allowed) {

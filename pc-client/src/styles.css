@@ -656,7 +656,7 @@ button:not(:disabled):active {
   width: 54px;
   height: 54px;
   border-radius: 15px 15px 15px 5px;
-  color: #fff;
+  color: #17362d;
   font-size: 17px;
 }
 
@@ -734,7 +734,7 @@ button:not(:disabled):active {
   width: 76px;
   height: 76px;
   border-radius: 21px 21px 21px 7px;
-  color: #fff;
+  color: #17362d;
   font-size: 25px;
 }
 

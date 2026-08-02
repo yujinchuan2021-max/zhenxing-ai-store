@@ -434,6 +434,7 @@ function resourceStoreDisplayLabel(store: ResourceStore) {
   if (store.id === "skill") return uiText("resources.store.skill");
   if (store.id === "mcp") return uiText("resources.store.mcp");
   if (store.id === "plugin") return uiText("resources.store.plugin");
+  if (store.id === "connector") return uiText("resources.store.connector");
   return store.label;
 }
 
@@ -8252,7 +8253,7 @@ function VendorMark({
     <span
       className={`vendorMark${large ? " large" : ""}${hero ? " heroMark" : ""}`}
       style={{
-        background: vendor.iconUrl && !iconFailed ? "#fff" : vendor.color
+        background: "#fff"
       }}
     >
       {vendor.iconUrl && !iconFailed ? (

@@ -111,16 +111,6 @@
         "nomic"
       ]
     },
-    "eaf4e3a56ad089982e2b06d1d7bcbded64b24b7df946a3991ad8fcc778ee46c6": {
-      "path": "vendor-icons/eaf4e3a56ad089982e2b06d1d7bcbded64b24b7df946a3991ad8fcc778ee46c6.png",
-      "sha256": "eaf4e3a56ad089982e2b06d1d7bcbded64b24b7df946a3991ad8fcc778ee46c6",
-      "mimeType": "image/png",
-      "sourceUrl": "https://kiro.dev/apple-icon.png?4cefa8c54a20b098",
-      "updatedAt": "2026-08-02T13:16:46.814Z",
-      "vendorIds": [
-        "amazon"
-      ]
-    },
     "4a650703d2de75f4223c41c10fca33d7114ecf95a83a5f46d1ced3abedc31aa9": {
       "path": "vendor-icons/4a650703d2de75f4223c41c10fca33d7114ecf95a83a5f46d1ced3abedc31aa9.png",
       "sha256": "4a650703d2de75f4223c41c10fca33d7114ecf95a83a5f46d1ced3abedc31aa9",
@@ -211,16 +201,6 @@
         "kuaishou"
       ]
     },
-    "506d00e5c45719aa426bff790c3defb0fbc8c9b954c51597f667ed17dc1e2c68": {
-      "path": "vendor-icons/506d00e5c45719aa426bff790c3defb0fbc8c9b954c51597f667ed17dc1e2c68.png",
-      "sha256": "506d00e5c45719aa426bff790c3defb0fbc8c9b954c51597f667ed17dc1e2c68",
-      "mimeType": "image/png",
-      "sourceUrl": "https://assistant.stability.ai/favicon",
-      "updatedAt": "2026-08-02T13:16:51.503Z",
-      "vendorIds": [
-        "stability"
-      ]
-    },
     "f37c94aa13c296973edb190f845161aaf4dc80eb18165e44bca1c090a7b638ae": {
       "path": "vendor-icons/f37c94aa13c296973edb190f845161aaf4dc80eb18165e44bca1c090a7b638ae.png",
       "sha256": "f37c94aa13c296973edb190f845161aaf4dc80eb18165e44bca1c090a7b638ae",
@@ -259,26 +239,6 @@
       "updatedAt": "2026-08-02T13:16:54.613Z",
       "vendorIds": [
         "together"
-      ]
-    },
-    "8ebc732956a301137cca3f1cd9118158cbaed2cc0ae310d96c9a26a4b0c5a4de": {
-      "path": "vendor-icons/8ebc732956a301137cca3f1cd9118158cbaed2cc0ae310d96c9a26a4b0c5a4de.ico",
-      "sha256": "8ebc732956a301137cca3f1cd9118158cbaed2cc0ae310d96c9a26a4b0c5a4de",
-      "mimeType": "image/x-icon",
-      "sourceUrl": "https://nousresearch.net/favicon.ico?favicon.0urifig_ow-kc.ico",
-      "updatedAt": "2026-08-02T13:16:55.049Z",
-      "vendorIds": [
-        "nousresearch"
-      ]
-    },
-    "bedcb14e0470ff8abe26405a630e9604ac4fa581b385a7cfb00420c22f541b6e": {
-      "path": "vendor-icons/bedcb14e0470ff8abe26405a630e9604ac4fa581b385a7cfb00420c22f541b6e.ico",
-      "sha256": "bedcb14e0470ff8abe26405a630e9604ac4fa581b385a7cfb00420c22f541b6e",
-      "mimeType": "image/x-icon",
-      "sourceUrl": "https://developer.nvidia.com/assets/favicon-81bff16cada05fcff11e5711f7e6212bdc2e0a32ee57cd640a8cf66c87a6cbe6.ico",
-      "updatedAt": "2026-08-02T13:16:55.095Z",
-      "vendorIds": [
-        "nvidia"
       ]
     },
     "5f742ba1de17aac360cffbc1ab77aac3cfa1632cf8be0abe66cc3f97dc719b8b": {
@@ -701,16 +661,6 @@
         "fathom"
       ]
     },
-    "47267628af20b00fe9d76b98ed249f4b0a59c0a3555bf9adf77432060d933346": {
-      "path": "vendor-icons/47267628af20b00fe9d76b98ed249f4b0a59c0a3555bf9adf77432060d933346.ico",
-      "sha256": "47267628af20b00fe9d76b98ed249f4b0a59c0a3555bf9adf77432060d933346",
-      "mimeType": "image/x-icon",
-      "sourceUrl": "https://supabase.com/favicon/favicon.ico",
-      "updatedAt": "2026-08-02T13:17:06.643Z",
-      "vendorIds": [
-        "supabase"
-      ]
-    },
     "928f41d2198a7e88075b7ea7205db0237702a07abe3abc84052910ed35eb7277": {
       "path": "vendor-icons/928f41d2198a7e88075b7ea7205db0237702a07abe3abc84052910ed35eb7277.png",
       "sha256": "928f41d2198a7e88075b7ea7205db0237702a07abe3abc84052910ed35eb7277",
@@ -841,16 +791,6 @@
         "sentry"
       ]
     },
-    "e4f7f87d7a5dc41070bc90bd180ced4f21682aef7aca52207e65d89b647adf3f": {
-      "path": "vendor-icons/e4f7f87d7a5dc41070bc90bd180ced4f21682aef7aca52207e65d89b647adf3f.png",
-      "sha256": "e4f7f87d7a5dc41070bc90bd180ced4f21682aef7aca52207e65d89b647adf3f",
-      "mimeType": "image/png",
-      "sourceUrl": "https://images.ctfassets.net/5965pury2lcm/1tnmFcdDiCxf9zC14g97ri/19aa59ad1ac0f7bab14838fae98fd99c/favicon-icon.png",
-      "updatedAt": "2026-08-02T13:17:10.190Z",
-      "vendorIds": [
-        "uipath"
-      ]
-    },
     "14867498cad6f247b9ebd0bb18446e7e2769aa399750ab1f80061d4ae6fb475b": {
       "path": "vendor-icons/14867498cad6f247b9ebd0bb18446e7e2769aa399750ab1f80061d4ae6fb475b.png",
       "sha256": "14867498cad6f247b9ebd0bb18446e7e2769aa399750ab1f80061d4ae6fb475b",
@@ -859,16 +799,6 @@
       "updatedAt": "2026-08-02T13:17:10.675Z",
       "vendorIds": [
         "n8n"
-      ]
-    },
-    "64fc26e145878847fb5498f4d02a105f98fa8f8cd95eaf2cdc955d6854d99284": {
-      "path": "vendor-icons/64fc26e145878847fb5498f4d02a105f98fa8f8cd95eaf2cdc955d6854d99284.png",
-      "sha256": "64fc26e145878847fb5498f4d02a105f98fa8f8cd95eaf2cdc955d6854d99284",
-      "mimeType": "image/png",
-      "sourceUrl": "https://www.openhomefoundation.org/favicon-dark-32x32.png",
-      "updatedAt": "2026-08-02T13:17:10.743Z",
-      "vendorIds": [
-        "open-home-foundation"
       ]
     },
     "a7c3c0f809991918be2440054d9b070d91895c9b692ed0f96e34310f9dfbb238": {
@@ -889,16 +819,6 @@
       "updatedAt": "2026-08-02T13:17:12.209Z",
       "vendorIds": [
         "adobe"
-      ]
-    },
-    "efd39f7c8c0102e6a0e2704f1e129336658fe02dd6971feb080716e36600dbb9": {
-      "path": "vendor-icons/efd39f7c8c0102e6a0e2704f1e129336658fe02dd6971feb080716e36600dbb9.ico",
-      "sha256": "efd39f7c8c0102e6a0e2704f1e129336658fe02dd6971feb080716e36600dbb9",
-      "mimeType": "image/x-icon",
-      "sourceUrl": "https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/images/favicon.f83afbda6c78.ico",
-      "updatedAt": "2026-08-02T13:17:12.311Z",
-      "vendorIds": [
-        "ableton"
       ]
     },
     "66e285da2d83710aaf6319da2bdbc496b8e74fb4cc9f9fcc05da7106055f1f58": {
@@ -1201,16 +1121,6 @@
         "penpot"
       ]
     },
-    "ce1a1a9178e58aff898a1e76603309557ee36c3257e30faf2a8d9012a394ea77": {
-      "path": "vendor-icons/ce1a1a9178e58aff898a1e76603309557ee36c3257e30faf2a8d9012a394ea77.png",
-      "sha256": "ce1a1a9178e58aff898a1e76603309557ee36c3257e30faf2a8d9012a394ea77",
-      "mimeType": "image/png",
-      "sourceUrl": "https://redis.io/company/news/",
-      "updatedAt": "2026-08-02T15:46:07.079Z",
-      "vendorIds": [
-        "redis"
-      ]
-    },
     "3743e030729b57229fedbfc765759bd3e6c0c4709a467d5885b156947041e6a0": {
       "path": "vendor-icons/3743e030729b57229fedbfc765759bd3e6c0c4709a467d5885b156947041e6a0.png",
       "sha256": "3743e030729b57229fedbfc765759bd3e6c0c4709a467d5885b156947041e6a0",
@@ -1219,16 +1129,6 @@
       "updatedAt": "2026-08-02T16:16:23.862Z",
       "vendorIds": [
         "cline"
-      ]
-    },
-    "8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f": {
-      "path": "vendor-icons/8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f.png",
-      "sha256": "8ffc73f1bcbc3af67fa71aee7de4075132747fb17bcf79804aaf8485ddaa871f",
-      "mimeType": "image/png",
-      "sourceUrl": "https://github.com/01-ai",
-      "updatedAt": "2026-08-02T16:16:24.068Z",
-      "vendorIds": [
-        "01ai"
       ]
     },
     "bff49a906a639f211d2a112ddca518e3b786244785aecf43f7ad0179d1c6b983": {
@@ -1289,6 +1189,96 @@
       "updatedAt": "2026-08-02T16:27:23.903Z",
       "vendorIds": [
         "amd"
+      ]
+    },
+    "1e4652d649833c1a3a9eec122f0b608eb9060deac7d047882c34189207818a07": {
+      "path": "vendor-icons/1e4652d649833c1a3a9eec122f0b608eb9060deac7d047882c34189207818a07.png",
+      "sha256": "1e4652d649833c1a3a9eec122f0b608eb9060deac7d047882c34189207818a07",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/OpenHomeFoundation",
+      "updatedAt": "2026-08-02T16:37:47.223Z",
+      "vendorIds": [
+        "open-home-foundation"
+      ]
+    },
+    "7b2ddecc02c1f16dbe5cdb8d42fa82551e5eceb6f425a778baacb38641e4e04f": {
+      "path": "vendor-icons/7b2ddecc02c1f16dbe5cdb8d42fa82551e5eceb6f425a778baacb38641e4e04f.png",
+      "sha256": "7b2ddecc02c1f16dbe5cdb8d42fa82551e5eceb6f425a778baacb38641e4e04f",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/NVIDIA",
+      "updatedAt": "2026-08-02T16:37:47.239Z",
+      "vendorIds": [
+        "nvidia"
+      ]
+    },
+    "d1f965fd627adac0330e962bd583400ded0f922366255979c347eea283e00080": {
+      "path": "vendor-icons/d1f965fd627adac0330e962bd583400ded0f922366255979c347eea283e00080.png",
+      "sha256": "d1f965fd627adac0330e962bd583400ded0f922366255979c347eea283e00080",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/UiPath",
+      "updatedAt": "2026-08-02T16:37:47.250Z",
+      "vendorIds": [
+        "uipath"
+      ]
+    },
+    "ed4a872462794fe0deea223755d19956c61320d69f848e07ba5f4c7e54ace393": {
+      "path": "vendor-icons/ed4a872462794fe0deea223755d19956c61320d69f848e07ba5f4c7e54ace393.png",
+      "sha256": "ed4a872462794fe0deea223755d19956c61320d69f848e07ba5f4c7e54ace393",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/aws",
+      "updatedAt": "2026-08-02T16:37:47.261Z",
+      "vendorIds": [
+        "amazon"
+      ]
+    },
+    "6221973ca34b69a87fa0e152536fc03e28ef7356ae0de657600e37ca3bdbc7dd": {
+      "path": "vendor-icons/6221973ca34b69a87fa0e152536fc03e28ef7356ae0de657600e37ca3bdbc7dd.png",
+      "sha256": "6221973ca34b69a87fa0e152536fc03e28ef7356ae0de657600e37ca3bdbc7dd",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/NousResearch",
+      "updatedAt": "2026-08-02T16:37:47.423Z",
+      "vendorIds": [
+        "nousresearch"
+      ]
+    },
+    "6f74a52056673adec7c319bf098d22c432629878aa9b0aac8a68ef571c391c70": {
+      "path": "vendor-icons/6f74a52056673adec7c319bf098d22c432629878aa9b0aac8a68ef571c391c70.png",
+      "sha256": "6f74a52056673adec7c319bf098d22c432629878aa9b0aac8a68ef571c391c70",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/Stability-AI",
+      "updatedAt": "2026-08-02T16:37:47.561Z",
+      "vendorIds": [
+        "stability"
+      ]
+    },
+    "629f7f603be116c3a51159e1328c058301a0d901b28022c5ec12b417a95d12e1": {
+      "path": "vendor-icons/629f7f603be116c3a51159e1328c058301a0d901b28022c5ec12b417a95d12e1.png",
+      "sha256": "629f7f603be116c3a51159e1328c058301a0d901b28022c5ec12b417a95d12e1",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/Ableton",
+      "updatedAt": "2026-08-02T16:37:47.721Z",
+      "vendorIds": [
+        "ableton"
+      ]
+    },
+    "d4ff4940f65ad3c7b4bbec3fc4b6c5051e3b51ee777b13b165f08d7d33196666": {
+      "path": "vendor-icons/d4ff4940f65ad3c7b4bbec3fc4b6c5051e3b51ee777b13b165f08d7d33196666.png",
+      "sha256": "d4ff4940f65ad3c7b4bbec3fc4b6c5051e3b51ee777b13b165f08d7d33196666",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/redis",
+      "updatedAt": "2026-08-02T16:37:47.833Z",
+      "vendorIds": [
+        "redis"
+      ]
+    },
+    "f4d5f68693c038637679bda7226e63cbeab3cfda567af79d3b20ad45fbaf6a1d": {
+      "path": "vendor-icons/f4d5f68693c038637679bda7226e63cbeab3cfda567af79d3b20ad45fbaf6a1d.png",
+      "sha256": "f4d5f68693c038637679bda7226e63cbeab3cfda567af79d3b20ad45fbaf6a1d",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/supabase",
+      "updatedAt": "2026-08-02T16:37:51.240Z",
+      "vendorIds": [
+        "supabase"
       ]
     }
   }

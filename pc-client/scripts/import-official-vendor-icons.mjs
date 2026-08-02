@@ -10,6 +10,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const catalogPath = path.join(root, "admin", "data", "catalog-v1.json");
 const dataDirectory = path.join(root, "admin", "data");
 const sourceManifestPath = path.join(dataDirectory, "vendor-icon-sources.json");
+const fallbackManifestPath = path.join(dataDirectory, "vendor-icon-fallbacks.json");
 const store = createVendorIconStore({
   rootDirectory: dataDirectory,
   manifestPath: sourceManifestPath
@@ -49,13 +50,8 @@ const reviewedIconSources = Object.freeze({
     assetUrl: "https://dhygzobemt712.cloudfront.net/Logo/Social_Circle_Blue.png",
     sourceUrl: "https://brand.webflow.com/brand-assets"
   },
-  redis: {
-    assetUrl: "https://cdn.sanity.io/files/sy1jschh/production/8fdff0c54a41649281d9d2cb309263811d641d35.png",
-    sourceUrl: "https://redis.io/company/news/"
-  }
 });
 const officialGitHubOrganizations = Object.freeze({
-  "01ai": ["01-ai", "139308978"],
   cline: ["cline", "184127137"],
   langchain: ["langchain-ai", "126733545"],
   openwebui: ["open-webui", "158137808"],
@@ -78,7 +74,16 @@ const officialGitHubOrganizations = Object.freeze({
   suno: ["suno-ai", "99442120"],
   quora: ["quora", "68739"],
   monica: ["Monica-IM", "152768275"],
-  "blackmagic-design": ["blackmagicdesign", "8433013"]
+  "blackmagic-design": ["blackmagicdesign", "8433013"],
+  ableton: ["Ableton", "14052912"],
+  amazon: ["aws", "2232217"],
+  nvidia: ["NVIDIA", "1728152"],
+  nousresearch: ["NousResearch", "134168893"],
+  "open-home-foundation": ["OpenHomeFoundation", "159245737"],
+  redis: ["redis", "1529926"],
+  stability: ["Stability-AI", "100950301"],
+  supabase: ["supabase", "54469796"],
+  uipath: ["UiPath", "375663"]
 });
 
 function attributes(tag) {
@@ -325,16 +330,28 @@ async function discover(vendor) {
   return { vendor, error: "no supported raster icon found" };
 }
 
-function removeUnrelatedSharedAssets(catalog) {
+function reviewedTextFallbacks() {
+  const manifest = JSON.parse(fs.readFileSync(fallbackManifestPath, "utf8"));
+  return new Set(Object.keys(manifest.vendors || {}));
+}
+
+function removeUnrelatedSharedAssets(catalog, textFallbacks) {
   const manifest = JSON.parse(fs.readFileSync(sourceManifestPath, "utf8"));
   for (const vendor of catalog.vendors) {
+    if (textFallbacks.has(vendor.id)) {
+      delete vendor.iconAsset;
+      continue;
+    }
     const source = vendor.iconAsset && manifest.assets[vendor.iconAsset.sha256];
     if (!source) continue;
     const sourceUrl = new URL(source.sourceUrl);
     const reviewedSource = reviewedIconSources[vendor.id];
+    const githubOrganization = officialGitHubOrganizations[vendor.id];
+    const reviewedGitHubUrl = githubOrganization && `https://github.com/${githubOrganization[0]}`;
     if (
       source.vendorIds.length > 1 ||
       (reviewedSource && source.sourceUrl !== reviewedSource.sourceUrl) ||
+      (reviewedGitHubUrl && source.sourceUrl !== reviewedGitHubUrl) ||
       (vendor.id !== "github" && sourceUrl.hostname === "github.githubassets.com")
     ) delete vendor.iconAsset;
   }
@@ -359,8 +376,11 @@ function syncSourceManifest(catalog) {
 
 async function main() {
   const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
-  removeUnrelatedSharedAssets(catalog);
-  const queue = catalog.vendors.filter((vendor) => !vendor.iconAsset);
+  const textFallbacks = reviewedTextFallbacks();
+  removeUnrelatedSharedAssets(catalog, textFallbacks);
+  const queue = catalog.vendors.filter(
+    (vendor) => !vendor.iconAsset && !textFallbacks.has(vendor.id)
+  );
   const results = [];
   let cursor = 0;
   async function worker() {

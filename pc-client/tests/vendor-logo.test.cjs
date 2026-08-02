@@ -8,6 +8,7 @@ const catalog = require("../admin/data/catalog-v1.json");
 const sources = require("../admin/data/vendor-icon-sources.json");
 const fallbacks = require("../admin/data/vendor-icon-fallbacks.json");
 const {
+  vendorIconAssetFromPath,
   verifyVendorIconAssetFile
 } = require("../shared/vendor-icon.cjs");
 const { validateCatalog } = require("../shared/catalog.cjs");
@@ -24,14 +25,16 @@ test("vendor logos fail back to the catalog mark without leaking referrers", () 
   assert.match(app, /loading=\{hero \? "eager" : "lazy"\}/);
   assert.match(
     app,
-    /background: vendor\.iconUrl && !iconFailed \? "#fff" : vendor\.color/,
-    "image-backed logos need a neutral background instead of the vendor fallback color"
+    /background: "#fff"/,
+    "logos and text fallbacks need one readable neutral background"
   );
   const styles = fs.readFileSync(
     path.join(__dirname, "..", "src", "styles.css"),
     "utf8"
   );
   assert.match(styles, /\.vendorMark img \{[^}]*width: 100%;[^}]*height: 100%;/s);
+  assert.match(styles, /\.vendorMark\.large \{[^}]*color: #17362d;/s);
+  assert.match(styles, /\.vendorMark\.heroMark \{[^}]*color: #17362d;/s);
 
   const admin = fs.readFileSync(
     path.join(__dirname, "..", "admin", "public", "app.js"),
@@ -90,6 +93,73 @@ test("vendor logo assets cannot be shared across unrelated vendors", () => {
         "the GitHub site favicon is not another vendor's brand logo"
       );
     }
+  }
+});
+
+test("high-risk vendor logos use their reviewed official organization identity", () => {
+  const expectedSources = {
+    ableton: "https://github.com/Ableton",
+    amazon: "https://github.com/aws",
+    nvidia: "https://github.com/NVIDIA",
+    nousresearch: "https://github.com/NousResearch",
+    "open-home-foundation": "https://github.com/OpenHomeFoundation",
+    redis: "https://github.com/redis",
+    stability: "https://github.com/Stability-AI",
+    supabase: "https://github.com/supabase",
+    uipath: "https://github.com/UiPath"
+  };
+  for (const [vendorId, expectedSource] of Object.entries(expectedSources)) {
+    const vendor = catalog.vendors.find((entry) => entry.id === vendorId);
+    assert.ok(vendor?.iconAsset, `${vendorId} logo missing`);
+    assert.equal(
+      sources.assets[vendor.iconAsset.sha256]?.sourceUrl,
+      expectedSource,
+      `${vendorId} must use its reviewed organization identity`
+    );
+  }
+});
+
+test("vendors whose brand terms forbid unlicensed logo use stay on reviewed text fallbacks", () => {
+  const restricted = catalog.vendors.find((vendor) => vendor.id === "01ai");
+  assert.ok(restricted, "01.AI vendor missing");
+  assert.equal(restricted.iconAsset, undefined);
+  assert.equal(restricted.iconUrl, "");
+  assert.equal(
+    fallbacks.vendors[restricted.id]?.evidenceUrl,
+    "https://platform.01.ai/useragreement"
+  );
+});
+
+test("historical signed catalog logo URLs retain their content-addressed files", () => {
+  const releaseDirectory = path.join(
+    __dirname,
+    "..",
+    "admin",
+    "published",
+    "catalog-store",
+    "releases"
+  );
+  const assetPaths = new Set();
+  for (const fileName of fs.readdirSync(releaseDirectory)) {
+    if (!fileName.endsWith(".json")) continue;
+    const envelope = JSON.parse(
+      fs.readFileSync(path.join(releaseDirectory, fileName), "utf8")
+    );
+    for (const vendor of envelope.payload?.catalog?.vendors || []) {
+      const match = String(vendor.iconUrl || "").match(
+        /\/vendor-icons\/([a-f0-9]{64}\.(?:png|jpg|webp|ico|svg))$/i
+      );
+      if (match) assetPaths.add(`vendor-icons/${match[1]}`);
+    }
+  }
+  assert.ok(assetPaths.size > 0, "signed catalog history has no logo assets");
+  for (const assetPath of assetPaths) {
+    assert.doesNotThrow(() =>
+      verifyVendorIconAssetFile(
+        path.join(__dirname, "..", "admin", "data"),
+        vendorIconAssetFromPath(assetPath)
+      )
+    );
   }
 });
 

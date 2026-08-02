@@ -4,7 +4,7 @@ const {
   getExtensionInstallProfile
 } = require("./extension-install-registry.cjs");
 
-const RESOURCE_TYPES = Object.freeze(["skill", "mcp", "plugin"]);
+const RESOURCE_TYPES = Object.freeze(["skill", "mcp", "plugin", "connector"]);
 const RESOURCE_COMPATIBILITY = Object.freeze([
   "official",
   "protocol-compatible",

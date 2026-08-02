@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewedAt": "2026-08-02T15:00:00.000Z",
+  "reviewedAt": "2026-08-03T12:00:00.000Z",
   "vendors": {
     "midjourney": {
       "evidenceUrl": "https://docs.midjourney.com/hc/en-us/articles/32084281102349-Midjourney-Trademark-Policy",
@@ -157,6 +157,70 @@
     "intercom": {
       "evidenceUrl": "https://www.intercom.com/legal/trademark-usage",
       "reason": "官方商标政策要求书面许可或特定许可计划，当前仅以文字方式指称厂商。"
+    },
+    "replit": {
+      "evidenceUrl": "https://replit.com/brand",
+      "reason": "官方 Brand Center 的具体素材许可尚待复核，当前使用文字兜底。"
+    },
+    "stackblitz": {
+      "evidenceUrl": "https://developer.stackblitz.com/public/img/logo/readme",
+      "reason": "官方 Logo resource 已定位，落库前仍需固定具体 SVG 与使用条件。"
+    },
+    "lovable": {
+      "evidenceUrl": "https://lovable.dev/brand",
+      "reason": "官方 Brand Hub 已定位，落库前仍需固定具体素材及其品牌规范。"
+    },
+    "brave": {
+      "evidenceUrl": "https://brave.com/brave-branding-assets/",
+      "reason": "官方 Logo Package 已定位，落库前仍需审核包内版本与使用规范。"
+    },
+    "tabnine": {
+      "evidenceUrl": "https://github.com/tabnine",
+      "reason": "尚未找到面向第三方目录的官方品牌素材包，当前使用文字兜底。"
+    },
+    "ideogram": {
+      "evidenceUrl": "https://ideogram.ai/tos",
+      "reason": "官网链接的代码组织不等同于可复用企业 Logo，当前使用文字兜底。"
+    },
+    "recraft": {
+      "evidenceUrl": "https://www.recraft.ai/legal/terms",
+      "reason": "尚未确认可用于第三方目录的官方品牌素材与许可，当前使用文字兜底。"
+    },
+    "luma": {
+      "evidenceUrl": "https://lumalabs.ai/legal/terms-of-service",
+      "reason": "官方条款限制未经许可使用品牌标识，当前使用文字兜底。"
+    },
+    "heygen": {
+      "evidenceUrl": "https://www.heygen.com/brand-kit",
+      "reason": "官方 Brand Kit 已定位，落库前仍需固定具体 SVG 与使用规范。"
+    },
+    "synthesia": {
+      "evidenceUrl": "https://www.synthesia.io/",
+      "reason": "尚未找到对外品牌素材页或官网确认的代码组织，当前使用文字兜底。"
+    },
+    "ibm": {
+      "evidenceUrl": "https://www.ibm.com/legal/copyright-trademark",
+      "reason": "官方法律页要求其他公司取得明确许可，当前使用文字兜底。"
+    },
+    "deepgram": {
+      "evidenceUrl": "https://deepgram.com/terms",
+      "reason": "官方条款限制未经许可使用商标，当前使用文字兜底。"
+    },
+    "pinecone": {
+      "evidenceUrl": "https://www.pinecone.io/newsroom/",
+      "reason": "官方 Logo 集合已定位，落库前仍需审核具体素材及其使用条件。"
+    },
+    "oracle": {
+      "evidenceUrl": "https://www.oracle.com/legal/logos/",
+      "reason": "Oracle Logo 指南要求书面授权，当前使用文字兜底。"
+    },
+    "sap": {
+      "evidenceUrl": "https://www.sap.com/design-system/digital/foundations/identity/logo/",
+      "reason": "官方素材包已定位，落库前仍需确认目录场景符合品牌规范。"
+    },
+    "01ai": {
+      "evidenceUrl": "https://platform.01.ai/useragreement",
+      "reason": "官方品牌条款要求取得事先书面许可后才能使用 01.AI Logo，当前目录使用文字标识。"
     }
   }
 }

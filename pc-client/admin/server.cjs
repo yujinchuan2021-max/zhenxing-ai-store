@@ -57,6 +57,10 @@ const {
 const {
   materializeLegacyVendorIconUrls
 } = require("../shared/catalog-release-icon-compat.cjs");
+const {
+  CATALOG_JSON_BODY_LIMIT_BYTES,
+  readJson
+} = require("./request-json.cjs");
 
 const host = process.env.AIHUB_ADMIN_HOST || "127.0.0.1";
 const port = Number(process.env.AIHUB_ADMIN_PORT || 4173);
@@ -137,30 +141,6 @@ function sendJson(response, status, value) {
     "X-Content-Type-Options": "nosniff"
   });
   response.end(JSON.stringify(value));
-}
-
-function readJson(request) {
-  return new Promise((resolve, reject) => {
-    let size = 0;
-    const chunks = [];
-    request.on("data", (chunk) => {
-      size += chunk.length;
-      if (size > 1024 * 1024) {
-        reject(new Error("目录不能超过 1 MB"));
-        request.destroy();
-        return;
-      }
-      chunks.push(chunk);
-    });
-    request.on("end", () => {
-      try {
-        resolve(JSON.parse(Buffer.concat(chunks).toString("utf8")));
-      } catch {
-        reject(new Error("JSON 格式无效"));
-      }
-    });
-    request.on("error", reject);
-  });
 }
 
 function readCatalog(filePath) {
@@ -500,7 +480,7 @@ async function handleApi(request, response, pathname) {
   }
 
   if (request.method === "PUT" && pathname === "/api/catalog") {
-    const body = await readJson(request);
+    const body = await readJson(request, CATALOG_JSON_BODY_LIMIT_BYTES);
     const saved = await saveCatalogDraft({
       catalog: body.catalog,
       expectedRevision: body.expectedRevision

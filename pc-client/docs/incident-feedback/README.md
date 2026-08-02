@@ -33,6 +33,7 @@
 | 卸载、托盘进程和厂商程序残留 | `2026-07-29-safe-desktop-uninstall.md`、`2026-08-01-openclaw-uninstall-tray-lock.md` | AI Hub 只自动清理自己的收据；用户手装软件调起厂商或 Windows 卸载入口，并处理托盘锁。 |
 | CLI、WSL 与运行环境 | `2026-07-30-environment-operation-recovery.md`、`2026-07-31-node25-windows-cmd-spawn.md`、`2026-08-01-core-desktop-lifecycle-gaps.md` | 环境依赖进入统一环境子目录和生命周期模块，不按产品复制命令逻辑。 |
 | 产品漏录、分类、搜索和 A–Z | `2026-07-31-incomplete-official-product-coverage.md`、`2026-08-02-chinese-vendor-letter-buckets-and-network-notice.md`、`2026-08-02-global-catalog-search-and-shared-filters.md` | 只采用官方证据；中文用审核映射；精准搜索不匹配描述；所有频道复用统一投影。 |
+| 目录体积、资源类型和安全字段漂移 | `2026-08-03-catalog-resource-contract-drift.md` | 目录保存独享受测上限；新增资源类型同步共享契约、后台和语言模块；高权限资源同时固定来源脚本与正式草稿。 |
 | Logo、头像与图片破图或错配 | `2026-07-31-account-avatar-language-and-button-feedback.md`、`2026-08-02-vendor-logo-assets.md`、`2026-08-02-catalog-logo-release-host-and-renderer-readiness.md`、`2026-08-03-vendor-logo-identity-and-contrast.md` | 图片使用受控源、内容哈希和明确 CSP；还必须核验品牌身份、唯一归属和最终对比度，HTTP 200 或成功解码不代表 Logo 正确。 |
 | 开发页缓存、白屏和布局漂移 | `2026-08-02-stale-vite-commonjs-render.md`、`2026-08-02-vendor-page-entrypoints-white-screen.md`、`2026-07-31-product-action-layout-wrap.md` | Vite 强制重建依赖，检查真实 DOM、控制台和关键页面，不以服务端 200 代替渲染验收。 |
 | 账号、社区和设备身份 | `2026-07-30-flarum-sso-pc-device-id.md`、`2026-07-31-device-account-switch-conflict.md`、`2026-07-31-unified-pc-community-personal-center.md` | PC 和社区共用身份接口；设备归属冲突必须显式处理，不能静默覆盖。 |
