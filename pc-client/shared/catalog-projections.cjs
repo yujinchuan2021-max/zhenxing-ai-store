@@ -63,9 +63,23 @@ function resourceTargetsByType(resources, vendors, resourceType) {
   );
 }
 
+function resourceProductsByType(resources, vendors, resourceType) {
+  const products = new Map();
+  for (const row of resourceTargetsByType(resources, vendors, resourceType)) {
+    let group = products.get(row.product.id);
+    if (!group) {
+      group = { vendor: row.vendor, product: row.product, rows: [] };
+      products.set(row.product.id, group);
+    }
+    group.rows.push(row);
+  }
+  return [...products.values()];
+}
+
 module.exports = {
   DIRECTORY_KINDS,
   projectVendorsByDirectory,
+  resourceProductsByType,
   resourceTargetsByType,
   resolvedDirectoryKind
 };

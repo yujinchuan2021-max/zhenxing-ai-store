@@ -117,7 +117,7 @@ try {
     assertPackagedRemoteCatalog,
     clickPackagedDomAction,
     openPackagedCatalogProduct,
-    openPackagedResourceStore,
+    openPackagedResource,
     waitForPackagedDomAction
   } = await import("./lib/packaged-client-cdp.mjs");
 
@@ -212,9 +212,10 @@ try {
       `Packaged extension did not start cleanly: ${JSON.stringify(extensionBefore)}`
     );
   }
-  await openPackagedResourceStore({
+  await openPackagedResource({
     evaluate,
-    storeLabel: "Skill 商店",
+    storeId: "skill",
+    productId: extensionTarget.product.id,
     resourceId: extensionTarget.resource.id,
     timeoutMs: 10_000
   });

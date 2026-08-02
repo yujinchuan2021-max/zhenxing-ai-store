@@ -70,3 +70,23 @@ test("PC resource cards expose only catalog-backed safety details", () => {
   assert.match(language, /"resources\.compatibility\.protocolCompatible"/);
   assert.match(language, /"resources\.openOfficialGuide"/);
 });
+
+test("every resource store drills down from tools to resources to one detail", () => {
+  const app = read("src/App.tsx");
+
+  assert.match(app, /resourceProductsByType\(/);
+  for (const level of ["tools", "resources", "detail"]) {
+    assert.match(
+      app,
+      new RegExp(`data-aihub-resource-level=["']${level}["']`)
+    );
+  }
+  for (const action of [
+    "open-resource-tool",
+    "open-resource-detail",
+    "back-resource-tools",
+    "back-resource-list"
+  ]) {
+    assert.match(app, new RegExp(`data-aihub-action=["']${action}["']`));
+  }
+});

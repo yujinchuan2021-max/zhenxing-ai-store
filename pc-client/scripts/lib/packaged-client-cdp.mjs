@@ -340,51 +340,73 @@ export async function openPackagedCatalogProduct({
   throw new Error(`Packaged product row was not available: ${productId}`);
 }
 
-export async function openPackagedResourceStore({
+export async function openPackagedResource({
   evaluate,
-  storeLabel,
+  storeId,
+  productId,
   resourceId,
   timeoutMs = 10_000
 }) {
   if (
     typeof evaluate !== "function" ||
-    typeof storeLabel !== "string" ||
-    !storeLabel ||
+    typeof storeId !== "string" ||
+    !storeId ||
+    typeof productId !== "string" ||
+    !productId ||
     typeof resourceId !== "string" ||
     !resourceId ||
     !Number.isSafeInteger(timeoutMs) ||
     timeoutMs < 1
   ) {
-    throw new Error("Packaged resource store input is invalid");
+    throw new Error("Packaged resource input is invalid");
   }
   const deadline = Date.now() + timeoutMs;
-  let storeOpened = false;
   while (Date.now() < deadline) {
     const result = await evaluate(`(() => {
-      const storeLabel = ${JSON.stringify(storeLabel)};
+      const storeId = ${JSON.stringify(storeId)};
+      const productId = ${JSON.stringify(productId)};
       const resourceId = ${JSON.stringify(resourceId)};
+      const detail = document.querySelector("[data-aihub-resource-detail-id]");
+      if (detail?.getAttribute("data-aihub-resource-detail-id") === resourceId) {
+        return "ready";
+      }
       const resource = Array.from(
-        document.querySelectorAll("[data-aihub-resource-id]")
+        document.querySelectorAll('button[data-aihub-action="open-resource-detail"]')
       ).find((element) => element.getAttribute("data-aihub-resource-id") === resourceId);
-      if (resource instanceof HTMLElement) return "ready";
-      const button = Array.from(
-        document.querySelectorAll(".sidebar button.navItem")
-      ).find((element) => element.innerText.includes(storeLabel));
-      if (!(button instanceof HTMLButtonElement) || button.disabled) return "missing";
-      if (!button.classList.contains("active")) button.click();
-      return "opened";
+      if (resource instanceof HTMLButtonElement && !resource.disabled) {
+        resource.click();
+        return "resource-opened";
+      }
+      const product = Array.from(
+        document.querySelectorAll('button[data-aihub-action="open-resource-tool"]')
+      ).find(
+        (element) =>
+          element.getAttribute("data-aihub-resource-product-id") === productId
+      );
+      if (product instanceof HTMLButtonElement && !product.disabled) {
+        product.click();
+        return "product-opened";
+      }
+      const store = Array.from(
+        document.querySelectorAll("button[data-aihub-resource-store-id]")
+      ).find(
+        (element) =>
+          element.getAttribute("data-aihub-resource-store-id") === storeId
+      );
+      if (!(store instanceof HTMLButtonElement) || store.disabled) return "missing";
+      if (!store.classList.contains("active")) store.click();
+      return "store-opened";
     })()`);
     if (result === "ready") {
-      return { storeLabel, resourceId, opened: true };
+      return { storeId, productId, resourceId, opened: true };
     }
-    if (result === "opened") storeOpened = true;
     await delay(100);
   }
   throw new Error(
-    `Packaged resource store was not available: ${JSON.stringify({
-      storeLabel,
+    `Packaged resource was not available: ${JSON.stringify({
+      storeId,
+      productId,
       resourceId,
-      storeOpened
     })}`
   );
 }

@@ -19,4 +19,14 @@ export function resourceTargetsByType(
   resourceType: string
 ): Array<Record<string, unknown>>;
 
+export function resourceProductsByType(
+  resources: Array<Record<string, unknown>>,
+  vendors: Array<Record<string, unknown>>,
+  resourceType: string
+): Array<{
+  vendor: Record<string, unknown>;
+  product: Record<string, unknown>;
+  rows: Array<Record<string, unknown>>;
+}>;
+
 export const DIRECTORY_KINDS: readonly DirectoryKind[];

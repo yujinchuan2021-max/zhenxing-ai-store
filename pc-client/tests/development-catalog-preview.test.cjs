@@ -50,6 +50,7 @@ test("browser development preview loads the published backend catalog", async ()
   assert.match(app, /import\.meta\.env\.DEV/);
   assert.match(vite, /127\.0\.0\.1:4173/);
   assert.match(vite, /__aihub-local-catalog/);
+  assert.match(vite, /"Cache-Control": "no-store"/);
 });
 
 test("browser development preview prebundles every shared CommonJS UI module", () => {

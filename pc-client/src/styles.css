@@ -842,50 +842,100 @@ button:not(:disabled):active {
   line-height: 1.55;
 }
 
-.resourceDirectory,
-.resourceList {
+.resourceToolGrid,
+.resourceCardGrid {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 12px;
 }
 
-.resourceVendorGroup {
+.resourceToolCard,
+.resourceSummaryCard {
+  min-width: 0;
   display: grid;
-  gap: 14px;
-  padding: 18px;
+  gap: 12px;
+  padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 14px;
+  color: var(--ink);
   background: var(--surface);
+  text-align: left;
+  cursor: pointer;
 }
 
-.resourceVendorGroup > header,
-.resourceProductHeading {
+.resourceToolCard {
+  min-height: 180px;
+  grid-template-rows: auto 1fr auto;
+}
+
+.resourceToolIdentity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.resourceToolIdentity > span {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.resourceToolIdentity small,
+.resourceToolDescription,
+.resourceSummaryCard small,
+.resourceLevelHeader small,
+.resourceLevelHeader span {
+  color: var(--muted);
+  font-size: var(--font-small);
+}
+
+.resourceToolDescription,
+.resourceSummaryCard small {
+  line-height: 1.55;
+}
+
+.resourceToolCard footer,
+.resourceSummaryCard footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-}
-
-.resourceVendorGroup > header > div,
-.resourceProductHeading > div {
-  min-width: 0;
-}
-
-.resourceVendorGroup h2,
-.resourceProductGroup h3 {
-  margin: 3px 0 0;
-}
-
-.resourceVendorGroup small,
-.resourceProductHeading span {
   color: var(--muted);
   font-size: var(--font-caption);
 }
 
-.resourceProductGroup {
+.resourceToolCard footer strong,
+.resourceSummaryCard footer strong,
+.resourceSummaryCard > span {
+  color: #6da23f;
+}
+
+.resourceSummaryCard {
+  min-height: 150px;
+  grid-template-rows: auto auto 1fr auto;
+}
+
+.resourceLevel {
   display: grid;
-  gap: 10px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
+  gap: 14px;
+}
+
+.resourceLevelHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.resourceLevelHeader > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.resourceLevelHeader h2 {
+  margin: 0;
 }
 
 .resourceRow {
@@ -2311,6 +2361,15 @@ button:disabled {
 }
 
 @media (max-width: 720px) {
+  .resourceToolGrid,
+  .resourceCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .resourceLevelHeader {
+    flex-direction: column;
+  }
+
   .avatarEditor {
     align-items: flex-start;
   }

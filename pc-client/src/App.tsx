@@ -32,7 +32,7 @@ import { runVerifiedManagedInstall } from "@aihub-shared/verified-managed-instal
 import { buildProductDirectory } from "@aihub-shared/product-components.cjs";
 import {
   projectVendorsByDirectory,
-  resourceTargetsByType
+  resourceProductsByType
 } from "@aihub-shared/catalog-projections.cjs";
 import { BRAND } from "@aihub-shared/brand.cjs";
 import packageJson from "../package.json";
@@ -469,6 +469,7 @@ export default function App() {
   const [selectedVendorId, setSelectedVendorId] = useState("");
   const [selectedResourceStoreId, setSelectedResourceStoreId] =
     useState("skill");
+  const [resourceStoreVisit, setResourceStoreVisit] = useState(0);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<"全部" | ProductCategory>("全部");
   const [letter, setLetter] = useState("全部");
@@ -611,20 +612,12 @@ export default function App() {
   const activeResourceStores = useMemo(
     () =>
       [...catalogResourceStores]
-        .filter(
-          (store) =>
-            store.enabled &&
-            resourceTargetsByType(
-              catalogResources,
-              catalogVendors,
-              store.id
-            ).length > 0
-        )
+        .filter((store) => store.enabled)
         .sort(
           (left, right) =>
             left.order - right.order || left.label.localeCompare(right.label)
         ),
-    [catalogResourceStores, catalogResources]
+    [catalogResourceStores]
   );
   const selectedResourceStore =
     activeResourceStores.find(
@@ -1842,6 +1835,7 @@ export default function App() {
 
   const openResourceStore = (storeId: string) => {
     setSelectedResourceStoreId(storeId);
+    setResourceStoreVisit((current) => current + 1);
     setSelectedVendorId("");
     setView("resources");
   };
@@ -4013,6 +4007,7 @@ export default function App() {
             {activeResourceStores.map((store) => (
               <NavButton
                 key={store.id}
+                resourceStoreId={store.id}
                 active={
                   view === "resources" &&
                   selectedResourceStore?.id === store.id
@@ -4132,6 +4127,7 @@ export default function App() {
             />
           ) : view === "resources" ? (
             <ResourceStorePage
+              key={`${selectedResourceStore?.id || "empty"}:${resourceStoreVisit}`}
               store={selectedResourceStore}
               resources={catalogResources}
               vendors={catalogVendors}
@@ -4298,14 +4294,20 @@ export default function App() {
 function NavButton({
   active,
   onClick,
-  children
+  children,
+  resourceStoreId
 }: {
   active: boolean;
   onClick: () => void;
   children: React.ReactNode;
+  resourceStoreId?: string;
 }) {
   return (
-    <button className={active ? "navItem active" : "navItem"} onClick={onClick}>
+    <button
+      className={active ? "navItem active" : "navItem"}
+      data-aihub-resource-store-id={resourceStoreId}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
@@ -4738,6 +4740,8 @@ function ResourceStorePage({
   resources: EcosystemResource[];
   vendors: Vendor[];
 }) {
+  const [selectedProductId, setSelectedProductId] = useState("");
+  const [selectedResourceKey, setSelectedResourceKey] = useState("");
   if (!store) {
     return (
       <section className="catalogUnavailable" role="status">
@@ -4746,31 +4750,39 @@ function ResourceStorePage({
       </section>
     );
   }
-  const rows = resourceTargetsByType(
+  const productDirectories = resourceProductsByType(
     resources,
     vendors,
     store.id
   ) as Array<{
-    resource: EcosystemResource;
-    target: ResourceTarget;
-    product: Product;
     vendor: Vendor;
+    product: Product;
+    rows: Array<{
+      resource: EcosystemResource;
+      target: ResourceTarget;
+      product: Product;
+      vendor: Vendor;
+    }>;
   }>;
   const storeLabel = resourceStoreDisplayLabel(store);
-  const vendorGroups = [...new Set(rows.map((row) => row.vendor.id))]
-    .map((vendorId) => {
-      const vendorRows = rows.filter((row) => row.vendor.id === vendorId);
-      return {
-        vendor: vendorRows[0].vendor,
-        products: [...new Set(vendorRows.map((row) => row.product.id))].map(
-          (productId) => ({
-            product: vendorRows.find((row) => row.product.id === productId)!
-              .product,
-            rows: vendorRows.filter((row) => row.product.id === productId)
-          })
-        )
-      };
-    });
+  const selectedDirectory =
+    productDirectories.find(({ product }) => product.id === selectedProductId) ||
+    null;
+  const selectedResourceRow =
+    selectedDirectory?.rows.find(
+      ({ resource, target }) =>
+        `${resource.id}:${target.productId}` === selectedResourceKey
+    ) || null;
+
+  const openProduct = (productId: string) => {
+    setSelectedProductId(productId);
+    setSelectedResourceKey("");
+  };
+
+  const backToTools = () => {
+    setSelectedProductId("");
+    setSelectedResourceKey("");
+  };
 
   return (
     <>
@@ -4779,44 +4791,102 @@ function ResourceStorePage({
         <h1>{storeLabel}</h1>
         <span>{uiText("resources.description")}</span>
       </header>
-      {vendorGroups.length === 0 ? (
+      {productDirectories.length === 0 ? (
         <section className="catalogUnavailable" role="status">
           <b>{uiText("resources.emptyTitle")}</b>
           <span>{uiText("resources.emptyDescription")}</span>
         </section>
+      ) : selectedResourceRow && selectedDirectory ? (
+        <section
+          className="resourceLevel"
+          data-aihub-resource-level="detail"
+          data-aihub-resource-detail-id={selectedResourceRow.resource.id}
+        >
+          <header className="resourceLevelHeader">
+            <button
+              className="quietButton"
+              data-aihub-action="back-resource-list"
+              onClick={() => setSelectedResourceKey("")}
+            >
+              ← {uiText("resources.backToList")}
+            </button>
+            <div>
+              <small>{selectedDirectory.product.name}</small>
+              <h2>{selectedResourceRow.resource.name}</h2>
+              <span>{uiText("resources.detailTitle")}</span>
+            </div>
+          </header>
+          <ResourceRow
+            resource={selectedResourceRow.resource}
+            target={selectedResourceRow.target}
+            storeLabel={storeLabel}
+          />
+        </section>
+      ) : selectedDirectory ? (
+        <section className="resourceLevel" data-aihub-resource-level="resources">
+          <header className="resourceLevelHeader">
+            <button
+              className="quietButton"
+              data-aihub-action="back-resource-tools"
+              onClick={backToTools}
+            >
+              ← {uiText("resources.backToTools")}
+            </button>
+            <div>
+              <small>{vendorDisplayName(selectedDirectory.vendor)}</small>
+              <h2>{selectedDirectory.product.name}</h2>
+              <span>
+                {selectedDirectory.rows.length} {uiText("resources.count")}
+              </span>
+            </div>
+          </header>
+          <div className="resourceCardGrid">
+            {selectedDirectory.rows.map(({ resource, target }) => (
+              <button
+                type="button"
+                className="resourceSummaryCard"
+                key={`${resource.id}:${target.productId}`}
+                data-aihub-action="open-resource-detail"
+                data-aihub-resource-id={resource.id}
+                onClick={() =>
+                  setSelectedResourceKey(`${resource.id}:${target.productId}`)
+                }
+              >
+                <span>{storeLabel}</span>
+                <b>{resource.name}</b>
+                <small>{resource.description}</small>
+                <footer>
+                  <span>{resourceCompatibilityLabel(target.compatibility)}</span>
+                  <strong>{uiText("resources.viewDetail")} →</strong>
+                </footer>
+              </button>
+            ))}
+          </div>
+        </section>
       ) : (
-        <div className="resourceDirectory">
-          {vendorGroups.map(({ vendor, products }) => (
-            <section className="resourceVendorGroup" key={vendor.id}>
-              <header>
+        <div className="resourceToolGrid" data-aihub-resource-level="tools">
+          {productDirectories.map(({ vendor, product, rows }) => (
+            <button
+              type="button"
+              className="resourceToolCard"
+              key={product.id}
+              data-aihub-action="open-resource-tool"
+              data-aihub-resource-product-id={product.id}
+              onClick={() => openProduct(product.id)}
+            >
+              <span className="resourceToolIdentity">
                 <VendorMark vendor={vendor} />
-                <div>
-                  <small>{uiText("resources.targetVendor")}</small>
-                  <h2>{vendorDisplayName(vendor)}</h2>
-                </div>
-              </header>
-              {products.map(({ product, rows: productRows }) => (
-                <section className="resourceProductGroup" key={product.id}>
-                  <div className="resourceProductHeading">
-                    <div>
-                      <small>{uiText("resources.targetProduct")}</small>
-                      <h3>{product.name}</h3>
-                    </div>
-                    <span>{productRows.length} {uiText("resources.count")}</span>
-                  </div>
-                  <div className="resourceList">
-                    {productRows.map(({ resource, target }) => (
-                      <ResourceRow
-                        key={`${resource.id}:${target.productId}`}
-                        resource={resource}
-                        target={target}
-                        storeLabel={storeLabel}
-                      />
-                    ))}
-                  </div>
-                </section>
-              ))}
-            </section>
+                <span>
+                  <small>{vendorDisplayName(vendor)}</small>
+                  <b>{product.name}</b>
+                </span>
+              </span>
+              <span className="resourceToolDescription">{product.description}</span>
+              <footer>
+                <span>{rows.length} {uiText("resources.count")}</span>
+                <strong>{uiText("resources.viewResources")} →</strong>
+              </footer>
+            </button>
           ))}
         </div>
       )}
