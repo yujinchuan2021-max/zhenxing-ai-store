@@ -13,7 +13,46 @@ test("creates and removes an isolated packaged-client profile", async () => {
     path.relative(path.resolve(os.tmpdir()), profile.root).startsWith(".."),
     false
   );
+  assert.equal(path.dirname(profile.userHome), profile.root);
+  assert.equal(fs.statSync(profile.userHome).isDirectory(), true);
   assert.equal(fs.existsSync(path.join(profile.userData, "pc-settings.json")), true);
+  const environment = module.createIsolatedAcceptanceEnvironment(profile, {
+    USERPROFILE: "C:\\real-user",
+    Home: "C:\\real-user",
+    UserProfile: "C:\\mixed-user",
+    AppData: "C:\\mixed-app-data",
+    LocalAppData: "C:\\mixed-local-app-data",
+    CodeX_Home: "C:\\mixed-codex",
+    HomeDrive: "C:",
+    HomePath: "\\real-user",
+    CODEX_HOME: "C:\\real-codex",
+    AIHUB_ACCEPTANCE_SENTINEL: "kept"
+  });
+  assert.equal(environment.USERPROFILE, profile.userHome);
+  assert.equal(Object.hasOwn(environment, "HOME"), false);
+  assert.equal(environment.CODEX_HOME, profile.codexHome);
+  assert.equal(environment.AIHUB_ACCEPTANCE_SENTINEL, "kept");
+  assert.deepEqual(
+    Object.fromEntries(
+      Object.entries(environment).filter(([key]) =>
+        [
+          "APPDATA",
+          "LOCALAPPDATA",
+          "USERPROFILE",
+          "CODEX_HOME",
+          "HOME",
+          "HOMEDRIVE",
+          "HOMEPATH"
+        ].includes(key.toUpperCase())
+      )
+    ),
+    {
+      APPDATA: profile.appData,
+      LOCALAPPDATA: profile.localAppData,
+      USERPROFILE: profile.userHome,
+      CODEX_HOME: profile.codexHome
+    }
+  );
   await module.removeIsolatedAcceptanceProfile(profile);
   assert.equal(fs.existsSync(profile.root), false);
 });
@@ -286,6 +325,10 @@ test("the packaged release gate does not bypass renderer actions", () => {
     path.join(__dirname, "..", "scripts", "verify-local-release-client.mjs"),
     "utf8"
   );
+  const helperSource = fs.readFileSync(
+    path.join(__dirname, "..", "scripts", "lib", "packaged-client-cdp.mjs"),
+    "utf8"
+  );
   assert.doesNotMatch(
     source,
     /window\.aihubPC\.(?:installExtension|uninstallExtension|startDownload|pauseDownload)\(/
@@ -296,6 +339,7 @@ test("the packaged release gate does not bypass renderer actions", () => {
     "renderer readiness must come from a remote catalog resource in the real DOM, not shared brand copy"
   );
   for (const action of [
+    "inspect-extension",
     "install-extension",
     "uninstall-extension",
     "pause-download"
@@ -304,4 +348,11 @@ test("the packaged release gate does not bypass renderer actions", () => {
   }
   assert.match(source, /packagedManagedDownloadAction\(/);
   assert.match(source, /action: downloadAction/);
+  assert.match(source, /profile\.userHome[\s\S]*?"\.agents"[\s\S]*?"skills"/);
+  assert.doesNotMatch(source, /profile\.codexHome[\s\S]{0,80}?"skills"/);
+  assert.doesNotMatch(
+    helperSource,
+    /legacyResource/,
+    "a resource summary must not be accepted as an opened detail page"
+  );
 });

@@ -228,10 +228,17 @@ try {
 
   const extensionProfileId = "skill.codex.chatgpt-apps";
   const extensionTarget = findCatalogResource(extensionProfileId);
+  const installedSkill = path.join(
+    profile.userHome,
+    ".agents",
+    "skills",
+    "chatgpt-apps",
+    "SKILL.md"
+  );
   const extensionBefore = await evaluate(
     `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
   );
-  if (extensionBefore?.state !== "not-installed") {
+  if (!["host-missing", "not-installed"].includes(extensionBefore?.state)) {
     throw new Error(
       `Packaged extension did not start cleanly: ${JSON.stringify(extensionBefore)}`
     );
@@ -243,70 +250,138 @@ try {
     resourceId: extensionTarget.resource.id,
     timeoutMs: 10_000
   });
-  await waitForPackagedDomAction({
-    evaluate,
-    productId: "",
-    resourceId: extensionTarget.resource.id,
-    action: "install-extension",
-    extensionProfileId,
-    timeoutMs: 10_000
-  });
-  const extensionInstallDom = await clickPackagedDomAction({
-    evaluate,
-    productId: "",
-    resourceId: extensionTarget.resource.id,
-    action: "install-extension",
-    extensionProfileId,
-    timeoutMs: 8_000
-  });
-  await waitForPackagedDomAction({
-    evaluate,
-    productId: "",
-    resourceId: extensionTarget.resource.id,
-    action: "uninstall-extension",
-    extensionProfileId,
-    timeoutMs: 20_000
-  });
-  const extensionInstalled = await evaluate(
-    `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
-  );
-  const installedSkill = path.join(
-    profile.codexHome,
-    "skills",
-    "chatgpt-apps",
-    "SKILL.md"
-  );
-  if (extensionInstalled?.state !== "installed" || !fs.existsSync(installedSkill)) {
-    throw new Error(
-      `Packaged extension installation failed: ${JSON.stringify(extensionInstalled)}`
+  let extensionLifecycle = "installed-and-removed";
+  let extensionInspectDom = null;
+  let extensionInstallDom = null;
+  let extensionUninstallDom = null;
+  if (extensionBefore.state === "host-missing") {
+    if (
+      extensionBefore.hostInstalled !== false ||
+      extensionBefore.hostDetection !== "absent" ||
+      extensionBefore.allowedActions?.length !== 0
+    ) {
+      throw new Error(
+        `Packaged extension host gate is unsafe: ${JSON.stringify(extensionBefore)}`
+      );
+    }
+    await waitForPackagedDomAction({
+      evaluate,
+      productId: "",
+      resourceId: extensionTarget.resource.id,
+      action: "inspect-extension",
+      extensionProfileId,
+      timeoutMs: 10_000
+    });
+    extensionInspectDom = await clickPackagedDomAction({
+      evaluate,
+      productId: "",
+      resourceId: extensionTarget.resource.id,
+      action: "inspect-extension",
+      extensionProfileId,
+      timeoutMs: 8_000
+    });
+    let gateDom = null;
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+      gateDom = await evaluate(`(() => {
+        const resourceId = ${JSON.stringify(extensionTarget.resource.id)};
+        const profileId = ${JSON.stringify(extensionProfileId)};
+        const resource = Array.from(document.querySelectorAll("[data-aihub-resource-id]"))
+          .find((element) =>
+            element.getAttribute("data-aihub-resource-id") === resourceId &&
+            element.getAttribute("data-aihub-extension-profile-id") === profileId
+          );
+        const actions = resource
+          ? Array.from(resource.querySelectorAll("[data-aihub-action]"))
+              .map((element) => element.getAttribute("data-aihub-action"))
+          : [];
+        return {
+          found: Boolean(resource),
+          actions,
+          text: resource ? resource.innerText : ""
+        };
+      })()`);
+      if (
+        gateDom?.found === true &&
+        !gateDom.actions.includes("inspect-extension") &&
+        !gateDom.actions.includes("install-extension") &&
+        gateDom.text.includes("请先安装对应的 AI 工具")
+      ) {
+        break;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    if (
+      gateDom?.found !== true ||
+      gateDom.actions.includes("inspect-extension") ||
+      gateDom.actions.includes("install-extension") ||
+      !gateDom.text.includes("请先安装对应的 AI 工具") ||
+      fs.existsSync(installedSkill)
+    ) {
+      throw new Error(
+        `Packaged extension host gate did not hold: ${JSON.stringify(gateDom)}`
+      );
+    }
+    extensionLifecycle = "host-missing-gated";
+  } else {
+    await waitForPackagedDomAction({
+      evaluate,
+      productId: "",
+      resourceId: extensionTarget.resource.id,
+      action: "install-extension",
+      extensionProfileId,
+      timeoutMs: 10_000
+    });
+    extensionInstallDom = await clickPackagedDomAction({
+      evaluate,
+      productId: "",
+      resourceId: extensionTarget.resource.id,
+      action: "install-extension",
+      extensionProfileId,
+      timeoutMs: 8_000
+    });
+    await waitForPackagedDomAction({
+      evaluate,
+      productId: "",
+      resourceId: extensionTarget.resource.id,
+      action: "uninstall-extension",
+      extensionProfileId,
+      timeoutMs: 20_000
+    });
+    const extensionInstalled = await evaluate(
+      `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
     );
-  }
-  const extensionUninstallDom = await clickPackagedDomAction({
-    evaluate,
-    productId: "",
-    resourceId: extensionTarget.resource.id,
-    action: "uninstall-extension",
-    extensionProfileId,
-    timeoutMs: 8_000
-  });
-  await waitForPackagedDomAction({
-    evaluate,
-    productId: "",
-    resourceId: extensionTarget.resource.id,
-    action: "install-extension",
-    extensionProfileId,
-    timeoutMs: 20_000
-  });
-  const extensionRemoved = await evaluate(
-    `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
-  );
-  if (
-    extensionRemoved?.state !== "not-installed" ||
-    fs.existsSync(path.dirname(installedSkill))
-  ) {
-    throw new Error(
-      `Packaged extension uninstall failed: ${JSON.stringify(extensionRemoved)}`
+    if (extensionInstalled?.state !== "installed" || !fs.existsSync(installedSkill)) {
+      throw new Error(
+        `Packaged extension installation failed: ${JSON.stringify(extensionInstalled)}`
+      );
+    }
+    extensionUninstallDom = await clickPackagedDomAction({
+      evaluate,
+      productId: "",
+      resourceId: extensionTarget.resource.id,
+      action: "uninstall-extension",
+      extensionProfileId,
+      timeoutMs: 8_000
+    });
+    await waitForPackagedDomAction({
+      evaluate,
+      productId: "",
+      resourceId: extensionTarget.resource.id,
+      action: "install-extension",
+      extensionProfileId,
+      timeoutMs: 20_000
+    });
+    const extensionRemoved = await evaluate(
+      `window.aihubPC.getExtensionStatus(${JSON.stringify(extensionProfileId)})`
     );
+    if (
+      extensionRemoved?.state !== "not-installed" ||
+      fs.existsSync(path.dirname(installedSkill))
+    ) {
+      throw new Error(
+        `Packaged extension uninstall failed: ${JSON.stringify(extensionRemoved)}`
+      );
+    }
   }
 
   const downloadTarget = findCatalogProduct(downloadProductId);
@@ -319,7 +394,8 @@ try {
   });
   const downloadAction = packagedManagedDownloadAction(
     await evaluate(
-      `window.aihubPC.getDesktopStatus(${JSON.stringify(downloadProductId)})`
+      `window.aihubPC.getDesktopStatus(${JSON.stringify(downloadProductId)})`,
+      60_000
     )
   );
   await waitForPackagedDomAction({
@@ -344,7 +420,7 @@ try {
       const task = await waitForDownloadTask({
         productId: downloadProductId,
         phases: ["starting", "downloading", "failed", "completed"],
-        timeoutMs: 30_000
+        timeoutMs: 90_000
       });
       return { ok: task.phase !== "failed", task };
     },
@@ -387,7 +463,9 @@ try {
           vendorIcon
         },
         update,
+        extensionLifecycle,
         domActions: {
+          extensionInspect: extensionInspectDom,
           extensionInstall: extensionInstallDom,
           extensionUninstall: extensionUninstallDom,
           managedDownloadStart: downloadStartDom,

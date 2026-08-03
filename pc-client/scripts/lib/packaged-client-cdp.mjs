@@ -12,6 +12,7 @@ const PACKAGED_DOM_ACTIONS = new Set([
   "install-product",
   "refresh-product",
   "pause-download",
+  "inspect-extension",
   "install-extension",
   "uninstall-extension"
 ]);
@@ -46,7 +47,9 @@ function assertPackagedDomActionInput({
   timeoutMs
 }) {
   const resourceAction =
-    action === "install-extension" || action === "uninstall-extension";
+    action === "inspect-extension" ||
+    action === "install-extension" ||
+    action === "uninstall-extension";
   if (
     typeof evaluate !== "function" ||
     typeof productId !== "string" ||
@@ -371,12 +374,6 @@ export async function openPackagedResource({
       if (detail?.getAttribute("data-aihub-resource-detail-id") === resourceId) {
         return "ready";
       }
-      const legacyResource = Array.from(
-        document.querySelectorAll("[data-aihub-resource-id]")
-      ).find(
-        (element) => element.getAttribute("data-aihub-resource-id") === resourceId
-      );
-      if (legacyResource instanceof HTMLElement) return "ready";
       const resource = Array.from(
         document.querySelectorAll('button[data-aihub-action="open-resource-detail"]')
       ).find((element) => element.getAttribute("data-aihub-resource-id") === resourceId);
@@ -509,8 +506,16 @@ export function createIsolatedAcceptanceProfile(prefix) {
   const localAppData = path.join(root, "Local");
   const userData = path.join(appData, "aihub-pc-client");
   const downloadDirectory = path.join(root, "downloads");
+  const userHome = path.join(root, "user-home");
   const codexHome = path.join(root, "codex-home");
-  for (const directory of [appData, localAppData, userData, downloadDirectory]) {
+  for (const directory of [
+    appData,
+    localAppData,
+    userData,
+    downloadDirectory,
+    userHome,
+    codexHome
+  ]) {
     fs.mkdirSync(directory, { recursive: true });
   }
   fs.writeFileSync(
@@ -522,7 +527,61 @@ export function createIsolatedAcceptanceProfile(prefix) {
     )}\n`,
     "utf8"
   );
-  return { root, appData, localAppData, userData, downloadDirectory, codexHome };
+  return {
+    root,
+    appData,
+    localAppData,
+    userData,
+    downloadDirectory,
+    userHome,
+    codexHome
+  };
+}
+
+export function createIsolatedAcceptanceEnvironment(
+  profile,
+  extraEnvironment = {}
+) {
+  const root = assertWithinTemporaryRoot(profile?.root || "", "Acceptance profile");
+  const userHome = assertWithinTemporaryRoot(
+    profile?.userHome || "",
+    "Acceptance user home"
+  );
+  for (const [label, target] of [
+    ["Acceptance user home", userHome],
+    ["Acceptance app data", profile?.appData],
+    ["Acceptance local app data", profile?.localAppData],
+    ["Acceptance Codex home", profile?.codexHome]
+  ]) {
+    const resolved = assertWithinTemporaryRoot(target || "", label);
+    const relative = path.relative(root, resolved);
+    if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) {
+      throw new Error(`${label} must stay inside the acceptance profile`);
+    }
+  }
+  if (!extraEnvironment || typeof extraEnvironment !== "object") {
+    throw new Error("Acceptance extra environment is invalid");
+  }
+  const environment = { ...process.env, ...extraEnvironment };
+  const protectedKeys = new Set([
+    "APPDATA",
+    "LOCALAPPDATA",
+    "USERPROFILE",
+    "CODEX_HOME",
+    "HOME",
+    "HOMEDRIVE",
+    "HOMEPATH"
+  ]);
+  for (const key of Object.keys(environment)) {
+    if (protectedKeys.has(key.toUpperCase())) delete environment[key];
+  }
+  Object.assign(environment, {
+    APPDATA: profile.appData,
+    LOCALAPPDATA: profile.localAppData,
+    USERPROFILE: userHome,
+    CODEX_HOME: profile.codexHome
+  });
+  return environment;
 }
 
 function stopAcceptanceProcesses(userData) {
@@ -588,12 +647,16 @@ function createCdpConnection(socket) {
       socket.send(JSON.stringify({ id, method, params }));
     });
   }
-  async function evaluate(expression) {
-    const result = await send("Runtime.evaluate", {
-      expression,
-      awaitPromise: true,
-      returnByValue: true
-    });
+  async function evaluate(expression, timeoutMs = 15_000) {
+    const result = await send(
+      "Runtime.evaluate",
+      {
+        expression,
+        awaitPromise: true,
+        returnByValue: true
+      },
+      timeoutMs
+    );
     if (result.exceptionDetails) {
       throw new Error(
         result.exceptionDetails.exception?.description || "CDP evaluation failed"
@@ -675,6 +738,7 @@ export async function launchPackagedClientCdp({
   }
   assertWithinTemporaryRoot(profile?.root || "", "Acceptance profile");
   assertWithinTemporaryRoot(profile?.userData || "", "Acceptance user data");
+  assertWithinTemporaryRoot(profile?.userHome || "", "Acceptance user home");
   if (assertNoExistingClient) assertNoExistingAIHubProcesses();
   const port = await availableLoopbackPort();
   const launcher = spawn(
@@ -686,13 +750,7 @@ export async function launchPackagedClientCdp({
     ],
     {
       detached: true,
-      env: {
-        ...process.env,
-        ...extraEnvironment,
-        APPDATA: profile.appData,
-        LOCALAPPDATA: profile.localAppData,
-        CODEX_HOME: profile.codexHome
-      },
+      env: createIsolatedAcceptanceEnvironment(profile, extraEnvironment),
       stdio: "ignore",
       windowsHide: true,
       shell: false
