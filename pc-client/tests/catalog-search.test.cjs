@@ -68,6 +68,24 @@ test("catalog search does not match text hidden inside another identity", () => 
   );
 });
 
+test("catalog search finds popular agents by their own identity only", () => {
+  const expected = {
+    Hermes: ["nousresearch"],
+    OpenHands: ["openhands"],
+    "UI-TARS": ["bytedance"],
+    DeerFlow: ["bytedance"],
+    Letta: ["letta"]
+  };
+
+  for (const [query, vendorIds] of Object.entries(expected)) {
+    assert.deepEqual(
+      search(query).vendors.map(({ vendor }) => vendor.id),
+      vendorIds,
+      query
+    );
+  }
+});
+
 test("catalog search projects resources into every enabled current or future store", () => {
   const source = {
     vendors: [

@@ -177,11 +177,76 @@ const CONTINUOUS_CATALOG_EXPANSION = Object.freeze([
   "adobe-firefly"
 ]);
 
+const POPULAR_AGENT_EXPANSION = Object.freeze([
+  "activepieces-platform",
+  "agent-zero",
+  "agenticseek-cli",
+  "agenticseek-self-hosted",
+  "agno-agentos",
+  "aider-cli",
+  "astrbot-platform",
+  "autogpt-platform",
+  "bardeen-agents",
+  "browser-use-cli",
+  "browser-use-cloud",
+  "bytebot-self-hosted",
+  "bytedance-agent-tars-cli",
+  "bytedance-deerflow",
+  "bytedance-ui-tars-desktop",
+  "camel-ai-framework",
+  "cognition-devin",
+  "continue-agent",
+  "continue-cli",
+  "factory-cli",
+  "factory-droids",
+  "flowise-platform",
+  "flowith-agent-neo",
+  "google-agent-development-kit",
+  "gumloop-agents",
+  "hkuds-nanobot-cli",
+  "huggingface-smolagents",
+  "ironclaw-cli",
+  "kilo-code-agent",
+  "kilo-code-cli",
+  "kortix-cli",
+  "kortix-command-center",
+  "langbot-platform",
+  "langchain-deep-agents",
+  "langflow-platform",
+  "letta-agent",
+  "letta-code-cli",
+  "lindy-ai-assistant",
+  "llamaindex-agents",
+  "mastra-agent-framework",
+  "metagpt-framework",
+  "mini-swe-agent-cli",
+  "nanoclaw-cli",
+  "nvidia-nemoclaw-cli",
+  "open-interpreter-cli",
+  "openfang-cli",
+  "openhands-agent-canvas",
+  "openhands-cloud",
+  "openmanus-cli",
+  "opera-neon",
+  "plandex-cli",
+  "praisonai-cli",
+  "pydantic-ai-framework",
+  "ragflow-platform",
+  "relevance-ai-agents",
+  "rowboat-desktop",
+  "ruflo-cli",
+  "simular-agent-s-cli",
+  "skyvern-cloud",
+  "skyvern-self-hosted",
+  "voltagent-framework",
+  "zeroclaw-cli"
+]);
+
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 238);
+  assert.equal(catalog.vendors.length, 282);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 408);
+  assert.equal(products.length, 470);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of [
     ...HIGH_VALUE_RESEARCH_PRODUCTS,
@@ -189,7 +254,8 @@ test("the researched catalog keeps the Windows second pass and reviewed connecta
     ...VENDOR_EXPANSION_BATCH6,
     ...VENDOR_EXPANSION_BATCH7,
     ...VENDOR_EXPANSION_BATCH8,
-    ...CONTINUOUS_CATALOG_EXPANSION
+    ...CONTINUOUS_CATALOG_EXPANSION,
+    ...POPULAR_AGENT_EXPANSION
   ]) {
     assert.equal(productIds.has(productId), true, productId);
   }
@@ -301,7 +367,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 408);
+  assert.equal(products.length, 470);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -338,13 +404,13 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 146,
-    "desktop-official": 187,
+    web: 160,
+    "desktop-official": 191,
     "desktop-reviewed": 26,
-    "cli-official": 3,
+    "cli-official": 26,
     cli: 14,
     "local-model": 1,
-    tutorial: 31
+    tutorial: 52
   });
 });
 
@@ -549,6 +615,79 @@ test("continuous expansion keeps graphical products on fixed official modules", 
         productId
       );
     }
+  }
+});
+
+test("popular agents keep their real product and platform boundaries", () => {
+  const products = catalog.vendors.flatMap((vendor) => vendor.products);
+  const byId = new Map(products.map((product) => [product.id, product]));
+
+  for (const productId of [
+    "agenticseek-cli",
+    "aider-cli",
+    "browser-use-cli",
+    "bytedance-agent-tars-cli",
+    "continue-cli",
+    "factory-cli",
+    "hkuds-nanobot-cli",
+    "ironclaw-cli",
+    "kilo-code-cli",
+    "kortix-cli",
+    "letta-code-cli",
+    "metagpt-framework",
+    "mini-swe-agent-cli",
+    "nanoclaw-cli",
+    "nvidia-nemoclaw-cli",
+    "open-interpreter-cli",
+    "openfang-cli",
+    "openmanus-cli",
+    "plandex-cli",
+    "praisonai-cli",
+    "ruflo-cli",
+    "simular-agent-s-cli",
+    "zeroclaw-cli"
+  ]) {
+    assert.equal(byId.get(productId)?.productType, "cli-official", productId);
+  }
+
+  for (const productId of [
+    "bytedance-ui-tars-desktop",
+    "letta-agent",
+    "opera-neon",
+    "rowboat-desktop"
+  ]) {
+    assert.equal(byId.get(productId)?.productType, "desktop-official", productId);
+  }
+
+  assert.deepEqual(
+    byId.get("letta-agent").entryPoints.map((entry) => entry.type),
+    ["website", "web", "desktop", "tutorial"]
+  );
+  assert.equal(byId.get("openhands-cloud")?.productType, "web");
+  assert.equal(byId.get("openhands-agent-canvas")?.productType, "tutorial");
+  assert.equal(byId.get("skyvern-cloud")?.productType, "web");
+  assert.equal(byId.get("skyvern-self-hosted")?.productType, "tutorial");
+
+  const hermesProducts = products.filter((product) =>
+    product.id.startsWith("nous-hermes-")
+  );
+  assert.deepEqual(
+    hermesProducts.map((product) => [product.id, product.productType]).sort(),
+    [
+      ["nous-hermes-agent", "cli-official"],
+      ["nous-hermes-desktop", "desktop-official"]
+    ]
+  );
+
+  for (const excludedId of [
+    "agentgpt",
+    "amazon-strands-agents-sdk",
+    "fellou-agentic-browser",
+    "openhands-cli",
+    "roo-code",
+    "skyvern-cli"
+  ]) {
+    assert.equal(byId.has(excludedId), false, excludedId);
   }
 });
 

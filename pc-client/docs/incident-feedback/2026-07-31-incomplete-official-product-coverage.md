@@ -123,3 +123,12 @@
 - 29 个新厂商在没有固定且可核验的方形官方品牌素材前进入审核文字兜底清单，明确禁止使用 favicon、搜索图片、GitHub 个人头像或相似厂商图标；宁可显示文字，也不再制造错误品牌图标。
 - 持续扩充脚本重复执行后目录与兜底清单哈希保持不变；完整性测试固定验证 45 个产品身份、Web/Windows 模块边界和新目录总量，防止后台更新后前端又回退到旧样本。
 - 本地后台已完成校验并签名发布目录 v53，草稿修订为 56；客户端实测 `Mylio` 精准搜索仅返回一个厂商，产品详情展示 Windows 官方获取入口，`Adobe` 搜索同步展示新增的 Photoshop、Lightroom、Premiere、Illustrator 与 Firefly。
+
+## 2026-08-03 热门 Agent 覆盖缺口
+
+- 用户指出 Hermes 之外仍缺少大量热门 Agent。复盘确认，上一轮自动发现更偏 Windows 图形产品与通用生产力软件，没有把 Agent 主题仓库、官方产品页和当前交付形态作为独立审查队列，因此会漏掉 DeerFlow、OpenHands、Agent Zero、Browser Use、Letta 等高关注项目。
+- 修复方式不是直接抓 GitHub 排行榜写入目录，而是先扫描候选，再逐项使用官方站点、官方文档或官方仓库确认厂商归属、当前维护状态和 Windows/Web/CLI/自托管边界。研究记录位于 `docs/research/2026-08-03-popular-agent-expansion.md`。
+- 本轮新增 44 个厂商、62 个产品，目录基线调整为 282/470/118；Hermes 使用已有正确记录，不复制错误拼写。UI-TARS Desktop 与 Agent TARS CLI、Letta Agent 与 Letta Code CLI 分开；OpenHands Cloud 与当前 Agent Canvas 分开。
+- Roo Code 和 AgentGPT 因官方仓库已归档而排除；Fellou 因当前 Windows 交付证据不足暂缓；旧 OpenHands CLI、假 Skyvern CLI 和误建 Strands 重复 ID 由测试明确禁止进入目录。
+- `catalog-completeness` 现在固定全部新增产品 ID、总量和七种产品模块数量；`catalog-search` 固定 Hermes、OpenHands、UI-TARS、DeerFlow 与 Letta 的精准搜索结果。后续继续扩充时必须同步通过这些约束，避免后台数据增加后客户端又退回旧样本或错误边界。
+- 后台校验并签名发布目录 v54、草稿修订 57；5174 客户端实页复核上述五组搜索均通过，控制台无错误。本轮没有重新封装安装包。
