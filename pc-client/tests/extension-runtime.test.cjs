@@ -323,13 +323,14 @@ test("unknown profile ids can never select an adapter", (t) => {
   );
 });
 
-test("receipt v2 pins source and installed target hashes and install is idempotent", (t) => {
+test("receipt v3 pins source, target hashes, and a per-install ownership marker", (t) => {
   const { runtime } = fixture(t);
   const first = runtime.install(TEST_PROFILE_ID);
   const second = runtime.install(TEST_PROFILE_ID);
   const receipt = runtime.getReceipt(TEST_PROFILE_ID);
 
-  assert.equal(first.receipt.schemaVersion, 2);
+  assert.equal(first.receipt.schemaVersion, 3);
+  assert.match(first.receipt.managementId, /^[a-f0-9]{48}$/);
   assert.equal(receipt.versionRef, "fixture-v1");
   assert.deepEqual(receipt.sourceManifest, {
     versionRef: "fixture-v1",
@@ -337,6 +338,26 @@ test("receipt v2 pins source and installed target hashes and install is idempote
   });
   assert.deepEqual(second.receipt, first.receipt);
   assert.equal(runtime.inspect(TEST_PROFILE_ID).state, "installed");
+});
+
+test("does not revive a receipt after the skill is manually removed and reinstalled", (t) => {
+  const { runtime, profile, source, userDataRoot } = fixture(t);
+  runtime.install(TEST_PROFILE_ID);
+  const target = path.join(userDataRoot, ...profile.targetRelativePath.split("/"));
+  fs.rmSync(target, { recursive: true });
+  fs.cpSync(source, target, { recursive: true });
+
+  assert.deepEqual(runtime.getStatus(TEST_PROFILE_ID), {
+    state: "modified",
+    managed: false,
+    targetPath: target,
+    versionRef: "fixture-v1"
+  });
+  assert.throws(
+    () => runtime.uninstall(TEST_PROFILE_ID),
+    (error) => error.code === "EXTENSION_TARGET_MODIFIED"
+  );
+  assert.equal(fs.existsSync(path.join(target, "SKILL.md")), true);
 });
 
 test("install rejects a bundled snapshot that differs from the approved manifest", (t) => {
@@ -447,7 +468,7 @@ test("invalid receipt manifests never authorize target deletion", (t) => {
   assert.equal(fs.existsSync(path.join(target, "SKILL.md")), true);
 });
 
-test("an unchanged v1 receipt migrates to v2, while unverifiable legacy files are preserved", (t) => {
+test("legacy receipts never authorize migration or deletion without an ownership marker", (t) => {
   const { runtime, profile, userDataRoot } = fixture(t);
   runtime.install(TEST_PROFILE_ID);
   const target = path.join(userDataRoot, ...profile.targetRelativePath.split("/"));
@@ -456,30 +477,25 @@ test("an unchanged v1 receipt migrates to v2, while unverifiable legacy files ar
     "extension-receipts",
     `${TEST_PROFILE_ID}.json`
   );
-  const v2 = JSON.parse(fs.readFileSync(receiptFile, "utf8"));
+  const v3 = JSON.parse(fs.readFileSync(receiptFile, "utf8"));
   const v1 = {
     schemaVersion: 1,
-    profileId: v2.profileId,
-    adapterId: v2.adapterId,
-    extensionId: v2.extensionId,
-    hostProductId: v2.hostProductId,
-    installedAt: v2.installedAt,
-    ownedPaths: v2.ownedPaths
+    profileId: v3.profileId,
+    adapterId: v3.adapterId,
+    extensionId: v3.extensionId,
+    hostProductId: v3.hostProductId,
+    installedAt: v3.installedAt,
+    ownedPaths: v3.ownedPaths
   };
   fs.writeFileSync(receiptFile, JSON.stringify(v1));
 
-  assert.equal(runtime.getStatus(TEST_PROFILE_ID).state, "outdated");
-  assert.equal(runtime.install(TEST_PROFILE_ID).state, "installed");
-  assert.equal(runtime.getReceipt(TEST_PROFILE_ID).schemaVersion, 2);
-
-  fs.writeFileSync(receiptFile, JSON.stringify(v1));
-  fs.writeFileSync(path.join(target, "SKILL.md"), "legacy user edit\n");
+  assert.equal(runtime.getStatus(TEST_PROFILE_ID).state, "modified");
   assert.throws(
-    () => runtime.update(TEST_PROFILE_ID),
+    () => runtime.uninstall(TEST_PROFILE_ID),
     (error) => error.code === "EXTENSION_TARGET_MODIFIED"
   );
   assert.equal(
     fs.readFileSync(path.join(target, "SKILL.md"), "utf8"),
-    "legacy user edit\n"
+    "# Managed fixture\n"
   );
 });

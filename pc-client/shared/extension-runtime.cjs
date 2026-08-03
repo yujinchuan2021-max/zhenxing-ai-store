@@ -8,7 +8,8 @@ const {
   getExtensionRuntimeProfile
 } = require("./extension-install-registry.cjs");
 
-const RECEIPT_SCHEMA_VERSION = 2;
+const RECEIPT_SCHEMA_VERSION = 3;
+const PREVIOUS_RECEIPT_SCHEMA_VERSION = 2;
 const LEGACY_RECEIPT_SCHEMA_VERSION = 1;
 const PROFILE_ID_PATTERN = /^[a-z0-9][a-z0-9._-]{0,127}$/;
 const TARGET_ROOT_ID_PATTERN = /^[a-z0-9][a-z0-9-]{0,63}$/;
@@ -16,6 +17,8 @@ const SHA256_PATTERN = /^[a-f0-9]{64}$/;
 const MAX_MANIFEST_FILES = 4096;
 const MAX_RECEIPT_BYTES = 2 * 1024 * 1024;
 const SOURCE_METADATA_FILE = "AIHUB-SOURCE.json";
+const OWNERSHIP_MARKER_FILE = ".zhenxing-ai-owner.json";
+const MANAGEMENT_ID_PATTERN = /^[a-f0-9]{48}$/;
 
 function extensionError(code, message) {
   const error = new Error(message);
@@ -271,7 +274,11 @@ function sha256(filePath, fsApi = fs) {
     .digest("hex");
 }
 
-function scanDirectory(root, fsApi = fs, { excludeSourceMetadata = false } = {}) {
+function scanDirectory(
+  root,
+  fsApi = fs,
+  { excludeSourceMetadata = false, excludeOwnershipMarker = false } = {}
+) {
   const rootStat = fsApi.lstatSync(root);
   if (rootStat.isSymbolicLink()) {
     throw extensionError(
@@ -292,6 +299,9 @@ function scanDirectory(root, fsApi = fs, { excludeSourceMetadata = false } = {})
   function visit(directory, prefix) {
     for (const entry of fsApi.readdirSync(directory).sort()) {
       if (excludeSourceMetadata && prefix === "" && entry === SOURCE_METADATA_FILE) {
+        continue;
+      }
+      if (excludeOwnershipMarker && prefix === "" && entry === OWNERSHIP_MARKER_FILE) {
         continue;
       }
       const absolute = path.join(directory, entry);
@@ -517,6 +527,59 @@ function createExtensionRuntime({
     );
   }
 
+  function ownershipMarkerPath(target) {
+    return path.join(target, OWNERSHIP_MARKER_FILE);
+  }
+
+  function newManagementId() {
+    const managementId = crypto.randomBytes(24).toString("hex");
+    if (!MANAGEMENT_ID_PATTERN.test(managementId)) {
+      throw extensionError(
+        "EXTENSION_RECEIPT_INVALID",
+        "Extension ownership could not be created"
+      );
+    }
+    return managementId;
+  }
+
+  function writeOwnershipMarker(profileId, profile, target, managementId) {
+    fsApi.writeFileSync(
+      ownershipMarkerPath(target),
+      JSON.stringify({
+        schemaVersion: 1,
+        profileId,
+        extensionId: profile.extensionId,
+        managementId
+      }, null, 2),
+      { encoding: "utf8", flag: "wx" }
+    );
+  }
+
+  function ownershipMarkerMatches(profileId, profile, target, receipt) {
+    if (!MANAGEMENT_ID_PATTERN.test(receipt?.managementId || "")) return false;
+    try {
+      const markerPath = ownershipMarkerPath(target);
+      const stat = fsApi.lstatSync(markerPath);
+      if (stat.isSymbolicLink() || !stat.isFile() || stat.size <= 0 || stat.size > 8192) {
+        return false;
+      }
+      const marker = JSON.parse(fsApi.readFileSync(markerPath, "utf8"));
+      return Boolean(
+        isPlainObject(marker) &&
+        marker.schemaVersion === 1 &&
+        marker.profileId === profileId &&
+        marker.extensionId === profile.extensionId &&
+        marker.managementId === receipt.managementId
+      );
+    } catch {
+      return false;
+    }
+  }
+
+  function scanInstalledTarget(target) {
+    return scanDirectory(target, fsApi, { excludeOwnershipMarker: true });
+  }
+
   function validateOwnedPaths(ownedPaths, profile) {
     const target = expectedTarget(profile);
     const approvedTargetRoot = targetRoot(profile);
@@ -584,7 +647,11 @@ function createExtensionRuntime({
   function validateReceipt(receipt, profileId, profile) {
     if (
       !isPlainObject(receipt) ||
-      ![RECEIPT_SCHEMA_VERSION, LEGACY_RECEIPT_SCHEMA_VERSION].includes(receipt.schemaVersion) ||
+      ![
+        RECEIPT_SCHEMA_VERSION,
+        PREVIOUS_RECEIPT_SCHEMA_VERSION,
+        LEGACY_RECEIPT_SCHEMA_VERSION
+      ].includes(receipt.schemaVersion) ||
       receipt.profileId !== profileId ||
       receipt.adapterId !== profile.adapterId ||
       receipt.extensionId !== profile.extensionId ||
@@ -610,6 +677,8 @@ function createExtensionRuntime({
       receipt.versionRef !== sourceManifest.versionRef ||
       !targetManifest ||
       !sameFiles(sourceManifest.files, targetManifest.files) ||
+      (receipt.schemaVersion === RECEIPT_SCHEMA_VERSION &&
+        !MANAGEMENT_ID_PATTERN.test(receipt.managementId || "")) ||
       typeof receipt.updatedAt !== "string" ||
       !Number.isFinite(Date.parse(receipt.updatedAt))
     ) {
@@ -617,7 +686,7 @@ function createExtensionRuntime({
     }
     return Object.freeze({
       receipt,
-      legacy: false,
+      legacy: receipt.schemaVersion !== RECEIPT_SCHEMA_VERSION,
       sourceManifest,
       targetManifest
     });
@@ -696,18 +765,34 @@ function createExtensionRuntime({
           targetPath: target
         };
       }
-      const targetTree = scanDirectory(target, fsApi);
+      const targetTree = scanInstalledTarget(target);
       if (!receiptResult.receipt) {
         return { state: "external", managed: false, targetPath: target };
       }
       if (receiptResult.legacy) {
         return {
-          state: "outdated",
-          managed: true,
+          state: "modified",
+          managed: false,
           targetPath: target,
           versionRef: null,
           targetTree,
           legacyReceipt: true
+        };
+      }
+      if (
+        !ownershipMarkerMatches(
+          receiptResult.receipt.profileId,
+          profile,
+          target,
+          receiptResult.receipt
+        )
+      ) {
+        return {
+          state: "modified",
+          managed: false,
+          targetPath: target,
+          versionRef: receiptResult.receipt.versionRef,
+          targetTree
         };
       }
       if (!sameTree(targetTree, receiptResult.targetManifest)) {
@@ -786,6 +871,12 @@ function createExtensionRuntime({
         "Bundled extension snapshot must be a real directory"
       );
     }
+    if (fsApi.existsSync(path.join(source, OWNERSHIP_MARKER_FILE))) {
+      throw extensionError(
+        "EXTENSION_SOURCE_INVALID",
+        "Bundled extension snapshot cannot contain an ownership marker"
+      );
+    }
     const canonicalResourcesRoot = fsApi.realpathSync(approvedResourcesRoot);
     const canonicalSource = fsApi.realpathSync(source);
     const sourceRelative = path.relative(canonicalResourcesRoot, canonicalSource);
@@ -811,7 +902,14 @@ function createExtensionRuntime({
     return Object.freeze({ source, tree, manifest: declared });
   }
 
-  function buildReceipt(profileId, profile, sourceInfo, ownedPaths, previousReceipt = null) {
+  function buildReceipt(
+    profileId,
+    profile,
+    sourceInfo,
+    ownedPaths,
+    previousReceipt = null,
+    managementId = previousReceipt?.managementId || newManagementId()
+  ) {
     const timestamp = now();
     const installedAt = previousReceipt?.installedAt || timestamp;
     return Object.freeze({
@@ -820,6 +918,7 @@ function createExtensionRuntime({
       adapterId: profile.adapterId,
       extensionId: profile.extensionId,
       hostProductId: profile.hostProductId,
+      managementId,
       versionRef: sourceInfo.manifest.versionRef,
       sourceManifest: {
         versionRef: sourceInfo.manifest.versionRef,
@@ -839,12 +938,13 @@ function createExtensionRuntime({
     return `${target}.aihub-${suffix}-${process.pid}-${crypto.randomBytes(8).toString("hex")}`;
   }
 
-  function stageSource(sourceInfo, target) {
+  function stageSource(profileId, profile, sourceInfo, target, managementId) {
     const staging = uniqueSibling(target, "staging");
     copySnapshot(sourceInfo.source, staging, fsApi, {
       excludeSourceMetadata: true
     });
-    const stagedTree = scanDirectory(staging, fsApi);
+    writeOwnershipMarker(profileId, profile, staging, managementId);
+    const stagedTree = scanInstalledTarget(staging);
     if (!sameTree(stagedTree, sourceInfo.tree)) {
       safeRemoveOwnedDirectory(staging, fsApi);
       throw extensionError(
@@ -893,6 +993,7 @@ function createExtensionRuntime({
       );
     }
     const createdParents = createdParentDirectories(approvedTargetRoot, target, fsApi);
+    const managementId = newManagementId();
     let staging = null;
     let published = false;
     try {
@@ -902,7 +1003,7 @@ function createExtensionRuntime({
         path.dirname(target),
         fsApi
       );
-      staging = stageSource(sourceInfo, target);
+      staging = stageSource(profileId, profile, sourceInfo, target, managementId);
       if (fsApi.existsSync(target)) {
         throw extensionError(
           "EXTENSION_TARGET_EXISTS",
@@ -916,7 +1017,9 @@ function createExtensionRuntime({
         profileId,
         profile,
         sourceInfo,
-        [...createdParents, target]
+        [...createdParents, target],
+        null,
+        managementId
       );
       ensureDirectoryWithoutLinks(normalizedReceiptsRoot, fsApi);
       writeJsonAtomic(receiptPath(profileId), receipt, fsApi);
@@ -929,7 +1032,7 @@ function createExtensionRuntime({
       }
       if (published && fsApi.existsSync(target)) {
         try {
-          const tree = scanDirectory(target, fsApi);
+          const tree = scanInstalledTarget(target);
           if (sameTree(tree, sourceInfo.tree)) safeRemoveOwnedDirectory(target, fsApi);
         } catch {}
       }
@@ -972,30 +1075,17 @@ function createExtensionRuntime({
 
     const sourceInfo = approvedSource(profile);
     const target = expectedTarget(profile);
-    if (receiptResult.legacy) {
-      const currentTree = scanDirectory(target, fsApi);
-      if (!sameTree(currentTree, sourceInfo.tree)) {
-        throw extensionError(
-          "EXTENSION_TARGET_MODIFIED",
-          "Legacy extension contents cannot be verified; update refused"
-        );
-      }
-      const receipt = buildReceipt(
-        profileId,
-        profile,
-        sourceInfo,
-        receiptResult.receipt.ownedPaths,
-        receiptResult.receipt
-      );
-      writeJsonAtomic(receiptPath(profileId), receipt, fsApi);
-      return { state: "installed", receipt: structuredClone(receipt) };
-    }
-
     let staging = null;
     let backup = null;
     try {
-      staging = stageSource(sourceInfo, target);
-      const currentTree = scanDirectory(target, fsApi);
+      staging = stageSource(
+        profileId,
+        profile,
+        sourceInfo,
+        target,
+        receiptResult.receipt.managementId
+      );
+      const currentTree = scanInstalledTarget(target);
       if (!sameTree(currentTree, receiptResult.targetManifest)) {
         throw extensionError(
           "EXTENSION_TARGET_MODIFIED",
@@ -1082,11 +1172,12 @@ function createExtensionRuntime({
       fsApi
     );
     const createdParents = createdParentDirectories(approvedTargetRoot, target, fsApi);
+    const managementId = receiptResult.receipt.managementId || newManagementId();
     let staging = null;
     let published = false;
     try {
       fsApi.mkdirSync(path.dirname(target), { recursive: true });
-      staging = stageSource(sourceInfo, target);
+      staging = stageSource(profileId, profile, sourceInfo, target, managementId);
       if (fsApi.existsSync(target)) {
         throw extensionError(
           "EXTENSION_TARGET_EXISTS",
@@ -1104,7 +1195,8 @@ function createExtensionRuntime({
         profile,
         sourceInfo,
         ownedPaths,
-        receiptResult.receipt
+        receiptResult.receipt,
+        managementId
       );
       writeJsonAtomic(receiptPath(profileId), receipt, fsApi);
       return { state: "installed", receipt: structuredClone(receipt) };
@@ -1116,7 +1208,7 @@ function createExtensionRuntime({
       }
       if (published && fsApi.existsSync(target)) {
         try {
-          const tree = scanDirectory(target, fsApi);
+          const tree = scanInstalledTarget(target);
           if (sameTree(tree, sourceInfo.tree)) safeRemoveOwnedDirectory(target, fsApi);
         } catch {}
       }
@@ -1185,7 +1277,7 @@ function createExtensionRuntime({
     if (fsApi.existsSync(target)) {
       if (result.legacy) {
         const sourceInfo = approvedSource(profile);
-        const currentTree = scanDirectory(target, fsApi);
+        const currentTree = scanInstalledTarget(target);
         if (!sameTree(currentTree, sourceInfo.tree)) {
           throw extensionError(
             "EXTENSION_TARGET_MODIFIED",
@@ -1193,7 +1285,7 @@ function createExtensionRuntime({
           );
         }
       } else {
-        const currentTree = scanDirectory(target, fsApi);
+        const currentTree = scanInstalledTarget(target);
         if (!sameTree(currentTree, result.targetManifest)) {
           throw extensionError(
             "EXTENSION_TARGET_MODIFIED",

@@ -5,7 +5,8 @@ const path = require("node:path");
 const crypto = require("node:crypto");
 
 const RECEIPT_SCHEMA_VERSION = 2;
-const MARKER_SCHEMA_VERSION = 1;
+const MARKER_SCHEMA_VERSION = 2;
+const LEGACY_MARKER_SCHEMA_VERSION = 1;
 const PROFILE_ID = /^[a-z0-9][a-z0-9._-]{0,127}$/;
 const SAFE_ID = /^[a-z0-9][a-z0-9._-]{0,127}$/i;
 const QUALIFIED_PLUGIN_ID = /^[a-z0-9][a-z0-9._-]{0,127}@[a-z0-9][a-z0-9._-]{0,127}$/i;
@@ -183,7 +184,45 @@ function createClaudePluginRuntime({
     return path.join(ownershipRoot, pluginDataDirectoryName(profile.pluginId), OWNERSHIP_MARKER);
   }
 
+  function validReceipt(receipt, profileId, profile) {
+    return Boolean(
+      isRecord(receipt) &&
+      receipt.schemaVersion === RECEIPT_SCHEMA_VERSION &&
+      receipt.profileId === profileId &&
+      receipt.adapterId === profile.adapterId &&
+      receipt.extensionId === profile.extensionId &&
+      receipt.hostProductId === profile.hostProductId &&
+      receipt.pluginId === profile.pluginId &&
+      receipt.scope === "user" &&
+      typeof receipt.managementId === "string" &&
+      MANAGEMENT_ID.test(receipt.managementId) &&
+      typeof receipt.instanceFingerprint === "string" &&
+      INSTANCE_FINGERPRINT.test(receipt.instanceFingerprint) &&
+      typeof receipt.versionRef === "string" &&
+      typeof receipt.enabled === "boolean" &&
+      typeof receipt.installedAt === "string" &&
+      Number.isFinite(Date.parse(receipt.installedAt)) &&
+      typeof receipt.updatedAt === "string" &&
+      Number.isFinite(Date.parse(receipt.updatedAt))
+    );
+  }
+
+  function receiptFromMarker(profileId, profile) {
+    const markerResult = readMarker(profileId, profile);
+    const receipt = markerResult.marker?.receipt;
+    if (
+      markerResult.state !== "valid" ||
+      !validReceipt(receipt, profileId, profile) ||
+      !instanceMatches(profile, receipt)
+    ) {
+      return null;
+    }
+    return receipt;
+  }
+
   function readReceipt(profileId, profile) {
+    const markerReceipt = receiptFromMarker(profileId, profile);
+    if (markerReceipt) return { state: "valid", receipt: markerReceipt };
     let text;
     try {
       text = readSmallFile(receiptPath(profileId), fsApi);
@@ -193,26 +232,7 @@ function createClaudePluginRuntime({
     if (text === null) return { state: "missing", receipt: null };
     try {
       const receipt = JSON.parse(text);
-      if (
-        !isRecord(receipt) ||
-        receipt.schemaVersion !== RECEIPT_SCHEMA_VERSION ||
-        receipt.profileId !== profileId ||
-        receipt.adapterId !== profile.adapterId ||
-        receipt.extensionId !== profile.extensionId ||
-        receipt.hostProductId !== profile.hostProductId ||
-        receipt.pluginId !== profile.pluginId ||
-        receipt.scope !== "user" ||
-        typeof receipt.managementId !== "string" ||
-        !MANAGEMENT_ID.test(receipt.managementId) ||
-        typeof receipt.instanceFingerprint !== "string" ||
-        !INSTANCE_FINGERPRINT.test(receipt.instanceFingerprint) ||
-        typeof receipt.versionRef !== "string" ||
-        typeof receipt.enabled !== "boolean" ||
-        typeof receipt.installedAt !== "string" ||
-        !Number.isFinite(Date.parse(receipt.installedAt)) ||
-        typeof receipt.updatedAt !== "string" ||
-        !Number.isFinite(Date.parse(receipt.updatedAt))
-      ) {
+      if (!validReceipt(receipt, profileId, profile)) {
         return { state: "invalid", receipt: null };
       }
       return { state: "valid", receipt };
@@ -233,12 +253,19 @@ function createClaudePluginRuntime({
       const marker = JSON.parse(text);
       if (
         !isRecord(marker) ||
-        marker.schemaVersion !== MARKER_SCHEMA_VERSION ||
+        ![MARKER_SCHEMA_VERSION, LEGACY_MARKER_SCHEMA_VERSION].includes(marker.schemaVersion) ||
         marker.profileId !== profileId ||
         marker.pluginId !== profile.pluginId ||
         marker.scope !== "user" ||
         typeof marker.managementId !== "string" ||
         !MANAGEMENT_ID.test(marker.managementId)
+      ) {
+        return { state: "invalid", marker: null };
+      }
+      if (
+        marker.schemaVersion === MARKER_SCHEMA_VERSION &&
+        (!validReceipt(marker.receipt, profileId, profile) ||
+          marker.receipt.managementId !== marker.managementId)
       ) {
         return { state: "invalid", marker: null };
       }
@@ -307,13 +334,14 @@ function createClaudePluginRuntime({
     );
   }
 
-  function writeMarker(profileId, profile, managementId) {
+  function writeMarker(profileId, profile, receipt) {
     const marker = {
       schemaVersion: MARKER_SCHEMA_VERSION,
       profileId,
       pluginId: profile.pluginId,
       scope: "user",
-      managementId
+      managementId: receipt.managementId,
+      receipt
     };
     writeAtomic(markerPath(profile), `${JSON.stringify(marker, null, 2)}\n`, fsApi);
   }
@@ -324,10 +352,12 @@ function createClaudePluginRuntime({
   }
 
   function persistOwnership(profileId, profile, enabled, previous = null) {
-    let existingMarker = null;
-    try {
-      existingMarker = readSmallFile(markerPath(profile), fsApi);
-    } catch {}
+    const previousReceiptText = previous
+      ? readSmallFile(receiptPath(profileId), fsApi)
+      : null;
+    const existingMarkerMatches = previous
+      ? markerMatches(profileId, profile, previous)
+      : false;
     const timestamp = now();
     const generatedId = Buffer.from(randomBytes(24)).toString("hex");
     if (!previous?.managementId && !MANAGEMENT_ID.test(generatedId)) {
@@ -352,20 +382,39 @@ function createClaudePluginRuntime({
       installedAt: previous?.installedAt || timestamp,
       updatedAt: timestamp
     };
+    let markerWritten = false;
+    let receiptWritten = false;
+    let markerError = null;
+    let receiptError = null;
     try {
-      writeMarker(profileId, profile, receipt.managementId);
-      writeAtomic(receiptPath(profileId), `${JSON.stringify(receipt, null, 2)}\n`, fsApi);
+      writeMarker(profileId, profile, receipt);
+      markerWritten = true;
     } catch (error) {
-      try {
-        if (existingMarker === null) {
-          if (fsApi.existsSync(markerPath(profile))) fsApi.unlinkSync(markerPath(profile));
-        } else {
-          writeAtomic(markerPath(profile), existingMarker, fsApi);
-        }
-      } catch {}
-      throw error;
+      markerError = error;
     }
-    return receipt;
+    try {
+      writeAtomic(receiptPath(profileId), `${JSON.stringify(receipt, null, 2)}\n`, fsApi);
+      receiptWritten = true;
+    } catch (error) {
+      receiptError = error;
+    }
+    if (
+      (!previous && markerWritten && receiptWritten) ||
+      (previous && (markerWritten || (existingMarkerMatches && receiptWritten)))
+    ) {
+      return receipt;
+    }
+    if (markerWritten) {
+      try { removeMarkerIfOwned(profileId, profile, receipt); } catch {}
+    }
+    if (receiptWritten) {
+      try {
+        if (previousReceiptText === null) removeReceipt(profileId);
+        else writeAtomic(receiptPath(profileId), previousReceiptText, fsApi);
+      } catch {}
+    }
+    throw markerError || receiptError ||
+      runtimeError("EXTENSION_RECEIPT_INVALID", "Plugin ownership could not be persisted");
   }
 
   function removeReceipt(profileId) {
@@ -450,6 +499,16 @@ function createClaudePluginRuntime({
     }
   }
 
+  async function rollbackPluginInstall(executable, profile) {
+    await command(executable, [
+      "plugin", "uninstall", profile.pluginId,
+      "--scope", "user", "--keep-data", "--yes"
+    ]);
+    if (findPlugin(await listPlugins(executable), profile.pluginId)) {
+      throw runtimeError("EXTENSION_ROLLBACK_FAILED", "Plugin install rollback was not confirmed");
+    }
+  }
+
   async function install(profileId) {
     const profile = resolveProfile(profileId);
     const before = await inspect(profileId);
@@ -468,7 +527,13 @@ function createClaudePluginRuntime({
     await command(executable, ["plugin", "install", profile.pluginId, "--scope", "user"]);
     const installed = findPlugin(await listPlugins(executable), profile.pluginId);
     if (!installed) throw runtimeError("EXTENSION_POSTCONDITION_FAILED", "Plugin installation was not confirmed");
-    persistOwnership(profileId, profile, installed.enabled !== false);
+    try {
+      persistOwnership(profileId, profile, installed.enabled !== false);
+    } catch (error) {
+      await rollbackPluginInstall(executable, profile);
+      removeReceipt(profileId);
+      throw error;
+    }
     return inspect(profileId);
   }
 
@@ -519,12 +584,18 @@ function createClaudePluginRuntime({
     await command(executable, ["plugin", "install", profile.pluginId, "--scope", "user"]);
     const installed = findPlugin(await listPlugins(executable), profile.pluginId);
     if (!installed) throw runtimeError("EXTENSION_POSTCONDITION_FAILED", "Plugin repair was not confirmed");
-    persistOwnership(
-      profileId,
-      profile,
-      installed.enabled !== false,
-      readReceipt(profileId, profile).receipt
-    );
+    const receipt = readReceipt(profileId, profile).receipt;
+    try {
+      persistOwnership(
+        profileId,
+        profile,
+        installed.enabled !== false,
+        receipt
+      );
+    } catch (error) {
+      await rollbackPluginInstall(executable, profile);
+      throw error;
+    }
     return inspect(profileId);
   }
 

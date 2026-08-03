@@ -203,6 +203,7 @@ const {
   createManagedCliReconcileAction,
   createManagedCliPostInstallAction,
   createManagedCliReceipt,
+  createManagedCliTransactionRollbackAction,
   createManagedCliUninstallAction,
   inspectManagedCli
 } = require("../shared/managed-cli.cjs");
@@ -3208,24 +3209,6 @@ function getCliStatus(productId) {
 
 async function discoverNpmCliStatus({ productId, plan }) {
   let current = getNpmCliStatus({ productId, plan });
-  if (current.ownership === "adopted") {
-    try {
-      const runtime = await locateNpmRuntime(plan);
-      const receipt = createManagedCliReceipt({
-        productId,
-        plan,
-        prefix: current.directory,
-        runtime
-      });
-      if (receipt) {
-        setManagedCliRecord(productId, receipt);
-        current = getNpmCliStatus({ productId, plan });
-      }
-    } catch {
-      // A read-only adopted status still permits reviewed open/uninstall actions.
-    }
-    return current;
-  }
   if (current.installed) return current;
 
   const commandPath = await locate(`${plan.commandName}.cmd`);
@@ -3237,9 +3220,9 @@ async function discoverNpmCliStatus({ productId, plan }) {
     receipt: null,
     configuredPrefix: prefix
   });
-  if (!discovered.installed || !discovered.managed) return current;
+  if (!discovered.installed) return current;
   discoveredCliPrefixes.set(productId, prefix);
-  return await discoverNpmCliStatus({ productId, plan });
+  return getNpmCliStatus({ productId, plan });
 }
 
 async function discoverCompanionRuntimeCliStatus({ plan }) {
@@ -3887,13 +3870,15 @@ async function rollbackManagedNpmReconcile({
   directory,
   previousReceipt
 }) {
-  if (!previousReceipt?.version) return false;
-  const current = getNpmCliStatus({ productId, plan });
   if (
-    current.detection !== "installed" ||
-    current.ownership !== "mismatch" ||
-    current.version !== plan.expectedVersion ||
-    path.win32.normalize(current.directory).toLowerCase() !==
+    !previousReceipt?.version ||
+    previousReceipt.productId !== productId ||
+    previousReceipt.packageName !== plan.packageName
+  ) {
+    return false;
+  }
+  if (
+    path.win32.normalize(directory).toLowerCase() !==
       path.win32.normalize(previousReceipt.prefix).toLowerCase()
   ) {
     return false;
@@ -3921,6 +3906,11 @@ async function rollbackManagedNpmReconcile({
     previousReceipt
   });
   if (!restoredReceipt) return false;
+  try {
+    setManagedCliRecord(productId, restoredReceipt);
+  } catch {
+    return false;
+  }
   const persisted = readManagedCliRecords()[productId];
   return Boolean(
     persisted?.managementId === previousReceipt.managementId &&
@@ -3928,6 +3918,40 @@ async function rollbackManagedNpmReconcile({
       restoredReceipt.managementId === previousReceipt.managementId &&
       restoredReceipt.version === previousReceipt.version
   );
+}
+
+async function rollbackFreshManagedNpmInstall({
+  sender,
+  productId,
+  plan,
+  directory
+}) {
+  let executionContext = null;
+  try {
+    const runtime = await locateNpmRuntime(plan);
+    executionContext = createNpmExecutionContext();
+    const action = createManagedCliTransactionRollbackAction({
+      productId,
+      plan,
+      prefix: directory,
+      runtime,
+      executionContext
+    });
+    if (!action) return false;
+    const result = await runCliUninstall(sender, action, executionContext);
+    if (!result.ok) return false;
+    const status = inspectManagedCli({
+      productId,
+      plan,
+      receipt: null,
+      configuredPrefix: directory
+    });
+    return !status.installed;
+  } catch {
+    return false;
+  } finally {
+    removeNpmExecutionContext(executionContext);
+  }
 }
 
 function runCliUninstall(sender, action, executionContext) {
@@ -7342,8 +7366,29 @@ async function deployManagedNpmCli(
       intent,
       previousReceipt
     );
-    if (!installResult.ok) return installResult;
-    const { runtime, ...result } = installResult;
+    if (!installResult.ok) {
+      const rolledBack = previousReceipt
+        ? await rollbackManagedNpmReconcile({
+            sender,
+            productId,
+            plan,
+            directory,
+            previousReceipt
+          })
+        : await rollbackFreshManagedNpmInstall({
+            sender,
+            productId,
+            plan,
+            directory
+          });
+      return {
+        ok: false,
+        error: rolledBack
+          ? `${installResult.error || `CLI ${actionLabel}失败`}，已自动恢复操作前状态`
+          : `${installResult.error || `CLI ${actionLabel}失败`}，自动恢复失败，请保留当前文件并重新检测`
+      };
+    }
+    const { runtime } = installResult;
     const receipt = createManagedCliReceipt({
       productId,
       plan,
@@ -7352,54 +7397,60 @@ async function deployManagedNpmCli(
       previousReceipt
     });
     if (!receipt) {
-      const rolledBack =
-        intent !== "install" && previousReceipt
-          ? await rollbackManagedNpmReconcile({
-              sender,
-              productId,
-              plan,
-              directory,
-              previousReceipt
-            })
-          : false;
+      const rolledBack = previousReceipt
+        ? await rollbackManagedNpmReconcile({
+            sender,
+            productId,
+            plan,
+            directory,
+            previousReceipt
+          })
+        : await rollbackFreshManagedNpmInstall({
+            sender,
+            productId,
+            plan,
+            directory
+          });
       if (rolledBack) {
         return {
           ok: false,
-          error: `CLI ${actionLabel}未能建立新收据，已自动恢复原版本`
+          error: `CLI ${actionLabel}未能建立新收据，已自动恢复操作前状态`
         };
       }
       return {
-        ...result,
-        managed: false,
-        warning: "CLI 已安装，但无法建立安全管理收据；客户端不会提供自动卸载"
+        ok: false,
+        error: `CLI ${actionLabel}未能建立安全收据，自动恢复失败，请保留当前文件并重新检测`
       };
     }
     try {
       setManagedCliRecord(productId, receipt);
     } catch (error) {
-      const rolledBack =
-        intent !== "install" && previousReceipt
-          ? await rollbackManagedNpmReconcile({
-              sender,
-              productId,
-              plan,
-              directory,
-              previousReceipt
-            })
-          : false;
+      const rolledBack = previousReceipt
+        ? await rollbackManagedNpmReconcile({
+            sender,
+            productId,
+            plan,
+            directory,
+            previousReceipt
+          })
+        : await rollbackFreshManagedNpmInstall({
+            sender,
+            productId,
+            plan,
+            directory
+          });
       if (rolledBack) {
         return {
           ok: false,
-          error: `CLI ${actionLabel}收据保存失败，已自动恢复原版本`
+          error: `CLI ${actionLabel}收据保存失败，已自动恢复操作前状态`
         };
       }
       return {
-        ...result,
-        managed: false,
-        warning:
+        ok: false,
+        error:
           error instanceof Error
-            ? `CLI 已安装，但管理收据写入失败：${error.message}`
-            : "CLI 已安装，但管理收据写入失败"
+            ? `CLI 管理收据写入失败且自动恢复失败：${error.message}`
+            : "CLI 管理收据写入失败且自动恢复失败"
       };
     }
     const terminal = await openManagedCliTerminal(productId);

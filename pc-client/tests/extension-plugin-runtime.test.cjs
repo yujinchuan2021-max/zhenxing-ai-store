@@ -40,8 +40,23 @@ function fixture(t, options = {}) {
   let marketplace = options.marketplace === true;
   const calls = [];
   let failure = null;
+  let failReceiptRename = false;
+  let failMarkerRename = false;
   let installedAt = "";
   let instanceSequence = 0;
+  const fsApi = Object.assign(Object.create(fs), {
+    renameSync(source, destination) {
+      if (
+        (failReceiptRename && path.resolve(path.dirname(destination)) === path.resolve(receiptsRoot)) ||
+        (failMarkerRename && path.basename(destination) === ".zhenxing-ai-owner.json")
+      ) {
+        const error = new Error("simulated atomic rename failure");
+        error.code = "EACCES";
+        throw error;
+      }
+      return fs.renameSync(source, destination);
+    }
+  });
 
   function nextInstanceTimestamp() {
     instanceSequence += 1;
@@ -126,6 +141,7 @@ function fixture(t, options = {}) {
     resolveHostExecutable: async (hostProductId) =>
       hostAvailable && hostProductId === "claude-code" ? EXECUTABLE : null,
     runHostCommand: runner,
+    fsApi,
     now: () => "2026-08-03T00:00:00.000Z",
     randomBytes: () => Buffer.alloc(24, 7)
   });
@@ -143,7 +159,9 @@ function fixture(t, options = {}) {
     },
     setProfile: (value) => { profile = value; },
     setHostAvailable: (value) => { hostAvailable = value; },
-    failCommands: (value) => { failure = value; }
+    failCommands: (value) => { failure = value; },
+    failReceiptWrites: (value) => { failReceiptRename = value; },
+    failMarkerWrites: (value) => { failMarkerRename = value; }
   };
 }
 
@@ -256,6 +274,81 @@ test("does not reuse an old receipt after a manual uninstall and reinstall", asy
     (error) => error.code === "EXTENSION_NOT_MANAGED"
   );
   assert.ok(state.getPlugin());
+});
+
+test("keeps lifecycle ownership in the per-instance marker when receipt replacement fails", async (t) => {
+  const state = fixture(t);
+  await state.runtime.install(PROFILE_ID);
+  state.setProfile(approvedProfile({ versionRef: "1.1.0" }));
+  state.failReceiptWrites(true);
+
+  assert.equal((await state.runtime.update(PROFILE_ID)).state, "installed");
+  assert.equal((await state.runtime.inspect(PROFILE_ID)).state, "installed");
+  const diskReceipt = JSON.parse(
+    fs.readFileSync(path.join(state.receiptsRoot, `${PROFILE_ID}.json`), "utf8")
+  );
+  assert.equal(diskReceipt.versionRef, "1.0.0");
+  const marker = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        state.ownershipRoot,
+        "commit-commands-anthropics-claude-code",
+        ".zhenxing-ai-owner.json"
+      ),
+      "utf8"
+    )
+  );
+  assert.equal(marker.receipt.versionRef, "1.1.0");
+});
+
+test("keeps update ownership in the primary receipt when marker replacement fails", async (t) => {
+  const state = fixture(t);
+  await state.runtime.install(PROFILE_ID);
+  state.setProfile(approvedProfile({ versionRef: "1.1.0" }));
+  state.failMarkerWrites(true);
+
+  assert.equal((await state.runtime.update(PROFILE_ID)).state, "installed");
+  assert.equal((await state.runtime.inspect(PROFILE_ID)).state, "installed");
+  const diskReceipt = JSON.parse(
+    fs.readFileSync(path.join(state.receiptsRoot, `${PROFILE_ID}.json`), "utf8")
+  );
+  assert.equal(diskReceipt.versionRef, "1.1.0");
+});
+
+test("rolls back a stale-plugin repair when a new instance marker cannot be committed", async (t) => {
+  const state = fixture(t);
+  await state.runtime.install(PROFILE_ID);
+  state.setPlugin(null);
+  assert.equal((await state.runtime.inspect(PROFILE_ID)).state, "stale");
+  state.failMarkerWrites(true);
+
+  await assert.rejects(state.runtime.repair(PROFILE_ID), /simulated atomic rename failure/);
+  assert.equal(state.getPlugin(), null);
+  assert.equal((await state.runtime.inspect(PROFILE_ID)).state, "stale");
+});
+
+test("rolls back a fresh plugin install when ownership cannot be persisted", async (t) => {
+  const state = fixture(t);
+  state.failMarkerWrites(true);
+
+  await assert.rejects(state.runtime.install(PROFILE_ID), /simulated atomic rename failure/);
+  assert.equal(state.getPlugin(), null);
+  assert.equal(
+    fs.existsSync(path.join(state.receiptsRoot, `${PROFILE_ID}.json`)),
+    false
+  );
+});
+
+test("rolls back a fresh plugin install when its primary receipt cannot be committed", async (t) => {
+  const state = fixture(t);
+  state.failReceiptWrites(true);
+
+  await assert.rejects(state.runtime.install(PROFILE_ID), /simulated atomic rename failure/);
+  assert.equal(state.getPlugin(), null);
+  assert.equal(
+    fs.existsSync(path.join(state.receiptsRoot, `${PROFILE_ID}.json`)),
+    false
+  );
 });
 
 test("rejects unknown profiles, invalid profiles, and arbitrary actions", async (t) => {

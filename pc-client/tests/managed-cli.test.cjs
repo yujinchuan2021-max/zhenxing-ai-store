@@ -9,6 +9,7 @@ const {
   createManagedCliInstallAction,
   createManagedCliPostInstallAction,
   createManagedCliReconcileAction,
+  createManagedCliTransactionRollbackAction,
   createManagedCliUninstallAction,
   inspectManagedCli
 } = require("../shared/managed-cli.cjs");
@@ -219,7 +220,7 @@ test("does not claim a manually installed package without a receipt", () => {
   });
 });
 
-test("takes over an exact allowlisted package found in the configured AI Hub prefix", () => {
+test("never takes over an exact allowlisted package without an AI Hub receipt", () => {
   const fixedPlan = {
     ...plan,
     expectedVersion: "1.2.3",
@@ -239,10 +240,10 @@ test("takes over an exact allowlisted package found in the configured AI Hub pre
     version: "1.2.3",
     directory: prefix,
     detection: "installed",
-    managed: true,
-    canUninstall: true,
+    managed: false,
+    canUninstall: false,
     canUpdate: false,
-    ownership: "adopted"
+    ownership: "external"
   });
 
   const action = createManagedCliUninstallAction({
@@ -254,11 +255,26 @@ test("takes over an exact allowlisted package found in the configured AI Hub pre
     executionContext,
     ...fileSystem
   });
-  assert.equal(action.packageName, plan.packageName);
-  assert.equal(action.prefix, prefix);
-  assert.equal(action.version, "1.2.3");
-  assert.equal(action.ownership, "adopted");
-  assert.equal(action.manifestSha256.length, 64);
+  assert.equal(action, null);
+});
+
+test("builds a fixed cleanup action only for the current install transaction", () => {
+  const action = createManagedCliTransactionRollbackAction({
+    productId,
+    plan: {
+      ...plan,
+      expectedVersion: "1.2.3",
+      installSpec: `${plan.packageName}@1.2.3`
+    },
+    prefix,
+    runtime,
+    executionContext,
+    realpath: fakeFileSystem().realpath
+  });
+  assert.equal(action.executable, nodeExecutable);
+  assert.equal(action.args[1], "uninstall");
+  assert.equal(action.args.at(-1), plan.packageName);
+  assert.equal(action.args.includes("@openai/codex@1.2.3"), false);
 });
 
 test("allows uninstall only when receipt, package, prefix and version match", () => {

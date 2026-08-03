@@ -365,8 +365,7 @@ function validReceiptShape(receipt, productId, plan) {
 function statusFromPackage(packageStatus, ownership) {
   const managed =
     ownership === "managed" ||
-    ownership === "managed-outdated" ||
-    ownership === "adopted";
+    ownership === "managed-outdated";
   return {
     installed: packageStatus.detection === "installed",
     version: packageStatus.version,
@@ -377,17 +376,6 @@ function statusFromPackage(packageStatus, ownership) {
     canUpdate: ownership === "managed-outdated",
     ownership
   };
-}
-
-function adoptablePackage(plan, packageStatus) {
-  return Boolean(
-    packageStatus?.detection === "installed" &&
-      typeof plan?.expectedVersion === "string" &&
-      plan.expectedVersion &&
-      packageStatus.version === plan.expectedVersion &&
-      plan.installSpec === `${plan.packageName}@${plan.expectedVersion}` &&
-      SHA256_PATTERN.test(String(packageStatus.manifestSha256 || ""))
-  );
 }
 
 function inspectManagedCli({
@@ -476,10 +464,7 @@ function inspectManagedCli({
         readFile
       });
       if (configured.detection === "installed") {
-        return statusFromPackage(
-          configured,
-          adoptablePackage(plan, configured) ? "adopted" : "external"
-        );
+        return statusFromPackage(configured, "external");
       }
       if (configured.detection === "unknown") {
         return statusFromPackage(configured, "unknown");
@@ -509,9 +494,7 @@ function inspectManagedCli({
   return statusFromPackage(
     configured,
     configured.detection === "installed"
-      ? adoptablePackage(plan, configured)
-        ? "adopted"
-        : "external"
+      ? "external"
       : configured.detection === "unknown"
         ? "unknown"
         : "none"
@@ -669,6 +652,32 @@ function createManagedCliInstallAction({
     productId,
     packageName: plan.packageName,
     prefix: prefixPath.value
+  };
+}
+
+function createManagedCliTransactionRollbackAction({
+  productId,
+  plan,
+  prefix,
+  runtime,
+  executionContext,
+  realpath = defaultRealpath
+}) {
+  const installAction = createManagedCliInstallAction({
+    productId,
+    plan,
+    prefix,
+    runtime,
+    executionContext,
+    realpath
+  });
+  if (!installAction) return null;
+  const args = [...installAction.args];
+  args[1] = "uninstall";
+  args[args.length - 1] = plan.packageName;
+  return {
+    ...installAction,
+    args
   };
 }
 
@@ -830,21 +839,10 @@ function createManagedCliUninstallAction({
   });
   const runtimePaths = resolveRuntimePaths(runtime, realpath);
   const context = resolveExecutionContext(executionContext, realpath);
-  const adopted = status.ownership === "adopted";
-  const observed = status.canUninstall
-    ? inspectPackage({
-        prefix: status.directory,
-        packageName: plan.packageName,
-        realpath,
-        readFile
-      })
-    : null;
   if (
     !status.canUninstall ||
-    (!adopted &&
-      !runtimesMatch(receipt?.runtime, runtime) &&
-      !adoptablePackage(plan, observed)) ||
-    (adopted && !adoptablePackage(plan, observed)) ||
+    !receipt ||
+    !runtimesMatch(receipt.runtime, runtime) ||
     !nodeVersionSatisfiesPlan(runtime?.nodeVersion, plan) ||
     !runtimePaths ||
     !context
@@ -880,12 +878,7 @@ function createManagedCliUninstallAction({
     packageName: plan.packageName,
     prefix: status.directory,
     version: status.version,
-    managementId: adopted ? "" : receipt.managementId,
-    ...(adopted
-      ? { ownership: "adopted", manifestSha256: observed.manifestSha256 }
-      : !runtimesMatch(receipt?.runtime, runtime)
-        ? { ownership: "managed", manifestSha256: observed.manifestSha256 }
-        : {})
+    managementId: receipt.managementId
   };
 }
 
@@ -922,21 +915,10 @@ function createManagedCliBeforeUninstallAction({
     readFile
   });
   const runtimePaths = resolveRuntimePaths(runtime, realpath);
-  const adopted = status.ownership === "adopted";
-  const observed = status.canUninstall
-    ? inspectPackage({
-        prefix: status.directory,
-        packageName: plan.packageName,
-        realpath,
-        readFile
-      })
-    : null;
   if (
     !status.canUninstall ||
-    (!adopted &&
-      !runtimesMatch(receipt?.runtime, runtime) &&
-      !adoptablePackage(plan, observed)) ||
-    (adopted && !adoptablePackage(plan, observed)) ||
+    !receipt ||
+    !runtimesMatch(receipt.runtime, runtime) ||
     !nodeVersionSatisfiesPlan(runtime?.nodeVersion, plan) ||
     !runtimePaths
   ) {
@@ -985,12 +967,7 @@ function createManagedCliBeforeUninstallAction({
     packageName: plan.packageName,
     prefix: status.directory,
     version: status.version,
-    managementId: adopted ? "" : receipt.managementId,
-    ...(adopted
-      ? { ownership: "adopted", manifestSha256: observed.manifestSha256 }
-      : !runtimesMatch(receipt?.runtime, runtime)
-        ? { ownership: "managed", manifestSha256: observed.manifestSha256 }
-        : {})
+    managementId: receipt.managementId
   };
 }
 
@@ -1001,6 +978,7 @@ module.exports = {
   createManagedCliPostInstallAction,
   createManagedCliReconcileAction,
   createManagedCliReceipt,
+  createManagedCliTransactionRollbackAction,
   createManagedCliUninstallAction,
   inspectManagedCli
 };

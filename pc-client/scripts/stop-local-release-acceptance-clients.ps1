@@ -75,8 +75,20 @@ foreach ($Target in @($OrderedTargets | Sort-Object Depth -Descending)) {
     throw "local acceptance client identity changed before shutdown"
   }
   Stop-Process -Id $ProcessId -Force
-  Wait-Process -Id $ProcessId -Timeout 10 -ErrorAction SilentlyContinue
-  if (Get-Process -Id $ProcessId -ErrorAction SilentlyContinue) {
+  $Deadline = [DateTime]::UtcNow.AddSeconds(10)
+  do {
+    $Remaining = Get-CimInstance Win32_Process -Filter "ProcessId = $ProcessId" -ErrorAction SilentlyContinue
+    if (
+      -not $Remaining -or
+      [string]$Remaining.CreationDate -ne [string]$Candidate.CreationDate -or
+      [string]$Remaining.ExecutablePath -ne [string]$Candidate.ExecutablePath
+    ) {
+      $Remaining = $null
+      break
+    }
+    Start-Sleep -Milliseconds 100
+  } while ([DateTime]::UtcNow -lt $Deadline)
+  if ($Remaining) {
     throw "local acceptance client did not exit"
   }
   $Stopped += 1

@@ -539,7 +539,7 @@ type CliStatus = {
   canUninstall: boolean;
   canUpdate?: boolean;
   canRepair?: boolean;
-  ownership: "managed" | "managed-outdated" | "adopted" | "external" | "mismatch" | "stale" | "none" | "unknown";
+  ownership: "managed" | "managed-outdated" | "external" | "mismatch" | "stale" | "none" | "unknown";
   requiresInstallDirectory?: boolean;
   hubInstalled?: boolean;
   hubRunning?: boolean;
