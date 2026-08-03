@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-03T06:34:33.838Z",
+  "updatedAt": "2026-08-03T09:14:49.945Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -155,6 +155,8 @@
             "website",
             "tutorial",
             "install",
+            "update",
+            "repair",
             "open",
             "uninstall"
           ],
@@ -301,6 +303,8 @@
             "website",
             "tutorial",
             "install",
+            "update",
+            "repair",
             "open",
             "uninstall"
           ],
@@ -1035,6 +1039,8 @@
             "website",
             "tutorial",
             "install",
+            "update",
+            "repair",
             "open",
             "uninstall"
           ],
@@ -2118,6 +2124,8 @@
             "website",
             "tutorial",
             "install",
+            "update",
+            "repair",
             "open",
             "uninstall"
           ],
@@ -2547,6 +2555,8 @@
             "website",
             "tutorial",
             "install",
+            "update",
+            "repair",
             "open",
             "uninstall"
           ],
@@ -4462,6 +4472,8 @@
             "website",
             "tutorial",
             "install",
+            "update",
+            "repair",
             "open",
             "uninstall"
           ],
@@ -5484,6 +5496,8 @@
             "website",
             "tutorial",
             "install",
+            "update",
+            "repair",
             "open",
             "uninstall"
           ],
@@ -26642,22 +26656,28 @@
     },
     {
       "id": "openai-codex-mcp-config",
-      "name": "Codex MCP 配置",
-      "description": "这是宿主适配器，不是一个通用 MCP 包；逐 server 审核。",
-      "website": "https://developers.openai.com/codex/mcp/",
-      "tutorial": "https://developers.openai.com/codex/mcp/",
+      "name": "OpenAI Developer Docs MCP",
+      "description": "OpenAI 官方只读开发者文档 MCP。枕星 AI 只维护 Codex 用户配置中的固定 openaiDeveloperDocs 条目。",
+      "website": "https://developers.openai.com/resources/docs-mcp",
+      "tutorial": "https://developers.openai.com/codex/mcp",
       "enabled": true,
       "order": 1,
       "sourceKind": "official",
-      "versionRef": "rolling-directory",
-      "requestedPermissions": [],
-      "credentialRequirements": [],
-      "installScope": "产品内扩展目录",
-      "uninstallPlan": "当前仅打开官方入口，不写入本地文件。",
-      "provenanceEvidence": [
-        "https://developers.openai.com/codex/mcp/"
+      "versionRef": "2026-08-03",
+      "requestedPermissions": [
+        "读取公开 OpenAI 开发者文档",
+        "写入一个固定 Codex MCP 配置条目"
       ],
-      "lastVerifiedAt": "2026-07-31T00:00:00.000+08:00",
+      "credentialRequirements": [
+        "无需凭据"
+      ],
+      "installScope": "Codex 用户级 ~/.codex/config.toml 的 openaiDeveloperDocs 条目",
+      "uninstallPlan": "仅删除枕星 AI 标记且内容未被用户修改的 openaiDeveloperDocs 配置块。",
+      "provenanceEvidence": [
+        "https://developers.openai.com/resources/docs-mcp",
+        "https://developers.openai.com/codex/mcp"
+      ],
+      "lastVerifiedAt": "2026-08-03T20:00:00.000Z",
       "publisher": "OpenAI",
       "resourceTypes": [
         "mcp"
@@ -26667,10 +26687,16 @@
         {
           "productId": "codex-cli",
           "compatibility": "official",
-          "moduleId": "resource-link",
-          "installProfileId": "",
+          "moduleId": "mcp-managed",
+          "installProfileId": "mcp.codex.openai-developer-docs",
           "capabilities": [
-            "website"
+            "website",
+            "install",
+            "update",
+            "repair",
+            "enable",
+            "disable",
+            "uninstall"
           ],
           "enabled": true
         }
@@ -26688,17 +26714,19 @@
       "sourceKind": "official",
       "versionRef": "49f948faa9258a0c61caceaf225e179651397431",
       "requestedPermissions": [
-        "写入 Codex 用户级 skills 目录"
+        "写入 Codex 用户级 Skill 目录"
       ],
-      "credentialRequirements": [],
-      "installScope": "Codex 用户级 skills/chatgpt-apps 目录",
-      "uninstallPlan": "仅删除枕星 AI 回执记录的 chatgpt-apps 目录；保留 Codex skills 根目录和其他 Skill。",
+      "credentialRequirements": [
+        "无需凭据"
+      ],
+      "installScope": "Codex 用户级 ~/.agents/skills/chatgpt-apps 目录",
+      "uninstallPlan": "仅删除收据中逐文件哈希仍匹配的 chatgpt-apps 快照；用户修改或新增内容时停止卸载。",
       "provenanceEvidence": [
         "https://github.com/openai/skills",
         "https://github.com/openai/skills/commit/49f948faa9258a0c61caceaf225e179651397431",
         "https://github.com/openai/skills/tree/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/chatgpt-apps"
       ],
-      "lastVerifiedAt": "2026-07-31T11:23:00.000Z",
+      "lastVerifiedAt": "2026-08-03T20:00:00.000Z",
       "publisher": "OpenAI",
       "resourceTypes": [
         "skill"
@@ -26713,6 +26741,8 @@
           "capabilities": [
             "website",
             "install",
+            "update",
+            "repair",
             "uninstall"
           ],
           "enabled": true
@@ -36413,6 +36443,55 @@
       "lastVerifiedAt": "2026-08-03T17:00:00.000Z",
       "enabled": true,
       "order": 145
+    },
+    {
+      "id": "anthropic-commit-commands-plugin",
+      "name": "Claude Code Commit Commands",
+      "resourceTypes": [
+        "plugin"
+      ],
+      "description": "Anthropic 官方 Git 工作流插件，提供提交、推送与创建 PR 的显式命令。安装和生命周期由 Claude Code 官方插件命令管理。",
+      "website": "https://github.com/anthropics/claude-code/tree/main/plugins/commit-commands",
+      "tutorial": "https://code.claude.com/docs/en/discover-plugins",
+      "publisherVendorId": "anthropic",
+      "publisher": "Anthropic",
+      "sourceKind": "official",
+      "sourceProductIds": [],
+      "targets": [
+        {
+          "productId": "claude-code",
+          "compatibility": "official",
+          "moduleId": "plugin-managed",
+          "installProfileId": "plugin.claude.commit-commands",
+          "capabilities": [
+            "website",
+            "install",
+            "update",
+            "repair",
+            "enable",
+            "disable",
+            "uninstall"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "1.0.0",
+      "requestedPermissions": [
+        "用户显式调用时可执行 Git 提交、推送和 PR 工作流"
+      ],
+      "credentialRequirements": [
+        "无需新增凭据；推送和 PR 沿用用户现有 Git 或 GitHub 登录"
+      ],
+      "installScope": "Claude Code 用户级插件",
+      "uninstallPlan": "调用 Claude Code 官方 user-scope 卸载命令并保留插件数据；不移除共享 marketplace。",
+      "provenanceEvidence": [
+        "https://github.com/anthropics/claude-code/blob/main/.claude-plugin/marketplace.json",
+        "https://github.com/anthropics/claude-code/tree/main/plugins/commit-commands",
+        "https://code.claude.com/docs/en/discover-plugins"
+      ],
+      "lastVerifiedAt": "2026-08-03T20:00:00.000Z",
+      "enabled": true,
+      "order": 146
     }
   ]
 }

@@ -5,12 +5,17 @@ contextBridge.exposeInMainWorld("aihubPC", {
   scanManagedInventory: () => ipcRenderer.invoke("inventory:scan"),
   checkForUpdate: () => ipcRenderer.invoke("update:check"),
   openUpdateDownload: () => ipcRenderer.invoke("update:open-download"),
+  listExtensions: () => ipcRenderer.invoke("extension:list"),
   getExtensionStatus: (profileId) =>
     ipcRenderer.invoke("extension:status", profileId),
   installExtension: (profileId) =>
     ipcRenderer.invoke("extension:install", profileId),
   uninstallExtension: (profileId) =>
     ipcRenderer.invoke("extension:uninstall", profileId),
+  inspectExtension: (profileId) =>
+    ipcRenderer.invoke("extension:inspect", profileId),
+  executeExtension: (profileId, action) =>
+    ipcRenderer.invoke("extension:execute", profileId, action),
   getIdentity: () => ipcRenderer.invoke("identity:current"),
   requestRegistrationCode: (email) =>
     ipcRenderer.invoke("identity:request-code", email),
@@ -142,6 +147,8 @@ contextBridge.exposeInMainWorld("aihubPC", {
   openCliLocation: (productId) =>
     ipcRenderer.invoke("cli:open-location", productId),
   deployCli: (productId) => ipcRenderer.invoke("cli:deploy", productId),
+  reconcileCli: (productId, intent) =>
+    ipcRenderer.invoke("cli:reconcile", productId, intent),
   uninstallCli: (productId) => ipcRenderer.invoke("cli:uninstall", productId),
   notifyCliTask: (payload) =>
     ipcRenderer.invoke("task-notification:cli", payload),

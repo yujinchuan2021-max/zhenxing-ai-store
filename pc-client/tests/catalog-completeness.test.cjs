@@ -6,6 +6,9 @@ const { validateCatalog } = require("../shared/catalog.cjs");
 const {
   resolveProductBehavior
 } = require("../shared/product-policy.cjs");
+const {
+  EXTENSION_INSTALL_REGISTRY
+} = require("../shared/extension-install-registry.cjs");
 
 const PRESERVED_MANAGED_PRODUCTS = Object.freeze({
   openai: ["chatgpt-desktop", "codex-cli"],
@@ -511,7 +514,7 @@ test("the seven product behavior modules classify every catalog entry", () => {
   });
 });
 
-test("ecosystem resources are top-level, typed and keep one reviewed managed Skill", () => {
+test("ecosystem resources are top-level, typed and expose only reviewed managed profiles", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
   assert.equal(products.every((product) => !("extensions" in product)), true);
   assert.equal(
@@ -521,7 +524,7 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
     true
   );
   const resources = catalog.resources;
-  assert.equal(resources.length, 145);
+  assert.equal(resources.length, 146);
   assert.equal(
     resources.every((item) => item.publisherVendorId),
     true,
@@ -529,7 +532,7 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
   );
   assert.equal(resources.filter((item) => item.resourceTypes.includes("skill")).length, 16);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 123);
-  assert.equal(resources.filter((item) => item.resourceTypes.includes("plugin")).length, 7);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("plugin")).length, 8);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("connector")).length, 3);
   const managed = resources.find(
     (item) => item.id === "openai-chatgpt-apps-skill"
@@ -546,13 +549,14 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
       moduleId: "skill-managed",
       installProfileId: "skill.codex.chatgpt-apps",
       versionRef: "49f948faa9258a0c61caceaf225e179651397431",
-      capabilities: ["website", "install", "uninstall"]
+      capabilities: ["website", "install", "update", "repair", "uninstall"]
     }
   );
+  const managedProfiles = new Set(Object.keys(EXTENSION_INSTALL_REGISTRY));
   assert.equal(
     resources.every(
       (item) => item.targets.every((target) =>
-        item.id === "openai-chatgpt-apps-skill" ||
+        managedProfiles.has(target.installProfileId) ||
         (target.moduleId === "resource-link" &&
           target.installProfileId === "" &&
           target.capabilities.length === 1 &&

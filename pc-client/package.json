@@ -1,6 +1,6 @@
 {
   "name": "aihub-pc-client",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "private": true,
   "description": "枕星 AI Windows client",
   "author": "ZhenXing AI",
@@ -29,7 +29,7 @@
     "catalog:expand:windows": "node scripts/apply-windows-desktop-expansion-v2.cjs",
     "catalog:expand:agents": "node scripts/apply-popular-agent-expansion.cjs",
     "catalog:expand:industry": "node scripts/apply-industry-ai-expansion.cjs",
-    "catalog:expand:closure": "node scripts/apply-reviewed-product-discovery-closure.cjs && node scripts/apply-catalog-backlog-closure.cjs && node scripts/apply-research-backlog-finalization.cjs",
+    "catalog:expand:closure": "node scripts/apply-reviewed-product-discovery-closure.cjs && node scripts/apply-catalog-backlog-closure.cjs && node scripts/apply-research-backlog-finalization.cjs && node scripts/apply-managed-resource-lifecycle.cjs",
     "catalog:publish:local": "node scripts/publish-local-catalog.cjs",
     "audit:desktop-sources": "node scripts/audit-managed-desktop-sources.cjs",
     "audit:vendor-logos": "electron scripts/render-vendor-logo-review.cjs HEAD",

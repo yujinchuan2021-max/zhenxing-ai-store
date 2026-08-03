@@ -91,10 +91,11 @@ type ProductPreparation =
   | "installed"
   | "error";
 type ManagedInstallIntent = "install" | "reinstall" | "refresh";
+type CliManagedOperation = "install" | "update" | "repair" | "uninstall";
 type CliManagedTask = {
   productId: string;
   generation: number;
-  operation: "deploy" | "uninstall";
+  operation: CliManagedOperation;
   phase: "running" | "completed" | "failed" | "canceled";
   message: string;
   updatedAt: string;
@@ -261,14 +262,15 @@ function operationTaskPhaseLabel(
 }
 
 function cliTaskPhaseLabel(task: CliManagedTask) {
+  const deploying = task.operation !== "uninstall";
   if (task.phase === "running") {
-    return task.operation === "deploy" ? uiText("auto.c16fe800ef5d") : uiText("auto.3a3d21968447");
+    return deploying ? uiText("auto.c16fe800ef5d") : uiText("auto.3a3d21968447");
   }
   if (task.phase === "completed") {
-    return task.operation === "deploy" ? uiText("auto.53f17e6ef17f") : uiText("auto.6a075107a270");
+    return deploying ? uiText("auto.53f17e6ef17f") : uiText("auto.6a075107a270");
   }
   if (task.phase === "canceled") return uiText("auto.9596d1ac92cd");
-  return task.operation === "deploy" ? uiText("auto.29d1d9dff3c7") : uiText("auto.7274d68dcc45");
+  return deploying ? uiText("auto.29d1d9dff3c7") : uiText("auto.7274d68dcc45");
 }
 
 const INSTALLATION_PRIORITY_STAGES = new Set<ProductStage>([
@@ -448,6 +450,34 @@ function resourceCompatibilityLabel(
     return uiText("resources.compatibility.verified");
   }
   return uiText("resources.compatibility.protocolCompatible");
+}
+
+function extensionStatusLabel(status: ExtensionRuntimeResult | null) {
+  switch (status?.state) {
+    case "installed": return uiText("extensions.installed");
+    case "disabled": return uiText("extensions.disabled");
+    case "outdated": return uiText("extensions.outdated");
+    case "not-installed": return uiText("extensions.notInstalled");
+    case "external": return uiText("extensions.external");
+    case "stale": return uiText("extensions.stale");
+    case "modified": return uiText("extensions.modified");
+    case "unsafe": return uiText("extensions.unsafe");
+    case "host-missing": return uiText("extensions.hostMissing");
+    case "invalid-receipt": return uiText("extensions.invalidReceipt");
+    default: return status?.error || "";
+  }
+}
+
+function extensionActionLabel(action: ExtensionRuntimeAction, busy = false) {
+  if (busy) return uiText("extensions.processing");
+  switch (action) {
+    case "install": return uiText("extensions.install");
+    case "update": return uiText("extensions.update");
+    case "repair": return uiText("extensions.repair");
+    case "enable": return uiText("extensions.enable");
+    case "disable": return uiText("extensions.disable");
+    case "uninstall": return uiText("extensions.uninstall");
+  }
 }
 
 function inferCatalogCategories(vendors: Vendor[]) {
@@ -3199,7 +3229,10 @@ export default function App() {
     return settings.cliInstallDirectory || "";
   };
 
-  const deployCli = async (product: Product) => {
+  const deployCli = async (
+    product: Product,
+    requestedIntent: "install" | "update" | "repair" = "install"
+  ) => {
     const enabledProduct = resolveProductActionContext(product.id, true);
     if (!enabledProduct) {
       setProductErrors((current) => ({
@@ -3209,6 +3242,16 @@ export default function App() {
       return;
     }
     product = enabledProduct;
+    let intent = requestedIntent;
+    if (intent === "install" && window.aihubPC) {
+      try {
+        const current = await window.aihubPC.getCliStatus(product.id);
+        setCliStatuses((statuses) => ({ ...statuses, [product.id]: current }));
+        if (current.ownership === "stale" && current.canRepair) intent = "repair";
+      } catch {
+        // The normal deployment path will surface a sanitized detection error.
+      }
+    }
     let directory = cliInstallDirectory;
     const requiresInstallDirectory =
       cliStatuses[product.id]?.requiresInstallDirectory !== false;
@@ -3221,7 +3264,7 @@ export default function App() {
     updateCliManagedTask(
       product.id,
       generation,
-      "deploy",
+      intent,
       "running",
       uiText("auto.514d92d737e1")
     );
@@ -3230,13 +3273,15 @@ export default function App() {
     setProductStages((current) => ({ ...current, [product.id]: "deploying" }));
     let result: CliDeployResult;
     try {
-      result = await window.aihubPC.deployCli(product.id);
+      result = window.aihubPC.reconcileCli
+        ? await window.aihubPC.reconcileCli(product.id, intent)
+        : await window.aihubPC.deployCli(product.id);
     } catch (error) {
       if (!isCurrentProductOperation(product.id, generation)) return;
       updateCliManagedTask(
         product.id,
         generation,
-        "deploy",
+        intent,
         "failed",
         error instanceof Error ? error.message : uiText("auto.29d1d9dff3c7")
       );
@@ -3252,7 +3297,7 @@ export default function App() {
       updateCliManagedTask(
         product.id,
         generation,
-        "deploy",
+        intent,
         "canceled",
         uiText("auto.fbd495eb2c7e")
       );
@@ -3263,7 +3308,7 @@ export default function App() {
       updateCliManagedTask(
         product.id,
         generation,
-        "deploy",
+        intent,
         "failed",
         result.error || uiText("auto.29d1d9dff3c7")
       );
@@ -3286,7 +3331,7 @@ export default function App() {
       updateCliManagedTask(
         product.id,
         generation,
-        "deploy",
+        intent,
         "failed",
         error instanceof Error
           ? error.message
@@ -3315,7 +3360,7 @@ export default function App() {
       updateCliManagedTask(
         product.id,
         generation,
-        "deploy",
+        intent,
         "failed",
         message
       );
@@ -3340,7 +3385,7 @@ export default function App() {
     updateCliManagedTask(
       product.id,
       generation,
-      "deploy",
+      intent,
       "completed",
       result.warning || uiText("auto.60482f487ebd", { value1: product.name })
     );
@@ -3587,11 +3632,11 @@ export default function App() {
     }));
 
     const completed =
-      (task.operation === "deploy" && status.installed) ||
+      (task.operation !== "uninstall" && status.installed) ||
       (task.operation === "uninstall" && status.detection === "absent");
     if (completed) {
       const message =
-        task.operation === "deploy"
+        task.operation !== "uninstall"
           ? uiText("auto.0c14c44b2527", { value1: product.name })
           : uiText("auto.32422ac50536", { value1: product.name });
       updateCliManagedTask(
@@ -3608,7 +3653,7 @@ export default function App() {
     const message =
       status.detection === "unknown"
         ? uiText("auto.1cf24902d6d5")
-        : task.operation === "deploy"
+        : task.operation !== "uninstall"
           ? uiText("auto.0212bbe4a6ca", { value1: product.name })
           : uiText("auto.64cea3af67fd", { value1: product.name });
     updateCliManagedTask(
@@ -3625,11 +3670,11 @@ export default function App() {
     const task = cliManagedTasks[productId];
     const product = resolveProductActionContext(
       productId,
-      task?.operation === "deploy"
+      task?.operation !== "uninstall"
     );
     if (!task || !product || !window.aihubPC || task.phase === "running") return;
-    if (task.operation === "deploy") {
-      await deployCli(product);
+    if (task.operation !== "uninstall") {
+      await deployCli(product, task.operation);
       return;
     }
     let status: CliStatus;
@@ -3776,6 +3821,15 @@ export default function App() {
   const requestCliUninstall = (product: Product) =>
     runExclusiveProductAction(product.id, uiText("auto.80d0f7903461"), () =>
       uninstallCli(product)
+    );
+  const requestCliReconcile = (
+    product: Product,
+    intent: "update" | "repair"
+  ) =>
+    runExclusiveProductAction(
+      product.id,
+      intent === "update" ? uiText("cli.update") : uiText("cli.repair"),
+      () => deployCli(product, intent)
     );
   const requestOpenCli = async (product: Product) => {
     if (!window.aihubPC) return;
@@ -4136,6 +4190,7 @@ export default function App() {
               onCancelDownload={cancelProductDownload}
               onRelocateDownload={relocateProductDownload}
               onUninstallCli={requestCliUninstall}
+              onReconcileCli={requestCliReconcile}
               onOpenCli={requestOpenCli}
               onUninstallDesktop={requestDesktopUninstall}
               onRecheckDesktopUninstall={recheckDesktopUninstall}
@@ -4768,6 +4823,7 @@ function VendorPage({
   onCancelDownload,
   onRelocateDownload,
   onUninstallCli,
+  onReconcileCli,
   onOpenCli,
   onUninstallDesktop,
   onRecheckDesktopUninstall,
@@ -4805,6 +4861,10 @@ function VendorPage({
   onCancelDownload: (product: Product) => void;
   onRelocateDownload: (product: Product) => void;
   onUninstallCli: (product: Product) => void;
+  onReconcileCli: (
+    product: Product,
+    intent: "update" | "repair"
+  ) => void;
   onOpenCli: (product: Product) => void;
   onUninstallDesktop: (product: Product) => void;
   onRecheckDesktopUninstall: (product: Product) => void;
@@ -4853,6 +4913,7 @@ function VendorPage({
           onCancelDownload={() => onCancelDownload(product)}
           onRelocateDownload={() => onRelocateDownload(product)}
           onUninstallCli={() => onUninstallCli(product)}
+          onReconcileCli={(intent) => onReconcileCli(product, intent)}
           onOpenCli={() => onOpenCli(product)}
           onUninstallDesktop={() => onUninstallDesktop(product)}
           onRecheckDesktopUninstall={() =>
@@ -5140,12 +5201,7 @@ function ResourceRow({
   target: ResourceTarget;
   storeLabel: string;
 }) {
-  const canInstall =
-    target.capabilities.includes("install") && Boolean(target.installProfileId);
-  const canUninstall =
-    target.capabilities.includes("uninstall") &&
-    Boolean(target.installProfileId);
-  const managed = canInstall || canUninstall;
+  const managed = Boolean(target.installProfileId);
   const facts = [
     resource.requestedPermissions?.length
       ? `${uiText("resources.permissions")}: ${resource.requestedPermissions.join(" · ")}`
@@ -5158,25 +5214,33 @@ function ResourceRow({
       : ""
   ].filter(Boolean);
   const [status, setStatus] = useState<ExtensionRuntimeResult | null>(null);
-  const [busyAction, setBusyAction] = useState<
-    "status" | "install" | "uninstall" | null
-  >(null);
+  const [busyAction, setBusyAction] = useState<ExtensionRuntimeAction | "inspect" | null>(null);
 
-  const runAction = async (action: "install" | "uninstall") => {
+  const runAction = async (action: ExtensionRuntimeAction | "inspect") => {
     const api = window.aihubPC;
     if (!api || !target.installProfileId || busyAction) return;
     setBusyAction(action);
     try {
-      const result =
-        action === "install"
-          ? await api.installExtension(target.installProfileId)
-          : await api.uninstallExtension(target.installProfileId);
+      let result =
+        action === "inspect"
+          ? await api.inspectExtension(target.installProfileId)
+          : await api.executeExtension(target.installProfileId, action);
+      if (
+        action === "inspect" &&
+        result.ok &&
+        result.state === "not-installed" &&
+        result.allowedActions.includes("install")
+      ) {
+        setBusyAction("install");
+        result = await api.executeExtension(target.installProfileId, "install");
+      }
       setStatus(result);
     } catch {
       setStatus({
         ok: false,
         state: "error",
         managed: false,
+        allowedActions: [],
         error: uiText("extensions.failed")
       });
     } finally {
@@ -5184,24 +5248,13 @@ function ResourceRow({
     }
   };
 
-  const shouldUninstall =
-    canUninstall &&
-    (status?.state === "installed" || status?.state === "stale");
-  const shouldInstall =
-    canInstall &&
-    !["installed", "stale"].includes(status?.state || "not-installed");
+  const availableActions = (status?.allowedActions || []).filter((action) =>
+    target.capabilities.includes(action)
+  );
   const statusLabel =
-    busyAction === "status"
+    busyAction === "inspect"
       ? uiText("extensions.checking")
-      : status?.state === "installed"
-        ? uiText("extensions.installed")
-        : status?.state === "not-installed"
-          ? uiText("extensions.notInstalled")
-          : status?.state === "external"
-            ? uiText("extensions.external")
-            : status?.state === "stale"
-              ? uiText("extensions.stale")
-              : status?.error || "";
+      : extensionStatusLabel(status);
 
   return (
     <article
@@ -5237,26 +5290,27 @@ function ResourceRow({
             {resource.provenanceEvidence!.length > 1 ? ` ${index + 1}` : ""} ↗
           </button>
         ))}
-        {(shouldInstall || shouldUninstall) && (
+        {managed && !status && (
           <button
-            className={shouldInstall ? "accentButton" : ""}
-            data-aihub-action={
-              shouldInstall ? "install-extension" : "uninstall-extension"
-            }
+            className="accentButton"
+            data-aihub-action="inspect-extension"
             disabled={busyAction !== null}
-            onClick={() => void runAction(shouldInstall ? "install" : "uninstall")}
+            onClick={() => void runAction("inspect")}
           >
-            {busyAction === "install"
-              ? uiText("extensions.installing")
-              : busyAction === "uninstall"
-                ? uiText("extensions.uninstalling")
-                : shouldInstall
-                  ? uiText("extensions.install")
-                  : status?.state === "stale"
-                    ? uiText("extensions.cleanup")
-                    : uiText("extensions.uninstall")}
+            {busyAction ? uiText("extensions.processing") : uiText("extensions.install")}
           </button>
         )}
+        {availableActions.map((action) => (
+          <button
+            key={action}
+            className={action === "install" || action === "update" || action === "repair" || action === "enable" ? "accentButton" : ""}
+            data-aihub-action={`${action}-extension`}
+            disabled={busyAction !== null}
+            onClick={() => void runAction(action)}
+          >
+            {extensionActionLabel(action, busyAction === action)}
+          </button>
+        ))}
       </div>
     </article>
   );
@@ -5288,6 +5342,7 @@ function ProductRow({
   onCancelDownload,
   onRelocateDownload,
   onUninstallCli,
+  onReconcileCli,
   onOpenCli,
   onUninstallDesktop,
   onRecheckDesktopUninstall,
@@ -5322,6 +5377,7 @@ function ProductRow({
   onCancelDownload: () => void;
   onRelocateDownload: () => void;
   onUninstallCli: () => void;
+  onReconcileCli: (intent: "update" | "repair") => void;
   onOpenCli: () => void;
   onUninstallDesktop: () => void;
   onRecheckDesktopUninstall: () => void;
@@ -5358,13 +5414,15 @@ function ProductRow({
         : behavior.canOpenWebsite)
   );
   const installButtonLabel =
-    actionEntry?.label ||
-    behavior.primaryLabel ||
-    (behavior.managedCli || behavior.managedDesktop
-      ? uiText("auto.c5a01527da36")
-      : product.productType === "desktop-official"
-        ? uiText("auto.6136b14a050c")
-        : uiText("auto.96b410ae01e3"));
+    behavior.managedCli && cliStatus?.canRepair && !cliStatus.installed
+      ? uiText("cli.repair")
+      : actionEntry?.label ||
+        behavior.primaryLabel ||
+        (behavior.managedCli || behavior.managedDesktop
+          ? uiText("auto.c5a01527da36")
+          : product.productType === "desktop-official"
+            ? uiText("auto.6136b14a050c")
+            : uiText("auto.96b410ae01e3"));
   const installable = behavior.canInstall;
   const managedActionsAvailable =
     Boolean(actionEntry) &&
@@ -5724,6 +5782,16 @@ function ProductRow({
                     {uiText("product.openCli")}
                   </button>
                 )}
+              {cliDeployable && cliStatus?.canUpdate && (
+                <button onClick={() => onReconcileCli("update")}>
+                  {uiText("cli.update")}
+                </button>
+              )}
+              {cliDeployable && cliStatus?.canRepair && !cliStatus.canUpdate && (
+                <button onClick={() => onReconcileCli("repair")}>
+                  {uiText("cli.repair")}
+                </button>
+              )}
               {behavior.canUninstall &&
                 cliDeployable &&
                 cliStatus?.canUninstall && (
@@ -7329,6 +7397,80 @@ function InstalledProductsPage({
     >["packages"][number]
   ) => void;
 }) {
+  const [extensionInventory, setExtensionInventory] = useState<
+    ExtensionInventoryEntry[]
+  >([]);
+  const [extensionInventoryError, setExtensionInventoryError] = useState("");
+  const [extensionInventoryScanning, setExtensionInventoryScanning] =
+    useState(false);
+  const [extensionBusy, setExtensionBusy] = useState<{
+    profileId: string;
+    action: ExtensionRuntimeAction;
+  } | null>(null);
+
+  const refreshExtensionInventory = async () => {
+    const api = window.aihubPC;
+    if (!api || extensionInventoryScanning) return;
+    setExtensionInventoryScanning(true);
+    setExtensionInventoryError("");
+    try {
+      setExtensionInventory(await api.listExtensions());
+    } catch {
+      setExtensionInventoryError(uiText("extensions.failed"));
+    } finally {
+      setExtensionInventoryScanning(false);
+    }
+  };
+
+  useEffect(() => {
+    void refreshExtensionInventory();
+  }, []);
+
+  const runExtensionInventoryAction = async (
+    entry: ExtensionInventoryEntry,
+    action: ExtensionRuntimeAction
+  ) => {
+    const api = window.aihubPC;
+    if (!api || extensionBusy) return;
+    setExtensionBusy({ profileId: entry.profileId, action });
+    try {
+      const result = await api.executeExtension(entry.profileId, action);
+      if (action === "uninstall" && result.ok) {
+        setExtensionInventory((current) =>
+          current.filter((item) => item.profileId !== entry.profileId)
+        );
+      } else {
+        setExtensionInventory((current) =>
+          current.map((item) =>
+            item.profileId !== entry.profileId
+              ? item
+              : result.ok
+                ? { ...item, ...result, error: undefined }
+                : {
+                    ...item,
+                    ok: false,
+                    error: result.error || uiText("extensions.failed")
+                  }
+          )
+        );
+      }
+    } catch {
+      setExtensionInventory((current) =>
+        current.map((item) =>
+          item.profileId === entry.profileId
+            ? {
+                ...item,
+                ok: false,
+                error: uiText("extensions.failed")
+              }
+            : item
+        )
+      );
+    } finally {
+      setExtensionBusy(null);
+    }
+  };
+
   return (
     <section className="installedManagementPage">
       <header className="pageHeader managementHeader">
@@ -7454,6 +7596,75 @@ function InstalledProductsPage({
           <div className="emptyManagement">{uiText("auto.cbdc685957fb")}</div>
         )}
       </div>
+
+      <section
+        className="packageManagement"
+        data-aihub-extension-inventory="local-receipts"
+      >
+        <header className="managementHeader">
+          <div className="sectionHeading">
+            <span>{uiText("extensions.managementEyebrow")}</span>
+            <h2>{uiText("extensions.managementTitle")}</h2>
+            <p>{uiText("extensions.managementDescription")}</p>
+          </div>
+          <button
+            data-aihub-action="refresh-extension-inventory"
+            disabled={extensionInventoryScanning || extensionBusy !== null}
+            onClick={() => void refreshExtensionInventory()}
+          >
+            {extensionInventoryScanning
+              ? uiText("extensions.refreshing")
+              : uiText("extensions.refresh")}
+          </button>
+        </header>
+        {extensionInventory.length ? (
+          <div className="managementList">
+            {extensionInventory.map((entry) => (
+              <article
+                className="managementCard"
+                key={entry.profileId}
+                data-aihub-extension-profile-id={entry.profileId}
+              >
+                <div className="managementInfo">
+                  <span>{entry.resourceType.toUpperCase()}</span>
+                  <h3>{entry.label}</h3>
+                  <p>{extensionStatusLabel(entry)}</p>
+                  {entry.error && entry.error !== extensionStatusLabel(entry) && (
+                    <small>{entry.error}</small>
+                  )}
+                </div>
+                <div className="managementActions">
+                  {entry.allowedActions.map((action) => (
+                    <button
+                      key={action}
+                      className={
+                        action === "uninstall"
+                          ? "dangerButton"
+                          : ["install", "update", "repair", "enable"].includes(action)
+                            ? "accentButton"
+                            : ""
+                      }
+                      data-aihub-action={`${action}-installed-extension`}
+                      disabled={extensionBusy !== null}
+                      onClick={() => void runExtensionInventoryAction(entry, action)}
+                    >
+                      {extensionActionLabel(
+                        action,
+                        extensionBusy?.profileId === entry.profileId &&
+                          extensionBusy.action === action
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="emptyManagement">
+            {extensionInventoryError || uiText("extensions.managementEmpty")}
+          </div>
+        )}
+      </section>
 
       {management.reinstallableEnvironments.length > 0 && (
         <section className="packageManagement">
@@ -7891,9 +8102,13 @@ function SettingsPanel({
                       <div>
                         <b>
                           {operationTaskNames[task.productId] || task.productId}
-                          {task.operation === "deploy"
-                            ? uiText("auto.c95b0c24780b")
-                            : uiText("auto.228b82046736")}
+                          {task.operation === "update"
+                            ? ` · ${uiText("cli.update")}`
+                            : task.operation === "repair"
+                              ? ` · ${uiText("cli.repair")}`
+                              : task.operation === "install"
+                                ? uiText("auto.c95b0c24780b")
+                                : uiText("auto.228b82046736")}
                         </b>
                         <small>{cliTaskPhaseLabel(task)}</small>
                       </div>

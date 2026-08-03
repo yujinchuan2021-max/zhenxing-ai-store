@@ -30,7 +30,13 @@ const RESOURCE_MODULES = Object.freeze({
     label: "Skill 一键安装",
     description: "把客户端本地审核的 Skill 安装到对应 AI 工具。",
     resourceType: "skill",
-    capabilities: Object.freeze(["website", "install", "uninstall"]),
+    capabilities: Object.freeze([
+      "website",
+      "install",
+      "update",
+      "repair",
+      "uninstall"
+    ]),
     requiresProfile: true
   }),
   "mcp-managed": Object.freeze({
@@ -38,7 +44,15 @@ const RESOURCE_MODULES = Object.freeze({
     label: "MCP 一键安装",
     description: "把客户端本地审核的 MCP 服务接入对应 AI 工具。",
     resourceType: "mcp",
-    capabilities: Object.freeze(["website", "install", "uninstall"]),
+    capabilities: Object.freeze([
+      "website",
+      "install",
+      "update",
+      "repair",
+      "enable",
+      "disable",
+      "uninstall"
+    ]),
     requiresProfile: true
   }),
   "plugin-managed": Object.freeze({
@@ -46,7 +60,15 @@ const RESOURCE_MODULES = Object.freeze({
     label: "插件一键安装",
     description: "把客户端本地审核的插件安装到对应 AI 工具。",
     resourceType: "plugin",
-    capabilities: Object.freeze(["website", "install", "uninstall"]),
+    capabilities: Object.freeze([
+      "website",
+      "install",
+      "update",
+      "repair",
+      "enable",
+      "disable",
+      "uninstall"
+    ]),
     requiresProfile: true
   })
 });

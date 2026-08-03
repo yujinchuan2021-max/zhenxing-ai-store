@@ -136,6 +136,8 @@ function buildProductIntakeDossier(
     completionEvidence,
     operations: {
       install: registration.capabilities?.includes("install") === true,
+      update: registration.capabilities?.includes("update") === true,
+      repair: registration.capabilities?.includes("repair") === true,
       open: registration.capabilities?.includes("open") === true,
       uninstall: registration.capabilities?.includes("uninstall") === true
     }

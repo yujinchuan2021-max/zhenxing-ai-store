@@ -32,6 +32,7 @@
 | 安装状态、下载状态和迟到事件 | `2026-07-29-download-task-lifecycle.md`、`2026-07-30-desktop-operation-two-phase-recovery.md`、`2026-07-30-install-verification-recovery.md` | 使用 attempt/revision 和两阶段恢复；安装器启动不等于安装完成，每次操作重新检测。 |
 | 卸载、托盘进程和厂商程序残留 | `2026-07-29-safe-desktop-uninstall.md`、`2026-08-01-openclaw-uninstall-tray-lock.md` | AI Hub 只自动清理自己的收据；用户手装软件调起厂商或 Windows 卸载入口，并处理托盘锁。 |
 | CLI、WSL 与运行环境 | `2026-07-30-environment-operation-recovery.md`、`2026-07-31-node25-windows-cmd-spawn.md`、`2026-08-01-core-desktop-lifecycle-gaps.md` | 环境依赖进入统一环境子目录和生命周期模块，不按产品复制命令逻辑。 |
+| CLI/资源生命周期、收据与离线卸载 | `2026-08-03-cli-resource-lifecycle-closure.md` | 原始动作意图必须贯穿重试；宿主状态检测只读；收据绑定实际安装实例；后台停用或离线不能移除已安装内容的安全卸载入口。 |
 | 产品漏录、分类、搜索和 A–Z | `2026-07-31-incomplete-official-product-coverage.md`、`2026-08-02-chinese-vendor-letter-buckets-and-network-notice.md`、`2026-08-02-global-catalog-search-and-shared-filters.md` | 只采用官方证据；中文用审核映射；精准搜索不匹配描述；所有频道复用统一投影。 |
 | 目录体积、资源类型和安全字段漂移 | `2026-08-03-catalog-resource-contract-drift.md` | 目录保存独享受测上限；新增资源类型同步共享契约、后台和语言模块；高权限资源同时固定来源脚本与正式草稿。 |
 | Logo、头像与图片破图或错配 | `2026-07-31-account-avatar-language-and-button-feedback.md`、`2026-08-02-vendor-logo-assets.md`、`2026-08-02-catalog-logo-release-host-and-renderer-readiness.md`、`2026-08-03-vendor-logo-identity-and-contrast.md` | 图片使用受控源、内容哈希和明确 CSP；还必须核验品牌身份、唯一归属和最终对比度，HTTP 200 或成功解码不代表 Logo 正确。 |

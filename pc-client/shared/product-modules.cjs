@@ -77,6 +77,8 @@ const PRODUCT_MODULES = Object.freeze({
       "website",
       "tutorial",
       "install",
+      "update",
+      "repair",
       "open",
       "uninstall"
     ]),

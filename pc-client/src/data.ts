@@ -31,6 +31,8 @@ export type ProductCapability =
   | "website"
   | "tutorial"
   | "install"
+  | "update"
+  | "repair"
   | "open"
   | "uninstall";
 
@@ -110,7 +112,15 @@ export type ResourceTarget = {
     | "mcp-managed"
     | "plugin-managed";
   installProfileId: string;
-  capabilities: Array<"website" | "install" | "uninstall">;
+  capabilities: Array<
+    | "website"
+    | "install"
+    | "update"
+    | "repair"
+    | "enable"
+    | "disable"
+    | "uninstall"
+  >;
   enabled: boolean;
 };
 

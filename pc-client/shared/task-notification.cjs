@@ -10,7 +10,7 @@ function normalizeCliTaskNotification(payload, allowedProducts) {
     !Object.hasOwn(allowedProducts, payload.productId) ||
     !Number.isSafeInteger(payload.generation) ||
     payload.generation < 1 ||
-    !["deploy", "uninstall"].includes(payload.operation) ||
+    !["install", "update", "repair", "uninstall"].includes(payload.operation) ||
     !["completed", "failed"].includes(payload.outcome)
   ) {
     return null;
@@ -33,7 +33,7 @@ function normalizeCliTrayTask(payload, allowedProducts) {
     !Object.hasOwn(allowedProducts, payload.productId) ||
     !Number.isSafeInteger(payload.generation) ||
     payload.generation < 1 ||
-    !["deploy", "uninstall"].includes(payload.operation) ||
+    !["install", "update", "repair", "uninstall"].includes(payload.operation) ||
     !["running", "completed", "failed", "canceled"].includes(payload.phase)
   ) {
     return null;

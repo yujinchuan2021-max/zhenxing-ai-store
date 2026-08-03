@@ -200,6 +200,7 @@ const {
   computeNpmTreeSha256,
   createManagedCliBeforeUninstallAction,
   createManagedCliInstallAction,
+  createManagedCliReconcileAction,
   createManagedCliPostInstallAction,
   createManagedCliReceipt,
   createManagedCliUninstallAction,
@@ -254,6 +255,7 @@ const {
   inferNpmPrefixFromCommandPath
 } = require("../shared/cli-system-discovery.cjs");
 const {
+  CLI_RECONCILE_INTENTS,
   createCliDriverRegistry
 } = require("../shared/cli-driver-registry.cjs");
 const {
@@ -285,11 +287,28 @@ const {
   createExtensionRuntime
 } = require("../shared/extension-runtime.cjs");
 const {
+  createCodexMcpRuntime
+} = require("../shared/extension-mcp-runtime.cjs");
+const {
+  createClaudePluginRuntime
+} = require("../shared/extension-plugin-runtime.cjs");
+const {
+  createExtensionResourceManager
+} = require("../shared/extension-resource-manager.cjs");
+const {
   createExtensionIpcFacade
 } = require("../shared/extension-ipc.cjs");
 const {
+  resolveCodexConfigPath,
   resolveCodexSkillsRoot
 } = require("../shared/extension-host-targets.cjs");
+const {
+  getExtensionRuntimeProfile,
+  publicExtensionInstallProfiles
+} = require("../shared/extension-install-registry.cjs");
+const {
+  authorizeFreshCatalogResource
+} = require("../shared/managed-catalog-resource-authorization.cjs");
 
 const LOCAL_RELEASE_ACCEPTANCE =
   require("../package.json").localReleaseAcceptance === true;
@@ -2345,9 +2364,10 @@ async function resolveCatalog() {
   return resolvePackagedCatalogFallback({ cached, error: remoteError });
 }
 
-function authorizeCurrentCatalogProduct(productId) {
+function authorizeCurrentCatalogProduct(productId, requiredCapability = "install") {
   return authorizeFreshCatalogProduct({
     productId,
+    requiredCapability,
     loadCatalog: resolveCatalog
   });
 }
@@ -3105,6 +3125,8 @@ function unknownCliStatus(overrides = {}) {
     detection: "unknown",
     managed: false,
     canUninstall: false,
+    canUpdate: false,
+    canRepair: false,
     ownership: "unknown",
     ...overrides
   };
@@ -3112,7 +3134,7 @@ function unknownCliStatus(overrides = {}) {
 
 function getNpmCliStatus({ productId, plan }) {
   const records = readManagedCliRecords();
-  return inspectManagedCli({
+  const status = inspectManagedCli({
     productId,
     plan,
     receipt: records[productId] || null,
@@ -3121,6 +3143,10 @@ function getNpmCliStatus({ productId, plan }) {
       readSettings().cliInstallDirectory ||
       ""
   });
+  return {
+    ...status,
+    canRepair: ["managed", "stale"].includes(status.ownership)
+  };
 }
 
 function getCompanionRuntimeCliStatus({ productId, plan }) {
@@ -3740,7 +3766,15 @@ async function closeReviewedProcesses(processNames, strategy = "graceful") {
   });
 }
 
-function runCliInstall(sender, productId, directory, plan) {
+function runCliInstall(
+  sender,
+  productId,
+  directory,
+  plan,
+  intent = "install",
+  receipt = null,
+  rollback = false
+) {
   return new Promise(async (resolve) => {
     let executionContext = null;
     let settled = false;
@@ -3762,14 +3796,25 @@ function runCliInstall(sender, productId, directory, plan) {
       const runtime = await locateNpmRuntime(plan);
       fs.mkdirSync(directory, { recursive: true });
       executionContext = createNpmExecutionContext();
-      const action = createManagedCliInstallAction({
-        productId,
-        plan,
-        prefix: directory,
-        runtime,
-        executionContext
-      });
-      if (!action) throw new Error("无法建立隔离的 CLI 安装动作");
+      const action = rollback
+        ? createManagedCliInstallAction({
+            productId,
+            plan,
+            prefix: directory,
+            runtime,
+            executionContext
+          })
+        : createManagedCliReconcileAction({
+            intent,
+            productId,
+            plan,
+            receipt,
+            configuredPrefix: directory,
+            prefix: directory,
+            runtime,
+            executionContext
+          });
+      if (!action) throw new Error("无法建立隔离的 CLI 生命周期动作");
       const child = spawn(
         action.executable,
         action.args,
@@ -3833,6 +3878,56 @@ function runCliInstall(sender, productId, directory, plan) {
       });
     }
   });
+}
+
+async function rollbackManagedNpmReconcile({
+  sender,
+  productId,
+  plan,
+  directory,
+  previousReceipt
+}) {
+  if (!previousReceipt?.version) return false;
+  const current = getNpmCliStatus({ productId, plan });
+  if (
+    current.detection !== "installed" ||
+    current.ownership !== "mismatch" ||
+    current.version !== plan.expectedVersion ||
+    path.win32.normalize(current.directory).toLowerCase() !==
+      path.win32.normalize(previousReceipt.prefix).toLowerCase()
+  ) {
+    return false;
+  }
+  const rollbackPlan = {
+    ...plan,
+    expectedVersion: previousReceipt.version,
+    installSpec: `${plan.packageName}@${previousReceipt.version}`
+  };
+  const rollback = await runCliInstall(
+    sender,
+    productId,
+    directory,
+    rollbackPlan,
+    "install",
+    previousReceipt,
+    true
+  );
+  if (!rollback.ok || !rollback.runtime) return false;
+  const restoredReceipt = createManagedCliReceipt({
+    productId,
+    plan: rollbackPlan,
+    prefix: directory,
+    runtime: rollback.runtime,
+    previousReceipt
+  });
+  if (!restoredReceipt) return false;
+  const persisted = readManagedCliRecords()[productId];
+  return Boolean(
+    persisted?.managementId === previousReceipt.managementId &&
+      persisted?.version === previousReceipt.version &&
+      restoredReceipt.managementId === previousReceipt.managementId &&
+      restoredReceipt.version === previousReceipt.version
+  );
 }
 
 function runCliUninstall(sender, action, executionContext) {
@@ -6967,19 +7062,160 @@ function extensionResourcesRoot() {
     : path.join(__dirname, "..", "extension-resources");
 }
 
-function initializeExtensionRuntime() {
+function localExtensionReceiptProfiles(receiptsRoot) {
+  return publicExtensionInstallProfiles().filter((profile) => {
+    try {
+      fs.lstatSync(path.join(receiptsRoot, `${profile.id}.json`));
+      return true;
+    } catch {
+      return false;
+    }
+  });
+}
+
+async function inspectExtensionHost(productId) {
+  const status = getCliStatus(productId);
+  return {
+    installed: status.installed === true && status.managed === true,
+    detection: ["installed", "absent", "unknown"].includes(status.detection)
+      ? status.detection
+      : "unknown"
+  };
+}
+
+async function resolveManagedExtensionHostExecutable(productId) {
+  const plan = CLI_INSTALL_PLANS[productId];
+  const status = getCliStatus(productId);
+  if (
+    !plan?.postInstall?.executableFile ||
+    !status.installed ||
+    !status.managed ||
+    !status.directory
+  ) {
+    return "";
+  }
   try {
-    extensionIpcFacade = createExtensionIpcFacade(
-      createExtensionRuntime({
-        resourcesRoot: extensionResourcesRoot(),
-        userDataRoot: app.getPath("userData"),
-        targetRoots: {
-          "codex-skills": resolveCodexSkillsRoot()
-        }
-      })
+    const prefix = fs.realpathSync.native(status.directory);
+    const expected = path.join(
+      prefix,
+      "node_modules",
+      ...plan.packageName.split("/"),
+      ...plan.postInstall.executableFile.split(/[\\/]+/)
     );
+    const executable = fs.realpathSync.native(expected);
+    const relative = path.relative(prefix, executable);
+    if (
+      executable.toLowerCase() !== expected.toLowerCase() ||
+      relative.startsWith("..") ||
+      path.isAbsolute(relative) ||
+      !fs.statSync(executable).isFile() ||
+      path.extname(executable).toLowerCase() !== ".exe"
+    ) {
+      return "";
+    }
+    return executable;
+  } catch {
+    return "";
+  }
+}
+
+function runExtensionHostCommand({ executable, args }) {
+  return new Promise((resolve) => {
+    let stdout = "";
+    let outputBytes = 0;
+    let settled = false;
+    let timeout = null;
+    const finish = (result) => {
+      if (settled) return;
+      settled = true;
+      if (timeout) clearTimeout(timeout);
+      resolve(result);
+    };
+    let child;
+    try {
+      child = spawn(executable, args, {
+        cwd: path.dirname(executable),
+        env: isolatedThirdPartyEnvironment(),
+        windowsHide: true,
+        shell: false,
+        stdio: ["ignore", "pipe", "pipe"]
+      });
+    } catch {
+      return resolve({ ok: false, stdout: "" });
+    }
+    const collect = (chunk, keep) => {
+      outputBytes += chunk.length;
+      if (outputBytes > 2 * 1024 * 1024) {
+        child.kill();
+        finish({ ok: false, stdout: "" });
+        return;
+      }
+      if (keep) stdout += chunk.toString("utf8");
+    };
+    child.stdout.on("data", (chunk) => collect(chunk, true));
+    child.stderr.on("data", (chunk) => collect(chunk, false));
+    child.once("error", () => finish({ ok: false, stdout: "" }));
+    child.once("close", (code) =>
+      finish({ ok: code === 0, stdout: code === 0 ? stdout : "" })
+    );
+    timeout = setTimeout(() => {
+      child.kill();
+      finish({ ok: false, stdout: "" });
+    }, 120_000);
+  });
+}
+
+function initializeExtensionRuntime() {
+  let listProfiles = () => [];
+  try {
+    const userDataRoot = app.getPath("userData");
+    const receiptsRoot = path.join(userDataRoot, "extension-receipts");
+    listProfiles = () => localExtensionReceiptProfiles(receiptsRoot);
+    const directoryRuntime = createExtensionRuntime({
+      resourcesRoot: extensionResourcesRoot(),
+      userDataRoot,
+      receiptsRoot,
+      targetRoots: {
+        "agent-skills": resolveCodexSkillsRoot()
+      }
+    });
+    const mcpRuntime = createCodexMcpRuntime({
+      configPath: resolveCodexConfigPath(),
+      receiptsRoot,
+      profileLookup: getExtensionRuntimeProfile
+    });
+    const pluginRuntime = createClaudePluginRuntime({
+      receiptsRoot,
+      ownershipRoot: path.join(os.homedir(), ".claude", "plugins", "data"),
+      registryPath: path.join(
+        os.homedir(),
+        ".claude",
+        "plugins",
+        "installed_plugins.json"
+      ),
+      profileLookup: getExtensionRuntimeProfile,
+      resolveHostExecutable: resolveManagedExtensionHostExecutable,
+      runHostCommand: runExtensionHostCommand
+    });
+    const manager = createExtensionResourceManager({
+      profileLookup: getExtensionRuntimeProfile,
+      adapters: {
+        "directory-snapshot": directoryRuntime,
+        "codex-mcp-toml": mcpRuntime,
+        "claude-plugin-cli": pluginRuntime
+      },
+      inspectHost: inspectExtensionHost,
+      authorizeAction: ({ profileId, profile, action }) =>
+        authorizeFreshCatalogResource({
+          loadCatalog: resolveCatalog,
+          profileId,
+          profile,
+          requiredCapability: action
+        })
+    });
+    extensionIpcFacade = createExtensionIpcFacade(manager, { listProfiles });
   } catch (error) {
-    extensionIpcFacade = createExtensionIpcFacade(null);
+    extensionIpcFacade = createExtensionIpcFacade(null, { listProfiles });
     console.warn(
       "Extension resources are unavailable; managed extensions are disabled",
       error?.code || "EXTENSION_RUNTIME_UNAVAILABLE"
@@ -6987,9 +7223,19 @@ function initializeExtensionRuntime() {
   }
 }
 
-async function deployManagedNpmCli(sender, productId, plan) {
+async function deployManagedNpmCli(
+  sender,
+  productId,
+  plan,
+  intent = "install"
+) {
   const settings = readSettings();
-  const requestedDirectory = settings.cliInstallDirectory;
+  const records = readManagedCliRecords();
+  const previousReceipt = records[productId] || null;
+  const requestedDirectory =
+    intent === "install"
+      ? settings.cliInstallDirectory
+      : previousReceipt?.prefix || settings.cliInstallDirectory;
   if (!requestedDirectory || !path.isAbsolute(requestedDirectory)) {
     return { ok: false, error: "请先选择 CLI 工具安装位置" };
   }
@@ -7040,13 +7286,22 @@ async function deployManagedNpmCli(sender, productId, plan) {
   if (currentStatus.detection === "unknown") {
     return { ok: false, error: "暂时无法确认该 CLI 的当前安装状态" };
   }
-  if (currentStatus.installed) {
+  if (intent === "install" && (currentStatus.installed || previousReceipt)) {
     return {
       ok: false,
       error: currentStatus.managed
         ? `该 CLI 已由${BRAND.name}部署`
         : `检测到非${BRAND.name}管理的同名 CLI，客户端不会覆盖或接管`
     };
+  }
+  if (intent === "update" && !currentStatus.canUpdate) {
+    return { ok: false, error: "该 CLI 当前没有可安全应用的受管更新" };
+  }
+  if (
+    intent === "repair" &&
+    !["managed", "stale"].includes(currentStatus.ownership)
+  ) {
+    return { ok: false, error: "该 CLI 当前不具备可验证的修复边界" };
   }
 
   const prefixKey = directory.toLowerCase();
@@ -7056,10 +7311,12 @@ async function deployManagedNpmCli(sender, productId, plan) {
 
   activeCliPrefixes.add(prefixKey);
   try {
+    const actionLabel =
+      intent === "update" ? "更新" : intent === "repair" ? "修复" : "安装";
     const confirmation = await showLocalizedMessageBox({
       type: "question",
-      title: `部署 ${plan.name}`,
-      message: `确认安装 ${plan.name}？`,
+      title: `${actionLabel} ${plan.name}`,
+      message: `确认${actionLabel} ${plan.name}？`,
       detail: [
         `官方软件包：${plan.packageName}`,
         `安装位置：${directory}`,
@@ -7068,7 +7325,7 @@ async function deployManagedNpmCli(sender, productId, plan) {
           ? "依赖包脚本全部禁用；仅运行客户端已审核的该软件包官方 postinstall，并验证原生程序版本。"
           : "软件包与依赖包的安装生命周期脚本全部禁用。"
       ].join("\n"),
-      buttons: ["取消", "确认部署"],
+      buttons: ["取消", `确认${actionLabel}`],
       defaultId: 0,
       cancelId: 0,
       noLink: true
@@ -7081,7 +7338,9 @@ async function deployManagedNpmCli(sender, productId, plan) {
       sender,
       productId,
       directory,
-      plan
+      plan,
+      intent,
+      previousReceipt
     );
     if (!installResult.ok) return installResult;
     const { runtime, ...result } = installResult;
@@ -7089,9 +7348,26 @@ async function deployManagedNpmCli(sender, productId, plan) {
       productId,
       plan,
       prefix: directory,
-      runtime
+      runtime,
+      previousReceipt
     });
     if (!receipt) {
+      const rolledBack =
+        intent !== "install" && previousReceipt
+          ? await rollbackManagedNpmReconcile({
+              sender,
+              productId,
+              plan,
+              directory,
+              previousReceipt
+            })
+          : false;
+      if (rolledBack) {
+        return {
+          ok: false,
+          error: `CLI ${actionLabel}未能建立新收据，已自动恢复原版本`
+        };
+      }
       return {
         ...result,
         managed: false,
@@ -7101,6 +7377,22 @@ async function deployManagedNpmCli(sender, productId, plan) {
     try {
       setManagedCliRecord(productId, receipt);
     } catch (error) {
+      const rolledBack =
+        intent !== "install" && previousReceipt
+          ? await rollbackManagedNpmReconcile({
+              sender,
+              productId,
+              plan,
+              directory,
+              previousReceipt
+            })
+          : false;
+      if (rolledBack) {
+        return {
+          ok: false,
+          error: `CLI ${actionLabel}收据保存失败，已自动恢复原版本`
+        };
+      }
       return {
         ...result,
         managed: false,
@@ -7299,8 +7591,8 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     status: getNpmCliStatus,
     discover: discoverNpmCliStatus,
     open: openNpmCli,
-    deploy: ({ sender, productId, plan }) =>
-      deployManagedNpmCli(sender, productId, plan),
+    reconcile: ({ sender, productId, plan, intent }) =>
+      deployManagedNpmCli(sender, productId, plan, intent),
     uninstall: ({ sender, productId, plan }) =>
       uninstallManagedNpmCli(sender, productId, plan)
   },
@@ -7308,8 +7600,10 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     status: getCompanionRuntimeCliStatus,
     discover: discoverCompanionRuntimeCliStatus,
     open: openCompanionRuntimeCli,
-    deploy: ({ sender, productId, plan }) =>
-      deployOpenClawCompanionRuntime(sender, productId, plan),
+    reconcile: ({ sender, productId, plan, intent }) =>
+      intent === "install"
+        ? deployOpenClawCompanionRuntime(sender, productId, plan)
+        : { ok: false, error: "该运行组件暂不支持更新或修复" },
     uninstall: ({ productId, plan }) =>
       uninstallOpenClawCompanionRuntime(productId, plan)
   },
@@ -7317,8 +7611,10 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     status: getWslManagedCliStatus,
     discover: discoverWslManagedCliStatus,
     open: openWslManagedCli,
-    deploy: ({ sender, productId, plan }) =>
-      deployManagedWslCli(sender, productId, plan),
+    reconcile: ({ sender, productId, plan, intent }) =>
+      intent === "install"
+        ? deployManagedWslCli(sender, productId, plan)
+        : { ok: false, error: "该 WSL 工具暂不支持更新或修复" },
     uninstall: ({ sender, productId, plan }) =>
       uninstallManagedWslCli(sender, productId, plan)
   },
@@ -7326,8 +7622,10 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     status: getPortableBinaryCliStatus,
     discover: discoverPortableBinaryCliStatus,
     open: openPortableBinaryCli,
-    deploy: ({ sender, productId, plan }) =>
-      deployManagedBinaryCli(sender, productId, plan),
+    reconcile: ({ sender, productId, plan, intent }) =>
+      intent === "install"
+        ? deployManagedBinaryCli(sender, productId, plan)
+        : { ok: false, error: "该二进制工具暂不支持更新或修复" },
     uninstall: ({ productId, plan }) =>
       uninstallManagedBinaryCli(productId, plan)
   },
@@ -7335,8 +7633,10 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     status: getPythonVenvCliStatus,
     discover: discoverPythonVenvCliStatus,
     open: openPythonVenvCli,
-    deploy: ({ sender, productId, plan }) =>
-      deployManagedPythonCli(sender, productId, plan),
+    reconcile: ({ sender, productId, plan, intent }) =>
+      intent === "install"
+        ? deployManagedPythonCli(sender, productId, plan)
+        : { ok: false, error: "该 Python 工具暂不支持更新或修复" },
     uninstall: ({ productId, plan }) =>
       uninstallManagedPythonCli(productId, plan)
   },
@@ -7344,12 +7644,46 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     status: getManagedMsiCliStatus,
     discover: discoverManagedMsiCliStatus,
     open: openManagedMsiCli,
-    deploy: ({ sender, productId, plan }) =>
-      deployManagedMsiCli(sender, productId, plan),
+    reconcile: ({ sender, productId, plan, intent }) =>
+      intent === "install"
+        ? deployManagedMsiCli(sender, productId, plan)
+        : { ok: false, error: "该 MSI 工具暂不支持更新或修复" },
     uninstall: ({ productId, plan }) =>
       uninstallManagedMsiCli(productId, plan)
   }
 });
+
+async function reconcileManagedCli(event, productId, intent) {
+  const plan = CLI_INSTALL_PLANS[productId];
+  if (!plan) {
+    return { ok: false, error: "该产品不在客户端 CLI 安装白名单中" };
+  }
+  if (!CLI_RECONCILE_INTENTS.includes(intent)) {
+    return { ok: false, error: "该 CLI 操作未通过客户端审核" };
+  }
+  if (activeCliProducts.has(productId)) {
+    return { ok: false, error: "该工具正在执行其他生命周期操作" };
+  }
+  const catalogAuthorization = await authorizeCurrentCatalogProduct(
+    productId,
+    intent
+  );
+  if (!catalogAuthorization.ok) return catalogAuthorization;
+  if (activeCliProducts.has(productId)) {
+    return { ok: false, error: "该工具正在执行其他生命周期操作" };
+  }
+  activeCliProducts.add(productId);
+  try {
+    return await CLI_DRIVER_REGISTRY.reconcile({
+      sender: event.sender,
+      productId,
+      plan,
+      intent
+    });
+  } finally {
+    activeCliProducts.delete(productId);
+  }
+}
 
 async function scanApprovedProductInventory() {
   const desktopProfiles = CLIENT_INSTALL_PROFILES.filter(
@@ -7384,9 +7718,22 @@ function registerIpc() {
   });
   ipcMain.handle("update:check", () => checkForUpdate());
   ipcMain.handle("inventory:scan", () => scanApprovedProductInventory());
-  ipcMain.handle("extension:status", (_event, profileId) => extensionIpcFacade.status(profileId));
-  ipcMain.handle("extension:install", (_event, profileId) => extensionIpcFacade.install(profileId));
-  ipcMain.handle("extension:uninstall", (_event, profileId) => extensionIpcFacade.uninstall(profileId));
+  ipcMain.handle("extension:list", () => extensionIpcFacade.list());
+  ipcMain.handle("extension:inspect", (_event, profileId) =>
+    extensionIpcFacade.inspect(profileId)
+  );
+  ipcMain.handle("extension:execute", (_event, profileId, action) =>
+    extensionIpcFacade.execute(profileId, action)
+  );
+  ipcMain.handle("extension:status", (_event, profileId) =>
+    extensionIpcFacade.inspect(profileId)
+  );
+  ipcMain.handle("extension:install", (_event, profileId) =>
+    extensionIpcFacade.execute(profileId, "install")
+  );
+  ipcMain.handle("extension:uninstall", (_event, profileId) =>
+    extensionIpcFacade.execute(profileId, "uninstall")
+  );
   ipcMain.handle("identity:current", () => getIdentityClient().current());
   ipcMain.handle("identity:request-code", (_event, email) =>
     getIdentityClient().requestRegistrationCode(email)
@@ -9184,7 +9531,12 @@ function registerIpc() {
     );
     if (!normalized) return false;
     const plan = CLI_INSTALL_PLANS[normalized.productId];
-    const action = normalized.operation === "deploy" ? "部署" : "卸载";
+    const action = {
+      install: "安装",
+      update: "更新",
+      repair: "修复",
+      uninstall: "卸载"
+    }[normalized.operation];
     const succeeded = normalized.outcome === "completed";
     return showTaskNotification({
       key: `cli:${normalized.productId}:${normalized.generation}:${normalized.operation}:${normalized.outcome}`,
@@ -9213,31 +9565,12 @@ function registerIpc() {
     return true;
   });
 
-  ipcMain.handle("cli:deploy", async (event, productId) => {
-    const plan = CLI_INSTALL_PLANS[productId];
-    if (!plan) {
-      return { ok: false, error: "该产品不在客户端 CLI 安装白名单中" };
-    }
-    if (activeCliProducts.has(productId)) {
-      return { ok: false, error: "该工具正在执行安装或卸载操作" };
-    }
-    const catalogAuthorization =
-      await authorizeCurrentCatalogProduct(productId);
-    if (!catalogAuthorization.ok) return catalogAuthorization;
-    if (activeCliProducts.has(productId)) {
-      return { ok: false, error: "该工具正在执行安装或卸载操作" };
-    }
-    activeCliProducts.add(productId);
-    try {
-      return await CLI_DRIVER_REGISTRY.deploy({
-        sender: event.sender,
-        productId,
-        plan
-      });
-    } finally {
-      activeCliProducts.delete(productId);
-    }
-  });
+  ipcMain.handle("cli:reconcile", (event, productId, intent) =>
+    reconcileManagedCli(event, productId, intent)
+  );
+  ipcMain.handle("cli:deploy", (event, productId) =>
+    reconcileManagedCli(event, productId, "install")
+  );
 
   ipcMain.handle("cli:uninstall", async (event, productId) => {
     const plan = CLI_INSTALL_PLANS[productId];

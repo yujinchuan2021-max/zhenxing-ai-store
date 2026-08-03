@@ -1,6 +1,7 @@
 const fs = require("node:fs");
 const crypto = require("node:crypto");
 const path = require("node:path");
+const { CLI_RECONCILE_INTENTS } = require("./cli-driver-registry.cjs");
 const {
   nodeVersionSatisfiesPlan,
   validSupportedNodeRanges
@@ -351,7 +352,6 @@ function validReceiptShape(receipt, productId, plan) {
       localWindowsPath(receipt.prefix) &&
       typeof receipt.version === "string" &&
       RECEIPT_VERSION_PATTERN.test(receipt.version) &&
-      (!plan.expectedVersion || receipt.version === plan.expectedVersion) &&
       typeof receipt.managementId === "string" &&
       MANAGEMENT_ID_PATTERN.test(receipt.managementId) &&
       typeof receipt.manifestSha256 === "string" &&
@@ -363,7 +363,10 @@ function validReceiptShape(receipt, productId, plan) {
 }
 
 function statusFromPackage(packageStatus, ownership) {
-  const managed = ownership === "managed" || ownership === "adopted";
+  const managed =
+    ownership === "managed" ||
+    ownership === "managed-outdated" ||
+    ownership === "adopted";
   return {
     installed: packageStatus.detection === "installed",
     version: packageStatus.version,
@@ -371,6 +374,7 @@ function statusFromPackage(packageStatus, ownership) {
     detection: packageStatus.detection,
     managed,
     canUninstall: managed,
+    canUpdate: ownership === "managed-outdated",
     ownership
   };
 }
@@ -402,6 +406,7 @@ function inspectManagedCli({
       detection: "unknown",
       managed: false,
       canUninstall: false,
+      canUpdate: false,
       ownership: "unknown"
     };
   }
@@ -426,6 +431,7 @@ function inspectManagedCli({
         detection: "unknown",
         managed: false,
         canUninstall: false,
+        canUpdate: false,
         ownership: "unknown"
       };
     }
@@ -447,7 +453,9 @@ function inspectManagedCli({
       return statusFromPackage(
         recorded,
         marker === "matched"
-          ? "managed"
+          ? plan.expectedVersion && recorded.version !== plan.expectedVersion
+            ? "managed-outdated"
+            : "managed"
           : marker === "unknown"
             ? "unknown"
             : "mismatch"
@@ -488,6 +496,7 @@ function inspectManagedCli({
       detection: "absent",
       managed: false,
       canUninstall: false,
+      canUpdate: false,
       ownership: "none"
     };
   }
@@ -514,6 +523,7 @@ function createManagedCliReceipt({
   plan,
   prefix,
   runtime,
+  previousReceipt = null,
   now = () => new Date().toISOString(),
   realpath = defaultRealpath,
   readFile = defaultReadFile,
@@ -529,18 +539,26 @@ function createManagedCliReceipt({
   });
   if (installed.detection !== "installed") return null;
   if (plan.expectedVersion && installed.version !== plan.expectedVersion) return null;
-  const installedAt = now();
+  if (
+    previousReceipt !== null &&
+    !validReceiptShape(previousReceipt, productId, plan)
+  ) {
+    return null;
+  }
+  const installedAt = previousReceipt?.installedAt || now();
   if (
     typeof installedAt !== "string" ||
     !Number.isFinite(Date.parse(installedAt))
   ) {
     return null;
   }
-  let managementId;
-  try {
-    managementId = randomBytes(24).toString("hex");
-  } catch {
-    return null;
+  let managementId = previousReceipt?.managementId || "";
+  if (!managementId) {
+    try {
+      managementId = randomBytes(24).toString("hex");
+    } catch {
+      return null;
+    }
   }
   if (!MANAGEMENT_ID_PATTERN.test(managementId)) return null;
   const receipt = {
@@ -565,6 +583,20 @@ function createManagedCliReceipt({
       installed.packageDirectory,
       MANAGEMENT_MARKER
     );
+    if (previousReceipt) {
+      try {
+        const existingMarker = JSON.parse(readFile(markerPath, "utf8"));
+        if (
+          existingMarker?.managementId !== previousReceipt.managementId ||
+          existingMarker?.productId !== productId ||
+          existingMarker?.packageName !== plan.packageName
+        ) {
+          return null;
+        }
+      } catch (error) {
+        if (!isMissingError(error)) return null;
+      }
+    }
     writeFile(
       markerPath,
       JSON.stringify(
@@ -578,7 +610,7 @@ function createManagedCliReceipt({
         null,
         2
       ),
-      { encoding: "utf8", flag: "wx" }
+      { encoding: "utf8", flag: previousReceipt ? "w" : "wx" }
     );
     if (inspectManagementMarker(installed, receipt, readFile) !== "matched") {
       return null;
@@ -638,6 +670,68 @@ function createManagedCliInstallAction({
     packageName: plan.packageName,
     prefix: prefixPath.value
   };
+}
+
+function createManagedCliReconcileAction({
+  intent,
+  productId,
+  plan,
+  receipt,
+  configuredPrefix = "",
+  prefix = configuredPrefix,
+  runtime,
+  executionContext,
+  realpath = defaultRealpath,
+  readFile = defaultReadFile
+}) {
+  if (!CLI_RECONCILE_INTENTS.includes(intent)) return null;
+  const status = inspectManagedCli({
+    productId,
+    plan,
+    receipt,
+    configuredPrefix,
+    realpath,
+    readFile
+  });
+  if (status.detection === "unknown") return null;
+
+  if (intent === "install") {
+    if (receipt || status.installed || status.ownership !== "none") return null;
+  } else {
+    if (
+      typeof plan?.expectedVersion !== "string" ||
+      !plan.expectedVersion ||
+      plan.installSpec !== `${plan.packageName}@${plan.expectedVersion}`
+    ) {
+      return null;
+    }
+    if (
+      (intent === "update" && status.ownership !== "managed-outdated") ||
+      (intent === "repair" &&
+        status.ownership !== "managed" &&
+        status.ownership !== "stale")
+    ) {
+      return null;
+    }
+  }
+
+  const action = createManagedCliInstallAction({
+    productId,
+    plan,
+    prefix: status.directory || prefix,
+    runtime,
+    executionContext,
+    realpath
+  });
+  return action
+    ? {
+        ...action,
+        intent,
+        desiredVersion: plan.expectedVersion || "",
+        previousVersion: status.version || receipt?.version || "",
+        managementId: receipt?.managementId || ""
+      }
+    : null;
 }
 
 function createManagedCliPostInstallAction({
@@ -905,6 +999,7 @@ module.exports = {
   createManagedCliBeforeUninstallAction,
   createManagedCliInstallAction,
   createManagedCliPostInstallAction,
+  createManagedCliReconcileAction,
   createManagedCliReceipt,
   createManagedCliUninstallAction,
   inspectManagedCli

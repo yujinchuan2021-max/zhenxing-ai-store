@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 if (-not $InstallerPath) {
   $InstallerPath = Join-Path `
     $PSScriptRoot `
-    "..\release\ZhenXing-AI-0.1.27-Windows-x64-Setup.exe"
+    "..\release\ZhenXing-AI-0.1.28-Windows-x64-Setup.exe"
 }
 
 function Get-AIHubUninstallEntries {

@@ -4,9 +4,11 @@ const CLI_DRIVER_OPERATIONS = Object.freeze([
   "status",
   "discover",
   "open",
-  "deploy",
+  "reconcile",
   "uninstall"
 ]);
+
+const CLI_RECONCILE_INTENTS = Object.freeze(["install", "update", "repair"]);
 
 const CLI_DRIVER_IDS = Object.freeze([
   "npm",
@@ -33,20 +35,29 @@ function createCliDriverRegistry(adapters) {
     if (!adapter || typeof adapter !== "object" || Array.isArray(adapter)) {
       throw new TypeError(`Missing CLI driver adapter: ${driverId}`);
     }
-    for (const operation of CLI_DRIVER_OPERATIONS) {
+    for (const operation of CLI_DRIVER_OPERATIONS.filter(
+      (operation) => operation !== "reconcile"
+    )) {
       if (typeof adapter[operation] !== "function") {
         throw new TypeError(
           `CLI driver adapter ${driverId} is missing ${operation}`
         );
       }
     }
+    const reconcile = adapter.reconcile || adapter.deploy;
+    if (typeof reconcile !== "function") {
+      throw new TypeError(
+        `CLI driver adapter ${driverId} is missing reconcile`
+      );
+    }
     registered[driverId] = Object.freeze({
       ...Object.fromEntries(
-        CLI_DRIVER_OPERATIONS.map((operation) => [
+        CLI_DRIVER_OPERATIONS.filter((operation) => operation !== "reconcile").map((operation) => [
           operation,
           adapter[operation]
         ])
-      )
+      ),
+      reconcile
     });
   }
 
@@ -72,19 +83,31 @@ function createCliDriverRegistry(adapters) {
     return adapterFor(context.plan)[operation](context);
   };
 
-  return Object.freeze(
-    Object.fromEntries(
+  const reconcile = (context) => {
+    if (!CLI_RECONCILE_INTENTS.includes(context?.intent)) {
+      throw new TypeError("CLI reconcile intent must be install, update or repair");
+    }
+    return dispatch("reconcile", context);
+  };
+
+  return Object.freeze({
+    ...Object.fromEntries(
       CLI_DRIVER_OPERATIONS.map((operation) => [
         operation,
-        (context) => dispatch(operation, context)
+        operation === "reconcile"
+          ? reconcile
+          : (context) => dispatch(operation, context)
       ])
-    )
-  );
+    ),
+    deploy: (context) =>
+      reconcile({ ...context, intent: context?.intent || "install" })
+  });
 }
 
 module.exports = {
   CLI_DRIVER_IDS,
   CLI_DRIVER_OPERATIONS,
+  CLI_RECONCILE_INTENTS,
   createCliDriverRegistry,
   driverIdForPlan
 };

@@ -1,6 +1,6 @@
 # 枕星 AI 长期待开发路线图
 
-更新时间：2026-08-02
+更新时间：2026-08-03
 
 ## 文档用途
 
@@ -124,9 +124,9 @@
 
 ### CLI-001：CLI 覆盖与延期模块
 
-- **状态**：`needs-research`
+- **状态**：`in-progress`
 - **用户价值**：在桌面产品收口后继续补齐 CLI，并为安全的一键部署、命令窗口启动和精确卸载提供一致体验。
-- **范围**：Codex CLI、Claude Code、Gemini CLI 的真实网络/权限验收，以及 Cursor WSL、Hermes Agent、OpenCode 平台包等已有研究但尚未批准的模块。
+- **范围**：固定 npm 模块的安装、更新、修复、打开、卸载与任务恢复已经实现；仍需完成 Codex CLI、Claude Code、Gemini CLI、OpenClaw CLI 的真实网络/权限验收，以及 Cursor WSL、Hermes Agent、OpenCode 平台包等已有研究但尚未批准的模块。
 - **依赖**：官方分发身份、运行时版本、WSL 环境、固定包/哈希/签名、更新策略、配置和凭据边界。
 - **并存与冲突**：CLI 始终是独立一级产品，不能合并到可视化产品入口；WSL 是环境或复合产品组件，不能冒充普通 Windows 客户端。
 - **安全边界**：不执行可变远程 bootstrap；不开放任意 npm/pip 参数；卸载只处理模块目录、shim、PATH 和收据拥有内容。

@@ -8,6 +8,7 @@ const {
   createManagedCliReceipt,
   createManagedCliInstallAction,
   createManagedCliPostInstallAction,
+  createManagedCliReconcileAction,
   createManagedCliUninstallAction,
   inspectManagedCli
 } = require("../shared/managed-cli.cjs");
@@ -177,6 +178,27 @@ test("creates a receipt only from an installed package at a canonical local pref
   assert.deepEqual(receipt, receiptFor());
 });
 
+test("update receipts preserve historical ownership and replace only its marker", () => {
+  const updatedPlan = {
+    ...plan,
+    expectedVersion: "2.0.0",
+    installSpec: "@openai/codex@2.0.0"
+  };
+  const fileSystem = fakeFileSystem({ version: "2.0.0" });
+  const receipt = createManagedCliReceipt({
+    productId,
+    plan: updatedPlan,
+    prefix,
+    runtime,
+    previousReceipt: receiptFor(),
+    now: () => "2026-08-03T12:00:00.000Z",
+    ...fileSystem
+  });
+  assert.equal(receipt.version, "2.0.0");
+  assert.equal(receipt.managementId, managementId);
+  assert.equal(receipt.installedAt, "2026-07-29T12:00:00.000Z");
+});
+
 test("does not claim a manually installed package without a receipt", () => {
   const status = inspectManagedCli({
     productId,
@@ -192,6 +214,7 @@ test("does not claim a manually installed package without a receipt", () => {
     detection: "installed",
     managed: false,
     canUninstall: false,
+    canUpdate: false,
     ownership: "external"
   });
 });
@@ -218,6 +241,7 @@ test("takes over an exact allowlisted package found in the configured AI Hub pre
     detection: "installed",
     managed: true,
     canUninstall: true,
+    canUpdate: false,
     ownership: "adopted"
   });
 
@@ -248,7 +272,28 @@ test("allows uninstall only when receipt, package, prefix and version match", ()
   assert.equal(status.installed, true);
   assert.equal(status.managed, true);
   assert.equal(status.canUninstall, true);
+  assert.equal(status.canUpdate, false);
   assert.equal(status.ownership, "managed");
+});
+
+test("keeps historical ownership when the allowlisted desired version advances", () => {
+  const status = inspectManagedCli({
+    productId,
+    plan: {
+      ...plan,
+      expectedVersion: "1.3.0",
+      installSpec: `${plan.packageName}@1.3.0`
+    },
+    receipt: receiptFor(),
+    configuredPrefix: prefix,
+    ...fakeFileSystem()
+  });
+
+  assert.equal(status.installed, true);
+  assert.equal(status.managed, true);
+  assert.equal(status.canUninstall, true);
+  assert.equal(status.canUpdate, true);
+  assert.equal(status.ownership, "managed-outdated");
 });
 
 test("uses the receipt prefix after the configured install directory changes", () => {
@@ -447,6 +492,94 @@ test("builds one isolated official-registry install action", () => {
     packageName: plan.packageName,
     prefix
   });
+});
+
+test("builds fixed official-registry update and repair actions only for owned installs", () => {
+  const updatedPlan = {
+    ...plan,
+    expectedVersion: "1.3.0",
+    installSpec: `${plan.packageName}@1.3.0`
+  };
+  const update = createManagedCliReconcileAction({
+    intent: "update",
+    productId,
+    plan: updatedPlan,
+    receipt: receiptFor(),
+    configuredPrefix: prefix,
+    runtime,
+    executionContext,
+    ...fakeFileSystem()
+  });
+  assert.equal(update?.intent, "update");
+  assert.equal(update?.previousVersion, "1.2.3");
+  assert.equal(update?.desiredVersion, "1.3.0");
+  assert.equal(update?.managementId, managementId);
+  assert.equal(update?.args.at(-1), `${plan.packageName}@1.3.0`);
+  assert.equal(update?.args.includes("https://registry.npmjs.org/"), true);
+  assert.equal(update?.args.includes("--ignore-scripts"), true);
+  assert.equal(update?.options.shell, false);
+
+  const currentPlan = {
+    ...plan,
+    expectedVersion: "1.2.3",
+    installSpec: `${plan.packageName}@1.2.3`
+  };
+  const repair = createManagedCliReconcileAction({
+    intent: "repair",
+    productId,
+    plan: currentPlan,
+    receipt: receiptFor(),
+    configuredPrefix: prefix,
+    runtime,
+    executionContext,
+    ...fakeFileSystem()
+  });
+  assert.equal(repair?.intent, "repair");
+  assert.equal(repair?.args.at(-1), `${plan.packageName}@1.2.3`);
+  assert.equal(repair?.options.shell, false);
+});
+
+test("never overwrites an external npm package during reconciliation", () => {
+  const fixedPlan = {
+    ...plan,
+    expectedVersion: "1.3.0",
+    installSpec: `${plan.packageName}@1.3.0`
+  };
+  for (const intent of ["install", "update", "repair"]) {
+    assert.equal(
+      createManagedCliReconcileAction({
+        intent,
+        productId,
+        plan: fixedPlan,
+        receipt: null,
+        configuredPrefix: prefix,
+        runtime,
+        executionContext,
+        ...fakeFileSystem()
+      }),
+      null,
+      intent
+    );
+  }
+});
+
+test("requires an exact fixed spec before updating or repairing", () => {
+  for (const intent of ["update", "repair"]) {
+    assert.equal(
+      createManagedCliReconcileAction({
+        intent,
+        productId,
+        plan,
+        receipt: receiptFor(),
+        configuredPrefix: prefix,
+        runtime,
+        executionContext,
+        ...fakeFileSystem()
+      }),
+      null,
+      intent
+    );
+  }
 });
 
 test("enforces the reviewed minimum Node.js major before installation", () => {

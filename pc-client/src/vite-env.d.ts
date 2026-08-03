@@ -537,7 +537,9 @@ type CliStatus = {
   detection: "installed" | "absent" | "unknown";
   managed: boolean;
   canUninstall: boolean;
-  ownership: "managed" | "adopted" | "external" | "mismatch" | "stale" | "none" | "unknown";
+  canUpdate?: boolean;
+  canRepair?: boolean;
+  ownership: "managed" | "managed-outdated" | "adopted" | "external" | "mismatch" | "stale" | "none" | "unknown";
   requiresInstallDirectory?: boolean;
   hubInstalled?: boolean;
   hubRunning?: boolean;
@@ -561,14 +563,14 @@ type CliUninstallResult = {
 type CliTaskNotification = {
   productId: string;
   generation: number;
-  operation: "deploy" | "uninstall";
+  operation: "install" | "update" | "repair" | "uninstall";
   outcome: "completed" | "failed";
 };
 
 type CliTrayTask = {
   productId: string;
   generation: number;
-  operation: "deploy" | "uninstall";
+  operation: "install" | "update" | "repair" | "uninstall";
   phase: "running" | "completed" | "failed" | "canceled";
 };
 
@@ -584,12 +586,37 @@ type ExtensionRuntimeResult = {
     | "external"
     | "stale"
     | "unsafe"
+    | "modified"
     | "installed"
+    | "disabled"
+    | "outdated"
+    | "host-missing"
     | "invalid-receipt"
     | "unavailable"
     | "error";
   managed: boolean;
+  enabled?: boolean;
+  hostInstalled?: boolean;
+  hostDetection?: "installed" | "absent" | "unknown";
+  allowedActions: Array<
+    "install" | "update" | "repair" | "enable" | "disable" | "uninstall"
+  >;
   error?: string;
+};
+
+type ExtensionRuntimeAction =
+  | "install"
+  | "update"
+  | "repair"
+  | "enable"
+  | "disable"
+  | "uninstall";
+
+type ExtensionInventoryEntry = ExtensionRuntimeResult & {
+  profileId: string;
+  label: string;
+  resourceType: "skill" | "mcp" | "plugin";
+  hostProductId: string;
 };
 
 interface Window {
@@ -598,9 +625,15 @@ interface Window {
     scanManagedInventory(): Promise<ManagedProductInventorySnapshot>;
     checkForUpdate(): Promise<UpdateCheckResult>;
     openUpdateDownload(): Promise<UpdateInstallResult>;
+    listExtensions(): Promise<ExtensionInventoryEntry[]>;
     getExtensionStatus(profileId: string): Promise<ExtensionRuntimeResult>;
     installExtension(profileId: string): Promise<ExtensionRuntimeResult>;
     uninstallExtension(profileId: string): Promise<ExtensionRuntimeResult>;
+    inspectExtension(profileId: string): Promise<ExtensionRuntimeResult>;
+    executeExtension(
+      profileId: string,
+      action: ExtensionRuntimeAction
+    ): Promise<ExtensionRuntimeResult>;
     getIdentity(): Promise<IdentitySnapshot>;
     requestRegistrationCode(email: string): Promise<RegistrationChallenge>;
     register(input: {
@@ -743,6 +776,10 @@ interface Window {
     ): Promise<{ ok: boolean; error?: string }>;
     openCliLocation(productId: string): Promise<boolean>;
     deployCli(productId: string): Promise<CliDeployResult>;
+    reconcileCli(
+      productId: string,
+      intent: "install" | "update" | "repair"
+    ): Promise<CliDeployResult>;
     uninstallCli(productId: string): Promise<CliUninstallResult>;
     notifyCliTask(payload: CliTaskNotification): Promise<boolean>;
     updateCliTrayTask(payload: CliTrayTask): Promise<boolean>;

@@ -16,7 +16,7 @@ test("accepts only one allowlisted CLI task notification shape", () => {
   const payload = {
     productId: "codex-cli",
     generation: 2,
-    operation: "deploy",
+    operation: "install",
     outcome: "completed"
   };
   assert.deepEqual(
@@ -37,6 +37,14 @@ test("accepts only one allowlisted CLI task notification shape", () => {
   assert.equal(
     normalizeCliTaskNotification({ ...payload, url: "https://example.com" }, allowedProducts),
     null
+  );
+  assert.equal(
+    normalizeCliTaskNotification({ ...payload, operation: "update" }, allowedProducts)?.operation,
+    "update"
+  );
+  assert.equal(
+    normalizeCliTaskNotification({ ...payload, operation: "repair" }, allowedProducts)?.operation,
+    "repair"
   );
 });
 

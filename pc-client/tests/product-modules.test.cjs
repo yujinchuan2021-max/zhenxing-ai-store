@@ -84,7 +84,9 @@ test("approved profiles expose identity but no executable command", () => {
       kind: "CLI",
       mode: "managed-cli",
       requirements: ["node"],
-      capabilities: ["website", "tutorial", "install", "open", "uninstall"]
+      capabilities: [
+        "website", "tutorial", "install", "update", "repair", "open", "uninstall"
+      ]
     }
   );
   assert.equal(
@@ -106,7 +108,9 @@ test("approved profiles expose identity but no executable command", () => {
       kind: "CLI",
       mode: "managed-cli",
       requirements: ["node"],
-      capabilities: ["website", "tutorial", "install", "open", "uninstall"]
+      capabilities: [
+        "website", "tutorial", "install", "update", "repair", "open", "uninstall"
+      ]
     }
   );
   assert.deepEqual(

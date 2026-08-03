@@ -56,7 +56,7 @@ const INSTALL_REGISTRY = Object.freeze({
     kind: "CLI",
     mode: INSTALL_MODES.MANAGED_CLI,
     capabilities: Object.freeze([
-      "website", "tutorial", "install", "open", "uninstall"
+      "website", "tutorial", "install", "update", "repair", "open", "uninstall"
     ]),
     requirements: Object.freeze(["node"]),
     cli: Object.freeze({
@@ -77,7 +77,7 @@ const INSTALL_REGISTRY = Object.freeze({
     kind: "CLI",
     mode: INSTALL_MODES.MANAGED_CLI,
     capabilities: Object.freeze([
-      "website", "tutorial", "install", "open", "uninstall"
+      "website", "tutorial", "install", "update", "repair", "open", "uninstall"
     ]),
     requirements: Object.freeze(["node", "git"]),
     cli: Object.freeze({
@@ -104,7 +104,7 @@ const INSTALL_REGISTRY = Object.freeze({
     kind: "CLI",
     mode: INSTALL_MODES.MANAGED_CLI,
     capabilities: Object.freeze([
-      "website", "tutorial", "install", "open", "uninstall"
+      "website", "tutorial", "install", "update", "repair", "open", "uninstall"
     ]),
     requirements: Object.freeze(["node"]),
     cli: Object.freeze({
@@ -208,7 +208,7 @@ const INSTALL_REGISTRY = Object.freeze({
     kind: "CLI",
     mode: INSTALL_MODES.MANAGED_CLI,
     capabilities: Object.freeze([
-      "website", "tutorial", "install", "open", "uninstall"
+      "website", "tutorial", "install", "update", "repair", "open", "uninstall"
     ]),
     requirements: Object.freeze(["node"]),
     cli: Object.freeze({

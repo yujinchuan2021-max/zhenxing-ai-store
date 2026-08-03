@@ -6,6 +6,10 @@ const fs = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
 
+const {
+  EXTENSION_INSTALL_REGISTRY
+} = require("../shared/extension-install-registry.cjs");
+
 const COMMIT = "49f948faa9258a0c61caceaf225e179651397431";
 const SNAPSHOT_FILES = Object.freeze({
   "agents/openai.yaml": "c126d350e70b56a26d7b9942bf94b5d99d6972f0b361e1a068b2c04b26242b60",
@@ -44,4 +48,10 @@ test("bundled ChatGPT Apps Skill matches the pinned official snapshot", () => {
     assert.equal(sha256(filePath), expectedHash, relativePath);
     assert.equal(fs.lstatSync(filePath).isSymbolicLink(), false, relativePath);
   }
+});
+
+test("managed ChatGPT Apps profile pins the exact bundled source manifest", () => {
+  const profile = EXTENSION_INSTALL_REGISTRY["skill.codex.chatgpt-apps"];
+  assert.equal(profile.sourceManifest.versionRef, COMMIT);
+  assert.deepEqual(profile.sourceManifest.files, SNAPSHOT_FILES);
 });

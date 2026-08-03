@@ -1,5 +1,6 @@
 "use strict";
 
+const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 
@@ -7,10 +8,14 @@ const {
   getExtensionRuntimeProfile
 } = require("./extension-install-registry.cjs");
 
-const RECEIPT_SCHEMA_VERSION = 1;
+const RECEIPT_SCHEMA_VERSION = 2;
+const LEGACY_RECEIPT_SCHEMA_VERSION = 1;
 const PROFILE_ID_PATTERN = /^[a-z0-9][a-z0-9._-]{0,127}$/;
-const MAX_RECEIPT_BYTES = 64 * 1024;
-const TARGET_ROOT_IDS = new Set(["user-data", "codex-skills"]);
+const TARGET_ROOT_ID_PATTERN = /^[a-z0-9][a-z0-9-]{0,63}$/;
+const SHA256_PATTERN = /^[a-f0-9]{64}$/;
+const MAX_MANIFEST_FILES = 4096;
+const MAX_RECEIPT_BYTES = 2 * 1024 * 1024;
+const SOURCE_METADATA_FILE = "AIHUB-SOURCE.json";
 
 function extensionError(code, message) {
   const error = new Error(message);
@@ -72,6 +77,18 @@ function relativeSegments(value, label) {
   return segments;
 }
 
+function canonicalRelativePath(value, label) {
+  const segments = relativeSegments(value, label);
+  const canonical = segments.join("/");
+  if (value !== canonical) {
+    throw extensionError(
+      "EXTENSION_PATH_INVALID",
+      `${label} must use canonical forward-slash separators`
+    );
+  }
+  return canonical;
+}
+
 function resolveWithin(root, value, label) {
   const candidate = path.resolve(root, ...relativeSegments(value, label));
   const relative = path.relative(root, candidate);
@@ -89,6 +106,44 @@ function resolveWithin(root, value, label) {
   return candidate;
 }
 
+function normalizeSourceManifest(value) {
+  if (
+    !isPlainObject(value) ||
+    typeof value.versionRef !== "string" ||
+    value.versionRef.length === 0 ||
+    value.versionRef.length > 256 ||
+    value.versionRef.includes("\0") ||
+    !isPlainObject(value.files)
+  ) {
+    throw extensionError(
+      "EXTENSION_PROFILE_INVALID",
+      "Extension profile must declare a pinned source manifest"
+    );
+  }
+  const entries = Object.entries(value.files);
+  if (entries.length === 0 || entries.length > MAX_MANIFEST_FILES) {
+    throw extensionError(
+      "EXTENSION_PROFILE_INVALID",
+      "Extension source manifest has an invalid file count"
+    );
+  }
+  const files = {};
+  for (const [relativePath, hash] of entries.sort(([left], [right]) => left.localeCompare(right))) {
+    const canonical = canonicalRelativePath(relativePath, "sourceManifest file");
+    if (typeof hash !== "string" || !SHA256_PATTERN.test(hash)) {
+      throw extensionError(
+        "EXTENSION_PROFILE_INVALID",
+        `Extension source hash is invalid: ${canonical}`
+      );
+    }
+    files[canonical] = hash;
+  }
+  return Object.freeze({
+    versionRef: value.versionRef,
+    files: Object.freeze(files)
+  });
+}
+
 function assertDirectorySnapshotProfile(profile) {
   if (
     !isPlainObject(profile) ||
@@ -97,40 +152,32 @@ function assertDirectorySnapshotProfile(profile) {
     !profile.extensionId ||
     typeof profile.hostProductId !== "string" ||
     !profile.hostProductId ||
-    !TARGET_ROOT_IDS.has(profile.targetRootId)
+    typeof profile.targetRootId !== "string" ||
+    !TARGET_ROOT_ID_PATTERN.test(profile.targetRootId)
   ) {
     throw extensionError(
       "EXTENSION_PROFILE_INVALID",
       "Extension profile is not an approved directory snapshot"
     );
   }
-  relativeSegments(profile.sourcePath, "sourcePath");
-  relativeSegments(profile.targetRelativePath, "targetRelativePath");
+  canonicalRelativePath(profile.sourcePath, "sourcePath");
+  canonicalRelativePath(profile.targetRelativePath, "targetRelativePath");
+  normalizeSourceManifest(profile.sourceManifest);
   return profile;
-}
-
-function assertTreeHasNoLinks(root, fsApi = fs) {
-  const stat = fsApi.lstatSync(root);
-  if (stat.isSymbolicLink()) {
-    throw extensionError(
-      "EXTENSION_SYMLINK_REJECTED",
-      "Extension snapshots cannot contain symbolic links"
-    );
-  }
-  if (stat.isFile()) return;
-  if (!stat.isDirectory()) {
-    throw extensionError(
-      "EXTENSION_FILE_TYPE_REJECTED",
-      "Extension snapshots can contain only files and directories"
-    );
-  }
-  for (const entry of fsApi.readdirSync(root)) {
-    assertTreeHasNoLinks(path.join(root, entry), fsApi);
-  }
 }
 
 function assertExistingAncestorsHaveNoLinks(root, destination, fsApi = fs) {
   const relative = path.relative(root, destination);
+  if (
+    relative === ".." ||
+    relative.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relative)
+  ) {
+    throw extensionError(
+      "EXTENSION_PATH_OUTSIDE_ROOT",
+      "Extension target escapes its approved root"
+    );
+  }
   let current = root;
   for (const segment of relative.split(path.sep).filter(Boolean)) {
     current = path.join(current, segment);
@@ -217,7 +264,101 @@ function createdParentDirectories(root, destination, fsApi = fs) {
   return missing.reverse();
 }
 
-function copySnapshot(source, destination, fsApi = fs) {
+function sha256(filePath, fsApi = fs) {
+  return crypto
+    .createHash("sha256")
+    .update(fsApi.readFileSync(filePath))
+    .digest("hex");
+}
+
+function scanDirectory(root, fsApi = fs, { excludeSourceMetadata = false } = {}) {
+  const rootStat = fsApi.lstatSync(root);
+  if (rootStat.isSymbolicLink()) {
+    throw extensionError(
+      "EXTENSION_SYMLINK_REJECTED",
+      "Extension snapshots cannot contain symbolic links"
+    );
+  }
+  if (!rootStat.isDirectory()) {
+    throw extensionError(
+      "EXTENSION_FILE_TYPE_REJECTED",
+      "Extension snapshots must be real directories"
+    );
+  }
+  const files = {};
+  const directories = [];
+  let fileCount = 0;
+
+  function visit(directory, prefix) {
+    for (const entry of fsApi.readdirSync(directory).sort()) {
+      if (excludeSourceMetadata && prefix === "" && entry === SOURCE_METADATA_FILE) {
+        continue;
+      }
+      const absolute = path.join(directory, entry);
+      const relative = prefix ? `${prefix}/${entry}` : entry;
+      const stat = fsApi.lstatSync(absolute);
+      if (stat.isSymbolicLink()) {
+        throw extensionError(
+          "EXTENSION_SYMLINK_REJECTED",
+          "Extension snapshots cannot contain symbolic links"
+        );
+      }
+      if (stat.isDirectory()) {
+        directories.push(relative);
+        visit(absolute, relative);
+        continue;
+      }
+      if (!stat.isFile()) {
+        throw extensionError(
+          "EXTENSION_FILE_TYPE_REJECTED",
+          "Extension snapshots can contain only files and directories"
+        );
+      }
+      if (fileCount >= MAX_MANIFEST_FILES) {
+        throw extensionError(
+          "EXTENSION_MANIFEST_TOO_LARGE",
+          "Extension snapshot contains too many files"
+        );
+      }
+      files[relative] = sha256(absolute, fsApi);
+      fileCount += 1;
+    }
+  }
+
+  visit(root, "");
+  return Object.freeze({
+    files: Object.freeze(files),
+    directories: Object.freeze(directories)
+  });
+}
+
+function sameFiles(left, right) {
+  if (!isPlainObject(left) || !isPlainObject(right)) return false;
+  const leftKeys = Object.keys(left).sort();
+  const rightKeys = Object.keys(right).sort();
+  if (leftKeys.length !== rightKeys.length) return false;
+  return leftKeys.every(
+    (key, index) => key === rightKeys[index] && left[key] === right[key]
+  );
+}
+
+function sameTree(left, right) {
+  if (!left || !right || !sameFiles(left.files, right.files)) return false;
+  if (!Array.isArray(left.directories) || !Array.isArray(right.directories)) {
+    return false;
+  }
+  return (
+    left.directories.length === right.directories.length &&
+    left.directories.every((directory, index) => directory === right.directories[index])
+  );
+}
+
+function copySnapshot(
+  source,
+  destination,
+  fsApi = fs,
+  { excludeSourceMetadata = false, root = source } = {}
+) {
   const stat = fsApi.lstatSync(source);
   if (stat.isSymbolicLink()) {
     throw extensionError(
@@ -227,12 +368,18 @@ function copySnapshot(source, destination, fsApi = fs) {
   }
   if (stat.isDirectory()) {
     fsApi.mkdirSync(destination);
-    for (const entry of fsApi.readdirSync(source)) {
-      copySnapshot(
-        path.join(source, entry),
-        path.join(destination, entry),
-        fsApi
-      );
+    for (const entry of fsApi.readdirSync(source).sort()) {
+      if (
+        excludeSourceMetadata &&
+        path.resolve(source) === path.resolve(root) &&
+        entry === SOURCE_METADATA_FILE
+      ) {
+        continue;
+      }
+      copySnapshot(path.join(source, entry), path.join(destination, entry), fsApi, {
+        excludeSourceMetadata,
+        root
+      });
     }
     return;
   }
@@ -258,7 +405,8 @@ function safeRemoveOwnedDirectory(target, fsApi = fs) {
 }
 
 function writeJsonAtomic(filePath, value, fsApi = fs) {
-  const temporary = `${filePath}.${process.pid}.${Date.now()}.tmp`;
+  const nonce = crypto.randomBytes(8).toString("hex");
+  const temporary = `${filePath}.${process.pid}.${nonce}.tmp`;
   fsApi.writeFileSync(temporary, JSON.stringify(value, null, 2), {
     encoding: "utf8",
     flag: "wx"
@@ -301,7 +449,7 @@ function createExtensionRuntime({
   const approvedTargetRoots = { "user-data": approvedUserDataRoot };
   for (const [rootId, rootPath] of Object.entries(targetRoots)) {
     if (
-      !TARGET_ROOT_IDS.has(rootId) ||
+      !TARGET_ROOT_ID_PATTERN.test(rootId) ||
       rootId === "user-data" ||
       typeof rootPath !== "string" ||
       !path.isAbsolute(rootPath) ||
@@ -316,10 +464,7 @@ function createExtensionRuntime({
   }
 
   const normalizedReceiptsRoot = path.resolve(receiptsRoot);
-  const receiptRelative = path.relative(
-    approvedUserDataRoot,
-    normalizedReceiptsRoot
-  );
+  const receiptRelative = path.relative(approvedUserDataRoot, normalizedReceiptsRoot);
   if (
     receiptRelative === "" ||
     receiptRelative === ".." ||
@@ -331,11 +476,9 @@ function createExtensionRuntime({
       "Receipt storage must be a child of userDataRoot"
     );
   }
+
   function resolveProfile(profileId) {
-    if (
-      typeof profileId !== "string" ||
-      !PROFILE_ID_PATTERN.test(profileId)
-    ) {
+    if (typeof profileId !== "string" || !PROFILE_ID_PATTERN.test(profileId)) {
       throw extensionError(
         "EXTENSION_PROFILE_NOT_APPROVED",
         "Extension profile is not locally approved"
@@ -374,46 +517,110 @@ function createExtensionRuntime({
     );
   }
 
-  function validateReceipt(receipt, profileId, profile) {
+  function validateOwnedPaths(ownedPaths, profile) {
     const target = expectedTarget(profile);
     const approvedTargetRoot = targetRoot(profile);
     if (
+      !Array.isArray(ownedPaths) ||
+      ownedPaths.length === 0 ||
+      new Set(ownedPaths).size !== ownedPaths.length ||
+      !ownedPaths.includes(target)
+    ) {
+      return false;
+    }
+    return ownedPaths.every((ownedPath) => {
+      if (typeof ownedPath !== "string" || !path.isAbsolute(ownedPath)) {
+        return false;
+      }
+      const normalizedOwnedPath = path.resolve(ownedPath);
+      const rootRelative = path.relative(approvedTargetRoot, normalizedOwnedPath);
+      if (
+        rootRelative === "" ||
+        rootRelative === ".." ||
+        rootRelative.startsWith(`..${path.sep}`) ||
+        path.isAbsolute(rootRelative)
+      ) {
+        return false;
+      }
+      if (normalizedOwnedPath === target) return true;
+      const targetRelative = path.relative(normalizedOwnedPath, target);
+      return (
+        targetRelative !== "" &&
+        targetRelative !== ".." &&
+        !targetRelative.startsWith(`..${path.sep}`) &&
+        !path.isAbsolute(targetRelative)
+      );
+    });
+  }
+
+  function normalizeTargetManifest(value) {
+    if (!isPlainObject(value) || !isPlainObject(value.files) || !Array.isArray(value.directories)) {
+      return null;
+    }
+    const files = {};
+    try {
+      const entries = Object.entries(value.files);
+      if (entries.length === 0 || entries.length > MAX_MANIFEST_FILES) return null;
+      for (const [relativePath, hash] of entries.sort(([left], [right]) => left.localeCompare(right))) {
+        const canonical = canonicalRelativePath(relativePath, "targetManifest file");
+        if (typeof hash !== "string" || !SHA256_PATTERN.test(hash)) return null;
+        files[canonical] = hash;
+      }
+      const directories = value.directories.map((directory) =>
+        canonicalRelativePath(directory, "targetManifest directory")
+      );
+      if (
+        new Set(directories).size !== directories.length ||
+        directories.some((directory, index) => index > 0 && directories[index - 1].localeCompare(directory) > 0)
+      ) {
+        return null;
+      }
+      return Object.freeze({ files: Object.freeze(files), directories: Object.freeze(directories) });
+    } catch {
+      return null;
+    }
+  }
+
+  function validateReceipt(receipt, profileId, profile) {
+    if (
       !isPlainObject(receipt) ||
-      receipt.schemaVersion !== RECEIPT_SCHEMA_VERSION ||
+      ![RECEIPT_SCHEMA_VERSION, LEGACY_RECEIPT_SCHEMA_VERSION].includes(receipt.schemaVersion) ||
       receipt.profileId !== profileId ||
       receipt.adapterId !== profile.adapterId ||
       receipt.extensionId !== profile.extensionId ||
       receipt.hostProductId !== profile.hostProductId ||
       typeof receipt.installedAt !== "string" ||
       !Number.isFinite(Date.parse(receipt.installedAt)) ||
-      !Array.isArray(receipt.ownedPaths) ||
-      receipt.ownedPaths.length === 0 ||
-      new Set(receipt.ownedPaths).size !== receipt.ownedPaths.length ||
-      !receipt.ownedPaths.includes(target)
+      !validateOwnedPaths(receipt.ownedPaths, profile)
     ) {
       return null;
     }
-    for (const ownedPath of receipt.ownedPaths) {
-      if (typeof ownedPath !== "string" || !path.isAbsolute(ownedPath)) {
-        return null;
-      }
-      const relativeToRoot = path.relative(approvedTargetRoot, ownedPath);
-      const relativeToTarget = path.relative(ownedPath, target);
-      if (
-        relativeToRoot === "" ||
-        relativeToRoot === ".." ||
-        relativeToRoot.startsWith(`..${path.sep}`) ||
-        path.isAbsolute(relativeToRoot) ||
-        (ownedPath !== target &&
-          (relativeToTarget === "" ||
-            relativeToTarget === ".." ||
-            relativeToTarget.startsWith(`..${path.sep}`) ||
-            path.isAbsolute(relativeToTarget)))
-      ) {
-        return null;
-      }
+    if (receipt.schemaVersion === LEGACY_RECEIPT_SCHEMA_VERSION) {
+      return Object.freeze({ receipt, legacy: true });
     }
-    return receipt;
+    let sourceManifest;
+    try {
+      sourceManifest = normalizeSourceManifest(receipt.sourceManifest);
+    } catch {
+      return null;
+    }
+    const targetManifest = normalizeTargetManifest(receipt.targetManifest);
+    if (
+      typeof receipt.versionRef !== "string" ||
+      receipt.versionRef !== sourceManifest.versionRef ||
+      !targetManifest ||
+      !sameFiles(sourceManifest.files, targetManifest.files) ||
+      typeof receipt.updatedAt !== "string" ||
+      !Number.isFinite(Date.parse(receipt.updatedAt))
+    ) {
+      return null;
+    }
+    return Object.freeze({
+      receipt,
+      legacy: false,
+      sourceManifest,
+      targetManifest
+    });
   }
 
   function readReceipt(profileId, profile) {
@@ -426,11 +633,8 @@ function createExtensionRuntime({
         normalizedReceiptsRoot,
         fsApi
       );
-      const receiptRootStat = fsApi.lstatSync(normalizedReceiptsRoot);
-      if (
-        receiptRootStat.isSymbolicLink() ||
-        !receiptRootStat.isDirectory()
-      ) {
+      const rootStat = fsApi.lstatSync(normalizedReceiptsRoot);
+      if (rootStat.isSymbolicLink() || !rootStat.isDirectory()) {
         return { state: "invalid", receipt: null };
       }
       stat = fsApi.lstatSync(filePath);
@@ -447,9 +651,9 @@ function createExtensionRuntime({
     }
     try {
       const parsed = JSON.parse(fsApi.readFileSync(filePath, "utf8"));
-      const receipt = validateReceipt(parsed, profileId, profile);
-      return receipt
-        ? { state: "valid", receipt }
+      const validated = validateReceipt(parsed, profileId, profile);
+      return validated
+        ? { state: "valid", ...validated }
         : { state: "invalid", receipt: null };
     } catch {
       return { state: "invalid", receipt: null };
@@ -468,56 +672,107 @@ function createExtensionRuntime({
     return result.receipt ? structuredClone(result.receipt) : null;
   }
 
+  function inspectTarget(profile, receiptResult) {
+    const approvedTargetRoot = targetRoot(profile);
+    const target = expectedTarget(profile);
+    try {
+      if (fsApi.existsSync(approvedTargetRoot)) {
+        assertAbsoluteAncestorsHaveNoLinks(approvedTargetRoot, fsApi);
+        const rootStat = fsApi.lstatSync(approvedTargetRoot);
+        if (rootStat.isSymbolicLink() || !rootStat.isDirectory()) {
+          return { state: "unsafe", managed: false, targetPath: target };
+        }
+        assertExistingAncestorsHaveNoLinks(
+          approvedTargetRoot,
+          path.dirname(target),
+          fsApi
+        );
+      }
+      const targetExists = fsApi.existsSync(target);
+      if (!targetExists) {
+        return {
+          state: receiptResult.receipt ? "stale" : "not-installed",
+          managed: false,
+          targetPath: target
+        };
+      }
+      const targetTree = scanDirectory(target, fsApi);
+      if (!receiptResult.receipt) {
+        return { state: "external", managed: false, targetPath: target };
+      }
+      if (receiptResult.legacy) {
+        return {
+          state: "outdated",
+          managed: true,
+          targetPath: target,
+          versionRef: null,
+          targetTree,
+          legacyReceipt: true
+        };
+      }
+      if (!sameTree(targetTree, receiptResult.targetManifest)) {
+        return {
+          state: "modified",
+          managed: true,
+          targetPath: target,
+          versionRef: receiptResult.receipt.versionRef,
+          targetTree
+        };
+      }
+      const desired = normalizeSourceManifest(profile.sourceManifest);
+      if (
+        desired.versionRef !== receiptResult.sourceManifest.versionRef ||
+        !sameFiles(desired.files, receiptResult.sourceManifest.files)
+      ) {
+        return {
+          state: "outdated",
+          managed: true,
+          targetPath: target,
+          versionRef: receiptResult.receipt.versionRef,
+          targetTree
+        };
+      }
+      return {
+        state: "installed",
+        managed: true,
+        targetPath: target,
+        versionRef: receiptResult.receipt.versionRef,
+        targetTree
+      };
+    } catch (error) {
+      if (
+        [
+          "EXTENSION_SYMLINK_REJECTED",
+          "EXTENSION_FILE_TYPE_REJECTED",
+          "EXTENSION_ROOT_UNSAFE",
+          "EXTENSION_TARGET_INVALID",
+          "EXTENSION_PATH_OUTSIDE_ROOT"
+        ].includes(error.code)
+      ) {
+        return { state: "unsafe", managed: false, targetPath: target };
+      }
+      throw error;
+    }
+  }
+
   function getStatus(profileId) {
     const profile = resolveProfile(profileId);
-    const approvedTargetRoot = targetRoot(profile);
     const target = expectedTarget(profile);
     const receiptResult = readReceipt(profileId, profile);
     if (receiptResult.state === "invalid") {
       return { state: "invalid-receipt", managed: false, targetPath: target };
     }
-    if (fsApi.existsSync(approvedTargetRoot)) {
-      const rootStat = fsApi.lstatSync(approvedTargetRoot);
-      if (rootStat.isSymbolicLink() || !rootStat.isDirectory()) {
-        return { state: "unsafe", managed: false, targetPath: target };
-      }
-    }
-    const targetExists = fsApi.existsSync(target);
-    if (targetExists) {
-      const stat = fsApi.lstatSync(target);
-      if (stat.isSymbolicLink() || !stat.isDirectory()) {
-        return { state: "unsafe", managed: false, targetPath: target };
-      }
-    }
-    if (!receiptResult.receipt) {
-      return {
-        state: targetExists ? "external" : "not-installed",
-        managed: false,
-        targetPath: target
-      };
-    }
-    if (!targetExists) {
-      return { state: "stale", managed: false, targetPath: target };
-    }
-    return { state: "installed", managed: true, targetPath: target };
+    const status = inspectTarget(profile, receiptResult);
+    const { targetTree: _targetTree, ...publicStatus } = status;
+    return publicStatus;
   }
 
-  function install(profileId) {
-    const profile = resolveProfile(profileId);
-    const approvedTargetRoot = targetRoot(profile);
+  function approvedSource(profile) {
     const source = resolveWithin(
       approvedResourcesRoot,
       profile.sourcePath,
       "sourcePath"
     );
-    const target = expectedTarget(profile);
-    const receiptResult = readReceipt(profileId, profile);
-    if (receiptResult.state !== "missing") {
-      throw extensionError(
-        "EXTENSION_ALREADY_MANAGED",
-        "Extension already has a local receipt"
-      );
-    }
     if (!fsApi.existsSync(source)) {
       throw extensionError(
         "EXTENSION_SOURCE_MISSING",
@@ -533,10 +788,7 @@ function createExtensionRuntime({
     }
     const canonicalResourcesRoot = fsApi.realpathSync(approvedResourcesRoot);
     const canonicalSource = fsApi.realpathSync(source);
-    const sourceRelative = path.relative(
-      canonicalResourcesRoot,
-      canonicalSource
-    );
+    const sourceRelative = path.relative(canonicalResourcesRoot, canonicalSource);
     if (
       sourceRelative === "" ||
       sourceRelative === ".." ||
@@ -548,7 +800,86 @@ function createExtensionRuntime({
         "Bundled extension snapshot escapes resourcesRoot"
       );
     }
-    assertTreeHasNoLinks(source, fsApi);
+    const tree = scanDirectory(source, fsApi, { excludeSourceMetadata: true });
+    const declared = normalizeSourceManifest(profile.sourceManifest);
+    if (!sameFiles(tree.files, declared.files)) {
+      throw extensionError(
+        "EXTENSION_SOURCE_MANIFEST_MISMATCH",
+        "Bundled extension snapshot does not match its approved manifest"
+      );
+    }
+    return Object.freeze({ source, tree, manifest: declared });
+  }
+
+  function buildReceipt(profileId, profile, sourceInfo, ownedPaths, previousReceipt = null) {
+    const timestamp = now();
+    const installedAt = previousReceipt?.installedAt || timestamp;
+    return Object.freeze({
+      schemaVersion: RECEIPT_SCHEMA_VERSION,
+      profileId,
+      adapterId: profile.adapterId,
+      extensionId: profile.extensionId,
+      hostProductId: profile.hostProductId,
+      versionRef: sourceInfo.manifest.versionRef,
+      sourceManifest: {
+        versionRef: sourceInfo.manifest.versionRef,
+        files: { ...sourceInfo.manifest.files }
+      },
+      targetManifest: {
+        files: { ...sourceInfo.tree.files },
+        directories: [...sourceInfo.tree.directories]
+      },
+      installedAt,
+      updatedAt: timestamp,
+      ownedPaths: [...ownedPaths]
+    });
+  }
+
+  function uniqueSibling(target, suffix) {
+    return `${target}.aihub-${suffix}-${process.pid}-${crypto.randomBytes(8).toString("hex")}`;
+  }
+
+  function stageSource(sourceInfo, target) {
+    const staging = uniqueSibling(target, "staging");
+    copySnapshot(sourceInfo.source, staging, fsApi, {
+      excludeSourceMetadata: true
+    });
+    const stagedTree = scanDirectory(staging, fsApi);
+    if (!sameTree(stagedTree, sourceInfo.tree)) {
+      safeRemoveOwnedDirectory(staging, fsApi);
+      throw extensionError(
+        "EXTENSION_STAGE_MISMATCH",
+        "Staged extension snapshot failed integrity verification"
+      );
+    }
+    return staging;
+  }
+
+  function removeEmptyOwnedParents(receipt, target, fsApiOverride = fsApi) {
+    const parents = receipt.ownedPaths
+      .filter((ownedPath) => path.resolve(ownedPath) !== path.resolve(target))
+      .sort((left, right) => right.length - left.length);
+    for (const directory of parents) {
+      if (!fsApiOverride.existsSync(directory)) continue;
+      const stat = fsApiOverride.lstatSync(directory);
+      if (stat.isSymbolicLink() || !stat.isDirectory()) {
+        throw extensionError(
+          "EXTENSION_OWNED_PATH_UNSAFE",
+          "Owned extension path changed to an unsafe file type"
+        );
+      }
+      try {
+        fsApiOverride.rmdirSync(directory);
+      } catch (error) {
+        if (error.code !== "ENOTEMPTY" && error.code !== "EEXIST") throw error;
+      }
+    }
+  }
+
+  function installFresh(profileId, profile) {
+    const approvedTargetRoot = targetRoot(profile);
+    const target = expectedTarget(profile);
+    const sourceInfo = approvedSource(profile);
     ensureDirectoryWithoutLinks(approvedTargetRoot, fsApi);
     assertExistingAncestorsHaveNoLinks(
       approvedTargetRoot,
@@ -561,13 +892,9 @@ function createExtensionRuntime({
         "Extension target already exists and will not be overwritten"
       );
     }
-
-    const createdParents = createdParentDirectories(
-      approvedTargetRoot,
-      target,
-      fsApi
-    );
-    const ownedPaths = [...createdParents, target];
+    const createdParents = createdParentDirectories(approvedTargetRoot, target, fsApi);
+    let staging = null;
+    let published = false;
     try {
       fsApi.mkdirSync(path.dirname(target), { recursive: true });
       assertExistingAncestorsHaveNoLinks(
@@ -575,23 +902,35 @@ function createExtensionRuntime({
         path.dirname(target),
         fsApi
       );
-      copySnapshot(source, target, fsApi);
-      const receipt = Object.freeze({
-        schemaVersion: RECEIPT_SCHEMA_VERSION,
+      staging = stageSource(sourceInfo, target);
+      if (fsApi.existsSync(target)) {
+        throw extensionError(
+          "EXTENSION_TARGET_EXISTS",
+          "Extension target appeared during installation"
+        );
+      }
+      fsApi.renameSync(staging, target);
+      staging = null;
+      published = true;
+      const receipt = buildReceipt(
         profileId,
-        adapterId: profile.adapterId,
-        extensionId: profile.extensionId,
-        hostProductId: profile.hostProductId,
-        installedAt: now(),
-        ownedPaths
-      });
+        profile,
+        sourceInfo,
+        [...createdParents, target]
+      );
       ensureDirectoryWithoutLinks(normalizedReceiptsRoot, fsApi);
       writeJsonAtomic(receiptPath(profileId), receipt, fsApi);
       return { state: "installed", receipt: structuredClone(receipt) };
     } catch (error) {
-      if (fsApi.existsSync(target)) {
+      if (staging && fsApi.existsSync(staging)) {
         try {
-          safeRemoveOwnedDirectory(target, fsApi);
+          safeRemoveOwnedDirectory(staging, fsApi);
+        } catch {}
+      }
+      if (published && fsApi.existsSync(target)) {
+        try {
+          const tree = scanDirectory(target, fsApi);
+          if (sameTree(tree, sourceInfo.tree)) safeRemoveOwnedDirectory(target, fsApi);
         } catch {}
       }
       for (const directory of createdParents.reverse()) {
@@ -601,6 +940,216 @@ function createExtensionRuntime({
       }
       throw error;
     }
+  }
+
+  function update(profileId) {
+    const profile = resolveProfile(profileId);
+    const receiptResult = readReceipt(profileId, profile);
+    if (receiptResult.state === "missing") return installFresh(profileId, profile);
+    if (receiptResult.state === "invalid") {
+      throw extensionError(
+        "EXTENSION_RECEIPT_INVALID",
+        "Extension receipt is invalid; no files were changed"
+      );
+    }
+    const status = inspectTarget(profile, receiptResult);
+    if (status.state === "installed") {
+      return { state: "installed", receipt: structuredClone(receiptResult.receipt) };
+    }
+    if (status.state === "modified") {
+      throw extensionError(
+        "EXTENSION_TARGET_MODIFIED",
+        "Extension files were modified; update refused to preserve user data"
+      );
+    }
+    if (status.state === "stale") return repair(profileId);
+    if (status.state !== "outdated") {
+      throw extensionError(
+        "EXTENSION_UPDATE_UNSAFE",
+        "Extension cannot be safely updated in its current state"
+      );
+    }
+
+    const sourceInfo = approvedSource(profile);
+    const target = expectedTarget(profile);
+    if (receiptResult.legacy) {
+      const currentTree = scanDirectory(target, fsApi);
+      if (!sameTree(currentTree, sourceInfo.tree)) {
+        throw extensionError(
+          "EXTENSION_TARGET_MODIFIED",
+          "Legacy extension contents cannot be verified; update refused"
+        );
+      }
+      const receipt = buildReceipt(
+        profileId,
+        profile,
+        sourceInfo,
+        receiptResult.receipt.ownedPaths,
+        receiptResult.receipt
+      );
+      writeJsonAtomic(receiptPath(profileId), receipt, fsApi);
+      return { state: "installed", receipt: structuredClone(receipt) };
+    }
+
+    let staging = null;
+    let backup = null;
+    try {
+      staging = stageSource(sourceInfo, target);
+      const currentTree = scanDirectory(target, fsApi);
+      if (!sameTree(currentTree, receiptResult.targetManifest)) {
+        throw extensionError(
+          "EXTENSION_TARGET_MODIFIED",
+          "Extension changed during update; no files were replaced"
+        );
+      }
+      backup = uniqueSibling(target, "backup");
+      fsApi.renameSync(target, backup);
+      try {
+        fsApi.renameSync(staging, target);
+        staging = null;
+      } catch (error) {
+        fsApi.renameSync(backup, target);
+        backup = null;
+        throw error;
+      }
+      const receipt = buildReceipt(
+        profileId,
+        profile,
+        sourceInfo,
+        receiptResult.receipt.ownedPaths,
+        receiptResult.receipt
+      );
+      try {
+        writeJsonAtomic(receiptPath(profileId), receipt, fsApi);
+      } catch (error) {
+        safeRemoveOwnedDirectory(target, fsApi);
+        fsApi.renameSync(backup, target);
+        backup = null;
+        throw error;
+      }
+      safeRemoveOwnedDirectory(backup, fsApi);
+      backup = null;
+      return { state: "installed", receipt: structuredClone(receipt) };
+    } finally {
+      if (staging && fsApi.existsSync(staging)) {
+        try {
+          safeRemoveOwnedDirectory(staging, fsApi);
+        } catch {}
+      }
+      if (backup && fsApi.existsSync(backup) && !fsApi.existsSync(target)) {
+        try {
+          fsApi.renameSync(backup, target);
+        } catch {}
+      }
+    }
+  }
+
+  function repair(profileId) {
+    const profile = resolveProfile(profileId);
+    const receiptResult = readReceipt(profileId, profile);
+    if (receiptResult.state === "missing") return installFresh(profileId, profile);
+    if (receiptResult.state === "invalid") {
+      throw extensionError(
+        "EXTENSION_RECEIPT_INVALID",
+        "Extension receipt is invalid; no files were changed"
+      );
+    }
+    const status = inspectTarget(profile, receiptResult);
+    if (status.state === "installed") {
+      return { state: "installed", receipt: structuredClone(receiptResult.receipt) };
+    }
+    if (status.state === "outdated") return update(profileId);
+    if (status.state === "modified") {
+      throw extensionError(
+        "EXTENSION_TARGET_MODIFIED",
+        "Extension files were modified; repair refused to preserve user data"
+      );
+    }
+    if (status.state !== "stale") {
+      throw extensionError(
+        "EXTENSION_REPAIR_UNSAFE",
+        "Extension cannot be safely repaired in its current state"
+      );
+    }
+
+    const approvedTargetRoot = targetRoot(profile);
+    const target = expectedTarget(profile);
+    const sourceInfo = approvedSource(profile);
+    ensureDirectoryWithoutLinks(approvedTargetRoot, fsApi);
+    assertExistingAncestorsHaveNoLinks(
+      approvedTargetRoot,
+      path.dirname(target),
+      fsApi
+    );
+    const createdParents = createdParentDirectories(approvedTargetRoot, target, fsApi);
+    let staging = null;
+    let published = false;
+    try {
+      fsApi.mkdirSync(path.dirname(target), { recursive: true });
+      staging = stageSource(sourceInfo, target);
+      if (fsApi.existsSync(target)) {
+        throw extensionError(
+          "EXTENSION_TARGET_EXISTS",
+          "Extension target appeared during repair"
+        );
+      }
+      fsApi.renameSync(staging, target);
+      staging = null;
+      published = true;
+      const ownedPaths = [
+        ...new Set([...receiptResult.receipt.ownedPaths, ...createdParents, target])
+      ];
+      const receipt = buildReceipt(
+        profileId,
+        profile,
+        sourceInfo,
+        ownedPaths,
+        receiptResult.receipt
+      );
+      writeJsonAtomic(receiptPath(profileId), receipt, fsApi);
+      return { state: "installed", receipt: structuredClone(receipt) };
+    } catch (error) {
+      if (staging && fsApi.existsSync(staging)) {
+        try {
+          safeRemoveOwnedDirectory(staging, fsApi);
+        } catch {}
+      }
+      if (published && fsApi.existsSync(target)) {
+        try {
+          const tree = scanDirectory(target, fsApi);
+          if (sameTree(tree, sourceInfo.tree)) safeRemoveOwnedDirectory(target, fsApi);
+        } catch {}
+      }
+      throw error;
+    }
+  }
+
+  function install(profileId) {
+    const profile = resolveProfile(profileId);
+    const receiptResult = readReceipt(profileId, profile);
+    if (receiptResult.state === "missing") return installFresh(profileId, profile);
+    if (receiptResult.state === "invalid") {
+      throw extensionError(
+        "EXTENSION_RECEIPT_INVALID",
+        "Extension receipt is invalid; no files were changed"
+      );
+    }
+    const status = inspectTarget(profile, receiptResult);
+    if (status.state === "installed") {
+      return { state: "installed", receipt: structuredClone(receiptResult.receipt) };
+    }
+    if (status.state === "outdated") return update(profileId);
+    if (status.state === "stale") return repair(profileId);
+    if (status.state === "modified") {
+      throw extensionError(
+        "EXTENSION_TARGET_MODIFIED",
+        "Extension files were modified; install refused to preserve user data"
+      );
+    }
+    throw extensionError(
+      "EXTENSION_INSTALL_UNSAFE",
+      "Extension cannot be safely installed in its current state"
+    );
   }
 
   function uninstall(profileId) {
@@ -613,48 +1162,86 @@ function createExtensionRuntime({
         "Extension receipt is invalid; no files were removed"
       );
     }
-    const approvedTargetRoot = targetRoot(profile);
-    const target = expectedTarget(profile);
-    if (fsApi.existsSync(approvedTargetRoot)) {
-      assertAbsoluteAncestorsHaveNoLinks(approvedTargetRoot, fsApi);
+    const status = inspectTarget(profile, result);
+    if (status.state === "unsafe") {
+      assertAbsoluteAncestorsHaveNoLinks(targetRoot(profile), fsApi);
       assertExistingAncestorsHaveNoLinks(
-        approvedTargetRoot,
-        path.dirname(target),
+        targetRoot(profile),
+        path.dirname(expectedTarget(profile)),
         fsApi
       );
+      throw extensionError(
+        "EXTENSION_UNINSTALL_UNSAFE",
+        "Extension target is unsafe; no files were removed"
+      );
     }
-    const parentPaths = result.receipt.ownedPaths
-      .filter((ownedPath) => ownedPath !== target)
-      .sort((left, right) => right.length - left.length);
-    for (const ownedPath of [target, ...parentPaths]) {
-      if (!fsApi.existsSync(ownedPath)) continue;
-      const stat = fsApi.lstatSync(ownedPath);
-      if (stat.isSymbolicLink() || !stat.isDirectory()) {
-        throw extensionError(
-          "EXTENSION_OWNED_PATH_UNSAFE",
-          "Owned extension path changed to an unsafe file type"
-        );
+    if (status.state === "modified") {
+      throw extensionError(
+        "EXTENSION_TARGET_MODIFIED",
+        "Extension files were modified; uninstall refused to preserve user data"
+      );
+    }
+    const target = expectedTarget(profile);
+    if (fsApi.existsSync(target)) {
+      if (result.legacy) {
+        const sourceInfo = approvedSource(profile);
+        const currentTree = scanDirectory(target, fsApi);
+        if (!sameTree(currentTree, sourceInfo.tree)) {
+          throw extensionError(
+            "EXTENSION_TARGET_MODIFIED",
+            "Legacy extension contents cannot be verified; no files were removed"
+          );
+        }
+      } else {
+        const currentTree = scanDirectory(target, fsApi);
+        if (!sameTree(currentTree, result.targetManifest)) {
+          throw extensionError(
+            "EXTENSION_TARGET_MODIFIED",
+            "Extension changed during uninstall; no files were removed"
+          );
+        }
       }
+      safeRemoveOwnedDirectory(target, fsApi);
     }
-    safeRemoveOwnedDirectory(target, fsApi);
-    for (const directory of parentPaths) {
-      if (!fsApi.existsSync(directory)) continue;
-      try {
-        fsApi.rmdirSync(directory);
-      } catch (error) {
-        if (error.code !== "ENOTEMPTY" && error.code !== "EEXIST") throw error;
-      }
-    }
+    removeEmptyOwnedParents(result.receipt, target);
     fsApi.unlinkSync(receiptPath(profileId));
     return { state: "uninstalled" };
   }
 
-  return Object.freeze({ getReceipt, getStatus, install, uninstall });
+  function execute(profileId, operation) {
+    switch (operation) {
+      case "install":
+        return install(profileId);
+      case "update":
+        return update(profileId);
+      case "repair":
+        return repair(profileId);
+      case "uninstall":
+        return uninstall(profileId);
+      default:
+        throw extensionError(
+          "EXTENSION_OPERATION_NOT_APPROVED",
+          "Extension operation is not locally approved"
+        );
+    }
+  }
+
+  return Object.freeze({
+    inspect: getStatus,
+    execute,
+    getReceipt,
+    getStatus,
+    install,
+    update,
+    repair,
+    uninstall
+  });
 }
 
 module.exports = {
   RECEIPT_SCHEMA_VERSION,
   assertDirectorySnapshotProfile,
   createExtensionRuntime,
-  relativeSegments
+  relativeSegments,
+  scanDirectory
 };

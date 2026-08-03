@@ -52,6 +52,8 @@ const PRODUCT_CAPABILITIES = new Set([
   "website",
   "tutorial",
   "install",
+  "update",
+  "repair",
   "open",
   "uninstall"
 ]);

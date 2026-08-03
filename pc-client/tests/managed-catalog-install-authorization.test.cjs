@@ -122,18 +122,26 @@ test("main process reauthorizes every new managed install boundary", () => {
   const installerLaunch = source.match(
     /ipcMain\.handle\("installer:launch"[\s\S]*?ipcMain\.handle\("desktop:operation-get"/
   )?.[0];
-  const cliDeploy = source.match(
-    /ipcMain\.handle\("cli:deploy"[\s\S]*?ipcMain\.handle\("cli:uninstall"/
+  const cliReconcile = source.match(
+    /async function reconcileManagedCli[\s\S]*?async function scanApprovedProductInventory/
+  )?.[0];
+  const resourceLifecycle = source.match(
+    /const manager = createExtensionResourceManager[\s\S]*?extensionIpcFacade = createExtensionIpcFacade\(manager, \{ listProfiles \}\)/
   )?.[0];
 
   assert.ok(downloadStart);
   assert.ok(refresh);
   assert.ok(installerLaunch);
-  assert.ok(cliDeploy);
+  assert.ok(cliReconcile);
+  assert.ok(resourceLifecycle);
   assert.match(downloadStart, /authorizeCurrentCatalogProduct\(productId\)/);
   assert.match(refresh, /authorizeCurrentCatalogProduct\(productId\)/);
   assert.match(installerLaunch, /authorizeCurrentCatalogProduct\(productId\)/);
-  assert.match(cliDeploy, /authorizeCurrentCatalogProduct\(productId\)/);
+  assert.match(
+    cliReconcile,
+    /authorizeCurrentCatalogProduct\(\s*productId,\s*intent\s*\)/
+  );
+  assert.match(resourceLifecycle, /authorizeFreshCatalogResource/);
   assert.doesNotMatch(
     source.match(
       /ipcMain\.handle\("cli:uninstall"[\s\S]*?function createWindow/

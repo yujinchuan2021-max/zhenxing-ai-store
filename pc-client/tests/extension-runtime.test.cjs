@@ -1,6 +1,7 @@
 "use strict";
 
 const assert = require("node:assert/strict");
+const crypto = require("node:crypto");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
@@ -13,11 +14,12 @@ const {
 const {
   assertDirectorySnapshotProfile,
   createExtensionRuntime,
-  relativeSegments
+  relativeSegments,
+  scanDirectory
 } = require("../shared/extension-runtime.cjs");
 
 const TEST_PROFILE_ID = "skill.test.codex-directory-snapshot";
-const TEST_PROFILE = Object.freeze({
+const TEST_PROFILE_BASE = Object.freeze({
   label: "Directory snapshot test fixture",
   moduleId: "skill-managed",
   extensionId: "test-codex-directory-snapshot",
@@ -29,8 +31,26 @@ const TEST_PROFILE = Object.freeze({
   targetRelativePath: "host-targets/codex/skills/test-directory-snapshot"
 });
 
-function testProfileLookup(profileId) {
-  return profileId === TEST_PROFILE_ID ? TEST_PROFILE : null;
+function fileHash(filePath) {
+  return crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex");
+}
+
+function productionProfileLookup(profileId) {
+  const profile = EXTENSION_INSTALL_REGISTRY[profileId];
+  if (!profile || profile.sourceManifest) return profile || null;
+  const source = path.join(
+    __dirname,
+    "..",
+    "extension-resources",
+    ...profile.sourcePath.split("/")
+  );
+  return Object.freeze({
+    ...profile,
+    sourceManifest: Object.freeze({
+      versionRef: "test-production-snapshot",
+      files: scanDirectory(source).files
+    })
+  });
 }
 
 function fixture(t) {
@@ -40,41 +60,60 @@ function fixture(t) {
   const userDataRoot = path.join(root, "user-data");
   fs.mkdirSync(resourcesRoot);
   fs.mkdirSync(userDataRoot);
-  const profile = TEST_PROFILE;
+  let profile = null;
   const source = path.join(
     resourcesRoot,
-    ...profile.sourcePath.split(/[\\/]+/)
+    ...TEST_PROFILE_BASE.sourcePath.split(/[\\/]+/)
   );
   fs.mkdirSync(source, { recursive: true });
   fs.writeFileSync(path.join(source, "SKILL.md"), "# Managed fixture\n");
+  function setProfile(versionRef = "fixture-v1") {
+    profile = Object.freeze({
+      ...TEST_PROFILE_BASE,
+      sourceManifest: Object.freeze({
+        versionRef,
+        files: Object.freeze({
+          "SKILL.md": fileHash(path.join(source, "SKILL.md"))
+        })
+      })
+    });
+    return profile;
+  }
+  setProfile();
+  const runtime = createExtensionRuntime({
+    resourcesRoot,
+    userDataRoot,
+    profileLookup: (profileId) => profileId === TEST_PROFILE_ID ? profile : null,
+    now: () => "2026-07-31T00:00:00.000Z"
+  });
   return {
-    profile,
+    get profile() {
+      return profile;
+    },
     resourcesRoot,
     source,
     userDataRoot,
-    runtime: createExtensionRuntime({
-      resourcesRoot,
-      userDataRoot,
-      profileLookup: testProfileLookup,
-      now: () => "2026-07-31T00:00:00.000Z"
-    })
+    runtime,
+    setProfile
   };
 }
 
-test("production registry exposes only the reviewed ChatGPT Apps snapshot", () => {
+test("production registry exposes only locally reviewed resource profiles", () => {
   assert.deepEqual(Object.keys(EXTENSION_INSTALL_REGISTRY), [
-    "skill.codex.chatgpt-apps"
+    "skill.codex.chatgpt-apps",
+    "mcp.codex.openai-developer-docs",
+    "plugin.claude.commit-commands"
   ]);
-  assert.deepEqual(publicExtensionInstallProfiles(), [
-    {
-      id: "skill.codex.chatgpt-apps",
-      label: "ChatGPT Apps Skill",
-      moduleId: "skill-managed",
-      extensionId: "openai-chatgpt-apps-skill",
-      hostProductId: "codex-cli",
-      capabilities: ["website", "install", "uninstall"],
-      adapterId: "directory-snapshot"
-    }
+  assert.deepEqual(
+    publicExtensionInstallProfiles().map((profile) => profile.id),
+    Object.keys(EXTENSION_INSTALL_REGISTRY)
+  );
+  assert.deepEqual(publicExtensionInstallProfiles()[0].capabilities, [
+    "website",
+    "install",
+    "update",
+    "repair",
+    "uninstall"
   ]);
 });
 
@@ -87,7 +126,8 @@ test("Codex target root is created only by install and preserved by uninstall", 
   const runtime = createExtensionRuntime({
     resourcesRoot: path.join(__dirname, "..", "extension-resources"),
     userDataRoot,
-    targetRoots: { "codex-skills": codexSkillsRoot },
+    targetRoots: { "agent-skills": codexSkillsRoot },
+    profileLookup: productionProfileLookup,
     now: () => "2026-07-31T00:00:00.000Z"
   });
 
@@ -101,7 +141,7 @@ test("Codex target root is created only by install and preserved by uninstall", 
   const installedSkill = path.join(codexSkillsRoot, "chatgpt-apps");
   assert.equal(fs.existsSync(path.join(installedSkill, "SKILL.md")), true);
   assert.equal(fs.existsSync(path.join(installedSkill, "LICENSE.txt")), true);
-  assert.equal(fs.existsSync(path.join(installedSkill, "AIHUB-SOURCE.json")), true);
+  assert.equal(fs.existsSync(path.join(installedSkill, "AIHUB-SOURCE.json")), false);
   assert.deepEqual(runtime.getReceipt("skill.codex.chatgpt-apps").ownedPaths, [
     installedSkill
   ]);
@@ -120,7 +160,8 @@ test("uninstall refuses a Codex target root replaced by a junction", (t) => {
   const runtime = createExtensionRuntime({
     resourcesRoot: path.join(__dirname, "..", "extension-resources"),
     userDataRoot,
-    targetRoots: { "codex-skills": codexSkillsRoot }
+    targetRoots: { "agent-skills": codexSkillsRoot },
+    profileLookup: productionProfileLookup
   });
   runtime.install("skill.codex.chatgpt-apps");
   const relocatedRoot = path.join(root, "relocated-skills");
@@ -139,6 +180,7 @@ test("uninstall refuses a Codex target root replaced by a junction", (t) => {
     throw error;
   }
 
+  assert.equal(runtime.getStatus("skill.codex.chatgpt-apps").state, "unsafe");
   assert.throws(
     () => runtime.uninstall("skill.codex.chatgpt-apps"),
     (error) => error.code === "EXTENSION_SYMLINK_REJECTED"
@@ -278,5 +320,166 @@ test("unknown profile ids can never select an adapter", (t) => {
   assert.throws(
     () => runtime.install("skill.backend-supplied"),
     (error) => error.code === "EXTENSION_PROFILE_NOT_APPROVED"
+  );
+});
+
+test("receipt v2 pins source and installed target hashes and install is idempotent", (t) => {
+  const { runtime } = fixture(t);
+  const first = runtime.install(TEST_PROFILE_ID);
+  const second = runtime.install(TEST_PROFILE_ID);
+  const receipt = runtime.getReceipt(TEST_PROFILE_ID);
+
+  assert.equal(first.receipt.schemaVersion, 2);
+  assert.equal(receipt.versionRef, "fixture-v1");
+  assert.deepEqual(receipt.sourceManifest, {
+    versionRef: "fixture-v1",
+    files: receipt.targetManifest.files
+  });
+  assert.deepEqual(second.receipt, first.receipt);
+  assert.equal(runtime.inspect(TEST_PROFILE_ID).state, "installed");
+});
+
+test("install rejects a bundled snapshot that differs from the approved manifest", (t) => {
+  const { runtime, source, profile, userDataRoot } = fixture(t);
+  fs.writeFileSync(path.join(source, "unexpected.txt"), "not approved");
+
+  assert.throws(
+    () => runtime.install(TEST_PROFILE_ID),
+    (error) => error.code === "EXTENSION_SOURCE_MANIFEST_MISMATCH"
+  );
+  assert.equal(
+    fs.existsSync(path.join(userDataRoot, ...profile.targetRelativePath.split("/"))),
+    false
+  );
+});
+
+test("approved version changes become outdated and update atomically replaces an unchanged target", (t) => {
+  const fixtureState = fixture(t);
+  const { runtime, source, userDataRoot } = fixtureState;
+  runtime.install(TEST_PROFILE_ID);
+  fs.writeFileSync(path.join(source, "SKILL.md"), "# Managed fixture v2\n");
+  fixtureState.setProfile("fixture-v2");
+
+  assert.equal(runtime.getStatus(TEST_PROFILE_ID).state, "outdated");
+  const result = runtime.execute(TEST_PROFILE_ID, "update");
+  const target = path.join(
+    userDataRoot,
+    ...fixtureState.profile.targetRelativePath.split("/")
+  );
+  assert.equal(result.state, "installed");
+  assert.equal(fs.readFileSync(path.join(target, "SKILL.md"), "utf8"), "# Managed fixture v2\n");
+  assert.equal(runtime.getStatus(TEST_PROFILE_ID).state, "installed");
+  assert.equal(runtime.getReceipt(TEST_PROFILE_ID).versionRef, "fixture-v2");
+  assert.deepEqual(
+    fs.readdirSync(path.dirname(target)).filter((name) => name.includes(".aihub-")),
+    []
+  );
+});
+
+test("repair restores a missing managed target but never overwrites a modified target", (t) => {
+  const { runtime, profile, userDataRoot } = fixture(t);
+  runtime.install(TEST_PROFILE_ID);
+  const target = path.join(userDataRoot, ...profile.targetRelativePath.split("/"));
+  fs.rmSync(target, { recursive: true });
+
+  assert.equal(runtime.getStatus(TEST_PROFILE_ID).state, "stale");
+  assert.equal(runtime.repair(TEST_PROFILE_ID).state, "installed");
+  fs.writeFileSync(path.join(target, "SKILL.md"), "user edit\n");
+  assert.equal(runtime.getStatus(TEST_PROFILE_ID).state, "modified");
+  for (const operation of ["install", "update", "repair", "uninstall"]) {
+    assert.throws(
+      () => runtime.execute(TEST_PROFILE_ID, operation),
+      (error) => error.code === "EXTENSION_TARGET_MODIFIED",
+      operation
+    );
+  }
+  assert.equal(fs.readFileSync(path.join(target, "SKILL.md"), "utf8"), "user edit\n");
+  assert.ok(runtime.getReceipt(TEST_PROFILE_ID));
+});
+
+test("uninstall refuses added files and empty directories without deleting user data", (t) => {
+  const { runtime, profile, userDataRoot } = fixture(t);
+  runtime.install(TEST_PROFILE_ID);
+  const target = path.join(userDataRoot, ...profile.targetRelativePath.split("/"));
+  fs.writeFileSync(path.join(target, "user-note.txt"), "keep");
+  fs.mkdirSync(path.join(target, "user-empty"));
+
+  assert.equal(runtime.getStatus(TEST_PROFILE_ID).state, "modified");
+  assert.throws(
+    () => runtime.uninstall(TEST_PROFILE_ID),
+    (error) => error.code === "EXTENSION_TARGET_MODIFIED"
+  );
+  assert.equal(fs.readFileSync(path.join(target, "user-note.txt"), "utf8"), "keep");
+  assert.equal(fs.existsSync(path.join(target, "user-empty")), true);
+});
+
+test("uninstall clears a stale receipt without touching the shared target root", (t) => {
+  const { runtime, profile, userDataRoot } = fixture(t);
+  runtime.install(TEST_PROFILE_ID);
+  const target = path.join(userDataRoot, ...profile.targetRelativePath.split("/"));
+  const sharedRoot = path.dirname(target);
+  fs.rmSync(target, { recursive: true });
+  fs.writeFileSync(path.join(sharedRoot, "keep.txt"), "shared");
+
+  assert.deepEqual(runtime.uninstall(TEST_PROFILE_ID), { state: "uninstalled" });
+  assert.equal(fs.readFileSync(path.join(sharedRoot, "keep.txt"), "utf8"), "shared");
+  assert.equal(runtime.getReceipt(TEST_PROFILE_ID), null);
+});
+
+test("invalid receipt manifests never authorize target deletion", (t) => {
+  const { runtime, profile, userDataRoot } = fixture(t);
+  runtime.install(TEST_PROFILE_ID);
+  const target = path.join(userDataRoot, ...profile.targetRelativePath.split("/"));
+  const receiptFile = path.join(
+    userDataRoot,
+    "extension-receipts",
+    `${TEST_PROFILE_ID}.json`
+  );
+  const receipt = JSON.parse(fs.readFileSync(receiptFile, "utf8"));
+  receipt.targetManifest.files["SKILL.md"] = "0".repeat(64);
+  fs.writeFileSync(receiptFile, JSON.stringify(receipt));
+
+  assert.equal(runtime.getStatus(TEST_PROFILE_ID).state, "invalid-receipt");
+  assert.throws(
+    () => runtime.uninstall(TEST_PROFILE_ID),
+    (error) => error.code === "EXTENSION_RECEIPT_INVALID"
+  );
+  assert.equal(fs.existsSync(path.join(target, "SKILL.md")), true);
+});
+
+test("an unchanged v1 receipt migrates to v2, while unverifiable legacy files are preserved", (t) => {
+  const { runtime, profile, userDataRoot } = fixture(t);
+  runtime.install(TEST_PROFILE_ID);
+  const target = path.join(userDataRoot, ...profile.targetRelativePath.split("/"));
+  const receiptFile = path.join(
+    userDataRoot,
+    "extension-receipts",
+    `${TEST_PROFILE_ID}.json`
+  );
+  const v2 = JSON.parse(fs.readFileSync(receiptFile, "utf8"));
+  const v1 = {
+    schemaVersion: 1,
+    profileId: v2.profileId,
+    adapterId: v2.adapterId,
+    extensionId: v2.extensionId,
+    hostProductId: v2.hostProductId,
+    installedAt: v2.installedAt,
+    ownedPaths: v2.ownedPaths
+  };
+  fs.writeFileSync(receiptFile, JSON.stringify(v1));
+
+  assert.equal(runtime.getStatus(TEST_PROFILE_ID).state, "outdated");
+  assert.equal(runtime.install(TEST_PROFILE_ID).state, "installed");
+  assert.equal(runtime.getReceipt(TEST_PROFILE_ID).schemaVersion, 2);
+
+  fs.writeFileSync(receiptFile, JSON.stringify(v1));
+  fs.writeFileSync(path.join(target, "SKILL.md"), "legacy user edit\n");
+  assert.throws(
+    () => runtime.update(TEST_PROFILE_ID),
+    (error) => error.code === "EXTENSION_TARGET_MODIFIED"
+  );
+  assert.equal(
+    fs.readFileSync(path.join(target, "SKILL.md"), "utf8"),
+    "legacy user edit\n"
   );
 });

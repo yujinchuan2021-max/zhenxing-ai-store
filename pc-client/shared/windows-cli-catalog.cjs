@@ -10,13 +10,23 @@ const MANAGED_CAPABILITIES = Object.freeze([
   "uninstall"
 ]);
 
+const NPM_MANAGED_CAPABILITIES = Object.freeze([
+  "website",
+  "tutorial",
+  "install",
+  "update",
+  "repair",
+  "open",
+  "uninstall"
+]);
+
 function npmCli(entry) {
   return Object.freeze({
     ...entry,
     moduleId: "cli-managed",
     productType: "cli",
     kind: "CLI",
-    capabilities: MANAGED_CAPABILITIES,
+    capabilities: NPM_MANAGED_CAPABILITIES,
     requirements: Object.freeze(entry.requirements || ["node"]),
     cli: Object.freeze({ ...entry.cli, driver: "npm" })
   });
