@@ -162,6 +162,27 @@ test("catalog search finds the next observability and connectable products", () 
   }
 });
 
+test("catalog search finds the closed research backlog without unrelated vendors", () => {
+  const expected = {
+    Skales: ["skales"],
+    "PixVerse CLI": ["pixverse"],
+    "Onshape AI Advisor": ["ptc"],
+    "Benchling AI": ["benchling"],
+    "Anytype CLI": ["anytype"],
+    "Open Interpreter Desktop": ["open-interpreter"],
+    "Superhuman Docs": ["coda"],
+    "Coda AI": ["coda"]
+  };
+
+  for (const [query, vendorIds] of Object.entries(expected)) {
+    assert.deepEqual(
+      search(query).vendors.map(({ vendor }) => vendor.id),
+      vendorIds,
+      query
+    );
+  }
+});
+
 test("catalog search projects resources into every enabled current or future store", () => {
   const source = {
     vendors: [

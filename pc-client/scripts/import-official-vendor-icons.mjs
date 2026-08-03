@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
 const { createVendorIconStore } = require("../admin/vendor-icon-store.cjs");
+const { validateCatalog } = require("../shared/catalog.cjs");
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const catalogPath = path.join(root, "admin", "data", "catalog-v1.json");
@@ -114,6 +115,130 @@ const reviewedIconSources = Object.freeze({
     assetUrl: "https://dhygzobemt712.cloudfront.net/Logo/Social_Circle_Blue.png",
     sourceUrl: "https://brand.webflow.com/brand-assets"
   },
+  activepieces: {
+    assetUrl: "https://www.activepieces.com/logo.svg",
+    sourceUrl: "https://www.activepieces.com/"
+  },
+  affine: {
+    assetUrl: "https://affine.pro/favicon-96.png",
+    sourceUrl: "https://affine.pro/"
+  },
+  aftershoot: {
+    assetUrl: "https://aftershoot.com/wp-content/uploads/2025/08/aftershoot-logo-favicon.webp",
+    sourceUrl: "https://aftershoot.com/"
+  },
+  agno: {
+    assetUrl: "https://cdn.prod.website-files.com/6796d350b8c706e4533e7e32/68a85d04c4b355c4accb0f9f_256.png",
+    sourceUrl: "https://www.agno.com/"
+  },
+  anydesk: {
+    assetUrl: "https://anydesk.com.cn/_static/img/favicon/apple-touch-icon.png",
+    sourceUrl: "https://anydesk.com.cn/zhs"
+  },
+  audacity: {
+    assetUrl: "https://www.audacityteam.org/apple-touch-icon.png",
+    sourceUrl: "https://www.audacityteam.org/"
+  },
+  augment: {
+    assetUrl: "https://www.augmentcode.com/favicon.svg",
+    sourceUrl: "https://www.augmentcode.com/"
+  },
+  bardeen: {
+    assetUrl: "https://cdn.prod.website-files.com/67a4e756231fbcd6386ec06a/68ef8291b04588fc181bb136_Bardeen-Webclip.svg",
+    sourceUrl: "https://www.bardeen.ai/"
+  },
+  braintrust: {
+    assetUrl: "https://www.braintrust.dev/icon180.png?v=2",
+    sourceUrl: "https://www.braintrust.dev/"
+  },
+  canarymail: {
+    assetUrl: "https://cdn.prod.website-files.com/6774d6b0372116ea34d8e8a9/67a5f7ed1a0bdbaa336ce531_Logo%20for%20App%20icon%20CR%20256.png",
+    sourceUrl: "https://canarymail.io/"
+  },
+  cloudinary: {
+    assetUrl: "https://cloudinary-res.cloudinary.com/image/upload/f_auto,q_auto/c_scale,w_196/v1597183771/website/cloudinary_web_favicon.png",
+    sourceUrl: "https://cloudinary.com/"
+  },
+  coderabbit: {
+    assetUrl: "https://www.coderabbit.ai/android-chrome-512x512.png?v=4",
+    sourceUrl: "https://www.coderabbit.ai/"
+  },
+  cognition: {
+    assetUrl: "https://devin.ai/favicon.svg",
+    sourceUrl: "https://devin.ai/"
+  },
+  continue: {
+    assetUrl: "https://continue.dev/icon-192.png",
+    sourceUrl: "https://continue.dev/"
+  },
+  daytona: {
+    assetUrl: "https://framerusercontent.com/images/6WPclDLAHHQgPFeA2DRTW1OXVSU.png",
+    sourceUrl: "https://www.daytona.io/"
+  },
+  e2b: {
+    assetUrl: "https://cdn.prod.website-files.com/6717bb6618f6a40d53ac2929/6a2a7d84c914ca7bc2dd1aab_Favicon_512x512.png",
+    sourceUrl: "https://e2b.dev/"
+  },
+  "factory-ai": {
+    assetUrl: "https://factory.ai/favicon.svg",
+    sourceUrl: "https://factory.ai/"
+  },
+  gitbutler: {
+    assetUrl: "https://gitbutler.com/favicon/favicon.svg",
+    sourceUrl: "https://gitbutler.com/"
+  },
+  greptile: {
+    assetUrl: "https://www.greptile.com/greptile-brand-mark.png",
+    sourceUrl: "https://www.greptile.com/"
+  },
+  helicone: {
+    assetUrl: "https://www.helicone.ai/static/logo.webp",
+    sourceUrl: "https://www.helicone.ai/"
+  },
+  kilo: {
+    assetUrl: "https://kilo.ai/favicon/favicon.svg?v=2",
+    sourceUrl: "https://kilo.ai/"
+  },
+  mastra: {
+    assetUrl: "https://mastra.ai/favicon/new-brand/icon-512.png",
+    sourceUrl: "https://mastra.ai/favicon/new-brand/icon-512.png"
+  },
+  onlyoffice: {
+    assetUrl: "https://static-site.onlyoffice.com/public/images/favicons/favicon325.png",
+    sourceUrl: "https://www.onlyoffice.com/"
+  },
+  opusclip: {
+    assetUrl: "https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/6435197bfb1d6e486e04c37b_webclip.png",
+    sourceUrl: "https://www.opus.pro/"
+  },
+  pandadoc: {
+    assetUrl: "https://www.pandadoc.com/favicon.ico?favicon.0hplvhjssgw-1.ico",
+    sourceUrl: "https://www.pandadoc.com/"
+  },
+  qodo: {
+    assetUrl: "https://www.qodo.ai/wp-content/uploads/2025/03/qodo-fav-300x300.png",
+    sourceUrl: "https://www.qodo.ai/"
+  },
+  "spark-mail": {
+    assetUrl: "https://cdn-rdstaticassets.readdle.com/assets/spark/spark3/common/favicon-icons/spark-icon-180x180.png?1770301849",
+    sourceUrl: "https://sparkmailapp.com/"
+  },
+  tailscale: {
+    assetUrl: "https://tailscale.com/favicon.svg",
+    sourceUrl: "https://tailscale.com/"
+  },
+  taskade: {
+    assetUrl: "https://www.taskade.com/favicon.svg",
+    sourceUrl: "https://www.taskade.com/"
+  },
+  zendesk: {
+    assetUrl: "https://d1eipm3vz40hy0.cloudfront.net/images/logos/favicons/zendesk-icon-152.png",
+    sourceUrl: "https://d1eipm3vz40hy0.cloudfront.net/images/logos/favicons/zendesk-icon-152.png"
+  },
+  "zeroclaw-labs": {
+    assetUrl: "https://www.zeroclawlabs.ai/images/zeroclawlabs.png",
+    sourceUrl: "https://www.zeroclawlabs.ai/"
+  }
 });
 const officialGitHubOrganizations = Object.freeze({
   cline: ["cline", "184127137"],
@@ -152,7 +277,31 @@ const officialGitHubOrganizations = Object.freeze({
   meshy: ["meshy-dev", "160386200"],
   shengshu: ["shengshu-ai", "133188292"],
   pixverse: ["PixVerseAI", "204290266"],
-  discord: ["discord", "1965106"]
+  discord: ["discord", "1965106"],
+  ansys: ["ansys", "66023092"],
+  cesium: ["CesiumGS", "54716382"],
+  openhands: ["OpenHands", "225919603"],
+  "significant-gravitas": ["Significant-Gravitas", "130738209"],
+  agent0ai: ["agent0ai", "216033749"],
+  "browser-use": ["browser-use", "192012301"],
+  skyvern: ["Skyvern-AI", "141457985"],
+  "foundation-agents": ["FoundationAgents", "198047230"],
+  "rightnow-ai": ["RightNow-AI", "226207176"],
+  "near-ai": ["nearai", "29134221"],
+  hkuds: ["HKUDS", "118165258"],
+  nanoco: ["nanocoai", "255066954"],
+  astrbot: ["AstrBotDevs", "197911947"],
+  kortix: ["kortix-ai", "170767358"],
+  "swe-agent": ["SWE-agent", "166046056"],
+  letta: ["letta-ai", "177780362"],
+  rowboat: ["rowboatlabs", "172591271"],
+  plandex: ["plandex-ai", "148917357"],
+  "simular-ai": ["simular-ai", "99358647"],
+  bytebot: ["bytebot-ai", "154629106"],
+  voltagent: ["VoltAgent", "201282378"],
+  qupath: ["qupath", "21292410"],
+  screenpipe: ["screenpipe", "259178917"],
+  "docling-project": ["docling-project", "188446108"]
 });
 
 function attributes(tag) {
@@ -404,6 +553,12 @@ function reviewedTextFallbacks() {
   return new Set(Object.keys(manifest.vendors || {}));
 }
 
+function hasExactReviewedSource(vendorId) {
+  return Boolean(
+    reviewedIconSources[vendorId] || officialGitHubOrganizations[vendorId]
+  );
+}
+
 function removeUnrelatedSharedAssets(catalog, textFallbacks) {
   const manifest = JSON.parse(fs.readFileSync(sourceManifestPath, "utf8"));
   for (const vendor of catalog.vendors) {
@@ -445,10 +600,15 @@ function syncSourceManifest(catalog) {
 
 async function main() {
   const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
+  const fallbackManifest = JSON.parse(
+    fs.readFileSync(fallbackManifestPath, "utf8")
+  );
   const textFallbacks = reviewedTextFallbacks();
   removeUnrelatedSharedAssets(catalog, textFallbacks);
   const queue = catalog.vendors.filter(
-    (vendor) => !vendor.iconAsset && !textFallbacks.has(vendor.id)
+    (vendor) =>
+      !vendor.iconAsset &&
+      (!textFallbacks.has(vendor.id) || hasExactReviewedSource(vendor.id))
   );
   const results = [];
   let cursor = 0;
@@ -466,8 +626,15 @@ async function main() {
     const vendor = catalog.vendors.find((entry) => entry.id === result.vendor.id);
     vendor.iconAsset = result.asset;
     vendor.iconUrl = "";
+    delete fallbackManifest.vendors[vendor.id];
   }
+  validateCatalog(catalog);
   fs.writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+  fs.writeFileSync(
+    fallbackManifestPath,
+    `${JSON.stringify(fallbackManifest, null, 2)}\n`,
+    "utf8"
+  );
   syncSourceManifest(catalog);
   const imported = results.filter((result) => result.asset).length;
   process.stdout.write(`Imported ${imported}/${queue.length}; total ${catalog.vendors.filter((vendor) => vendor.iconAsset).length}/${catalog.vendors.length}\n`);

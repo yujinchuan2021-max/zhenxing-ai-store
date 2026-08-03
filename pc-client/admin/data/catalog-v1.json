@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-03T05:48:13.306Z",
+  "updatedAt": "2026-08-03T06:34:33.838Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -9159,6 +9159,82 @@
           "enabled": true,
           "order": 0,
           "directoryKind": "ai-tool"
+        },
+        {
+          "id": "laiye-adp",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "来也智能体文档处理",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "面向企业文档理解和处理的智能体产品；API、MCP、CLI 与 Skill 是入口或资源，不重复建立一级产品。",
+          "website": "https://laiye.com/product/adp-platform",
+          "tutorial": "https://documents.laiye.com/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 来也智能体文档处理",
+              "url": "https://laiye.com/product/adp-platform"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://documents.laiye.com/"
+            }
+          ]
+        },
+        {
+          "id": "laiye-rpa",
+          "enabled": true,
+          "order": 2,
+          "directoryKind": "ai-connectable",
+          "name": "来也 RPA",
+          "kind": "桌面端",
+          "category": "工作流自动化",
+          "description": "可接入大模型的 Windows/Linux 流程自动化产品；自动化能操作业务系统，执行前必须确认权限。",
+          "website": "https://laiye.com/product/rpa-platform",
+          "tutorial": "https://documents.laiye.com/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://laiye.com/product/rpa-platform"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 来也 RPA Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://documents.laiye.com/"
+            }
+          ]
         }
       ],
       "enabled": true,
@@ -9961,6 +10037,42 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "cloudflare-agents",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Cloudflare Agents",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "基于 Cloudflare Workers 的智能体开发平台，提供状态、调度、WebHook 和 MCP 接入能力。",
+          "website": "https://www.cloudflare.com/products/agents/",
+          "tutorial": "https://developers.cloudflare.com/agents/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Cloudflare Agents",
+              "url": "https://www.cloudflare.com/products/agents/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developers.cloudflare.com/agents/"
+            }
+          ]
         }
       ],
       "order": 105,
@@ -10064,6 +10176,37 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "sentry-seer-agent",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Sentry Seer Agent",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "结合 Sentry 上下文分析错误、定位根因并提出或执行代码修复的开发智能体。",
+          "website": "https://sentry.io/product/seer/agent/",
+          "tutorial": "https://sentry.io/product/seer/agent/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Sentry Seer Agent",
+              "url": "https://sentry.io/product/seer/agent/"
+            }
           ]
         }
       ],
@@ -10487,6 +10630,37 @@
               "url": "https://help.asana.com/s/article/asana-desktop-app?language=en_US"
             }
           ]
+        },
+        {
+          "id": "asana-ai-teammates",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Asana AI Teammates",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "在 Asana Work Graph 上协作并执行项目工作的团队智能体，沿用工作区中的访问权限。",
+          "website": "https://asana.com/product/ai/ai-teammates",
+          "tutorial": "https://asana.com/product/ai/ai-teammates",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Asana AI Teammates",
+              "url": "https://asana.com/product/ai/ai-teammates"
+            }
+          ]
         }
       ],
       "order": 114,
@@ -10530,6 +10704,99 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "hubspot-customer-agent",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "HubSpot Customer Agent",
+          "kind": "其他产品",
+          "category": "客户服务",
+          "description": "基于 HubSpot 客户与知识数据回答问题、处理常见服务请求并把复杂会话转交人工。",
+          "website": "https://www.hubspot.com/products/artificial-intelligence/ai-customer-service-agent",
+          "tutorial": "https://www.hubspot.com/products/artificial-intelligence/ai-customer-service-agent",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 HubSpot Customer Agent",
+              "url": "https://www.hubspot.com/products/artificial-intelligence/ai-customer-service-agent"
+            }
+          ]
+        },
+        {
+          "id": "hubspot-prospecting-agent",
+          "enabled": true,
+          "order": 2,
+          "directoryKind": "ai-tool",
+          "name": "HubSpot Prospecting Agent",
+          "kind": "其他产品",
+          "category": "营销与搜索",
+          "description": "在 HubSpot CRM 中研究账户、识别联系人并起草销售触达；自动发送前应由组织配置审核策略。",
+          "website": "https://www.hubspot.com/products/sales/ai-prospecting-agent",
+          "tutorial": "https://www.hubspot.com/products/sales/ai-prospecting-agent",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 HubSpot Prospecting Agent",
+              "url": "https://www.hubspot.com/products/sales/ai-prospecting-agent"
+            }
+          ]
+        },
+        {
+          "id": "hubspot-data-agent",
+          "enabled": true,
+          "order": 3,
+          "directoryKind": "ai-tool",
+          "name": "HubSpot Data Agent",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "研究 CRM、通话、邮件、文档与网页并生成客户洞察；结果和执行仍受 HubSpot 账户权限控制。",
+          "website": "https://www.hubspot.com/products/artificial-intelligence/ai-data-agent",
+          "tutorial": "https://www.hubspot.com/products/artificial-intelligence/ai-data-agent",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 HubSpot Data Agent",
+              "url": "https://www.hubspot.com/products/artificial-intelligence/ai-data-agent"
+            }
           ]
         }
       ],
@@ -10839,6 +11106,77 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "uipath-agent-builder",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "UiPath Agent Builder",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "用于设计、测试和治理企业智能体的 UiPath 平台产品，可与自动化流程和人工审批协同。",
+          "website": "https://www.uipath.com/platform/agentic-automation/agentic-ai/agent-builder",
+          "tutorial": "https://www.uipath.com/platform/agentic-automation/agentic-ai/agent-builder",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 UiPath Agent Builder",
+              "url": "https://www.uipath.com/platform/agentic-automation/agentic-ai/agent-builder"
+            }
+          ]
+        },
+        {
+          "id": "uipath-studio",
+          "enabled": true,
+          "order": 2,
+          "directoryKind": "ai-connectable",
+          "name": "UiPath Studio",
+          "kind": "桌面端",
+          "category": "工作流自动化",
+          "description": "Windows 自动化开发产品，与 Agent Builder 有宿主关系但不是同一产品；自动化执行前仍需权限和人工确认。",
+          "website": "https://www.uipath.com/product/studio",
+          "tutorial": "https://www.uipath.com/platform/agentic-automation/agentic-ai/agent-builder",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.uipath.com/product/studio"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 UiPath Studio Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.uipath.com/platform/agentic-automation/agentic-ai/agent-builder"
+            }
+          ]
         }
       ],
       "order": 122,
@@ -10912,8 +11250,8 @@
           "name": "Adobe Creative Cloud",
           "kind": "桌面端",
           "category": "图像与设计",
-          "description": "Adobe 创意工具可通过官方 Adobe for creativity 连接器接入 Claude。",
-          "website": "https://www.adobe.com/creativecloud.html",
+          "description": "Adobe 创意工具套件及官方 AI 能力；Windows 安装、更新和卸载由 Adobe Creative Cloud 管理。",
+          "website": "https://www.adobe.com/download/creative-cloud",
           "tutorial": "https://developer.adobe.com/adobe-for-creativity/getting-started/",
           "productType": "desktop-official",
           "moduleId": "desktop-official",
@@ -10926,6 +11264,22 @@
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.adobe.com/creativecloud.html"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Adobe Creative Cloud Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developer.adobe.com/adobe-for-creativity/getting-started/"
+            }
           ]
         },
         {
@@ -11302,6 +11656,42 @@
               "url": "https://help.autodesk.com/view/RVT/2027/ENU/?guid=GUID-68D8FE6D-C5B0-4503-AE27-02C715BAC25B"
             }
           ]
+        },
+        {
+          "id": "autodesk-flow-studio",
+          "enabled": true,
+          "order": 3,
+          "directoryKind": "ai-tool",
+          "name": "Autodesk Flow Studio",
+          "kind": "其他产品",
+          "category": "3D 创作",
+          "description": "把实拍或动画视频转换为可编辑 CG 场景的云端 AI 3D 工具，可导出到 Maya、Blender 和 Unreal。",
+          "website": "https://www.autodesk.com/products/flow-studio/overview",
+          "tutorial": "https://www.autodesk.com/products/flow-studio/product-details",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Autodesk Flow Studio",
+              "url": "https://www.autodesk.com/products/flow-studio/overview"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.autodesk.com/products/flow-studio/product-details"
+            }
+          ]
         }
       ],
       "order": 125,
@@ -11661,6 +12051,37 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "grafana-agent-observability",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Grafana Agent Observability",
+          "kind": "其他产品",
+          "category": "可观测性",
+          "description": "用于监控智能体会话、成本、质量和性能的 Grafana Cloud 能力；目前处于 Public Preview。",
+          "website": "https://grafana.com/docs/grafana-cloud/machine-learning/agent-observability/",
+          "tutorial": "https://grafana.com/docs/grafana-cloud/machine-learning/agent-observability/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Grafana Agent Observability",
+              "url": "https://grafana.com/docs/grafana-cloud/machine-learning/agent-observability/"
+            }
           ]
         }
       ],
@@ -12157,6 +12578,68 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "servicenow-build-agent",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "ServiceNow Build Agent",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "面向 ServiceNow 应用与工作流的受治理开发智能体，可连接 MCP 客户端和常用编码工具。",
+          "website": "https://www.servicenow.com/products/vibe-coding.html",
+          "tutorial": "https://www.servicenow.com/products/vibe-coding.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 ServiceNow Build Agent",
+              "url": "https://www.servicenow.com/products/vibe-coding.html"
+            }
+          ]
+        },
+        {
+          "id": "servicenow-ai-agents",
+          "enabled": true,
+          "order": 2,
+          "directoryKind": "ai-tool",
+          "name": "ServiceNow AI Agents",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "在 ServiceNow AI Platform 中构建、部署和治理企业智能体，权限与执行范围由组织配置控制。",
+          "website": "https://www.servicenow.com/products/ai-agents.html",
+          "tutorial": "https://www.servicenow.com/products/ai-agents.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 ServiceNow AI Agents",
+              "url": "https://www.servicenow.com/products/ai-agents.html"
+            }
+          ]
         }
       ],
       "order": 141
@@ -12606,6 +13089,37 @@
               "url": "https://developers.zoom.us/docs/mcp/zoom-mcp-server/"
             }
           ]
+        },
+        {
+          "id": "zoom-virtual-agent",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Zoom Virtual Agent",
+          "kind": "其他产品",
+          "category": "客户服务",
+          "description": "用于网站、应用和联络中心自助服务的对话式智能体，知识源和转人工规则由组织配置。",
+          "website": "https://www.zoom.com/en/products/virtual-agent/",
+          "tutorial": "https://www.zoom.com/en/products/virtual-agent/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Zoom Virtual Agent",
+              "url": "https://www.zoom.com/en/products/virtual-agent/"
+            }
+          ]
         }
       ],
       "order": 150
@@ -12644,6 +13158,37 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "shopify-commerce-for-agents",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Shopify Commerce for Agents",
+          "kind": "其他产品",
+          "category": "商业与支付",
+          "description": "让 AI 智能体接入商品目录、通用购物车和结账能力的 Shopify 平台，交易由用户和商家规则确认。",
+          "website": "https://www.shopify.com/commerce-for-agents",
+          "tutorial": "https://www.shopify.com/commerce-for-agents",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Shopify Commerce for Agents",
+              "url": "https://www.shopify.com/commerce-for-agents"
+            }
           ]
         }
       ],
@@ -12749,7 +13294,12 @@
           ]
         }
       ],
-      "order": 153
+      "order": 153,
+      "iconAsset": {
+        "path": "vendor-icons/77f7543b2e368a45fc6208cc36915f812c22b1fe32465327deeb402fe4600644.jpg",
+        "sha256": "77f7543b2e368a45fc6208cc36915f812c22b1fe32465327deeb402fe4600644",
+        "mimeType": "image/jpeg"
+      }
     },
     {
       "id": "cesium",
@@ -12788,7 +13338,12 @@
           ]
         }
       ],
-      "order": 154
+      "order": 154,
+      "iconAsset": {
+        "path": "vendor-icons/242c404b495f424af2a1fbf8b691dd1e86a918e7f5f31a5cc5b5ff85eba3497f.png",
+        "sha256": "242c404b495f424af2a1fbf8b691dd1e86a918e7f5f31a5cc5b5ff85eba3497f",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "siemens",
@@ -12903,6 +13458,41 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://docs.rapidminer.com/latest/studio/installation/index.html"
+            }
+          ]
+        },
+        {
+          "id": "siemens-eigen-engineering-agent",
+          "enabled": true,
+          "order": 3,
+          "directoryKind": "ai-connectable",
+          "name": "Eigen Engineering Agent",
+          "kind": "桌面端",
+          "category": "工程计算与仿真",
+          "description": "连接 TIA Portal 的受许可工程组件，需要受支持版本、组织账户和许可证；不是通用独立 Agent。",
+          "website": "https://www.siemens.com/en-us/products/tia-portal/",
+          "tutorial": "https://www.siemens.com/en-us/products/tia-portal/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://press.siemens.com/global/en/pressrelease/siemens-launches-eigen-engineering-agent-bringing-purpose-built-ai-industrial"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Eigen Engineering Agent Windows 版"
             }
           ]
         }
@@ -13021,6 +13611,99 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "databricks-lakebase",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Databricks Lakebase",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "面向数据应用与智能体的托管 PostgreSQL 数据库服务，访问范围沿用 Databricks 工作区权限。",
+          "website": "https://www.databricks.com/product/lakebase",
+          "tutorial": "https://www.databricks.com/product/lakebase",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Databricks Lakebase",
+              "url": "https://www.databricks.com/product/lakebase"
+            }
+          ]
+        },
+        {
+          "id": "databricks-agent-bricks",
+          "enabled": true,
+          "order": 2,
+          "directoryKind": "ai-tool",
+          "name": "Databricks Agent Bricks",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "用于构建、评估和治理数据智能体的平台产品，可连接企业数据、MCP 与外部工具。",
+          "website": "https://www.databricks.com/product/artificial-intelligence/agent-bricks",
+          "tutorial": "https://www.databricks.com/product/artificial-intelligence/agent-bricks",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Databricks Agent Bricks",
+              "url": "https://www.databricks.com/product/artificial-intelligence/agent-bricks"
+            }
+          ]
+        },
+        {
+          "id": "databricks-apps",
+          "enabled": true,
+          "order": 3,
+          "directoryKind": "ai-connectable",
+          "name": "Databricks Apps",
+          "kind": "其他产品",
+          "category": "网站与建站",
+          "description": "在 Databricks 上构建和托管数据与 AI 应用的独立产品，工作区身份和凭据由 Databricks 管理。",
+          "website": "https://www.databricks.com/product/databricks-apps",
+          "tutorial": "https://www.databricks.com/product/databricks-apps",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Databricks Apps",
+              "url": "https://www.databricks.com/product/databricks-apps"
+            }
           ]
         }
       ],
@@ -13224,6 +13907,72 @@
               "url": "https://neo4j.com/docs/desktop/current/"
             }
           ]
+        },
+        {
+          "id": "neo4j-aura-agent",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Neo4j Aura Agent",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "使用图数据构建和部署可追溯智能体的托管产品，支持 REST 与 MCP 接入。",
+          "website": "https://neo4j.com/product/aura-agent/",
+          "tutorial": "https://neo4j.com/product/aura-agent/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Neo4j Aura Agent",
+              "url": "https://neo4j.com/product/aura-agent/"
+            }
+          ]
+        },
+        {
+          "id": "neo4j-enterprise-studio",
+          "enabled": true,
+          "order": 2,
+          "directoryKind": "ai-connectable",
+          "name": "Neo4j Enterprise Studio",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "企业图数据开发与管理产品，不是 Aura Agent 或 Neo4j Desktop 的别名；授权和部署由 Neo4j 账户管理。",
+          "website": "https://neo4j.com/product/enterprise-studio/",
+          "tutorial": "https://neo4j.com/product/enterprise-studio/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://neo4j.com/product/enterprise-studio/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Neo4j Enterprise Studio Windows 版"
+            }
+          ]
         }
       ],
       "order": 161
@@ -13262,6 +14011,37 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "confluent-streaming-agents",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Confluent Streaming Agents",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "在托管 Kafka 与 Flink 数据流上构建实时智能体，支持 MCP 和 A2A；数据访问遵循 Confluent 权限。",
+          "website": "https://www.confluent.io/product/streaming-agents/",
+          "tutorial": "https://www.confluent.io/product/streaming-agents/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Confluent Streaming Agents",
+              "url": "https://www.confluent.io/product/streaming-agents/"
+            }
           ]
         }
       ],
@@ -13583,22 +14363,43 @@
           "order": 0,
           "directoryKind": "ai-tool",
           "name": "Lovable",
-          "kind": "其他产品",
+          "kind": "桌面端",
           "category": "编程开发",
-          "description": "通过 AI 对话构建、迭代并部署全栈 Web 应用。",
-          "website": "https://lovable.dev/",
+          "description": "通过 AI 对话构建和部署 Web 应用，并在 Windows 桌面端管理项目、标签页与本地 MCP。",
+          "website": "https://lovable.dev/download",
           "tutorial": "https://docs.lovable.dev/introduction/welcome",
-          "productType": "web",
-          "moduleId": "web-link",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://lovable.dev/"
+            },
+            {
+              "type": "web",
+              "label": "Lovable 网页版",
+              "url": "https://lovable.dev/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Lovable Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.lovable.dev/introduction/welcome"
+            }
           ]
         }
       ]
@@ -13676,6 +14477,41 @@
           "uninstallPolicy": "not-managed",
           "capabilities": [
             "tutorial"
+          ]
+        },
+        {
+          "id": "tabnine-cli",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Tabnine CLI",
+          "kind": "CLI",
+          "category": "编程开发",
+          "description": "运行在命令行中的编码智能体，用于终端内的代码、工作流和命令任务；它不是可视化桌面软件。",
+          "website": "https://www.tabnine.com/platform-cli/",
+          "tutorial": "https://www.tabnine.com/platform-cli/",
+          "productType": "cli-official",
+          "moduleId": "cli-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "CLI 官网",
+              "url": "https://www.tabnine.com/platform-cli/"
+            },
+            {
+              "type": "cli",
+              "label": "查看 CLI 安装说明"
+            }
           ]
         }
       ]
@@ -13949,6 +14785,46 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "deepgram-cli",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Deepgram CLI",
+          "kind": "CLI",
+          "category": "音频创作",
+          "description": "运行在命令行中的 Deepgram 工具，用于语音转文字、文字转语音、账户操作、MCP 与插件；它不是可视化桌面软件。",
+          "website": "https://developers.deepgram.com/developer-tools/cli/getting-started",
+          "tutorial": "https://developers.deepgram.com/developer-tools/cli/installation",
+          "productType": "cli-official",
+          "moduleId": "cli-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "CLI 官网",
+              "url": "https://developers.deepgram.com/developer-tools/cli/getting-started"
+            },
+            {
+              "type": "cli",
+              "label": "查看 CLI 安装说明"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developers.deepgram.com/developer-tools/cli/installation"
+            }
           ]
         }
       ]
@@ -14567,6 +15443,46 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://github.com/PixVerseAI/PixVerse-MCP"
+            }
+          ]
+        },
+        {
+          "id": "pixverse-cli",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "PixVerse CLI",
+          "kind": "CLI",
+          "category": "视频创作",
+          "description": "运行在命令行中的图像与视频生成工具，要求 Node.js 20+、OAuth 和账户点数；它不是可视化桌面软件。",
+          "website": "https://pixverse.ai/en",
+          "tutorial": "https://pixverse.ai/en/blog/pixverse-cli-generate-ai-videos-images-from-terminal",
+          "productType": "cli-official",
+          "moduleId": "cli-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "CLI 官网",
+              "url": "https://pixverse.ai/en"
+            },
+            {
+              "type": "cli",
+              "label": "查看 CLI 安装说明"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://pixverse.ai/en/blog/pixverse-cli-generate-ai-videos-images-from-terminal"
             }
           ]
         }
@@ -16142,7 +17058,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/3c0d862abe315ae33b2647628210e81ffc7be0d08c72cb5cc2f9514d95407402.svg",
+        "sha256": "3c0d862abe315ae33b2647628210e81ffc7be0d08c72cb5cc2f9514d95407402",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "tldv",
@@ -16252,7 +17173,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/5fef5156508309233271bb1b571243b562452fc08a0f7242b26eb44d29050453.webp",
+        "sha256": "5fef5156508309233271bb1b571243b562452fc08a0f7242b26eb44d29050453",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "excire",
@@ -16681,13 +17607,13 @@
     },
     {
       "id": "coda",
-      "name": "Coda",
-      "initial": "C",
-      "mark": "C",
+      "name": "Superhuman Docs",
+      "initial": "S",
+      "mark": "S",
       "color": "#f46a54",
-      "description": "提供文档、表格、应用构建与 Coda AI 协作平台。",
-      "website": "https://coda.io/",
-      "tutorial": "https://help.coda.io/hc/en-us/articles/39555802361613-Coda-AI-features",
+      "description": "原 Coda，现已更名为 Superhuman Docs，提供协作文档、结构化数据、自动化与 Docs AI。",
+      "website": "https://docs.superhuman.com/",
+      "tutorial": "https://help.superhuman.com/hc/en-us/articles/46210093285773-What-s-changing-Coda-becomes-Superhuman-Docs",
       "enabled": true,
       "order": 220,
       "iconUrl": "",
@@ -16697,12 +17623,12 @@
           "enabled": true,
           "order": 0,
           "directoryKind": "ai-tool",
-          "name": "Coda AI",
+          "name": "Superhuman Docs AI（原 Coda AI）",
           "kind": "其他产品",
           "category": "文档与知识库",
-          "description": "网页文档与团队工作台，可使用 AI 助手、AI 列和 AI 块生成、总结与整理内容；额度和数据范围以方案为准。",
-          "website": "https://coda.io/product/ai",
-          "tutorial": "https://help.coda.io/hc/en-us/articles/39555802361613-Coda-AI-features",
+          "description": "在协作文档中起草内容、构建和更新表格、整理数据并处理评论；Windows 桌面版尚未发布。",
+          "website": "https://docs.superhuman.com/",
+          "tutorial": "https://help.superhuman.com/hc/en-us/articles/46210093285773-What-s-changing-Coda-becomes-Superhuman-Docs",
           "productType": "web",
           "moduleId": "web-link",
           "installProfileId": "",
@@ -16718,13 +17644,13 @@
           "entryPoints": [
             {
               "type": "web",
-              "label": "打开 Coda AI",
-              "url": "https://coda.io/product/ai"
+              "label": "打开 Superhuman Docs AI（原 Coda AI）",
+              "url": "https://docs.superhuman.com/"
             },
             {
               "type": "tutorial",
               "label": "使用教程",
-              "url": "https://help.coda.io/hc/en-us/articles/39555802361613-Coda-AI-features"
+              "url": "https://help.superhuman.com/hc/en-us/articles/46210093285773-What-s-changing-Coda-becomes-Superhuman-Docs"
             }
           ]
         }
@@ -18033,7 +18959,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/aa069300ed437276a1d9d24a6b714eae45c8cce24f947d87ee27906049ce33fb.png",
+        "sha256": "aa069300ed437276a1d9d24a6b714eae45c8cce24f947d87ee27906049ce33fb",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "significant-gravitas",
@@ -18084,7 +19015,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/78c91f8e22aff11e7cad19aa72520696e17ca25c7c9f94bfe34ff62fd5385d08.png",
+        "sha256": "78c91f8e22aff11e7cad19aa72520696e17ca25c7c9f94bfe34ff62fd5385d08",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "agent0ai",
@@ -18122,7 +19058,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/3013dbd5dea350073b4500a3ee293c23ddbdfa5f6cd3e5811095b62bbb29ff4e.png",
+        "sha256": "3013dbd5dea350073b4500a3ee293c23ddbdfa5f6cd3e5811095b62bbb29ff4e",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "browser-use",
@@ -18197,7 +19138,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/a6bf7da3cd10ba6e044510705a01f7a685e44cfefe44a8c518b81b985b34095c.png",
+        "sha256": "a6bf7da3cd10ba6e044510705a01f7a685e44cfefe44a8c518b81b985b34095c",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "skyvern",
@@ -18271,7 +19217,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/b36bd52c86bd4c28d921df8b30bbc93fee7ff678114d649465f58dbf0837135a.png",
+        "sha256": "b36bd52c86bd4c28d921df8b30bbc93fee7ff678114d649465f58dbf0837135a",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "foundation-agents",
@@ -18334,7 +19285,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/2a91c47a935de2d48caf93cebfcbf937bcf5cd07bc2733f525e36b2b2aa45147.png",
+        "sha256": "2a91c47a935de2d48caf93cebfcbf937bcf5cd07bc2733f525e36b2b2aa45147",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "rightnow-ai",
@@ -18373,7 +19329,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/0cdab918ede64893f53c5b351652a1da3e479b89d750b65a9fdbda494b7c6bc5.png",
+        "sha256": "0cdab918ede64893f53c5b351652a1da3e479b89d750b65a9fdbda494b7c6bc5",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "zeroclaw-labs",
@@ -18412,7 +19373,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/42abc50be9f592e747f8c3c8a55ce41c1921e5b605a705e69d655c0c4355624e.png",
+        "sha256": "42abc50be9f592e747f8c3c8a55ce41c1921e5b605a705e69d655c0c4355624e",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "near-ai",
@@ -18451,7 +19417,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/9ee1852419b69d6d00fa887faad0dead118ba05ca4b44367dc48ada237f85273.png",
+        "sha256": "9ee1852419b69d6d00fa887faad0dead118ba05ca4b44367dc48ada237f85273",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "hkuds",
@@ -18490,7 +19461,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/79d9584ddc926a046814185f4c0c4ef33952b2ad3e76e169ab11acb0950a6f11.jpg",
+        "sha256": "79d9584ddc926a046814185f4c0c4ef33952b2ad3e76e169ab11acb0950a6f11",
+        "mimeType": "image/jpeg"
+      }
     },
     {
       "id": "nanoco",
@@ -18529,7 +19505,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/9fddb0a11e89340d6017db314fd0a938bce01e4ac2a365a673e4907c3eaa56dc.png",
+        "sha256": "9fddb0a11e89340d6017db314fd0a938bce01e4ac2a365a673e4907c3eaa56dc",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "astrbot",
@@ -18567,7 +19548,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/77d2eafb93edb495b89d70a54b44370ca4bc1aad15fa2ae83e4f5bd04774ae5f.png",
+        "sha256": "77d2eafb93edb495b89d70a54b44370ca4bc1aad15fa2ae83e4f5bd04774ae5f",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "langbot",
@@ -18643,6 +19629,46 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "open-interpreter-desktop",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Open Interpreter Desktop",
+          "kind": "桌面端",
+          "category": "智能体",
+          "description": "可跨应用、文件和浏览器执行操作的可视化产品；首次运行可能涉及 UAC，高风险提交、发送和删除必须确认。",
+          "website": "https://www.openinterpreter.com/desktop",
+          "tutorial": "https://www.openinterpreter.com/docs/desktop/install",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.openinterpreter.com/desktop"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Open Interpreter Desktop Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.openinterpreter.com/docs/desktop/install"
+            }
+          ]
         }
       ]
     },
@@ -18695,7 +19721,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/fe0753d2e3823bc1eb8a37943234fac63733b8c9e8abff0ca0402a6c7ddcd682.svg",
+        "sha256": "fe0753d2e3823bc1eb8a37943234fac63733b8c9e8abff0ca0402a6c7ddcd682",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "factory-ai",
@@ -18717,27 +19748,36 @@
           "directoryKind": "ai-tool",
           "name": "Factory Droids",
           "category": "智能体",
-          "description": "可规划、编写、测试并交付代码变更的云端软件开发智能体。",
-          "website": "https://factory.ai/product/droids",
+          "description": "跨 Windows 桌面、网页、移动端与 CLI 同步的软件开发智能体；桌面端提供本机访问和结果预览。",
+          "website": "https://factory.ai/product/desktop",
           "tutorial": "https://docs.factory.ai/welcome",
           "installProfileId": "",
           "requirements": [],
-          "kind": "其他产品",
-          "productType": "web",
-          "moduleId": "web-link",
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "kind": "桌面端",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
           ],
           "entryPoints": [
             {
-              "type": "web",
-              "label": "打开 Factory Droids",
+              "type": "website",
+              "label": "工具官网",
               "url": "https://factory.ai/product/droids"
+            },
+            {
+              "type": "web",
+              "label": "Factory Droids 网页版",
+              "url": "https://app.factory.ai/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Factory Droids Windows 版"
             },
             {
               "type": "tutorial",
@@ -18770,7 +19810,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/416ea4962d7b0b8be8bec7f7190c13c22d5f20fdcac401aa72886fd5c81d2fb2.svg",
+        "sha256": "416ea4962d7b0b8be8bec7f7190c13c22d5f20fdcac401aa72886fd5c81d2fb2",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "kortix",
@@ -18845,7 +19890,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/cc25f95a33181a9dd0d7e40fc1f9b14ba2412e321d8844d6e5441efdc7e87026.png",
+        "sha256": "cc25f95a33181a9dd0d7e40fc1f9b14ba2412e321d8844d6e5441efdc7e87026",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "flowith",
@@ -19049,7 +20099,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/cd1d09cbb20eef1b76a337f6cbf4abe49c6782166c477b62224f95c84288c900.svg",
+        "sha256": "cd1d09cbb20eef1b76a337f6cbf4abe49c6782166c477b62224f95c84288c900",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "lindy",
@@ -19214,7 +20269,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/2dfe54821d841d1d73b98fb621d7b7c0cbf003c4e0d8b9c1a26a38a8542871d1.png",
+        "sha256": "2dfe54821d841d1d73b98fb621d7b7c0cbf003c4e0d8b9c1a26a38a8542871d1",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "pydantic",
@@ -19290,7 +20350,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/7b74f6036dd4855083665253e633f42eb84610bf99501974deaa6928b225970a.png",
+        "sha256": "7b74f6036dd4855083665253e633f42eb84610bf99501974deaa6928b225970a",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "camel-ai",
@@ -19467,7 +20532,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/6d00ff2e78008037f53eb49439aae347350e93d93a0732d4ef52acd6bd1f86ed.png",
+        "sha256": "6d00ff2e78008037f53eb49439aae347350e93d93a0732d4ef52acd6bd1f86ed",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "kilo",
@@ -19529,7 +20599,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/0e8115fe04e4bb07a2122cb66ddc718a7cdfb18fdcfa020bf5dfb51fd92d75e9.svg",
+        "sha256": "0e8115fe04e4bb07a2122cb66ddc718a7cdfb18fdcfa020bf5dfb51fd92d75e9",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "swe-agent",
@@ -19568,7 +20643,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/2b165c5e6e9e1120143722eac74b934f553ec9eda79263b8ab6022834c196af6.png",
+        "sha256": "2b165c5e6e9e1120143722eac74b934f553ec9eda79263b8ab6022834c196af6",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "letta",
@@ -19652,7 +20732,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/40b1a0f8a9a230b6952f99ebf8374a5a1356a675b55a6f1f1ce4d2e5668c0e8d.png",
+        "sha256": "40b1a0f8a9a230b6952f99ebf8374a5a1356a675b55a6f1f1ce4d2e5668c0e8d",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "activepieces",
@@ -19703,7 +20788,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/0addda76f840adcf5d0da2c5975eb6744d471ab7533bca22bcfae97fd232f515.svg",
+        "sha256": "0addda76f840adcf5d0da2c5975eb6744d471ab7533bca22bcfae97fd232f515",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "rowboat",
@@ -19758,7 +20848,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/b79fdc8453b8880f8ae59279c7aad3795e3b9d447dc65c1170d1df1129f99974.png",
+        "sha256": "b79fdc8453b8880f8ae59279c7aad3795e3b9d447dc65c1170d1df1129f99974",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "plandex",
@@ -19797,7 +20892,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/09dd9ffe832ebae5d4cac5738b5bc31d3e8b2e4dd6b28bca98e9e82c659ce830.png",
+        "sha256": "09dd9ffe832ebae5d4cac5738b5bc31d3e8b2e4dd6b28bca98e9e82c659ce830",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "simular-ai",
@@ -19836,7 +20936,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/e27c16edb4eaa7b9edf7a42339b9f7455dfd9b66071e01fe2af957c53838b26a.png",
+        "sha256": "e27c16edb4eaa7b9edf7a42339b9f7455dfd9b66071e01fe2af957c53838b26a",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "bytebot",
@@ -19874,7 +20979,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/31a3b725f36a52b7d03b7a7a1d3eb898ea08b48526d4e430404597feeaaa2bf3.png",
+        "sha256": "31a3b725f36a52b7d03b7a7a1d3eb898ea08b48526d4e430404597feeaaa2bf3",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "voltagent",
@@ -19912,7 +21022,12 @@
             "tutorial"
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/efc77025bc6956da1b52beb5a3e119a1ce59ea3fc94cef54119f44f5effead64.png",
+        "sha256": "efc77025bc6956da1b52beb5a3e119a1ce59ea3fc94cef54119f44f5effead64",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "praisonai",
@@ -20378,7 +21493,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/a14ae15806dbf183fb2017b4bd64da574bfca01371eda2ef287b8fcec466591b.png",
+        "sha256": "a14ae15806dbf183fb2017b4bd64da574bfca01371eda2ef287b8fcec466591b",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "orange-data-mining",
@@ -20943,7 +22063,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/f6dd3c2235d7b7b0ef384366e71d8ea260ea58f95bbd8d82b986fd6ede3d4964.png",
+        "sha256": "f6dd3c2235d7b7b0ef384366e71d8ea260ea58f95bbd8d82b986fd6ede3d4964",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "freshworks",
@@ -21210,7 +22335,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/2553eb7d732b7ddf947cd577c92398323bb93c13850ce57495b770833fc5abae.png",
+        "sha256": "2553eb7d732b7ddf947cd577c92398323bb93c13850ce57495b770833fc5abae",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "streamlabs",
@@ -21367,7 +22497,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/e2344294c131092ec1add3788d63e602e1be2d0753c3abf4af1fb995339326fc.png",
+        "sha256": "e2344294c131092ec1add3788d63e602e1be2d0753c3abf4af1fb995339326fc",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "thoughtspot",
@@ -21410,6 +22545,37 @@
               "type": "web",
               "label": "打开 Spotter",
               "url": "https://www.thoughtspot.com/product/agents/spotter"
+            }
+          ]
+        },
+        {
+          "id": "thoughtspot-analyst-studio",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "ThoughtSpot Analyst Studio",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "面向数据团队的 SQL、Python 与 AI 分析工作区；连接、查询和模型凭据由 ThoughtSpot 账户管理。",
+          "website": "https://www.thoughtspot.com/product/analyst-studio",
+          "tutorial": "https://www.thoughtspot.com/product/analyst-studio",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 ThoughtSpot Analyst Studio",
+              "url": "https://www.thoughtspot.com/product/analyst-studio"
             }
           ]
         }
@@ -21461,6 +22627,37 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/Qlik-Answers.htm"
+            }
+          ]
+        },
+        {
+          "id": "qlik-discovery-agent",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Qlik Discovery Agent",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "基于 Qlik Analytics Engine 发现异常和洞察的企业智能体，依赖 Qlik 应用、数据权限和账户。",
+          "website": "https://www.qlik.com/us/products/discovery-agent",
+          "tutorial": "https://www.qlik.com/us/products/discovery-agent",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Qlik Discovery Agent",
+              "url": "https://www.qlik.com/us/products/discovery-agent"
             }
           ]
         }
@@ -21766,7 +22963,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/5151bb83fc6ee1f848f183923f25ea92fc2125ec0e7495e2a55b47dc4fd10e81.svg",
+        "sha256": "5151bb83fc6ee1f848f183923f25ea92fc2125ec0e7495e2a55b47dc4fd10e81",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "qodo",
@@ -21817,7 +23019,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/8a338496614f7dac92f3f044f4e814472757cfe1056d3130ea66edd0f4645a78.png",
+        "sha256": "8a338496614f7dac92f3f044f4e814472757cfe1056d3130ea66edd0f4645a78",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "coderabbit",
@@ -21868,7 +23075,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/75b51ec347928b192586d9826bff07ff875f5cf807aaa6ad8afe1770f0817c6a.png",
+        "sha256": "75b51ec347928b192586d9826bff07ff875f5cf807aaa6ad8afe1770f0817c6a",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "greptile",
@@ -21919,7 +23131,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/cc27c930b12a7fee190a0697c95a2d602690d011a9b164b199d1679c899027ee.png",
+        "sha256": "cc27c930b12a7fee190a0697c95a2d602690d011a9b164b199d1679c899027ee",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "clickhouse",
@@ -22111,7 +23328,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/7123a7e3e7b1c4c6f2abe49a8327e7df1d942aa6ac6e3228c143944d9dd70980.webp",
+        "sha256": "7123a7e3e7b1c4c6f2abe49a8327e7df1d942aa6ac6e3228c143944d9dd70980",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "e2b",
@@ -22162,7 +23384,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/64ff7ac96691be50a8effda0b4dab8e598d43f3354fe14a61c37a7ca4890dde9.png",
+        "sha256": "64ff7ac96691be50a8effda0b4dab8e598d43f3354fe14a61c37a7ca4890dde9",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "cisco",
@@ -22214,6 +23441,37 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://help.webex.com/article/ub8jcj/"
+            }
+          ]
+        },
+        {
+          "id": "cisco-webex-ai-agent",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Webex AI Agent",
+          "kind": "其他产品",
+          "category": "客户服务",
+          "description": "用于客户自助服务和联络中心流程的 Webex 智能体，支持语音与数字渠道。",
+          "website": "https://www.webex.com/us/en/products/customer-experience/ai-agent.html",
+          "tutorial": "https://www.webex.com/us/en/products/customer-experience/ai-agent.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Webex AI Agent",
+              "url": "https://www.webex.com/us/en/products/customer-experience/ai-agent.html"
             }
           ]
         }
@@ -22370,7 +23628,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/299f00905d57a663a0e411a0d82b4490bc17f8acd5b1616e2021063fb30e3285.webp",
+        "sha256": "299f00905d57a663a0e411a0d82b4490bc17f8acd5b1616e2021063fb30e3285",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "onlyoffice",
@@ -22421,7 +23684,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/22a6bdf8cfe3012240b3c65b4ff93b4b4d5adc6a3edafcd00648093ce6007001.webp",
+        "sha256": "22a6bdf8cfe3012240b3c65b4ff93b4b4d5adc6a3edafcd00648093ce6007001",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "airtable",
@@ -22441,29 +23709,38 @@
           "enabled": true,
           "order": 0,
           "directoryKind": "ai-connectable",
-          "name": "Airtable Platform",
-          "kind": "其他产品",
+          "name": "Airtable",
+          "kind": "桌面端",
           "category": "办公自动化",
-          "description": "可协作数据表平台及官方远程 MCP；连接沿用用户在 Airtable 中已有的角色权限。",
-          "website": "https://www.airtable.com/",
+          "description": "可协作数据与业务应用平台，提供网页、Windows 客户端和官方远程 MCP；权限沿用用户角色。",
+          "website": "https://www.airtable.com/windows",
           "tutorial": "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server",
-          "productType": "web",
-          "moduleId": "web-link",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
           "installProfileId": "",
           "requirements": [],
-          "installPolicy": "open-product-website",
-          "downloadPolicy": "none",
-          "signaturePolicy": "not-applicable",
-          "uninstallPolicy": "not-managed",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
           "capabilities": [
             "website",
             "tutorial"
           ],
           "entryPoints": [
             {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.airtable.com/product"
+            },
+            {
               "type": "web",
-              "label": "打开 Airtable Platform",
-              "url": "https://www.airtable.com/"
+              "label": "Airtable 网页版",
+              "url": "https://airtable.com/login"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Airtable Windows 版"
             },
             {
               "type": "tutorial",
@@ -22523,7 +23800,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/97ae536e599454303582343be493360008242a7fe9cacc23509c6fe10aae7c97.png",
+        "sha256": "97ae536e599454303582343be493360008242a7fe9cacc23509c6fe10aae7c97",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "superwhisper",
@@ -22633,7 +23915,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/607be1ef85ee300a688c982cad9aaf33d5ac3b97b7f60c92ad8032aa4ad56200.png",
+        "sha256": "607be1ef85ee300a688c982cad9aaf33d5ac3b97b7f60c92ad8032aa4ad56200",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "pdfgear",
@@ -22963,7 +24250,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/c6d5b8a1c2c40d7899038d6a25c37236b94799a59eea83e39edd1c38cf682147.svg",
+        "sha256": "c6d5b8a1c2c40d7899038d6a25c37236b94799a59eea83e39edd1c38cf682147",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "affine",
@@ -23018,7 +24310,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/ff9929012d16ec79eea439f7ba02b2dc1f3e838cbf77d0906683fe1c50e1c25f.png",
+        "sha256": "ff9929012d16ec79eea439f7ba02b2dc1f3e838cbf77d0906683fe1c50e1c25f",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "appflowy",
@@ -23183,7 +24480,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/eb473b321dffde684089346620e05f55a5cc9ce4d5afd9f695d001d2c5ea75a8.png",
+        "sha256": "eb473b321dffde684089346620e05f55a5cc9ce4d5afd9f695d001d2c5ea75a8",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "canarymail",
@@ -23238,7 +24540,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/71d3c1c2ad071efde15c0fc832934efc044f39323750eb4aac2b5d420d0e9e01.png",
+        "sha256": "71d3c1c2ad071efde15c0fc832934efc044f39323750eb4aac2b5d420d0e9e01",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "movavi",
@@ -23347,6 +24654,46 @@
               "url": "https://www.coreldraw.com/en/learn/tutorials/new-in-march-2026/"
             }
           ]
+        },
+        {
+          "id": "paintshop-pro",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "PaintShop Pro",
+          "kind": "桌面端",
+          "category": "图像与设计",
+          "description": "Windows 图像编辑产品，包含官方 AI 能力；公开品牌仍主要使用 2023 版本，不将其描述为持续更新的新版本。",
+          "website": "https://www.paintshoppro.com/en/products/paintshop-pro/",
+          "tutorial": "https://www.paintshoppro.com/en/products/paintshop-pro/ultimate/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.paintshoppro.com/en/products/paintshop-pro/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 PaintShop Pro Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.paintshoppro.com/en/products/paintshop-pro/ultimate/"
+            }
+          ]
         }
       ]
     },
@@ -23399,7 +24746,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/aa4434ae1033d523f11d08761933ec317ef30c04ac543ec06ae7443d2fd38cb3.png",
+        "sha256": "aa4434ae1033d523f11d08761933ec317ef30c04ac543ec06ae7443d2fd38cb3",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "agentops",
@@ -23501,7 +24853,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/1067737eba5f45550219bffb7869cc4de14e7e3114d8be8cc915672b53c1b7d0.webp",
+        "sha256": "1067737eba5f45550219bffb7869cc4de14e7e3114d8be8cc915672b53c1b7d0",
+        "mimeType": "image/webp"
+      }
     },
     {
       "id": "mod-io",
@@ -23709,7 +25066,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/d8615af95534f7384f0f7548b882e5eb0e02972e9f86959fdce9210e94afed7d.png",
+        "sha256": "d8615af95534f7384f0f7548b882e5eb0e02972e9f86959fdce9210e94afed7d",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "tripo",
@@ -23842,7 +25204,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/feb8047a85de5492e5100e89c98ceaeba816c3125f7f3c1f3cd0325aad501c19.png",
+        "sha256": "feb8047a85de5492e5100e89c98ceaeba816c3125f7f3c1f3cd0325aad501c19",
+        "mimeType": "image/png"
+      }
     },
     {
       "id": "tailscale",
@@ -23893,7 +25260,12 @@
             }
           ]
         }
-      ]
+      ],
+      "iconAsset": {
+        "path": "vendor-icons/a5bad3bf6a94e50a9f7969283721f75a80da92a4086ded04e709830a2086c001.svg",
+        "sha256": "a5bad3bf6a94e50a9f7969283721f75a80da92a4086ded04e709830a2086c001",
+        "mimeType": "image/svg+xml"
+      }
     },
     {
       "id": "spline",
@@ -23941,6 +25313,1221 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://docs.spline.design/interaction-states-events-and-actions/ai-voice-assistant-api"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "copilotkit",
+      "name": "CopilotKit",
+      "initial": "C",
+      "mark": "C",
+      "color": "#243147",
+      "description": "面向 Agent 应用的开源前端与运行时工具。",
+      "website": "https://www.copilotkit.ai/",
+      "tutorial": "https://docs.copilotkit.ai/",
+      "enabled": true,
+      "order": 355,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "copilotkit-agent-ui",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "CopilotKit",
+          "category": "智能体",
+          "description": "用于构建 Agent 聊天、生成式 UI、共享状态与人机协作界面的 TypeScript 开发框架。",
+          "website": "https://docs.copilotkit.ai/",
+          "tutorial": "https://docs.copilotkit.ai/concepts/architecture",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "tutorial",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "composio",
+      "name": "Composio",
+      "initial": "C",
+      "mark": "C",
+      "color": "#7c5cff",
+      "description": "为 Agent 提供第三方工具、连接账户与授权管理。",
+      "website": "https://composio.dev/",
+      "tutorial": "https://docs.composio.dev/docs/quickstart",
+      "enabled": true,
+      "order": 356,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "composio-agent-tools",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Composio",
+          "category": "智能体",
+          "description": "让 Agent 连接第三方应用并按用户隔离认证会话的 Web 工具平台；凭据由 Composio 与目标应用管理。",
+          "website": "https://composio.dev/",
+          "tutorial": "https://docs.composio.dev/docs/quickstart",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Composio",
+              "url": "https://composio.dev/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.composio.dev/docs/quickstart"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arcade",
+      "name": "Arcade",
+      "initial": "A",
+      "mark": "A",
+      "color": "#6750a4",
+      "description": "提供 Agent 工具调用、授权与 MCP Gateway。",
+      "website": "https://www.arcade.dev/",
+      "tutorial": "https://docs.arcade.dev/en/guides/tool-calling",
+      "enabled": true,
+      "order": 357,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "arcade-agent-tools",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Arcade",
+          "category": "智能体",
+          "description": "面向 Agent 的工具调用和标准化授权平台，可通过 MCP Gateway 聚合并筛选多个服务。",
+          "website": "https://www.arcade.dev/",
+          "tutorial": "https://docs.arcade.dev/en/guides/tool-calling",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Arcade",
+              "url": "https://www.arcade.dev/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.arcade.dev/en/guides/tool-calling"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deepset",
+      "name": "deepset",
+      "initial": "D",
+      "mark": "D",
+      "color": "#00a98f",
+      "description": "维护 Haystack 开源 Agent 与 RAG 编排框架。",
+      "website": "https://www.deepset.ai/",
+      "tutorial": "https://docs.haystack.deepset.ai/",
+      "enabled": true,
+      "order": 358,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "haystack-agent-framework",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Haystack",
+          "category": "智能体",
+          "description": "用于生产级 Agent、RAG 与多模态搜索的 Python 编排框架，不作为 Windows 桌面软件展示。",
+          "website": "https://haystack.deepset.ai/",
+          "tutorial": "https://docs.haystack.deepset.ai/docs/agents",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "tutorial",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mem0",
+      "name": "Mem0",
+      "initial": "M",
+      "mark": "M",
+      "color": "#111827",
+      "description": "提供面向 Agent 的托管记忆层与开源工具。",
+      "website": "https://mem0.ai/",
+      "tutorial": "https://docs.mem0.ai/introduction",
+      "enabled": true,
+      "order": 359,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "mem0-agent-memory",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Mem0 Platform",
+          "category": "智能体",
+          "description": "面向用户、Agent 与会话的托管记忆平台；记忆写入、更新和删除仍受用户账户与目标工具控制。",
+          "website": "https://mem0.ai/",
+          "tutorial": "https://docs.mem0.ai/platform/overview",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Mem0 Platform",
+              "url": "https://mem0.ai/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.mem0.ai/platform/overview"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zep",
+      "name": "Zep",
+      "initial": "Z",
+      "mark": "Z",
+      "color": "#f97316",
+      "description": "提供 Agent 记忆、Graph RAG 与上下文组装平台。",
+      "website": "https://www.getzep.com/",
+      "tutorial": "https://help.getzep.com/v2/concepts",
+      "enabled": true,
+      "order": 360,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "zep-agent-memory",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Zep",
+          "category": "智能体",
+          "description": "保存对话并构建用户级知识图谱的 Agent 记忆与上下文平台；企业记忆 MCP 不包含在普通入口中。",
+          "website": "https://www.getzep.com/",
+          "tutorial": "https://help.getzep.com/v2/memory",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Zep",
+              "url": "https://www.getzep.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.getzep.com/v2/memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "browserbase",
+      "name": "Browserbase",
+      "initial": "B",
+      "mark": "B",
+      "color": "#151515",
+      "description": "提供云端浏览器基础设施与 AI 原生浏览器 SDK。",
+      "website": "https://www.browserbase.com/",
+      "tutorial": "https://docs.browserbase.com/welcome/what-is-browserbase",
+      "enabled": true,
+      "order": 361,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "browserbase-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Browserbase",
+          "category": "智能体",
+          "description": "供 Agent 使用的云端浏览器基础设施，支持持久会话、实时观察与浏览器交互；不是本机浏览器。",
+          "website": "https://www.browserbase.com/",
+          "tutorial": "https://docs.browserbase.com/use-cases/agents",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Browserbase",
+              "url": "https://www.browserbase.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.browserbase.com/use-cases/agents"
+            }
+          ]
+        },
+        {
+          "id": "browserbase-stagehand",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Stagehand",
+          "category": "智能体",
+          "description": "Browserbase 维护的 JavaScript/Python AI 浏览器 SDK，仅提供官方文档入口，不自动执行包安装。",
+          "website": "https://www.stagehand.dev/",
+          "tutorial": "https://docs.browserbase.com/welcome/getting-started",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "tutorial",
+          "moduleId": "tutorial-link",
+          "installPolicy": "open-tutorial",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "tutorial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "firecrawl",
+      "name": "Firecrawl",
+      "initial": "F",
+      "mark": "F",
+      "color": "#f97316",
+      "description": "提供面向 AI 应用的网页搜索、抓取和结构化提取服务。",
+      "website": "https://www.firecrawl.dev/",
+      "tutorial": "https://docs.firecrawl.dev/introduction",
+      "enabled": true,
+      "order": 362,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "firecrawl-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Firecrawl",
+          "category": "智能体",
+          "description": "提供网页搜索、抓取、爬取和结构化提取的 Web 数据 API；CLI、Skill 与 MCP 作为子入口而非重复产品。",
+          "website": "https://www.firecrawl.dev/",
+          "tutorial": "https://docs.firecrawl.dev/introduction",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Firecrawl",
+              "url": "https://www.firecrawl.dev/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.firecrawl.dev/introduction"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tavily",
+      "name": "Tavily",
+      "initial": "T",
+      "mark": "T",
+      "color": "#2563eb",
+      "description": "提供面向 AI Agent 的实时搜索与网页提取。",
+      "website": "https://www.tavily.com/",
+      "tutorial": "https://docs.tavily.com/documentation/mcp",
+      "enabled": true,
+      "order": 363,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "tavily-search-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Tavily",
+          "category": "浏览器与搜索",
+          "description": "面向 AI Agent 的实时搜索和网页提取平台；API key 或 OAuth 由厂商与目标客户端管理。",
+          "website": "https://www.tavily.com/",
+          "tutorial": "https://docs.tavily.com/documentation/mcp",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Tavily",
+              "url": "https://www.tavily.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.tavily.com/documentation/mcp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apify",
+      "name": "Apify",
+      "initial": "A",
+      "mark": "A",
+      "color": "#97d700",
+      "description": "提供可由 Agent 调用的云端 Web 自动化平台。",
+      "website": "https://apify.com/",
+      "tutorial": "https://docs.apify.com/get-started/agent-onboarding",
+      "enabled": true,
+      "order": 364,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "apify-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Apify Platform",
+          "category": "工作流自动化",
+          "description": "可通过 MCP、API 和 CLI 调用 Actors 的 Web 自动化平台；运行 Actor 和访问结果仍需用户授权。",
+          "website": "https://apify.com/",
+          "tutorial": "https://docs.apify.com/get-started/agent-onboarding",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Apify Platform",
+              "url": "https://apify.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.apify.com/get-started/agent-onboarding"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qdrant",
+      "name": "Qdrant",
+      "initial": "Q",
+      "mark": "Q",
+      "color": "#dc244c",
+      "description": "提供向量数据库与面向 Agent 的记忆检索能力。",
+      "website": "https://qdrant.tech/",
+      "tutorial": "https://qdrant.tech/documentation/",
+      "enabled": true,
+      "order": 365,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "qdrant-vector-database",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Qdrant",
+          "category": "数据库与数据",
+          "description": "向量数据库平台，可为 Agent 保存和检索向量记忆；写入与删除权限由用户自己的实例控制。",
+          "website": "https://qdrant.tech/",
+          "tutorial": "https://qdrant.tech/documentation/qdrant-mcp-server/",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Qdrant",
+              "url": "https://qdrant.tech/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://qdrant.tech/documentation/qdrant-mcp-server/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "weaviate",
+      "name": "Weaviate",
+      "initial": "W",
+      "mark": "W",
+      "color": "#00b894",
+      "description": "提供开源与托管向量数据库。",
+      "website": "https://weaviate.io/",
+      "tutorial": "https://docs.weaviate.io/weaviate",
+      "enabled": true,
+      "order": 366,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "weaviate-vector-database",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Weaviate",
+          "category": "数据库与数据",
+          "description": "支持语义检索与 Agent 接入的向量数据库；内置 MCP 默认关闭，写入能力也保留厂商安全默认值。",
+          "website": "https://weaviate.io/",
+          "tutorial": "https://docs.weaviate.io/weaviate/configuration/mcp-server",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Weaviate",
+              "url": "https://weaviate.io/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.weaviate.io/weaviate/configuration/mcp-server"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "neon-database",
+      "name": "Neon",
+      "initial": "N",
+      "mark": "N",
+      "color": "#00e599",
+      "description": "提供 Serverless Postgres 与面向开发工具的数据库接入。",
+      "website": "https://neon.com/",
+      "tutorial": "https://neon.com/docs/introduction",
+      "enabled": true,
+      "order": 367,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "neon-postgres",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Neon Postgres",
+          "category": "数据库与数据",
+          "description": "Serverless Postgres 平台，支持项目、分支、SQL 与迁移管理；连接串和数据库权限不由目录保存。",
+          "website": "https://neon.com/",
+          "tutorial": "https://neon.com/docs/ai/neon-mcp-server",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Neon Postgres",
+              "url": "https://neon.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://neon.com/docs/ai/neon-mcp-server"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gitbook",
+      "name": "GitBook",
+      "initial": "G",
+      "mark": "G",
+      "color": "#346ddb",
+      "description": "提供文档编写、发布与 AI 可读内容服务。",
+      "website": "https://www.gitbook.com/",
+      "tutorial": "https://gitbook.com/docs",
+      "enabled": true,
+      "order": 368,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "gitbook-docs-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "GitBook",
+          "category": "内容管理与发布",
+          "description": "文档编写与发布平台；官方 MCP 只读取已发布内容，不读取草稿、分析数据或内部用户数据。",
+          "website": "https://www.gitbook.com/",
+          "tutorial": "https://gitbook.com/docs/publishing-documentation/mcp-servers-for-published-docs",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 GitBook",
+              "url": "https://www.gitbook.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://gitbook.com/docs/publishing-documentation/mcp-servers-for-published-docs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "new-relic",
+      "name": "New Relic",
+      "initial": "N",
+      "mark": "N",
+      "color": "#1ce783",
+      "description": "提供应用、基础设施与日志可观测性平台。",
+      "website": "https://newrelic.com/",
+      "tutorial": "https://docs.newrelic.com/",
+      "enabled": true,
+      "order": 369,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "new-relic-observability",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "New Relic",
+          "category": "可观测性",
+          "description": "可观测性平台；官方 MCP 仍处于 Preview，需按区域端点、RBAC 和最小权限配置。",
+          "website": "https://newrelic.com/",
+          "tutorial": "https://docs.newrelic.com/docs/agentic-ai/mcp/setup/",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "其他产品",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 New Relic",
+              "url": "https://newrelic.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.newrelic.com/docs/agentic-ai/mcp/setup/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sider",
+      "name": "Sider",
+      "initial": "S",
+      "mark": "S",
+      "color": "#7157ff",
+      "description": "提供多模型 AI 助手、浏览器 Agent 与 Windows 客户端。",
+      "website": "https://sider.ai/",
+      "tutorial": "https://sider.ai/apps/windows",
+      "enabled": true,
+      "order": 370,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "sider-windows",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Sider for Windows",
+          "category": "AI 对话",
+          "description": "Sider 官方 Windows 图形客户端，提供多模型聊天、浏览器 Agent、文件与创作能力。",
+          "website": "https://sider.ai/apps/windows",
+          "tutorial": "https://sider.ai/download?windowsDl=1",
+          "installProfileId": "",
+          "requirements": [],
+          "kind": "桌面端",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://sider.ai/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Sider for Windows"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://sider.ai/download?windowsDl=1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "skales",
+      "name": "Skales",
+      "initial": "S",
+      "mark": "S",
+      "color": "#111827",
+      "description": "提供本地优先的多模型 AI 桌面工作区。",
+      "website": "https://skales.app/",
+      "tutorial": "https://docs.skales.app/",
+      "enabled": true,
+      "order": 371,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "skales-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Skales",
+          "kind": "桌面端",
+          "category": "AI 对话",
+          "description": "Windows 本地优先 AI 工作区；官方安装器尚未代码签名，可能触发 SmartScreen，因此只打开官方页面。",
+          "website": "https://skales.app/",
+          "tutorial": "https://docs.skales.app/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://skales.app/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Skales Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.skales.app/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ptc",
+      "name": "PTC",
+      "initial": "P",
+      "mark": "P",
+      "color": "#0066b3",
+      "description": "提供 CAD、PLM、工业物联网和数字化工程产品。",
+      "website": "https://www.ptc.com/",
+      "tutorial": "https://www.ptc.com/en/products/creo/capabilities",
+      "enabled": true,
+      "order": 372,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "onshape-ai-advisor",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Onshape AI Advisor",
+          "kind": "其他产品",
+          "category": "3D 与工业仿真",
+          "description": "Onshape 内置帮助型 AI Advisor，不自动生成 CAD 设计；可用性受方案和管理员设置约束。",
+          "website": "https://www.onshape.com/en/features/ai-advisor",
+          "tutorial": "https://www.onshape.com/en/resource-center/what-is-new/ai-advisor-configurable-variable-studios-simulation",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Onshape AI Advisor",
+              "url": "https://www.onshape.com/en/features/ai-advisor"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.onshape.com/en/resource-center/what-is-new/ai-advisor-configurable-variable-studios-simulation"
+            }
+          ]
+        },
+        {
+          "id": "ptc-creo",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "PTC Creo / Creo+",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "Windows CAD 产品族；Advise 为正式能力，Assist 仍为 Beta、Automate 仍为 Alpha，预览能力不按正式功能宣传。",
+          "website": "https://www.ptc.com/en/products/creo/capabilities",
+          "tutorial": "https://www.ptc.com/en/news/2026/ptc-brings-ai-powered-guidance-to-the-design-environment-with-creo-13",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.ptc.com/en/products/creo"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 PTC Creo / Creo+ Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.ptc.com/en/news/2026/ptc-brings-ai-powered-guidance-to-the-design-environment-with-creo-13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "allplan",
+      "name": "ALLPLAN",
+      "initial": "A",
+      "mark": "A",
+      "color": "#e30613",
+      "description": "提供建筑、工程和施工设计软件。",
+      "website": "https://www.allplan.com/",
+      "tutorial": "https://www.allplan.com/products/allplan/",
+      "enabled": true,
+      "order": 373,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "allplan",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "ALLPLAN",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "Windows BIM 产品，包含 AI Visualizer V2；许可证、显卡和系统要求以 ALLPLAN 官方说明为准。",
+          "website": "https://www.allplan.com/products/allplan/",
+          "tutorial": "https://www.allplan.com/us_en/system/releasenotes/2026/allplan-2026-0-1/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.allplan.com/products/allplan/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 ALLPLAN Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.allplan.com/us_en/system/releasenotes/2026/allplan-2026-0-1/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "biorender",
+      "name": "BioRender",
+      "initial": "B",
+      "mark": "B",
+      "color": "#0f766e",
+      "description": "提供面向生命科学的科研插图与图表平台。",
+      "website": "https://www.biorender.com/",
+      "tutorial": "https://www.biorender.com/ai-tools",
+      "enabled": true,
+      "order": 374,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "biorender-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "BioRender AI",
+          "kind": "其他产品",
+          "category": "图像创作",
+          "description": "科研插图 Web 产品；部分生成能力仍处于 Beta，结果需要人工核验并遵守方案、点数和发布许可。",
+          "website": "https://www.biorender.com/ai-tools",
+          "tutorial": "https://help.biorender.com/hc/en-gb/articles/37585527817629-How-to-generate-custom-and-fully-editable-figures-with-BioRender-AI",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 BioRender AI",
+              "url": "https://www.biorender.com/ai-tools"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.biorender.com/hc/en-gb/articles/37585527817629-How-to-generate-custom-and-fully-editable-figures-with-BioRender-AI"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "benchling",
+      "name": "Benchling",
+      "initial": "B",
+      "mark": "B",
+      "color": "#5b4be8",
+      "description": "提供生命科学研发数据与协作平台。",
+      "website": "https://www.benchling.com/",
+      "tutorial": "https://www.benchling.com/ai",
+      "enabled": true,
+      "order": 375,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "benchling-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Benchling AI",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "面向企业生命科学研发的 AI 与数据平台，访问受租户、管理员、实验数据和合规策略约束。",
+          "website": "https://www.benchling.com/ai",
+          "tutorial": "https://www.benchling.com/ai/connectors",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Benchling AI",
+              "url": "https://www.benchling.com/ai"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.benchling.com/ai/connectors"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "anytype",
+      "name": "Anytype",
+      "initial": "A",
+      "mark": "A",
+      "color": "#111111",
+      "description": "提供本地优先的知识、对象和协作工作区。",
+      "website": "https://anytype.io/",
+      "tutorial": "https://doc.anytype.io/anytype-docs/getting-started/install-and-setup",
+      "enabled": true,
+      "order": 376,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "anytype-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Anytype",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "本地优先的 Windows 可视化工作区；网页、桌面和本地 API 属于同一产品身份。",
+          "website": "https://anytype.io/downloads",
+          "tutorial": "https://doc.anytype.io/anytype-docs/getting-started/install-and-setup",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://anytype.io/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Anytype Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://doc.anytype.io/anytype-docs/getting-started/install-and-setup"
+            }
+          ]
+        },
+        {
+          "id": "anytype-cli",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Anytype CLI",
+          "kind": "CLI",
+          "category": "文档与知识库",
+          "description": "运行在命令行中的 Anytype 工具和无头服务示例；它不是可视化桌面软件，当前仅打开官方说明。",
+          "website": "https://developers.anytype.io/docs/examples/featured/cli/",
+          "tutorial": "https://developers.anytype.io/docs/examples/overview/",
+          "productType": "cli-official",
+          "moduleId": "cli-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "CLI 官网",
+              "url": "https://developers.anytype.io/docs/examples/featured/cli/"
+            },
+            {
+              "type": "cli",
+              "label": "查看 CLI 安装说明"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developers.anytype.io/docs/examples/overview/"
             }
           ]
         }
@@ -32585,6 +35172,1247 @@
       "lastVerifiedAt": "2026-08-03T00:00:00.000Z",
       "enabled": true,
       "order": 128
+    },
+    {
+      "id": "composio-mcp",
+      "name": "Composio MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Composio 官方 MCP 入口，可为每个用户会话发现、认证并调用第三方工具。",
+      "website": "https://docs.composio.dev/docs/quickstart",
+      "tutorial": "https://docs.composio.dev/docs/quickstart",
+      "publisherVendorId": "composio",
+      "publisher": "Composio",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "composio-agent-tools"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "可代表用户调用已连接的第三方工具；每次敏感写入、发送或删除操作都需确认。"
+      ],
+      "credentialRequirements": [
+        "连接账户、OAuth token 和 API key 由 Composio 与目标应用管理，目录不保存。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.composio.dev/docs/quickstart"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 129
+    },
+    {
+      "id": "arcade-mcp-gateway",
+      "name": "Arcade MCP Gateway",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Arcade 官方 MCP Gateway，可聚合并筛选多个 MCP Server 与工具。",
+      "website": "https://docs.arcade.dev/en/guides/mcp-gateways",
+      "tutorial": "https://docs.arcade.dev/en/guides/mcp-gateways",
+      "publisherVendorId": "arcade",
+      "publisher": "Arcade",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "arcade-agent-tools"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "仅暴露任务需要的工具；聚合后的每个下游工具仍需单独审核其读写权限。"
+      ],
+      "credentialRequirements": [
+        "Arcade 与下游服务的授权由用户账户管理，目录不保存 token。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.arcade.dev/en/guides/mcp-gateways"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 130
+    },
+    {
+      "id": "mem0-mcp",
+      "name": "Mem0 MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Mem0 官方 MCP，可新增、搜索、更新和删除 Agent 记忆。",
+      "website": "https://docs.mem0.ai/platform/mem0-mcp",
+      "tutorial": "https://docs.mem0.ai/platform/mem0-mcp",
+      "publisherVendorId": "mem0",
+      "publisher": "Mem0",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "mem0-agent-memory"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "可写入、修改及批量删除记忆；更新和删除操作必须由用户确认。"
+      ],
+      "credentialRequirements": [
+        "Mem0 API key 由目标 AI 工具保存，目录不接收或转存。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.mem0.ai/platform/mem0-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 131
+    },
+    {
+      "id": "zep-docs-mcp",
+      "name": "Zep Documentation MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Zep 官方公共文档检索 MCP，与企业版用户记忆 MCP 明确分离。",
+      "website": "https://help.getzep.com/docs-mcp-server",
+      "tutorial": "https://help.getzep.com/docs-mcp-server",
+      "publisherVendorId": "zep",
+      "publisher": "Zep",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "zep-agent-memory"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "只检索 Zep 公共文档，不读取或修改用户记忆。"
+      ],
+      "credentialRequirements": [
+        "按 Zep 官方文档配置；目录不保存任何账户凭据。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://help.getzep.com/docs-mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 132
+    },
+    {
+      "id": "browserbase-mcp",
+      "name": "Browserbase MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Browserbase 官方 MCP，可控制云端浏览器并与网页交互。",
+      "website": "https://docs.browserbase.com/integrations/mcp/introduction",
+      "tutorial": "https://docs.browserbase.com/integrations/mcp/introduction",
+      "publisherVendorId": "browserbase",
+      "publisher": "Browserbase",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "browserbase-platform"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "可点击、填写并访问浏览器登录态；提交表单、发送消息、购买或删除前必须确认。"
+      ],
+      "credentialRequirements": [
+        "Browserbase 项目凭据与网站登录态由用户和目标工具管理。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.browserbase.com/integrations/mcp/introduction"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 133
+    },
+    {
+      "id": "firecrawl-mcp",
+      "name": "Firecrawl MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Firecrawl 官方 MCP，提供网页抓取、爬取、搜索与批量提取。",
+      "website": "https://docs.firecrawl.dev/mcp",
+      "tutorial": "https://docs.firecrawl.dev/mcp",
+      "publisherVendorId": "firecrawl",
+      "publisher": "Firecrawl",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "firecrawl-platform"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "会向外部网站发起抓取和搜索请求；需遵守目标网站条款及数据使用边界。"
+      ],
+      "credentialRequirements": [
+        "Firecrawl API key 由目标 AI 工具管理，目录不保存。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.firecrawl.dev/mcp"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 134
+    },
+    {
+      "id": "tavily-mcp",
+      "name": "Tavily MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Tavily 官方 MCP，为 AI 客户端提供实时搜索和网页提取。",
+      "website": "https://docs.tavily.com/documentation/mcp",
+      "tutorial": "https://docs.tavily.com/documentation/mcp",
+      "publisherVendorId": "tavily",
+      "publisher": "Tavily",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "tavily-search-platform"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "会向互联网发送搜索或提取请求；用户应检查来源和结果用途。"
+      ],
+      "credentialRequirements": [
+        "OAuth 或 Tavily API key 由 Tavily 与目标客户端管理。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.tavily.com/documentation/mcp"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 135
+    },
+    {
+      "id": "apify-mcp",
+      "name": "Apify MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Apify 官方 MCP，可发现和运行 Actors 并读取其存储与结果。",
+      "website": "https://docs.apify.com/integrations/mcp",
+      "tutorial": "https://docs.apify.com/integrations/mcp",
+      "publisherVendorId": "apify",
+      "publisher": "Apify",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "apify-platform"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "可运行 Actors、产生费用并访问任务存储；运行前必须确认 Actor 和输入范围。"
+      ],
+      "credentialRequirements": [
+        "Apify token 与 Actor 所需凭据由用户账户管理，目录不保存。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.apify.com/integrations/mcp"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 136
+    },
+    {
+      "id": "pinecone-mcp",
+      "name": "Pinecone MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Pinecone 官方 MCP，可管理索引、写入、搜索和重排数据。",
+      "website": "https://docs.pinecone.io/guides/operations/mcp-server",
+      "tutorial": "https://docs.pinecone.io/guides/operations/mcp-server",
+      "publisherVendorId": "pinecone",
+      "publisher": "Pinecone",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "pinecone-vector-database"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "ga-rolling-service",
+      "requestedPermissions": [
+        "可创建索引并写入数据，不是只读资源；变更索引前必须确认。"
+      ],
+      "credentialRequirements": [
+        "Pinecone API key 和项目权限由目标 AI 工具管理。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.pinecone.io/guides/operations/mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 137
+    },
+    {
+      "id": "qdrant-mcp",
+      "name": "Qdrant MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Qdrant 官方 MCP，可为 Agent 保存和检索向量记忆。",
+      "website": "https://qdrant.tech/documentation/qdrant-mcp-server/",
+      "tutorial": "https://qdrant.tech/documentation/qdrant-mcp-server/",
+      "publisherVendorId": "qdrant",
+      "publisher": "Qdrant",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "qdrant-vector-database"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "可写入和检索用户选择的向量集合；覆盖或删除数据前必须确认。"
+      ],
+      "credentialRequirements": [
+        "Qdrant 实例地址、API key 与 embedding 模型配置由目标工具管理。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://qdrant.tech/documentation/qdrant-mcp-server/"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 138
+    },
+    {
+      "id": "weaviate-mcp",
+      "name": "Weaviate MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Weaviate 内置官方 MCP，支持 schema、查询和可选写入。",
+      "website": "https://docs.weaviate.io/weaviate/configuration/mcp-server",
+      "tutorial": "https://docs.weaviate.io/weaviate/configuration/mcp-server",
+      "publisherVendorId": "weaviate",
+      "publisher": "Weaviate",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "weaviate-vector-database"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "MCP 与写入能力默认关闭；启用写入、修改 schema 或删除数据前必须确认。"
+      ],
+      "credentialRequirements": [
+        "实例地址与认证凭据由用户自己的 Weaviate 环境管理。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.weaviate.io/weaviate/configuration/mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 139
+    },
+    {
+      "id": "neon-mcp",
+      "name": "Neon MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Neon 官方 MCP，可管理项目、分支、数据库、SQL 与迁移。",
+      "website": "https://neon.com/docs/ai/neon-mcp-server",
+      "tutorial": "https://neon.com/docs/ai/neon-mcp-server",
+      "publisherVendorId": "neon-database",
+      "publisher": "Neon",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "neon-postgres"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "可运行 SQL、修改 schema 和迁移；官方建议仅用于开发测试，不连接生产或 PII 数据库。"
+      ],
+      "credentialRequirements": [
+        "Neon OAuth、项目和数据库权限由 Neon 与目标客户端管理。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://neon.com/docs/ai/neon-mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 140
+    },
+    {
+      "id": "gitbook-published-docs-mcp",
+      "name": "GitBook Published Docs MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "GitBook 为每个已发布站点提供的只读 HTTP MCP。",
+      "website": "https://gitbook.com/docs/publishing-documentation/mcp-servers-for-published-docs",
+      "tutorial": "https://gitbook.com/docs/publishing-documentation/mcp-servers-for-published-docs",
+      "publisherVendorId": "gitbook",
+      "publisher": "GitBook",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "gitbook-docs-platform"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "只读取站点已发布内容，不读取草稿、分析数据或内部用户数据。"
+      ],
+      "credentialRequirements": [
+        "受保护站点的身份验证由 GitBook 与目标客户端管理。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://gitbook.com/docs/publishing-documentation/mcp-servers-for-published-docs"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 141
+    },
+    {
+      "id": "new-relic-mcp",
+      "name": "New Relic MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "New Relic 官方 MCP（Preview），可查询可观测性数据并执行部分运维动作。",
+      "website": "https://docs.newrelic.com/docs/agentic-ai/mcp/setup/",
+      "tutorial": "https://docs.newrelic.com/docs/agentic-ai/mcp/setup/",
+      "publisherVendorId": "new-relic",
+      "publisher": "New Relic",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "new-relic-observability"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "preview-rolling-service",
+      "requestedPermissions": [
+        "会代表用户查询数据或采取动作；必须使用 RBAC、标签过滤和最小权限。"
+      ],
+      "credentialRequirements": [
+        "按账户区域使用 US/EU 端点，New Relic 身份与授权由目标客户端管理。"
+      ],
+      "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "provenanceEvidence": [
+        "https://docs.newrelic.com/docs/agentic-ai/mcp/setup/"
+      ],
+      "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+      "enabled": true,
+      "order": 142
+    },
+    {
+      "id": "anytype-mcp",
+      "name": "Anytype MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Anytype 官方 MCP 接入，可在用户授权范围内访问本地优先工作区。",
+      "website": "https://developers.anytype.io/docs/examples/featured/mcp/",
+      "tutorial": "https://developers.anytype.io/docs/examples/featured/mcp/",
+      "publisherVendorId": "anytype",
+      "publisher": "Anytype",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "anytype-desktop"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "可读取或修改 Anytype 对象；创建、批量修改和删除前必须确认。"
+      ],
+      "credentialRequirements": [
+        "Anytype API key 和用户授权范围由 Anytype 与目标客户端管理。"
+      ],
+      "installScope": "仅打开官方 MCP 接入说明；不执行命令、不写入目标工具配置、不保存密钥。",
+      "uninstallPlan": "从目标 AI 工具删除 MCP 连接并在发布者账户撤销授权；不删除源产品中的数据。",
+      "provenanceEvidence": [
+        "https://developers.anytype.io/docs/examples/featured/mcp/"
+      ],
+      "lastVerifiedAt": "2026-08-03T17:00:00.000Z",
+      "enabled": true,
+      "order": 143
+    },
+    {
+      "id": "benchling-mcp",
+      "name": "Benchling MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Benchling 官方企业租户 MCP，用于把受控研发数据接入兼容 AI 客户端。",
+      "website": "https://help.benchling.com/hc/en-us/articles/40342713479437-Configure-Benchling-s-MCP-Server-for-other-MCP-clients",
+      "tutorial": "https://help.benchling.com/hc/en-us/articles/40342713479437-Configure-Benchling-s-MCP-Server-for-other-MCP-clients",
+      "publisherVendorId": "benchling",
+      "publisher": "Benchling",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "benchling-ai"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "可能访问敏感实验和研发数据；所有读写动作受租户、管理员和合规策略约束。"
+      ],
+      "credentialRequirements": [
+        "企业租户 OAuth/DCR；租户端点是账户模板，不是公共固定 URL。"
+      ],
+      "installScope": "仅打开官方 MCP 接入说明；不执行命令、不写入目标工具配置、不保存密钥。",
+      "uninstallPlan": "从目标 AI 工具删除 MCP 连接并在发布者账户撤销授权；不删除源产品中的数据。",
+      "provenanceEvidence": [
+        "https://help.benchling.com/hc/en-us/articles/40342713479437-Configure-Benchling-s-MCP-Server-for-other-MCP-clients"
+      ],
+      "lastVerifiedAt": "2026-08-03T17:00:00.000Z",
+      "enabled": true,
+      "order": 144
+    },
+    {
+      "id": "zep-memory-mcp",
+      "name": "Zep Memory MCP（企业版，需启用）",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "仅面向 Zep Enterprise、需厂商按账户启用的记忆 MCP，不作为普通一键安装项。",
+      "website": "https://help.getzep.com/v3/memory-mcp-server",
+      "tutorial": "https://help.getzep.com/v3/memory-mcp-server",
+      "publisherVendorId": "zep",
+      "publisher": "Zep",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "zep-agent-memory"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "enterprise-account-enabled",
+      "requestedPermissions": [
+        "可搜索和新增用户记忆；涉及用户上下文和长期记忆，写入前必须确认。"
+      ],
+      "credentialRequirements": [
+        "Zep Enterprise、厂商启用和企业 IdP；普通账户不可直接使用。"
+      ],
+      "installScope": "仅打开官方 MCP 接入说明；不执行命令、不写入目标工具配置、不保存密钥。",
+      "uninstallPlan": "从目标 AI 工具删除 MCP 连接并在发布者账户撤销授权；不删除源产品中的数据。",
+      "provenanceEvidence": [
+        "https://help.getzep.com/v3/memory-mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-03T17:00:00.000Z",
+      "enabled": true,
+      "order": 145
     }
   ]
 }

@@ -1490,6 +1490,556 @@
       "vendorIds": [
         "zoner"
       ]
+    },
+    "77f7543b2e368a45fc6208cc36915f812c22b1fe32465327deeb402fe4600644": {
+      "path": "vendor-icons/77f7543b2e368a45fc6208cc36915f812c22b1fe32465327deeb402fe4600644.jpg",
+      "sha256": "77f7543b2e368a45fc6208cc36915f812c22b1fe32465327deeb402fe4600644",
+      "mimeType": "image/jpeg",
+      "sourceUrl": "https://github.com/ansys",
+      "updatedAt": "2026-08-03T06:17:57.862Z",
+      "vendorIds": [
+        "ansys"
+      ]
+    },
+    "242c404b495f424af2a1fbf8b691dd1e86a918e7f5f31a5cc5b5ff85eba3497f": {
+      "path": "vendor-icons/242c404b495f424af2a1fbf8b691dd1e86a918e7f5f31a5cc5b5ff85eba3497f.png",
+      "sha256": "242c404b495f424af2a1fbf8b691dd1e86a918e7f5f31a5cc5b5ff85eba3497f",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/CesiumGS",
+      "updatedAt": "2026-08-03T06:17:57.878Z",
+      "vendorIds": [
+        "cesium"
+      ]
+    },
+    "a6bf7da3cd10ba6e044510705a01f7a685e44cfefe44a8c518b81b985b34095c": {
+      "path": "vendor-icons/a6bf7da3cd10ba6e044510705a01f7a685e44cfefe44a8c518b81b985b34095c.png",
+      "sha256": "a6bf7da3cd10ba6e044510705a01f7a685e44cfefe44a8c518b81b985b34095c",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/browser-use",
+      "updatedAt": "2026-08-03T06:17:57.888Z",
+      "vendorIds": [
+        "browser-use"
+      ]
+    },
+    "3013dbd5dea350073b4500a3ee293c23ddbdfa5f6cd3e5811095b62bbb29ff4e": {
+      "path": "vendor-icons/3013dbd5dea350073b4500a3ee293c23ddbdfa5f6cd3e5811095b62bbb29ff4e.png",
+      "sha256": "3013dbd5dea350073b4500a3ee293c23ddbdfa5f6cd3e5811095b62bbb29ff4e",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/agent0ai",
+      "updatedAt": "2026-08-03T06:17:57.898Z",
+      "vendorIds": [
+        "agent0ai"
+      ]
+    },
+    "2a91c47a935de2d48caf93cebfcbf937bcf5cd07bc2733f525e36b2b2aa45147": {
+      "path": "vendor-icons/2a91c47a935de2d48caf93cebfcbf937bcf5cd07bc2733f525e36b2b2aa45147.png",
+      "sha256": "2a91c47a935de2d48caf93cebfcbf937bcf5cd07bc2733f525e36b2b2aa45147",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/FoundationAgents",
+      "updatedAt": "2026-08-03T06:17:58.013Z",
+      "vendorIds": [
+        "foundation-agents"
+      ]
+    },
+    "3c0d862abe315ae33b2647628210e81ffc7be0d08c72cb5cc2f9514d95407402": {
+      "path": "vendor-icons/3c0d862abe315ae33b2647628210e81ffc7be0d08c72cb5cc2f9514d95407402.svg",
+      "sha256": "3c0d862abe315ae33b2647628210e81ffc7be0d08c72cb5cc2f9514d95407402",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://www.taskade.com/",
+      "updatedAt": "2026-08-03T06:17:58.142Z",
+      "vendorIds": [
+        "taskade"
+      ]
+    },
+    "9ee1852419b69d6d00fa887faad0dead118ba05ca4b44367dc48ada237f85273": {
+      "path": "vendor-icons/9ee1852419b69d6d00fa887faad0dead118ba05ca4b44367dc48ada237f85273.png",
+      "sha256": "9ee1852419b69d6d00fa887faad0dead118ba05ca4b44367dc48ada237f85273",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/nearai",
+      "updatedAt": "2026-08-03T06:17:58.153Z",
+      "vendorIds": [
+        "near-ai"
+      ]
+    },
+    "78c91f8e22aff11e7cad19aa72520696e17ca25c7c9f94bfe34ff62fd5385d08": {
+      "path": "vendor-icons/78c91f8e22aff11e7cad19aa72520696e17ca25c7c9f94bfe34ff62fd5385d08.png",
+      "sha256": "78c91f8e22aff11e7cad19aa72520696e17ca25c7c9f94bfe34ff62fd5385d08",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/Significant-Gravitas",
+      "updatedAt": "2026-08-03T06:17:58.193Z",
+      "vendorIds": [
+        "significant-gravitas"
+      ]
+    },
+    "5fef5156508309233271bb1b571243b562452fc08a0f7242b26eb44d29050453": {
+      "path": "vendor-icons/5fef5156508309233271bb1b571243b562452fc08a0f7242b26eb44d29050453.webp",
+      "sha256": "5fef5156508309233271bb1b571243b562452fc08a0f7242b26eb44d29050453",
+      "mimeType": "image/webp",
+      "sourceUrl": "https://aftershoot.com/",
+      "updatedAt": "2026-08-03T06:17:58.205Z",
+      "vendorIds": [
+        "aftershoot"
+      ]
+    },
+    "0cdab918ede64893f53c5b351652a1da3e479b89d750b65a9fdbda494b7c6bc5": {
+      "path": "vendor-icons/0cdab918ede64893f53c5b351652a1da3e479b89d750b65a9fdbda494b7c6bc5.png",
+      "sha256": "0cdab918ede64893f53c5b351652a1da3e479b89d750b65a9fdbda494b7c6bc5",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/RightNow-AI",
+      "updatedAt": "2026-08-03T06:17:58.275Z",
+      "vendorIds": [
+        "rightnow-ai"
+      ]
+    },
+    "77d2eafb93edb495b89d70a54b44370ca4bc1aad15fa2ae83e4f5bd04774ae5f": {
+      "path": "vendor-icons/77d2eafb93edb495b89d70a54b44370ca4bc1aad15fa2ae83e4f5bd04774ae5f.png",
+      "sha256": "77d2eafb93edb495b89d70a54b44370ca4bc1aad15fa2ae83e4f5bd04774ae5f",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/AstrBotDevs",
+      "updatedAt": "2026-08-03T06:17:58.320Z",
+      "vendorIds": [
+        "astrbot"
+      ]
+    },
+    "fe0753d2e3823bc1eb8a37943234fac63733b8c9e8abff0ca0402a6c7ddcd682": {
+      "path": "vendor-icons/fe0753d2e3823bc1eb8a37943234fac63733b8c9e8abff0ca0402a6c7ddcd682.svg",
+      "sha256": "fe0753d2e3823bc1eb8a37943234fac63733b8c9e8abff0ca0402a6c7ddcd682",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://devin.ai/",
+      "updatedAt": "2026-08-03T06:17:58.468Z",
+      "vendorIds": [
+        "cognition"
+      ]
+    },
+    "79d9584ddc926a046814185f4c0c4ef33952b2ad3e76e169ab11acb0950a6f11": {
+      "path": "vendor-icons/79d9584ddc926a046814185f4c0c4ef33952b2ad3e76e169ab11acb0950a6f11.jpg",
+      "sha256": "79d9584ddc926a046814185f4c0c4ef33952b2ad3e76e169ab11acb0950a6f11",
+      "mimeType": "image/jpeg",
+      "sourceUrl": "https://github.com/HKUDS",
+      "updatedAt": "2026-08-03T06:17:58.523Z",
+      "vendorIds": [
+        "hkuds"
+      ]
+    },
+    "416ea4962d7b0b8be8bec7f7190c13c22d5f20fdcac401aa72886fd5c81d2fb2": {
+      "path": "vendor-icons/416ea4962d7b0b8be8bec7f7190c13c22d5f20fdcac401aa72886fd5c81d2fb2.svg",
+      "sha256": "416ea4962d7b0b8be8bec7f7190c13c22d5f20fdcac401aa72886fd5c81d2fb2",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://factory.ai/",
+      "updatedAt": "2026-08-03T06:17:58.554Z",
+      "vendorIds": [
+        "factory-ai"
+      ]
+    },
+    "9fddb0a11e89340d6017db314fd0a938bce01e4ac2a365a673e4907c3eaa56dc": {
+      "path": "vendor-icons/9fddb0a11e89340d6017db314fd0a938bce01e4ac2a365a673e4907c3eaa56dc.png",
+      "sha256": "9fddb0a11e89340d6017db314fd0a938bce01e4ac2a365a673e4907c3eaa56dc",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/nanocoai",
+      "updatedAt": "2026-08-03T06:17:58.573Z",
+      "vendorIds": [
+        "nanoco"
+      ]
+    },
+    "42abc50be9f592e747f8c3c8a55ce41c1921e5b605a705e69d655c0c4355624e": {
+      "path": "vendor-icons/42abc50be9f592e747f8c3c8a55ce41c1921e5b605a705e69d655c0c4355624e.png",
+      "sha256": "42abc50be9f592e747f8c3c8a55ce41c1921e5b605a705e69d655c0c4355624e",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.zeroclawlabs.ai/",
+      "updatedAt": "2026-08-03T06:17:58.603Z",
+      "vendorIds": [
+        "zeroclaw-labs"
+      ]
+    },
+    "b36bd52c86bd4c28d921df8b30bbc93fee7ff678114d649465f58dbf0837135a": {
+      "path": "vendor-icons/b36bd52c86bd4c28d921df8b30bbc93fee7ff678114d649465f58dbf0837135a.png",
+      "sha256": "b36bd52c86bd4c28d921df8b30bbc93fee7ff678114d649465f58dbf0837135a",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/Skyvern-AI",
+      "updatedAt": "2026-08-03T06:17:58.670Z",
+      "vendorIds": [
+        "skyvern"
+      ]
+    },
+    "0e8115fe04e4bb07a2122cb66ddc718a7cdfb18fdcfa020bf5dfb51fd92d75e9": {
+      "path": "vendor-icons/0e8115fe04e4bb07a2122cb66ddc718a7cdfb18fdcfa020bf5dfb51fd92d75e9.svg",
+      "sha256": "0e8115fe04e4bb07a2122cb66ddc718a7cdfb18fdcfa020bf5dfb51fd92d75e9",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://kilo.ai/",
+      "updatedAt": "2026-08-03T06:17:58.851Z",
+      "vendorIds": [
+        "kilo"
+      ]
+    },
+    "cc25f95a33181a9dd0d7e40fc1f9b14ba2412e321d8844d6e5441efdc7e87026": {
+      "path": "vendor-icons/cc25f95a33181a9dd0d7e40fc1f9b14ba2412e321d8844d6e5441efdc7e87026.png",
+      "sha256": "cc25f95a33181a9dd0d7e40fc1f9b14ba2412e321d8844d6e5441efdc7e87026",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/kortix-ai",
+      "updatedAt": "2026-08-03T06:17:58.924Z",
+      "vendorIds": [
+        "kortix"
+      ]
+    },
+    "aa069300ed437276a1d9d24a6b714eae45c8cce24f947d87ee27906049ce33fb": {
+      "path": "vendor-icons/aa069300ed437276a1d9d24a6b714eae45c8cce24f947d87ee27906049ce33fb.png",
+      "sha256": "aa069300ed437276a1d9d24a6b714eae45c8cce24f947d87ee27906049ce33fb",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/OpenHands",
+      "updatedAt": "2026-08-03T06:17:58.933Z",
+      "vendorIds": [
+        "openhands"
+      ]
+    },
+    "2b165c5e6e9e1120143722eac74b934f553ec9eda79263b8ab6022834c196af6": {
+      "path": "vendor-icons/2b165c5e6e9e1120143722eac74b934f553ec9eda79263b8ab6022834c196af6.png",
+      "sha256": "2b165c5e6e9e1120143722eac74b934f553ec9eda79263b8ab6022834c196af6",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/SWE-agent",
+      "updatedAt": "2026-08-03T06:17:59.032Z",
+      "vendorIds": [
+        "swe-agent"
+      ]
+    },
+    "40b1a0f8a9a230b6952f99ebf8374a5a1356a675b55a6f1f1ce4d2e5668c0e8d": {
+      "path": "vendor-icons/40b1a0f8a9a230b6952f99ebf8374a5a1356a675b55a6f1f1ce4d2e5668c0e8d.png",
+      "sha256": "40b1a0f8a9a230b6952f99ebf8374a5a1356a675b55a6f1f1ce4d2e5668c0e8d",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/letta-ai",
+      "updatedAt": "2026-08-03T06:17:59.073Z",
+      "vendorIds": [
+        "letta"
+      ]
+    },
+    "e27c16edb4eaa7b9edf7a42339b9f7455dfd9b66071e01fe2af957c53838b26a": {
+      "path": "vendor-icons/e27c16edb4eaa7b9edf7a42339b9f7455dfd9b66071e01fe2af957c53838b26a.png",
+      "sha256": "e27c16edb4eaa7b9edf7a42339b9f7455dfd9b66071e01fe2af957c53838b26a",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/simular-ai",
+      "updatedAt": "2026-08-03T06:17:59.167Z",
+      "vendorIds": [
+        "simular-ai"
+      ]
+    },
+    "7b74f6036dd4855083665253e633f42eb84610bf99501974deaa6928b225970a": {
+      "path": "vendor-icons/7b74f6036dd4855083665253e633f42eb84610bf99501974deaa6928b225970a.png",
+      "sha256": "7b74f6036dd4855083665253e633f42eb84610bf99501974deaa6928b225970a",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.agno.com/",
+      "updatedAt": "2026-08-03T06:17:59.186Z",
+      "vendorIds": [
+        "agno"
+      ]
+    },
+    "31a3b725f36a52b7d03b7a7a1d3eb898ea08b48526d4e430404597feeaaa2bf3": {
+      "path": "vendor-icons/31a3b725f36a52b7d03b7a7a1d3eb898ea08b48526d4e430404597feeaaa2bf3.png",
+      "sha256": "31a3b725f36a52b7d03b7a7a1d3eb898ea08b48526d4e430404597feeaaa2bf3",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/bytebot-ai",
+      "updatedAt": "2026-08-03T06:17:59.197Z",
+      "vendorIds": [
+        "bytebot"
+      ]
+    },
+    "cd1d09cbb20eef1b76a337f6cbf4abe49c6782166c477b62224f95c84288c900": {
+      "path": "vendor-icons/cd1d09cbb20eef1b76a337f6cbf4abe49c6782166c477b62224f95c84288c900.svg",
+      "sha256": "cd1d09cbb20eef1b76a337f6cbf4abe49c6782166c477b62224f95c84288c900",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://www.bardeen.ai/",
+      "updatedAt": "2026-08-03T06:17:59.213Z",
+      "vendorIds": [
+        "bardeen"
+      ]
+    },
+    "b79fdc8453b8880f8ae59279c7aad3795e3b9d447dc65c1170d1df1129f99974": {
+      "path": "vendor-icons/b79fdc8453b8880f8ae59279c7aad3795e3b9d447dc65c1170d1df1129f99974.png",
+      "sha256": "b79fdc8453b8880f8ae59279c7aad3795e3b9d447dc65c1170d1df1129f99974",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/rowboatlabs",
+      "updatedAt": "2026-08-03T06:17:59.289Z",
+      "vendorIds": [
+        "rowboat"
+      ]
+    },
+    "efc77025bc6956da1b52beb5a3e119a1ce59ea3fc94cef54119f44f5effead64": {
+      "path": "vendor-icons/efc77025bc6956da1b52beb5a3e119a1ce59ea3fc94cef54119f44f5effead64.png",
+      "sha256": "efc77025bc6956da1b52beb5a3e119a1ce59ea3fc94cef54119f44f5effead64",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/VoltAgent",
+      "updatedAt": "2026-08-03T06:17:59.312Z",
+      "vendorIds": [
+        "voltagent"
+      ]
+    },
+    "6d00ff2e78008037f53eb49439aae347350e93d93a0732d4ef52acd6bd1f86ed": {
+      "path": "vendor-icons/6d00ff2e78008037f53eb49439aae347350e93d93a0732d4ef52acd6bd1f86ed.png",
+      "sha256": "6d00ff2e78008037f53eb49439aae347350e93d93a0732d4ef52acd6bd1f86ed",
+      "mimeType": "image/png",
+      "sourceUrl": "https://continue.dev/",
+      "updatedAt": "2026-08-03T06:17:59.378Z",
+      "vendorIds": [
+        "continue"
+      ]
+    },
+    "09dd9ffe832ebae5d4cac5738b5bc31d3e8b2e4dd6b28bca98e9e82c659ce830": {
+      "path": "vendor-icons/09dd9ffe832ebae5d4cac5738b5bc31d3e8b2e4dd6b28bca98e9e82c659ce830.png",
+      "sha256": "09dd9ffe832ebae5d4cac5738b5bc31d3e8b2e4dd6b28bca98e9e82c659ce830",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/plandex-ai",
+      "updatedAt": "2026-08-03T06:17:59.450Z",
+      "vendorIds": [
+        "plandex"
+      ]
+    },
+    "0addda76f840adcf5d0da2c5975eb6744d471ab7533bca22bcfae97fd232f515": {
+      "path": "vendor-icons/0addda76f840adcf5d0da2c5975eb6744d471ab7533bca22bcfae97fd232f515.svg",
+      "sha256": "0addda76f840adcf5d0da2c5975eb6744d471ab7533bca22bcfae97fd232f515",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://www.activepieces.com/",
+      "updatedAt": "2026-08-03T06:17:59.462Z",
+      "vendorIds": [
+        "activepieces"
+      ]
+    },
+    "2553eb7d732b7ddf947cd577c92398323bb93c13850ce57495b770833fc5abae": {
+      "path": "vendor-icons/2553eb7d732b7ddf947cd577c92398323bb93c13850ce57495b770833fc5abae.png",
+      "sha256": "2553eb7d732b7ddf947cd577c92398323bb93c13850ce57495b770833fc5abae",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.audacityteam.org/",
+      "updatedAt": "2026-08-03T06:17:59.491Z",
+      "vendorIds": [
+        "audacity"
+      ]
+    },
+    "e2344294c131092ec1add3788d63e602e1be2d0753c3abf4af1fb995339326fc": {
+      "path": "vendor-icons/e2344294c131092ec1add3788d63e602e1be2d0753c3abf4af1fb995339326fc.png",
+      "sha256": "e2344294c131092ec1add3788d63e602e1be2d0753c3abf4af1fb995339326fc",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.opus.pro/",
+      "updatedAt": "2026-08-03T06:17:59.559Z",
+      "vendorIds": [
+        "opusclip"
+      ]
+    },
+    "5151bb83fc6ee1f848f183923f25ea92fc2125ec0e7495e2a55b47dc4fd10e81": {
+      "path": "vendor-icons/5151bb83fc6ee1f848f183923f25ea92fc2125ec0e7495e2a55b47dc4fd10e81.svg",
+      "sha256": "5151bb83fc6ee1f848f183923f25ea92fc2125ec0e7495e2a55b47dc4fd10e81",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://www.augmentcode.com/",
+      "updatedAt": "2026-08-03T06:17:59.575Z",
+      "vendorIds": [
+        "augment"
+      ]
+    },
+    "7123a7e3e7b1c4c6f2abe49a8327e7df1d942aa6ac6e3228c143944d9dd70980": {
+      "path": "vendor-icons/7123a7e3e7b1c4c6f2abe49a8327e7df1d942aa6ac6e3228c143944d9dd70980.webp",
+      "sha256": "7123a7e3e7b1c4c6f2abe49a8327e7df1d942aa6ac6e3228c143944d9dd70980",
+      "mimeType": "image/webp",
+      "sourceUrl": "https://www.daytona.io/",
+      "updatedAt": "2026-08-03T06:17:59.617Z",
+      "vendorIds": [
+        "daytona"
+      ]
+    },
+    "75b51ec347928b192586d9826bff07ff875f5cf807aaa6ad8afe1770f0817c6a": {
+      "path": "vendor-icons/75b51ec347928b192586d9826bff07ff875f5cf807aaa6ad8afe1770f0817c6a.png",
+      "sha256": "75b51ec347928b192586d9826bff07ff875f5cf807aaa6ad8afe1770f0817c6a",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.coderabbit.ai/",
+      "updatedAt": "2026-08-03T06:17:59.680Z",
+      "vendorIds": [
+        "coderabbit"
+      ]
+    },
+    "64ff7ac96691be50a8effda0b4dab8e598d43f3354fe14a61c37a7ca4890dde9": {
+      "path": "vendor-icons/64ff7ac96691be50a8effda0b4dab8e598d43f3354fe14a61c37a7ca4890dde9.png",
+      "sha256": "64ff7ac96691be50a8effda0b4dab8e598d43f3354fe14a61c37a7ca4890dde9",
+      "mimeType": "image/png",
+      "sourceUrl": "https://e2b.dev/",
+      "updatedAt": "2026-08-03T06:17:59.738Z",
+      "vendorIds": [
+        "e2b"
+      ]
+    },
+    "cc27c930b12a7fee190a0697c95a2d602690d011a9b164b199d1679c899027ee": {
+      "path": "vendor-icons/cc27c930b12a7fee190a0697c95a2d602690d011a9b164b199d1679c899027ee.png",
+      "sha256": "cc27c930b12a7fee190a0697c95a2d602690d011a9b164b199d1679c899027ee",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.greptile.com/",
+      "updatedAt": "2026-08-03T06:17:59.809Z",
+      "vendorIds": [
+        "greptile"
+      ]
+    },
+    "97ae536e599454303582343be493360008242a7fe9cacc23509c6fe10aae7c97": {
+      "path": "vendor-icons/97ae536e599454303582343be493360008242a7fe9cacc23509c6fe10aae7c97.png",
+      "sha256": "97ae536e599454303582343be493360008242a7fe9cacc23509c6fe10aae7c97",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.pandadoc.com/",
+      "updatedAt": "2026-08-03T06:17:59.869Z",
+      "vendorIds": [
+        "pandadoc"
+      ]
+    },
+    "c6d5b8a1c2c40d7899038d6a25c37236b94799a59eea83e39edd1c38cf682147": {
+      "path": "vendor-icons/c6d5b8a1c2c40d7899038d6a25c37236b94799a59eea83e39edd1c38cf682147.svg",
+      "sha256": "c6d5b8a1c2c40d7899038d6a25c37236b94799a59eea83e39edd1c38cf682147",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://gitbutler.com/",
+      "updatedAt": "2026-08-03T06:17:59.990Z",
+      "vendorIds": [
+        "gitbutler"
+      ]
+    },
+    "eb473b321dffde684089346620e05f55a5cc9ce4d5afd9f695d001d2c5ea75a8": {
+      "path": "vendor-icons/eb473b321dffde684089346620e05f55a5cc9ce4d5afd9f695d001d2c5ea75a8.png",
+      "sha256": "eb473b321dffde684089346620e05f55a5cc9ce4d5afd9f695d001d2c5ea75a8",
+      "mimeType": "image/png",
+      "sourceUrl": "https://sparkmailapp.com/",
+      "updatedAt": "2026-08-03T06:18:00.011Z",
+      "vendorIds": [
+        "spark-mail"
+      ]
+    },
+    "8a338496614f7dac92f3f044f4e814472757cfe1056d3130ea66edd0f4645a78": {
+      "path": "vendor-icons/8a338496614f7dac92f3f044f4e814472757cfe1056d3130ea66edd0f4645a78.png",
+      "sha256": "8a338496614f7dac92f3f044f4e814472757cfe1056d3130ea66edd0f4645a78",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.qodo.ai/",
+      "updatedAt": "2026-08-03T06:18:00.067Z",
+      "vendorIds": [
+        "qodo"
+      ]
+    },
+    "607be1ef85ee300a688c982cad9aaf33d5ac3b97b7f60c92ad8032aa4ad56200": {
+      "path": "vendor-icons/607be1ef85ee300a688c982cad9aaf33d5ac3b97b7f60c92ad8032aa4ad56200.png",
+      "sha256": "607be1ef85ee300a688c982cad9aaf33d5ac3b97b7f60c92ad8032aa4ad56200",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/screenpipe",
+      "updatedAt": "2026-08-03T06:18:00.088Z",
+      "vendorIds": [
+        "screenpipe"
+      ]
+    },
+    "d8615af95534f7384f0f7548b882e5eb0e02972e9f86959fdce9210e94afed7d": {
+      "path": "vendor-icons/d8615af95534f7384f0f7548b882e5eb0e02972e9f86959fdce9210e94afed7d.png",
+      "sha256": "d8615af95534f7384f0f7548b882e5eb0e02972e9f86959fdce9210e94afed7d",
+      "mimeType": "image/png",
+      "sourceUrl": "https://anydesk.com.cn/zhs",
+      "updatedAt": "2026-08-03T06:18:00.197Z",
+      "vendorIds": [
+        "anydesk"
+      ]
+    },
+    "71d3c1c2ad071efde15c0fc832934efc044f39323750eb4aac2b5d420d0e9e01": {
+      "path": "vendor-icons/71d3c1c2ad071efde15c0fc832934efc044f39323750eb4aac2b5d420d0e9e01.png",
+      "sha256": "71d3c1c2ad071efde15c0fc832934efc044f39323750eb4aac2b5d420d0e9e01",
+      "mimeType": "image/png",
+      "sourceUrl": "https://canarymail.io/",
+      "updatedAt": "2026-08-03T06:18:00.264Z",
+      "vendorIds": [
+        "canarymail"
+      ]
+    },
+    "aa4434ae1033d523f11d08761933ec317ef30c04ac543ec06ae7443d2fd38cb3": {
+      "path": "vendor-icons/aa4434ae1033d523f11d08761933ec317ef30c04ac543ec06ae7443d2fd38cb3.png",
+      "sha256": "aa4434ae1033d523f11d08761933ec317ef30c04ac543ec06ae7443d2fd38cb3",
+      "mimeType": "image/png",
+      "sourceUrl": "https://www.braintrust.dev/",
+      "updatedAt": "2026-08-03T06:18:00.278Z",
+      "vendorIds": [
+        "braintrust"
+      ]
+    },
+    "299f00905d57a663a0e411a0d82b4490bc17f8acd5b1616e2021063fb30e3285": {
+      "path": "vendor-icons/299f00905d57a663a0e411a0d82b4490bc17f8acd5b1616e2021063fb30e3285.webp",
+      "sha256": "299f00905d57a663a0e411a0d82b4490bc17f8acd5b1616e2021063fb30e3285",
+      "mimeType": "image/webp",
+      "sourceUrl": "https://cloudinary.com/",
+      "updatedAt": "2026-08-03T06:18:00.353Z",
+      "vendorIds": [
+        "cloudinary"
+      ]
+    },
+    "ff9929012d16ec79eea439f7ba02b2dc1f3e838cbf77d0906683fe1c50e1c25f": {
+      "path": "vendor-icons/ff9929012d16ec79eea439f7ba02b2dc1f3e838cbf77d0906683fe1c50e1c25f.png",
+      "sha256": "ff9929012d16ec79eea439f7ba02b2dc1f3e838cbf77d0906683fe1c50e1c25f",
+      "mimeType": "image/png",
+      "sourceUrl": "https://affine.pro/",
+      "updatedAt": "2026-08-03T06:18:00.431Z",
+      "vendorIds": [
+        "affine"
+      ]
+    },
+    "22a6bdf8cfe3012240b3c65b4ff93b4b4d5adc6a3edafcd00648093ce6007001": {
+      "path": "vendor-icons/22a6bdf8cfe3012240b3c65b4ff93b4b4d5adc6a3edafcd00648093ce6007001.webp",
+      "sha256": "22a6bdf8cfe3012240b3c65b4ff93b4b4d5adc6a3edafcd00648093ce6007001",
+      "mimeType": "image/webp",
+      "sourceUrl": "https://www.onlyoffice.com/",
+      "updatedAt": "2026-08-03T06:18:00.718Z",
+      "vendorIds": [
+        "onlyoffice"
+      ]
+    },
+    "a14ae15806dbf183fb2017b4bd64da574bfca01371eda2ef287b8fcec466591b": {
+      "path": "vendor-icons/a14ae15806dbf183fb2017b4bd64da574bfca01371eda2ef287b8fcec466591b.png",
+      "sha256": "a14ae15806dbf183fb2017b4bd64da574bfca01371eda2ef287b8fcec466591b",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/qupath",
+      "updatedAt": "2026-08-03T06:18:00.755Z",
+      "vendorIds": [
+        "qupath"
+      ]
+    },
+    "1067737eba5f45550219bffb7869cc4de14e7e3114d8be8cc915672b53c1b7d0": {
+      "path": "vendor-icons/1067737eba5f45550219bffb7869cc4de14e7e3114d8be8cc915672b53c1b7d0.webp",
+      "sha256": "1067737eba5f45550219bffb7869cc4de14e7e3114d8be8cc915672b53c1b7d0",
+      "mimeType": "image/webp",
+      "sourceUrl": "https://www.helicone.ai/",
+      "updatedAt": "2026-08-03T06:18:00.918Z",
+      "vendorIds": [
+        "helicone"
+      ]
+    },
+    "a5bad3bf6a94e50a9f7969283721f75a80da92a4086ded04e709830a2086c001": {
+      "path": "vendor-icons/a5bad3bf6a94e50a9f7969283721f75a80da92a4086ded04e709830a2086c001.svg",
+      "sha256": "a5bad3bf6a94e50a9f7969283721f75a80da92a4086ded04e709830a2086c001",
+      "mimeType": "image/svg+xml",
+      "sourceUrl": "https://tailscale.com/",
+      "updatedAt": "2026-08-03T06:18:00.928Z",
+      "vendorIds": [
+        "tailscale"
+      ]
+    },
+    "feb8047a85de5492e5100e89c98ceaeba816c3125f7f3c1f3cd0325aad501c19": {
+      "path": "vendor-icons/feb8047a85de5492e5100e89c98ceaeba816c3125f7f3c1f3cd0325aad501c19.png",
+      "sha256": "feb8047a85de5492e5100e89c98ceaeba816c3125f7f3c1f3cd0325aad501c19",
+      "mimeType": "image/png",
+      "sourceUrl": "https://github.com/docling-project",
+      "updatedAt": "2026-08-03T06:18:01.092Z",
+      "vendorIds": [
+        "docling-project"
+      ]
+    },
+    "f6dd3c2235d7b7b0ef384366e71d8ea260ea58f95bbd8d82b986fd6ede3d4964": {
+      "path": "vendor-icons/f6dd3c2235d7b7b0ef384366e71d8ea260ea58f95bbd8d82b986fd6ede3d4964.png",
+      "sha256": "f6dd3c2235d7b7b0ef384366e71d8ea260ea58f95bbd8d82b986fd6ede3d4964",
+      "mimeType": "image/png",
+      "sourceUrl": "https://d1eipm3vz40hy0.cloudfront.net/images/logos/favicons/zendesk-icon-152.png",
+      "updatedAt": "2026-08-03T06:26:08.571Z",
+      "vendorIds": [
+        "zendesk"
+      ]
+    },
+    "2dfe54821d841d1d73b98fb621d7b7c0cbf003c4e0d8b9c1a26a38a8542871d1": {
+      "path": "vendor-icons/2dfe54821d841d1d73b98fb621d7b7c0cbf003c4e0d8b9c1a26a38a8542871d1.png",
+      "sha256": "2dfe54821d841d1d73b98fb621d7b7c0cbf003c4e0d8b9c1a26a38a8542871d1",
+      "mimeType": "image/png",
+      "sourceUrl": "https://mastra.ai/favicon/new-brand/icon-512.png",
+      "updatedAt": "2026-08-03T06:26:08.666Z",
+      "vendorIds": [
+        "mastra"
+      ]
     }
   }
 }

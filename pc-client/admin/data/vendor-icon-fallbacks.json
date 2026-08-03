@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewedAt": "2026-08-03T15:30:00.000Z",
+  "reviewedAt": "2026-08-03T17:00:00.000Z",
   "vendors": {
     "acd-systems": {
       "evidenceUrl": "https://www.acdsee.com/en/legal-notices/",
@@ -104,14 +104,6 @@
     },
     "wolfram-research": {
       "evidenceUrl": "https://www.wolfram.com/",
-      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
-    },
-    "ansys": {
-      "evidenceUrl": "https://www.ansys.com/",
-      "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
-    },
-    "cesium": {
-      "evidenceUrl": "https://cesium.com/",
       "reason": "等待取得并核验可用于第三方目录展示的官方 Logo 素材，当前使用字母兜底。"
     },
     "siemens": {
@@ -250,16 +242,8 @@
       "evidenceUrl": "https://clarivate.com/",
       "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
     },
-    "taskade": {
-      "evidenceUrl": "https://www.taskade.com/",
-      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
-    },
     "tldv": {
       "evidenceUrl": "https://tldv.io/",
-      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
-    },
-    "aftershoot": {
-      "evidenceUrl": "https://aftershoot.com/",
       "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
     },
     "excire": {
@@ -358,72 +342,12 @@
       "evidenceUrl": "https://www.teamviewer.com/",
       "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
     },
-    "openhands": {
-      "evidenceUrl": "https://www.openhands.dev/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "significant-gravitas": {
-      "evidenceUrl": "https://www.agpt.co/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "agent0ai": {
-      "evidenceUrl": "https://www.agent-zero.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "browser-use": {
-      "evidenceUrl": "https://browser-use.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "skyvern": {
-      "evidenceUrl": "https://www.skyvern.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "foundation-agents": {
-      "evidenceUrl": "https://foundationagents.org/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "rightnow-ai": {
-      "evidenceUrl": "https://www.openfang.sh/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "zeroclaw-labs": {
-      "evidenceUrl": "https://zeroclawlabs.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "near-ai": {
-      "evidenceUrl": "https://near.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "hkuds": {
-      "evidenceUrl": "https://github.com/HKUDS",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "nanoco": {
-      "evidenceUrl": "https://nanoclaw.dev/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "astrbot": {
-      "evidenceUrl": "https://astrbot.app/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "langbot": {
       "evidenceUrl": "https://langbot.app/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "open-interpreter": {
       "evidenceUrl": "https://www.openinterpreter.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "cognition": {
-      "evidenceUrl": "https://devin.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "factory-ai": {
-      "evidenceUrl": "https://factory.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "kortix": {
-      "evidenceUrl": "https://kortix.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "flowith": {
@@ -438,10 +362,6 @@
       "evidenceUrl": "https://www.gumloop.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "bardeen": {
-      "evidenceUrl": "https://www.bardeen.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "lindy": {
       "evidenceUrl": "https://www.lindy.ai/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
@@ -454,16 +374,8 @@
       "evidenceUrl": "https://www.langflow.org/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "mastra": {
-      "evidenceUrl": "https://mastra.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "pydantic": {
       "evidenceUrl": "https://pydantic.dev/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "agno": {
-      "evidenceUrl": "https://www.agno.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "camel-ai": {
@@ -476,46 +388,6 @@
     },
     "aider": {
       "evidenceUrl": "https://aider.chat/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "continue": {
-      "evidenceUrl": "https://www.continue.dev/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "kilo": {
-      "evidenceUrl": "https://kilo.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "swe-agent": {
-      "evidenceUrl": "https://swe-agent.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "letta": {
-      "evidenceUrl": "https://www.letta.com/agent",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "activepieces": {
-      "evidenceUrl": "https://www.activepieces.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "rowboat": {
-      "evidenceUrl": "https://www.rowboatlabs.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "plandex": {
-      "evidenceUrl": "https://plandex.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "simular-ai": {
-      "evidenceUrl": "https://www.simular.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "bytebot": {
-      "evidenceUrl": "https://www.bytebot.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "voltagent": {
-      "evidenceUrl": "https://voltagent.dev/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "praisonai": {
@@ -548,10 +420,6 @@
     },
     "ilastik": {
       "evidenceUrl": "https://www.ilastik.org/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "qupath": {
-      "evidenceUrl": "https://qupath.github.io/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "orange-data-mining": {
@@ -594,10 +462,6 @@
       "evidenceUrl": "https://www.relativity.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "zendesk": {
-      "evidenceUrl": "https://www.zendesk.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "freshworks": {
       "evidenceUrl": "https://www.freshworks.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
@@ -614,20 +478,12 @@
       "evidenceUrl": "https://www.dialpad.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "audacity": {
-      "evidenceUrl": "https://www.audacityteam.org/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "streamlabs": {
       "evidenceUrl": "https://streamlabs.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "riverside": {
       "evidenceUrl": "https://riverside.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "opusclip": {
-      "evidenceUrl": "https://www.opus.pro/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "thoughtspot": {
@@ -654,36 +510,12 @@
       "evidenceUrl": "https://ampcode.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "augment": {
-      "evidenceUrl": "https://www.augmentcode.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "qodo": {
-      "evidenceUrl": "https://qodo.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "coderabbit": {
-      "evidenceUrl": "https://www.coderabbit.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "greptile": {
-      "evidenceUrl": "https://www.greptile.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "clickhouse": {
       "evidenceUrl": "https://clickhouse.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "promptfoo": {
       "evidenceUrl": "https://www.promptfoo.dev/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "daytona": {
-      "evidenceUrl": "https://www.daytona.io/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "e2b": {
-      "evidenceUrl": "https://e2b.dev/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "cisco": {
@@ -698,28 +530,12 @@
       "evidenceUrl": "https://vimeo.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "cloudinary": {
-      "evidenceUrl": "https://cloudinary.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "onlyoffice": {
-      "evidenceUrl": "https://www.onlyoffice.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "airtable": {
       "evidenceUrl": "https://www.airtable.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "pandadoc": {
-      "evidenceUrl": "https://www.pandadoc.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "superwhisper": {
       "evidenceUrl": "https://superwhisper.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "screenpipe": {
-      "evidenceUrl": "https://screenpipe.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "pdfgear": {
@@ -742,28 +558,12 @@
       "evidenceUrl": "https://finevoice.ai/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "gitbutler": {
-      "evidenceUrl": "https://gitbutler.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "affine": {
-      "evidenceUrl": "https://affine.pro/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "appflowy": {
       "evidenceUrl": "https://appflowy.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "duckduckgo": {
       "evidenceUrl": "https://duckduckgo.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "spark-mail": {
-      "evidenceUrl": "https://sparkmailapp.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "canarymail": {
-      "evidenceUrl": "https://canarymail.io/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "movavi": {
@@ -774,16 +574,8 @@
       "evidenceUrl": "https://www.coreldraw.com/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "braintrust": {
-      "evidenceUrl": "https://www.braintrust.dev/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "agentops": {
       "evidenceUrl": "https://www.agentops.ai/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "helicone": {
-      "evidenceUrl": "https://www.helicone.ai/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
     "mod-io": {
@@ -798,24 +590,100 @@
       "evidenceUrl": "https://livekit.io/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "anydesk": {
-      "evidenceUrl": "https://anydesk.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "tripo": {
       "evidenceUrl": "https://www.tripo3d.ai/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     },
-    "docling-project": {
-      "evidenceUrl": "https://github.com/docling-project/docling",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
-    "tailscale": {
-      "evidenceUrl": "https://tailscale.com/",
-      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
-    },
     "spline": {
       "evidenceUrl": "https://spline.design/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "copilotkit": {
+      "evidenceUrl": "https://www.copilotkit.ai/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "composio": {
+      "evidenceUrl": "https://composio.dev/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "arcade": {
+      "evidenceUrl": "https://www.arcade.dev/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "deepset": {
+      "evidenceUrl": "https://www.deepset.ai/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "mem0": {
+      "evidenceUrl": "https://mem0.ai/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "zep": {
+      "evidenceUrl": "https://www.getzep.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "browserbase": {
+      "evidenceUrl": "https://www.browserbase.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "firecrawl": {
+      "evidenceUrl": "https://www.firecrawl.dev/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "tavily": {
+      "evidenceUrl": "https://www.tavily.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "apify": {
+      "evidenceUrl": "https://apify.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "qdrant": {
+      "evidenceUrl": "https://qdrant.tech/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "weaviate": {
+      "evidenceUrl": "https://weaviate.io/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "neon-database": {
+      "evidenceUrl": "https://neon.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "gitbook": {
+      "evidenceUrl": "https://www.gitbook.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "new-relic": {
+      "evidenceUrl": "https://newrelic.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "sider": {
+      "evidenceUrl": "https://sider.ai/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "skales": {
+      "evidenceUrl": "https://skales.app/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "ptc": {
+      "evidenceUrl": "https://www.ptc.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "allplan": {
+      "evidenceUrl": "https://www.allplan.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "biorender": {
+      "evidenceUrl": "https://www.biorender.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "benchling": {
+      "evidenceUrl": "https://www.benchling.com/",
+      "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
+    },
+    "anytype": {
+      "evidenceUrl": "https://anytype.io/",
       "reason": "厂商与产品身份已由官方来源核验；在未确认可用于第三方目录的方形品牌素材前使用文字兜底，禁止使用 favicon、搜索图片或相似厂商图标。"
     }
   }
