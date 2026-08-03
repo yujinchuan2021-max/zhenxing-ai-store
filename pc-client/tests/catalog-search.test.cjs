@@ -142,6 +142,26 @@ test("catalog search finds the next reviewed Windows products by identity", () =
   }
 });
 
+test("catalog search finds the next observability and connectable products", () => {
+  const expected = {
+    Braintrust: ["braintrust"],
+    AgentOps: ["agentops"],
+    Helicone: ["helicone"],
+    "AnyDesk": ["anydesk"],
+    "Tripo OpenAPI": ["tripo"],
+    Docling: ["docling-project"],
+    "Tailscale Aperture": ["tailscale"]
+  };
+
+  for (const [query, vendorIds] of Object.entries(expected)) {
+    assert.deepEqual(
+      search(query).vendors.map(({ vendor }) => vendor.id),
+      vendorIds,
+      query
+    );
+  }
+});
+
 test("catalog search projects resources into every enabled current or future store", () => {
   const source = {
     vendors: [

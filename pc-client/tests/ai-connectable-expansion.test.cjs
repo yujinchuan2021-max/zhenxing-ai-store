@@ -171,6 +171,54 @@ test("the next connectable batch keeps official MCP products in the connectable 
   }
 });
 
+test("API, docs MCP, and Alpha infrastructure keep their exact connectable boundaries", () => {
+  const catalog = readCatalog("admin/data/catalog-v1.json");
+  const products = new Map(
+    catalog.vendors.flatMap((vendor) =>
+      vendor.products.map((product) => [product.id, product])
+    )
+  );
+  for (const id of [
+    "mod-io-platform",
+    "assemblyai-voice-ai-platform",
+    "livekit-cloud-agents",
+    "anydesk-windows",
+    "tripo-openapi",
+    "docling",
+    "tailscale-aperture",
+    "spline-platform"
+  ]) {
+    assert.equal(products.get(id)?.directoryKind, "ai-connectable", id);
+  }
+  assert.equal(products.get("tripo-studio")?.directoryKind, "ai-tool");
+  assert.equal(products.get("anydesk-windows")?.productType, "desktop-official");
+
+  const resources = new Map(catalog.resources.map((resource) => [resource.id, resource]));
+  for (const id of [
+    "assemblyai-docs-mcp",
+    "livekit-docs-mcp",
+    "docling-mcp",
+    "tailscale-aperture-mcp-proxy"
+  ]) {
+    const resource = resources.get(id);
+    assert.ok(resource, id);
+    assert.deepEqual(resource.resourceTypes, ["mcp"], id);
+    assert.equal(
+      resource.targets.every(
+        (target) =>
+          target.moduleId === "resource-link" &&
+          target.installProfileId === "" &&
+          target.capabilities.join() === "website"
+      ),
+      true,
+      id
+    );
+  }
+  assert.match(resources.get("assemblyai-docs-mcp").description, /文档/);
+  assert.match(resources.get("livekit-docs-mcp").description, /文档/);
+  assert.match(resources.get("tailscale-aperture-mcp-proxy").description, /Alpha/);
+});
+
 test("18 reviewed resources stay link-only and retain security metadata", () => {
   const catalog = readCatalog("admin/data/catalog-v1.json");
   const resources = new Map(catalog.resources.map((resource) => [resource.id, resource]));

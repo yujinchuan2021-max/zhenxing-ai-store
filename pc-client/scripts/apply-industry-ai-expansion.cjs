@@ -1534,6 +1534,224 @@ const definitions = [
         tutorial: "https://www.coreldraw.com/en/learn/tutorials/new-in-march-2026/"
       })
     ]
+  ),
+  vendor(
+    "braintrust",
+    "Braintrust",
+    "B",
+    "#111827",
+    "提供 AI 应用和 Agent 的评估、可观测性与数据平台。",
+    "https://www.braintrust.dev/",
+    "https://www.braintrust.dev/docs",
+    [
+      toolWeb({
+        id: "braintrust-platform",
+        name: "Braintrust",
+        category: "智能体",
+        description: "用于 Agent/AI 应用评估、实验、可观测性和数据管理的 Web 平台；官方 bt eval CLI 不标为 Windows CLI。",
+        website: "https://www.braintrust.dev/",
+        tutorial: "https://www.braintrust.dev/docs/evaluate/run-evaluations"
+      })
+    ]
+  ),
+  vendor(
+    "agentops",
+    "AgentOps",
+    "A",
+    "#7c3aed",
+    "提供 AI Agent 测试、调试和可观测性平台。",
+    "https://www.agentops.ai/",
+    "https://docs.agentops.ai/v1/introduction",
+    [
+      toolWeb({
+        id: "agentops-platform",
+        name: "AgentOps",
+        category: "智能体",
+        description: "面向 AI Agent 的测试、调试、会话追踪和可观测性 Web 平台；SDK 集成不是独立 Windows 客户端。",
+        website: "https://www.agentops.ai/",
+        tutorial: "https://docs.agentops.ai/v1/introduction"
+      })
+    ]
+  ),
+  vendor(
+    "helicone",
+    "Helicone",
+    "H",
+    "#0f172a",
+    "提供 LLM 网关、路由、缓存和可观测性平台。",
+    "https://www.helicone.ai/",
+    "https://docs.helicone.ai/getting-started/platform-overview",
+    [
+      toolWeb({
+        id: "helicone-platform",
+        name: "Helicone",
+        category: "可观测性",
+        description: "面向 LLM/Agent 的网关、路由、缓存和可观测性 Web 平台；自托管与 SDK 仅作为官方说明入口。",
+        website: "https://www.helicone.ai/",
+        tutorial: "https://docs.helicone.ai/guides/cookbooks/ai-agents"
+      })
+    ]
+  ),
+  vendor(
+    "mod-io",
+    "mod.io",
+    "M",
+    "#111827",
+    "提供游戏 UGC、模组、审核和分发平台。",
+    "https://mod.io/",
+    "https://docs.mod.io/getting-started",
+    [
+      connectableWeb({
+        id: "mod-io-platform",
+        name: "mod.io Platform",
+        category: "游戏开发",
+        description: "游戏 UGC 和模组平台，提供官方 REST API 与 SDK，可把外部 AI 服务接入内容审核流程；当前未声明官方 MCP。",
+        website: "https://mod.io/",
+        tutorial: "https://docs.mod.io/restapi/introduction"
+      })
+    ]
+  ),
+  vendor(
+    "assemblyai",
+    "AssemblyAI",
+    "A",
+    "#0f172a",
+    "提供语音识别、理解和实时 Voice AI API。",
+    "https://www.assemblyai.com/",
+    "https://www.assemblyai.com/docs/api-reference/overview/",
+    [
+      connectableWeb({
+        id: "assemblyai-voice-ai-platform",
+        name: "AssemblyAI Voice AI Platform",
+        category: "音频创作",
+        description: "提供录音转写、实时 WebSocket、语音理解和 Voice Agent API；官方 MCP 当前用于检索文档，不操作账户任务。",
+        website: "https://www.assemblyai.com/",
+        tutorial: "https://www.assemblyai.com/docs/api-reference/overview/"
+      })
+    ]
+  ),
+  vendor(
+    "livekit",
+    "LiveKit",
+    "L",
+    "#111827",
+    "提供实时音视频基础设施和 Voice Agent 框架。",
+    "https://livekit.io/",
+    "https://docs.livekit.io/intro/about/",
+    [
+      connectableWeb({
+        id: "livekit-cloud-agents",
+        name: "LiveKit Cloud + Agents",
+        category: "音频创作",
+        description: "实时音视频云平台与 Agent SDK；SDK 可消费外部 MCP，官方 Docs MCP 仅检索文档，不等于平台控制接口。",
+        website: "https://livekit.io/",
+        tutorial: "https://docs.livekit.io/intro/about/"
+      })
+    ]
+  ),
+  vendor(
+    "anydesk",
+    "AnyDesk",
+    "A",
+    "#ef443b",
+    "提供远程桌面、设备和会话管理产品。",
+    "https://anydesk.com/",
+    "https://support.anydesk.com/docs/rest-api",
+    [
+      connectableDesktop({
+        id: "anydesk-windows",
+        name: "AnyDesk",
+        category: "远程控制",
+        description: "Windows 远程桌面客户端；官方 REST API 仅管理 my.anydesk 设备和会话元数据，不代表 AI 可直接接管交互式桌面。",
+        downloadPage: "https://anydesk.com/en/downloads/windows",
+        homePage: "https://anydesk.com/",
+        tutorial: "https://support.anydesk.com/docs/rest-api"
+      })
+    ]
+  ),
+  vendor(
+    "tripo",
+    "Tripo AI",
+    "T",
+    "#6d28d9",
+    "提供 AI 生成 3D 模型和开发者 OpenAPI。",
+    "https://www.tripo3d.ai/",
+    "https://docs.tripo3d.ai/get-started/introduction.html",
+    [
+      toolWeb({
+        id: "tripo-studio",
+        name: "Tripo AI",
+        category: "3D 创作",
+        description: "在线 AI 3D 生成平台，可从文本或图像创建模型并进行后处理。",
+        website: "https://www.tripo3d.ai/",
+        tutorial: "https://www.tripo3d.ai/"
+      }),
+      connectableWeb({
+        id: "tripo-openapi",
+        name: "Tripo OpenAPI",
+        category: "3D 创作",
+        description: "异步 3D 生成 API；调用会消耗 credits，结果下载链接短期有效，密钥和成果归档须由接入方管理。",
+        website: "https://docs.tripo3d.ai/get-started/introduction.html",
+        tutorial: "https://docs.tripo3d.ai/get-started/pricing.html"
+      })
+    ]
+  ),
+  vendor(
+    "docling-project",
+    "Docling Project",
+    "D",
+    "#111827",
+    "提供开源文档解析、转换和 AI 工作流工具。",
+    "https://github.com/docling-project/docling",
+    "https://github.com/docling-project/docling-mcp",
+    [
+      connectableWeb({
+        id: "docling",
+        name: "Docling",
+        category: "文档与知识库",
+        description: "LF AI & Data 托管的开源文档解析项目，提供项目官方 MCP；本地运行会读取文件并下载依赖，首版仅展示说明。",
+        website: "https://github.com/docling-project/docling",
+        tutorial: "https://github.com/docling-project/docling-mcp"
+      })
+    ]
+  ),
+  vendor(
+    "tailscale",
+    "Tailscale",
+    "T",
+    "#242424",
+    "提供基于身份的私网连接和安全访问基础设施。",
+    "https://tailscale.com/",
+    "https://tailscale.com/docs/aperture/mcp-server",
+    [
+      connectableWeb({
+        id: "tailscale-aperture",
+        name: "Tailscale Aperture",
+        category: "云服务与运维",
+        description: "Tailscale 的 MCP Server Proxy（Alpha），用于在用户自己的 tailnet 中聚合和授权远程 MCP；没有公共统一端点。",
+        website: "https://tailscale.com/docs/aperture/mcp-server",
+        tutorial: "https://tailscale.com/use-cases/secure-ai-agent-connectivity"
+      })
+    ]
+  ),
+  vendor(
+    "spline",
+    "Spline",
+    "S",
+    "#665cf6",
+    "提供浏览器交互式 3D 设计和发布平台。",
+    "https://spline.design/",
+    "https://docs.spline.design/basics/what-is-spline",
+    [
+      connectableWeb({
+        id: "spline-platform",
+        name: "Spline",
+        category: "3D 创作",
+        description: "浏览器交互式 3D 设计平台，可通过 AI Voice Assistant API 触发预定义场景动作；该接口不是通用 Spline MCP。",
+        website: "https://spline.design/",
+        tutorial: "https://docs.spline.design/interaction-states-events-and-actions/ai-voice-assistant-api"
+      })
+    ]
   )
 ];
 
@@ -1724,6 +1942,129 @@ const resourceDefinitions = [
     provenanceEvidence: [
       "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server",
       "https://developers.pandadoc.com/docs/getting-started-with-mcp"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  },
+  {
+    id: "assemblyai-docs-mcp",
+    name: "AssemblyAI Docs MCP",
+    resourceTypes: ["mcp"],
+    description: "AssemblyAI 官方文档 MCP，只检索产品文档和示例，不提交转写任务或操作用户账户。",
+    website: "https://www.assemblyai.com/docs/coding-agent-prompts",
+    tutorial: "https://www.assemblyai.com/docs/coding-agent-prompts",
+    publisherVendorId: "assemblyai",
+    publisher: "AssemblyAI",
+    sourceKind: "official",
+    sourceProductIds: ["assemblyai-voice-ai-platform"],
+    targets: [
+      resourceTarget("codex-cli", "protocol-compatible"),
+      resourceTarget("claude-code", "protocol-compatible"),
+      resourceTarget("cursor-desktop", "protocol-compatible")
+    ],
+    versionRef: "rolling-official-docs",
+    requestedPermissions: [
+      "仅搜索和读取 AssemblyAI 官方文档；不授予 API 任务或账户写权限。"
+    ],
+    credentialRequirements: [
+      "文档 MCP 不需要 AssemblyAI API key；真实语音 API 凭据不由目录保存。"
+    ],
+    installScope: "仅打开官方文档 MCP 说明；当前不写入目标工具配置。",
+    uninstallPlan: "从目标 AI 工具删除文档 MCP 连接；不影响 AssemblyAI 账户或 API 项目。",
+    provenanceEvidence: [
+      "https://www.assemblyai.com/docs/coding-agent-prompts"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  },
+  {
+    id: "livekit-docs-mcp",
+    name: "LiveKit Docs MCP",
+    resourceTypes: ["mcp"],
+    description: "LiveKit 官方文档 MCP，只检索文档、示例和更新记录，不控制房间、媒体或 Agent 部署。",
+    website: "https://docs.livekit.io/reference/developer-tools/docs-mcp/",
+    tutorial: "https://docs.livekit.io/reference/developer-tools/docs-mcp/",
+    publisherVendorId: "livekit",
+    publisher: "LiveKit",
+    sourceKind: "official",
+    sourceProductIds: ["livekit-cloud-agents"],
+    targets: [
+      resourceTarget("codex-cli", "protocol-compatible"),
+      resourceTarget("claude-code", "protocol-compatible"),
+      resourceTarget("cursor-desktop", "protocol-compatible")
+    ],
+    versionRef: "rolling-official-docs",
+    requestedPermissions: [
+      "仅搜索和读取 LiveKit 官方文档；不授予房间、媒体、电话或 Agent 控制权限。"
+    ],
+    credentialRequirements: [
+      "文档 MCP 不使用 LiveKit 项目凭据；真实云项目凭据不由目录保存。"
+    ],
+    installScope: "仅打开官方文档 MCP 说明；当前不写入目标工具配置。",
+    uninstallPlan: "从目标 AI 工具删除文档 MCP 连接；不影响 LiveKit Cloud 项目和运行中会话。",
+    provenanceEvidence: [
+      "https://docs.livekit.io/reference/developer-tools/docs-mcp/"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  },
+  {
+    id: "docling-mcp",
+    name: "Docling MCP",
+    resourceTypes: ["mcp"],
+    description: "Docling 项目官方开源 MCP，可连接 Docling Serve 或在本地解析和转换文档。",
+    website: "https://github.com/docling-project/docling-mcp",
+    tutorial: "https://github.com/docling-project/docling-mcp",
+    publisherVendorId: "docling-project",
+    publisher: "Docling Project",
+    sourceKind: "official",
+    sourceProductIds: ["docling"],
+    targets: [
+      resourceTarget("codex-cli", "protocol-compatible"),
+      resourceTarget("claude-code", "protocol-compatible"),
+      resourceTarget("claude-desktop", "protocol-compatible"),
+      resourceTarget("cursor-desktop", "protocol-compatible")
+    ],
+    versionRef: "rolling-official-repository",
+    requestedPermissions: [
+      "本地模式会读取用户选择的文件或 URL、下载依赖并生成缓存和输出；操作范围必须由用户确认。"
+    ],
+    credentialRequirements: [
+      "连接 Docling Serve 时由目标工具管理服务地址和凭据；目录不保存秘密。"
+    ],
+    installScope: "仅打开项目官方仓库；当前不执行 pip、uvx、模型下载或本地服务器启动。",
+    uninstallPlan: "从目标 AI 工具删除连接；保留用户文档、输出、Docling Serve 和未由 AI Hub 创建的缓存。",
+    provenanceEvidence: [
+      "https://github.com/docling-project/docling-mcp",
+      "https://github.com/docling-project/docling"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  },
+  {
+    id: "tailscale-aperture-mcp-proxy",
+    name: "Tailscale Aperture MCP Proxy",
+    resourceTypes: ["mcp"],
+    description: "Tailscale 官方 MCP Server Proxy（Alpha），在用户自己的 tailnet 中聚合、发现和授权远程 MCP。",
+    website: "https://tailscale.com/docs/aperture/mcp-server",
+    tutorial: "https://tailscale.com/docs/aperture/mcp-server",
+    publisherVendorId: "tailscale",
+    publisher: "Tailscale",
+    sourceKind: "official",
+    sourceProductIds: ["tailscale-aperture"],
+    targets: [
+      resourceTarget("codex-cli", "protocol-compatible"),
+      resourceTarget("claude-code", "protocol-compatible"),
+      resourceTarget("claude-desktop", "protocol-compatible")
+    ],
+    versionRef: "alpha-rolling-service",
+    requestedPermissions: [
+      "按用户 tailnet grants 和动态工具发现暴露 MCP；每个下游服务仍需单独审核权限。"
+    ],
+    credentialRequirements: [
+      "需要用户自己的 tailnet、Aperture 主机和身份配置；不存在可预置的公共端点。"
+    ],
+    installScope: "仅打开 Alpha 文档；当前不部署 Aperture、不写入端点，也不配置 tailnet。",
+    uninstallPlan: "从目标 AI 工具删除连接，并由用户在自己的 tailnet 中停用 Aperture；不修改其他 Tailscale 设备。",
+    provenanceEvidence: [
+      "https://tailscale.com/docs/aperture/mcp-server",
+      "https://tailscale.com/use-cases/secure-ai-agent-connectivity"
     ],
     lastVerifiedAt: "2026-08-03T00:00:00.000Z"
   }

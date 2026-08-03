@@ -322,14 +322,26 @@ const NEXT_CATALOG_EXPANSION = Object.freeze([
   "spark-mail-windows",
   "canary-mail",
   "movavi-video-editor",
-  "coreldraw-graphics-suite"
+  "coreldraw-graphics-suite",
+  "braintrust-platform",
+  "agentops-platform",
+  "helicone-platform",
+  "mod-io-platform",
+  "assemblyai-voice-ai-platform",
+  "livekit-cloud-agents",
+  "anydesk-windows",
+  "tripo-studio",
+  "tripo-openapi",
+  "docling",
+  "tailscale-aperture",
+  "spline-platform"
 ]);
 
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 342);
+  assert.equal(catalog.vendors.length, 353);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 547);
+  assert.equal(products.length, 559);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of [
     ...HIGH_VALUE_RESEARCH_PRODUCTS,
@@ -452,7 +464,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 547);
+  assert.equal(products.length, 559);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -489,8 +501,8 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 200,
-    "desktop-official": 224,
+    web: 211,
+    "desktop-official": 225,
     "desktop-reviewed": 26,
     "cli-official": 30,
     cli: 14,
@@ -509,14 +521,14 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
     true
   );
   const resources = catalog.resources;
-  assert.equal(resources.length, 124);
+  assert.equal(resources.length, 128);
   assert.equal(
     resources.every((item) => item.publisherVendorId),
     true,
     "every resource must link to its single backend vendor record"
   );
   assert.equal(resources.filter((item) => item.resourceTypes.includes("skill")).length, 16);
-  assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 102);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 106);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("plugin")).length, 7);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("connector")).length, 3);
   const managed = resources.find(
@@ -568,7 +580,11 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
     "cloudinary-mcp-servers",
     "onlyoffice-docspace-mcp",
     "airtable-mcp-server",
-    "pandadoc-mcp-server"
+    "pandadoc-mcp-server",
+    "assemblyai-docs-mcp",
+    "livekit-docs-mcp",
+    "docling-mcp",
+    "tailscale-aperture-mcp-proxy"
   ]) {
     assert.equal(resourceIds.has(resourceId), true, resourceId);
   }
