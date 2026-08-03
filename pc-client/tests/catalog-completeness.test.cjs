@@ -129,18 +129,67 @@ const VENDOR_EXPANSION_BATCH8 = Object.freeze([
   "zoner-studio"
 ]);
 
+const CONTINUOUS_CATALOG_EXPANSION = Object.freeze([
+  "mylio-photos",
+  "endnote-2025",
+  "taskade-workspace",
+  "tldv-desktop",
+  "aftershoot",
+  "excire-foto",
+  "evoto-desktop",
+  "maxqda-desktop",
+  "nvivo",
+  "atlas-ti",
+  "citavi",
+  "wrike-desktop",
+  "motion-desktop",
+  "coda-ai",
+  "reclaim-ai",
+  "camtasia",
+  "snagit",
+  "audiate",
+  "knime-analytics-platform",
+  "dbeaver-pro",
+  "alteryx-designer",
+  "gitkraken-desktop",
+  "termius-desktop",
+  "lens-desktop",
+  "nero-ai-photo-tagger",
+  "nero-ai-image-upscaler",
+  "nero-ai-video-upscaler",
+  "hitpaw-vikpea",
+  "hitpaw-fotorpea",
+  "hitpaw-voicepea",
+  "hitpaw-edimakor",
+  "portraitpro",
+  "izotope-rx",
+  "steinberg-spectralayers",
+  "supernormal-desktop",
+  "meetgeek-desktop",
+  "fellow-desktop",
+  "teamviewer-remote-ai",
+  "microsoft-power-bi-desktop",
+  "tableau-desktop",
+  "adobe-photoshop",
+  "adobe-lightroom",
+  "adobe-premiere",
+  "adobe-illustrator",
+  "adobe-firefly"
+]);
+
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 209);
+  assert.equal(catalog.vendors.length, 238);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 363);
+  assert.equal(products.length, 408);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of [
     ...HIGH_VALUE_RESEARCH_PRODUCTS,
     ...VENDOR_EXPANSION_BATCH5,
     ...VENDOR_EXPANSION_BATCH6,
     ...VENDOR_EXPANSION_BATCH7,
-    ...VENDOR_EXPANSION_BATCH8
+    ...VENDOR_EXPANSION_BATCH8,
+    ...CONTINUOUS_CATALOG_EXPANSION
   ]) {
     assert.equal(productIds.has(productId), true, productId);
   }
@@ -252,7 +301,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 363);
+  assert.equal(products.length, 408);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -289,8 +338,8 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 143,
-    "desktop-official": 145,
+    web: 146,
+    "desktop-official": 187,
     "desktop-reviewed": 26,
     "cli-official": 3,
     cli: 14,
@@ -473,6 +522,33 @@ test("batch 8 keeps verified AI products on official Windows entry modules", () 
   );
   for (const obsoleteId of ["craft-docs", "capacities-notes", "tana-desktop"]) {
     assert.equal(products.some((product) => product.id === obsoleteId), false, obsoleteId);
+  }
+});
+
+test("continuous expansion keeps graphical products on fixed official modules", () => {
+  const products = catalog.vendors.flatMap((vendor) => vendor.products);
+  const webOnly = new Set(["coda-ai", "reclaim-ai", "adobe-firefly"]);
+  for (const productId of CONTINUOUS_CATALOG_EXPANSION) {
+    const matches = products.filter((product) => product.id === productId);
+    assert.equal(matches.length, 1, productId);
+    assert.equal(matches[0].directoryKind, "ai-tool", productId);
+    if (webOnly.has(productId)) {
+      assert.equal(matches[0].productType, "web", productId);
+      assert.equal(matches[0].moduleId, "web-link", productId);
+      assert.equal(
+        matches[0].entryPoints.filter((entry) => entry.type === "desktop").length,
+        0,
+        productId
+      );
+    } else {
+      assert.equal(matches[0].productType, "desktop-official", productId);
+      assert.equal(matches[0].moduleId, "desktop-official", productId);
+      assert.equal(
+        matches[0].entryPoints.filter((entry) => entry.type === "desktop").length,
+        1,
+        productId
+      );
+    }
   }
 });
 

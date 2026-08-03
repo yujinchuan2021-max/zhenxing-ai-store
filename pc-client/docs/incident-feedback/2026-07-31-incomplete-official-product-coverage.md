@@ -113,3 +113,13 @@
 - 精准搜索补上身份词边界：`Craft` 只返回 Craft，不再误命中 Recraft；`Dash` 仍可命中 Dropbox Dash。该修复有独立回归测试，并在重启长期运行的 Vite 进程后完成真实页面复验。
 - 目录基线达到 209 个厂商、363 个产品、118 项生态资源和 405 条目标关系；图标清单为 149 个本地官方素材与 60 个审核文字兜底。扩充与图标导入脚本连续执行后目录及两份图标清单 SHA-256 均保持不变。
 - 定向目录、图标与搜索测试通过；完整发布测试、TypeScript 检查和 Vite 生产构建通过。本地后台签名发布目录 v52，草稿修订为 55，后台健康检查为 `ok`。客户端实测确认 Craft 单一搜索结果、合并入口按钮和 Zoner 最新目录记录均已生效。本轮没有重新封装 PC 安装包。
+
+## 2026-08-03 目录持续扩充与防复发规则
+
+- 官方资料审查记录在 `docs/research/2026-08-03-continuous-catalog-expansion.md`。本轮不再按编号批次暂停，而是连续补齐摄影与创作、科研与知识、项目协作、会议、数据分析、开发运维和远程支持缺口。
+- 新增 29 个厂商和 45 个产品，目录基线达到 238 个厂商、408 个产品、118 项生态资源和 405 条目标关系；其中 42 个 Windows 图形产品调用 `desktop-official`，Coda AI、Reclaim.ai 和 Adobe Firefly 调用 `web-link`，没有扩充 CLI。
+- Microsoft、Adobe 和 Salesforce 直接在原厂商记录下补入 Power BI Desktop、Photoshop、Lightroom、Premiere、Illustrator、Firefly 和 Tableau Desktop，没有复制厂商资料；EndNote、Taskade、Wrike、Motion、Citavi、Supernormal、MeetGeek、Fellow 与 TeamViewer 等产品的 Web 和 Windows 入口按真实产品边界合并。
+- 后台仍只能选择客户端固定模块及结构化入口。普通 Windows 图形产品不会获得 EXE/MSI 地址、哈希、命令、环境探测、安装器启动或卸载权限；厂商页面改变安装流程时只需更新后台入口和说明，不需要为每个页面变化升级客户端。
+- 29 个新厂商在没有固定且可核验的方形官方品牌素材前进入审核文字兜底清单，明确禁止使用 favicon、搜索图片、GitHub 个人头像或相似厂商图标；宁可显示文字，也不再制造错误品牌图标。
+- 持续扩充脚本重复执行后目录与兜底清单哈希保持不变；完整性测试固定验证 45 个产品身份、Web/Windows 模块边界和新目录总量，防止后台更新后前端又回退到旧样本。
+- 本地后台已完成校验并签名发布目录 v53，草稿修订为 56；客户端实测 `Mylio` 精准搜索仅返回一个厂商，产品详情展示 Windows 官方获取入口，`Adobe` 搜索同步展示新增的 Photoshop、Lightroom、Premiere、Illustrator 与 Firefly。

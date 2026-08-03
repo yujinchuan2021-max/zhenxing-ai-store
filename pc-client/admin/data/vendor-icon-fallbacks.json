@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewedAt": "2026-08-03T14:30:00.000Z",
+  "reviewedAt": "2026-08-03T18:00:00.000Z",
   "vendors": {
     "acd-systems": {
       "evidenceUrl": "https://www.acdsee.com/en/legal-notices/",
@@ -241,6 +241,122 @@
     "udio": {
       "evidenceUrl": "https://help.udio.com/en/",
       "reason": "官方帮助中心已确认产品身份，但尚未找到可独立核验并适用于第三方目录的品牌素材，当前使用文字兜底标识。"
+    },
+    "mylio": {
+      "evidenceUrl": "https://mylio.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "clarivate": {
+      "evidenceUrl": "https://clarivate.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "taskade": {
+      "evidenceUrl": "https://www.taskade.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "tldv": {
+      "evidenceUrl": "https://tldv.io/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "aftershoot": {
+      "evidenceUrl": "https://aftershoot.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "excire": {
+      "evidenceUrl": "https://excire.com/en/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "evoto": {
+      "evidenceUrl": "https://www.evoto.ai/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "maxqda": {
+      "evidenceUrl": "https://www.maxqda.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "lumivero": {
+      "evidenceUrl": "https://lumivero.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "wrike": {
+      "evidenceUrl": "https://www.wrike.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "motion": {
+      "evidenceUrl": "https://www.usemotion.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "coda": {
+      "evidenceUrl": "https://coda.io/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "reclaim": {
+      "evidenceUrl": "https://reclaim.ai/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "techsmith": {
+      "evidenceUrl": "https://www.techsmith.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "knime": {
+      "evidenceUrl": "https://www.knime.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "dbeaver": {
+      "evidenceUrl": "https://dbeaver.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "alteryx": {
+      "evidenceUrl": "https://www.alteryx.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "gitkraken": {
+      "evidenceUrl": "https://www.gitkraken.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "termius": {
+      "evidenceUrl": "https://www.termius.com/brand-resources",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "lens": {
+      "evidenceUrl": "https://k8slens.dev/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "nero": {
+      "evidenceUrl": "https://www.nero.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "hitpaw": {
+      "evidenceUrl": "https://www.hitpaw.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "anthropics": {
+      "evidenceUrl": "https://www.anthropics.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "izotope": {
+      "evidenceUrl": "https://www.izotope.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "steinberg": {
+      "evidenceUrl": "https://www.steinberg.net/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "supernormal": {
+      "evidenceUrl": "https://www.supernormal.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "meetgeek": {
+      "evidenceUrl": "https://meetgeek.ai/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "fellow": {
+      "evidenceUrl": "https://fellow.app/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
+    },
+    "teamviewer": {
+      "evidenceUrl": "https://www.teamviewer.com/",
+      "reason": "官方产品与厂商身份已核验，但尚未固定具有明确第三方目录使用边界的方形品牌素材；先使用文字兜底，禁止用 favicon、搜索图片或其他厂商图标替代。"
     }
   }
 }

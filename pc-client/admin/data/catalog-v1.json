@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-02T18:38:21.104Z",
+  "updatedAt": "2026-08-03T18:00:00.000Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -1832,6 +1832,51 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://support.microsoft.com/en-us/microsoft-copilot/getting-started-with-copilot-in-microsoft-edge"
+            }
+          ]
+        },
+        {
+          "id": "microsoft-power-bi-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Power BI Desktop",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Windows 商业分析与报表工具，可在满足 Fabric 或 Premium 容量、租户和工作区条件时使用 Copilot；免费桌面版不等于自动获得 Copilot。",
+          "website": "https://www.microsoft.com/en-us/download/details.aspx?id=58494",
+          "tutorial": "https://learn.microsoft.com/en-us/power-bi/create-reports/copilot-power-bi-desktop",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://powerbi.microsoft.com/desktop/"
+            },
+            {
+              "type": "web",
+              "label": "Power BI Web",
+              "url": "https://app.powerbi.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Power BI Desktop"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/copilot-power-bi-desktop"
             }
           ]
         }
@@ -10459,6 +10504,212 @@
               "url": "https://helpx.adobe.com/acrobat/desktop/use-acrobat-ai/generative-ai-features/ai-get-answers.html"
             }
           ]
+        },
+        {
+          "id": "adobe-photoshop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Adobe Photoshop",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 专业图像编辑器，提供生成式填充、生成式扩展和多种 Firefly AI 工作流；功能、点数与地区范围以 Adobe 账号为准。",
+          "website": "https://www.adobe.com/products/photoshop/free-trial-download.html",
+          "tutorial": "https://helpx.adobe.com/photoshop/desktop/generative-ai/generative-ai-features-overview.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.adobe.com/products/photoshop.html"
+            },
+            {
+              "type": "web",
+              "label": "Photoshop Web",
+              "url": "https://photoshop.adobe.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Photoshop Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://helpx.adobe.com/photoshop/desktop/generative-ai/generative-ai-features-overview.html"
+            }
+          ]
+        },
+        {
+          "id": "adobe-lightroom",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Adobe Lightroom",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 照片整理与编辑器，提供生成式移除、降噪和智能蒙版；云同步、生成点数与功能范围以 Adobe 方案为准。",
+          "website": "https://www.adobe.com/products/photoshop-lightroom/free-trial-download.html",
+          "tutorial": "https://helpx.adobe.com/lightroom/desktop/using/generative-remove-faq.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.adobe.com/products/photoshop-lightroom.html"
+            },
+            {
+              "type": "web",
+              "label": "Lightroom Web",
+              "url": "https://lightroom.adobe.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Lightroom Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://helpx.adobe.com/lightroom/desktop/using/generative-remove-faq.html"
+            }
+          ]
+        },
+        {
+          "id": "adobe-premiere",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Adobe Premiere",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows 专业视频编辑器，提供生成式延长、语音增强、文本式编辑和智能媒体工作流；AI 能力依赖版本、账号与点数。",
+          "website": "https://www.adobe.com/products/premiere/free-trial-download.html",
+          "tutorial": "https://helpx.adobe.com/uk/premiere/desktop/edit-projects/edit-with-generative-ai/add-frames-using-generative-extend.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.adobe.com/products/premiere.html"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Premiere Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://helpx.adobe.com/uk/premiere/desktop/edit-projects/edit-with-generative-ai/add-frames-using-generative-extend.html"
+            }
+          ]
+        },
+        {
+          "id": "adobe-illustrator",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Adobe Illustrator",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 矢量设计工具，提供生成式形状填充、文本生成矢量和智能编辑；模型、点数与商用条款以 Adobe 说明为准。",
+          "website": "https://www.adobe.com/products/illustrator/free-trial-download.html",
+          "tutorial": "https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-shape-fills.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.adobe.com/products/illustrator.html"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Illustrator Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-shape-fills.html"
+            }
+          ]
+        },
+        {
+          "id": "adobe-firefly",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Adobe Firefly",
+          "kind": "其他产品",
+          "category": "图像创作",
+          "description": "Adobe 网页生成式创作平台，可生成与编辑图像、视频、音频和设计内容；模型、生成点数及地区可用性以官方账号为准。",
+          "website": "https://firefly.adobe.com/",
+          "tutorial": "https://helpx.adobe.com/creative-cloud/apps/generative-ai/generative-ai-overview.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Adobe Firefly",
+              "url": "https://firefly.adobe.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://helpx.adobe.com/creative-cloud/apps/generative-ai/generative-ai-overview.html"
+            }
+          ]
         }
       ],
       "order": 124,
@@ -11233,6 +11484,51 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "tableau-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Tableau Desktop",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Windows 可视化分析工具，2025.1 及以上版本可在满足站点、许可和功能开关条件时使用 Tableau Agent。",
+          "website": "https://www.tableau.com/support/releases",
+          "tutorial": "https://help.tableau.com/current/pro/desktop/en-gb/desktop_einstein.htm",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.tableau.com/products/desktop"
+            },
+            {
+              "type": "web",
+              "label": "Tableau Cloud",
+              "url": "https://www.tableau.com/products/cloud-bi"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Tableau Desktop Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.tableau.com/current/pro/desktop/en-gb/desktop_einstein.htm"
+            }
           ]
         }
       ],
@@ -14897,6 +15193,1998 @@
         "sha256": "fdf94c651f0b0e76c145d6993f9e60aef9d25c092a3b33b67f9dc7983262d447",
         "mimeType": "image/png"
       }
+    },
+    {
+      "id": "mylio",
+      "name": "Mylio",
+      "initial": "M",
+      "mark": "M",
+      "color": "#2867b2",
+      "description": "提供本地优先的照片整理、同步、检索和智能标记工具。",
+      "website": "https://mylio.com/",
+      "tutorial": "https://support.mylio.com/what-is-mylio-photos",
+      "enabled": true,
+      "order": 209,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "mylio-photos",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Mylio Photos",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 本地优先照片管理工具，支持智能标签、快速检索和跨设备整理；新用户需先选择方案，账号、存储与同步范围以官方说明为准。",
+          "website": "https://support.mylio.com/where-can-i-download-the-mylio-photos-software",
+          "tutorial": "https://support.mylio.com/installing-mylio-photos-on-a-computer",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://mylio.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Mylio Photos Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.mylio.com/installing-mylio-photos-on-a-computer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clarivate",
+      "name": "Clarivate",
+      "initial": "C",
+      "mark": "C",
+      "color": "#e56a2e",
+      "description": "提供科研信息、文献管理与研究工作流产品。",
+      "website": "https://clarivate.com/",
+      "tutorial": "https://docs.endnote.com/docs/endnote/2025/v1/windows/en/content/03editref/ai_in_endnote_research_assistant.htm",
+      "enabled": true,
+      "order": 210,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "endnote-2025",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "EndNote 2025",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "Windows 文献管理与写作工具，内置 AI Research Assistant；AI、同步和全文能力受许可、账号与在线服务范围限制。",
+          "website": "https://endnote.com/downloads/",
+          "tutorial": "https://docs.endnote.com/docs/endnote/2025/v1/windows/en/content/03editref/ai_in_endnote_research_assistant.htm",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://endnote.com/product-details?language=en"
+            },
+            {
+              "type": "web",
+              "label": "EndNote Web",
+              "url": "https://web.endnote.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 EndNote 2025 Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.endnote.com/docs/endnote/2025/v1/windows/en/content/03editref/ai_in_endnote_research_assistant.htm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "taskade",
+      "name": "Taskade",
+      "initial": "T",
+      "mark": "T",
+      "color": "#ff5b5b",
+      "description": "提供 AI Agent、项目协作、自动化与应用生成工作台。",
+      "website": "https://www.taskade.com/",
+      "tutorial": "https://help.taskade.com/en/articles/8958455-taskade-ai-usage",
+      "enabled": true,
+      "order": 211,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "taskade-workspace",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Taskade",
+          "kind": "桌面端",
+          "category": "智能体",
+          "description": "合并 Web 与 Windows 入口的 AI Agent 和团队工作台，可创建 Agent、工作流与应用；额度、模型和自动化能力以账号方案为准。",
+          "website": "https://www.taskade.com/downloads",
+          "tutorial": "https://help.taskade.com/en/articles/8958455-taskade-ai-usage",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.taskade.com/"
+            },
+            {
+              "type": "web",
+              "label": "Taskade 网页版",
+              "url": "https://www.taskade.com/login"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Taskade Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.taskade.com/en/articles/8958455-taskade-ai-usage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tldv",
+      "name": "tl;dv",
+      "initial": "T",
+      "mark": "T",
+      "color": "#6954e8",
+      "description": "提供会议录制、转写、摘要和团队会议信息分析。",
+      "website": "https://tldv.io/",
+      "tutorial": "https://tldv.io/features/ai-meeting-minutes/",
+      "enabled": true,
+      "order": 212,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "tldv-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "tl;dv Desktop",
+          "kind": "桌面端",
+          "category": "办公自动化",
+          "description": "Windows 无机器人会议录制与 AI 笔记工具，支持转写、摘要和会议信息检索；录音前需遵守会议授权与当地隐私规则。",
+          "website": "https://tldv.io/desktop-app/",
+          "tutorial": "https://tldv.io/features/ai-meeting-minutes/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://tldv.io/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 tl;dv Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://tldv.io/features/ai-meeting-minutes/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aftershoot",
+      "name": "Aftershoot",
+      "initial": "A",
+      "mark": "A",
+      "color": "#18181b",
+      "description": "提供面向摄影工作流的本地 AI 选片、编辑与修图软件。",
+      "website": "https://aftershoot.com/",
+      "tutorial": "https://support.aftershoot.com/en/articles/5353327-how-to-download-and-install-aftershoot",
+      "enabled": true,
+      "order": 213,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "aftershoot",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Aftershoot",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 摄影选片、批量编辑与修图工具，AI 处理可在本机工作；订阅、训练配置与硬件要求以官方说明为准。",
+          "website": "https://aftershoot.com/downloads/",
+          "tutorial": "https://support.aftershoot.com/en/articles/5353327-how-to-download-and-install-aftershoot",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://aftershoot.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Aftershoot Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.aftershoot.com/en/articles/5353327-how-to-download-and-install-aftershoot"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "excire",
+      "name": "Excire",
+      "initial": "E",
+      "mark": "E",
+      "color": "#ef5a29",
+      "description": "开发本地运行的 AI 照片与视频管理、检索和选片软件。",
+      "website": "https://excire.com/en/",
+      "tutorial": "https://excire.com/en/excire-foto-2027-is-here/",
+      "enabled": true,
+      "order": 214,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "excire-foto",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Excire Foto",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 本地 AI 照片和视频管理工具，支持内容检索、人物识别与智能选片；当前版本、系统要求和授权方式以官网为准。",
+          "website": "https://support.excire.com/portal/en/kb/articles/download-excire-foto-2025",
+          "tutorial": "https://excire.com/en/excire-foto-2027-is-here/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://excire.com/en/excire-foto-2027-is-here/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Excire Foto Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://excire.com/en/excire-foto-2027-is-here/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evoto",
+      "name": "Evoto",
+      "initial": "E",
+      "mark": "E",
+      "color": "#1f8aff",
+      "description": "提供人像、色彩、背景和批量工作流结合的 AI 照片编辑器。",
+      "website": "https://www.evoto.ai/",
+      "tutorial": "https://www.evoto.ai/ai-photo-editor",
+      "enabled": true,
+      "order": 215,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "evoto-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Evoto",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows AI 人像与照片编辑器，支持批量修图、色彩、背景和人像调整；导出消耗、账号与云端能力以官方方案为准。",
+          "website": "https://www.evoto.ai/download",
+          "tutorial": "https://www.evoto.ai/ai-photo-editor",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.evoto.ai/ai-photo-editor"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Evoto Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.evoto.ai/ai-photo-editor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "maxqda",
+      "name": "MAXQDA",
+      "initial": "M",
+      "mark": "M",
+      "color": "#ff6b00",
+      "description": "提供定性与混合方法研究、数据分析及 AI 辅助研究工具。",
+      "website": "https://www.maxqda.com/",
+      "tutorial": "https://www.maxqda.com/help/ai-assist/what-is-ai-assist",
+      "enabled": true,
+      "order": 216,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "maxqda-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "MAXQDA",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "Windows 定性与混合方法研究软件，可通过 AI Assist 辅助摘要、编码和分析；AI Assist 需联网且存在许可与地区限制。",
+          "website": "https://www.maxqda.com/updates",
+          "tutorial": "https://www.maxqda.com/help/ai-assist/what-is-ai-assist",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.maxqda.com/products/maxqda"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 MAXQDA Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.maxqda.com/help/ai-assist/what-is-ai-assist"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lumivero",
+      "name": "Lumivero",
+      "initial": "L",
+      "mark": "L",
+      "color": "#5b2aa6",
+      "description": "提供研究分析、定性数据处理和知识组织软件。",
+      "website": "https://lumivero.com/",
+      "tutorial": "https://lumivero.com/ai-info/",
+      "enabled": true,
+      "order": 217,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "nvivo",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "NVivo",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "Windows 定性数据分析工具，支持 AI 摘要、主题与自动编码等辅助能力；功能范围取决于版本、许可和账号。",
+          "website": "https://lumivero.com/resources/support/getting-started-with-nvivo/download-and-activate-nvivo/",
+          "tutorial": "https://lumivero.com/resources/blog/nvivo-15-3-release/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://lumivero.com/products/nvivo/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 NVivo Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://lumivero.com/resources/blog/nvivo-15-3-release/"
+            }
+          ]
+        },
+        {
+          "id": "atlas-ti",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "ATLAS.ti",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "Windows 质性研究与数据分析工具，提供 AI Coding、对话和检索辅助；许可、模型、数据处理与联网要求以官方说明为准。",
+          "website": "https://atlasti.com/atlas-ti-desktop",
+          "tutorial": "https://manuals.atlasti.com/Win/en/manual/SearchAndCode/SearchAndCode.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://atlasti.com/atlas-ti-desktop"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 ATLAS.ti Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://manuals.atlasti.com/Win/en/manual/SearchAndCode/SearchAndCode.html"
+            }
+          ]
+        },
+        {
+          "id": "citavi",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Citavi",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "合并 Web 与 Windows 入口的文献、知识和任务管理工具，提供 AI 辅助研究能力；桌面与云功能边界以许可和账号为准。",
+          "website": "https://www1.citavi.com/sub/manual7/en/using_msi_assistant.html",
+          "tutorial": "https://lumivero.com/products/citavi/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://lumivero.com/products/citavi/"
+            },
+            {
+              "type": "web",
+              "label": "Citavi Web",
+              "url": "https://citaviweb.citavi.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Citavi Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://lumivero.com/products/citavi/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wrike",
+      "name": "Wrike",
+      "initial": "W",
+      "mark": "W",
+      "color": "#08a88a",
+      "description": "提供项目管理、团队协作和 Work Intelligence AI 能力。",
+      "website": "https://www.wrike.com/",
+      "tutorial": "https://www.wrike.com/features/work-intelligence/",
+      "enabled": true,
+      "order": 218,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "wrike-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Wrike",
+          "kind": "桌面端",
+          "category": "项目与协作",
+          "description": "合并 Web 与 Windows 入口的项目协作平台，包含内容生成、风险预测和工作智能功能；可用性取决于方案与管理员设置。",
+          "website": "https://www.wrike.com/apps/mobile-and-desktop/desktop-app/",
+          "tutorial": "https://help.wrike.com/hc/en-us/articles/1500005218242-Install-the-Desktop-App",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.wrike.com/ai/"
+            },
+            {
+              "type": "web",
+              "label": "Wrike 网页版",
+              "url": "https://www.wrike.com/workspace.htm"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Wrike Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.wrike.com/hc/en-us/articles/1500005218242-Install-the-Desktop-App"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motion",
+      "name": "Motion",
+      "initial": "M",
+      "mark": "M",
+      "color": "#5b45ff",
+      "description": "提供 AI 日历、任务、项目和时间规划工作台。",
+      "website": "https://www.usemotion.com/",
+      "tutorial": "https://www.usemotion.com/help",
+      "enabled": true,
+      "order": 219,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "motion-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Motion",
+          "kind": "桌面端",
+          "category": "办公自动化",
+          "description": "合并 Web 与 Windows 入口的 AI 日历和任务规划工具，可自动安排工作；账号、团队功能和自动排程范围以官方方案为准。",
+          "website": "https://www.usemotion.com/download",
+          "tutorial": "https://www.usemotion.com/help",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.usemotion.com/features/ai-calendar"
+            },
+            {
+              "type": "web",
+              "label": "Motion 网页版",
+              "url": "https://app.usemotion.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Motion Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.usemotion.com/help"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coda",
+      "name": "Coda",
+      "initial": "C",
+      "mark": "C",
+      "color": "#f46a54",
+      "description": "提供文档、表格、应用构建与 Coda AI 协作平台。",
+      "website": "https://coda.io/",
+      "tutorial": "https://help.coda.io/hc/en-us/articles/39555802361613-Coda-AI-features",
+      "enabled": true,
+      "order": 220,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "coda-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Coda AI",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "网页文档与团队工作台，可使用 AI 助手、AI 列和 AI 块生成、总结与整理内容；额度和数据范围以方案为准。",
+          "website": "https://coda.io/product/ai",
+          "tutorial": "https://help.coda.io/hc/en-us/articles/39555802361613-Coda-AI-features",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Coda AI",
+              "url": "https://coda.io/product/ai"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.coda.io/hc/en-us/articles/39555802361613-Coda-AI-features"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reclaim",
+      "name": "Reclaim.ai",
+      "initial": "R",
+      "mark": "R",
+      "color": "#625df5",
+      "description": "提供面向 Google 与 Outlook 日历的 AI 排程和时间管理服务。",
+      "website": "https://reclaim.ai/",
+      "tutorial": "https://help.reclaim.ai/en/articles/14846468-reclaim-ai-2-0-overview",
+      "enabled": true,
+      "order": 221,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "reclaim-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Reclaim.ai",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "网页 AI 日历助理，可协调会议、任务、专注时间和日程冲突；2.0 Agent 与 Assistant 的开放范围以官方账号状态为准。",
+          "website": "https://app.reclaim.ai/",
+          "tutorial": "https://help.reclaim.ai/en/articles/14846468-reclaim-ai-2-0-overview",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Reclaim.ai",
+              "url": "https://app.reclaim.ai/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.reclaim.ai/en/articles/14846468-reclaim-ai-2-0-overview"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "techsmith",
+      "name": "TechSmith",
+      "initial": "T",
+      "mark": "T",
+      "color": "#1e6bd6",
+      "description": "开发屏幕录制、截图、视频编辑和文本式音频编辑软件。",
+      "website": "https://www.techsmith.com/",
+      "tutorial": "https://www.techsmith.com/learn/",
+      "enabled": true,
+      "order": 222,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "camtasia",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Camtasia",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows 屏幕录制与视频编辑器，提供 AI 脚本、背景、降噪、字幕和工作流辅助；免费导出、订阅和 AI 权益以官方方案为准。",
+          "website": "https://www.techsmith.com/download/camtasia/",
+          "tutorial": "https://www.techsmith.com/learn/tutorials/camtasia/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.techsmith.com/camtasia/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Camtasia Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.techsmith.com/learn/tutorials/camtasia/"
+            }
+          ]
+        },
+        {
+          "id": "snagit",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Snagit",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 截图与屏幕录制工具，包含文本识别、智能编辑和生成式辅助功能；具体能力取决于当前版本与许可。",
+          "website": "https://www.techsmith.com/snagit/",
+          "tutorial": "https://support.techsmith.com/hc/en-us/articles/203731078",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.techsmith.com/snagit/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Snagit Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.techsmith.com/hc/en-us/articles/203731078"
+            }
+          ]
+        },
+        {
+          "id": "audiate",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Audiate",
+          "kind": "桌面端",
+          "category": "音频创作",
+          "description": "Windows 文本式音频编辑和语音处理工具，支持转写、语气清理与 AI 辅助编辑；功能与额度以 TechSmith 许可为准。",
+          "website": "https://www.techsmith.com/camtasia/audiate/download/download-audiate-win/",
+          "tutorial": "https://www.techsmith.com/learn/tutorials/audiate/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.techsmith.com/camtasia/audiate/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Audiate Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.techsmith.com/learn/tutorials/audiate/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "knime",
+      "name": "KNIME",
+      "initial": "K",
+      "mark": "K",
+      "color": "#f8d922",
+      "description": "提供开源数据分析、可视化工作流和 AI Agent 编排平台。",
+      "website": "https://www.knime.com/",
+      "tutorial": "https://www.knime.com/release-notes",
+      "enabled": true,
+      "order": 223,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "knime-analytics-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "KNIME Analytics Platform",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Windows 开源可视化数据分析工具，包含 K-AI 和 Agentic AI 工作流能力；扩展、模型连接和企业能力以官方说明为准。",
+          "website": "https://www.knime.com/get-started",
+          "tutorial": "https://www.knime.com/release-notes",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.knime.com/knime-analytics-platform"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 KNIME Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.knime.com/release-notes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dbeaver",
+      "name": "DBeaver",
+      "initial": "D",
+      "mark": "D",
+      "color": "#382923",
+      "description": "提供跨数据库管理、开发和 AI 辅助查询工具。",
+      "website": "https://dbeaver.com/",
+      "tutorial": "https://dbeaver.com/docs/dbeaver/Installation/",
+      "enabled": true,
+      "order": 224,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "dbeaver-pro",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "DBeaver PRO",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Windows 数据库管理工具，Lite、Enterprise 和 Ultimate 版本可使用 AI Assistant；Community 版不包含该能力。",
+          "website": "https://dbeaver.com/download/",
+          "tutorial": "https://dbeaver.com/docs/dbeaver/Installation/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://dbeaver.com/edition/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 DBeaver PRO Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://dbeaver.com/docs/dbeaver/Installation/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alteryx",
+      "name": "Alteryx",
+      "initial": "A",
+      "mark": "A",
+      "color": "#0078c9",
+      "description": "提供企业数据准备、分析自动化和 AI 工作流工具。",
+      "website": "https://www.alteryx.com/",
+      "tutorial": "https://help.alteryx.com/current/en/designer/tools/ai-tools.html",
+      "enabled": true,
+      "order": 225,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "alteryx-designer",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Alteryx Designer",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Windows 可视化数据分析和自动化工具，Professional 与 Enterprise 方案提供 AI 工具；当前版本需通过 Alteryx One 账号获取。",
+          "website": "https://help.alteryx.com/current/en/designer/what-s-new-in-designer.html",
+          "tutorial": "https://help.alteryx.com/current/en/designer/tools/ai-tools.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.alteryx.com/products/alteryx-designer"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Alteryx Designer Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.alteryx.com/current/en/designer/tools/ai-tools.html"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gitkraken",
+      "name": "GitKraken",
+      "initial": "G",
+      "mark": "G",
+      "color": "#179287",
+      "description": "提供 Git 图形客户端、开发协作和 GitKraken AI。",
+      "website": "https://www.gitkraken.com/",
+      "tutorial": "https://support.gitkraken.com/gitkraken-desktop/gkd-gitkraken-ai/",
+      "enabled": true,
+      "order": 226,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "gitkraken-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "GitKraken Desktop",
+          "kind": "桌面端",
+          "category": "编程与调试",
+          "description": "Windows Git 图形客户端，提供提交说明、变更解释和开发辅助 AI；AI 权益取决于付费方案与管理员策略。",
+          "website": "https://www.gitkraken.com/download",
+          "tutorial": "https://support.gitkraken.com/gitkraken-desktop/gkd-gitkraken-ai/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.gitkraken.com/git-client"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 GitKraken Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.gitkraken.com/gitkraken-desktop/gkd-gitkraken-ai/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "termius",
+      "name": "Termius",
+      "initial": "T",
+      "mark": "T",
+      "color": "#171a21",
+      "description": "提供跨平台 SSH、终端管理与 AI 辅助运维能力。",
+      "website": "https://termius.com/",
+      "tutorial": "https://termius.com/blog/boost-your-terminal-experience-with-ai",
+      "enabled": true,
+      "order": 227,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "termius-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Termius",
+          "kind": "桌面端",
+          "category": "云服务与运维",
+          "description": "Windows SSH 与终端管理客户端，提供 AI 自动补全并逐步开放 AI Agent；部分能力仍处于测试或受邀范围。",
+          "website": "https://termius.com/download/windows",
+          "tutorial": "https://termius.com/blog/ai-agent",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://termius.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Termius Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://termius.com/blog/ai-agent"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lens",
+      "name": "Lens",
+      "initial": "L",
+      "mark": "L",
+      "color": "#3d90ce",
+      "description": "提供 Kubernetes 图形管理、集群可观测与 AI 辅助运维工具。",
+      "website": "https://k8slens.dev/",
+      "tutorial": "https://docs.k8slens.dev/k8slens/premium-features/",
+      "enabled": true,
+      "order": 228,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "lens-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Lens Desktop",
+          "kind": "桌面端",
+          "category": "云服务与运维",
+          "description": "Windows Kubernetes IDE，Premium 能力包含 Lens Prism、Ask AI 与 MCP；集群权限和 AI 方案以组织设置为准。",
+          "website": "https://k8slens.dev/download",
+          "tutorial": "https://docs.k8slens.dev/k8slens/premium-features/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://k8slens.dev/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Lens Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.k8slens.dev/k8slens/premium-features/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nero",
+      "name": "Nero",
+      "initial": "N",
+      "mark": "N",
+      "color": "#111111",
+      "description": "开发 Windows 多媒体处理、照片管理和 AI 增强软件。",
+      "website": "https://www.nero.com/",
+      "tutorial": "https://support.nero.com/",
+      "enabled": true,
+      "order": 229,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "nero-ai-photo-tagger",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Nero AI Photo Tagger",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows 本地 AI 照片分类和标签工具，可按内容组织图库；版本、模型包和系统要求以官方说明为准。",
+          "website": "https://www.nero.com/eng/downloads/",
+          "tutorial": "https://support.nero.com/en/support/solutions/articles/44001805758-download-links-of-nero-program-installers",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.nero.com/enu/products/nero-ai-phototagger/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Nero AI Photo Tagger"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.nero.com/en/support/solutions/articles/44001805758-download-links-of-nero-program-installers"
+            }
+          ]
+        },
+        {
+          "id": "nero-ai-image-upscaler",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Nero AI Image Upscaler",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows AI 图像放大和增强工具；免费额度、批量处理、输出分辨率与硬件要求以官方方案为准。",
+          "website": "https://www.nero.com/eng/downloads/",
+          "tutorial": "https://support.nero.com/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://ai.nero.com/image-upscaler"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Nero AI Image Upscaler"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.nero.com/"
+            }
+          ]
+        },
+        {
+          "id": "nero-ai-video-upscaler",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Nero AI Video Upscaler",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows AI 视频放大与画质增强工具；模型、导出限制、显卡和许可要求以官方页面为准。",
+          "website": "https://www.nero.com/eng/downloads/",
+          "tutorial": "https://support.nero.com/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://ai.nero.com/video-upscaler"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Nero AI Video Upscaler"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.nero.com/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hitpaw",
+      "name": "HitPaw",
+      "initial": "H",
+      "mark": "H",
+      "color": "#6c4cff",
+      "description": "提供 Windows 视频、照片、语音与剪辑类 AI 创作软件。",
+      "website": "https://www.hitpaw.com/",
+      "tutorial": "https://www.hitpaw.com/download-center/",
+      "enabled": true,
+      "order": 230,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "hitpaw-vikpea",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "HitPaw VikPea",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows AI 视频增强工具，支持放大、修复、降噪和上色；模型、免费导出和显卡要求以官方版本为准。",
+          "website": "https://www.hitpaw.com/download-center/",
+          "tutorial": "https://www.hitpaw.com/video-tips/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.hitpaw.com/vikpea-video-enhancer.html"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 VikPea Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.hitpaw.com/video-tips/"
+            }
+          ]
+        },
+        {
+          "id": "hitpaw-fotorpea",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "HitPaw FotorPea",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows AI 照片增强与编辑工具，支持修复、放大和人像生成；免费额度、模型和导出边界以官方说明为准。",
+          "website": "https://www.hitpaw.com/download-center/",
+          "tutorial": "https://www.hitpaw.com/photo-tips/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.hitpaw.com/fotorpea-photo-enhancer.html"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 FotorPea Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.hitpaw.com/photo-tips/"
+            }
+          ]
+        },
+        {
+          "id": "hitpaw-voicepea",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "HitPaw VoicePea",
+          "kind": "桌面端",
+          "category": "音频创作",
+          "description": "Windows 实时 AI 变声与音频创作工具，支持声音效果、翻唱和音乐生成；声音授权和商用范围由用户自行确认。",
+          "website": "https://www.hitpaw.com/download-center/",
+          "tutorial": "https://www.hitpaw.com/audio-tips/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.hitpaw.com/voice-changer.html"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 VoicePea Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.hitpaw.com/audio-tips/"
+            }
+          ]
+        },
+        {
+          "id": "hitpaw-edimakor",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "HitPaw Edimakor",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows AI 视频编辑器，提供字幕、脚本、配音、翻译与素材生成辅助；功能、额度和素材许可以官方方案为准。",
+          "website": "https://www.hitpaw.com/download-center/",
+          "tutorial": "https://www.hitpaw.com/video-editing-tips/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://edimakor.hitpaw.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Edimakor Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.hitpaw.com/video-editing-tips/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "anthropics",
+      "name": "Anthropics Technology",
+      "initial": "A",
+      "mark": "A",
+      "color": "#343434",
+      "description": "开发基于机器学习的人像、面部和影像编辑软件。",
+      "website": "https://www.anthropics.com/",
+      "tutorial": "https://www.anthropics.com/portraitpro/",
+      "enabled": true,
+      "order": 231,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "portraitpro",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "PortraitPro",
+          "kind": "桌面端",
+          "category": "图像创作",
+          "description": "Windows AI 人像修图工具，可进行面部、皮肤、光线、头发和背景调整；版本、插件与商用许可以官方说明为准。",
+          "website": "https://www.anthropics.com/portraitpro/download/",
+          "tutorial": "https://www.anthropics.com/portraitpro/support/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.anthropics.com/portraitpro/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 PortraitPro Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.anthropics.com/portraitpro/support/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "izotope",
+      "name": "iZotope",
+      "initial": "I",
+      "mark": "I",
+      "color": "#171717",
+      "description": "开发智能音频修复、混音、母带和创作软件。",
+      "website": "https://www.izotope.com/",
+      "tutorial": "https://www.izotope.com/en/products/rx/features",
+      "enabled": true,
+      "order": 232,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "izotope-rx",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "iZotope RX",
+          "kind": "桌面端",
+          "category": "音频创作",
+          "description": "Windows 智能音频修复工具，使用机器学习与神经网络处理噪声、对白和残缺音频；插件、版本与宿主要求以官方说明为准。",
+          "website": "https://www.izotope.com/en/products/downloads.html",
+          "tutorial": "https://www.izotope.com/en/products/rx/features",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.izotope.com/products/rx-standard"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 iZotope RX Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.izotope.com/en/products/rx/features"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "steinberg",
+      "name": "Steinberg",
+      "initial": "S",
+      "mark": "S",
+      "color": "#1c5fa8",
+      "description": "开发数字音频、谱层编辑和音乐制作软件。",
+      "website": "https://www.steinberg.net/",
+      "tutorial": "https://www.steinberg.net/spectralayers/features/",
+      "enabled": true,
+      "order": 233,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "steinberg-spectralayers",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "SpectraLayers",
+          "kind": "桌面端",
+          "category": "音频创作",
+          "description": "Windows 谱层音频编辑工具，提供 AI 驱动的分离、去混响和修复能力；版本、授权管理和硬件要求以官方说明为准。",
+          "website": "https://www.steinberg.net/spectralayers/",
+          "tutorial": "https://www.steinberg.net/spectralayers/features/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.steinberg.net/spectralayers/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 SpectraLayers Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.steinberg.net/spectralayers/features/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supernormal",
+      "name": "Supernormal",
+      "initial": "S",
+      "mark": "S",
+      "color": "#6b46c1",
+      "description": "提供会议记录、摘要、行动项和会议信息自动化。",
+      "website": "https://www.supernormal.com/",
+      "tutorial": "https://www.supernormal.com/meeting-notetaker",
+      "enabled": true,
+      "order": 234,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "supernormal-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Supernormal",
+          "kind": "桌面端",
+          "category": "办公自动化",
+          "description": "Windows 11 无机器人会议捕获与 AI 笔记工具，录制后在 Web 中查看摘要与内容；使用前需确认会议参与者授权。",
+          "website": "https://help.supernormal.com/en/articles/11801191-download-the-app-for-your-system",
+          "tutorial": "https://help.supernormal.com/en/articles/7208093-which-operating-systems-does-supernormal-work-with",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.supernormal.com/meeting-notetaker"
+            },
+            {
+              "type": "web",
+              "label": "Supernormal 网页版",
+              "url": "https://app.supernormal.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Supernormal Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.supernormal.com/en/articles/7208093-which-operating-systems-does-supernormal-work-with"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meetgeek",
+      "name": "MeetGeek",
+      "initial": "M",
+      "mark": "M",
+      "color": "#6857ff",
+      "description": "提供会议录制、转写、摘要、会议信息分析和 AI Agent。",
+      "website": "https://meetgeek.ai/",
+      "tutorial": "https://support.meetgeek.ai/en/articles/13745672-meetgeek-desktop-app-quickstart-guide",
+      "enabled": true,
+      "order": 235,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "meetgeek-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "MeetGeek Desktop",
+          "kind": "桌面端",
+          "category": "办公自动化",
+          "description": "Windows 无机器人会议录制与 AI 摘要工具，可捕获本机会议并生成笔记；录音授权、额度与集成范围以官方说明为准。",
+          "website": "https://meetgeek.ai/desktop-app",
+          "tutorial": "https://support.meetgeek.ai/en/articles/13745672-meetgeek-desktop-app-quickstart-guide",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://meetgeek.ai/desktop-app"
+            },
+            {
+              "type": "web",
+              "label": "MeetGeek Desktop 网页版",
+              "url": "https://app.meetgeek.ai/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 MeetGeek Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.meetgeek.ai/en/articles/13745672-meetgeek-desktop-app-quickstart-guide"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fellow",
+      "name": "Fellow",
+      "initial": "F",
+      "mark": "F",
+      "color": "#5d58e8",
+      "description": "提供会议议程、录制、转写、摘要和团队会议知识库。",
+      "website": "https://fellow.app/",
+      "tutorial": "https://help.fellow.app/en/articles/4340265-download-the-desktop-app",
+      "enabled": true,
+      "order": 236,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "fellow-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Fellow",
+          "kind": "桌面端",
+          "category": "办公自动化",
+          "description": "合并 Web 与 Windows 入口的 AI 会议助手，可录制、转写、生成回顾与洞察；桌面端需要联网，录音前需取得参与者授权。",
+          "website": "https://fellow.app/download",
+          "tutorial": "https://help.fellow.app/en/articles/4340265-download-the-desktop-app",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://fellow.app/"
+            },
+            {
+              "type": "web",
+              "label": "Fellow 网页版",
+              "url": "https://app.fellow.app/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Fellow Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.fellow.app/en/articles/4340265-download-the-desktop-app"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "teamviewer",
+      "name": "TeamViewer",
+      "initial": "T",
+      "mark": "T",
+      "color": "#006ce0",
+      "description": "提供远程支持、设备管理及 AI 会话洞察和故障辅助。",
+      "website": "https://www.teamviewer.com/",
+      "tutorial": "https://www.teamviewer.com/en-us/global/support/knowledge-base/teamviewer-remote/licenses/licenses-and-features/ai-credit-based-payment-model/",
+      "enabled": true,
+      "order": 237,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "teamviewer-remote-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "TeamViewer Remote",
+          "kind": "桌面端",
+          "category": "远程控制",
+          "description": "Windows 远程支持客户端，可按许可使用 Session Insights、Tia 和 AI 辅助脚本；AI 处理受管理员策略、权限与点数控制。",
+          "website": "https://www.teamviewer.com/en/download/windows/",
+          "tutorial": "https://www.teamviewer.com/en-us/global/support/knowledge-base/teamviewer-remote/licenses/licenses-and-features/ai-credit-based-payment-model/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.teamviewer.com/en/products/remote/"
+            },
+            {
+              "type": "web",
+              "label": "TeamViewer Remote 网页版",
+              "url": "https://web.teamviewer.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 TeamViewer Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.teamviewer.com/en-us/global/support/knowledge-base/teamviewer-remote/licenses/licenses-and-features/ai-credit-based-payment-model/"
+            }
+          ]
+        }
+      ]
     }
   ],
   "environmentDownloads": {
