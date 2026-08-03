@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-03T04:10:54.445Z",
+  "updatedAt": "2026-08-03T04:50:17.949Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -10934,6 +10934,86 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "autodesk-autocad",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "AutoCAD",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "Autodesk 的 Windows CAD 产品，包含 Autodesk Assistant、Smart Blocks 等辅助设计能力；功能随版本与订阅方案变化。",
+          "website": "https://www.autodesk.com/products/autocad/overview",
+          "tutorial": "https://help.autodesk.com/cloudhelp/2026/ENU/AutoCAD-WhatsNew/files/GUID-B4E1E636-E08E-4277-8971-910D47440116.htm",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.autodesk.com/products/autocad/overview"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 AutoCAD Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.autodesk.com/cloudhelp/2026/ENU/AutoCAD-WhatsNew/files/GUID-B4E1E636-E08E-4277-8971-910D47440116.htm"
+            }
+          ]
+        },
+        {
+          "id": "autodesk-revit",
+          "enabled": true,
+          "order": 2,
+          "directoryKind": "ai-connectable",
+          "name": "Revit",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "Autodesk 的 Windows BIM 产品，提供面向建筑设计工作流的 Assistant 与 MCP 预览能力；可用范围以官方版本说明为准。",
+          "website": "https://www.autodesk.com/products/revit/overview/",
+          "tutorial": "https://help.autodesk.com/view/RVT/2027/ENU/?guid=GUID-68D8FE6D-C5B0-4503-AE27-02C715BAC25B",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.autodesk.com/products/revit/overview/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Revit Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.autodesk.com/view/RVT/2027/ENU/?guid=GUID-68D8FE6D-C5B0-4503-AE27-02C715BAC25B"
+            }
+          ]
         }
       ],
       "order": 125,
@@ -10977,6 +11057,46 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "trimble-tekla-structures",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Tekla Structures",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "Windows 结构 BIM 产品，面向工程建模、详图与施工协作；AI 能力和许可范围以厂商版本说明为准。",
+          "website": "https://download.trimble.com/tekla-structures/for-businesses",
+          "tutorial": "https://support.tekla.com/tekla-structures/learn",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.tekla.com/products/tekla-structures"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Tekla Structures Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.tekla.com/tekla-structures/learn"
+            }
           ]
         }
       ],
@@ -12416,6 +12536,86 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "siemens-designcenter-nx",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-connectable",
+          "name": "Designcenter NX",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "Siemens 的 Windows CAD/CAM/CAE 产品，提供 AI 驱动的设计辅助与工程工作流。",
+          "website": "https://www.siemens.com/en-us/products/designcenter/cad-software/",
+          "tutorial": "https://blogs.sw.siemens.com/designcenter/learn-designcenter-nx-cad-software/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.siemens.com/en-us/products/designcenter/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Designcenter NX Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://blogs.sw.siemens.com/designcenter/learn-designcenter-nx-cad-software/"
+            }
+          ]
+        },
+        {
+          "id": "siemens-rapidminer-ai-studio",
+          "enabled": true,
+          "order": 2,
+          "directoryKind": "ai-tool",
+          "name": "Rapidminer AI Studio",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Siemens 的 Windows 可视化数据科学与机器学习工作台，支持无代码建模、数据准备和模型评估；原 Altair AI Studio 已完成品牌迁移。",
+          "website": "https://www.siemens.com/en-us/products/rapidminer/ai-studio/",
+          "tutorial": "https://docs.rapidminer.com/latest/studio/installation/index.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.siemens.com/en-us/products/rapidminer/ai-studio/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Rapidminer AI Studio Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.rapidminer.com/latest/studio/installation/index.html"
+            }
           ]
         }
       ],
@@ -15519,6 +15719,42 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://docs.endnote.com/docs/endnote/2025/v1/windows/en/content/03editref/ai_in_endnote_research_assistant.htm"
+            }
+          ]
+        },
+        {
+          "id": "clarivate-web-of-science-research-assistant",
+          "enabled": true,
+          "order": 1,
+          "directoryKind": "ai-tool",
+          "name": "Web of Science Research Assistant",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "Web of Science 内的研究检索与探索助手，通过自然语言发现、梳理和解释文献。",
+          "website": "https://clarivate.com/academia-government/scientific-and-academic-research/research-discovery-and-referencing/web-of-science/web-of-science-research-assistant/",
+          "tutorial": "https://clarivate.com/academia-government/blog/a-more-transparent-connected-experience-in-web-of-science-research-assistant/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Web of Science Research Assistant",
+              "url": "https://clarivate.com/academia-government/scientific-and-academic-research/research-discovery-and-referencing/web-of-science/web-of-science-research-assistant/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://clarivate.com/academia-government/blog/a-more-transparent-connected-experience-in-web-of-science-research-assistant/"
             }
           ]
         }
@@ -19540,6 +19776,1528 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://ragflow.io/docs/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "graphisoft",
+      "name": "Graphisoft",
+      "initial": "G",
+      "mark": "G",
+      "color": "#1f6f43",
+      "description": "提供面向建筑师的 BIM 设计、协作和可视化软件。",
+      "website": "https://www.graphisoft.com/",
+      "tutorial": "https://help.graphisoft.com/AC/28/INT/_AC28_Help/100_Visualization/100_Visualization-10.htm",
+      "enabled": true,
+      "order": 282,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "graphisoft-archicad",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Archicad",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "面向建筑设计的 Windows BIM 软件，提供 AI Visualizer 等生成式可视化能力。",
+          "website": "https://www.graphisoft.com/en-us/downloads/",
+          "tutorial": "https://help.graphisoft.com/AC/28/INT/_AC28_Help/100_Visualization/100_Visualization-10.htm",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.graphisoft.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Archicad Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.graphisoft.com/AC/28/INT/_AC28_Help/100_Visualization/100_Visualization-10.htm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vectorworks",
+      "name": "Vectorworks",
+      "initial": "V",
+      "mark": "V",
+      "color": "#ef3e42",
+      "description": "提供建筑、景观、舞台与娱乐设计软件。",
+      "website": "https://www.vectorworks.net/",
+      "tutorial": "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Rendering2/Generating_AI_images.htm",
+      "enabled": true,
+      "order": 283,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "vectorworks-design-suite",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Vectorworks Design Suite",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "Windows 设计套件，覆盖建筑、景观和娱乐设计，并提供 AI Visualizer 图像生成工作流。",
+          "website": "https://www.vectorworks.net/en-US/products?showModal=trial-form",
+          "tutorial": "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Rendering2/Generating_AI_images.htm",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.vectorworks.net/en-US/products"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Vectorworks Design Suite Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Rendering2/Generating_AI_images.htm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dassault-systemes",
+      "name": "Dassault Systèmes",
+      "initial": "D",
+      "mark": "D",
+      "color": "#005386",
+      "description": "提供 3D 设计、工程、仿真与制造软件。",
+      "website": "https://www.3ds.com/",
+      "tutorial": "https://www.solidworks.com/support/system-requirements",
+      "enabled": true,
+      "order": 285,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "dassault-solidworks-design",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "SOLIDWORKS Design",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "Windows 机械设计产品，提供 AI 辅助命令搜索、设计建议和自动化工作流；具体能力以许可版本为准。",
+          "website": "https://www.solidworks.com/support/downloads",
+          "tutorial": "https://my.solidworks.com/training",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.solidworks.com/product/solidworks-design"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 SOLIDWORKS Design Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://my.solidworks.com/training"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ilastik",
+      "name": "ilastik",
+      "initial": "I",
+      "mark": "I",
+      "color": "#f3a712",
+      "description": "开发面向生物图像分析的交互式机器学习工具。",
+      "website": "https://www.ilastik.org/",
+      "tutorial": "https://www.ilastik.org/documentation/",
+      "enabled": true,
+      "order": 287,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "ilastik-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "ilastik",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "面向生物医学图像分割与分类的 Windows 交互式机器学习桌面工具。",
+          "website": "https://www.ilastik.org/download",
+          "tutorial": "https://www.ilastik.org/documentation/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.ilastik.org/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 ilastik Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.ilastik.org/documentation/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qupath",
+      "name": "QuPath",
+      "initial": "Q",
+      "mark": "Q",
+      "color": "#5b3f8c",
+      "description": "开发面向数字病理和生物图像分析的开源软件。",
+      "website": "https://qupath.github.io/",
+      "tutorial": "https://qupath.readthedocs.io/en/stable/",
+      "enabled": true,
+      "order": 288,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "qupath-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "QuPath",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "用于数字病理、显微图像分析和机器学习分类的 Windows 开源桌面工具。",
+          "website": "https://github.com/qupath/qupath/releases",
+          "tutorial": "https://qupath.readthedocs.io/en/stable/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://qupath.github.io/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 QuPath Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://qupath.readthedocs.io/en/stable/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "orange-data-mining",
+      "name": "Orange Data Mining",
+      "initial": "O",
+      "mark": "O",
+      "color": "#f58220",
+      "description": "开发面向教学、研究和分析的可视化数据挖掘工具。",
+      "website": "https://orangedatamining.com/",
+      "tutorial": "https://orangedatamining.com/docs/",
+      "enabled": true,
+      "order": 289,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "orange-data-mining-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Orange Data Mining",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Windows 可视化机器学习与数据挖掘工具，通过组件式工作流完成分析和建模。",
+          "website": "https://orangedatamining.com/download/",
+          "tutorial": "https://orangedatamining.com/docs/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://orangedatamining.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Orange Data Mining Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://orangedatamining.com/docs/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "elsevier",
+      "name": "Elsevier",
+      "initial": "E",
+      "mark": "E",
+      "color": "#ff6c00",
+      "description": "提供科研出版、文献检索和研究分析产品。",
+      "website": "https://www.elsevier.com/",
+      "tutorial": "https://researcheracademy.elsevier.com/uploads/2024-08/Scopus%20AI%20Quick%20Reference%20Guide%20.pdf",
+      "enabled": true,
+      "order": 290,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "elsevier-scopus-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Scopus with AI",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "基于 Scopus 学术内容的生成式研究检索与摘要产品，需要相应机构或个人访问权限。",
+          "website": "https://www.elsevier.com/products/scopus/scopus-ai",
+          "tutorial": "https://researcheracademy.elsevier.com/uploads/2024-08/Scopus%20AI%20Quick%20Reference%20Guide%20.pdf",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Scopus with AI",
+              "url": "https://www.elsevier.com/products/scopus/scopus-ai"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://researcheracademy.elsevier.com/uploads/2024-08/Scopus%20AI%20Quick%20Reference%20Guide%20.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scispace",
+      "name": "SciSpace",
+      "initial": "S",
+      "mark": "S",
+      "color": "#5d5fef",
+      "description": "提供论文检索、阅读、解释与文献综述工具。",
+      "website": "https://scispace.com/",
+      "tutorial": "https://scispace.com/help/en/articles/10660587-how-to-conduct-a-literature-review-using-scispace",
+      "enabled": true,
+      "order": 291,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "scispace-literature-review",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "SciSpace Literature Review",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "面向论文发现、阅读和文献综述的在线 AI 研究工具。",
+          "website": "https://scispace.com/search",
+          "tutorial": "https://scispace.com/help/en/articles/10660587-how-to-conduct-a-literature-review-using-scispace",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 SciSpace Literature Review",
+              "url": "https://scispace.com/search"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://scispace.com/help/en/articles/10660587-how-to-conduct-a-literature-review-using-scispace"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scite",
+      "name": "scite",
+      "initial": "S",
+      "mark": "S",
+      "color": "#111827",
+      "description": "Research Solutions 旗下基于引文上下文的科研发现与验证工具。",
+      "website": "https://scite.ai/",
+      "tutorial": "https://help.researchsolutions.com/hc/en-us/articles/31949427606292-Writing-a-paper-with-Scite-AI",
+      "enabled": true,
+      "order": 292,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "scite-assistant",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "scite Assistant",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "基于 Smart Citations 的在线研究助手，帮助发现、评估和核验学术主张。",
+          "website": "https://scite.ai/",
+          "tutorial": "https://help.researchsolutions.com/hc/en-us/articles/31949427606292-Writing-a-paper-with-Scite-AI",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 scite Assistant",
+              "url": "https://scite.ai/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.researchsolutions.com/hc/en-us/articles/31949427606292-Writing-a-paper-with-Scite-AI"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thomson-reuters",
+      "name": "Thomson Reuters",
+      "initial": "T",
+      "mark": "T",
+      "color": "#ff8000",
+      "description": "提供法律、税务、会计与专业信息服务。",
+      "website": "https://www.thomsonreuters.com/",
+      "tutorial": "https://www.thomsonreuters.com/en-us/help/cocounsel/legal/get-started/about",
+      "enabled": true,
+      "order": 293,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "thomson-reuters-cocounsel-legal",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "CoCounsel Legal",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "面向法律检索、文档分析和专业工作流的在线 AI 助手，需要相应产品订阅。",
+          "website": "https://legal.thomsonreuters.com/en/products/cocounsel-legal",
+          "tutorial": "https://www.thomsonreuters.com/en-us/help/cocounsel/legal/get-started/about",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 CoCounsel Legal",
+              "url": "https://legal.thomsonreuters.com/en/products/cocounsel-legal"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.thomsonreuters.com/en-us/help/cocounsel/legal/get-started/about"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lexisnexis",
+      "name": "LexisNexis",
+      "initial": "L",
+      "mark": "L",
+      "color": "#c8102e",
+      "description": "提供法律研究、业务信息和风险解决方案。",
+      "website": "https://www.lexisnexis.com/",
+      "tutorial": "https://www.lexisnexis.com/en-us/training/default.page",
+      "enabled": true,
+      "order": 294,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "lexisnexis-lexis-plus-protege",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Lexis+ with Protégé",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "面向法律研究、起草、摘要和文档分析的在线 AI 工作空间，需要 LexisNexis 账号与许可。",
+          "website": "https://www.lexisnexis.com/en-us/products/lexis-plus-protege.page",
+          "tutorial": "https://www.lexisnexis.com/en-us/training/default.page",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Lexis+ with Protégé",
+              "url": "https://www.lexisnexis.com/en-us/products/lexis-plus-protege.page"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.lexisnexis.com/en-us/training/default.page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "harvey",
+      "name": "Harvey",
+      "initial": "H",
+      "mark": "H",
+      "color": "#1d1d1f",
+      "description": "开发面向法律和专业服务团队的生成式 AI 平台。",
+      "website": "https://www.harvey.ai/",
+      "tutorial": "https://help.harvey.ai/articles/getting-started-with-harvey",
+      "enabled": true,
+      "order": 295,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "harvey-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Harvey",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "面向法律与专业服务团队的在线 AI 工作空间，覆盖研究、起草、文档分析和工作流。",
+          "website": "https://www.harvey.ai/platform",
+          "tutorial": "https://help.harvey.ai/articles/getting-started-with-harvey",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Harvey",
+              "url": "https://www.harvey.ai/platform"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.harvey.ai/articles/getting-started-with-harvey"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spellbook",
+      "name": "Spellbook",
+      "initial": "S",
+      "mark": "S",
+      "color": "#5b45d6",
+      "description": "提供面向合同起草、审阅和谈判的法律 AI 工具。",
+      "website": "https://spellbook.com/",
+      "tutorial": "https://help.spellbook.legal/en/articles/9079381-how-to-install-spellbook-in-microsoft-word",
+      "enabled": true,
+      "order": 296,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "spellbook-legal",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Spellbook",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "面向合同起草、审阅和谈判的 Microsoft Word AI 加载项；官方当前不提供独立桌面应用。",
+          "website": "https://spellbook.com/",
+          "tutorial": "https://help.spellbook.legal/en/articles/9079381-how-to-install-spellbook-in-microsoft-word",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Spellbook",
+              "url": "https://spellbook.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.spellbook.legal/en/articles/9079381-how-to-install-spellbook-in-microsoft-word"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vlex",
+      "name": "vLex",
+      "initial": "V",
+      "mark": "V",
+      "color": "#ec1c24",
+      "description": "提供全球法律研究、知识与 AI 辅助产品。",
+      "website": "https://vlex.com/",
+      "tutorial": "https://knowledge.vlex.com/en/vincent-ai",
+      "enabled": true,
+      "order": 297,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "vlex-vincent-ai",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Vincent AI",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "面向法律研究、文档分析和专业工作流的在线 AI 助手。",
+          "website": "https://vlex.com/vincent-ai?hsLang=en",
+          "tutorial": "https://knowledge.vlex.com/en/vincent-ai",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Vincent AI",
+              "url": "https://vlex.com/vincent-ai?hsLang=en"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://knowledge.vlex.com/en/vincent-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relativity",
+      "name": "Relativity",
+      "initial": "R",
+      "mark": "R",
+      "color": "#0067b1",
+      "description": "提供电子取证、法律数据管理和审阅平台。",
+      "website": "https://www.relativity.com/",
+      "tutorial": "https://help.relativity.com/RelativityOne/Content/Relativity/aiR_for_Review/aiR_for_Review.htm",
+      "enabled": true,
+      "order": 298,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "relativity-air-review",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Relativity aiR for Review",
+          "kind": "其他产品",
+          "category": "文档与知识库",
+          "description": "面向电子取证审阅的生成式 AI 产品，帮助组织、解释和优先处理案件材料。",
+          "website": "https://www.relativity.com/data-solutions/air/review/",
+          "tutorial": "https://help.relativity.com/RelativityOne/Content/Relativity/aiR_for_Review/aiR_for_Review.htm",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Relativity aiR for Review",
+              "url": "https://www.relativity.com/data-solutions/air/review/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.relativity.com/RelativityOne/Content/Relativity/aiR_for_Review/aiR_for_Review.htm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zendesk",
+      "name": "Zendesk",
+      "initial": "Z",
+      "mark": "Z",
+      "color": "#03363d",
+      "description": "提供客户服务、工单管理和联络中心产品。",
+      "website": "https://www.zendesk.com/",
+      "tutorial": "https://support.zendesk.com/hc/en-us/articles/7908817636378-About-agent-copilot",
+      "enabled": true,
+      "order": 299,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "zendesk-copilot",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Zendesk Copilot",
+          "kind": "其他产品",
+          "category": "客户服务",
+          "description": "嵌入 Zendesk 客服工作流的 AI 助手，提供建议回复、工单摘要和下一步操作建议。",
+          "website": "https://www.zendesk.com/service/ai/copilot/",
+          "tutorial": "https://support.zendesk.com/hc/en-us/articles/7908817636378-About-agent-copilot",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Zendesk Copilot",
+              "url": "https://www.zendesk.com/service/ai/copilot/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.zendesk.com/hc/en-us/articles/7908817636378-About-agent-copilot"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "freshworks",
+      "name": "Freshworks",
+      "initial": "F",
+      "mark": "F",
+      "color": "#0b1320",
+      "description": "提供客户服务、IT 服务和销售支持软件。",
+      "website": "https://www.freshworks.com/",
+      "tutorial": "https://support.freshdesk.com/support/solutions/articles/50000010359-overview-of-freddy-ai-for-ticketing",
+      "enabled": true,
+      "order": 300,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "freshworks-freddy-ai-copilot",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Freddy AI Copilot",
+          "kind": "其他产品",
+          "category": "客户服务",
+          "description": "面向客服团队的 AI Copilot，辅助生成回复、汇总对话和执行服务工作流。",
+          "website": "https://www.freshworks.com/freshdesk/freddy-ai-for-cx/helpdesk/",
+          "tutorial": "https://support.freshdesk.com/support/solutions/articles/50000010359-overview-of-freddy-ai-for-ticketing",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Freddy AI Copilot",
+              "url": "https://www.freshworks.com/freshdesk/freddy-ai-for-cx/helpdesk/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.freshdesk.com/support/solutions/articles/50000010359-overview-of-freddy-ai-for-ticketing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "genesys",
+      "name": "Genesys",
+      "initial": "G",
+      "mark": "G",
+      "color": "#ff4f1f",
+      "description": "提供云联络中心、客户体验和开发者平台。",
+      "website": "https://www.genesys.com/",
+      "tutorial": "https://developer.genesys.cloud/",
+      "enabled": true,
+      "order": 301,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "genesys-cloud-cx",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Genesys Cloud CX",
+          "kind": "桌面端",
+          "category": "客户服务",
+          "description": "云联络中心与客户体验平台，提供 Windows 桌面应用，并可通过官方 API 和开发者工具接入 AI 工作流。",
+          "website": "https://help.genesys.cloud/articles/desktop-app/",
+          "tutorial": "https://developer.genesys.cloud/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.genesys.com/genesys-cloud"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Genesys Cloud CX Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developer.genesys.cloud/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gong",
+      "name": "Gong",
+      "initial": "G",
+      "mark": "G",
+      "color": "#6e3ff3",
+      "description": "提供面向销售团队的收入智能与对话分析平台。",
+      "website": "https://www.gong.io/",
+      "tutorial": "https://help.gong.io/docs/getting-started-welcome-to-gong",
+      "enabled": true,
+      "order": 302,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "gong-revenue-ai-os",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Gong Revenue AI OS",
+          "kind": "其他产品",
+          "category": "营销与搜索",
+          "description": "面向销售团队的在线收入智能平台，分析客户互动并提供 AI 辅助建议。",
+          "website": "https://www.gong.io/platform",
+          "tutorial": "https://help.gong.io/docs/getting-started-welcome-to-gong",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Gong Revenue AI OS",
+              "url": "https://www.gong.io/platform"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.gong.io/docs/getting-started-welcome-to-gong"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dialpad",
+      "name": "Dialpad",
+      "initial": "D",
+      "mark": "D",
+      "color": "#1e1e1e",
+      "description": "提供云通信、联络中心和 AI 会议产品。",
+      "website": "https://www.dialpad.com/",
+      "tutorial": "https://help.dialpad.com/v1/docs/en/dialpad-app-requirements",
+      "enabled": true,
+      "order": 303,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "dialpad-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Dialpad",
+          "kind": "桌面端",
+          "category": "客户服务",
+          "description": "Windows 云通信与联络中心客户端，包含通话转写、摘要和 AI 助理能力。",
+          "website": "https://www.dialpad.com/download/",
+          "tutorial": "https://help.dialpad.com/v1/docs/en/dialpad-app-requirements",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.dialpad.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Dialpad Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.dialpad.com/v1/docs/en/dialpad-app-requirements"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "audacity",
+      "name": "Audacity",
+      "initial": "A",
+      "mark": "A",
+      "color": "#000000",
+      "description": "开发开源音频录制、编辑与处理软件。",
+      "website": "https://www.audacityteam.org/",
+      "tutorial": "https://www.audacityteam.org/download/openvino/",
+      "enabled": true,
+      "order": 304,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "audacity-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Audacity",
+          "kind": "桌面端",
+          "category": "音频制作",
+          "description": "Windows 开源音频编辑器，可通过官方 OpenVINO AI 插件使用降噪、分轨、转录和生成能力。",
+          "website": "https://www.audacityteam.org/download/windows/",
+          "tutorial": "https://www.audacityteam.org/download/openvino/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.audacityteam.org/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Audacity Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.audacityteam.org/download/openvino/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "streamlabs",
+      "name": "Streamlabs",
+      "initial": "S",
+      "mark": "S",
+      "color": "#31c48d",
+      "description": "提供直播、录制、创作者工具和互动组件。",
+      "website": "https://streamlabs.com/",
+      "tutorial": "https://support.streamlabs.com/hc/en-us/articles/47097311788443-Introducing-the-Game-Pulse-Widget-by-Streamlabs",
+      "enabled": true,
+      "order": 305,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "streamlabs-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Streamlabs Desktop",
+          "kind": "桌面端",
+          "category": "直播与录制",
+          "description": "Windows 直播与录制工作台，可通过官方组件和 AI 功能扩展创作者工作流。",
+          "website": "https://streamlabs.com/desktop",
+          "tutorial": "https://support.streamlabs.com/hc/en-us/articles/47097311788443-Introducing-the-Game-Pulse-Widget-by-Streamlabs",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://streamlabs.com/desktop"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Streamlabs Desktop Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.streamlabs.com/hc/en-us/articles/47097311788443-Introducing-the-Game-Pulse-Widget-by-Streamlabs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "riverside",
+      "name": "Riverside",
+      "initial": "R",
+      "mark": "R",
+      "color": "#6c4cff",
+      "description": "提供远程录制、视频编辑和内容再利用工具。",
+      "website": "https://riverside.com/",
+      "tutorial": "https://riverside.com/video-editor",
+      "enabled": true,
+      "order": 306,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "riverside-ai-video-editor",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Riverside AI Video Editor",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "在线 AI 视频编辑器，支持文本式剪辑、字幕、摘要和短内容生成。",
+          "website": "https://riverside.com/tools/ai-video-editor",
+          "tutorial": "https://riverside.com/video-editor",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Riverside AI Video Editor",
+              "url": "https://riverside.com/tools/ai-video-editor"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://riverside.com/video-editor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "opusclip",
+      "name": "OpusClip",
+      "initial": "O",
+      "mark": "O",
+      "color": "#ff5d45",
+      "description": "提供长视频切片、重构和社交短视频生成工具。",
+      "website": "https://www.opus.pro/",
+      "tutorial": "https://help.opus.pro/",
+      "enabled": true,
+      "order": 307,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "opusclip",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "OpusClip",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "将长视频自动转换为社交短视频的在线 AI 编辑与内容再利用工具。",
+          "website": "https://www.opus.pro/",
+          "tutorial": "https://help.opus.pro/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 OpusClip",
+              "url": "https://www.opus.pro/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.opus.pro/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thoughtspot",
+      "name": "ThoughtSpot",
+      "initial": "T",
+      "mark": "T",
+      "color": "#e52b50",
+      "description": "提供搜索式分析、商业智能和数据智能体产品。",
+      "website": "https://www.thoughtspot.com/",
+      "tutorial": "https://www.thoughtspot.com/product/agents/spotter",
+      "enabled": true,
+      "order": 308,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "thoughtspot-spotter",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Spotter",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "面向业务数据问答、分析和洞察的在线 AI 分析智能体。",
+          "website": "https://www.thoughtspot.com/product/agents/spotter",
+          "tutorial": "https://www.thoughtspot.com/product/agents/spotter",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Spotter",
+              "url": "https://www.thoughtspot.com/product/agents/spotter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qlik",
+      "name": "Qlik",
+      "initial": "Q",
+      "mark": "Q",
+      "color": "#2e7d32",
+      "description": "提供数据集成、分析和商业智能产品。",
+      "website": "https://www.qlik.com/",
+      "tutorial": "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/Qlik-Answers.htm",
+      "enabled": true,
+      "order": 309,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "qlik-answers",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Qlik Answers",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "基于组织非结构化内容提供可追溯回答的在线生成式 AI 产品。",
+          "website": "https://www.qlik.com/us/products/qlik-answers",
+          "tutorial": "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/Qlik-Answers.htm",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Qlik Answers",
+              "url": "https://www.qlik.com/us/products/qlik-answers"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/Qlik-Answers.htm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dataiku",
+      "name": "Dataiku",
+      "initial": "D",
+      "mark": "D",
+      "color": "#2ab7a9",
+      "description": "提供企业数据科学、机器学习和生成式 AI 平台。",
+      "website": "https://www.dataiku.com/",
+      "tutorial": "https://doc.dataiku.com/dss/latest/",
+      "enabled": true,
+      "order": 310,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "dataiku-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Dataiku",
+          "kind": "其他产品",
+          "category": "数据库与数据",
+          "description": "企业数据科学与 AI 平台，覆盖数据准备、机器学习、生成式 AI 和治理工作流。",
+          "website": "https://www.dataiku.com/product/",
+          "tutorial": "https://doc.dataiku.com/dss/latest/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Dataiku",
+              "url": "https://www.dataiku.com/product/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://doc.dataiku.com/dss/latest/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "navicat",
+      "name": "Navicat",
+      "initial": "N",
+      "mark": "N",
+      "color": "#0f9ed5",
+      "description": "提供数据库开发、管理、迁移和建模工具。",
+      "website": "https://www.navicat.com/",
+      "tutorial": "https://www.navicat.com/en/navicat-17-highlights.html",
+      "enabled": true,
+      "order": 311,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "navicat-premium",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Navicat Premium",
+          "kind": "桌面端",
+          "category": "数据库与数据",
+          "description": "Windows 多数据库开发与管理工具，提供 AI 辅助查询、解释与数据库工作流。",
+          "website": "https://www.navicat.com/en/download/navicat-premium",
+          "tutorial": "https://www.navicat.com/en/navicat-17-highlights.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.navicat.com/en/navicat-17-highlights.html"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Navicat Premium Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.navicat.com/en/navicat-17-highlights.html"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "octave",
+      "name": "Octave",
+      "initial": "O",
+      "mark": "O",
+      "color": "#c8102e",
+      "description": "提供 Octave BricsCAD CAD 与 BIM 设计产品；产品原由 Bricsys 品牌发布。",
+      "website": "https://bricscad.octave.com/",
+      "tutorial": "https://help.bricsys.com/en-us/document/bricscad/installation-and-licensing/installing-bricscad",
+      "enabled": true,
+      "order": 312,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "octave-bricscad",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Octave BricsCAD",
+          "kind": "桌面端",
+          "category": "3D 与工业仿真",
+          "description": "Windows CAD 与 BIM 产品，内置机器学习辅助的图纸整理、识别和建模能力。",
+          "website": "https://bricscad.octave.com/bricscad",
+          "tutorial": "https://help.bricsys.com/en-us/document/bricscad/installation-and-licensing/installing-bricscad",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://bricscad.octave.com/bricscad"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Octave BricsCAD Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.bricsys.com/en-us/document/bricscad/installation-and-licensing/installing-bricscad"
             }
           ]
         }

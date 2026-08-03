@@ -86,6 +86,24 @@ test("catalog search finds popular agents by their own identity only", () => {
   }
 });
 
+test("catalog search finds the new industry products without unrelated vendors", () => {
+  const expected = {
+    AutoCAD: ["autodesk"],
+    "Scopus with AI": ["elsevier"],
+    CoCounsel: ["thomson-reuters"],
+    Spotter: ["thoughtspot"],
+    Navicat: ["navicat"]
+  };
+
+  for (const [query, vendorIds] of Object.entries(expected)) {
+    assert.deepEqual(
+      search(query).vendors.map(({ vendor }) => vendor.id),
+      vendorIds,
+      query
+    );
+  }
+});
+
 test("catalog search projects resources into every enabled current or future store", () => {
   const source = {
     vendors: [

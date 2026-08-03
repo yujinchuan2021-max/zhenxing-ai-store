@@ -132,3 +132,19 @@
 - Roo Code 和 AgentGPT 因官方仓库已归档而排除；Fellou 因当前 Windows 交付证据不足暂缓；旧 OpenHands CLI、假 Skyvern CLI 和误建 Strands 重复 ID 由测试明确禁止进入目录。
 - `catalog-completeness` 现在固定全部新增产品 ID、总量和七种产品模块数量；`catalog-search` 固定 Hermes、OpenHands、UI-TARS、DeerFlow 与 Letta 的精准搜索结果。后续继续扩充时必须同步通过这些约束，避免后台数据增加后客户端又退回旧样本或错误边界。
 - 后台校验并签名发布目录 v54、草稿修订 57；5174 客户端实页复核上述五组搜索均通过，控制台无错误。本轮没有重新封装安装包。
+
+## 2026-08-03 行业 AI 产品覆盖缺口
+
+- 热门 Agent 补录后，目录仍明显偏向通用 AI 与开发工具，工程设计、科研分析、法律、客服、音视频和商业数据等行业产品覆盖不足。单纯继续搜索“热门 Agent”不会发现 AutoCAD、Scopus AI、CoCounsel、Zendesk Copilot、Audacity OpenVINO 或 Qlik Answers 这类产品。
+- 本轮把候选按工程科研、法律客服、音视频数据三条审查队列处理，并使用厂商官网、官方帮助中心、官方文档或官方仓库复核产品身份和真实交付形态；研究记录位于 `docs/research/2026-08-03-continuous-catalog-expansion-next.md` 与 `docs/research/2026-08-03-industry-ai-product-expansion.md`。
+- 新增 29 个厂商和 35 个一级产品，复用 Autodesk、Siemens、Trimble 与 Clarivate 的单一厂商资料；AutoCAD 与 Revit 同属 Autodesk，不复制厂商记录。目录基线由 282/470/118 提升为 311/505/118。
+- 17 个明确提供 Windows 图形产品的条目只调用固定 `desktop-official` 模块，客户端打开厂商官方获取页；18 个在线产品调用 `web-link`。Genesys Cloud CX 的 Windows、官网和开发者入口合并在同一卡片；两类记录均不含安装包直链、哈希、命令、环境探测、安装 profile 或卸载执行能力。
+- AI 可接入目录新增工程设计、客户服务、音频制作、直播录制和数据库等真实特性，不再把所有接入产品压成单一“AI 接入工具”分类；本轮 13 个产品属于 `ai-connectable`，22 个属于 `ai-tool`。
+- 链接复核发现 Altair AI Studio 已被 Siemens 官方迁移为 Rapidminer AI Studio；目录随即改挂现有 Siemens 厂商并删除过时 Altair 产品和空厂商。BricsCAD 同步迁移到当前 Octave 品牌，旧 Bricsys 产品 ID 和空厂商被删除；Vincent AI 的旧地区入口也已替换。
+- 第二轮逐项复核把 Scopus 更名为当前 `Scopus with AI`，把 Spellbook 明确为 Word 加载项，并纠正 SOLIDWORKS、Designcenter、Tekla、Lexis+ with Protégé、Harvey、scite、Relativity 与 Freddy 的产品页、获取页和教程角色。
+- 精准搜索回归固定 AutoCAD、Scopus with AI、CoCounsel、Spotter 与 Navicat 只能命中对应厂商；完整性回归固定 35 个产品 ID、目录归属、桌面/Web 模块边界与 311/505/118 新基线。
+- 新厂商没有经确认可用于第三方目录的方形官方素材时继续使用审核文字兜底，禁止使用 favicon、搜索图片、GitHub 头像或相似品牌图标；品牌素材单独经过来源审查后才能内容寻址落库。
+- `catalog:expand:industry` 是幂等扩充入口；重复运行必须保持目录和 Logo 兜底清单哈希不变，避免后台刷新后产品重复或客户端退回旧样本。
+- 复盘发现扩充脚本不能覆盖后台手工维护的厂商字段；现已改为仅在新增厂商时写入基础资料，已有厂商的排序、启停、文案、颜色和图标保持后台值，产品 upsert 继续保留启停与排序。
+- 后台校验并签名发布目录 v56、草稿修订 59；发布摘要确认 311 个厂商、505 个产品、118 个资源、149 个官方图形资产与 162 个审核文字兜底。109 个去重官方入口中 103 个直接可达，6 个被厂商访问策略拦截，没有真实 404/410。
+- 客户端实页验收确认：AI 工具目录投影 233 个厂商、AI 可接入目录投影 94 个厂商；AutoCAD 与 Rapidminer 的精准搜索和厂商归属正确，旧 Altair 记录不可见，可接入分类与新增厂商卡均正常，控制台无错误。

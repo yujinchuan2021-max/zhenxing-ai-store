@@ -242,11 +242,49 @@ const POPULAR_AGENT_EXPANSION = Object.freeze([
   "zeroclaw-cli"
 ]);
 
+const INDUSTRY_AI_EXPANSION = Object.freeze([
+  "autodesk-autocad",
+  "autodesk-revit",
+  "graphisoft-archicad",
+  "vectorworks-design-suite",
+  "octave-bricscad",
+  "dassault-solidworks-design",
+  "siemens-designcenter-nx",
+  "trimble-tekla-structures",
+  "siemens-rapidminer-ai-studio",
+  "ilastik-desktop",
+  "qupath-desktop",
+  "orange-data-mining-desktop",
+  "elsevier-scopus-ai",
+  "clarivate-web-of-science-research-assistant",
+  "scispace-literature-review",
+  "scite-assistant",
+  "thomson-reuters-cocounsel-legal",
+  "lexisnexis-lexis-plus-protege",
+  "harvey-platform",
+  "spellbook-legal",
+  "vlex-vincent-ai",
+  "relativity-air-review",
+  "zendesk-copilot",
+  "freshworks-freddy-ai-copilot",
+  "genesys-cloud-cx",
+  "gong-revenue-ai-os",
+  "dialpad-desktop",
+  "audacity-desktop",
+  "streamlabs-desktop",
+  "riverside-ai-video-editor",
+  "opusclip",
+  "thoughtspot-spotter",
+  "qlik-answers",
+  "dataiku-platform",
+  "navicat-premium"
+]);
+
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 282);
+  assert.equal(catalog.vendors.length, 311);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 470);
+  assert.equal(products.length, 505);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of [
     ...HIGH_VALUE_RESEARCH_PRODUCTS,
@@ -255,7 +293,8 @@ test("the researched catalog keeps the Windows second pass and reviewed connecta
     ...VENDOR_EXPANSION_BATCH7,
     ...VENDOR_EXPANSION_BATCH8,
     ...CONTINUOUS_CATALOG_EXPANSION,
-    ...POPULAR_AGENT_EXPANSION
+    ...POPULAR_AGENT_EXPANSION,
+    ...INDUSTRY_AI_EXPANSION
   ]) {
     assert.equal(productIds.has(productId), true, productId);
   }
@@ -367,7 +406,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 470);
+  assert.equal(products.length, 505);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -404,8 +443,8 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 160,
-    "desktop-official": 191,
+    web: 178,
+    "desktop-official": 208,
     "desktop-reviewed": 26,
     "cli-official": 26,
     cli: 14,
@@ -689,6 +728,82 @@ test("popular agents keep their real product and platform boundaries", () => {
   ]) {
     assert.equal(byId.has(excludedId), false, excludedId);
   }
+});
+
+test("industry expansion keeps graphical and Web products on fixed safe modules", () => {
+  const products = catalog.vendors.flatMap((vendor) => vendor.products);
+  const byId = new Map(products.map((product) => [product.id, product]));
+  const desktopIds = new Set([
+    "autodesk-autocad",
+    "autodesk-revit",
+    "graphisoft-archicad",
+    "vectorworks-design-suite",
+    "octave-bricscad",
+    "dassault-solidworks-design",
+    "siemens-designcenter-nx",
+    "trimble-tekla-structures",
+    "siemens-rapidminer-ai-studio",
+    "ilastik-desktop",
+    "qupath-desktop",
+    "orange-data-mining-desktop",
+    "genesys-cloud-cx",
+    "dialpad-desktop",
+    "audacity-desktop",
+    "streamlabs-desktop",
+    "navicat-premium"
+  ]);
+  const connectableIds = new Set([
+    "autodesk-autocad",
+    "autodesk-revit",
+    "graphisoft-archicad",
+    "vectorworks-design-suite",
+    "octave-bricscad",
+    "dassault-solidworks-design",
+    "siemens-designcenter-nx",
+    "trimble-tekla-structures",
+    "genesys-cloud-cx",
+    "dialpad-desktop",
+    "audacity-desktop",
+    "streamlabs-desktop",
+    "navicat-premium"
+  ]);
+
+  for (const productId of INDUSTRY_AI_EXPANSION) {
+    const product = byId.get(productId);
+    assert.ok(product, productId);
+    assert.equal(product.installProfileId, "", productId);
+    assert.equal("download" in product, false, productId);
+    assert.equal(
+      product.directoryKind,
+      connectableIds.has(productId) ? "ai-connectable" : "ai-tool",
+      productId
+    );
+    if (desktopIds.has(productId)) {
+      assert.equal(product.productType, "desktop-official", productId);
+      assert.equal(product.moduleId, "desktop-official", productId);
+      assert.equal(product.installPolicy, "open-official-download", productId);
+      assert.equal(
+        product.entryPoints.filter((entry) => entry.type === "desktop").length,
+        1,
+        productId
+      );
+    } else {
+      assert.equal(product.productType, "web", productId);
+      assert.equal(product.moduleId, "web-link", productId);
+      assert.equal(product.installPolicy, "open-product-website", productId);
+    }
+  }
+
+  assert.equal(
+    catalog.vendors.filter((vendor) => vendor.id === "autodesk").length,
+    1
+  );
+  assert.equal(byId.get("autodesk-autocad").directoryKind, "ai-connectable");
+  assert.equal(byId.get("autodesk-revit").directoryKind, "ai-connectable");
+  assert.equal(byId.has("altair-ai-studio"), false);
+  assert.equal(catalog.vendors.some((vendor) => vendor.id === "altair"), false);
+  assert.equal(byId.has("bricsys-bricscad"), false);
+  assert.equal(catalog.vendors.some((vendor) => vendor.id === "bricsys"), false);
 });
 
 test("cross-directory products use names that explain their different roles", () => {

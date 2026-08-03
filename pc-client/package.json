@@ -28,6 +28,7 @@
     "catalog:discover": "node scripts/discover-official-products.mjs",
     "catalog:expand:windows": "node scripts/apply-windows-desktop-expansion-v2.cjs",
     "catalog:expand:agents": "node scripts/apply-popular-agent-expansion.cjs",
+    "catalog:expand:industry": "node scripts/apply-industry-ai-expansion.cjs",
     "catalog:publish:local": "node scripts/publish-local-catalog.cjs",
     "audit:desktop-sources": "node scripts/audit-managed-desktop-sources.cjs",
     "admin": "npm run catalog:seed && node admin/server.cjs",

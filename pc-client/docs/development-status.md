@@ -6,7 +6,7 @@
 
 - catalog schema v2 的厂商第一层目录信息架构；厂商资料只保存一份。
 - “全部 AI 厂商”和“全部 AI 可接入厂商”由已启用产品的 `directoryKind` 投影，同一厂商在两个页面只显示各自相关产品。
-- 282 个厂商、470 个一级产品的后台目录；同一可视化产品的官网、Web 与 Windows 入口集中在一张卡片，CLI 保持独立。
+- 311 个厂商、505 个一级产品的后台目录；同一可视化产品的官网、Web 与 Windows 入口集中在一张卡片，CLI 保持独立。
 - Skill、MCP、插件和连接器使用顶层资源记录与独立商店，按“资源类型 → 目标工具 → 资源列表 → 单项详情”展示；目标工具卡同时显示厂商与产品，产品页不再维护扩展子目录。
 - 118 个顶层生态资源及 405 条目标关系；尚无固定客户端配置的资源只打开官方说明，不显示一键安装。
 - 后台新增资源目标默认标记为“协议兼容”，不得在未完成真实验证时默认标记“已验证”；PC 资源卡展示兼容性、权限、凭据、安装范围和来源证据。
@@ -48,7 +48,7 @@
 
 社区入口由 PC 客户端直接调用统一身份服务，不依赖目录中的旧 `community.enabled` 展示字段。用户未登录时先进入登录流程；登录后客户端校验社区 origin、路径和一次性凭据，在隔离分区内直接显示 Flarum，不再打开系统浏览器。
 
-当前目录基线共 282 个厂商、470 个一级产品、118 个顶层生态资源；schema v2 在不复制厂商或资源记录的前提下提供双目录视图和四个资源商店。149 个厂商使用逐项核验并落库的官方图标，另有 133 个厂商因授权、素材形态或可辨识性限制使用审核文字兜底。本地后台已校验并签名发布目录 v54，草稿修订为 57，后台保持 ready。普通 Windows 图形产品先使用厂商官方下载模块，完成逐产品生命周期审计后才能升级为受管安装。`0.1.27` 客户端制品本轮没有重新封装；以后需要交付客户端代码时再从固定源码提交生成 Setup 与 Portable 来源证明。
+当前目录基线共 311 个厂商、505 个一级产品、118 个顶层生态资源；schema v2 在不复制厂商或资源记录的前提下提供双目录视图和四个资源商店。149 个厂商使用逐项核验并落库的官方图标，另有 162 个厂商因授权、素材形态或可辨识性限制使用审核文字兜底。本地后台已校验并签名发布目录 v56，草稿修订为 59，后台保持 ready。普通 Windows 图形产品先使用厂商官方下载模块，完成逐产品生命周期审计后才能升级为受管安装。`0.1.27` 客户端制品本轮没有重新封装；以后需要交付客户端代码时再从固定源码提交生成 Setup 与 Portable 来源证明。
 
 ## 热门 Agent 扩充
 
@@ -57,6 +57,16 @@
 - Hermes Desktop 与 Hermes Agent 已存在并保持正确拼写；OpenHands 当前按 Cloud 与 Agent Canvas 建模，UI-TARS Desktop 与 Agent TARS CLI 分开，Letta 的可视化产品与 CLI 分开。
 - 已归档的 Roo Code、AgentGPT 不进入目录；Fellou 在取得稳定 Windows 官方交付证据前继续暂缓。完整研究与来源记录见 `docs/research/2026-08-03-popular-agent-expansion.md`。
 - 本地后台已发布目录 v54；5174 客户端实页精准搜索 Hermes、OpenHands、UI-TARS、DeerFlow 与 Letta 均只返回对应厂商和产品，页面无控制台错误。
+
+## 行业 AI 产品扩充
+
+- 使用厂商官网和官方文档新增 29 个厂商、35 个产品，覆盖工程设计、科研分析、法律、客户服务、音视频创作和商业数据；Autodesk、Siemens、Trimble 与 Clarivate 继续复用原厂商资料。Altair AI Studio 已按 Siemens 官方品牌迁移说明改为 Siemens 旗下 Rapidminer AI Studio，没有保留过时厂商关系。
+- 17 个 Windows 图形产品统一调用 `desktop-official`，18 个在线产品调用 `web-link`；全部只包含官方入口和教程，没有增加后台命令、安装包直链、本地探测或安装 profile。Genesys Cloud CX 的 Windows、官网和开发者入口保持在同一产品卡，Spellbook 明确标为 Word 加载项而不是独立桌面应用。
+- 13 个产品进入“全部 AI 可接入厂商”，22 个进入“全部 AI 厂商”；AutoCAD、Revit 等工程产品按“3D 与工业仿真”展示，Genesys、Dialpad 等按“客户服务”展示，Audacity 与 Streamlabs 分别按“音频制作”和“直播与录制”展示。
+- 完整性测试固定 311/505/118 基线、全部 35 个新增产品身份和安全模块边界；精准搜索固定 AutoCAD、Scopus with AI、CoCounsel、Spotter 与 Navicat 不带出无关厂商。
+- BricsCAD 已按当前品牌迁移到 Octave；Scopus 使用当前 `Scopus with AI` 名称；SOLIDWORKS、Designcenter、Tekla、Lexis+ with Protégé、Harvey、scite、Relativity 与 Freddy 的入口角色已按官方产品页和用户文档纠正。
+- 本地后台已签名发布目录 v56、草稿修订 59；最终 109 个去重官方入口中 103 个直接可达，6 个由厂商 WAF/访问策略拦截，没有真实 404/410。
+- 5174 客户端实页显示 233 个 AI 厂商和 94 个 AI 可接入厂商；AutoCAD 只返回 Autodesk，Rapidminer AI Studio 只返回 Siemens，旧 Altair AI Studio 无结果。可接入目录已显示 3D 与工业仿真、客户服务、音频制作、直播与录制等分类，控制台无错误。
 
 ## 尚需真实环境或用户验收
 
