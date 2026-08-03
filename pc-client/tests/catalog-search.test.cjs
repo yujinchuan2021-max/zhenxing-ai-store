@@ -104,6 +104,44 @@ test("catalog search finds the new industry products without unrelated vendors",
   }
 });
 
+test("catalog search finds the next agent and connectable products by identity", () => {
+  const expected = {
+    "Amp CLI": ["amp"],
+    "GitHub Spark": ["github"],
+    "LangSmith": ["langchain"],
+    "Rovo": ["atlassian"],
+    "PlayCanvas Editor": ["playcanvas"],
+    "PandaDoc Workspace": ["pandadoc"]
+  };
+
+  for (const [query, vendorIds] of Object.entries(expected)) {
+    assert.deepEqual(
+      search(query).vendors.map(({ vendor }) => vendor.id),
+      vendorIds,
+      query
+    );
+  }
+});
+
+test("catalog search finds the next reviewed Windows products by identity", () => {
+  const expected = {
+    Superwhisper: ["superwhisper"],
+    PDFgear: ["pdfgear"],
+    "Voice.ai": ["voiceai"],
+    AFFiNE: ["affine"],
+    "DuckDuckGo Browser": ["duckduckgo"],
+    "CorelDRAW Graphics Suite": ["corel"]
+  };
+
+  for (const [query, vendorIds] of Object.entries(expected)) {
+    assert.deepEqual(
+      search(query).vendors.map(({ vendor }) => vendor.id),
+      vendorIds,
+      query
+    );
+  }
+});
+
 test("catalog search projects resources into every enabled current or future store", () => {
   const source = {
     vendors: [

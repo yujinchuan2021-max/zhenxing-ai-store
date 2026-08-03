@@ -280,11 +280,56 @@ const INDUSTRY_AI_EXPANSION = Object.freeze([
   "navicat-premium"
 ]);
 
+const NEXT_CATALOG_EXPANSION = Object.freeze([
+  "amp-cli",
+  "augment-code",
+  "augment-auggie-cli",
+  "qodo-code-review",
+  "coderabbit-code-review",
+  "greptile-code-review",
+  "github-spark",
+  "langchain-langsmith",
+  "clickhouse-langfuse",
+  "promptfoo-cli",
+  "daytona-sandboxes",
+  "daytona-cli",
+  "e2b-sandboxes",
+  "amazon-q-developer",
+  "google-gemini-code-assist",
+  "jetbrains-junie",
+  "vercel-v0",
+  "atlassian-rovo",
+  "microsoft-security-copilot",
+  "sap-joule",
+  "cisco-webex-ai-assistant",
+  "playcanvas-editor",
+  "vimeo-platform",
+  "cloudinary-media-platform",
+  "onlyoffice-docspace",
+  "airtable-platform",
+  "pandadoc-workspace",
+  "superwhisper-windows",
+  "screenpipe-desktop",
+  "pdfgear-windows",
+  "updf-windows",
+  "vrew-desktop",
+  "voice-ai-windows",
+  "finevoice-desktop",
+  "gitbutler-desktop",
+  "affine-desktop",
+  "appflowy-desktop",
+  "duckduckgo-browser",
+  "spark-mail-windows",
+  "canary-mail",
+  "movavi-video-editor",
+  "coreldraw-graphics-suite"
+]);
+
 test("the researched catalog keeps the Windows second pass and reviewed connectable products", () => {
   assert.doesNotThrow(() => validateCatalog(catalog));
-  assert.equal(catalog.vendors.length, 311);
+  assert.equal(catalog.vendors.length, 342);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 505);
+  assert.equal(products.length, 547);
   const productIds = new Set(products.map((product) => product.id));
   for (const productId of [
     ...HIGH_VALUE_RESEARCH_PRODUCTS,
@@ -294,7 +339,8 @@ test("the researched catalog keeps the Windows second pass and reviewed connecta
     ...VENDOR_EXPANSION_BATCH8,
     ...CONTINUOUS_CATALOG_EXPANSION,
     ...POPULAR_AGENT_EXPANSION,
-    ...INDUSTRY_AI_EXPANSION
+    ...INDUSTRY_AI_EXPANSION,
+    ...NEXT_CATALOG_EXPANSION
   ]) {
     assert.equal(productIds.has(productId), true, productId);
   }
@@ -406,7 +452,7 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 505);
+  assert.equal(products.length, 547);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -443,10 +489,10 @@ test("the seven product behavior modules classify every catalog entry", () => {
     counts[product.productType] += 1;
   }
   assert.deepEqual(counts, {
-    web: 178,
-    "desktop-official": 208,
+    web: 200,
+    "desktop-official": 224,
     "desktop-reviewed": 26,
-    "cli-official": 26,
+    "cli-official": 30,
     cli: 14,
     "local-model": 1,
     tutorial: 52
@@ -463,14 +509,14 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
     true
   );
   const resources = catalog.resources;
-  assert.equal(resources.length, 118);
+  assert.equal(resources.length, 124);
   assert.equal(
     resources.every((item) => item.publisherVendorId),
     true,
     "every resource must link to its single backend vendor record"
   );
   assert.equal(resources.filter((item) => item.resourceTypes.includes("skill")).length, 16);
-  assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 96);
+  assert.equal(resources.filter((item) => item.resourceTypes.includes("mcp")).length, 102);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("plugin")).length, 7);
   assert.equal(resources.filter((item) => item.resourceTypes.includes("connector")).length, 3);
   const managed = resources.find(
@@ -516,7 +562,13 @@ test("ecosystem resources are top-level, typed and keep one reviewed managed Ski
     "meshy-3d-skill",
     "krea-mcp-server",
     "krea-agent-skills",
-    "pixverse-mcp-server"
+    "pixverse-mcp-server",
+    "playcanvas-editor-mcp",
+    "vimeo-mcp-server",
+    "cloudinary-mcp-servers",
+    "onlyoffice-docspace-mcp",
+    "airtable-mcp-server",
+    "pandadoc-mcp-server"
   ]) {
     assert.equal(resourceIds.has(resourceId), true, resourceId);
   }

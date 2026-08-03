@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-03T04:50:17.949Z",
+  "updatedAt": "2026-08-03T05:40:30.197Z",
   "categories": [
     "AI 对话",
     "编程开发",
@@ -1463,6 +1463,42 @@
           "capabilities": [
             "tutorial"
           ]
+        },
+        {
+          "id": "google-gemini-code-assist",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Gemini Code Assist",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "Google Cloud 面向 IDE 的 AI 编程辅助产品；Standard/Enterprise 与个人层级的可用性按官方公告区分。",
+          "website": "https://cloud.google.com/gemini/code-assist",
+          "tutorial": "https://docs.cloud.google.com/gemini/docs/codeassist/overview",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Gemini Code Assist",
+              "url": "https://cloud.google.com/gemini/code-assist"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.cloud.google.com/gemini/docs/codeassist/overview"
+            }
+          ]
         }
       ],
       "enabled": true,
@@ -1989,6 +2025,42 @@
               "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/copilot-power-bi-desktop"
             }
           ]
+        },
+        {
+          "id": "microsoft-security-copilot",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Microsoft Security Copilot",
+          "kind": "其他产品",
+          "category": "云服务与运维",
+          "description": "面向安全与 IT 团队的生成式 AI 产品，支持威胁调查、响应、态势管理和安全 Agent。",
+          "website": "https://learn.microsoft.com/en-us/copilot/security/workspaces-overview",
+          "tutorial": "https://learn.microsoft.com/en-us/copilot/security/get-started-security-copilot",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Microsoft Security Copilot",
+              "url": "https://learn.microsoft.com/en-us/copilot/security/workspaces-overview"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://learn.microsoft.com/en-us/copilot/security/get-started-security-copilot"
+            }
+          ]
         }
       ],
       "iconUrl": "",
@@ -2084,6 +2156,42 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "github-spark",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "GitHub Spark",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "用自然语言构建、编辑并发布全栈应用的 Web 产品（Public Preview）；不等同于 GitHub Copilot。",
+          "website": "https://github.com/features/spark",
+          "tutorial": "https://docs.github.com/en/copilot/tutorials/build-apps-with-spark",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 GitHub Spark",
+              "url": "https://github.com/features/spark"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.github.com/en/copilot/tutorials/build-apps-with-spark"
+            }
           ]
         }
       ],
@@ -3736,6 +3844,42 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "amazon-q-developer",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Amazon Q Developer",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "AWS 的生成式 AI 开发助手，覆盖 AWS 控制台、IDE 和代码工作流；IDE 扩展不冒充独立 Windows 客户端。",
+          "website": "https://aws.amazon.com/q/developer/",
+          "tutorial": "https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/what-is.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Amazon Q Developer",
+              "url": "https://aws.amazon.com/q/developer/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/what-is.html"
+            }
           ]
         }
       ],
@@ -5653,6 +5797,42 @@
           "uninstallPolicy": "not-managed",
           "capabilities": [
             "tutorial"
+          ]
+        },
+        {
+          "id": "langchain-langsmith",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "LangSmith",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "用于 Agent/LLM 应用追踪、评估、提示词管理和部署的开发平台；不等同于 LangChain 框架。",
+          "website": "https://smith.langchain.com/",
+          "tutorial": "https://docs.langchain.com/langsmith/evaluation",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 LangSmith",
+              "url": "https://smith.langchain.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.langchain.com/langsmith/evaluation"
+            }
           ]
         }
       ],
@@ -9657,6 +9837,42 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "atlassian-rovo",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Rovo",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "Atlassian 的企业搜索、聊天、Agent 和 Studio 产品，连接 Jira、Confluence 及第三方 SaaS。",
+          "website": "https://www.atlassian.com/software/rovo",
+          "tutorial": "https://www.atlassian.com/software/rovo/guides/end-user-guide/introduction",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Rovo",
+              "url": "https://www.atlassian.com/software/rovo"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.atlassian.com/software/rovo/guides/end-user-guide/introduction"
+            }
+          ]
         }
       ],
       "order": 103,
@@ -10046,6 +10262,42 @@
             "website",
             "tutorial"
           ]
+        },
+        {
+          "id": "jetbrains-junie",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Junie",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "JetBrains IDE/Android Studio 内的 AI 编程 Agent 插件；不是独立 Windows 桌面客户端。",
+          "website": "https://www.jetbrains.com/junie/",
+          "tutorial": "https://www.jetbrains.com/help/ai-assistant/junie-agent.html",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Junie",
+              "url": "https://www.jetbrains.com/junie/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.jetbrains.com/help/ai-assistant/junie-agent.html"
+            }
+          ]
         }
       ],
       "order": 111,
@@ -10089,6 +10341,42 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "vercel-v0",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "v0",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "Vercel 的自然语言应用构建和部署 Web 产品，可生成 UI、代码并发布到 Vercel。",
+          "website": "https://v0.dev/",
+          "tutorial": "https://vercel.com/docs/v0",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 v0",
+              "url": "https://v0.dev/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://vercel.com/docs/v0"
+            }
           ]
         }
       ],
@@ -13778,6 +14066,42 @@
           "capabilities": [
             "website",
             "tutorial"
+          ]
+        },
+        {
+          "id": "sap-joule",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Joule",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "SAP 面向业务系统的企业 AI 助手，按角色和业务权限提供搜索、问答与流程协助。",
+          "website": "https://www.sap.com/products/artificial-intelligence/ai-assistant.html",
+          "tutorial": "https://help.sap.com/docs/joule",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Joule",
+              "url": "https://www.sap.com/products/artificial-intelligence/ai-assistant.html"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.sap.com/docs/joule"
+            }
           ]
         }
       ]
@@ -21298,6 +21622,1729 @@
               "type": "tutorial",
               "label": "使用教程",
               "url": "https://help.bricsys.com/en-us/document/bricscad/installation-and-licensing/installing-bricscad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amp",
+      "name": "Amp",
+      "initial": "A",
+      "mark": "A",
+      "color": "#f97316",
+      "description": "独立的 AI 编程 Agent，提供命令行和远程开发工作流。",
+      "website": "https://ampcode.com/",
+      "tutorial": "https://ampcode.com/manual",
+      "enabled": true,
+      "order": 313,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "amp-cli",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Amp CLI",
+          "kind": "CLI",
+          "category": "编程开发",
+          "description": "Amp 的命令行编程 Agent；Windows 用户按官方说明通过 WSL 使用，不冒充原生 Windows 桌面客户端。",
+          "website": "https://ampcode.com/manual",
+          "tutorial": "https://ampcode.com/manual",
+          "productType": "cli-official",
+          "moduleId": "cli-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "CLI 官网",
+              "url": "https://ampcode.com/manual"
+            },
+            {
+              "type": "cli",
+              "label": "查看 CLI 安装说明"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "augment",
+      "name": "Augment Code",
+      "initial": "A",
+      "mark": "A",
+      "color": "#0b6bcb",
+      "description": "面向团队代码库上下文的 AI 编程工具。",
+      "website": "https://www.augmentcode.com/",
+      "tutorial": "https://docs.augmentcode.com/quickstart",
+      "enabled": true,
+      "order": 314,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "augment-code",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Augment Code",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "面向 VS Code 和 JetBrains 的代码库上下文 AI 助手；IDE 插件不是独立 Windows 桌面客户端。",
+          "website": "https://www.augmentcode.com/",
+          "tutorial": "https://docs.augmentcode.com/quickstart",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Augment Code",
+              "url": "https://www.augmentcode.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.augmentcode.com/quickstart"
+            }
+          ]
+        },
+        {
+          "id": "augment-auggie-cli",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Auggie CLI",
+          "kind": "CLI",
+          "category": "编程开发",
+          "description": "Augment 的命令行 Agent（Beta）；官方 Windows 路径为 WSL，需按官方系统要求配置。",
+          "website": "https://docs.augmentcode.com/cli/overview",
+          "tutorial": "https://docs.augmentcode.com/cli/setup-auggie/install-auggie-cli",
+          "productType": "cli-official",
+          "moduleId": "cli-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "CLI 官网",
+              "url": "https://docs.augmentcode.com/cli/overview"
+            },
+            {
+              "type": "cli",
+              "label": "查看 CLI 安装说明"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.augmentcode.com/cli/setup-auggie/install-auggie-cli"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qodo",
+      "name": "Qodo",
+      "initial": "Q",
+      "mark": "Q",
+      "color": "#6d28d9",
+      "description": "面向代码审查、测试和工程治理的 AI 开发平台。",
+      "website": "https://qodo.ai/",
+      "tutorial": "https://docs.qodo.ai/",
+      "enabled": true,
+      "order": 315,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "qodo-code-review",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Qodo",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "覆盖代码审查、测试和 Git/IDE 集成的 AI 工程平台；不同入口共用同一产品身份。",
+          "website": "https://qodo.ai/",
+          "tutorial": "https://docs.qodo.ai/code-review",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Qodo",
+              "url": "https://qodo.ai/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.qodo.ai/code-review"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coderabbit",
+      "name": "CodeRabbit",
+      "initial": "C",
+      "mark": "C",
+      "color": "#f59e0b",
+      "description": "面向代码审查和开发流程的 AI 协作工具。",
+      "website": "https://www.coderabbit.ai/",
+      "tutorial": "https://docs.coderabbit.ai/",
+      "enabled": true,
+      "order": 316,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "coderabbit-code-review",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "CodeRabbit",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "在 Git、IDE 和 CLI 工作流中提供 AI 代码审查；CLI 在 Windows 上按官方 WSL 说明使用。",
+          "website": "https://www.coderabbit.ai/",
+          "tutorial": "https://docs.coderabbit.ai/overview/ide-cli-review",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 CodeRabbit",
+              "url": "https://www.coderabbit.ai/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.coderabbit.ai/overview/ide-cli-review"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "greptile",
+      "name": "Greptile",
+      "initial": "G",
+      "mark": "G",
+      "color": "#111827",
+      "description": "面向代码库理解和审查的 AI 开发平台。",
+      "website": "https://www.greptile.com/",
+      "tutorial": "https://www.greptile.com/docs/introduction",
+      "enabled": true,
+      "order": 317,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "greptile-code-review",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Greptile",
+          "kind": "其他产品",
+          "category": "编程开发",
+          "description": "连接 GitHub 或 GitLab 代码库的 AI 代码审查 Agent；云端、托管和 CLI 属于同一产品入口。",
+          "website": "https://www.greptile.com/",
+          "tutorial": "https://www.greptile.com/docs/introduction",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Greptile",
+              "url": "https://www.greptile.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.greptile.com/docs/introduction"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clickhouse",
+      "name": "ClickHouse",
+      "initial": "C",
+      "mark": "C",
+      "color": "#ffcc00",
+      "description": "开源分析数据库及 AI 可观测性产品提供商。",
+      "website": "https://clickhouse.com/",
+      "tutorial": "https://langfuse.com/docs",
+      "enabled": true,
+      "order": 318,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "clickhouse-langfuse",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Langfuse",
+          "kind": "其他产品",
+          "category": "智能体",
+          "description": "ClickHouse 旗下的开源 LLM/Agent 可观测性平台，提供追踪、评估和提示词管理。",
+          "website": "https://langfuse.com/",
+          "tutorial": "https://langfuse.com/docs",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Langfuse",
+              "url": "https://langfuse.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://langfuse.com/docs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "promptfoo",
+      "name": "Promptfoo",
+      "initial": "P",
+      "mark": "P",
+      "color": "#2563eb",
+      "description": "用于提示词、模型和 Agent 评估及红队测试的工具。",
+      "website": "https://www.promptfoo.dev/",
+      "tutorial": "https://www.promptfoo.dev/docs/installation/",
+      "enabled": true,
+      "order": 319,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "promptfoo-cli",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Promptfoo CLI",
+          "kind": "CLI",
+          "category": "智能体",
+          "description": "命令行评估和红队测试工具；Windows 官方安装路径以文档为准，AI Hub 不代执行任意命令。",
+          "website": "https://www.promptfoo.dev/docs/installation/",
+          "tutorial": "https://www.promptfoo.dev/docs/usage/web-ui/",
+          "productType": "cli-official",
+          "moduleId": "cli-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "CLI 官网",
+              "url": "https://www.promptfoo.dev/docs/installation/"
+            },
+            {
+              "type": "cli",
+              "label": "查看 CLI 安装说明"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.promptfoo.dev/docs/usage/web-ui/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "daytona",
+      "name": "Daytona",
+      "initial": "D",
+      "mark": "D",
+      "color": "#111827",
+      "description": "面向 AI Agent 的安全代码沙箱基础设施。",
+      "website": "https://www.daytona.io/",
+      "tutorial": "https://www.daytona.io/docs/en/",
+      "enabled": true,
+      "order": 320,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "daytona-sandboxes",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Daytona Sandboxes",
+          "kind": "其他产品",
+          "category": "云服务与运维",
+          "description": "为 AI Agent 提供隔离代码执行环境的云平台；控制台、API、CLI 和 MCP 属于同一服务。",
+          "website": "https://www.daytona.io/",
+          "tutorial": "https://www.daytona.io/docs/en/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Daytona Sandboxes",
+              "url": "https://www.daytona.io/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.daytona.io/docs/en/"
+            }
+          ]
+        },
+        {
+          "id": "daytona-cli",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Daytona CLI",
+          "kind": "CLI",
+          "category": "云服务与运维",
+          "description": "Daytona 沙箱管理命令行工具；官方提供 Windows CLI 文档，安装前需确认账号和远程执行权限。",
+          "website": "https://www.daytona.io/docs/en/tools/cli/",
+          "tutorial": "https://www.daytona.io/docs/en/tools/cli/",
+          "productType": "cli-official",
+          "moduleId": "cli-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-install",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "CLI 官网",
+              "url": "https://www.daytona.io/docs/en/tools/cli/"
+            },
+            {
+              "type": "cli",
+              "label": "查看 CLI 安装说明"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2b",
+      "name": "E2B",
+      "initial": "E",
+      "mark": "E",
+      "color": "#111827",
+      "description": "面向 Agent 的隔离代码执行沙箱平台。",
+      "website": "https://e2b.dev/",
+      "tutorial": "https://e2b.dev/docs",
+      "enabled": true,
+      "order": 321,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "e2b-sandboxes",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "E2B Sandboxes",
+          "kind": "其他产品",
+          "category": "云服务与运维",
+          "description": "为 AI Agent 提供隔离 Linux VM 和代码执行环境的云平台；不是本地 Windows Agent。",
+          "website": "https://e2b.dev/",
+          "tutorial": "https://e2b.dev/docs",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 E2B Sandboxes",
+              "url": "https://e2b.dev/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://e2b.dev/docs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cisco",
+      "name": "Cisco",
+      "initial": "C",
+      "mark": "C",
+      "color": "#049fd9",
+      "description": "提供 Webex 协作和企业网络产品。",
+      "website": "https://www.cisco.com/",
+      "tutorial": "https://help.webex.com/webex-ai",
+      "enabled": true,
+      "order": 322,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "cisco-webex-ai-assistant",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Webex with Cisco AI Assistant",
+          "kind": "桌面端",
+          "category": "办公自动化",
+          "description": "Windows Webex 客户端内置 Cisco AI Assistant，覆盖会议、消息和通话摘要；功能按组织管理员和套餐开放。",
+          "website": "https://www.webex.com/downloads.html",
+          "tutorial": "https://help.webex.com/article/ub8jcj/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.webex.com/ai"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Webex with Cisco AI Assistant Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.webex.com/article/ub8jcj/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "playcanvas",
+      "name": "PlayCanvas",
+      "initial": "P",
+      "mark": "P",
+      "color": "#f05a28",
+      "description": "提供浏览器 3D 编辑器和游戏开发平台。",
+      "website": "https://playcanvas.com/",
+      "tutorial": "https://developer.playcanvas.com/user-manual/editor/mcp-server/",
+      "enabled": true,
+      "order": 323,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "playcanvas-editor",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "PlayCanvas Editor",
+          "kind": "其他产品",
+          "category": "游戏开发",
+          "description": "浏览器 3D 编辑器，可通过官方 Editor MCP 由 AI 客户端读取和修改项目；首版仅展示官方连接说明。",
+          "website": "https://playcanvas.com/",
+          "tutorial": "https://developer.playcanvas.com/user-manual/editor/mcp-server/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 PlayCanvas Editor",
+              "url": "https://playcanvas.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developer.playcanvas.com/user-manual/editor/mcp-server/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vimeo",
+      "name": "Vimeo",
+      "initial": "V",
+      "mark": "V",
+      "color": "#1ab7ea",
+      "description": "提供视频托管、协作和媒体管理服务。",
+      "website": "https://vimeo.com/",
+      "tutorial": "https://developer.vimeo.com/api/mcp-server",
+      "enabled": true,
+      "order": 324,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "vimeo-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Vimeo Platform",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "Vimeo 视频平台及官方远程 MCP（Public Beta），用于搜索、管理和分析媒体内容。",
+          "website": "https://vimeo.com/",
+          "tutorial": "https://developer.vimeo.com/api/mcp-server",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Vimeo Platform",
+              "url": "https://vimeo.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developer.vimeo.com/api/mcp-server"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cloudinary",
+      "name": "Cloudinary",
+      "initial": "C",
+      "mark": "C",
+      "color": "#3448c5",
+      "description": "提供图像、视频和媒体资产管理平台。",
+      "website": "https://cloudinary.com/",
+      "tutorial": "https://cloudinary.com/documentation/cloudinary_llm_mcp",
+      "enabled": true,
+      "order": 325,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "cloudinary-media-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Cloudinary Media Platform",
+          "kind": "其他产品",
+          "category": "视频创作",
+          "description": "媒体资产管理和处理平台，提供官方 MCP 能力；首版以远程连接和最小权限说明为主。",
+          "website": "https://cloudinary.com/",
+          "tutorial": "https://cloudinary.com/documentation/cloudinary_llm_mcp",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Cloudinary Media Platform",
+              "url": "https://cloudinary.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://cloudinary.com/documentation/cloudinary_llm_mcp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "onlyoffice",
+      "name": "ONLYOFFICE",
+      "initial": "O",
+      "mark": "O",
+      "color": "#ff6f00",
+      "description": "提供在线文档协作和桌面办公套件。",
+      "website": "https://www.onlyoffice.com/",
+      "tutorial": "https://api.onlyoffice.com/docspace/mcp-server/getting-started/",
+      "enabled": true,
+      "order": 326,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "onlyoffice-docspace",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "ONLYOFFICE DocSpace",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "文档协作空间及官方远程 MCP；首版只展示 OAuth 连接和权限说明，不自动执行本地 npm/Docker。",
+          "website": "https://www.onlyoffice.com/docspace.aspx",
+          "tutorial": "https://api.onlyoffice.com/docspace/mcp-server/getting-started/",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 ONLYOFFICE DocSpace",
+              "url": "https://www.onlyoffice.com/docspace.aspx"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://api.onlyoffice.com/docspace/mcp-server/getting-started/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "airtable",
+      "name": "Airtable",
+      "initial": "A",
+      "mark": "A",
+      "color": "#18a66b",
+      "description": "提供可协作的数据表和业务应用平台。",
+      "website": "https://www.airtable.com/",
+      "tutorial": "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server",
+      "enabled": true,
+      "order": 327,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "airtable-platform",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "Airtable Platform",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "可协作数据表平台及官方远程 MCP；连接沿用用户在 Airtable 中已有的角色权限。",
+          "website": "https://www.airtable.com/",
+          "tutorial": "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 Airtable Platform",
+              "url": "https://www.airtable.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pandadoc",
+      "name": "PandaDoc",
+      "initial": "P",
+      "mark": "P",
+      "color": "#2f80ed",
+      "description": "提供文档、合同和电子签署工作流。",
+      "website": "https://www.pandadoc.com/",
+      "tutorial": "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server",
+      "enabled": true,
+      "order": 328,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "pandadoc-workspace",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-connectable",
+          "name": "PandaDoc Workspace",
+          "kind": "其他产品",
+          "category": "办公自动化",
+          "description": "文档、合同和签署工作流平台及官方远程 MCP；发送、修改和提醒操作必须逐次确认。",
+          "website": "https://www.pandadoc.com/",
+          "tutorial": "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server",
+          "productType": "web",
+          "moduleId": "web-link",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-product-website",
+          "downloadPolicy": "none",
+          "signaturePolicy": "not-applicable",
+          "uninstallPolicy": "not-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "web",
+              "label": "打开 PandaDoc Workspace",
+              "url": "https://www.pandadoc.com/"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "superwhisper",
+      "name": "Superwhisper",
+      "initial": "S",
+      "mark": "S",
+      "color": "#111827",
+      "description": "提供跨应用 AI 语音听写和上下文处理工具。",
+      "website": "https://superwhisper.com/",
+      "tutorial": "https://superwhisper.com/docs/get-started/windows",
+      "enabled": true,
+      "order": 329,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "superwhisper-windows",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Superwhisper",
+          "kind": "桌面端",
+          "category": "音频创作",
+          "description": "Windows 10/11 AI 语音听写工具，可在应用中转写和处理上下文；麦克风与上下文访问须由用户授权。",
+          "website": "https://superwhisper.com/download",
+          "tutorial": "https://superwhisper.com/docs/get-started/windows",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://superwhisper.com/windows"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Superwhisper Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://superwhisper.com/docs/get-started/windows"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "screenpipe",
+      "name": "screenpipe",
+      "initial": "S",
+      "mark": "S",
+      "color": "#111827",
+      "description": "提供本地优先的屏幕和音频记录及 Agent 上下文工具。",
+      "website": "https://screenpipe.com/",
+      "tutorial": "https://github.com/screenpipe/screenpipe",
+      "enabled": true,
+      "order": 330,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "screenpipe-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "screenpipe",
+          "kind": "桌面端",
+          "category": "智能体",
+          "description": "持续记录并搜索屏幕与音频的本地优先 Windows 工具，可向 Agent 提供上下文；使用前应配置隐私排除项。",
+          "website": "https://screenpipe.com/",
+          "tutorial": "https://github.com/screenpipe/screenpipe",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://screenpipe.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 screenpipe Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://github.com/screenpipe/screenpipe"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdfgear",
+      "name": "PDFgear",
+      "initial": "P",
+      "mark": "P",
+      "color": "#2563eb",
+      "description": "提供 PDF 编辑、转换、OCR 和 AI 文档问答工具。",
+      "website": "https://www.pdfgear.com/",
+      "tutorial": "https://www.pdfgear.com/windows-user-guide/download-install-pdfgear-on-windows.htm",
+      "enabled": true,
+      "order": 331,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "pdfgear-windows",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "PDFgear",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "Windows PDF 编辑、OCR、转换和 AI 文档问答工具；PDF 聊天与在线更新需要网络。",
+          "website": "https://www.pdfgear.com/pdfgear-for-windows/",
+          "tutorial": "https://www.pdfgear.com/windows-user-guide/download-install-pdfgear-on-windows.htm",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.pdfgear.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 PDFgear Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.pdfgear.com/windows-user-guide/download-install-pdfgear-on-windows.htm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "updf",
+      "name": "UPDF",
+      "initial": "U",
+      "mark": "U",
+      "color": "#645cff",
+      "description": "提供跨平台 PDF 编辑和 AI 文档助手。",
+      "website": "https://updf.com/",
+      "tutorial": "https://updf.com/updf/",
+      "enabled": true,
+      "order": 332,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "updf-windows",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "UPDF",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "Windows PDF 编辑、OCR、语义搜索、总结和翻译工具；使用 UPDF AI 时文档可能上传至云端。",
+          "website": "https://updf.com/download/",
+          "tutorial": "https://updf.com/whats-new/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://updf.com/updf/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 UPDF Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://updf.com/whats-new/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vrew",
+      "name": "Vrew",
+      "initial": "V",
+      "mark": "V",
+      "color": "#7c3aed",
+      "description": "提供转录式视频剪辑、字幕、配音和生成式视频工具。",
+      "website": "https://vrew.ai/",
+      "tutorial": "https://vrew.ai/en/terms-of-service/",
+      "enabled": true,
+      "order": 333,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "vrew-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Vrew",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows 视频编辑器，支持 AI 字幕、配音、翻译和文本生成视频；功能受账号、额度和地区版本影响。",
+          "website": "https://vrew.ai/es/",
+          "tutorial": "https://vrew.ai/en/terms-of-service/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://vrew.ai/es/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Vrew Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://vrew.ai/en/terms-of-service/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "voiceai",
+      "name": "Voice.ai",
+      "initial": "V",
+      "mark": "V",
+      "color": "#8b5cf6",
+      "description": "提供实时 AI 变声和声音创作工具。",
+      "website": "https://voice.ai/",
+      "tutorial": "https://support.voice.ai/",
+      "enabled": true,
+      "order": 334,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "voice-ai-windows",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Voice.ai",
+          "kind": "桌面端",
+          "category": "音频创作",
+          "description": "Windows 实时 AI 变声和声音克隆工具，会使用麦克风、虚拟音频设备和 GPU；声音必须获得合法授权。",
+          "website": "https://voice.ai/platforms/pc",
+          "tutorial": "https://support.voice.ai/hc/en-us/articles/8296005604253-What-platforms-is-the-voice-changer-available-on",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://voice.ai/platforms/pc"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Voice.ai Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://support.voice.ai/hc/en-us/articles/8296005604253-What-platforms-is-the-voice-changer-available-on"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "finevoice",
+      "name": "FineVoice",
+      "initial": "F",
+      "mark": "F",
+      "color": "#ef4444",
+      "description": "提供 AI 变声、克隆、TTS、STT 和音频增强工具。",
+      "website": "https://finevoice.ai/",
+      "tutorial": "https://finevoice.ai/official-website-migration.html",
+      "enabled": true,
+      "order": 335,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "finevoice-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "FineVoice",
+          "kind": "桌面端",
+          "category": "音频创作",
+          "description": "Windows/macOS AI 语音工作室，支持变声、声音克隆、TTS、STT 和翻译；只使用当前 finevoice.ai 官方域名。",
+          "website": "https://finevoice.ai/download",
+          "tutorial": "https://finevoice.ai/official-website-migration.html",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://finevoice.ai/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 FineVoice Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://finevoice.ai/official-website-migration.html"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gitbutler",
+      "name": "GitButler",
+      "initial": "G",
+      "mark": "G",
+      "color": "#f97316",
+      "description": "提供可视化 Git 分支管理和 AI 辅助开发工具。",
+      "website": "https://gitbutler.com/",
+      "tutorial": "https://docs.gitbutler.com/releases",
+      "enabled": true,
+      "order": 336,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "gitbutler-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "GitButler",
+          "kind": "桌面端",
+          "category": "编程开发",
+          "description": "Windows 可视化 Git 客户端，提供 AI 提交信息和本地模型支持；会修改工作树、分支并可能触发 hooks。",
+          "website": "https://gitbutler.com/downloads",
+          "tutorial": "https://docs.gitbutler.com/features/branch-management/ai-assistance",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://gitbutler.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 GitButler Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.gitbutler.com/features/branch-management/ai-assistance"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "affine",
+      "name": "AFFiNE",
+      "initial": "A",
+      "mark": "A",
+      "color": "#1f2937",
+      "description": "提供本地优先的文档、白板和知识库工作空间。",
+      "website": "https://affine.pro/",
+      "tutorial": "https://affine.pro/download",
+      "enabled": true,
+      "order": 337,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "affine-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "AFFiNE",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "本地优先的 Windows 文档、白板和知识库应用，提供实验性 AI BYOK；本地优先不代表所有 AI 都在本地运行。",
+          "website": "https://affine.pro/download",
+          "tutorial": "https://affine.pro/blog/whats-new-july-update-2026",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://affine.pro/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 AFFiNE Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://affine.pro/blog/whats-new-july-update-2026"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "appflowy",
+      "name": "AppFlowy",
+      "initial": "A",
+      "mark": "A",
+      "color": "#00b886",
+      "description": "提供可自托管的文档、项目和 AI 工作空间。",
+      "website": "https://appflowy.com/",
+      "tutorial": "https://docs.appflowy.io/docs/appflowy/readme/install-appflowy",
+      "enabled": true,
+      "order": 338,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "appflowy-desktop",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "AppFlowy",
+          "kind": "桌面端",
+          "category": "文档与知识库",
+          "description": "Windows 文档和项目工作空间，提供 AI Overview、会议记录及云端或自托管模型选择。",
+          "website": "https://appflowy.com/download",
+          "tutorial": "https://docs.appflowy.io/docs/appflowy/readme/install-appflowy",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://appflowy.com/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 AppFlowy Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://docs.appflowy.io/docs/appflowy/readme/install-appflowy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "duckduckgo",
+      "name": "DuckDuckGo",
+      "initial": "D",
+      "mark": "D",
+      "color": "#de5833",
+      "description": "提供隐私搜索、浏览器和 Duck.ai 服务。",
+      "website": "https://duckduckgo.com/",
+      "tutorial": "https://duckduckgo.com/duckduckgo-help-pages/",
+      "enabled": true,
+      "order": 339,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "duckduckgo-browser",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "DuckDuckGo Browser",
+          "kind": "桌面端",
+          "category": "浏览器与搜索",
+          "description": "Windows 隐私浏览器，内置可选 Duck.ai 多模型聊天；Duck.ai 不是独立 Windows 客户端。",
+          "website": "https://duckduckgo.com/app",
+          "tutorial": "https://duckduckgo.com/duckduckgo-help-pages/get-duckduckgo/get-duckduckgo-browser-on-windows",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://duckduckgo.com/app"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 DuckDuckGo Browser Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://duckduckgo.com/duckduckgo-help-pages/get-duckduckgo/get-duckduckgo-browser-on-windows"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spark-mail",
+      "name": "Spark Mail",
+      "initial": "S",
+      "mark": "S",
+      "color": "#2563eb",
+      "description": "提供跨平台邮件客户端和 AI 邮件助手。",
+      "website": "https://sparkmailapp.com/",
+      "tutorial": "https://sparkmailapp.com/help/spark-ai/ai-assistant",
+      "enabled": true,
+      "order": 340,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "spark-mail-windows",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Spark Mail",
+          "kind": "桌面端",
+          "category": "办公自动化",
+          "description": "Windows 邮件客户端，支持 AI 写作、改写、总结和搜索；AI 功能在中国大陆不可用并涉及邮箱云端处理。",
+          "website": "https://sparkmailapp.com/download",
+          "tutorial": "https://sparkmailapp.com/help/spark-ai/ai-assistant",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://sparkmailapp.com/windows"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Spark Mail Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://sparkmailapp.com/help/spark-ai/ai-assistant"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "canarymail",
+      "name": "Canary Mail",
+      "initial": "C",
+      "mark": "C",
+      "color": "#f5b700",
+      "description": "提供安全邮件客户端和可选 AI 邮件功能。",
+      "website": "https://canarymail.io/",
+      "tutorial": "https://canarymail.io/help/whats-new",
+      "enabled": true,
+      "order": 341,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "canary-mail",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Canary Mail",
+          "kind": "桌面端",
+          "category": "办公自动化",
+          "description": "Windows 邮件客户端，提供可选 AI 写作和总结能力；需要邮箱、联系人和 Microsoft Store 权限。",
+          "website": "https://canarymail.io/downloads",
+          "tutorial": "https://canarymail.io/help/whats-new",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://canarymail.io/features"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Canary Mail Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://canarymail.io/help/whats-new"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "movavi",
+      "name": "Movavi",
+      "initial": "M",
+      "mark": "M",
+      "color": "#8b5cf6",
+      "description": "提供视频、照片和多媒体创作软件。",
+      "website": "https://www.movavi.com/",
+      "tutorial": "https://www.movavi.com/video-editor-plus/whats-new.html",
+      "enabled": true,
+      "order": 342,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "movavi-video-editor",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "Movavi Video Editor",
+          "kind": "桌面端",
+          "category": "视频创作",
+          "description": "Windows 视频编辑器，提供 AI 字幕、降噪、背景移除、运动跟踪和静音删除；功能受版本与套餐限制。",
+          "website": "https://www.movavi.com/video-editor-plus/",
+          "tutorial": "https://help.movavi.com/kb/license-usage-rules/ai-features-in-movavi",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.movavi.com/video-editor-plus/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 Movavi Video Editor Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://help.movavi.com/kb/license-usage-rules/ai-features-in-movavi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "corel",
+      "name": "Corel",
+      "initial": "C",
+      "mark": "C",
+      "color": "#00a5e5",
+      "description": "提供 CorelDRAW 等专业图形设计软件。",
+      "website": "https://www.coreldraw.com/",
+      "tutorial": "https://www.coreldraw.com/en/support/updates/",
+      "enabled": true,
+      "order": 343,
+      "iconUrl": "",
+      "products": [
+        {
+          "id": "coreldraw-graphics-suite",
+          "enabled": true,
+          "order": 0,
+          "directoryKind": "ai-tool",
+          "name": "CorelDRAW Graphics Suite",
+          "kind": "桌面端",
+          "category": "图像与设计",
+          "description": "Windows 专业设计套件，提供 AI Generate、生成式重混、背景移除和对象选择；AI credits 受许可方案限制。",
+          "website": "https://www.coreldraw.com/en/product/coreldraw/",
+          "tutorial": "https://www.coreldraw.com/en/learn/tutorials/new-in-march-2026/",
+          "productType": "desktop-official",
+          "moduleId": "desktop-official",
+          "installProfileId": "",
+          "requirements": [],
+          "installPolicy": "open-official-download",
+          "downloadPolicy": "official-page",
+          "signaturePolicy": "vendor-controlled",
+          "uninstallPolicy": "vendor-managed",
+          "capabilities": [
+            "website",
+            "tutorial"
+          ],
+          "entryPoints": [
+            {
+              "type": "website",
+              "label": "工具官网",
+              "url": "https://www.coreldraw.com/en/product/coreldraw/"
+            },
+            {
+              "type": "desktop",
+              "label": "获取 CorelDRAW Graphics Suite Windows 版"
+            },
+            {
+              "type": "tutorial",
+              "label": "使用教程",
+              "url": "https://www.coreldraw.com/en/learn/tutorials/new-in-march-2026/"
             }
           ]
         }
@@ -29237,6 +31284,447 @@
       "lastVerifiedAt": "2026-08-02T16:00:00.000Z",
       "enabled": true,
       "order": 118
+    },
+    {
+      "id": "playcanvas-editor-mcp",
+      "name": "PlayCanvas Editor MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "PlayCanvas 官方本地 Editor MCP，可让兼容 AI 工具读取和修改当前编辑器项目；执行前应建立项目 checkpoint。",
+      "website": "https://developer.playcanvas.com/user-manual/editor/mcp-server/",
+      "tutorial": "https://developer.playcanvas.com/user-manual/editor/mcp-server/",
+      "publisherVendorId": "playcanvas",
+      "publisher": "PlayCanvas",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "playcanvas-editor"
+      ],
+      "targets": [
+        {
+          "productId": "codex-cli",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-code",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-docs",
+      "requestedPermissions": [
+        "可读取和修改当前 PlayCanvas Editor 项目；删除实体、资产、构建或分支前必须确认。"
+      ],
+      "credentialRequirements": [
+        "使用已登录的 PlayCanvas Editor 会话；目录不保存账号或项目凭据。"
+      ],
+      "installScope": "仅打开官方 MCP 配置说明；当前不执行 npx 或写入目标 AI 工具配置。",
+      "uninstallPlan": "从目标 AI 工具删除 MCP 连接；保留 PlayCanvas 项目、编辑器数据和 checkpoint。",
+      "provenanceEvidence": [
+        "https://developer.playcanvas.com/user-manual/editor/mcp-server/"
+      ],
+      "lastVerifiedAt": "2026-08-03T00:00:00.000Z",
+      "enabled": true,
+      "order": 119
+    },
+    {
+      "id": "vimeo-mcp-server",
+      "name": "Vimeo MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Vimeo 官方远程 MCP（Public Beta），用于搜索、管理和分析用户有权访问的视频内容。",
+      "website": "https://developer.vimeo.com/api/mcp-server",
+      "tutorial": "https://developer.vimeo.com/api/mcp-server",
+      "publisherVendorId": "vimeo",
+      "publisher": "Vimeo",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "vimeo-platform"
+      ],
+      "targets": [
+        {
+          "productId": "chatgpt-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "public-beta-rolling-service",
+      "requestedPermissions": [
+        "读取视频、分析、转录和展示信息；修改隐私、团队权限、章节或评论前必须确认。"
+      ],
+      "credentialRequirements": [
+        "Vimeo OAuth 和适用会员方案；目录不保存令牌。"
+      ],
+      "installScope": "仅打开官方远程 MCP 接入说明；当前不写入本地配置。",
+      "uninstallPlan": "从目标 AI 工具删除连接并在 Vimeo 撤销 OAuth；保留视频、团队和分析数据。",
+      "provenanceEvidence": [
+        "https://developer.vimeo.com/api/mcp-server",
+        "https://developer.vimeo.com/"
+      ],
+      "lastVerifiedAt": "2026-08-03T00:00:00.000Z",
+      "enabled": true,
+      "order": 120
+    },
+    {
+      "id": "cloudinary-mcp-servers",
+      "name": "Cloudinary MCP Servers",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Cloudinary 官方媒体资产、配置、元数据、分析和 MediaFlows MCP 入口。",
+      "website": "https://cloudinary.com/documentation/cloudinary_llm_mcp",
+      "tutorial": "https://cloudinary.com/documentation/cloudinary_llm_mcp",
+      "publisherVendorId": "cloudinary",
+      "publisher": "Cloudinary",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "cloudinary-media-platform"
+      ],
+      "targets": [
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "windsurf-editor",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "默认只读检索；上传、重命名、删除资产或修改环境、webhook、元数据结构和流程前必须确认。"
+      ],
+      "credentialRequirements": [
+        "优先使用远程 OAuth；API key 只能由系统凭据存储或目标工具管理。"
+      ],
+      "installScope": "仅打开官方接入说明；当前不自动运行本地 MCP 包。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 OAuth/API key；保留媒体资产、元数据和流程。",
+      "provenanceEvidence": [
+        "https://cloudinary.com/documentation/cloudinary_llm_mcp"
+      ],
+      "lastVerifiedAt": "2026-08-03T00:00:00.000Z",
+      "enabled": true,
+      "order": 121
+    },
+    {
+      "id": "onlyoffice-docspace-mcp",
+      "name": "ONLYOFFICE DocSpace MCP",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "ONLYOFFICE 官方 DocSpace MCP，可连接房间、文件、成员和权限工作流。",
+      "website": "https://api.onlyoffice.com/docspace/mcp-server/getting-started/",
+      "tutorial": "https://api.onlyoffice.com/docspace/mcp-server/getting-started/clients/",
+      "publisherVendorId": "onlyoffice",
+      "publisher": "ONLYOFFICE",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "onlyoffice-docspace"
+      ],
+      "targets": [
+        {
+          "productId": "chatgpt-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "codex-cli",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "protocol-compatible",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "默认只读；复制、移动、重命名、删除文件以及修改成员和权限前必须确认。"
+      ],
+      "credentialRequirements": [
+        "远程模式使用 OAuth；本地模式所需 DocSpace URL 和 API key 不写入目录。"
+      ],
+      "installScope": "仅打开官方远程 MCP 接入说明；当前不执行 npm 或 Docker。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 DocSpace 授权；保留房间、成员、文件和审计记录。",
+      "provenanceEvidence": [
+        "https://api.onlyoffice.com/docspace/mcp-server/getting-started/",
+        "https://api.onlyoffice.com/docspace/mcp-server/getting-started/clients/"
+      ],
+      "lastVerifiedAt": "2026-08-03T00:00:00.000Z",
+      "enabled": true,
+      "order": 122
+    },
+    {
+      "id": "airtable-mcp-server",
+      "name": "Airtable MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "Airtable 官方远程 MCP，通过 OAuth 按用户现有角色连接工作区、base、schema 和记录。",
+      "website": "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server",
+      "tutorial": "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server",
+      "publisherVendorId": "airtable",
+      "publisher": "Airtable",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "airtable-platform"
+      ],
+      "targets": [
+        {
+          "productId": "chatgpt-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "codex-cli",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "继承用户 Airtable 角色；创建 base、修改 schema、批量写记录或评论前必须确认。"
+      ],
+      "credentialRequirements": [
+        "Airtable OAuth；授权前展示 records、schema、comments 和 workspaces scopes。"
+      ],
+      "installScope": "仅打开 Airtable 官方 OAuth MCP 接入说明；当前不写入目标工具配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并在 Airtable 撤销 OAuth；不删除 base、table 或记录。",
+      "provenanceEvidence": [
+        "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server"
+      ],
+      "lastVerifiedAt": "2026-08-03T00:00:00.000Z",
+      "enabled": true,
+      "order": 123
+    },
+    {
+      "id": "pandadoc-mcp-server",
+      "name": "PandaDoc MCP Server",
+      "resourceTypes": [
+        "mcp"
+      ],
+      "description": "PandaDoc 官方远程 MCP，可搜索、创建、更新、发送和分析文档工作流。",
+      "website": "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server",
+      "tutorial": "https://developers.pandadoc.com/docs/getting-started-with-mcp",
+      "publisherVendorId": "pandadoc",
+      "publisher": "PandaDoc",
+      "sourceKind": "official",
+      "sourceProductIds": [
+        "pandadoc-workspace"
+      ],
+      "targets": [
+        {
+          "productId": "chatgpt-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "claude-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "codex-cli",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "cursor-desktop",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        },
+        {
+          "productId": "microsoft-vscode",
+          "compatibility": "official",
+          "moduleId": "resource-link",
+          "installProfileId": "",
+          "capabilities": [
+            "website"
+          ],
+          "enabled": true
+        }
+      ],
+      "versionRef": "rolling-official-service",
+      "requestedPermissions": [
+        "默认搜索和查看；创建、更新、发送、提醒或触发签署流程前必须显示文档、收件人和影响并确认。"
+      ],
+      "credentialRequirements": [
+        "PandaDoc OAuth；目录不保存访问令牌。"
+      ],
+      "installScope": "仅打开官方远程 MCP 接入说明；当前不写入本地配置。",
+      "uninstallPlan": "删除目标 AI 工具连接并撤销 PandaDoc OAuth；保留 workspace、模板、文档、签名和审计记录。",
+      "provenanceEvidence": [
+        "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server",
+        "https://developers.pandadoc.com/docs/getting-started-with-mcp"
+      ],
+      "lastVerifiedAt": "2026-08-03T00:00:00.000Z",
+      "enabled": true,
+      "order": 124
     }
   ]
 }

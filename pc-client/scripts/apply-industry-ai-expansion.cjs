@@ -91,6 +91,46 @@ function web({
   };
 }
 
+function cliOfficial({
+  id,
+  name,
+  category,
+  description,
+  website,
+  tutorial,
+  directoryKind,
+  order = 0
+}) {
+  return {
+    id,
+    enabled: true,
+    order,
+    directoryKind,
+    name,
+    kind: "CLI",
+    category,
+    description,
+    website,
+    tutorial,
+    productType: "cli-official",
+    moduleId: "cli-official",
+    installProfileId: "",
+    requirements: [],
+    installPolicy: "open-official-install",
+    downloadPolicy: "none",
+    signaturePolicy: "not-applicable",
+    uninstallPolicy: "not-managed",
+    capabilities: ["website", "tutorial"],
+    entryPoints: [
+      { type: "website", label: "CLI 官网", url: website },
+      { type: "cli", label: "查看 CLI 安装说明" },
+      ...(tutorial !== website
+        ? [{ type: "tutorial", label: "使用教程", url: tutorial }]
+        : [])
+    ]
+  };
+}
+
 function vendor(id, name, initial, color, description, website, tutorial, products) {
   return { id, name, initial, color, description, website, tutorial, products };
 }
@@ -102,6 +142,17 @@ const toolDesktop = (definition) =>
 const connectableWeb = (definition) =>
   web({ ...definition, directoryKind: "ai-connectable" });
 const toolWeb = (definition) => web({ ...definition, directoryKind: "ai-tool" });
+const toolCli = (definition) =>
+  cliOfficial({ ...definition, directoryKind: "ai-tool" });
+
+const resourceTarget = (productId, compatibility = "official") => ({
+  productId,
+  compatibility,
+  moduleId: "resource-link",
+  installProfileId: "",
+  capabilities: ["website"],
+  enabled: true
+});
 
 const definitions = [
   {
@@ -745,7 +796,937 @@ const definitions = [
         tutorial: "https://www.navicat.com/en/navicat-17-highlights.html"
       })
     ]
+  ),
+  vendor(
+    "amp",
+    "Amp",
+    "A",
+    "#f97316",
+    "独立的 AI 编程 Agent，提供命令行和远程开发工作流。",
+    "https://ampcode.com/",
+    "https://ampcode.com/manual",
+    [
+      toolCli({
+        id: "amp-cli",
+        name: "Amp CLI",
+        category: "编程开发",
+        description: "Amp 的命令行编程 Agent；Windows 用户按官方说明通过 WSL 使用，不冒充原生 Windows 桌面客户端。",
+        website: "https://ampcode.com/manual",
+        tutorial: "https://ampcode.com/manual"
+      })
+    ]
+  ),
+  vendor(
+    "augment",
+    "Augment Code",
+    "A",
+    "#0b6bcb",
+    "面向团队代码库上下文的 AI 编程工具。",
+    "https://www.augmentcode.com/",
+    "https://docs.augmentcode.com/quickstart",
+    [
+      toolWeb({
+        id: "augment-code",
+        name: "Augment Code",
+        category: "编程开发",
+        description: "面向 VS Code 和 JetBrains 的代码库上下文 AI 助手；IDE 插件不是独立 Windows 桌面客户端。",
+        website: "https://www.augmentcode.com/",
+        tutorial: "https://docs.augmentcode.com/quickstart"
+      }),
+      toolCli({
+        id: "augment-auggie-cli",
+        name: "Auggie CLI",
+        category: "编程开发",
+        description: "Augment 的命令行 Agent（Beta）；官方 Windows 路径为 WSL，需按官方系统要求配置。",
+        website: "https://docs.augmentcode.com/cli/overview",
+        tutorial: "https://docs.augmentcode.com/cli/setup-auggie/install-auggie-cli"
+      })
+    ]
+  ),
+  vendor(
+    "qodo",
+    "Qodo",
+    "Q",
+    "#6d28d9",
+    "面向代码审查、测试和工程治理的 AI 开发平台。",
+    "https://qodo.ai/",
+    "https://docs.qodo.ai/",
+    [
+      toolWeb({
+        id: "qodo-code-review",
+        name: "Qodo",
+        category: "编程开发",
+        description: "覆盖代码审查、测试和 Git/IDE 集成的 AI 工程平台；不同入口共用同一产品身份。",
+        website: "https://qodo.ai/",
+        tutorial: "https://docs.qodo.ai/code-review"
+      })
+    ]
+  ),
+  vendor(
+    "coderabbit",
+    "CodeRabbit",
+    "C",
+    "#f59e0b",
+    "面向代码审查和开发流程的 AI 协作工具。",
+    "https://www.coderabbit.ai/",
+    "https://docs.coderabbit.ai/",
+    [
+      toolWeb({
+        id: "coderabbit-code-review",
+        name: "CodeRabbit",
+        category: "编程开发",
+        description: "在 Git、IDE 和 CLI 工作流中提供 AI 代码审查；CLI 在 Windows 上按官方 WSL 说明使用。",
+        website: "https://www.coderabbit.ai/",
+        tutorial: "https://docs.coderabbit.ai/overview/ide-cli-review"
+      })
+    ]
+  ),
+  vendor(
+    "greptile",
+    "Greptile",
+    "G",
+    "#111827",
+    "面向代码库理解和审查的 AI 开发平台。",
+    "https://www.greptile.com/",
+    "https://www.greptile.com/docs/introduction",
+    [
+      toolWeb({
+        id: "greptile-code-review",
+        name: "Greptile",
+        category: "编程开发",
+        description: "连接 GitHub 或 GitLab 代码库的 AI 代码审查 Agent；云端、托管和 CLI 属于同一产品入口。",
+        website: "https://www.greptile.com/",
+        tutorial: "https://www.greptile.com/docs/introduction"
+      })
+    ]
+  ),
+  {
+    id: "github",
+    products: [
+      toolWeb({
+        id: "github-spark",
+        name: "GitHub Spark",
+        category: "编程开发",
+        description: "用自然语言构建、编辑并发布全栈应用的 Web 产品（Public Preview）；不等同于 GitHub Copilot。",
+        website: "https://github.com/features/spark",
+        tutorial: "https://docs.github.com/en/copilot/tutorials/build-apps-with-spark"
+      })
+    ]
+  },
+  {
+    id: "langchain",
+    products: [
+      toolWeb({
+        id: "langchain-langsmith",
+        name: "LangSmith",
+        category: "智能体",
+        description: "用于 Agent/LLM 应用追踪、评估、提示词管理和部署的开发平台；不等同于 LangChain 框架。",
+        website: "https://smith.langchain.com/",
+        tutorial: "https://docs.langchain.com/langsmith/evaluation"
+      })
+    ]
+  },
+  vendor(
+    "clickhouse",
+    "ClickHouse",
+    "C",
+    "#ffcc00",
+    "开源分析数据库及 AI 可观测性产品提供商。",
+    "https://clickhouse.com/",
+    "https://langfuse.com/docs",
+    [
+      toolWeb({
+        id: "clickhouse-langfuse",
+        name: "Langfuse",
+        category: "智能体",
+        description: "ClickHouse 旗下的开源 LLM/Agent 可观测性平台，提供追踪、评估和提示词管理。",
+        website: "https://langfuse.com/",
+        tutorial: "https://langfuse.com/docs"
+      })
+    ]
+  ),
+  vendor(
+    "promptfoo",
+    "Promptfoo",
+    "P",
+    "#2563eb",
+    "用于提示词、模型和 Agent 评估及红队测试的工具。",
+    "https://www.promptfoo.dev/",
+    "https://www.promptfoo.dev/docs/installation/",
+    [
+      toolCli({
+        id: "promptfoo-cli",
+        name: "Promptfoo CLI",
+        category: "智能体",
+        description: "命令行评估和红队测试工具；Windows 官方安装路径以文档为准，AI Hub 不代执行任意命令。",
+        website: "https://www.promptfoo.dev/docs/installation/",
+        tutorial: "https://www.promptfoo.dev/docs/usage/web-ui/"
+      })
+    ]
+  ),
+  vendor(
+    "daytona",
+    "Daytona",
+    "D",
+    "#111827",
+    "面向 AI Agent 的安全代码沙箱基础设施。",
+    "https://www.daytona.io/",
+    "https://www.daytona.io/docs/en/",
+    [
+      toolWeb({
+        id: "daytona-sandboxes",
+        name: "Daytona Sandboxes",
+        category: "云服务与运维",
+        description: "为 AI Agent 提供隔离代码执行环境的云平台；控制台、API、CLI 和 MCP 属于同一服务。",
+        website: "https://www.daytona.io/",
+        tutorial: "https://www.daytona.io/docs/en/"
+      }),
+      toolCli({
+        id: "daytona-cli",
+        name: "Daytona CLI",
+        category: "云服务与运维",
+        description: "Daytona 沙箱管理命令行工具；官方提供 Windows CLI 文档，安装前需确认账号和远程执行权限。",
+        website: "https://www.daytona.io/docs/en/tools/cli/",
+        tutorial: "https://www.daytona.io/docs/en/tools/cli/"
+      })
+    ]
+  ),
+  vendor(
+    "e2b",
+    "E2B",
+    "E",
+    "#111827",
+    "面向 Agent 的隔离代码执行沙箱平台。",
+    "https://e2b.dev/",
+    "https://e2b.dev/docs",
+    [
+      toolWeb({
+        id: "e2b-sandboxes",
+        name: "E2B Sandboxes",
+        category: "云服务与运维",
+        description: "为 AI Agent 提供隔离 Linux VM 和代码执行环境的云平台；不是本地 Windows Agent。",
+        website: "https://e2b.dev/",
+        tutorial: "https://e2b.dev/docs"
+      })
+    ]
+  ),
+  {
+    id: "amazon",
+    products: [
+      toolWeb({
+        id: "amazon-q-developer",
+        name: "Amazon Q Developer",
+        category: "编程开发",
+        description: "AWS 的生成式 AI 开发助手，覆盖 AWS 控制台、IDE 和代码工作流；IDE 扩展不冒充独立 Windows 客户端。",
+        website: "https://aws.amazon.com/q/developer/",
+        tutorial: "https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/what-is.html"
+      })
+    ]
+  },
+  {
+    id: "google",
+    products: [
+      toolWeb({
+        id: "google-gemini-code-assist",
+        name: "Gemini Code Assist",
+        category: "编程开发",
+        description: "Google Cloud 面向 IDE 的 AI 编程辅助产品；Standard/Enterprise 与个人层级的可用性按官方公告区分。",
+        website: "https://cloud.google.com/gemini/code-assist",
+        tutorial: "https://docs.cloud.google.com/gemini/docs/codeassist/overview"
+      })
+    ]
+  },
+  {
+    id: "jetbrains",
+    products: [
+      toolWeb({
+        id: "jetbrains-junie",
+        name: "Junie",
+        category: "编程开发",
+        description: "JetBrains IDE/Android Studio 内的 AI 编程 Agent 插件；不是独立 Windows 桌面客户端。",
+        website: "https://www.jetbrains.com/junie/",
+        tutorial: "https://www.jetbrains.com/help/ai-assistant/junie-agent.html"
+      })
+    ]
+  },
+  {
+    id: "vercel",
+    products: [
+      toolWeb({
+        id: "vercel-v0",
+        name: "v0",
+        category: "编程开发",
+        description: "Vercel 的自然语言应用构建和部署 Web 产品，可生成 UI、代码并发布到 Vercel。",
+        website: "https://v0.dev/",
+        tutorial: "https://vercel.com/docs/v0"
+      })
+    ]
+  },
+  {
+    id: "atlassian",
+    products: [
+      toolWeb({
+        id: "atlassian-rovo",
+        name: "Rovo",
+        category: "办公自动化",
+        description: "Atlassian 的企业搜索、聊天、Agent 和 Studio 产品，连接 Jira、Confluence 及第三方 SaaS。",
+        website: "https://www.atlassian.com/software/rovo",
+        tutorial: "https://www.atlassian.com/software/rovo/guides/end-user-guide/introduction"
+      })
+    ]
+  },
+  {
+    id: "microsoft",
+    products: [
+      toolWeb({
+        id: "microsoft-security-copilot",
+        name: "Microsoft Security Copilot",
+        category: "云服务与运维",
+        description: "面向安全与 IT 团队的生成式 AI 产品，支持威胁调查、响应、态势管理和安全 Agent。",
+        website: "https://learn.microsoft.com/en-us/copilot/security/workspaces-overview",
+        tutorial: "https://learn.microsoft.com/en-us/copilot/security/get-started-security-copilot"
+      })
+    ]
+  },
+  {
+    id: "sap",
+    products: [
+      toolWeb({
+        id: "sap-joule",
+        name: "Joule",
+        category: "办公自动化",
+        description: "SAP 面向业务系统的企业 AI 助手，按角色和业务权限提供搜索、问答与流程协助。",
+        website: "https://www.sap.com/products/artificial-intelligence/ai-assistant.html",
+        tutorial: "https://help.sap.com/docs/joule"
+      })
+    ]
+  },
+  vendor(
+    "cisco",
+    "Cisco",
+    "C",
+    "#049fd9",
+    "提供 Webex 协作和企业网络产品。",
+    "https://www.cisco.com/",
+    "https://help.webex.com/webex-ai",
+    [
+      connectableDesktop({
+        id: "cisco-webex-ai-assistant",
+        name: "Webex with Cisco AI Assistant",
+        category: "办公自动化",
+        description: "Windows Webex 客户端内置 Cisco AI Assistant，覆盖会议、消息和通话摘要；功能按组织管理员和套餐开放。",
+        downloadPage: "https://www.webex.com/downloads.html",
+        homePage: "https://www.webex.com/ai",
+        tutorial: "https://help.webex.com/article/ub8jcj/"
+      })
+    ]
+  ),
+  vendor(
+    "playcanvas",
+    "PlayCanvas",
+    "P",
+    "#f05a28",
+    "提供浏览器 3D 编辑器和游戏开发平台。",
+    "https://playcanvas.com/",
+    "https://developer.playcanvas.com/user-manual/editor/mcp-server/",
+    [
+      connectableWeb({
+        id: "playcanvas-editor",
+        name: "PlayCanvas Editor",
+        category: "游戏开发",
+        description: "浏览器 3D 编辑器，可通过官方 Editor MCP 由 AI 客户端读取和修改项目；首版仅展示官方连接说明。",
+        website: "https://playcanvas.com/",
+        tutorial: "https://developer.playcanvas.com/user-manual/editor/mcp-server/"
+      })
+    ]
+  ),
+  vendor(
+    "vimeo",
+    "Vimeo",
+    "V",
+    "#1ab7ea",
+    "提供视频托管、协作和媒体管理服务。",
+    "https://vimeo.com/",
+    "https://developer.vimeo.com/api/mcp-server",
+    [
+      connectableWeb({
+        id: "vimeo-platform",
+        name: "Vimeo Platform",
+        category: "视频创作",
+        description: "Vimeo 视频平台及官方远程 MCP（Public Beta），用于搜索、管理和分析媒体内容。",
+        website: "https://vimeo.com/",
+        tutorial: "https://developer.vimeo.com/api/mcp-server"
+      })
+    ]
+  ),
+  vendor(
+    "cloudinary",
+    "Cloudinary",
+    "C",
+    "#3448c5",
+    "提供图像、视频和媒体资产管理平台。",
+    "https://cloudinary.com/",
+    "https://cloudinary.com/documentation/cloudinary_llm_mcp",
+    [
+      connectableWeb({
+        id: "cloudinary-media-platform",
+        name: "Cloudinary Media Platform",
+        category: "视频创作",
+        description: "媒体资产管理和处理平台，提供官方 MCP 能力；首版以远程连接和最小权限说明为主。",
+        website: "https://cloudinary.com/",
+        tutorial: "https://cloudinary.com/documentation/cloudinary_llm_mcp"
+      })
+    ]
+  ),
+  vendor(
+    "onlyoffice",
+    "ONLYOFFICE",
+    "O",
+    "#ff6f00",
+    "提供在线文档协作和桌面办公套件。",
+    "https://www.onlyoffice.com/",
+    "https://api.onlyoffice.com/docspace/mcp-server/getting-started/",
+    [
+      connectableWeb({
+        id: "onlyoffice-docspace",
+        name: "ONLYOFFICE DocSpace",
+        category: "办公自动化",
+        description: "文档协作空间及官方远程 MCP；首版只展示 OAuth 连接和权限说明，不自动执行本地 npm/Docker。",
+        website: "https://www.onlyoffice.com/docspace.aspx",
+        tutorial: "https://api.onlyoffice.com/docspace/mcp-server/getting-started/"
+      })
+    ]
+  ),
+  vendor(
+    "airtable",
+    "Airtable",
+    "A",
+    "#18a66b",
+    "提供可协作的数据表和业务应用平台。",
+    "https://www.airtable.com/",
+    "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server",
+    [
+      connectableWeb({
+        id: "airtable-platform",
+        name: "Airtable Platform",
+        category: "办公自动化",
+        description: "可协作数据表平台及官方远程 MCP；连接沿用用户在 Airtable 中已有的角色权限。",
+        website: "https://www.airtable.com/",
+        tutorial: "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server"
+      })
+    ]
+  ),
+  vendor(
+    "pandadoc",
+    "PandaDoc",
+    "P",
+    "#2f80ed",
+    "提供文档、合同和电子签署工作流。",
+    "https://www.pandadoc.com/",
+    "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server",
+    [
+      connectableWeb({
+        id: "pandadoc-workspace",
+        name: "PandaDoc Workspace",
+        category: "办公自动化",
+        description: "文档、合同和签署工作流平台及官方远程 MCP；发送、修改和提醒操作必须逐次确认。",
+        website: "https://www.pandadoc.com/",
+        tutorial: "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server"
+      })
+    ]
+  ),
+  vendor(
+    "superwhisper",
+    "Superwhisper",
+    "S",
+    "#111827",
+    "提供跨应用 AI 语音听写和上下文处理工具。",
+    "https://superwhisper.com/",
+    "https://superwhisper.com/docs/get-started/windows",
+    [
+      toolDesktop({
+        id: "superwhisper-windows",
+        name: "Superwhisper",
+        category: "音频创作",
+        description: "Windows 10/11 AI 语音听写工具，可在应用中转写和处理上下文；麦克风与上下文访问须由用户授权。",
+        downloadPage: "https://superwhisper.com/download",
+        homePage: "https://superwhisper.com/windows",
+        tutorial: "https://superwhisper.com/docs/get-started/windows"
+      })
+    ]
+  ),
+  vendor(
+    "screenpipe",
+    "screenpipe",
+    "S",
+    "#111827",
+    "提供本地优先的屏幕和音频记录及 Agent 上下文工具。",
+    "https://screenpipe.com/",
+    "https://github.com/screenpipe/screenpipe",
+    [
+      toolDesktop({
+        id: "screenpipe-desktop",
+        name: "screenpipe",
+        category: "智能体",
+        description: "持续记录并搜索屏幕与音频的本地优先 Windows 工具，可向 Agent 提供上下文；使用前应配置隐私排除项。",
+        downloadPage: "https://screenpipe.com/",
+        homePage: "https://screenpipe.com/",
+        tutorial: "https://github.com/screenpipe/screenpipe"
+      })
+    ]
+  ),
+  vendor(
+    "pdfgear",
+    "PDFgear",
+    "P",
+    "#2563eb",
+    "提供 PDF 编辑、转换、OCR 和 AI 文档问答工具。",
+    "https://www.pdfgear.com/",
+    "https://www.pdfgear.com/windows-user-guide/download-install-pdfgear-on-windows.htm",
+    [
+      toolDesktop({
+        id: "pdfgear-windows",
+        name: "PDFgear",
+        category: "文档与知识库",
+        description: "Windows PDF 编辑、OCR、转换和 AI 文档问答工具；PDF 聊天与在线更新需要网络。",
+        downloadPage: "https://www.pdfgear.com/pdfgear-for-windows/",
+        homePage: "https://www.pdfgear.com/",
+        tutorial: "https://www.pdfgear.com/windows-user-guide/download-install-pdfgear-on-windows.htm"
+      })
+    ]
+  ),
+  vendor(
+    "updf",
+    "UPDF",
+    "U",
+    "#645cff",
+    "提供跨平台 PDF 编辑和 AI 文档助手。",
+    "https://updf.com/",
+    "https://updf.com/updf/",
+    [
+      toolDesktop({
+        id: "updf-windows",
+        name: "UPDF",
+        category: "文档与知识库",
+        description: "Windows PDF 编辑、OCR、语义搜索、总结和翻译工具；使用 UPDF AI 时文档可能上传至云端。",
+        downloadPage: "https://updf.com/download/",
+        homePage: "https://updf.com/updf/",
+        tutorial: "https://updf.com/whats-new/"
+      })
+    ]
+  ),
+  vendor(
+    "vrew",
+    "Vrew",
+    "V",
+    "#7c3aed",
+    "提供转录式视频剪辑、字幕、配音和生成式视频工具。",
+    "https://vrew.ai/",
+    "https://vrew.ai/en/terms-of-service/",
+    [
+      toolDesktop({
+        id: "vrew-desktop",
+        name: "Vrew",
+        category: "视频创作",
+        description: "Windows 视频编辑器，支持 AI 字幕、配音、翻译和文本生成视频；功能受账号、额度和地区版本影响。",
+        downloadPage: "https://vrew.ai/es/",
+        homePage: "https://vrew.ai/es/",
+        tutorial: "https://vrew.ai/en/terms-of-service/"
+      })
+    ]
+  ),
+  vendor(
+    "voiceai",
+    "Voice.ai",
+    "V",
+    "#8b5cf6",
+    "提供实时 AI 变声和声音创作工具。",
+    "https://voice.ai/",
+    "https://support.voice.ai/",
+    [
+      toolDesktop({
+        id: "voice-ai-windows",
+        name: "Voice.ai",
+        category: "音频创作",
+        description: "Windows 实时 AI 变声和声音克隆工具，会使用麦克风、虚拟音频设备和 GPU；声音必须获得合法授权。",
+        downloadPage: "https://voice.ai/platforms/pc",
+        homePage: "https://voice.ai/platforms/pc",
+        tutorial: "https://support.voice.ai/hc/en-us/articles/8296005604253-What-platforms-is-the-voice-changer-available-on"
+      })
+    ]
+  ),
+  vendor(
+    "finevoice",
+    "FineVoice",
+    "F",
+    "#ef4444",
+    "提供 AI 变声、克隆、TTS、STT 和音频增强工具。",
+    "https://finevoice.ai/",
+    "https://finevoice.ai/official-website-migration.html",
+    [
+      toolDesktop({
+        id: "finevoice-desktop",
+        name: "FineVoice",
+        category: "音频创作",
+        description: "Windows/macOS AI 语音工作室，支持变声、声音克隆、TTS、STT 和翻译；只使用当前 finevoice.ai 官方域名。",
+        downloadPage: "https://finevoice.ai/download",
+        homePage: "https://finevoice.ai/",
+        tutorial: "https://finevoice.ai/official-website-migration.html"
+      })
+    ]
+  ),
+  vendor(
+    "gitbutler",
+    "GitButler",
+    "G",
+    "#f97316",
+    "提供可视化 Git 分支管理和 AI 辅助开发工具。",
+    "https://gitbutler.com/",
+    "https://docs.gitbutler.com/releases",
+    [
+      toolDesktop({
+        id: "gitbutler-desktop",
+        name: "GitButler",
+        category: "编程开发",
+        description: "Windows 可视化 Git 客户端，提供 AI 提交信息和本地模型支持；会修改工作树、分支并可能触发 hooks。",
+        downloadPage: "https://gitbutler.com/downloads",
+        homePage: "https://gitbutler.com/",
+        tutorial: "https://docs.gitbutler.com/features/branch-management/ai-assistance"
+      })
+    ]
+  ),
+  vendor(
+    "affine",
+    "AFFiNE",
+    "A",
+    "#1f2937",
+    "提供本地优先的文档、白板和知识库工作空间。",
+    "https://affine.pro/",
+    "https://affine.pro/download",
+    [
+      toolDesktop({
+        id: "affine-desktop",
+        name: "AFFiNE",
+        category: "文档与知识库",
+        description: "本地优先的 Windows 文档、白板和知识库应用，提供实验性 AI BYOK；本地优先不代表所有 AI 都在本地运行。",
+        downloadPage: "https://affine.pro/download",
+        homePage: "https://affine.pro/",
+        tutorial: "https://affine.pro/blog/whats-new-july-update-2026"
+      })
+    ]
+  ),
+  vendor(
+    "appflowy",
+    "AppFlowy",
+    "A",
+    "#00b886",
+    "提供可自托管的文档、项目和 AI 工作空间。",
+    "https://appflowy.com/",
+    "https://docs.appflowy.io/docs/appflowy/readme/install-appflowy",
+    [
+      toolDesktop({
+        id: "appflowy-desktop",
+        name: "AppFlowy",
+        category: "文档与知识库",
+        description: "Windows 文档和项目工作空间，提供 AI Overview、会议记录及云端或自托管模型选择。",
+        downloadPage: "https://appflowy.com/download",
+        homePage: "https://appflowy.com/",
+        tutorial: "https://docs.appflowy.io/docs/appflowy/readme/install-appflowy"
+      })
+    ]
+  ),
+  vendor(
+    "duckduckgo",
+    "DuckDuckGo",
+    "D",
+    "#de5833",
+    "提供隐私搜索、浏览器和 Duck.ai 服务。",
+    "https://duckduckgo.com/",
+    "https://duckduckgo.com/duckduckgo-help-pages/",
+    [
+      toolDesktop({
+        id: "duckduckgo-browser",
+        name: "DuckDuckGo Browser",
+        category: "浏览器与搜索",
+        description: "Windows 隐私浏览器，内置可选 Duck.ai 多模型聊天；Duck.ai 不是独立 Windows 客户端。",
+        downloadPage: "https://duckduckgo.com/app",
+        homePage: "https://duckduckgo.com/app",
+        tutorial: "https://duckduckgo.com/duckduckgo-help-pages/get-duckduckgo/get-duckduckgo-browser-on-windows"
+      })
+    ]
+  ),
+  vendor(
+    "spark-mail",
+    "Spark Mail",
+    "S",
+    "#2563eb",
+    "提供跨平台邮件客户端和 AI 邮件助手。",
+    "https://sparkmailapp.com/",
+    "https://sparkmailapp.com/help/spark-ai/ai-assistant",
+    [
+      toolDesktop({
+        id: "spark-mail-windows",
+        name: "Spark Mail",
+        category: "办公自动化",
+        description: "Windows 邮件客户端，支持 AI 写作、改写、总结和搜索；AI 功能在中国大陆不可用并涉及邮箱云端处理。",
+        downloadPage: "https://sparkmailapp.com/download",
+        homePage: "https://sparkmailapp.com/windows",
+        tutorial: "https://sparkmailapp.com/help/spark-ai/ai-assistant"
+      })
+    ]
+  ),
+  vendor(
+    "canarymail",
+    "Canary Mail",
+    "C",
+    "#f5b700",
+    "提供安全邮件客户端和可选 AI 邮件功能。",
+    "https://canarymail.io/",
+    "https://canarymail.io/help/whats-new",
+    [
+      toolDesktop({
+        id: "canary-mail",
+        name: "Canary Mail",
+        category: "办公自动化",
+        description: "Windows 邮件客户端，提供可选 AI 写作和总结能力；需要邮箱、联系人和 Microsoft Store 权限。",
+        downloadPage: "https://canarymail.io/downloads",
+        homePage: "https://canarymail.io/features",
+        tutorial: "https://canarymail.io/help/whats-new"
+      })
+    ]
+  ),
+  vendor(
+    "movavi",
+    "Movavi",
+    "M",
+    "#8b5cf6",
+    "提供视频、照片和多媒体创作软件。",
+    "https://www.movavi.com/",
+    "https://www.movavi.com/video-editor-plus/whats-new.html",
+    [
+      toolDesktop({
+        id: "movavi-video-editor",
+        name: "Movavi Video Editor",
+        category: "视频创作",
+        description: "Windows 视频编辑器，提供 AI 字幕、降噪、背景移除、运动跟踪和静音删除；功能受版本与套餐限制。",
+        downloadPage: "https://www.movavi.com/video-editor-plus/",
+        homePage: "https://www.movavi.com/video-editor-plus/",
+        tutorial: "https://help.movavi.com/kb/license-usage-rules/ai-features-in-movavi"
+      })
+    ]
+  ),
+  vendor(
+    "corel",
+    "Corel",
+    "C",
+    "#00a5e5",
+    "提供 CorelDRAW 等专业图形设计软件。",
+    "https://www.coreldraw.com/",
+    "https://www.coreldraw.com/en/support/updates/",
+    [
+      toolDesktop({
+        id: "coreldraw-graphics-suite",
+        name: "CorelDRAW Graphics Suite",
+        category: "图像与设计",
+        description: "Windows 专业设计套件，提供 AI Generate、生成式重混、背景移除和对象选择；AI credits 受许可方案限制。",
+        downloadPage: "https://www.coreldraw.com/en/product/coreldraw/",
+        homePage: "https://www.coreldraw.com/en/product/coreldraw/",
+        tutorial: "https://www.coreldraw.com/en/learn/tutorials/new-in-march-2026/"
+      })
+    ]
   )
+];
+
+const resourceDefinitions = [
+  {
+    id: "playcanvas-editor-mcp",
+    name: "PlayCanvas Editor MCP",
+    resourceTypes: ["mcp"],
+    description: "PlayCanvas 官方本地 Editor MCP，可让兼容 AI 工具读取和修改当前编辑器项目；执行前应建立项目 checkpoint。",
+    website: "https://developer.playcanvas.com/user-manual/editor/mcp-server/",
+    tutorial: "https://developer.playcanvas.com/user-manual/editor/mcp-server/",
+    publisherVendorId: "playcanvas",
+    publisher: "PlayCanvas",
+    sourceKind: "official",
+    sourceProductIds: ["playcanvas-editor"],
+    targets: [
+      resourceTarget("codex-cli"),
+      resourceTarget("claude-code"),
+      resourceTarget("claude-desktop"),
+      resourceTarget("cursor-desktop")
+    ],
+    versionRef: "rolling-official-docs",
+    requestedPermissions: [
+      "可读取和修改当前 PlayCanvas Editor 项目；删除实体、资产、构建或分支前必须确认。"
+    ],
+    credentialRequirements: [
+      "使用已登录的 PlayCanvas Editor 会话；目录不保存账号或项目凭据。"
+    ],
+    installScope: "仅打开官方 MCP 配置说明；当前不执行 npx 或写入目标 AI 工具配置。",
+    uninstallPlan: "从目标 AI 工具删除 MCP 连接；保留 PlayCanvas 项目、编辑器数据和 checkpoint。",
+    provenanceEvidence: [
+      "https://developer.playcanvas.com/user-manual/editor/mcp-server/"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  },
+  {
+    id: "vimeo-mcp-server",
+    name: "Vimeo MCP Server",
+    resourceTypes: ["mcp"],
+    description: "Vimeo 官方远程 MCP（Public Beta），用于搜索、管理和分析用户有权访问的视频内容。",
+    website: "https://developer.vimeo.com/api/mcp-server",
+    tutorial: "https://developer.vimeo.com/api/mcp-server",
+    publisherVendorId: "vimeo",
+    publisher: "Vimeo",
+    sourceKind: "official",
+    sourceProductIds: ["vimeo-platform"],
+    targets: [
+      resourceTarget("chatgpt-desktop", "protocol-compatible"),
+      resourceTarget("claude-desktop", "protocol-compatible"),
+      resourceTarget("codex-cli", "protocol-compatible")
+    ],
+    versionRef: "public-beta-rolling-service",
+    requestedPermissions: [
+      "读取视频、分析、转录和展示信息；修改隐私、团队权限、章节或评论前必须确认。"
+    ],
+    credentialRequirements: [
+      "Vimeo OAuth 和适用会员方案；目录不保存令牌。"
+    ],
+    installScope: "仅打开官方远程 MCP 接入说明；当前不写入本地配置。",
+    uninstallPlan: "从目标 AI 工具删除连接并在 Vimeo 撤销 OAuth；保留视频、团队和分析数据。",
+    provenanceEvidence: [
+      "https://developer.vimeo.com/api/mcp-server",
+      "https://developer.vimeo.com/"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  },
+  {
+    id: "cloudinary-mcp-servers",
+    name: "Cloudinary MCP Servers",
+    resourceTypes: ["mcp"],
+    description: "Cloudinary 官方媒体资产、配置、元数据、分析和 MediaFlows MCP 入口。",
+    website: "https://cloudinary.com/documentation/cloudinary_llm_mcp",
+    tutorial: "https://cloudinary.com/documentation/cloudinary_llm_mcp",
+    publisherVendorId: "cloudinary",
+    publisher: "Cloudinary",
+    sourceKind: "official",
+    sourceProductIds: ["cloudinary-media-platform"],
+    targets: [
+      resourceTarget("claude-desktop", "protocol-compatible"),
+      resourceTarget("codex-cli", "protocol-compatible"),
+      resourceTarget("cursor-desktop", "protocol-compatible"),
+      resourceTarget("windsurf-editor", "protocol-compatible")
+    ],
+    versionRef: "rolling-official-service",
+    requestedPermissions: [
+      "默认只读检索；上传、重命名、删除资产或修改环境、webhook、元数据结构和流程前必须确认。"
+    ],
+    credentialRequirements: [
+      "优先使用远程 OAuth；API key 只能由系统凭据存储或目标工具管理。"
+    ],
+    installScope: "仅打开官方接入说明；当前不自动运行本地 MCP 包。",
+    uninstallPlan: "删除目标 AI 工具连接并撤销 OAuth/API key；保留媒体资产、元数据和流程。",
+    provenanceEvidence: [
+      "https://cloudinary.com/documentation/cloudinary_llm_mcp"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  },
+  {
+    id: "onlyoffice-docspace-mcp",
+    name: "ONLYOFFICE DocSpace MCP",
+    resourceTypes: ["mcp"],
+    description: "ONLYOFFICE 官方 DocSpace MCP，可连接房间、文件、成员和权限工作流。",
+    website: "https://api.onlyoffice.com/docspace/mcp-server/getting-started/",
+    tutorial: "https://api.onlyoffice.com/docspace/mcp-server/getting-started/clients/",
+    publisherVendorId: "onlyoffice",
+    publisher: "ONLYOFFICE",
+    sourceKind: "official",
+    sourceProductIds: ["onlyoffice-docspace"],
+    targets: [
+      resourceTarget("chatgpt-desktop", "protocol-compatible"),
+      resourceTarget("claude-desktop", "protocol-compatible"),
+      resourceTarget("codex-cli", "protocol-compatible"),
+      resourceTarget("cursor-desktop", "protocol-compatible")
+    ],
+    versionRef: "rolling-official-service",
+    requestedPermissions: [
+      "默认只读；复制、移动、重命名、删除文件以及修改成员和权限前必须确认。"
+    ],
+    credentialRequirements: [
+      "远程模式使用 OAuth；本地模式所需 DocSpace URL 和 API key 不写入目录。"
+    ],
+    installScope: "仅打开官方远程 MCP 接入说明；当前不执行 npm 或 Docker。",
+    uninstallPlan: "删除目标 AI 工具连接并撤销 DocSpace 授权；保留房间、成员、文件和审计记录。",
+    provenanceEvidence: [
+      "https://api.onlyoffice.com/docspace/mcp-server/getting-started/",
+      "https://api.onlyoffice.com/docspace/mcp-server/getting-started/clients/"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  },
+  {
+    id: "airtable-mcp-server",
+    name: "Airtable MCP Server",
+    resourceTypes: ["mcp"],
+    description: "Airtable 官方远程 MCP，通过 OAuth 按用户现有角色连接工作区、base、schema 和记录。",
+    website: "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server",
+    tutorial: "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server",
+    publisherVendorId: "airtable",
+    publisher: "Airtable",
+    sourceKind: "official",
+    sourceProductIds: ["airtable-platform"],
+    targets: [
+      resourceTarget("chatgpt-desktop"),
+      resourceTarget("claude-desktop"),
+      resourceTarget("codex-cli"),
+      resourceTarget("cursor-desktop")
+    ],
+    versionRef: "rolling-official-service",
+    requestedPermissions: [
+      "继承用户 Airtable 角色；创建 base、修改 schema、批量写记录或评论前必须确认。"
+    ],
+    credentialRequirements: [
+      "Airtable OAuth；授权前展示 records、schema、comments 和 workspaces scopes。"
+    ],
+    installScope: "仅打开 Airtable 官方 OAuth MCP 接入说明；当前不写入目标工具配置。",
+    uninstallPlan: "删除目标 AI 工具连接并在 Airtable 撤销 OAuth；不删除 base、table 或记录。",
+    provenanceEvidence: [
+      "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  },
+  {
+    id: "pandadoc-mcp-server",
+    name: "PandaDoc MCP Server",
+    resourceTypes: ["mcp"],
+    description: "PandaDoc 官方远程 MCP，可搜索、创建、更新、发送和分析文档工作流。",
+    website: "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server",
+    tutorial: "https://developers.pandadoc.com/docs/getting-started-with-mcp",
+    publisherVendorId: "pandadoc",
+    publisher: "PandaDoc",
+    sourceKind: "official",
+    sourceProductIds: ["pandadoc-workspace"],
+    targets: [
+      resourceTarget("chatgpt-desktop"),
+      resourceTarget("claude-desktop"),
+      resourceTarget("codex-cli"),
+      resourceTarget("cursor-desktop"),
+      resourceTarget("microsoft-vscode")
+    ],
+    versionRef: "rolling-official-service",
+    requestedPermissions: [
+      "默认搜索和查看；创建、更新、发送、提醒或触发签署流程前必须显示文档、收件人和影响并确认。"
+    ],
+    credentialRequirements: [
+      "PandaDoc OAuth；目录不保存访问令牌。"
+    ],
+    installScope: "仅打开官方远程 MCP 接入说明；当前不写入本地配置。",
+    uninstallPlan: "删除目标 AI 工具连接并撤销 PandaDoc OAuth；保留 workspace、模板、文档、签名和审计记录。",
+    provenanceEvidence: [
+      "https://developers.pandadoc.com/docs/how-to-use-the-pandadoc-mcp-server",
+      "https://developers.pandadoc.com/docs/getting-started-with-mcp"
+    ],
+    lastVerifiedAt: "2026-08-03T00:00:00.000Z"
+  }
 ];
 
 const fallbackEvidence = Object.fromEntries(
@@ -808,6 +1789,20 @@ for (const definition of definitions) {
     catalog.vendors.push(targetVendor);
   }
   for (const product of definition.products) upsertProduct(targetVendor, product);
+}
+
+let nextResourceOrder =
+  Math.max(-1, ...catalog.resources.map((resource) => resource.order ?? 0)) + 1;
+for (const definition of resourceDefinitions) {
+  const existing = catalog.resources.find((resource) => resource.id === definition.id);
+  if (existing) applyDefinition(existing, definition, ["enabled", "order"]);
+  else {
+    catalog.resources.push({
+      ...definition,
+      enabled: true,
+      order: nextResourceOrder++
+    });
+  }
 }
 
 if (!catalog.updatedAt) catalog.updatedAt = verifiedAt;

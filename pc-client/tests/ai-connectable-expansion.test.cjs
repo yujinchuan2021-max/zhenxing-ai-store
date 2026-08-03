@@ -90,11 +90,16 @@ test("first official AI-connectable expansion keeps vendors singular and directo
   assert.equal(productById.get("canva-windows").directoryKind, "ai-tool");
   assert.deepEqual(
     vendorById.get("atlassian").products.map((product) => product.id),
-    ["atlassian-jira", "atlassian-confluence", "atlassian-bitbucket"]
+    [
+      "atlassian-jira",
+      "atlassian-confluence",
+      "atlassian-bitbucket",
+      "atlassian-rovo"
+    ]
   );
   assert.deepEqual(
     vendorById.get("jetbrains").products.map((product) => product.id),
-    ["jetbrains-intellij-idea"]
+    ["jetbrains-intellij-idea", "jetbrains-junie"]
   );
 
   const docker = productById.get("docker-desktop");
@@ -114,6 +119,55 @@ test("first official AI-connectable expansion keeps vendors singular and directo
   for (const id of productIds) {
     assert.equal(aiIds.has(id), false, `${id} leaked into AI tools`);
     assert.equal(connectableIds.has(id), true, `${id} missing from connectable directory`);
+  }
+});
+
+test("the next connectable batch keeps official MCP products in the connectable directory", () => {
+  const catalog = readCatalog("admin/data/catalog-v1.json");
+  const products = new Map(
+    catalog.vendors.flatMap((vendor) =>
+      vendor.products.map((product) => [product.id, product])
+    )
+  );
+  for (const id of [
+    "playcanvas-editor",
+    "vimeo-platform",
+    "cloudinary-media-platform",
+    "onlyoffice-docspace",
+    "airtable-platform",
+    "pandadoc-workspace",
+    "cisco-webex-ai-assistant"
+  ]) {
+    const product = products.get(id);
+    assert.ok(product, id);
+    assert.equal(product.directoryKind, "ai-connectable", id);
+    assert.equal(product.productType === "web" || product.productType === "desktop-official", true, id);
+    assert.equal("download" in product, false, id);
+  }
+
+  const resources = new Map(catalog.resources.map((resource) => [resource.id, resource]));
+  for (const [resourceId, sourceProductId] of [
+    ["playcanvas-editor-mcp", "playcanvas-editor"],
+    ["vimeo-mcp-server", "vimeo-platform"],
+    ["cloudinary-mcp-servers", "cloudinary-media-platform"],
+    ["onlyoffice-docspace-mcp", "onlyoffice-docspace"],
+    ["airtable-mcp-server", "airtable-platform"],
+    ["pandadoc-mcp-server", "pandadoc-workspace"]
+  ]) {
+    const resource = resources.get(resourceId);
+    assert.ok(resource, resourceId);
+    assert.deepEqual(resource.resourceTypes, ["mcp"], resourceId);
+    assert.deepEqual(resource.sourceProductIds, [sourceProductId], resourceId);
+    assert.equal(
+      resource.targets.every(
+        (target) =>
+          target.moduleId === "resource-link" &&
+          target.installProfileId === "" &&
+          target.capabilities.join() === "website"
+      ),
+      true,
+      resourceId
+    );
   }
 });
 
