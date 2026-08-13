@@ -1,0 +1,85 @@
+# Dependencies and generated output
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+dist/
+**/dist/
+build/
+**/build/
+out/
+**/out/
+output/
+outputs/
+**/output/
+**/outputs/
+release-review*/
+**/release-review*/
+release-local*/
+**/release-local*/
+
+# Caches, temporary files, and logs
+.cache/
+cache/
+caches/
+**/.cache/
+**/cache/
+**/caches/
+temp/
+Temp/
+tmp/
+**/temp/
+**/Temp/
+**/tmp/
+*.log
+logs/
+**/logs/
+*.tsbuildinfo
+
+# Local state, databases, volumes, and backups
+.remote-state.json
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+**/volumes/
+**/backups/
+**/private/
+pc-client/admin/data/
+pc-client/admin/published/
+
+# Credentials and environment files
+.env
+.env.*
+**/.env
+**/.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.jwk
+credentials/
+**/credentials/
+secrets/
+**/secrets/
+
+# Production deployment and provisioning are not part of this public snapshot
+deployment/
+pc-client/deployment/
+
+# Archives and compiled binaries
+*.7z
+*.bak
+*.dll
+*.dmg
+*.exe
+*.gz
+*.iso
+*.msi
+*.tar
+*.tgz
+*.zip
+
+# Existing reviewed public example
+!pc-client/catalog/catalog-v1.example.json

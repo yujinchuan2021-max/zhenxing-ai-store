@@ -1,0 +1,4336 @@
+{
+  "schemaVersion": 1,
+  "status": "pass",
+  "sourceRootKind": "dirty-working-tree-snapshot",
+  "sourceHead": "f90543d936397fbdfa8a370a9a0b62e7b3a3f0ce",
+  "stagingPurpose": "public-source-snapshot-candidate-only",
+  "files": [
+    {
+      "path": ".dockerignore",
+      "bytes": 119,
+      "sha256": "9a6e8823708f22ea3fa37d0822ba5ef8dadf827a444f2235a0fe8f53cf6aaabe",
+      "sourceState": "untracked"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 1037,
+      "sha256": "0b0778626fbf965c2f78cc68249f165211d75509bf06da134f8147aca6d1c3f3",
+      "sourceState": "generated-release-metadata"
+    },
+    {
+      "path": ".openai/hosting.json",
+      "bytes": 91,
+      "sha256": "b1baed6b8fe089acf3dba2ef27a758477155a67187ae2d33aea5f0f896dcfbc4",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "app/chatgpt-auth.ts",
+      "bytes": 2490,
+      "sha256": "1407f614cc83d7049fdb08cd713d2516866ba58e24e820f7f4fd9d718b9d3007",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "app/components/HubShell.tsx",
+      "bytes": 5625,
+      "sha256": "5999270152d2b24f5572edad9466a0de271bb1e2920fa88a9fa526f40c31bfcd",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "app/data.ts",
+      "bytes": 6727,
+      "sha256": "c9d77dda4e43537c145894e30bacaf52e5d8efdd0b45f182c900452b738a3431",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "app/globals.css",
+      "bytes": 22064,
+      "sha256": "a2786d4ef45b2f68673e48061589831ca8355dc8bf18fe7854a40b75cc382784",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "app/layout.tsx",
+      "bytes": 1196,
+      "sha256": "8235a039b77d126c04b9cb46dc76da46f0955a1676247666e36dbf868c740c10",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "app/login/page.tsx",
+      "bytes": 102,
+      "sha256": "291d50a2809a79d4ee50ce02bb721af9dff6d87a2d821f64354d5e0dd8192ffc",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "app/official-site.module.css",
+      "bytes": 17521,
+      "sha256": "d8151113dfeb6ffc1886c6a663298835a9fa32cf226cdf8914d217941df01941",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "app/page.tsx",
+      "bytes": 9769,
+      "sha256": "72c25f0f4dd01de681b05a7c8bc16ec973c2ef804d4ec8fca21eb898b9034683",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "app/vendors/[slug]/page.tsx",
+      "bytes": 103,
+      "sha256": "e893aeb8ba3e4552a30884df14d4ea67b0b2aa180efc22e47dcb5af644acf5c8",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "app/vendors/page.tsx",
+      "bytes": 104,
+      "sha256": "f7c8df7d66034f0562c19e6fe0a0f410b4bf642f5f464fdc38436626a6e8b87a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "db/index.ts",
+      "bytes": 436,
+      "sha256": "effa59e46bcbb42dfb7b46911e809a1de0f2c37df1fd935e3dca89023eaf97e4",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "db/schema.ts",
+      "bytes": 173,
+      "sha256": "48b4f7fafee1f2720b8977ba31bc0cf03dedb7ea8826c4bcbc8dfd74f2d8744f",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "drizzle.config.ts",
+      "bytes": 155,
+      "sha256": "73d0807c58e541dc3eaf175909fb5acc966faed61f74ff659d9d55027bf3e25b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "drizzle/meta/_journal.json",
+      "bytes": 66,
+      "sha256": "5a5f57f8f48fcf1d065725c0f3dab19e590e96e7e1e5bf8ddff17339a0de8d9a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "bytes": 483,
+      "sha256": "275a07c13fc7c83a652efcfa9fb6a207c451a2f5088e6793415ce44281285720",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "examples/d1/app/api/notes/route.ts",
+      "bytes": 1758,
+      "sha256": "b0b134b9b0b4a9f5947abbd13fd4425b88b59c64f91db1aacb0cecbc16c38f45",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "examples/d1/db/schema.ts",
+      "bytes": 379,
+      "sha256": "1acd70317bcaf22cb140436fb47754c2144e7c2adfc59a3f427ecb1d816fa0f3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "next.config.ts",
+      "bytes": 140,
+      "sha256": "a972c4f0ffa6dd714e7909b02d1ac19d2f2fe3d01f191efd2c5054bd6f142ec1",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 389788,
+      "sha256": "d7ecee02030e19f102203bc47b635950b6bf34e516601ee29b775fd94e7a7642",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1111,
+      "sha256": "8ce4ac6a5b8d803a15f5e8336c2be6d924ce015998de39e504f00b188d43c7ba",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/.dockerignore",
+      "bytes": 1285,
+      "sha256": "837af53c39420ef60b8eba65e4175ee89237f041093cf4a353497fe646881f99",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/.gitattributes",
+      "bytes": 126,
+      "sha256": "ff4da3c27781fde361288c8a4ba96efd721af570706b6ea2b30f25808aed30d8",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/admin/community-management.cjs",
+      "bytes": 10897,
+      "sha256": "988c1f6193b56ad2b3c4b8cc16203e35a832f7765f10523a3c769cd26e3e5b4f",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/admin/community-skill-listing-candidate.cjs",
+      "bytes": 7822,
+      "sha256": "94d4ea21d207a5fd37e6c88a6bea5dbbc955cc0dec2dc15a40d4384fe979faa5",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/admin/config-validation.cjs",
+      "bytes": 9294,
+      "sha256": "b1ea6dc7ff1012b2c63d7aa99b106864b78e34701c73ed7e75f606529396c2f3",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/admin/discovery-review.cjs",
+      "bytes": 13001,
+      "sha256": "41e7e7447904ccd91318769a136d14b141acc89b3b29a9d82f45520cd0404675",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/admin/draft-sync.cjs",
+      "bytes": 733,
+      "sha256": "29996dc89c0e563922c093807da0358ccd02fa21610c7b1aa44840d048ee48fe",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/admin/local-release-deployment.cjs",
+      "bytes": 36580,
+      "sha256": "1783c29b7c4d7fbb0e30cdad036907d7f7c69cc1387683a8d8d17480261b5a5b",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/admin/platform-support-candidate.cjs",
+      "bytes": 1238,
+      "sha256": "ba46cb7afc4c6429a0e76a7bceb606dcbde4112d16f7949a96239836ae29bbad",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/admin/product-certification.cjs",
+      "bytes": 9980,
+      "sha256": "7684122a286418781f00a5fc24b7d12553b09f279d5194f02357f7ea731be1a7",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/admin/public/app.js",
+      "bytes": 123466,
+      "sha256": "d5fb8b94f9862bfa9af5e3b0b20a929d7353dab059f86a4b76c4c47883000c9f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/admin/public/index.html",
+      "bytes": 1990,
+      "sha256": "671e80f87d4ca9cc26cf2a93bd25c8869a3c7d199ba753ba77d3007ed22287e3",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/admin/public/styles.css",
+      "bytes": 13268,
+      "sha256": "8d2d34604970f85358b1d900912dbace933013157d8e52e8dc8199eb15832c8c",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/admin/read-only-mode.cjs",
+      "bytes": 379,
+      "sha256": "188d0744ff0b10904ddf3cabf3b1a5e79b1d38c3511eac8bf5cf98c0d0243661",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/admin/release-bundle-verifier.cjs",
+      "bytes": 15602,
+      "sha256": "f3cb26695d54304211157d93463ec10badfe36d18b0395c0385e81f01cdd0b59",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/admin/release-bundle.cjs",
+      "bytes": 10144,
+      "sha256": "e53792bb24465e0e7659deef66ff5623bd5abfafc170e1a3ec2ba6cbcda3beca",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/admin/release-store.cjs",
+      "bytes": 16633,
+      "sha256": "69a20a1defc95746a2bb75235e10f16a288438c4b8fe49a4c6cde8d329fe8ae1",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/admin/request-json.cjs",
+      "bytes": 905,
+      "sha256": "99f585dd5338e7e2193b017661ac9c10318e4e17997ae52d2391afa5e88fd660",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/admin/resource-submissions.cjs",
+      "bytes": 24034,
+      "sha256": "8d1673d1184485e401564a1be306176ad57d00180ce22f6656366fcc56ae0e6b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/admin/server.cjs",
+      "bytes": 27200,
+      "sha256": "73f56f60f76c60f5d39abef1799b92fa912ad0d265283ba7069f6e0418dc6cd6",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/admin/signing-key.cjs",
+      "bytes": 4267,
+      "sha256": "51750433ef6c7f83c84e138517f5fe20a19452eb8cac65ec411b2b42839b0082",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/admin/vendor-icon-store.cjs",
+      "bytes": 2544,
+      "sha256": "c8337baf1c1b78329b287cf06f8ce932aed884c75a91eeb5fe315caa1d16928c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/catalog/ai-connectable-taxonomy.cjs",
+      "bytes": 4964,
+      "sha256": "0c5a1549d0d4debfcaed1f5e5a061c1b684553cae386a53744d3b8bee096dc86",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/catalog/catalog-v1.example.json",
+      "bytes": 234773,
+      "sha256": "52ee92002431c7427de66307f677bbfef3aaf411c49b7bf0f05f0a4e99ea060d",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/catalog/channel.local-v2.json",
+      "bytes": 371,
+      "sha256": "bf10a6a32651ca7ba9a92ac7128621a4dd9f51769f07fde4f4316f4c914d1f81",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/catalog/README.md",
+      "bytes": 2065,
+      "sha256": "82621df4f2e2473cc72f70488a8168750a15dbd536633e45a7f529f5a86f8eb8",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/catalog/windows-desktop-expansion-v2.cjs",
+      "bytes": 42259,
+      "sha256": "686a056db9c35459526e060354e6c8fad67225e00b541c5e19368ed61d35d5c0",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/community/flarum/.dockerignore",
+      "bytes": 43,
+      "sha256": "c3c3de324bf1b969de7d03299f65171b1e51687c555c60c7b2b853efca3755c1",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/community/flarum/aihub-community-management.php",
+      "bytes": 10354,
+      "sha256": "ea98a381059322a7b041791db4a871f5f3ba6719d413740a58019b35a9eeba6f",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/community/flarum/aihub-personal-center.php",
+      "bytes": 9052,
+      "sha256": "2466030573df08ff75179cc02711d4048680adb54a70a24d2394b5b13b818542",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/community/flarum/aihub-sso.php",
+      "bytes": 9996,
+      "sha256": "fc4180851c3b9e7fdbfa53a4d13d40eb114a3ee10c31d10af0bc2e3ac77c0976",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/community/flarum/apache.conf",
+      "bytes": 349,
+      "sha256": "d3b8bbda8e6dbb7fb20bcc254df5725eebe2592e36f4426a65689dd3c1bf6613",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/community/flarum/compose.yaml",
+      "bytes": 1023,
+      "sha256": "756200e82b20f473fff74e252f43042b0bfa53cff4d99b1ff9de3cb5af3ac858",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/community/flarum/dependency-lock.json",
+      "bytes": 460,
+      "sha256": "9bf5f77cbfdaab9b0db8cdf9147b9d1bbb44acc2dce17861ec8b2b6829a268a7",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/community/flarum/docker-entrypoint.sh",
+      "bytes": 536,
+      "sha256": "ddc7125cfd36885de40c96354ec5f8db6a767d8a995452ae25789da23eecf893",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/community/flarum/Dockerfile",
+      "bytes": 3815,
+      "sha256": "bda7f30b503343e65ec756447b3b513554ec33ba2797a36d295722279d2c2ec5",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/community/flarum/migration-entrypoint.sh",
+      "bytes": 5367,
+      "sha256": "be585312cc8e53c7e8335df7802c926edf92f53f40dad38e4f70be786a93d47f",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/community/flarum/README.md",
+      "bytes": 1098,
+      "sha256": "67836a3e7202f4bab714be9216c7977d14d7fba322952d4933a7fa6c727ae132",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/community/public-contributions.cjs",
+      "bytes": 13746,
+      "sha256": "75610016bd5e19d8a00dc8ebdf956d5126cf3a813151c1d1cb9dc5764e240050",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/community/workflow-composition.cjs",
+      "bytes": 15667,
+      "sha256": "4e5d2afa90f3fc36c4822758c5aff1ce7b4107b327e3f67b23af8b33c3630a69",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/community/workflow-official-source-posts.cjs",
+      "bytes": 11707,
+      "sha256": "a069520aff7b98806744841ab54212d7c193c5df1123e371fdc0d478c78e2fe6",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/community/workflow-persistence.cjs",
+      "bytes": 39840,
+      "sha256": "0f161f4330a3c2b0948a8db0361eae8e73b7a198aba1ed8a8d440cd9598ca18b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/community/workflow-store.cjs",
+      "bytes": 29025,
+      "sha256": "cc05587e7a7c59c251fddf653c90901709691da041723e103130d2204be4fdb9",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/CONTEXT.md",
+      "bytes": 13957,
+      "sha256": "35ca58bef3814c08d8be62985dec4f9d1e07e40aeeecdff9338659c31d74d9bb",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/docs/account-integration-boundary.md",
+      "bytes": 3245,
+      "sha256": "846691eff9d0cd5b8843611f634489d1a683d94d71ad57ded541642a7a5e8623",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/docs/community-options.md",
+      "bytes": 2378,
+      "sha256": "8041b383bf886ab5dbc0b54849c30a7a7bdebc19e351400ac9300b10e4016780",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/docs/flarum-sso-integration.md",
+      "bytes": 19494,
+      "sha256": "4b148b7a94e8df7452cbc745eea868540f1a34ac95bb76db4a0e554f7bcf7f02",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/docs/identity-community-architecture.md",
+      "bytes": 4771,
+      "sha256": "194161f84158b7dc7d1b7b7a3bb9cac2d7a2d472f463a113292eac4ce8477dd1",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/docs/language-module.md",
+      "bytes": 1601,
+      "sha256": "3b7d7c5c579d8db722a49d75ee9ff910c3482bfc91c13752b5a86671da91f816",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/docs/local-release-server.md",
+      "bytes": 4338,
+      "sha256": "ff63e1293b533a981dbc18c15a00217d1b903314d96edb0ce1009a8d50068a88",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/docs/product-intake-approval.md",
+      "bytes": 1921,
+      "sha256": "df9cd7867b197c3cf965b41b8e6295864811ad0f6076446851ed824eda064b57",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/docs/product-module-admin-model.md",
+      "bytes": 4567,
+      "sha256": "53b5d08e9b1f20ec73d1c8e9ce1ae309a7b516db2f2c8eb85e912560d0019703",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/docs/resource-submission-client-seam.md",
+      "bytes": 6616,
+      "sha256": "b69c32916af637aa0f207cc71086d811d8aca529cdc9b45508353f7fdb795cc3",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/docs/unified-installation-protocol.md",
+      "bytes": 4483,
+      "sha256": "db25f9c568cca5d7b34e61394babfdb8622e4c72329fb62186b4bb2a2efd6c16",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/docs/windows-desktop-certification.md",
+      "bytes": 4581,
+      "sha256": "d7a19908a23bf1efb3ec8d382b9b3dee492db49127673a5e13b5e045d0c556f9",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/electron-builder.local-release.cjs",
+      "bytes": 1994,
+      "sha256": "0c24f8653dfe50b381f998e9e69208ade2739ceb737f0013adeb4d23ec93f287",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/electron/community-session.cjs",
+      "bytes": 317,
+      "sha256": "34a5b7c68e9b00ab4994c92dc13c2b0eebd6d435541fc7c54b02636dcae0cd12",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/electron/identity-client.cjs",
+      "bytes": 13189,
+      "sha256": "d467ec6f50672e0a8e796ed99d84cc9c2ff94c42007596a00d6f28a9ca9a76cb",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/electron/identity-login-ipc.cjs",
+      "bytes": 4102,
+      "sha256": "f5fc6a14d4d20bac388f617627192acb9cfd8cde5144dce6e28f21054093a2d9",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/electron/local-agent-bridge-ipc.cjs",
+      "bytes": 5020,
+      "sha256": "a425b6c287a1962b835ef7e79a7b3ac25e5ef53debfcbb589acb5853c3194000",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/electron/main.cjs",
+      "bytes": 424799,
+      "sha256": "3754d85dde0979ca42c90faf777f9e10fce4aea4e78a6c155fcc2fbbea96c85a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/electron/managed-cli-lifecycle-ipc.cjs",
+      "bytes": 11303,
+      "sha256": "00933a2d1473373e12f51784d24f13df6b9b39ea5e3a7d99d0998f5ae914ebf0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/electron/preload.cjs",
+      "bytes": 45747,
+      "sha256": "78078fd406595088a0b32af8facfff86e34c6d71a8e7852432346fb4628f6132",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/electron/resource-submission-ipc.cjs",
+      "bytes": 17896,
+      "sha256": "45e90ac50c2573bc6235c81903a293253128a5238868a13138f494448e58902d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/electron/workflow-store-ipc.cjs",
+      "bytes": 17099,
+      "sha256": "5172515ef12823f2c0f11132da1b04b534e6636b4040da97be6b20f20228dbca",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/agents/openai.yaml",
+      "bytes": 855,
+      "sha256": "c126d350e70b56a26d7b9942bf94b5d99d6972f0b361e1a068b2c04b26242b60",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/AIHUB-SOURCE.json",
+      "bytes": 455,
+      "sha256": "ca5dadbf7a47333b1513f0362377ee4b8327adafe4c963eea266db423b523ede",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/LICENSE.txt",
+      "bytes": 10975,
+      "sha256": "f40b718f40ec4b8f421f87c4abdea9c32b2c76203c176c947ec4ddaaef5b832c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/references/app-archetypes.md",
+      "bytes": 3646,
+      "sha256": "6004f49292f67fba49d62b0bd149f5279eb6f98d4ad1a0b9d2741dab51e11454",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/references/apps-sdk-docs-workflow.md",
+      "bytes": 8278,
+      "sha256": "476ee613f6f9ce507c5a4124db2ba92bd865aee27a9ac733a733e026adb048f0",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/references/interactive-state-sync-patterns.md",
+      "bytes": 4394,
+      "sha256": "3eb29a7e4be55b2e567a58b25bd1ee666448dff8a3d91a61aab3e30bedff4657",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/references/repo-contract-and-validation.md",
+      "bytes": 3055,
+      "sha256": "604e0be1ae54160d6b7890bd3e0000cc3943560931c72a9451b3dce8df1f98e8",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/references/search-fetch-standard.md",
+      "bytes": 2088,
+      "sha256": "2d3d3f4c286aba6abf0501a410889032c934775f5a7042a024ce0e283692b2a6",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/references/upstream-example-workflow.md",
+      "bytes": 3522,
+      "sha256": "ed8ec87f75da303df2a97ce290616bdc7e6d2ff02b7d3beb4ff83be3a5585498",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/references/window-openai-patterns.md",
+      "bytes": 4786,
+      "sha256": "9313351a77ed8fcfbc7cf31f51ccbadda7ddaa87127a620e58f4125640ea99f3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/scripts/scaffold_node_ext_apps.mjs",
+      "bytes": 16977,
+      "sha256": "3952d9012ddd4b7940b69c024809331ba4e1d39944f89d38f5374e2f15f7acd1",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/codex/chatgpt-apps/SKILL.md",
+      "bytes": 19946,
+      "sha256": "928530dd05490d9cd38a8935c824049c5f562422a1bcaa2516ff3032d524ee44",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/extension-resources/README.md",
+      "bytes": 731,
+      "sha256": "6633a412e3271bc9f7e32d90e7952674919fb6b9b7056865afe1b2b58413fddd",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/identity/flarum-personal-center.cjs",
+      "bytes": 5557,
+      "sha256": "03276dcd01e869362d29a2c540d09d39ce319f89d22395b890908c41eb65e447",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/identity/identity-community.cjs",
+      "bytes": 59996,
+      "sha256": "53c057a2df0cf5988c57d9d79f0d36651abb7daa424a09be3c3b7620c7fb4887",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/identity/migration-database-contract.cjs",
+      "bytes": 1715,
+      "sha256": "e478086bb39710915166fc3ac3df1056a7d9ba5aac55ec8097cc7bc0a1e9fe1b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/migrations/candidates/0001-resource-submissions.rollback.sql",
+      "bytes": 378,
+      "sha256": "0a89c644480351553460f63cb2a9cb7ac5bf77200678774512aedac0fa0a3117",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/migrations/candidates/0001-resource-submissions.sql",
+      "bytes": 3347,
+      "sha256": "e212edc04264723c5959d17102e9fc1d9a3e63e76fa0338d420e5fdc0bf620dd",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/migrations/candidates/0002-workflow-reviewer-service-identity.rollback.sql",
+      "bytes": 1443,
+      "sha256": "f1f05b1719e9264b53fc94bd5483f4ee25a07f33ccdee1c2eeb094560b32224f",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/migrations/candidates/0002-workflow-reviewer-service-identity.sql",
+      "bytes": 2185,
+      "sha256": "8cde8c4eb77fa37abb3bb05776f89dccb23c99a0d5bf9f8a8d89e29416e20007",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/migrations/candidates/0003-workflow-official-publisher-service-identity.rollback.sql",
+      "bytes": 1441,
+      "sha256": "5db419a2326bac128a93c58a6212a311808458424cbd1b9ea1b155e627ff27f5",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/migrations/candidates/0003-workflow-official-publisher-service-identity.sql",
+      "bytes": 1895,
+      "sha256": "db4a3555b73fb15fd3a8e14fa57589b3885f20bb8cd114d16a248d06a290e538",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/package-lock.json",
+      "bytes": 6053,
+      "sha256": "77209bca4ba0bc1307629bace2757c9f4e8bd1c6eb178266d58085e002ffb8fd",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/identity/package.json",
+      "bytes": 224,
+      "sha256": "7eee2c35648a020e701350e495b4e2619ff93e91010f93b1e26f6f0e78cafc4c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/identity/resource-submissions.cjs",
+      "bytes": 23308,
+      "sha256": "40926af4404d517ef8308fb8820411373f3fb152af517d9b72198984b8a0a734",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/schema-mode.cjs",
+      "bytes": 338,
+      "sha256": "55ab26413bd0783c9a8a230bbe252fdfaae11aa94c9b428340fb8822a5c498cb",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/schema.sql",
+      "bytes": 9942,
+      "sha256": "581d34a01ba16686c8cdc1e2c55f89125f6d3a1e82c19b6de06d8ebfeaaf39a3",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/identity/smtp-config.cjs",
+      "bytes": 1357,
+      "sha256": "c2a22a19be9c63a03ce69a9538a59ce079de584aa51f4e74337be5967de4fc4d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/workflow-official-publisher-service-identity.cjs",
+      "bytes": 8591,
+      "sha256": "d1698057653a817a1d5f3d189e7c2299685cca356dd6b7165ca5aba266281399",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/workflow-resolvers.cjs",
+      "bytes": 5023,
+      "sha256": "deee3c3389e4d51c24d9c38393fc06dcd78f2183731464af3d28bb24eb359e72",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/workflow-reviewer-service-identity.cjs",
+      "bytes": 7012,
+      "sha256": "7672851eef57d59745d655a82076358552c0434b912d7c5355ff72243a8efae6",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/identity/workflow-store.cjs",
+      "bytes": 19710,
+      "sha256": "5c7bdd84a76f08c1baaaf6f63e521baec6a07bf8a95294e9e03e283a8ca7c1b0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/index.html",
+      "bytes": 1025,
+      "sha256": "229f84e533f9bd940c3264588b3ba3f9eb712e4b5ad0cc256cc94427ca0849aa",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/package-lock.json",
+      "bytes": 173292,
+      "sha256": "df883b3f084104fb65c3ce61f2ef382a71c83be04014372ff974453d5c8a86e7",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/package.json",
+      "bytes": 7176,
+      "sha256": "a5d9402ae1e9be2d55e91b400329212ebb414e5a428ad5a88be947d6a41235c5",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/postcss.config.mjs",
+      "bytes": 34,
+      "sha256": "9b33894ebd759c79ad401a1cab6bc5c478786f6b74b77e791e217ff7e0893aa4",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/public/assets/home-carousel/aurora-grid.svg",
+      "bytes": 994,
+      "sha256": "338163081ed5dff0887e14dd1e40075553c25f89e32cb78118b45d32506de0fc",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/public/assets/home-carousel/constellation.svg",
+      "bytes": 1345,
+      "sha256": "57684a7dddca50c57e1e61f097991207e1205c5c8a5c43eb9192a94a956b198c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/public/assets/home-carousel/orbit-network.svg",
+      "bytes": 1135,
+      "sha256": "dc909f1ea0c829ff1fdb1baa9f8102dddda59013ea74445f49b2b8ad2a980db7",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/README.md",
+      "bytes": 5238,
+      "sha256": "f801357cebc3657ba66fc7ee6be57d85ba8b5d622f5b4178faaed2eeb7ea911d",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-all-windows-desktop-catalog.cjs",
+      "bytes": 2291,
+      "sha256": "ba18ebc4c63b6b2fab4fe04933179eac3960f4aa12ef333c9a6f3ce716ea0141",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/apply-catalog-backlog-closure.cjs",
+      "bytes": 26015,
+      "sha256": "e9af993bc5d1686353798f86a93d450bc2ffe73cc0dfef50aa6913dcb4cfe72a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-connectable-catalog.cjs",
+      "bytes": 10277,
+      "sha256": "643c01b1545c91f8e827471349ecf5bacaa0cce7472aa581649857451a8e18ab",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-connectable-expansion.cjs",
+      "bytes": 34114,
+      "sha256": "7f55b91e47c2a2342380e05be92e924b59bd5da6a4a71a3f05e52362c42394be",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-connectable-vertical-expansion.cjs",
+      "bytes": 68125,
+      "sha256": "24e16216633a750f87d9e133f287f99f34db3d5365543e46589586da38c32f25",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-continuous-catalog-expansion.cjs",
+      "bytes": 40073,
+      "sha256": "c0842a8f789a6c62060c50b32eb45295cdca684f90bcca183be0c3a51fcc20b9",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-industry-ai-expansion.cjs",
+      "bytes": 78479,
+      "sha256": "042dfc65a63d6a0b8f08439af07b5d1a6f81842c99bfb46e8e729ed66a84069b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-managed-cli-catalog.cjs",
+      "bytes": 2984,
+      "sha256": "8ff4182b8748f7d77162f0a9b25a0d487ad2df6a207e0ca73e9814f95ab0bf88",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/apply-managed-resource-lifecycle.cjs",
+      "bytes": 6488,
+      "sha256": "0fd6b31ddb5729bf438cdc19ce2d0b0061de972139c284301746e7b0d471b5d9",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/apply-popular-agent-expansion.cjs",
+      "bytes": 43306,
+      "sha256": "4690a0454d709089667242d9eab54f6a7aaa7e0f27bd75ca279d42916d268aa4",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-research-backlog-finalization.cjs",
+      "bytes": 23750,
+      "sha256": "ddf10362f709e3f7213a0f37b11245e253cf866c532bd72a9c15833dd747da66",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-reviewed-product-discovery-closure.cjs",
+      "bytes": 16178,
+      "sha256": "594e37c48248bf8844bc78362c88979660abdcd6e7f7055e4fee86440be92139",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-vendor-expansion-batch5.cjs",
+      "bytes": 14549,
+      "sha256": "016557110177ee61a858a7c07628ffb74a4e77ed9b5b81f6ad719cfda17f8e21",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-vendor-expansion-batch6.cjs",
+      "bytes": 22796,
+      "sha256": "8a58d7010feec53d4e26262c47bf23552ad5a41ee9f2d4c174263ea13ef4265a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-vendor-expansion-batch7.cjs",
+      "bytes": 14751,
+      "sha256": "fc2ccdce3f1e09836e97901945a4f497f81a4daf3002c75e2b07130b8a7d8db2",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-vendor-expansion-batch8.cjs",
+      "bytes": 14641,
+      "sha256": "8028db28bc378734adc680df51e41e40e278e7b5991bbdb013dbe9f5acb8c1a4",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/apply-windows-desktop-catalog.cjs",
+      "bytes": 8965,
+      "sha256": "2a5e98a542b78b9b4b5a29ee9917dbcf54c5729a9ce1e10ccb43e64c1a2932dc",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/apply-windows-desktop-expansion-v2.cjs",
+      "bytes": 3918,
+      "sha256": "86ebd767d8db56f3d97f039debca020936ee0c8f75467b5665f9c007b5240aed",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/apply-windows-package-manager-catalog.cjs",
+      "bytes": 2883,
+      "sha256": "7d0313e97ac56b4bfb998fa49365fb79caca98dae14fa8e9203a8ac0ad02d52b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/audit-managed-desktop-sources.cjs",
+      "bytes": 4936,
+      "sha256": "c5088308b56b4918b65ed8e62460407e8e94465626baa4f87d02a5705540827a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/backup-local-release.cjs",
+      "bytes": 372,
+      "sha256": "c5be6a2011ffb7dd11d3080476b9529b0b7ae3c80a105426862af233c82194d6",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/check-desktop-acquisition-matrix.cjs",
+      "bytes": 1262,
+      "sha256": "136d4653d1a4199880cfb46dd89d24473f6692657c8d039501f7d222ff12dc35",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/check-local-admin-draft.cjs",
+      "bytes": 2024,
+      "sha256": "b920d234e268db58c8dd8c9bae57a1c2dd67bd9e4cf84ebb8d2ca3cda26e7c2e",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/check-packaged-catalog.mjs",
+      "bytes": 9058,
+      "sha256": "6e5e1f70fa849d48d1da720b2512348d9647a0f68931742a2a124571c16be81a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/check-vite-render.cjs",
+      "bytes": 958,
+      "sha256": "a888fc5f95773cc26fe93800404a0ad37039422dbc0c90fbd3bf9eb3b39e9a3e",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/cocoloop-skill-intake.mjs",
+      "bytes": 6258,
+      "sha256": "06f5c74e5c89dd81bbdf1483e01e9733d50b25e54650af4c7ce88b6d9f5bb124",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/create-catalog-localized-v8-signed-candidate.cjs",
+      "bytes": 20599,
+      "sha256": "972f9fdf4e674aefb9df29b7f1a1d35a469d3fa01c25a0779a060a468c1d73d8",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/discover-official-products.mjs",
+      "bytes": 13084,
+      "sha256": "ac683a8a29fa6aefe9d5a98284a5f6c5b289897a4d0d2cd870959f3cb613d6bd",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/discover-winget-desktop-packages.cjs",
+      "bytes": 8750,
+      "sha256": "b532b712e77c26b4351234456367171612ee949f99c54af1a74d3e79bd6f2983",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/electron-builder-before-pack.cjs",
+      "bytes": 2020,
+      "sha256": "33b2e0471a0cd3cfadabed0e8c641e609062d47cadfa7f3815239312d4c5790e",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/extract-ui-language.cjs",
+      "bytes": 5105,
+      "sha256": "0ad01452fa6c6f80f2c656905f6b9cd75fcff2e695473262f505c53a7b3c359c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/finalize-local-release-delivery.cjs",
+      "bytes": 673,
+      "sha256": "65fa763ec997cdd262e36544a809998fe17fbed2e19063298a513d6fcbf6da08",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/finalize-local-release.cjs",
+      "bytes": 1243,
+      "sha256": "f8302492225a71b82e1e1d2c53a93e3dc1a1a2650c760a725b92b4d58e40b031",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/finalize-v2-active5-discovery-report.mjs",
+      "bytes": 2375,
+      "sha256": "ab5aa4ceaf8f14410378252262fb832b61ae275bfb69a3ab8aabec8b6b3f54e5",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/community-sso-phasea-electron.cjs",
+      "bytes": 3841,
+      "sha256": "9b3e7e7d16355cc7a95d8d665b8cc365c0fe79b7e482623fab9091ad2c99bde7",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/community-sso-phasea-identity.cjs",
+      "bytes": 1339,
+      "sha256": "bfc1a44e96950da1b4b13aa3825cd01db08428148fa2830bc3d663535e866fca",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/community-sso-phasea-metadata.php",
+      "bytes": 1099,
+      "sha256": "e4a531ce3de4273a12fc1d2c33d0507a013402da32642148d3bb7ccda28fe51b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/community-sso-phasea.Caddyfile",
+      "bytes": 84,
+      "sha256": "7b8ded94a85f66d31d8cc049c16c8fa648dcd4c49f631a7f9431ee5bdc3c94a7",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/community-webview-csp-electron.cjs",
+      "bytes": 4885,
+      "sha256": "9cd01bbf562a669f3dd1ab0d0f80b21e203f90679453405276bae8fabfc4ed13",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/identity-migration-real-pool-runner.cjs",
+      "bytes": 1297,
+      "sha256": "6acdc14dc1179059d943229b5aa4fdd40f7cd9f1ad5385c1f34755874a78664b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/installed-management-preview-preload.cjs",
+      "bytes": 60378,
+      "sha256": "b4c29d5552428cd3dd92a53e2ef4c0767d0f392ce3fcfb84c5b3ab055e9b27f9",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/installed-management-preview-runner.cjs",
+      "bytes": 18292,
+      "sha256": "393d12185a00b6f9acfbf254aa703955e8b71b89f779d6ed8b5727acbecfe0a5",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/managed-download-electron-lifecycle-probe-runner.cjs",
+      "bytes": 3224,
+      "sha256": "45ef21584d212754bddbcaa6dcb928a7b1d3c92822713ed78b9f350132e367bd",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/managed-download-queue-preview-runner.cjs",
+      "bytes": 75848,
+      "sha256": "fd9f8d8e91aad00b61fc19e0add8324d92d56ee87b4e149db3ef717f8a6fc123",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/resource-store-channel-preview-runner.cjs",
+      "bytes": 12374,
+      "sha256": "781388ab86a6c0ade3fb4914cda63b0b383b3f4dcd722d57185acaa80292bbac",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/resource-submission-preview-runner.cjs",
+      "bytes": 9434,
+      "sha256": "ad5e73e9e260d22837f291b8df989209bb4eff35ca19b3d71eb7d689331d25ba",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/startup-catalog-preview-runner.cjs",
+      "bytes": 2631,
+      "sha256": "2520115768f5dd6cb073a2da74a7b020cea32a577558a1816d137b71db120078",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/workflow-public-preview-runner.cjs",
+      "bytes": 21169,
+      "sha256": "de6f5cadd3b6bcbd5e1a0652d71c3c1aa645d52695b9fa40f0e6bbdb19e83ed2",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/fixtures/workflow-store-preview-runner.cjs",
+      "bytes": 7902,
+      "sha256": "c9cc8b0581004cec37aef0a3bf0bf21bff6083c04d3738b324b83b620e943635",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/generate-catalog-english-content-a-active7.cjs",
+      "bytes": 10178,
+      "sha256": "c681e4fc49c5a4f2268958d615c1ff8b3f288fc9c0eed9842b168730a5498143",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/generate-community-skill-store-listing-batch1-merge-candidate.cjs",
+      "bytes": 3357,
+      "sha256": "46f3a6c6eed1358accdddb67d50f61eb86cb92e449906a01d4535fa12b394bb5",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/generate-python-cli-lock-expansion.cjs",
+      "bytes": 1985,
+      "sha256": "b5053c483a28f8ae5d3dd0a861e0ee998bc27995b8a629c190a4666e858e1035",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/import-official-vendor-icons.mjs",
+      "bytes": 24111,
+      "sha256": "aff4ffe979304a0cafdcc8396d80fc62fe6f821a7c624b412fe8a95168706ad7",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/import-researched-catalog.mjs",
+      "bytes": 41326,
+      "sha256": "4f22db3138219da93a27d536fd3b334b89efb94ca139b083dd4e8eddd42f7155",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/inspect-remote-msix.cjs",
+      "bytes": 7801,
+      "sha256": "fef51d5abded4f8850bff414fe57f2e4b7bb53473472f885ed7ac6e0dbd18f6c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/inspect-windows-installer.ps1",
+      "bytes": 1935,
+      "sha256": "ff0482e8a79d67d871854a7ae28172a65a8db93f569dc7d1c842c63f60d816eb",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/lib/catalog-public-evidence.cjs",
+      "bytes": 1723,
+      "sha256": "e5c835452d3d0967d1873ad05d1c6daa75719c410d1592d1acf2028820c5dcfa",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/lib/local-release-transaction-receipt.cjs",
+      "bytes": 1980,
+      "sha256": "60bf14be4076680c4144c6e517ebeb6626b2e6314381c096bf22b7c8326ce40a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/lib/packaged-client-acceptance.mjs",
+      "bytes": 63712,
+      "sha256": "b90785bfbdff4bda820545ae945964d1618b49209c5f7354134bbd99cc138680",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/lib/packaged-client-cdp.mjs",
+      "bytes": 68806,
+      "sha256": "cc717bb3112c853492a7e33985fe0617243e226cc8be107eaa609a10d64a02ac",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/lib/packaged-managed-download-fixture-gate.cjs",
+      "bytes": 2686,
+      "sha256": "e9051722d04539728cfbcc28b47b1823d999b46c3280b92746dd1035829c0b26",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/lib/renderer-dist-closure.cjs",
+      "bytes": 3587,
+      "sha256": "fb86099144211215e918f0032d1aba224b4cfe662fa543924505a7a2fde8859e",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/list-local-release-backups.cjs",
+      "bytes": 357,
+      "sha256": "8da83825ce75bac4cac01ec7507fffb0715e501afbd360a61340b8b1555ed0fa",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/local-service-image-receipt.cjs",
+      "bytes": 1776,
+      "sha256": "bf15cde41cbf82af35f056d77f5a4f7f7ba684c5c59d8e5d6e3d89ff157671fc",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/local-service-release-policy.cjs",
+      "bytes": 6628,
+      "sha256": "9ed91a250d5799f22fc859a03924a1efd09b4f5ea020f631b2ec4ee0133887d9",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/manage-local-release-upgrade-journal.cjs",
+      "bytes": 2943,
+      "sha256": "d58c833441f1e07af9afe3a689bd05f393bcf5228385004be072f0234da72ed0",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/manage-local-service-image-transaction.ps1",
+      "bytes": 12541,
+      "sha256": "8852c9e2829272ae27b1172cdfeff7ea2f73f266aa020e6337ab2b035733518d",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/merge-acceptance-rechecks.mjs",
+      "bytes": 2792,
+      "sha256": "2b17a3a2e215185d8fc94c4c82d79bb70ef375d8268edc3b5e32559dd4c6ed6f",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/migrate-catalog-v2.cjs",
+      "bytes": 1640,
+      "sha256": "c6b468286356389d907a940eb15aa4df0cbb09013b2c92f9de46bd1910d956bd",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/migrate-phase4-catalog.mjs",
+      "bytes": 906,
+      "sha256": "55d9e4eb9822423fb2f7855d5b2591ac4ebc0c003568040fc776cdf1bdd32d75",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/migrate-product-modules.cjs",
+      "bytes": 951,
+      "sha256": "edff1ff71e1248fa42fa34aed105e138f0820a9ac008f5bc3be7f4f429c1dba5",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/package-local-release.cjs",
+      "bytes": 8438,
+      "sha256": "56504911fea26fbc7551ce2234ac54da708047ae0d759658581f7f6e52c0eff2",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/package-review-release.cjs",
+      "bytes": 5006,
+      "sha256": "b15e50a7b2bf6b5a8549b5b98174a2da5f780120eb8497bdcd841020d54cb534",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/package-windows.cjs",
+      "bytes": 4872,
+      "sha256": "b2074991cb5a6d054b8e9e7bab7e7f1f062e14ebf0757868a9a56394ede6279a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/pin-local-release-tls.cjs",
+      "bytes": 3104,
+      "sha256": "269a796c50f05d1db1187ca42104c5cc2aac71027820b6e020c47bd6b4894dda",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/prepare-admin-only-archive.cjs",
+      "bytes": 8906,
+      "sha256": "860f1436ede7a839e857f203750a20e20309c32b81296b1c6226e2a60b70590c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/prepare-admin-only-snapshot.cjs",
+      "bytes": 5258,
+      "sha256": "9f6e495e3668b585a8d863521e49cefe9a005990a3ae042ae97198389ffc5b82",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/prepare-local-release.cjs",
+      "bytes": 8990,
+      "sha256": "4676fa5d023197b75044ef7af595d0a7dfa53f29b5263c9424fca32c987cab37",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/print-product-intake-hashes.cjs",
+      "bytes": 658,
+      "sha256": "6d7d8a6a02290839b0f9d9fa06db44366ccef52ed5c61528d314e57b00b7498c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/probe-electron-download.cjs",
+      "bytes": 2885,
+      "sha256": "81de09960b74fe3792ed5ded834db007e9acd5b93e3bf66f313278da1d3eee13",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/rebuild-local-app-services.ps1",
+      "bytes": 13797,
+      "sha256": "a41379b41fd77cc61335ecf4d189055da0c55052fa337bf5a0cf33270a299b2b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/render-vendor-logo-review.cjs",
+      "bytes": 4884,
+      "sha256": "da232e15df33594db0048042be277cace6b12016bcd66e13593f7f96f8d5b68d",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/reproduce-packaged-managed-download.mjs",
+      "bytes": 5742,
+      "sha256": "5949e06734fa474c38a029982580aaa3545df10d184790b3bc9d4bec690db58b",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/restore-local-release.cjs",
+      "bytes": 512,
+      "sha256": "e1ad325ecbb504f03653d049fac65b57a93120eeae4d887fc88dc7c9961dcd9b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/rollback-local-release-delivery.cjs",
+      "bytes": 673,
+      "sha256": "2b2bd2cd9ee15561f48a2f007cf633cc6029aea0ac173bacc7a9a4230814ad07",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/rollback-local-release.cjs",
+      "bytes": 1243,
+      "sha256": "9457624628f2409d14fcf65a37dd516d25f9939c022dc7e1599ee9b09e43dc25",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/run-catalog-key-retirement-evidence.cjs",
+      "bytes": 7020,
+      "sha256": "cbff024d3894362714b917135f2dffdcece018666932ed78aff3cf9e8365e46d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/seed-admin-catalog.mjs",
+      "bytes": 2625,
+      "sha256": "93527187252ceb08e9bc185a8518227ddd245e15fbbfe69a22843489d1e13e43",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/stage-draft-catalog-preview.cjs",
+      "bytes": 2387,
+      "sha256": "200b29f9dc53fffef2913aa391ba84de5f08b2494bdd4646c35b008d5e00a5a3",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/start-local-admin.cjs",
+      "bytes": 271,
+      "sha256": "e4d90662ff61cebb734c21b40da40677e5b7c987363eec9403842842024dc128",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/stop-local-release-acceptance-clients.ps1",
+      "bytes": 3032,
+      "sha256": "5636ae687ee83dea1366b58053ca07ec75ff7a987360b646ae905c789e2a8bb3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-admin-only-caddy-health.cjs",
+      "bytes": 3671,
+      "sha256": "2694f7c5bc932bee831f1f65e6264f81ab775f5fc40a994d4e7b9c04ecb9492d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-caddy-runtime-ownership.cjs",
+      "bytes": 4589,
+      "sha256": "a3beb0c82cc87a545d08f17e5e2b51ee066830048fda040a86167b9a70603067",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-claude-code-postinstall.cjs",
+      "bytes": 8572,
+      "sha256": "c95c2a05011919ee4e82dc5d31b3be538f687a8b028b4db292ad384d8bafad71",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-cli-agent-bridge-review.cjs",
+      "bytes": 1027,
+      "sha256": "7d18cc3be02c9df733a2686c89105c4a37880457c3e6cf63dd9a234aa740ba7a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-community-sso-cookie-phasea.cjs",
+      "bytes": 15185,
+      "sha256": "fedcd269355b406b099174be7e2708da40f4e6de0fc8c9361acf7c5903131e17",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-electron-identity-community.mjs",
+      "bytes": 4726,
+      "sha256": "45342e1af7fbde3efe10f35896f8dcb31580f77418bc17f8a820b730576b6733",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-flarum-community.mjs",
+      "bytes": 17898,
+      "sha256": "99bce7b23cde706d98c0ff9fdfb5abc8254fdc5961bd37d67ab79b5807bf0f32",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/test-identity-catalog-readiness-docker.cjs",
+      "bytes": 13726,
+      "sha256": "88f76a63e0bb9394d3a66f3a23675947d4a15bf90d086a70e8810e4e2e21410b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-identity-community.mjs",
+      "bytes": 10002,
+      "sha256": "6cabb542ccaf17cccfe8d0e8ac3e2e14351d5275d82cdd556559ea4a257437c1",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/test-identity-migration-database-contract-pg.cjs",
+      "bytes": 5727,
+      "sha256": "edb44971196f1d11c3427814dd8fe13f7b6f1d3de9248b860297bdf3e2b16121",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-identity-workflow-store-pg.cjs",
+      "bytes": 10899,
+      "sha256": "1e43acd576ff731e4597c77ff25816140fe093b41cbf057fe40cdda724fa7eee",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-installed-management-layout.cjs",
+      "bytes": 1124,
+      "sha256": "3e36ea97f50c507c7342f9dc97a75c472ea4c618356bb675cb14751d5232336a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-installer-launch.ps1",
+      "bytes": 949,
+      "sha256": "b36388c88c57e62d5ebd0dd0d1e36834b72654d40d075337356aa9ca1c03d736",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-local-release-server.ps1",
+      "bytes": 653,
+      "sha256": "f573f6edb7d76ef0009550b414eb2c6ac12a2d7f18df296503d7748171c90800",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-managed-cli-lifecycle-candidate-e2e.cjs",
+      "bytes": 523,
+      "sha256": "7e21d2d49f6289e55d4d308feedda574a0c8eb75e93ab661758508dea9477bdb",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-managed-cli-uninstall.cjs",
+      "bytes": 10287,
+      "sha256": "af2de0c5c357f0cca420ef52cd701c7c6239f8465a5d8e84cb83ecbda6e2f653",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-managed-download-queue-layout.cjs",
+      "bytes": 2398,
+      "sha256": "bac6bbc9f231000c738667e836b85f1f90686f36be9abbd860933ed9de8b094f",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-official-binary-cli-artifacts.cjs",
+      "bytes": 9186,
+      "sha256": "a2ff419d8e16b444421ce5e33951f7bba64051c3fb7efb93fc96ae081266a5f0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-official-cli-packages.cjs",
+      "bytes": 12125,
+      "sha256": "7e1c9eec5943cec1df93919be8255303e7f07663f4d6806e2e959defc7329265",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/test-official-python-cli-packages.cjs",
+      "bytes": 5917,
+      "sha256": "e87aa9fcc54fe0dc32645fee6a75c6ee307be75f7c563deb957307c3bd377253",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-packaged-catalog-gate.mjs",
+      "bytes": 743,
+      "sha256": "37110b04fbaa6d6668cfcc3c051e78921ec8ecf60736da5ab189649d3edda985",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-personal-center-community.mjs",
+      "bytes": 39880,
+      "sha256": "2c1dcd8671f7f263e4438ecd93acdb2b4a41d9a6c0e6e57c9aa5061bafffb1f9",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/test-product-layout.mjs",
+      "bytes": 13008,
+      "sha256": "941b6faa6f7da883ac2e7418f95b32741db57d2a2cf0f13c74f6ed96290b430f",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-resource-store-channel-layout.cjs",
+      "bytes": 1009,
+      "sha256": "554ad27d37bd43f0f96ca0ee01187886db4a697b1820b3f48596fe790e7d7385",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-resource-submission-layout.cjs",
+      "bytes": 1269,
+      "sha256": "10f24215a955ca755e6f1a23ba4222d02c53e9abfdc94f93f0e69b2ade83d32f",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-resource-submission-real-e2e.cjs",
+      "bytes": 51549,
+      "sha256": "41ea0005212f7a9e0399785951a076b7cd24035b4485ea6f380945d711870d36",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-startup-catalog-loading.cjs",
+      "bytes": 787,
+      "sha256": "d6473de3ee8ae62ee78057107d39a64f6b0112257bd4b52b0a102cf0c42f7fee",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-system-tray.cjs",
+      "bytes": 2273,
+      "sha256": "de245978c8c1358e85ddc210d402a224f7fff30f168273f5487bb0a674da1d00",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-windows-installer.ps1",
+      "bytes": 8239,
+      "sha256": "8a7797b9171fcfce809252fb3112b2e85d91a1581c34c7dcff3d6d6fefe1b357",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/test-windows-notification.cjs",
+      "bytes": 1465,
+      "sha256": "3774e08a52347a4f00f670d93fe6e344d0dfe8c9cb14cb75f4a01718b96486c6",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-windows-upgrade.ps1",
+      "bytes": 9416,
+      "sha256": "32886d80aac52db31b86a84beb218849591106939839abec24e5979bc279a7e0",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/test-workflow-node-runtime-linux.cjs",
+      "bytes": 7925,
+      "sha256": "df99e68b0cc23dc24e6def8a69486e2e0b8ff0ab790dffc2d0aaa237f3b655b8",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-workflow-official-source-posts-flarum.cjs",
+      "bytes": 7780,
+      "sha256": "17bfe1c91f236632c93db19daaa6539c46169c6bc80ffb36fb18d0c73314c18a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-workflow-public-layout.cjs",
+      "bytes": 1949,
+      "sha256": "1606d098f812710edaecf91518e44dfa2f9095cd58e6c7e19239903331c7f245",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-workflow-store-layout.cjs",
+      "bytes": 1254,
+      "sha256": "0e7aeb05c635beb0595222db1ff84bc1a4cd670bfd337566a53bb5be7bc01e03",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/test-workflow-temporary-acceptance-linux-cleanup.cjs",
+      "bytes": 5849,
+      "sha256": "7d99fdd10c415d3a0f0b2a234a06bdc0a95245be316d6d1bad1accad676e38c9",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/translate-ui-language.ps1",
+      "bytes": 2688,
+      "sha256": "82360be1c4e074ba4dffbdd30dbb43fdfff291205ade74d5989adde7af59d08f",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/upgrade-local-release.ps1",
+      "bytes": 24796,
+      "sha256": "fa65e9757ca1f7433d700def22858a9004e4ad14a2e070c9d317feae11edf3f3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/upgrade-phase-three-catalog.mjs",
+      "bytes": 3580,
+      "sha256": "d8929f0d8a151111b9f43637ef2c1fb693fcacb30e899dc3969914dacc9cebc2",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/validate-cli-agent-coverage.cjs",
+      "bytes": 10187,
+      "sha256": "a5d8e0335b31a2aeb3266a35ccd99c9a599e3ae49dce8520611f89c7d2b49dac",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/validate-v2-active5-desktop-live.mjs",
+      "bytes": 18909,
+      "sha256": "4af1059d14f16ab6696515496366ce73205133f69e15f7bae5acc41d8408bc0c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/verify-environment-install-ui.mjs",
+      "bytes": 15187,
+      "sha256": "1b1e29136b06d75022f0b8ed3090d98136c34643b3e7b72b7081b9a41e969833",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/verify-live-local-service-source.cjs",
+      "bytes": 4249,
+      "sha256": "e8e7cdfbc05d4922d908c75b80f6c4f5fd893b07dda54748fb3534a7fef5320c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/verify-local-release-client.mjs",
+      "bytes": 15385,
+      "sha256": "82f7a84b2d3b64a7425c91b41cc31c4a9ea299dc3ef22536e13daa6ab838981b",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/verify-local-release-https.cjs",
+      "bytes": 5896,
+      "sha256": "6451eb97ae7d3f31877303878264e238a3637dcd33b1860967fa11fc7b751540",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/verify-local-release.cjs",
+      "bytes": 708,
+      "sha256": "b90601345a7a508c2606ae5a651266ba2f44b36aa120efc63bf3529f22d70874",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/scripts/verify-local-service-topology.cjs",
+      "bytes": 857,
+      "sha256": "0d02e6c552bdc161fba7b9bf6f8e71b8c79b6e0ab5d6e7f47dfe233f55620568",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/active-catalog-products.cjs",
+      "bytes": 8158,
+      "sha256": "1ff20bf069b97af9457fe2c8a7b24496f8bdf0b1be062d25d8ddfd0c2ee1ae50",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/agent-capability-broker.cjs",
+      "bytes": 17788,
+      "sha256": "eac7d3ba0ddd5d4414f0fdd3175113aa51d2a6124c01fdcece4c3acf056d0d05",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/avatar-image.cjs",
+      "bytes": 1333,
+      "sha256": "dcc85ea4bd004395509356f9b719ec6e256d4e784fb9283e9b1291fbd224d121",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/avatar-image.d.cts",
+      "bytes": 174,
+      "sha256": "d392af7712a0c1daa7cd8893fdf3e918ddab36d721912353433b2609335fe489",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/brand.cjs",
+      "bytes": 314,
+      "sha256": "733ceb1e7c89277ec25f1213f084e1d959ecbd6a12e82007e58cf6366c8e3645",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/brand.d.cts",
+      "bytes": 272,
+      "sha256": "3ceb0eae17f42203d2a8f28580ea165d759ec8bf1fa008f59df2bb6ac1760bba",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/catalog-channel.cjs",
+      "bytes": 490,
+      "sha256": "606dc8853ee85725d0f5c10205f0f39b0f8c891ddf3d70cba9cd7fa5fb592ace",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/catalog-client-channel.cjs",
+      "bytes": 2007,
+      "sha256": "5ffbe468a5dce7c18f1baabd26912e0bca588caba1b0b4ae5a4274750c9f56ae",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/catalog-discovery.cjs",
+      "bytes": 12311,
+      "sha256": "e978c109dfdf06e289d1b0c9c87d5df1fd55b02d4312319425acd382db3a5682",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/catalog-icon-runtime.cjs",
+      "bytes": 1583,
+      "sha256": "343afd723ff646dbd173599a2dcc5258da3b2354538f61defe619f101867093f",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/catalog-key-retirement.cjs",
+      "bytes": 5927,
+      "sha256": "ab9b41249b7ecc3d3a7cd308e9825248cd29ac03a44c4bb3d1b2b65c463ea46c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/catalog-localization.cjs",
+      "bytes": 822,
+      "sha256": "0cf8239d55c4fe7f2bf1b45b3ea1d4f1b3acdab4279ec371c2ba96239edce070",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/catalog-maintenance.cjs",
+      "bytes": 346,
+      "sha256": "609e4faa1ca0d895092ba1025a504749b9f246208b52f315596804961e4f4839",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/catalog-projections.cjs",
+      "bytes": 9328,
+      "sha256": "050a8f745e199d59653e6266536923a41ccda1535725d84114c4286c5590852c",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/catalog-projections.d.cts",
+      "bytes": 2123,
+      "sha256": "72a9e1bda2479b9ae644ca1ff0de2fdd191149fef07b61741f645e21527cf803",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/catalog-published-icon-url.cjs",
+      "bytes": 861,
+      "sha256": "adddae14c8f477251389f2b17ba177054d8f74cb3b04e6e9f06467b453961b5a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/catalog-release-icon-compat.cjs",
+      "bytes": 1346,
+      "sha256": "cd7d9fcbe63416fa3f88a6d93bac02f5dc7b22c989dcdf88147e7e3bc4a6870e",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/catalog-release.cjs",
+      "bytes": 6806,
+      "sha256": "a3dcea4ff01d675c67cc9f26c60329c6933d1c7b1564c747bdd376a41e88c7ec",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/catalog-runtime-policy.cjs",
+      "bytes": 427,
+      "sha256": "b9a682531d467a56cf5da83643ee8f82b3921ad9c445cfa4b9635bc70d844341",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/catalog-taxonomy.cjs",
+      "bytes": 6141,
+      "sha256": "65bcfab1bb70ca77025f596f65f86d0e3db4e807bdc0c2299900108014af5bdf",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/catalog.cjs",
+      "bytes": 20634,
+      "sha256": "15b64a2ae540f77cc6a0b39f1cba2c18de9f112d26c4959fc5b43fc722eb11e5",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/cli-deploy-only.cjs",
+      "bytes": 5155,
+      "sha256": "61c86385997472e3c2190468728deec9703ef0f13e5d513c86f5a9690700070c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/cli-driver-registry.cjs",
+      "bytes": 3185,
+      "sha256": "970c124aed7a8ce371ee2e97637bc9b5dc9655634958aad4a7d125e87f84ad8f",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/cli-system-discovery.cjs",
+      "bytes": 805,
+      "sha256": "fa6eba09504c5722a176475077fb2254baad4fd9ccb58d6822505fc4cafb1d50",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/cli-terminal.cjs",
+      "bytes": 2324,
+      "sha256": "687d83f744ce1b17bc9e578601d1929fcfa95d645e59a38cfe6c667018a2d2b2",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/cli-terminal.d.cts",
+      "bytes": 551,
+      "sha256": "81ecc17f315ee87277faba2535e6a82c875abcfa15ca9661a3c0b6c40143b1e0",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/client-identity.cjs",
+      "bytes": 1762,
+      "sha256": "0bd6d13e0ac9281316cb3ec2c3b0ac29765348f5322e97981de9d1b0eb731652",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/client-services.cjs",
+      "bytes": 3554,
+      "sha256": "50f030dcb7caf8e89fbe18c667203df89f53df41029f3326be3e8604c83eb9a5",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/cocoloop-skill-intake.cjs",
+      "bytes": 10535,
+      "sha256": "832fc00b96667ee44048eabccd49a45b6d77f55930ce4a434a7fdbe9e73472a4",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/community-embed.cjs",
+      "bytes": 3022,
+      "sha256": "6ba265be6fff2b035883033a70b6a26b38501da6452b91b4e9b4c67a40dd1932",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/community-embed.d.cts",
+      "bytes": 732,
+      "sha256": "aded33ac8a1a01cd96d6f7b9e9f98a67306f1ca23346c2acae942b4a60bbeb5c",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/desktop-acquisition-matrix.cjs",
+      "bytes": 5295,
+      "sha256": "5714e9c8ab1b8159d63a43dd708faaebc151d5f7c0a1824e01a05f679f4abb31",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/desktop-adapters.cjs",
+      "bytes": 5752,
+      "sha256": "5304ddcfc5ed37bc0a5dd9dbd42c8c121be98be792036ce5099a2f6cfb5bf385",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/desktop-detection.cjs",
+      "bytes": 2415,
+      "sha256": "89267ee437502ace8fd9e25f63809c92ac3e114598553ae0a357e7def10b68c5",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/desktop-download-only.cjs",
+      "bytes": 9035,
+      "sha256": "0253edbbbbf2f4f39f2bb2696509c5cd3bf224020f7a6867da141d02adef9483",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/desktop-installer-launch-policy.cjs",
+      "bytes": 1793,
+      "sha256": "6335a9aaf00ed5b3be9f2e3b56d39f06fe35ae9d65bcf31f63ec5e1c604307b7",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/desktop-installer-launch-policy.d.cts",
+      "bytes": 1105,
+      "sha256": "4619f5f5d9b36183dd05bac9f7e57a57d94c5ff7e5249d9053a9bafd96a9debc",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/desktop-inventory-presentation.cjs",
+      "bytes": 867,
+      "sha256": "bffb875d0337571f8dd1b1ca359cb73060d1b6e764a9439fb7fd7633f4fcf672",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/desktop-inventory-presentation.d.cts",
+      "bytes": 762,
+      "sha256": "dcc0277862806df625f40ce685fc2bcd1633c5fb867552939528a8fcbbb1d3a9",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/desktop-lifecycle.cjs",
+      "bytes": 4151,
+      "sha256": "a92b5de030dd864da59686197a1e4b3c583f1ef62f95ad3c156d4c183c840f2f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/desktop-operation.cjs",
+      "bytes": 25297,
+      "sha256": "e29269e69e46ae0bb5c85852b1cd0c26596400f9f985863a84776378d6fe7917",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/desktop-source-audit.cjs",
+      "bytes": 4021,
+      "sha256": "a709179b8eafccab6c8ab0282faed9a89909a7fcb68d1f37bfb79a0b39027847",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/desktop-source-audit.d.cts",
+      "bytes": 503,
+      "sha256": "77ed2a2755b806d6aeae8dafbc3ef92ec69372524686b97c881d3db2822258f7",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/development-catalog.cjs",
+      "bytes": 2495,
+      "sha256": "f749920613fc304fa6d0ed09568aac3b20990f7618b2cc83145cd5d2fff251b4",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/development-catalog.d.cts",
+      "bytes": 143,
+      "sha256": "ae15963f150eedab56fb5157dfe9ceafcaf8b46c67d1b5f60fd2918dbd5c3f99",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/download-resume.cjs",
+      "bytes": 1509,
+      "sha256": "421c63fc0b2699ecba8b795943bc792158d4c16c8ecb9a9413a5efe594719f3c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/download-space.cjs",
+      "bytes": 966,
+      "sha256": "8720a2893e9760192121475a423f11add5a51f7bd99e2bba8e99dbd40fa7b7f9",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/download-task-presentation.cjs",
+      "bytes": 2927,
+      "sha256": "03c05bea50c3576a5b064ff9b1ea588fafb2fa0c87d6c64248b1450a65719fb3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/download-task-presentation.d.cts",
+      "bytes": 483,
+      "sha256": "393e6ba1f5cb1de4853e460d4b7531bec6472b1f25a286f00cecf1eb6e49d3f2",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/download-task-recovery.cjs",
+      "bytes": 5768,
+      "sha256": "6151b6f3a04f9899d7015c3f40f6d29909cd150f049fae6d99881b0e3f499579",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/download-task.cjs",
+      "bytes": 19755,
+      "sha256": "a3f5acbe39424eaa49333e6fcd537b8abb5bb252b504c5eddb00ecf097995ab1",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/downloaded-package-action.cjs",
+      "bytes": 513,
+      "sha256": "5788270e12f789a73dc2edff7f4fb39bfb44935e7f7a0c0c271db0c53af01b37",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/downloaded-package-action.d.cts",
+      "bytes": 375,
+      "sha256": "416e1ddf5a2d9ae54129c9a91c1fc4dd968254452554eacaf9b51db3ea63ec91",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/ecosystem-resources.cjs",
+      "bytes": 10545,
+      "sha256": "a2b7da77dfdc6c5aec01eb8412b68d9e6c3f916804732d80cf4acb5e606cc31d",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/environment-detection.cjs",
+      "bytes": 4340,
+      "sha256": "9dfeb5c2b0746447be2ff38ec1f1df8aa6bc84ce62d3b355acc15d85695306b5",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/environment-download.cjs",
+      "bytes": 9995,
+      "sha256": "4626da856ff3892653d2f1fce9d3d2884ca92ad84f7f01c210341050a2e348f9",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/environment-install-flow.cjs",
+      "bytes": 1031,
+      "sha256": "fe2f2547e5fb59c825fc8f90a335184374bcdb499d7d12886b4a584b66da4b43",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/environment-install-flow.d.cts",
+      "bytes": 517,
+      "sha256": "d537c6e42febe296e26694de2453b51621740baa655841a054aacfaf4e0bf2b3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/environment-install-orchestrator.cjs",
+      "bytes": 2219,
+      "sha256": "81bd752731f638f6d964b114bfb87f8267ea56352d2b22a59e9f031984b93a85",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/environment-install-orchestrator.d.cts",
+      "bytes": 674,
+      "sha256": "c8a7dc1576f82d1417f3e799e2f3d18888e1b049f3aca9fda9fc38b8c0927aff",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/environment-launch.cjs",
+      "bytes": 1099,
+      "sha256": "990fb4cc68ea37cea3a52b57f1029112d55a086588e2c092814fa39c2abcc4f8",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/environment-operation.cjs",
+      "bytes": 4235,
+      "sha256": "6de6d5543761377cea78fe2cca291b610f3b42999d651ed3e2dff833d6c9039d",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/environment-registry-query.cjs",
+      "bytes": 270,
+      "sha256": "c30c26f257fe8867183cd366cf97d782038005dc5224c9362eada0b30c79675c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/environment-update.cjs",
+      "bytes": 845,
+      "sha256": "1b1856974cd4a96f5c3e3b30f1e6473c051fa37da4461393103255e2cc9f608b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/extension-claude-mcp-runtime.cjs",
+      "bytes": 17102,
+      "sha256": "5eabbae4f58fc914e0575afde1c7dfe984e1bca40bfd81e482afdb7df7878914",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/extension-cursor-mcp-runtime.cjs",
+      "bytes": 14602,
+      "sha256": "5c613b861906a30cdcbc50b828e0e3757614fb84c468235ad4f212ee49b3f05d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/extension-host-discovery.cjs",
+      "bytes": 5196,
+      "sha256": "bb2440feac74e5ffface2786d117dc3a5e63d4a6cd8254c2f2fc0a5cb1c043ee",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/extension-host-targets.cjs",
+      "bytes": 2158,
+      "sha256": "e3fe8ef330f9f4bc3ab8876dea92e43940976a14a1b761d348ef631dee7bdad0",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/extension-install-registry.cjs",
+      "bytes": 6840,
+      "sha256": "9b30e081655a051ed421910b4021680b7971d0f80963c33dad2c4e514a0cfaf1",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/extension-ipc.cjs",
+      "bytes": 6475,
+      "sha256": "7d3dde9c8f6d33cf667a8639a57607fd95045e7ab7929e49a1a86e1811b9662c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/extension-mcp-runtime.cjs",
+      "bytes": 15284,
+      "sha256": "46bc0502a10082afb44bc8e8f0acc1ba4679199b1ab93e679152a489fca924dc",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/extension-plugin-runtime.cjs",
+      "bytes": 24686,
+      "sha256": "40e2bf20275212a9e72f81abd8e3fa10150e145cd1f053826f3c8ce4ddd2ccc0",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/extension-resource-manager.cjs",
+      "bytes": 5288,
+      "sha256": "baa24a98c7bbf7627b1cf509fda5362371ba48c94ae9972521678f8ce876fe98",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/extension-runtime.cjs",
+      "bytes": 41821,
+      "sha256": "b137a338acfebf1f223722977fe3c1efeec1911e4fbf9eed6e8fb0305733a6d4",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/home-carousel-presentation.cjs",
+      "bytes": 1511,
+      "sha256": "0763ea9a3f65bdbc7f71a7acf1d0faee2ea3a57c346744ecd5fc0f9bf834d827",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/identity-security.cjs",
+      "bytes": 2580,
+      "sha256": "21da15c2a5cc5a8cd8e06817ca3ba96239a7e2f1816e3f6173deaa954505be92",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/install-monitor.cjs",
+      "bytes": 1755,
+      "sha256": "7aee3c79c0354c59f86e6bdb86b61971410e87c71dd49287638ce3f56325cbd6",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/install-monitor.d.cts",
+      "bytes": 666,
+      "sha256": "2126665b3b99a2784afbb16cb17ef19d25401f8af1dc8a983017b8b627ffe63e",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/install-registry.cjs",
+      "bytes": 17603,
+      "sha256": "a8ee854439ad01bcb3308c495aba8afdb75be0a25d08a00c204a6b1c0c423f0e",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/install-verification.cjs",
+      "bytes": 15039,
+      "sha256": "554c4ce89cc81331d2198d1991dd3e011387747952578b63aba12ba9df8155b2",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/installed-product-management.cjs",
+      "bytes": 9502,
+      "sha256": "d592217468b00f7fbba5c59818b02dc9a30ebc1c769f4c35120a7f83f70205f4",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/installed-product-management.d.cts",
+      "bytes": 1950,
+      "sha256": "785799b5dd4ab2685999b0d8cef5b5322b76051e15ac06ce6f337c17d1c9b108",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/installer-launch-path.cjs",
+      "bytes": 2440,
+      "sha256": "f8c29aeecc05ccd3d1788256016d04f72435a961f9e7558948975d1ddad45905",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/installer-launch.cjs",
+      "bytes": 4674,
+      "sha256": "9053a06fb588755d15952179b486b282af1d073bc59be571d1554a3d303502c3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/limited-response.cjs",
+      "bytes": 1517,
+      "sha256": "394f5d2ed3d4a3e714d29ab848f27fb1987bd5f90132670fb8c630575bab449a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/local-agent-bridge-snapshot.cjs",
+      "bytes": 4794,
+      "sha256": "8748a3528f40cd5e170f5d71ca37fb9056d526026205e230f9ffaab199fd5c61",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/local-agent-bridge.cjs",
+      "bytes": 25013,
+      "sha256": "58d5f873f1fb8e48bdd048164bbd3738a5f7429ec4e94e132f7e63ac66f01b71",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/local-release-artifacts.cjs",
+      "bytes": 1315,
+      "sha256": "8c12b71b7b1c80e65998b09c748efba59bb8ea4c038568aa02ad4c7726782f8b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/local-release-certificate.cjs",
+      "bytes": 2668,
+      "sha256": "a1ecf7b6accc49da5c50489bb735d3de938034ae423d2d4677a62a7f2f0aa4f1",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/local-release-command-result.cjs",
+      "bytes": 442,
+      "sha256": "60ad334cdbb76b8441232c3a4bc4c344dd3c8681cb3cc7bad63732dc79ca5d37",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/local-release-delivery.cjs",
+      "bytes": 22915,
+      "sha256": "5bb41c0b3a4b39b8a48f74da876129bd7b5b361e052a16164318a034fec4df11",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/local-release-retention.cjs",
+      "bytes": 1527,
+      "sha256": "4a7e2229a3c4af3bf3eeb7a39fa393b5fd3029994516a2da8a03d6b36759032a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/local-release-trust.cjs",
+      "bytes": 5894,
+      "sha256": "8ef93be62ba700ed386ccca1fbf5ecae8731462cd529261486bf843123ef605c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/local-release-upgrade-journal.cjs",
+      "bytes": 20345,
+      "sha256": "d2d0347404d067c8911a7224d1aeb268671a9bb6b35a66df68b250df1052c612",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/local-service-image-receipt.cjs",
+      "bytes": 7421,
+      "sha256": "785bc7854b63122bf943949c5ef5ae1ade7e2b8a095e729c8ff065757519c903",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/local-service-release-policy.cjs",
+      "bytes": 14709,
+      "sha256": "809a2f20b34793b72f7f40f6ec28e05a0cf745fc39ede702922f5f8b13e67cb2",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/local-service-topology.cjs",
+      "bytes": 874,
+      "sha256": "6b64389d64c6338a9829a2f9e634458998f916a49550baa7876b1fffb016d2aa",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/managed-binary-cli.cjs",
+      "bytes": 14758,
+      "sha256": "f70dd1819b07d3c3a0807712610049079e053440a0af4eebe805b2c24fb5250d",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-catalog-install-authorization.cjs",
+      "bytes": 6201,
+      "sha256": "7638cc7ddbb82eecaf9ef4ee9dd5b200818b35e3fd7e6545d92cea47518af111",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-catalog-resource-authorization.cjs",
+      "bytes": 7581,
+      "sha256": "da2377c674ba1503918143a9475a3511678385583f123eea5a5412ed1ca14e05",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/managed-cli-lifecycle-candidate.cjs",
+      "bytes": 17111,
+      "sha256": "118b8d9790e30882c83277afcd095d1cbe02b58d3ff0bcc51583a3e7e8ee3b99",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/managed-cli-settings.cjs",
+      "bytes": 8165,
+      "sha256": "da717422c3a98e1636b5bee16929519156e2abaf665969e79de7389a1718e578",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-cli.cjs",
+      "bytes": 27474,
+      "sha256": "33102ce46d1e6e02e721b2ba40e0ff7b78108ef97d4b3860773958e2f42efe2c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/managed-download-network.cjs",
+      "bytes": 6999,
+      "sha256": "b2e2d28505a0ebb1a4b58fe764d4ea03150eb51e9dfe69238e5d7fd039564969",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-download-network.d.cts",
+      "bytes": 729,
+      "sha256": "7f996499caef6826f4b63c95dcc23b4cbdd4bc8afefd4960baf494c08b56cd26",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/managed-download-queue.cjs",
+      "bytes": 3877,
+      "sha256": "5833a993ecfb9c6b5070067d97be6766477f7e10b61860bdfb6e21ac3ae010f0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/managed-download-refresh.cjs",
+      "bytes": 884,
+      "sha256": "e3b295abee65707b0ecb3d67aac9b74361f55d580c7b0375834d2c7b9787e149",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/managed-download-reliability.cjs",
+      "bytes": 3308,
+      "sha256": "0907dfafcef4416be522430cf296e0fe71ef0cd1ffab04edbfa6ac81a5278e0c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/managed-download-replacement.cjs",
+      "bytes": 13739,
+      "sha256": "6fa77e056fc2cee5195c9c85940a27cfaf314b43455df405db651dc66b85d7fc",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-downloads.cjs",
+      "bytes": 3960,
+      "sha256": "1a4c3ce5b24ae8ec5fcf77633652b8c2106760be0c08892b6b8600c190149fc0",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-msi-cli.cjs",
+      "bytes": 9675,
+      "sha256": "0bc1471d39a7f9760e1b62e6ec6b4a57392c3b0f0e710a940bf1d39baec21191",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-portable-desktop.cjs",
+      "bytes": 15962,
+      "sha256": "3f732dac0e50c8fb4e7a05eee1aa2709adb45f5286cc0656533b50bfbac90799",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/managed-portable-files.cjs",
+      "bytes": 15788,
+      "sha256": "89797a227afe032b0d3e7f9b4c436ebf0242c0139af81b8c2ffd76ccd39f727c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/managed-product-action-context.cjs",
+      "bytes": 10801,
+      "sha256": "bd1362c0d99e584aa1bd89bc73ea1d3bfcb261709e920440052bf2c57a4a9bc6",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-product-action-context.d.cts",
+      "bytes": 1098,
+      "sha256": "944f20e41ad8e3210178ba7a97548a0c338d950abed6f624e54916924c60874a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-product-inventory.cjs",
+      "bytes": 770,
+      "sha256": "eb4b3aa66a0d07d13dfff2fe2d7e523852b37d13603378a703b86fa7841b4ec9",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/managed-python-cli.cjs",
+      "bytes": 12509,
+      "sha256": "011491931aaa65b59760e7414d19a78f283c69cc05b2d654e4aa0ba769ca10a7",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-registry-desktop.cjs",
+      "bytes": 12625,
+      "sha256": "cd60b44c96ab965b17a47b6c65ff9c8844bd2bf686754eaf34fe3941202a289b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/managed-wsl-cli.cjs",
+      "bytes": 15660,
+      "sha256": "32cf95a5493ddbf4874342cfb23738a8967e4ed0ac6e21dfc140f1d6af615747",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/managed-wsl-scripts/augment-auggie-0.34.0.sh",
+      "bytes": 4778,
+      "sha256": "03054bf581b75d472940693ec1c11759f221fee7b424ae9203a9a8e34a4c7c10",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/microsoft-store-repair.cjs",
+      "bytes": 4958,
+      "sha256": "129f946f52c80adbb536529ee64db7bf956019a07539fd22c82225391e8a370d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/navigation-back.cjs",
+      "bytes": 199,
+      "sha256": "f3160e892f183a49297116941746120e9082646489dc27005350f8049291083a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/node-runtime-policy.cjs",
+      "bytes": 2133,
+      "sha256": "7fd895c89b7c3c93c29ea354a52a0b7fb5a4550b4d09e1ba2ce90d6d6f036fab",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/official-download-approvals.cjs",
+      "bytes": 942,
+      "sha256": "410fcc9165a95e824382878faf3df34d2bec1637bc3c554543c2742e51c8c808",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/official-download-page.cjs",
+      "bytes": 6097,
+      "sha256": "752d2f49a7abdbb20ab5fee1c6836ddc24b211f2eb53deed962ffc7dbee7c4c5",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/openclaw-companion-runtime.cjs",
+      "bytes": 5312,
+      "sha256": "00e1a351d05727198956b0ff477933e4fd57da50df57f783abf29f62b03ee40f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/product-components.cjs",
+      "bytes": 2750,
+      "sha256": "31673401c94faa7da38f0b480c1ec8d6658b69fa8422ce5afb283d94215e01eb",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/product-components.d.cts",
+      "bytes": 397,
+      "sha256": "ac7af3084fe7a95a3fe62bc230205d754e7d4f5e240a9c555d05ecfa2c38316e",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/product-entry-points.cjs",
+      "bytes": 5091,
+      "sha256": "8095116f9d32264a2c4e9c836a85b51566f6d17a6d0b918d03afefb99b414f3b",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/product-entry-points.d.cts",
+      "bytes": 642,
+      "sha256": "02462ed216a2f2ca64da90f7e433e4967cce9aeb68cef0e0cb85778161a8ae5b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/product-extensions.cjs",
+      "bytes": 6078,
+      "sha256": "ed1483c1ce29f4a92d43de4ffbce59ec7dd9db6e38d5a5db99831b82cf45ed05",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/product-install-presentation.cjs",
+      "bytes": 4493,
+      "sha256": "5a9e61c4b0bb02b9e291ff02552dd55a7d170c7581bb3149680037842d7ba384",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/product-install-presentation.d.cts",
+      "bytes": 916,
+      "sha256": "d3c1f56d729adb59a346c1c2c608cff821ac72be11194bdbd8817fe26a6c3fac",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/product-intake-approvals.cjs",
+      "bytes": 12889,
+      "sha256": "9d1cb470e1c720a4944d1a3f9c1f048fd2f8cfab369272dbd36591f6cfef1a33",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/product-intake-dossier.cjs",
+      "bytes": 9027,
+      "sha256": "40c1b6d89d2957bfd8dbfc43f9ab448300890448714333115d3f1a4bb5ba5f81",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/product-modules.cjs",
+      "bytes": 6968,
+      "sha256": "1fe4019a4083fbe571424afea8bf6616b56cc89637cf6d552e183add3790c378",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/product-policy.cjs",
+      "bytes": 17020,
+      "sha256": "7095cac0109fc3ca8d95c20cb2596c49c29c3cf182668691b6f0458bf1fe4393",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/product-policy.d.cts",
+      "bytes": 1134,
+      "sha256": "2d88d6930c7bb6d87f582198bf61e52221dcfc31086b2e55510c363bd3f82c09",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/python-cli-locks-expansion.json",
+      "bytes": 121390,
+      "sha256": "b1be1b550c964d5a16dee1c77459bbc17dbcfec126e082e21639d41e2691e19a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/python-cli-locks.cjs",
+      "bytes": 50184,
+      "sha256": "4d3e94688c840e7c08148877532ae2a2d7631fec730ba63a897e62001490a566",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/release-channel.cjs",
+      "bytes": 3783,
+      "sha256": "f4d5eaa60154046d389cf6c75c0574189f3df79c971a8fa939518c052887216c",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/release-package-policy.cjs",
+      "bytes": 4325,
+      "sha256": "fc1da95870a80d3b3fefeb09c4da3e4d7424787bb2872d7477ef58a6b6c147ff",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/release-provenance.cjs",
+      "bytes": 7177,
+      "sha256": "d9ca2c1873e091db101759d45921bb285ab646d1c4711c8dd1104a7728e79de0",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/release-response.cjs",
+      "bytes": 484,
+      "sha256": "2f5e6f33a7ae53fecdbcb383c916f9d4e3f54c2f3439bcdc4d07be4c767ca8ee",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/resource-platform-availability.cjs",
+      "bytes": 6556,
+      "sha256": "f8d9104b1aff31968a4df0ae90574dc7da7abe71544316ebb74200a4a4ba8afb",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/resource-store.cjs",
+      "bytes": 10043,
+      "sha256": "4748a00cd9b65ddd684815d222b0dad1416b9de89bf660760acfb8ccf082bb9d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/reviewed-process-close.cjs",
+      "bytes": 1847,
+      "sha256": "c696bd424a32f1b6b8f57011a2c30df13a64945a45e014f4459edfab15159ac4",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/runtime-language.cjs",
+      "bytes": 9783,
+      "sha256": "497cf757c89b5bc1ebfea1893863db074d73b1830ea1f1cb1c31516e34254011",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/safe-zip-extraction.cjs",
+      "bytes": 2630,
+      "sha256": "ffabf82695599eda4fb551e7ec2ceb7aa2df00562eb81ddd960da635c6bdcadb",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/sha256-portable.cjs",
+      "bytes": 3271,
+      "sha256": "e644a230c886ee20f736c4527d58d4f3f9cf58494341fa47d657877e2b337cc2",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/signed-release.cjs",
+      "bytes": 5477,
+      "sha256": "43e390a8fbb9e74a656bb5c68904dc769135849001b43869fb8e5026b59d7cbe",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/task-notification.cjs",
+      "bytes": 1898,
+      "sha256": "7b67e5db466ea9de007ad7c8e7d9e97160a54c1d79825e0783dc7597f7e32758",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/tray-lifecycle.cjs",
+      "bytes": 384,
+      "sha256": "5e55913848e7ce82d0a9a8de99c4e78522891a5b812e97b86d4175a04667692b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/uninstall-monitor.cjs",
+      "bytes": 1845,
+      "sha256": "7f968fb0399ed3f22dfb21e509f9b60b0715adb016ea859104200fcc089f1dd6",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/uninstall-monitor.d.cts",
+      "bytes": 686,
+      "sha256": "db0c1c0abd493cf24b3863b23295f88fba894cc13bbb94625725cb3d00b6f6a7",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/uninstall-presentation.cjs",
+      "bytes": 9061,
+      "sha256": "b1138c8cda9579e87dddd16bd6be06f4414f5190c843251b7db120cb8630c3af",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/uninstall-presentation.d.cts",
+      "bytes": 1557,
+      "sha256": "149db4c9cf6acbfee0e24b674f3542844dd425243959ec27a9e1aeabe2487672",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/update-installer.cjs",
+      "bytes": 2028,
+      "sha256": "46fcb5728a064bd9bc797b8e17f7fb2cd3b6f8f2190b2e1e85b82035ad8a192a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/update-release.cjs",
+      "bytes": 6286,
+      "sha256": "0a806e5b7e92e2a9d92771912eb8b6c1a07540478fcf3ec8c3894e07c6da662a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/update.cjs",
+      "bytes": 3238,
+      "sha256": "84b73013d8c725a49974f13a1655588edae8f1186bb438bbc185d286b1482890",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/vendor-icon.cjs",
+      "bytes": 5417,
+      "sha256": "049f43dc1d2b88559f4cd4e04c0debf86ab973fa345c02131cf737d34f70bcd3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/verified-managed-install.cjs",
+      "bytes": 782,
+      "sha256": "89dff07a910024c187fb82b99d88cb4227c9d417ca994e343deee611db685b12",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/verified-managed-install.d.cts",
+      "bytes": 388,
+      "sha256": "1cd98522737431a7d5e7ba04f5e2e185ea2f14111f260db0cf03af0e4f98b26a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/windows-application-crash.cjs",
+      "bytes": 1353,
+      "sha256": "8ebcf12201ff8c58fd29804dbf06686ecbc0e96a7a6fd0f71fe1b7ffcc39a2d2",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/windows-appx.cjs",
+      "bytes": 1751,
+      "sha256": "475a546743f0de3e4e0446bec93161481c40d738224a262c5c6ec4d78d554e30",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/windows-cli-catalog.cjs",
+      "bytes": 19142,
+      "sha256": "bd24b9f019f1f367048ad320bfe598f6b9b96b4a4882d1deddea56cc40f7980d",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/windows-cli-review-decisions.cjs",
+      "bytes": 4024,
+      "sha256": "07fb17086c80170c178b8524dd1df55f658f20bdd7e47d0f2ed8e63f8d9fae87",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/windows-desktop-catalog.cjs",
+      "bytes": 59580,
+      "sha256": "fc3da2c0cec95af4dcdad5fe83d9fa0c39d98e5849d97351fd3ba668397b9ad2",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/windows-desktop-review-decisions.cjs",
+      "bytes": 2261,
+      "sha256": "d6d1fac958a2e411512decea72c37887013845ef1a219fd5efc39ae5f9ba9ae3",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/windows-installer-identity.cjs",
+      "bytes": 7881,
+      "sha256": "bbe2fb574465cfe30979b1409c32fe6a987f54e6f2caf24e709f894169dc84b9",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/shared/windows-package-manager-catalog.cjs",
+      "bytes": 18062,
+      "sha256": "b811a2445811ce1d9f5a27d219085c91243958c736a8d753e5035dac69ed4cd1",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/windows-package-manager.cjs",
+      "bytes": 6620,
+      "sha256": "33c5d0882df790657e9963483303ad0d30da217272e19c520be02e9a6c907014",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/windows-system-paths.cjs",
+      "bytes": 325,
+      "sha256": "1953a5bf60a1d44c06e19094203f4ff7ac383921d6fa62142d3c129bac914969",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/shared/windows-uninstall.cjs",
+      "bytes": 8141,
+      "sha256": "2df2f53ea3fb5a6afe085f998400d5f4787be764e3199cef6d5b5c6a8e914a50",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/shared/wsl-environment-management.cjs",
+      "bytes": 4442,
+      "sha256": "3cdbc361a533cc0a785fa3d3739a948a2300b86c9916a7233ee401f3084f8865",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/src/aihub-shared.d.ts",
+      "bytes": 1877,
+      "sha256": "f2458740d9a7f78333df32f0f4fdee5f6122de32e56b50607546aaa474b1c8e4",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/src/App.tsx",
+      "bytes": 425937,
+      "sha256": "d6c670aca1c0cbbe50867cbdaf5bfb1d319d53b4a8c31c2c93ba51e917ae4d16",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/src/catalog-localization.cjs",
+      "bytes": 204,
+      "sha256": "720a9f320b947ad865aef80a9aaea8e1f592c2514cd2791ee06c7c07cae97a40",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/src/catalog-localization.d.cts",
+      "bytes": 229,
+      "sha256": "cdbaaac9bd6d10e1399a998df9b51a810124fe31045ed3860dd14cc4caa208fb",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/src/data.ts",
+      "bytes": 5125,
+      "sha256": "9d5b68310da2354ce91369d8136377704c2cdedadbd988ad44d62bf6a567b07b",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/src/language/generated.en.ts",
+      "bytes": 23244,
+      "sha256": "c27feaef3cb52948fff81fde8af74b7a6b9ff1dac076b8d17c69b386425d002f",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/src/language/generated.ts",
+      "bytes": 19898,
+      "sha256": "c97a76586ce526a10114ab777d94a726dfe01c86ef85c389ba5888f36830dcce",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/src/language/index.ts",
+      "bytes": 67564,
+      "sha256": "77b634390e0e0b79098898f4cbb2619cbc70e52e0b7697e73215ad197513ba6d",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/src/main.tsx",
+      "bytes": 231,
+      "sha256": "2dae0f9e6e34f4d3798f3dfdfc4afb700732eda06ef4369e51a6d83700694c64",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/src/resource-store-presentation.d.ts",
+      "bytes": 1137,
+      "sha256": "6696a01261cf3d3fc2f7f0c779728c064ca5d131a2e1f1e0cd5848b69f5fe78a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/src/styles.css",
+      "bytes": 63958,
+      "sha256": "e7fbaa3106d30dd7d73ad1b0c7e96cc4e4de47c0d81b63d4d17d6db881c9554b",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/src/vite-env.d.ts",
+      "bytes": 39049,
+      "sha256": "96f251dd7e84b59c14ce2db5329275c5c3093b1b0bc2e23be6249846fd3d2ec2",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/admin-community-management.test.cjs",
+      "bytes": 5648,
+      "sha256": "7ba509e014ee8e4e37d2e0736889f4de5bf0f8c3d2c632305b2627b6ddd8cbc8",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/admin-config.test.cjs",
+      "bytes": 9929,
+      "sha256": "43f2b61c865196ef955703c48d9d380c840f2ef260ea218b62b3a11c1742079f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/admin-draft-sync.test.cjs",
+      "bytes": 795,
+      "sha256": "4e471f4e3f9c715aa8360211d7c37324f368ad2285e34b69def9349719b3f3cb",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/admin-ecosystem-resource-ui.test.cjs",
+      "bytes": 5525,
+      "sha256": "6c3d7d1bb8f45b03bd5b53337fc4dd9e3faa132c2ee4631f42489e446b2fdfc8",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/admin-product-entry-module.test.cjs",
+      "bytes": 2092,
+      "sha256": "a41b247cd5d913d8e539379dd7119a30f68234b40bc845b2a66d3f2cad405db0",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/admin-read-only-mode.test.cjs",
+      "bytes": 3251,
+      "sha256": "628788caaa11461038a7ea81700755376cc98bc2b40829c2a9ef3c403b923203",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/admin-release-store.test.cjs",
+      "bytes": 12974,
+      "sha256": "920b1ba9fa79310a97059c0fa420af5c521d1367f8541205c769c3e8a73f939f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/admin-request-body-limit.test.cjs",
+      "bytes": 1869,
+      "sha256": "e512de42bcc8dbdba77feb575dfd5bddeb9ac10faddafd95020573b5f5be17de",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/admin-vendor-icon-store.test.cjs",
+      "bytes": 1566,
+      "sha256": "0a9a024010b5cf31490da25e60be0ca9a31a24f301b8cba4547254b4820d32f7",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/ai-connectable-expansion.test.cjs",
+      "bytes": 11624,
+      "sha256": "a8b42d1714ff284059b55f0407b3adb08e1fd0b3c62133d2049272c63de4b40a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/auggie-wsl-cli.test.cjs",
+      "bytes": 9468,
+      "sha256": "59728179162a949799febd12e44a2e57b1481cd94dbe57c9ce06de2a3bc62cd8",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/avatar-image.test.cjs",
+      "bytes": 961,
+      "sha256": "6dbcc63375b904b9c013e76e4c6201b2af38ad2b71314595cfa6250c6b2ab418",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/avatar-write-boundary.test.cjs",
+      "bytes": 1181,
+      "sha256": "aec7ddcd3705ac44839cbd216b5689d347d26f52c9c989b2288682abf0a845f0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/brand-contract.test.cjs",
+      "bytes": 1478,
+      "sha256": "c7d7b203638263a4c3cba7b62dd9d5436b9f6d7a4419a28087a8c50489ce9158",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/catalog-active7-state-activation.test.cjs",
+      "bytes": 5293,
+      "sha256": "eb161aa997f5a39c825e92daba0298560f773ee811b5e09f4a300e202c121da3",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/catalog-backlog-closure.test.cjs",
+      "bytes": 4797,
+      "sha256": "2b486c6775a863fa34bd901dee7325a17fd7b5cbae51c3d9d777b2f096697f0a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/catalog-categories.test.cjs",
+      "bytes": 4153,
+      "sha256": "7bd2c662d3f30d67d2dfdb3e961827224247fcb2024f917d63a147b1386575a1",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/catalog-channel-contract.test.cjs",
+      "bytes": 1329,
+      "sha256": "9d008567306a74cfa744db97a50089353900d27ca0cab27cc2f1424cf3ebddae",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/catalog-client-channel.test.cjs",
+      "bytes": 6402,
+      "sha256": "3b34a797d5764470f4f30b4ad029469852f2b81a441fbe936e8eedd0d5916833",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/catalog-completeness.test.cjs",
+      "bytes": 26245,
+      "sha256": "b6228c051f4e88a05e231e5491bb4be78d6b949f0be9bfd93c741f7365688511",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/catalog-discovery.test.cjs",
+      "bytes": 5068,
+      "sha256": "ab34dd5f6d74a17e265bb3054c3af16168e5b171c610aa753f306b5f37e2b3c1",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/catalog-english-content-a-active7-candidate.test.cjs",
+      "bytes": 8980,
+      "sha256": "8fa0956ccff6ae9a11f451c3140590c19873270a4a96db3bb2b578cc5cb53b54",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/catalog-key-retirement.test.cjs",
+      "bytes": 11452,
+      "sha256": "f7efc317db065576ae4f564e2ba0d5ef0430c5405d73d0f88ae08dc065143784",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/catalog-localization-contract.test.cjs",
+      "bytes": 9098,
+      "sha256": "0de0f3266df3606b10a5eec56b907179cde14cc098808d1ce62d0c42cbfae7fd",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/catalog-localization-renderer.test.cjs",
+      "bytes": 2696,
+      "sha256": "375cdddb8881f3e2a9eb7c8226b425b8aad302bd2c77623ea374633b9bc64747",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/catalog-localized-v8-signed-candidate.test.cjs",
+      "bytes": 7241,
+      "sha256": "df55a618bd9587da2b1cb1057ad5b659916c3f837d552ca5a0ddeb91e2c7b21d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/catalog-maintenance.test.cjs",
+      "bytes": 812,
+      "sha256": "7e7766516c3d5e3c84f03e72225eb7e8a0e48a70e3c52a2c7eac3aede802ef8b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/catalog-policy.test.cjs",
+      "bytes": 15589,
+      "sha256": "f9fd22d2258711ce702d8395e3c18c6cfadd3e0a4707dbf9022ba7256513d83c",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/catalog-projections.test.cjs",
+      "bytes": 3762,
+      "sha256": "fb75469e1c371d76c3a552cb8aa759215576a5a64b64663a10824c7205b9a9e3",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/catalog-release-icon-compat.test.cjs",
+      "bytes": 2461,
+      "sha256": "84c12306888db1b24550727d79d9939fd6ae3387c05ca48fd16e56b6073ded89",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/catalog-release.test.cjs",
+      "bytes": 8352,
+      "sha256": "fccdc2db606197def0aca59673175b4ae114d23ea1c78bd59a6e88ff09d110fb",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/catalog-runtime-policy.test.cjs",
+      "bytes": 945,
+      "sha256": "065e8d2c39f85a1d5ecc2010fe5dbb1cb886c8339f89218eb4a47edad8a2bffb",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/catalog-search.test.cjs",
+      "bytes": 7339,
+      "sha256": "c87411e63345ea15636f6e963f90fc31612a722a03384dfe7a3bbb2f2779f9a0",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/catalog-taxonomy.test.cjs",
+      "bytes": 2831,
+      "sha256": "84795b637c37bd62bc84a41e2c138e6bfc0fc384dd30843c9db8ab8130d1a770",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/cli-agent-coverage.test.cjs",
+      "bytes": 2836,
+      "sha256": "f5e703fcd596a802cec9719d7132197654566a083976271ec5546acd42a0945d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/cli-driver-registry.test.cjs",
+      "bytes": 5182,
+      "sha256": "907f72395f098ed205956c330504b1d493cec4d1ffba701f3f2ee58cb6b07ddb",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/cli-fixed-installer-intake.test.cjs",
+      "bytes": 2779,
+      "sha256": "867a011228e1b71c803e2c0cd1e80680bc7ef99c662f106bae86e1b27e0380f6",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/cli-system-discovery.test.cjs",
+      "bytes": 753,
+      "sha256": "2e245370e577e2d641943b42d1db84f6340b1c2c56233eb3176663a39c205036",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/cli-terminal.test.cjs",
+      "bytes": 2633,
+      "sha256": "4e9566b5e82dd3e86b1fdead3902a4de0cc51c29fcc6ca2b317e3d4383010cba",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/client-identity.test.cjs",
+      "bytes": 1634,
+      "sha256": "4254028910eda02ab2289676e6774e53fc9a003e01c0d350e2cc3cd08a39d89f",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/client-services.test.cjs",
+      "bytes": 3233,
+      "sha256": "d16dba127768f12d1c59dba58b791d0efb33c0d2d21dce86f25a8cdd7a8b86e1",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/cocoloop-skill-intake.test.cjs",
+      "bytes": 4170,
+      "sha256": "f353120cf4d43195bd9be0dce08a7fb6cabf9705611a2ec654632afd37efb40c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-caddy-root-secret.test.cjs",
+      "bytes": 12853,
+      "sha256": "8db057c2684dde6bbffa10720b7b6d5bf25d86d398ce02f2fb1f0d75a8e5f126",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-caddy-secret-issue.test.cjs",
+      "bytes": 6507,
+      "sha256": "3a172d4401b26848f58152eea1d24e9e68dbabc8311e37ee4cacb6d1d91140f9",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-embed.test.cjs",
+      "bytes": 6470,
+      "sha256": "19a02a2b314e121e447861445fedd842f96bb18b4f432b5642d9610e4bba612e",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/community-management-bridge.test.cjs",
+      "bytes": 2765,
+      "sha256": "5a0112aa387022e7f7ad93829d3dd93367a13e78fbf18614d72273f8fbfb3c2a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-public-contributions.test.cjs",
+      "bytes": 9697,
+      "sha256": "91a7488536f9efb1548caa98e136802deb0b79e61ad25eb7a7f68d5e32280e7d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-session.test.cjs",
+      "bytes": 1185,
+      "sha256": "5e9f4e8685daa7876b1ddaf210f96d5a721812c5179500b4d79c5e66df74aa4f",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-skill-batch1-candidate.test.cjs",
+      "bytes": 1605,
+      "sha256": "7cb9d37444f1a2181e965ef4bec1b4b810efa96f33d8fe37c0c873b5ac68a30d",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-skill-batch1-complete-candidate.test.cjs",
+      "bytes": 1829,
+      "sha256": "ef1798d041b4ed3b853df8b5dd5d7400f7f027048c732b0658c440b9e06c591e",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-skill-store-batch2-candidate.test.cjs",
+      "bytes": 5561,
+      "sha256": "ae4c2cd28140c7de9e0512ec893e0391cab4a7f00f66d49741c92c9f071af093",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-skill-store-batch3-candidate.test.cjs",
+      "bytes": 2102,
+      "sha256": "c2584ca576d1c7d0bacd4e8132c551b9c2fdd4b0e3eb495920aad79a0c55273a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-skill-store-listing-batch1-candidate.test.cjs",
+      "bytes": 6550,
+      "sha256": "c79770fc3d1f36277461b9976e8722efc3cc200e8eaeaa078af25bae3850c493",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-skill-store-listing-batch1-canonical-merge.test.cjs",
+      "bytes": 6492,
+      "sha256": "9e8e795d3a119bd466e71c55395574911e5c433f1e400256a340a9515dafc7e2",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-sso-redirect-contract.test.cjs",
+      "bytes": 1901,
+      "sha256": "93353410e88ba542341ae57be6d9343d34edbd3f56b243cedcf493e06055f4bf",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-workflow-composition.test.cjs",
+      "bytes": 8155,
+      "sha256": "912b65735c57ab537f3d959a2231fe8893653a44fca1b9824336db3756657af7",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-workflow-persistence.test.cjs",
+      "bytes": 27906,
+      "sha256": "5be5ebdd731411a123da94bce4c19c9be949e4b7e5c4735349fea06a4042b6a5",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/community-workflow-store.test.cjs",
+      "bytes": 15852,
+      "sha256": "d54e834c5d62204cf549e1bc9efbd9c8a939717d7165a016bb49ec802b5672e4",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/connectable-vertical-expansion.test.cjs",
+      "bytes": 10220,
+      "sha256": "079e105b800d2d8471e733933968851b28af0e765a758cf7598662b19673cf1b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/core-desktop-installer-security.test.cjs",
+      "bytes": 6403,
+      "sha256": "e1a8745a78b1476bfd8faea9973953116ca669bbc5b106a1e38a90996257ef80",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/desktop-acquisition-matrix.test.cjs",
+      "bytes": 10116,
+      "sha256": "2dc903e1284c1fb342f794c5903f1de21a8221230972674abb43b229cc6ee9ea",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/desktop-acquisition.test.cjs",
+      "bytes": 6039,
+      "sha256": "c21f9caa7f60c065ff64e0d2b80d862612c9ad54f1f815de2c0460e22d6d3bd8",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/desktop-detection-catalog-priority.test.cjs",
+      "bytes": 8722,
+      "sha256": "33fdb1e6e23789571c321270f27179e941566815168414b64984e8a47f12ddb0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/desktop-detection.test.cjs",
+      "bytes": 4406,
+      "sha256": "96e3d3038f2c14575a79749c0f34b7d67a2b5e804ab68a4451c53b655444d7e9",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/desktop-installer-launch-policy.test.cjs",
+      "bytes": 4271,
+      "sha256": "07ffc70844718bc1dde807f2944db297228cab755d952e9cd6b20ee08b62695f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/desktop-inventory-presentation.test.cjs",
+      "bytes": 1515,
+      "sha256": "f2a0a9aaf2c03147ba5d7ffb04b032dc43ee38d18d27529e37c5bf3fe0e8a0ec",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/desktop-lifecycle.test.cjs",
+      "bytes": 9820,
+      "sha256": "552d068022d8ae1fe20a10761342654ea1ea3bb770c679ba2f1ad8fbbc65d8ba",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/desktop-operation.test.cjs",
+      "bytes": 25536,
+      "sha256": "f7c1d91df460969cbcf437f893cff4f99a69987e3f65aa7827f32a8ae8e8a31b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/desktop-source-audit.test.cjs",
+      "bytes": 3122,
+      "sha256": "024b902e1cb93006409cdab5e27e4392ebfb8d119fb39172209a0f192a69d484",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/development-catalog-preview.test.cjs",
+      "bytes": 3515,
+      "sha256": "5fc4149507c4ad687fad8c70a9258ba31e16c638c9a1fd362f2b3173451fc73b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/discovery-review.test.cjs",
+      "bytes": 8809,
+      "sha256": "b8f4459c84d086d60fdf06ee8ae50e483fa25b4c09026fbbf0e9042fc0972b56",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/download-resume.test.cjs",
+      "bytes": 1633,
+      "sha256": "0fbda36c2cbd74f9647185838b05996d14577ed01d2da2d98ff6dbf25e07072e",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/download-space.test.cjs",
+      "bytes": 2252,
+      "sha256": "58546b4d095a2c5fe63b0da5e8afc624cca2e4d0c31dc48c452704cd1acbc786",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/download-task-presentation.test.cjs",
+      "bytes": 2914,
+      "sha256": "dae6ffec3166eb94ba5653c70af4e062df877aaeda0c86576898562f14dd30c3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/download-task-recovery.test.cjs",
+      "bytes": 6304,
+      "sha256": "9fc32a4148d0ca804f37f61b4f64cd8714a3c4223910752eb2470ab65d1eb9af",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/download-task.test.cjs",
+      "bytes": 15954,
+      "sha256": "d65f7464ae08aac8b8125cf894da2e32699e084d30bde33cd118c25794a712ff",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/downloaded-package-action.test.cjs",
+      "bytes": 1355,
+      "sha256": "37c86cd3e442010bec949de0bdb43e9e296967453956f28d8c87ae5775f5c610",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/ecosystem-resources.test.cjs",
+      "bytes": 7914,
+      "sha256": "5d8aee14d46767a7032df6ac6b1249925b8c0aa1b0a86e9aa1a2f77d4a74fe59",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/ecosystem-store-contract.test.cjs",
+      "bytes": 2378,
+      "sha256": "2c6539f66a70313f33915440f675f9ed4ccc5f5098a09b6e2b68b00b6b14c97a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/electron-builder-package-gate.test.cjs",
+      "bytes": 1552,
+      "sha256": "8711275274a7bbc3de34ec3ec91cb6a3dec2a4e764998874cd705f33cb4e4fdc",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/environment-detection.test.cjs",
+      "bytes": 7248,
+      "sha256": "3db951ed68880de5815da72d0235bf426ea84863e6073eaf956a208935c96dd4",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/environment-download.test.cjs",
+      "bytes": 4403,
+      "sha256": "5d944e4948eb21b923a436c5a89632344c3bdcc868e57a40a8b863ce9c21809e",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/environment-install-flow.test.cjs",
+      "bytes": 2355,
+      "sha256": "fe00bf79b571ae1d9a00ff080a6439e4a6494dd4326151341bb920d65e4f5921",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/environment-install-orchestrator.test.cjs",
+      "bytes": 1392,
+      "sha256": "4eb262fe3594965f1e80d1864aa7e3499bc637b3c70a133898eede6c2af50e9d",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/environment-launch.test.cjs",
+      "bytes": 1698,
+      "sha256": "b4af9c30b31c516369440cf4d03c343583032399550e00ccd13836987a3fcb0d",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/environment-operation.test.cjs",
+      "bytes": 11552,
+      "sha256": "acaa9d4b6935f3bba4eb0b397486d9526e0c9652f4e0c9036072f92a0bbc3457",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/environment-registry-query.test.cjs",
+      "bytes": 994,
+      "sha256": "2091c0609710741eea5943b61e73c1d68771c5e113cc1d1962ac447ef8e83a64",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/environment-update.test.cjs",
+      "bytes": 1159,
+      "sha256": "293cab21c98e06dbef8b65dc993f64e3c215b5c0870252cd14ceb4cee622e737",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/extension-claude-mcp-runtime.test.cjs",
+      "bytes": 7492,
+      "sha256": "b88039e1dd202bc22cd9ca6e86e700704c8e420da943baf8c92360b5a9883627",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/extension-cursor-mcp-runtime.test.cjs",
+      "bytes": 5442,
+      "sha256": "c6820c10c775689777a90948087d5839494da73072e89837dce9aaba2f90c86c",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/extension-host-discovery.test.cjs",
+      "bytes": 3771,
+      "sha256": "97335f6bf76ea25a1c531a6ba86a0f1e8d47e08708ceca8ec8af04061fb5c031",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/extension-host-targets.test.cjs",
+      "bytes": 2204,
+      "sha256": "8f3335ae24b451cb0b1ce3fc474c8bf5e729b0f4261e5da9fe79605164f13c4c",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/extension-ipc.test.cjs",
+      "bytes": 8612,
+      "sha256": "a56a687593bd19873dbdf66797ca68584af250f961b480a891d44f02c23af466",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/extension-mcp-runtime.test.cjs",
+      "bytes": 6548,
+      "sha256": "da1e2b708dc2fce634c0dda0312cc4d05025ef6358a5c0d69e6c9eb6135c4cee",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/extension-mcp-targets.test.cjs",
+      "bytes": 1581,
+      "sha256": "5f9765dcd7ab48242e99f3087fc68321be5f8c219f368129a8ff958ecb8e5c37",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/extension-plugin-runtime.test.cjs",
+      "bytes": 13844,
+      "sha256": "a96a4835b2adff7e40d83a9e6ed3aeb4cb9cc024dc1f3c6610163ba014701dd1",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/extension-resource-manager.test.cjs",
+      "bytes": 6401,
+      "sha256": "60f29e807b069fbeb94117bbcc602bf1dc0b73187a1db04389d45d324400386a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/extension-resource-snapshot.test.cjs",
+      "bytes": 2703,
+      "sha256": "ef8792ab1988f7aeb9ba03e930d685176cc01702d603802f139325816f6b5d9e",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/extension-runtime.test.cjs",
+      "bytes": 18000,
+      "sha256": "22d9312778b00278bdefe450b47cd00290c6eebfc55c17f3ec570bf7728ebccf",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/extension-zep-docs-profiles.test.cjs",
+      "bytes": 1582,
+      "sha256": "d165b31e26d138a485c11eb1c2534505a06eae22c1223b6ee088d9a7fc6cf758",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/fixed-cli-lifecycle-renderer.test.cjs",
+      "bytes": 2359,
+      "sha256": "fc5985f4b88145815ff1b7b58ab13e540492969f44fa9654944ff8f610cf1ef4",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/fixtures/catalog-english-content-a-active7.authored.cjs",
+      "bytes": 123795,
+      "sha256": "2bd9380a70b2d301eb55e7521d6612b18f6f429fb5de8f1129310a0fc3afbf19",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/fixtures/catalog-english-content-a-active7.expected.json",
+      "bytes": 341,
+      "sha256": "810ed48c1dab4cee6df97094176a74c5176e54c10fc790ddcd7e267f24e3c3b0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/fixtures/catalog-english-content-a-active7.translations.json",
+      "bytes": 59295,
+      "sha256": "77de5d59539545397bdad823f073f8480857e7f98cbd7b95afcb238e7d091136",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/fixtures/desktop-acquisition-executable-evidence-matrix.json",
+      "bytes": 1457,
+      "sha256": "ce8031ad80dd629ac815602426987e003068eee14ff59ca9268d2923b512c0e0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/fixtures/desktop-acquisition-user-report-matrix.json",
+      "bytes": 344,
+      "sha256": "f0461b6122dec68d21f814bd9cfe2a02d7416131c5cac8b3ad615c5debc761fa",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/fixtures/resource-store-localized-en-content-active7.cjs",
+      "bytes": 41906,
+      "sha256": "4814c0c9d6fb10260dfecf930af67ecb4467eb79c43f8bd322b3202e0b3b6b30",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/flarum-migration-entrypoint.test.cjs",
+      "bytes": 2241,
+      "sha256": "87b5a5e78ec6fcdbc7b382417c4343af411ca85f19942ab90b1cf1a01dc40673",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/flarum-personal-center.test.cjs",
+      "bytes": 4272,
+      "sha256": "81290ff70d983aabecacb120382c973ad3217a4e8766534557f46bf1c9b9a0e2",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/google-app-desktop-intake.test.cjs",
+      "bytes": 3076,
+      "sha256": "0287e43d39ab9efced2635cc065a86c8f59f38994120926fb6776c733020ef86",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/home-carousel-assets.test.cjs",
+      "bytes": 1112,
+      "sha256": "652eb00bb15ca60b89828d349fd77eb7d012b875a2a0cf7150c160afe93a8a3f",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/home-carousel-presentation.test.cjs",
+      "bytes": 2276,
+      "sha256": "ef2f32478f4f417758c5578596fe94146367b758a486705c1b136380793f5800",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/home-carousel.test.cjs",
+      "bytes": 3883,
+      "sha256": "47520e276500472a1e6eee5044dc20ce68ca2b7bb5dd5c0de53d59869d9f68c7",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/identity-migration-database-contract.test.cjs",
+      "bytes": 3063,
+      "sha256": "f700ac3fe42f308520ab2106ab5363619fd1346b9e0f1c221313b2ca6fe68d6b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/identity-resource-submissions.test.cjs",
+      "bytes": 16307,
+      "sha256": "b27801af1ffc47ad214e75a3086b8dd448fa512c1ad964c5e44e8cbdbab3e229",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/identity-security.test.cjs",
+      "bytes": 1245,
+      "sha256": "5e16d17227572f33dae4125dfc1e02691f5c1ba40d37189999a89853f3fffade",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/identity-smtp-config.test.cjs",
+      "bytes": 1181,
+      "sha256": "aba66cae4314c9b1a9173c27cf4617ef267c223509683572e48ce14119b97484",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/identity-social.test.cjs",
+      "bytes": 14040,
+      "sha256": "d804ea3202dbf559a3c126d961e4c59ef3ff5841fc1abd9b8494c0b1dbe060c7",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/identity-source-image-closure.test.cjs",
+      "bytes": 4196,
+      "sha256": "978a1e38caa903dace9abcdfdda45f766177a43f285e0b5ef3dc6ce9f3fb6683",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/identity-workflow-resolvers.test.cjs",
+      "bytes": 7327,
+      "sha256": "a7dafe9c1e4c92a2bb3af53c4ab1a204e1cd9833b7e5fec98f0d21dfb0fa642e",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/install-monitor.test.cjs",
+      "bytes": 2168,
+      "sha256": "572e859c5c91909702fddb0318023e32ce0db973e477e0196e8107bdf8f6bb2b",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/install-verification.test.cjs",
+      "bytes": 17049,
+      "sha256": "0db3dc482f3610efdb1ddee9bf5cd4a3badc94d324b70a7909973882412e527c",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/installed-product-management.test.cjs",
+      "bytes": 26017,
+      "sha256": "ec62f71cf0f57d83f4b772fc1afa04bb8e9f735639b34d435f3ce0ad5bb3fd1a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/installer-launch-path.test.cjs",
+      "bytes": 2323,
+      "sha256": "bb0eba8a678ff3cd95e8dd6c4a9b76d4d93801d01f3165db358fa3adb6e511dc",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/installer-launch.test.cjs",
+      "bytes": 5231,
+      "sha256": "793fa0840a52ce20f499fb8940ef26bdd88787a466a3c41343bccdaf6db229a5",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/language-module.test.cjs",
+      "bytes": 3595,
+      "sha256": "74c3f7748d60b12809ff57fbadc7443f3bbf5cdeccd9f11c7c4502f3f807684a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/limited-response.test.cjs",
+      "bytes": 1976,
+      "sha256": "c02f5ab02971b54d14a3c37ca97c558d0b69cf0f58d9b284fffac62cf4173517",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/local-agent-bridge-ipc.test.cjs",
+      "bytes": 6225,
+      "sha256": "b4f818371b12dab0bea164a1b0c9e8e0c5c67811564fafb2cab05b7db92be300",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/local-agent-bridge.test.cjs",
+      "bytes": 16540,
+      "sha256": "98fd8ed85da36108a53e082a3d29d0d987668ec0f772519f06418b5dc1516931",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/local-catalog-proxy.test.cjs",
+      "bytes": 1081,
+      "sha256": "1a003e1e42ea8184898c925b8b48bbfbbf7d2d49ed4a3dbe31fd8df2facfa6ce",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/local-release-artifacts.test.cjs",
+      "bytes": 1830,
+      "sha256": "a4d3646f67118d5f08c9181cb48e73b6d3019126277a03df9934c2630b116462",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-certificate.test.cjs",
+      "bytes": 1522,
+      "sha256": "d2c4111843d4d444ffb91f34258b2f07bf2a9ae28b13c70557874193ffed46a7",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-certificates.cjs",
+      "bytes": 3334,
+      "sha256": "dc9a740357b28c45e2abe3bce908f8f9df257223a994d912c92c94a7ac7637b0",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-command-result.test.cjs",
+      "bytes": 4077,
+      "sha256": "1d7a36ae63e3882f17021e603997776c114091d2ad671da5e696189dd16c02ea",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-delivery.test.cjs",
+      "bytes": 22831,
+      "sha256": "e7aae6f0dd5ca33ea3bf142aefa72a1166cebf64498fd13f2e6bd7b2e16f059a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-https.test.cjs",
+      "bytes": 2545,
+      "sha256": "765a52e2f69b115e0a70ce4df61c7caa108181651997395acd1e68be2cde6b37",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-retention.test.cjs",
+      "bytes": 2528,
+      "sha256": "a5acfe12b522fe587db2b658119b060702a90937630472976d8e257175649e3f",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-transaction-receipt.test.cjs",
+      "bytes": 2237,
+      "sha256": "4b43711684a266355de1e8685ade6779151d85992c05fb88c8e58b674c87b774",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-trust.test.cjs",
+      "bytes": 4965,
+      "sha256": "19f007957f31dc9bbc2944f5de361a3a97add4087a9053a5dfa638cfbc25a3fa",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-upgrade-journal.test.cjs",
+      "bytes": 12622,
+      "sha256": "6faac1a51f56576183ab440f305888a81eaca07130c82a5c8797e74609a29521",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-release-version.test.cjs",
+      "bytes": 14344,
+      "sha256": "c579b8762ecb81aa214842a46323824456f5a18b41a3290a4a7ffa1f987f5cae",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-service-image-transaction.test.cjs",
+      "bytes": 3107,
+      "sha256": "d7dd07cab57994b1b385bdd94fe9056beae528462bdf912b734c5b6b7a77e85d",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/local-service-release-policy.test.cjs",
+      "bytes": 10392,
+      "sha256": "38b0df7a1d9b7b7a2f351975219d99d788ed5966262f74a2f7ad0f45e84ae628",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/local-service-topology.test.cjs",
+      "bytes": 4138,
+      "sha256": "a43c8df8fb9ff70babfa786cb5d614278f35726aa57217bc87fcea9f5ecf0333",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/managed-binary-cli.test.cjs",
+      "bytes": 13719,
+      "sha256": "fb2191163f8a45140a092226e21292e7830d662ee7656863e384a477d4fa4d4a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/managed-catalog-install-authorization.test.cjs",
+      "bytes": 10175,
+      "sha256": "1ad7f46305da7c55dfa92038e4a99f1d906eb12a0d3d432def07d36c5bf7f37a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/managed-catalog-resource-authorization.test.cjs",
+      "bytes": 9339,
+      "sha256": "e1d0c20b6818f55005d7abcd59f1bee8e566d6dcdfe7e3c7d1456507019e1da3",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/managed-cli-lifecycle-candidate.test.cjs",
+      "bytes": 9758,
+      "sha256": "25af79dcd5ad155e0cc8c6d55d13eb4aa7a43662f907bdd2962ebce02490159a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-cli-lifecycle-ipc.test.cjs",
+      "bytes": 19571,
+      "sha256": "89b640fbc0eeb790fb7d13d7779358cff7f7c1645c5a63cc47a98f653cb22590",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-cli-settings.test.cjs",
+      "bytes": 4531,
+      "sha256": "55fd3c80ff0f432046633cfb53752ecf05f219c7a15f722bed6daae83807b0ec",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/managed-cli.test.cjs",
+      "bytes": 23187,
+      "sha256": "75bae22aeed6a501b86d0cc1be662c7905ee06b5b353fc9d71830f93a47e06a7",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/managed-download-electron-lifecycle-probe.test.cjs",
+      "bytes": 4996,
+      "sha256": "beacd8a2255b308810906bc7cafba386a980d968162b5bfdf42dc0185e02a475",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-download-network.test.cjs",
+      "bytes": 28627,
+      "sha256": "dab105c6b3028c47a2aa38bfe434d3d4d831be92274db9c0aa9fbb5fdcb5733f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/managed-download-queue-ipc.test.cjs",
+      "bytes": 32109,
+      "sha256": "7c856be5d2f9014a6894d9c4b975bd628002af31e5de725539632fd5fdf164a3",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-download-queue-renderer.test.cjs",
+      "bytes": 2127,
+      "sha256": "af32e60afa62488a3f6083972d0c25c1d60a0d8039141f4fdbe3de3a2920fb76",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-download-queue.test.cjs",
+      "bytes": 9879,
+      "sha256": "4dc1d28c726521a3f4cf570f785662242f740e3f884e92f158e251af14d0d240",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-download-refresh.test.cjs",
+      "bytes": 12514,
+      "sha256": "52ed223904f4554b695f86b47cd9bfd3d9385c62f49df081ae27d40406d072fc",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/managed-download-reliability.test.cjs",
+      "bytes": 4357,
+      "sha256": "bbfc34e198f41be7b21f8dac8a25a3d212308310b10f9733aab1e8442b4637a9",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/managed-msi-cli.test.cjs",
+      "bytes": 6212,
+      "sha256": "758776ffa21d20fee0eb303d01ab2061bf6f06013e22677c41a7b374d209456e",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/managed-portable-desktop.test.cjs",
+      "bytes": 10346,
+      "sha256": "a45b9716d28891fb450722d7858a2d9b415c001c4c9418b40ac8a47ef813abf7",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-portable-files.test.cjs",
+      "bytes": 13362,
+      "sha256": "ea09d9853f1da0b873a12cd38520e50756a226c2e4eabc4155cd0e5fb1fa10f4",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-product-action-context.test.cjs",
+      "bytes": 6158,
+      "sha256": "eac4e15115542558055ff94a55332bfdd6f353482db4080757856415d9110894",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/managed-product-inventory.test.cjs",
+      "bytes": 1249,
+      "sha256": "fcad805cfd9731e39cec7bee8249dcc934c30a5cf278c31e2636ec8544ae2172",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/managed-python-cli.test.cjs",
+      "bytes": 5294,
+      "sha256": "1a05c9cae66c72e19fca47cd6ea513226c9de74367fff07800bcc8a1c7b0c086",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/managed-registry-desktop.test.cjs",
+      "bytes": 10039,
+      "sha256": "64316ae7513556f67a32a6c9e58b6634c64ea9a71857a9d9f0e89bebac0494c3",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-resource-isolated-acceptance.test.cjs",
+      "bytes": 12257,
+      "sha256": "372b714d0743d7c422b6ba1bbacfb03e8be05c47c61a659b7507a8f749bb7c27",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/managed-wsl-cli.test.cjs",
+      "bytes": 7387,
+      "sha256": "6065ff7e9c7e4153360331bc73c69557d2c405d3ece39782b4de958de0fa80bf",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/microsoft-store-repair.test.cjs",
+      "bytes": 3475,
+      "sha256": "15fde1251126b4da6ef3cf0d0f00cfb6cc7d982302785094eb4aa67dc1190fc0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/navigation-back.test.cjs",
+      "bytes": 1240,
+      "sha256": "03bc791b8dae9e37621ac19c5f3e05f4b05b0c49d275892026dc126685571665",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/node-runtime-policy.test.cjs",
+      "bytes": 1561,
+      "sha256": "90c3b7cee7e2a3a24e87c0eb4245d10a83da1d2b25a9dd044a805ba2a83a4db2",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/openclaw-companion-runtime.test.cjs",
+      "bytes": 3147,
+      "sha256": "1a63b4e012dc7a4a71ba4209bf45e5bf4ca43b794aacc3117f79274073016b5f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/packaged-client-acceptance.test.cjs",
+      "bytes": 41148,
+      "sha256": "59237ca4fc7162e065ef7e634463c9f7625b7d32ba7d7118b7f7e3b2bd302107",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/packaged-managed-download-fixture-gate.test.cjs",
+      "bytes": 5515,
+      "sha256": "912942ee16904fa9fd465de2e836cb894380ddf6cbad814f25fcd919ee96687a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/personal-center-theme.test.cjs",
+      "bytes": 2446,
+      "sha256": "b80898ab1c03e3d154fea3ed7a85be56c674397b406e18bea8715fd665c93615",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/platform-support-admin-candidate.test.cjs",
+      "bytes": 3572,
+      "sha256": "f81959ed2659107352c9fdf55349eda3eb17149d5346dc0cd68d5ccb53baf02b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/platform-support-batch1-candidate.test.cjs",
+      "bytes": 6225,
+      "sha256": "041a57217478eff1681e5a3580ec42406a2759d07cb11da46c0e1cb92cfa7cdd",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/platform-support-batch12-candidate.test.cjs",
+      "bytes": 7815,
+      "sha256": "303bfca03afa7262e4edb6af9134079b97c233f2b9909c0d55a884474bb174e4",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/platform-support-batch123-candidate.test.cjs",
+      "bytes": 7807,
+      "sha256": "4526cf7ee232eec12bf3a47cd537b847c95aa0ae1cf324911d0c54090b19fb95",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/product-certification.test.cjs",
+      "bytes": 4767,
+      "sha256": "9e9b50ce079a98a49bc90b34c2f8c3ff96b0a2e285f418541d684e877ba59e3c",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/product-components.test.cjs",
+      "bytes": 1824,
+      "sha256": "7bae980cc908bba3b25607c05a9f334f59edb02b436cecbe92ed15f6791c8bf3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/product-entry-points.test.cjs",
+      "bytes": 4034,
+      "sha256": "ad7921bd176d941cbeeae35ad37d885001dd2006dd8e4f56aadcf2bf3f6da75c",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/product-entry-ui.test.cjs",
+      "bytes": 7941,
+      "sha256": "3f07e8821fe1ee3ae52899aa6b579b061d75c8bec668aeaf0ad8c459d0755c91",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/product-install-presentation.test.cjs",
+      "bytes": 8278,
+      "sha256": "a4696f06edf539aa51108a79d7f57e9b56659ffeed676a7c0e886612b2e039c1",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/product-intake-dossier.test.cjs",
+      "bytes": 4770,
+      "sha256": "e4d8988a806499b7740ab7666926ec362e9298e0ad5d0a0cc717754a7e28c81b",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/product-modules.test.cjs",
+      "bytes": 7629,
+      "sha256": "b8e5d093225dc0cd7689f6b1fc8c76244fdbf01db79563386c9ddd28d1b1a88f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/release-bundle.test.cjs",
+      "bytes": 12166,
+      "sha256": "d4785319c6979f331d076d1965def99f734528d0b7a297936acab60f1845e6d4",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/release-channel.test.cjs",
+      "bytes": 2966,
+      "sha256": "0a8236601d6f636d0b0550f4b4c0fb730a3752dd276d05cb1b3cb463f19bbabb",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/release-package-policy.test.cjs",
+      "bytes": 6059,
+      "sha256": "924cf6655a78caa3993113536085c56a10ea815bdf90dfa09d57c99993ee48c1",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/release-provenance.test.cjs",
+      "bytes": 5020,
+      "sha256": "301846fda595c67656200d3ec5b29a1e9cbf7d07eaeb6fc97860fc7d6905cfdc",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/release-response.test.cjs",
+      "bytes": 982,
+      "sha256": "3ba7eb9c10ab3fa26f1d7bfbf99e7106ff3d06a2bcff6a64fc5cc3e0417a5b5f",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/renderer-dist-closure.test.cjs",
+      "bytes": 1966,
+      "sha256": "349f11a457d3f4c3870c097e248c8039eb2ef34b9b7fb5cb7aa9a59a9abdccc8",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/research-backlog-finalization.test.cjs",
+      "bytes": 4903,
+      "sha256": "e189377c7f45fa213f4a04c544d7446712f23982e09602223e387d88f40b0e43",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/resource-platform-store-combined-candidate.test.cjs",
+      "bytes": 12413,
+      "sha256": "17b98d5a662c287e9dc5c0c20a24c06a1d9776def6c98bde461853341c32ffb4",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/resource-profile-restoration.test.cjs",
+      "bytes": 1431,
+      "sha256": "d4e3fbf0b462c53757c62be1d904b694f3322139a72c624e01150399833543b9",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/resource-store-channel-ui.test.cjs",
+      "bytes": 7098,
+      "sha256": "2d19ea0526c792b2a9dd56fbe17b3d9d22d20a20d41f76976e0a9b1469be782a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/resource-store-localized-en-content-candidate.test.cjs",
+      "bytes": 8393,
+      "sha256": "741fad2f5977df22f9476b263d30b8a6b95e7c92067a560ffff927ae79759511",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/resource-store-presentation.test.cjs",
+      "bytes": 2931,
+      "sha256": "87928c06bcc162009572288e850c0d22dcbd609531bd54ba50e0a67466b32fcd",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/resource-store.test.cjs",
+      "bytes": 6272,
+      "sha256": "b491d759e10e672f52cb750201963fc921760a8320926cf8abbf4444939c4960",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/resource-submission-renderer.test.cjs",
+      "bytes": 3111,
+      "sha256": "dc9d8a4e3061af1fe316eaf1f5f8169c13ec91cb0f836b50dff30fc6913951ca",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/resource-submissions.test.cjs",
+      "bytes": 9203,
+      "sha256": "4422979dc6451d5a03d3611f08175c9da7ac9a0d89ef19a243744754faea840e",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/reviewed-process-close.test.cjs",
+      "bytes": 1285,
+      "sha256": "a9c733ea5703e1b52ab3671060cfbb9e0453ca9f47b5f3db7a9cb2c42abfd2a3",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/reviewed-product-discovery-closure.test.cjs",
+      "bytes": 3878,
+      "sha256": "e22e67a2e0fd9dc341becb1fedd459338165eab0a0ddca9f0d849ee7df38054c",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/runtime-language.test.cjs",
+      "bytes": 2537,
+      "sha256": "d6ad6221fa8c68ab7253ec1916b4ff9eef2f66e361470fc973a44b5d0ab0750a",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/safe-zip-extraction.test.cjs",
+      "bytes": 1446,
+      "sha256": "ce3da816e3dbdefc2b3ae19c07a61d2f2b3fac372df21fe2c69b0233321ad537",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/sha256-portable.test.cjs",
+      "bytes": 579,
+      "sha256": "22c709a5d96b1917f40315d78be9a3600dfe90485ef75c308053511e5a6e445e",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/signed-release.test.cjs",
+      "bytes": 2746,
+      "sha256": "677195e6365b0408980069bdbda6775b8d0a0a807b775d45a6809214fd6f3053",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/task-center-lifecycle.test.cjs",
+      "bytes": 7807,
+      "sha256": "9f82ba8695f868caac287088e9ab96e0444bf6bb4c208f59ca71683356389816",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/task-notification.test.cjs",
+      "bytes": 2230,
+      "sha256": "79343af245a14dd768a72936419d60c1d2a41d72834fe968abfd7c1942073633",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/tray-lifecycle.test.cjs",
+      "bytes": 1090,
+      "sha256": "abd1b98edd7bbd5f77660d3310a57d39d2d62b5978bad1da1bc3785fe89037ed",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/uninstall-monitor.test.cjs",
+      "bytes": 2198,
+      "sha256": "0455538ff3ada16961416f32f22393f1067ff931296e61ebc593d2cd55f5e5ff",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/uninstall-presentation.test.cjs",
+      "bytes": 6538,
+      "sha256": "769ab3c5aaf18697fdc423be57d8909bfbb33aa957963bf90adc5b0ac6b54ad1",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/update-installer.test.cjs",
+      "bytes": 2482,
+      "sha256": "92fa99a155b91fd0403e137f8eba247eb69c2643a9b4d23eacab1d2bdbad8b75",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/update.test.cjs",
+      "bytes": 3128,
+      "sha256": "2873cc8d329787c1712c97cf6f29b87cccd3f28da9dc40ee880470c60ac87115",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/vendor-icon-asset.test.cjs",
+      "bytes": 2973,
+      "sha256": "0cc6f3b55b83401f2e092693c1808e8e8947cef7ff24ee9f87a17c5fffd1598d",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/vendor-logo.test.cjs",
+      "bytes": 7178,
+      "sha256": "79aacf45348fbb248ac85fd2f541492f6194e0d696227c052e062e1edf9964bc",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/verified-managed-install.test.cjs",
+      "bytes": 4182,
+      "sha256": "eab87f708ab49025881dd7285e9319dac5d7bcf60b6b6efbc9f9088dd7fd071d",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/windows-application-crash.test.cjs",
+      "bytes": 1225,
+      "sha256": "1de8ebe800a5ac176c6b4ee575bc577f5548a52466ee0d6e9acded7ed0e13f97",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/windows-appx.test.cjs",
+      "bytes": 2181,
+      "sha256": "c38b6f7db62f4c94a24c5720cd5f17c0f5f09f9dd00236d962442317812b050e",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/windows-cli-review-decisions.test.cjs",
+      "bytes": 4728,
+      "sha256": "2267a02e7d81b9cbcd85f9c5488a4e3ba7e667100347e963a8cf16e18ec27779",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/windows-desktop-catalog-pipeline.test.cjs",
+      "bytes": 2037,
+      "sha256": "1fc08a7a44f4fa0169eacb1adb96c9654f6da6109042c823b220a9b1ef96dec4",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/windows-desktop-catalog.test.cjs",
+      "bytes": 20175,
+      "sha256": "0a24b28ed58eed0f2588c9179510a856aa9a3796b9900c265b656a05f9c0e95f",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/windows-desktop-expansion-v2.test.cjs",
+      "bytes": 5506,
+      "sha256": "825327b26610d137a68be818a7ed23df57d0fb199d4299fca6678b16acdb4698",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/windows-desktop-review-decisions.test.cjs",
+      "bytes": 2099,
+      "sha256": "2b62d5e9e729cb28e8d1e15554a6e459c17d73479e3cf8b118927bac314e2dc4",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/windows-installer-identity.test.cjs",
+      "bytes": 7656,
+      "sha256": "595dc5ca6ffac42af358e7ef933fb477f5acc5eea08db3da714ed03264eee737",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/windows-package-manager-electron.test.cjs",
+      "bytes": 7221,
+      "sha256": "e8065a70574d86678aa347c43d3c90987717ec13349363a305e624061eaab3ff",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/windows-package-manager-policy.test.cjs",
+      "bytes": 4046,
+      "sha256": "c578c9cfde47cbe90409112e2c973a09f6bea27bf5f085aaf6ebca163f744d53",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/windows-package-manager.test.cjs",
+      "bytes": 7583,
+      "sha256": "c824fd8abad094f847a0fdcbeebae6243f88cf1d5440b27b8cc444ebe94cfb01",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/windows-system-paths.test.cjs",
+      "bytes": 810,
+      "sha256": "3953a8920583272725bc5f29337bd5865e724a4623bda4f50f2147f4e61c1965",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/windows-uninstall.test.cjs",
+      "bytes": 16300,
+      "sha256": "2cf4467bcaa3a6e0fefa02bb5f318b52112a927811b16471f1ba22e75bfcf827",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/tests/workflow-composer-renderer.test.cjs",
+      "bytes": 2090,
+      "sha256": "c9adb884e9fcc588d5342d609a4a229fb3ee047027947d1875a4d5ab796b59a1",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/workflow-image-archive.test.cjs",
+      "bytes": 5575,
+      "sha256": "c4352d5ab3fc9e7c4f22a024082906df8cc99eb72d7e17cfad5cfbc3751f5f24",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/workflow-official-source-posts.test.cjs",
+      "bytes": 10105,
+      "sha256": "f66d8f49817de4ea28e5cc9e01253dc1cee94b761829f1a319237f8b957845ac",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/workflow-public-ipc.test.cjs",
+      "bytes": 8040,
+      "sha256": "da67bf6de8a8e4143d84cf50d55653f158bc5f93a593133b824572bec4f7b6d2",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/workflow-public-renderer.test.cjs",
+      "bytes": 2301,
+      "sha256": "545b09a4b93495cf7f1f01af411f9e08dc57c5fbd7c470a533cc05a341814f8b",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/workflow-reviewer-service-identity.test.cjs",
+      "bytes": 1596,
+      "sha256": "e952b64ec3ed2389fca74e73b823061b100027a1bfc80b12f59bccc8fcea7857",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/workflow-store-renderer.test.cjs",
+      "bytes": 2248,
+      "sha256": "33fb364490eee60613dc05b810bff9b74f422909b95c5be11410e77aaca73fe6",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/tests/wsl-environment-management.test.cjs",
+      "bytes": 3715,
+      "sha256": "6da37a4f8b6c12d7c2bc6f82f9603fdecd5bf8b8dad9575057f51c0454975362",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tsconfig.json",
+      "bytes": 607,
+      "sha256": "7ac6403e54abfb07bae9a7f6155e053cc4e6555f0718b8a8641c3c5de0da1d0d",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/vite.config.ts",
+      "bytes": 2941,
+      "sha256": "7b18bf3242da1e0931947c711fe463c8ed5bdb267d0ac59efc5aa65ed5ef788e",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "postcss.config.mjs",
+      "bytes": 101,
+      "sha256": "7b299d3d3b16699ddda397c0b2373b3af4f25f8fc9ccc9b3d9e64ef083bc1c21",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "public/favicon.svg",
+      "bytes": 718,
+      "sha256": "3e8863288c2d43dd33d2a71de317dcf9198f09932ea8d61e0def1b846a865435",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "public/file.svg",
+      "bytes": 391,
+      "sha256": "2b67812c325c199a02536cdbeea0c593a72f707d323b72ee3e08dbab06753bd4",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "public/globe.svg",
+      "bytes": 1035,
+      "sha256": "b614b9bf183925957661ac851498fe1d8029fd43a62fbfed86f9e2624a57e7cf",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "public/og-zhenxingai.png",
+      "bytes": 2051436,
+      "sha256": "38dce075450a559557636d28bfc67070f9e06e6827b3d2f8bd8e9b3bffc84872",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "public/window.svg",
+      "bytes": 385,
+      "sha256": "644768c4aaeb4767bce293344eeb0c125fb804a94d801440424072202d85e3a1",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "public/zhenxingai-logo-cosmic-pillow.png",
+      "bytes": 1672635,
+      "sha256": "6214ab2cbbb83c3c2bc5b148a009252afdc2da6c397cc9c1a7b84a460acce4e2",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "public/zhenxingai-logo-family-glass.png",
+      "bytes": 2059322,
+      "sha256": "db3f95959594988aae8fd8abf0109a6447da637129757e922d2d168c5eb33c1e",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "public/zhenxingai-logo-family-wide.png",
+      "bytes": 2062341,
+      "sha256": "f155beff3e55f1021f5e346d995264b0ccfcb2b1e51acf69abd41b93d920e3ef",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "public/zhenxingai-logo-family.png",
+      "bytes": 2078770,
+      "sha256": "241b39004b83517dd2c39ab6b78047274c0df38e73af4e15bbf2c21d068a8ba3",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "public/zhenxingai-logo-simple.png",
+      "bytes": 918073,
+      "sha256": "e37d65a462f8e8f308e865320ff45b9c6915ab607c657414df5ebb35332b43d0",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "public/zhenxingai-logo-stardust.png",
+      "bytes": 1943043,
+      "sha256": "ab11eeb26f1ea0a9d9e098872a2d1ba5184a49c56a8583847972c6096e9f9af7",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "public/zhenxingai-logo-starry.png",
+      "bytes": 1537321,
+      "sha256": "1c831d9b6f0fe8deba785d10168e2791967c306f4fe1c94282cec433aafcee1a",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "public/zhenxingai-logo.png",
+      "bytes": 1025059,
+      "sha256": "f285e38c0f78ddc85ad5c788d93602e175ff36e68acd47a15c16d1422ca46a94",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2187,
+      "sha256": "1362782c2371e11426d45d4e5a84eb86fe129b99ce432a24974e2a78ea4f677b",
+      "sourceState": "generated-release-metadata"
+    },
+    {
+      "path": "tests/rendered-html.test.mjs",
+      "bytes": 2794,
+      "sha256": "b41fe17283ec4d3d479facb67e86ec96cbe1aef634f0d32698e63b2393db1ccb",
+      "sourceState": "tracked-modified"
+    },
+    {
+      "path": "tools/stage-public-source.cjs",
+      "bytes": 21007,
+      "sha256": "a2fa243c1a07b693fdd35502ee91d2432d232d06e170b46439595276811f4556",
+      "sourceState": "staging-tool"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 700,
+      "sha256": "fbff01604d6cb54694be707f26e7a0eb21a6ef796b888c6a1dab1839fa7c6ccc",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "vite.config.ts",
+      "bytes": 1756,
+      "sha256": "5d68239b2f24f42354e8a05cf69b83fd8f3ce34727f2edf2b55283e4f732c77a",
+      "sourceState": "tracked-clean"
+    },
+    {
+      "path": "worker/index.ts",
+      "bytes": 1778,
+      "sha256": "6f8983ab616309202039ad672b1a46a835bede1bb77636dc751613c664f969e5",
+      "sourceState": "tracked-clean"
+    }
+  ],
+  "totals": {
+    "files": 712,
+    "bytes": 22755727
+  },
+  "safety": {
+    "unknown": 0,
+    "secretFindings": 0,
+    "reparse": 0,
+    "protectedReads": 0
+  },
+  "exclusions": [
+    {
+      "reason": "candidate-or-production-data",
+      "count": 4
+    },
+    {
+      "reason": "credential-binary-or-database",
+      "count": 2
+    },
+    {
+      "reason": "generated-or-cache",
+      "count": 1
+    },
+    {
+      "reason": "git-ignored-source",
+      "count": 1
+    },
+    {
+      "reason": "operational-tooling-or-test",
+      "count": 82
+    },
+    {
+      "reason": "private-admin-store",
+      "count": 8
+    },
+    {
+      "reason": "production-provisioning",
+      "count": 5
+    },
+    {
+      "reason": "secret:credential-url",
+      "count": 9
+    },
+    {
+      "reason": "secret:literal-secret",
+      "count": 6
+    },
+    {
+      "reason": "secret:openai-token",
+      "count": 1
+    }
+  ],
+  "notes": [
+    "SOURCE-MANIFEST.json is the detached manifest and is not self-listed."
+  ]
+}
