@@ -171,7 +171,7 @@ function product(overrides) {
 }
 
 const catalog = {
-  schemaVersion: 2,
+  schemaVersion: 3,
   updatedAt: now,
   brand: {
     name: "枕星 AI",
@@ -420,7 +420,7 @@ const catalog = {
           productType: "cli",
           moduleId: "managed-cli",
           installProfileId: "cli.fixture-codex",
-          scenarioTags: ["agent-multi-agent", "programming-development"],
+          scenarioTags: ["agent-multi-agent"],
           agentTag: true,
           agentChannel: "mature-agent"
         }),
@@ -471,11 +471,32 @@ const catalog = {
       localized: { en: { name: "Localized resource name", description: "Localized resource description" } },
       website: "https://example.invalid/official-skill",
       tutorial: "https://example.invalid/official-skill/tutorial",
+      publisher: "Fixture Publisher",
       sourceKind: "official",
       reviewStatus: "manually-reviewed",
       riskLevel: "low",
+      scenarioTags: ["programming-development"],
       sourceProductIds: [],
-      targets: [{ productId: "codex-cli", compatibility: "official", moduleId: "resource-link", installProfileId: "", capabilities: ["website"], enabled: true }]
+      targets: [
+        { productId: "codex-cli", compatibility: "official", moduleId: "resource-link", installProfileId: "", capabilities: ["website"], enabled: true },
+        { productId: "fixture-game-host", compatibility: "protocol-compatible", moduleId: "resource-link", installProfileId: "", capabilities: ["website"], enabled: true }
+      ]
+    },
+    {
+      id: "fixture-official-game-skill",
+      enabled: true,
+      order: 1,
+      name: "Fixture Official Game Skill",
+      resourceTypes: ["skill"],
+      description: "Official gaming Skill fixture.",
+      website: "https://example.invalid/official-game-skill",
+      tutorial: "https://example.invalid/official-game-skill/tutorial",
+      sourceKind: "official",
+      reviewStatus: "manually-reviewed",
+      riskLevel: "low",
+      scenarioTags: ["gaming"],
+      sourceProductIds: [],
+      targets: [{ productId: "fixture-game-host", compatibility: "official", moduleId: "resource-link", installProfileId: "", capabilities: ["website"], enabled: true }]
     },
     {
       id: "fixture-community-skill",
@@ -489,8 +510,25 @@ const catalog = {
       sourceKind: "reviewed-community",
       reviewStatus: "manually-reviewed",
       riskLevel: "guarded",
+      scenarioTags: ["programming-development"],
       sourceProductIds: [],
       targets: [{ productId: "codex-cli", compatibility: "protocol-compatible", moduleId: "resource-link", installProfileId: "", capabilities: ["website"], enabled: true }]
+    },
+    {
+      id: "fixture-community-game-skill",
+      enabled: true,
+      order: 2,
+      name: "Fixture Community Game Skill",
+      resourceTypes: ["skill"],
+      description: "Reviewed community gaming Skill fixture.",
+      website: "https://example.invalid/community-game-skill",
+      tutorial: "https://example.invalid/community-game-skill/tutorial",
+      sourceKind: "reviewed-community",
+      reviewStatus: "manually-reviewed",
+      riskLevel: "guarded",
+      scenarioTags: ["gaming"],
+      sourceProductIds: [],
+      targets: [{ productId: "fixture-game-host", compatibility: "protocol-compatible", moduleId: "resource-link", installProfileId: "", capabilities: ["website"], enabled: true }]
     },
     {
       id: "openai-codex-mcp-config",
@@ -551,15 +589,33 @@ const catalog = {
       enabled: true,
       order: 0,
       name: "Fixture Community Connector",
-      resourceTypes: ["connector"],
+      resourceTypes: ["mcp", "connector"],
       description: "Community link-only fixture connector.",
       website: "https://example.invalid/community-connector",
       tutorial: "https://example.invalid/community-connector/tutorial",
+      publisher: "Fixture Connection Publisher",
       sourceKind: "community",
       reviewStatus: "unreviewed",
       riskLevel: "guarded",
       sourceProductIds: [],
-      targets: [{ productId: "fixture-game-host", compatibility: "protocol-compatible", moduleId: "resource-link", installProfileId: "", capabilities: ["website"], enabled: true }]
+      targets: [
+        { productId: "fixture-game-host", compatibility: "protocol-compatible", moduleId: "resource-link", installProfileId: "", capabilities: ["website"], enabled: true },
+        { productId: "codex-cli", compatibility: "protocol-compatible", moduleId: "resource-link", installProfileId: "", capabilities: ["website"], enabled: true }
+      ]
+    }
+  ],
+  resourceConnections: [
+    {
+      resourceId: "fixture-community-connector",
+      hostProductId: "fixture-game-host",
+      connectionMode: "remote-mcp",
+      bindingKind: "mcp-tool"
+    },
+    {
+      resourceId: "fixture-community-connector",
+      hostProductId: "codex-cli",
+      connectionMode: "chatgpt-app",
+      bindingKind: "connector-authorized-connection"
     }
   ],
   resourceStores: [

@@ -74,7 +74,7 @@ test("client renders the editable catalog resource-store label", () => {
     app.indexOf("function resourceStoreDisplayLabel"),
     app.indexOf("function resourceCompatibilityLabel")
   );
-  assert.match(displayLabel, /return store\.label;/);
+  assert.match(displayLabel, /return catalogDisplayField\(store, "label", language\);/);
   assert.doesNotMatch(displayLabel, /resources\.store\./);
 });
 
@@ -86,7 +86,6 @@ test("PC resource cards expose only catalog-backed safety details", () => {
     "requestedPermissions",
     "credentialRequirements",
     "installScope",
-    "publisher",
     "versionRef",
     "uninstallPlan",
     "lastVerifiedAt",
@@ -94,6 +93,11 @@ test("PC resource cards expose only catalog-backed safety details", () => {
   ]) {
     assert.match(app, new RegExp(`resource\\.${field}`));
   }
+  assert.match(app, /selectedEntry\.publisher &&/);
+  assert.match(app, /data-aihub-resource-publisher/);
+  assert.match(app, /\{selectedEntry\.publisher\.name\}/);
+  assert.match(app, /className="resourceRelationFacts"/);
+  assert.doesNotMatch(app, /data-aihub-publisher-parent/);
   assert.match(app, /resourceCompatibilityLabel\(target\.compatibility\)/);
   assert.match(app, /resourceTargetPresentation\(resource, target\)/);
   assert.match(app, /window\.open\(link\.href\)/);
@@ -102,25 +106,27 @@ test("PC resource cards expose only catalog-backed safety details", () => {
   assert.match(language, /"resources\.openTutorial"/);
 });
 
-test("every resource store drills down from tools to resources to one detail", () => {
+test("every resource store lists canonical resources before one detail without changing product or vendor pages", () => {
   const app = read("src/App.tsx");
 
-  assert.match(app, /resourceProductsByType\(/);
-  for (const level of ["tools", "resources", "detail"]) {
+  assert.match(app, /createMarketplace\(/);
+  assert.doesNotMatch(app, /resourceProductsByType\(/);
+  for (const level of ["resources", "detail"]) {
     assert.match(
       app,
       new RegExp(`data-aihub-resource-level=["']${level}["']`)
     );
   }
-  for (const action of ["open-resource-tool", "open-resource-detail"]) {
-    assert.match(app, new RegExp(`data-aihub-action=["']${action}["']`));
-  }
-  for (const action of ["back-resource-tools", "back-resource-list"]) {
-    assert.match(app, new RegExp(`action=["']${action}["']`));
-  }
-  assert.match(app, /data-aihub-resource-filter="letter"/);
-  assert.match(app, /filteredProductDirectories/);
+  assert.match(app, /data-aihub-action="open-resource-detail"/);
+  assert.doesNotMatch(app, /data-aihub-action="open-resource-tool"/);
+  assert.match(app, /action="back-resource-list"/);
+  assert.match(app, /marker="host"/);
+  assert.match(app, /data-aihub-resource-compatible-hosts/);
+  assert.match(app, /key=\{resource\.id\}/);
   assert.match(app, /activeResourceStores\.map\(\(store\) =>/);
+  assert.match(app, /function VendorsPage\(/);
+  assert.match(app, /function VendorPage\(/);
+  assert.match(app, /selectedVendor \? \(/);
   assert.match(app, /const availableActions = status\?\.ok/);
   assert.doesNotMatch(
     app,

@@ -1176,6 +1176,31 @@ button:not(:disabled):active {
   margin: 0;
 }
 
+.resourceRelationFacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.resourceRelationFact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.resourceRelationFact span {
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--font-caption);
+}
+
 .resourceRow {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;

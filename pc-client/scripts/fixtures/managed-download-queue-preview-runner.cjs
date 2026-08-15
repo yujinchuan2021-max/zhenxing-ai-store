@@ -236,9 +236,9 @@ async function run() {
     await waitFor(window, "document.querySelector('[data-aihub-product-id=codex-cli]')?.textContent.includes('Localized product description')", "localized product row missing");
     assert.equal(await window.webContents.executeJavaScript("document.querySelectorAll('[data-aihub-product-id=codex-cli]').length"), 1, "localized product rendered more than once");
     await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-store-id=skill]').click()");
-    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-product-id=codex-cli]'))", "localized Skill host missing");
-    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-product-id=codex-cli]').click()");
-    await waitFor(window, "document.querySelector('[data-aihub-resource-id=fixture-official-skill]')?.textContent.includes('Localized resource description')", "localized resource row missing");
+    await waitFor(window, "document.querySelector('[data-aihub-resource-level=resources] [data-aihub-resource-id=fixture-official-skill]')?.textContent.includes('Localized resource description')", "localized resource row missing");
+    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-level=resources] [data-aihub-resource-id=fixture-official-skill]').click()");
+    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-detail-id=fixture-official-skill] [data-aihub-resource-host-id=codex-cli]'))", "localized Skill host missing");
     assert.equal(await window.webContents.executeJavaScript("document.querySelectorAll('[data-aihub-resource-id=fixture-official-skill]').length"), 1, "localized resource rendered more than once");
     await window.webContents.executeJavaScript("document.querySelector('[data-aihub-community-discussions=true]').click()");
     await waitFor(window, "document.querySelector('.communityLoginRequired h1')?.textContent === 'Localized community title'", "localized community title missing");
@@ -285,9 +285,9 @@ async function run() {
     await window.webContents.executeJavaScript("document.querySelector('[data-aihub-vendor-id=fixture-vendor]').click()");
     await waitFor(window, "document.querySelector('[data-aihub-product-id=codex-cli]')?.textContent.includes('Fixture Codex CLI')", "product row did not restore its primary value");
     await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-store-id=skill]').click()");
-    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-product-id=codex-cli]'))", "primary Skill host missing after language restore");
-    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-product-id=codex-cli]').click()");
-    await waitFor(window, "document.querySelector('[data-aihub-resource-id=fixture-official-skill]')?.textContent.includes('Fixture Official Skill')", "resource row did not restore its primary value");
+    await waitFor(window, "document.querySelector('[data-aihub-resource-level=resources] [data-aihub-resource-id=fixture-official-skill]')?.textContent.includes('Fixture Official Skill')", "resource row did not restore its primary value");
+    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-level=resources] [data-aihub-resource-id=fixture-official-skill]').click()");
+    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-detail-id=fixture-official-skill] [data-aihub-resource-host-id=codex-cli]'))", "primary Skill host missing after language restore");
     await window.webContents.executeJavaScript("document.querySelector('[data-aihub-community-discussions=true]').click()");
     await waitFor(window, `document.querySelector('.communityLoginRequired h1')?.textContent === ${JSON.stringify(rawCatalogBefore.community.title)}`, "community title did not restore its primary value");
     assert.equal(await window.webContents.executeJavaScript("document.querySelector('.communityLoginRequired').textContent.includes('Localized community')"), false, "community retained an old English value");
@@ -295,12 +295,12 @@ async function run() {
     stage = "open Skill resource store";
     await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-store-id=skill]').click()");
     await waitFor(window, "document.querySelector('[data-aihub-resource-source-context=official]')", "Skill official source missing");
-    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-product-id=codex-cli]'))", "default official Skill source did not project");
+    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-level=resources] [data-aihub-resource-id=fixture-official-skill]'))", "default official Skill source did not project");
     stage = "select community Skill source";
     await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-filter=source-channel] [data-aihub-filter-value=community]').click()");
-    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-product-id=codex-cli]'))", "community Skill host did not project");
-    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-product-id=codex-cli]').click()");
-    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-id=fixture-community-skill]'))", "signed-catalog community Skill did not project");
+    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-level=resources] [data-aihub-resource-id=fixture-community-skill]'))", "community Skill did not project");
+    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-level=resources] [data-aihub-resource-id=fixture-community-skill]').click()");
+    await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-detail-id=fixture-community-skill] [data-aihub-resource-host-id=codex-cli]'))", "signed-catalog community Skill host did not project");
     const communitySkill = await window.webContents.executeJavaScript(`(() => ({
       context: document.querySelector('[data-aihub-resource-source-context=community]')?.textContent || '',
       managed: Boolean(document.querySelector('[data-aihub-resource-id=fixture-community-skill] [data-aihub-action=inspect-extension]')),

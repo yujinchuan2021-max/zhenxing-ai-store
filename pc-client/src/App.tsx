@@ -42,9 +42,10 @@ import {
 } from "@aihub-shared/home-carousel-presentation.cjs";
 import {
   projectVendorsByDirectory,
-  resourceProductsByType,
   searchCatalog
 } from "@aihub-shared/catalog-projections.cjs";
+// @ts-expect-error The frozen CommonJS projection is consumed through the typed seam below.
+import { createResourceMarketplace } from "@aihub-shared/resource-marketplace.cjs";
 import {
   resourceRiskLevel,
   resourceReviewStatus,
@@ -52,7 +53,6 @@ import {
   resourceTargetPresentation
 } from "@aihub-shared/resource-store.cjs";
 import {
-  canonicalScenarioTags,
   MATURE_AGENT_CHANNEL,
   SCENARIO_TAGS
 } from "@aihub-shared/catalog-taxonomy.cjs";
@@ -73,7 +73,9 @@ import {
   ProductCategory,
   ProductDirectoryKind,
   EcosystemResource,
+  ResourceConnection,
   ResourceStore,
+  ResourceStoreKind,
   ResourceTarget,
   ProductKind,
   Vendor,
@@ -180,6 +182,26 @@ const CONTRIBUTION_SCOPES = [
 ] as const;
 type ResourceSourceChannel = (typeof RESOURCE_SOURCE_CHANNELS)[number];
 type ResourceAgentFilter = (typeof RESOURCE_AGENT_FILTERS)[number];
+type ResourceMarketplaceEntry = {
+  resource: EcosystemResource;
+  publisher: { id: string | null; name: string } | null;
+  hosts: Array<{ target: ResourceTarget; product: Product; vendor: Vendor }>;
+  connections: ResourceConnection[];
+};
+type ResourceMarketplace = {
+  browse: (query?: {
+    store?: ResourceStoreKind | "all";
+    category?: string;
+    hostId?: string;
+    source?: ResourceSourceChannel | "all";
+  }) => ResourceMarketplaceEntry[];
+  detail: (resourceId: string) => ResourceMarketplaceEntry | null;
+};
+const createMarketplace = createResourceMarketplace as (input: {
+  resources: EcosystemResource[];
+  vendors: Vendor[];
+  connections?: ResourceConnection[];
+}) => ResourceMarketplace;
 
 type CatalogSearchResults = {
   query: string;
@@ -589,6 +611,8 @@ export default function App() {
   const [catalogResources, setCatalogResources] = useState<EcosystemResource[]>(
     () => (window.aihubPC ? [] : builtInResources)
   );
+  const [catalogResourceConnections, setCatalogResourceConnections] =
+    useState<ResourceConnection[]>([]);
   const [catalogResourceStores, setCatalogResourceStores] = useState<
     ResourceStore[]
   >(() => (window.aihubPC ? [] : builtInResourceStores));
@@ -616,8 +640,7 @@ export default function App() {
     useState("skill");
   const [resourceStoreVisit, setResourceStoreVisit] = useState(0);
   const [resourceStoreSelection, setResourceStoreSelection] = useState({
-    productId: "",
-    resourceKey: ""
+    resourceId: ""
   });
   const [publicWorkflowPage, setPublicWorkflowPage] = useState<
     PublicWorkflowPage | null
@@ -2010,6 +2033,7 @@ export default function App() {
               setCatalogAllVendors([]);
               setCatalogVendors([]);
               setCatalogResources([]);
+              setCatalogResourceConnections([]);
               setCatalogResourceStores([]);
               setCatalogCommunity(null);
               setCatalogCategories([]);
@@ -2040,6 +2064,7 @@ export default function App() {
           setCatalogAllVendors(allVendors);
           setCatalogVendors(visibleVendors);
           setCatalogResources(catalog.resources || []);
+          setCatalogResourceConnections(catalog.resourceConnections || []);
           setCatalogResourceStores(catalog.resourceStores || []);
           setCatalogCategories(nextCategories);
           setCategory((current) =>
@@ -2063,6 +2088,7 @@ export default function App() {
           setCatalogAllVendors([]);
           setCatalogVendors([]);
           setCatalogResources([]);
+          setCatalogResourceConnections([]);
           setCatalogResourceStores([]);
           setCatalogCommunity(null);
           setCatalogCategories([]);
@@ -2257,7 +2283,7 @@ export default function App() {
   const openResourceStore = (storeId: string) => {
     setSelectedResourceStoreId(storeId);
     setResourceStoreVisit((current) => current + 1);
-    setResourceStoreSelection({ productId: "", resourceKey: "" });
+    setResourceStoreSelection({ resourceId: "" });
     setSelectedVendorId("");
     setView("resources");
   };
@@ -2276,8 +2302,7 @@ export default function App() {
   ) => {
     setSelectedResourceStoreId(result.store.id);
     setResourceStoreSelection({
-      productId: result.product.id,
-      resourceKey: `${result.resource.id}:${result.target.productId}`
+      resourceId: result.resource.id
     });
     setResourceStoreVisit((current) => current + 1);
     setSelectedVendorId("");
@@ -4814,9 +4839,9 @@ export default function App() {
               kind={selectedResourceStore?.id || null}
               resourceStores={activeResourceStores}
               resources={catalogResources}
+              connections={catalogResourceConnections}
               vendors={catalogVendors}
-              initialProductId={resourceStoreSelection.productId}
-              initialResourceKey={resourceStoreSelection.resourceKey}
+              initialResourceId={resourceStoreSelection.resourceId}
               onOpenContribution={() => navigate("contribution")}
             />
           ) : view === "contribution" ? (
@@ -5557,9 +5582,10 @@ function FilterRow({
   return (
     <div className="filterRow" data-aihub-resource-filter={marker}>
       <b>{label}</b>
-      <div>
+      <div role="group" aria-label={label}>
         {values.map((value) => (
           <button
+            type="button"
             key={value}
             className={active === value ? "active" : ""}
             data-aihub-filter-value={value}
@@ -6062,58 +6088,46 @@ function ResourceStorePage({
   kind,
   resourceStores,
   resources,
+  connections,
   vendors,
-  initialProductId = "",
-  initialResourceKey = "",
+  initialResourceId = "",
   onOpenContribution
 }: {
   language: Language;
   kind: ResourceStore["id"] | null;
   resourceStores: ResourceStore[];
   resources: EcosystemResource[];
+  connections: ResourceConnection[];
   vendors: Vendor[];
-  initialProductId?: string;
-  initialResourceKey?: string;
+  initialResourceId?: string;
   onOpenContribution: () => void;
 }) {
-  const [selectedProductId, setSelectedProductId] =
-    useState(initialProductId);
-  const [selectedResourceKey, setSelectedResourceKey] =
-    useState(initialResourceKey);
-  const [letter, setLetter] = useState<string>(ALL_FILTER);
+  const [selectedResourceId, setSelectedResourceId] =
+    useState(initialResourceId);
   const [sourceChannel, setSourceChannel] =
     useState<ResourceSourceChannel>("official");
   const [scenarioTag, setScenarioTag] = useState<string>(ALL_FILTER);
+  const [hostId, setHostId] = useState<string>(ALL_FILTER);
   const [agentFilter, setAgentFilter] =
     useState<ResourceAgentFilter>("all");
   const store = resourceStores.find((candidate) => candidate.id === kind) || null;
-  const allProductDirectories = ((store
-    ? resourceProductsByType(resources, vendors, store.id)
-    : []) as Array<{
-    vendor: Vendor;
-    product: Product;
-    rows: Array<{
-      resource: EcosystemResource;
-      target: ResourceTarget;
-      product: Product;
-      vendor: Vendor;
-    }>;
-  }>);
-  const productDirectories = allProductDirectories
-    .map(({ rows, ...directory }) => ({
-      ...directory,
-      rows: rows.filter(
-        ({ resource }) => resourceSourceChannel(resource) === sourceChannel
-      )
-    }))
-    .filter(({ rows }) => rows.length > 0);
-  const letters = [
-    ALL_FILTER,
-    ...[...new Set(productDirectories.map(({ vendor }) => vendor.initial))].sort()
-  ];
+  const marketplace = useMemo(
+    () => createMarketplace({ resources, vendors, connections }),
+    [resources, vendors, connections]
+  );
+  const sourceEntries = store
+    ? marketplace.browse({ store: store.id, source: sourceChannel })
+    : [];
+  const hostOptions = [...new Map(
+    sourceEntries.flatMap(({ hosts }) =>
+      hosts.map(({ product }) => [product.id, product] as const)
+    )
+  ).values()];
   useEffect(() => {
-    if (!letters.includes(letter)) setLetter(ALL_FILTER);
-  }, [letter, letters]);
+    if (hostId !== ALL_FILTER && !hostOptions.some((product) => product.id === hostId)) {
+      setHostId(ALL_FILTER);
+    }
+  }, [hostId, hostOptions]);
   if (!store) {
     return (
       <section className="catalogUnavailable" role="status">
@@ -6122,45 +6136,46 @@ function ResourceStorePage({
       </section>
     );
   }
-  const filteredProductDirectories = productDirectories.filter(({ vendor, product }) => {
-    if (letter !== ALL_FILTER && vendor.initial !== letter) return false;
-    if (
-      scenarioTag !== ALL_FILTER &&
-      !canonicalScenarioTags(product.scenarioTags).includes(scenarioTag)
-    ) {
-      return false;
-    }
-    return agentFilter === "all" ||
-      (agentFilter === "compatible" && product.agentTag === true) ||
-      (agentFilter === "mature" && product.agentChannel === MATURE_AGENT_CHANNEL);
-  });
+  const filteredEntries = marketplace
+    .browse({
+      store: store.id,
+      source: sourceChannel,
+      category: store.id === "skill" && scenarioTag !== ALL_FILTER
+        ? scenarioTag
+        : "all",
+      hostId: hostId === ALL_FILTER ? "all" : hostId
+    })
+    .filter(({ hosts }) =>
+      agentFilter === "all" || hosts.some(({ product }) =>
+        (agentFilter === "compatible" && product.agentTag === true) ||
+        (agentFilter === "mature" && product.agentChannel === MATURE_AGENT_CHANNEL)
+      )
+    );
   const storeLabel = resourceStoreDisplayLabel(store, language);
   const sourceLabel = uiText("resources.channel.store", {
     value1: uiText(`resources.channel.${sourceChannel}` as LanguageKey),
     value2: storeLabel
   });
-  const selectedDirectory =
-    filteredProductDirectories.find(({ product }) => product.id === selectedProductId) ||
-    null;
-  const selectedResourceRow =
-    selectedDirectory?.rows.find(
-      ({ resource, target }) =>
-        `${resource.id}:${target.productId}` === selectedResourceKey
-    ) || null;
-
-  const openProduct = (productId: string) => {
-    setSelectedProductId(productId);
-    setSelectedResourceKey("");
-  };
-
-  const backToTools = () => {
-    setSelectedProductId("");
-    setSelectedResourceKey("");
-  };
+  const selectedEntry = selectedResourceId
+    ? marketplace.detail(selectedResourceId)
+    : null;
+  const connectionEdges = (selectedEntry?.connections || []).flatMap(
+    (connection) => {
+      const host = selectedEntry?.hosts.find(
+        ({ product }) => product.id === connection.hostProductId
+      );
+      return host ? [{ connection, host }] : [];
+    }
+  );
+  const selectedHost = selectedEntry?.hosts.find(({ product }) => product.id === hostId) ||
+    selectedEntry?.hosts[0] || null;
 
   return (
     <>
-      <header className="pageHeader resourceStoreHeader">
+      <header
+        className="pageHeader resourceStoreHeader"
+        data-aihub-resource-store-current={store.id}
+      >
         <p>{uiText("resources.eyebrow")}</p>
         <h1>{storeLabel}</h1>
         <span>{uiText("resources.description")}</span>
@@ -6176,72 +6191,68 @@ function ResourceStorePage({
       >
         {uiText("resources.submit.storeLink")} →
       </button>
-      {allProductDirectories.length === 0 ? (
+      {marketplace.browse({ store: store.id }).length === 0 ? (
         <section className="catalogUnavailable" role="status">
           <b>{uiText("resources.emptyTitle")}</b>
           <span>{uiText("resources.emptyDescription")}</span>
         </section>
-      ) : selectedResourceRow && selectedDirectory ? (
+      ) : selectedEntry && selectedHost ? (
         <section
           className="resourceLevel"
           data-aihub-resource-level="detail"
-          data-aihub-resource-detail-id={selectedResourceRow.resource.id}
+          data-aihub-resource-detail-id={selectedEntry.resource.id}
         >
           <header className="resourceLevelHeader">
             <BackButton
               action="back-resource-list"
-              onBack={() => setSelectedResourceKey("")}
+              onBack={() => setSelectedResourceId("")}
             />
             <div>
-              <small>{catalogDisplayField(selectedDirectory.product, "name", language)}</small>
-              <h2>{catalogDisplayField(selectedResourceRow.resource, "name", language)}</h2>
+              <small>{storeLabel}</small>
+              <h2>{catalogDisplayField(selectedEntry.resource, "name", language)}</h2>
               <span>{uiText("resources.detailTitle")}</span>
             </div>
           </header>
+          <div className="resourceRelationFacts">
+            {selectedEntry.publisher && (
+              <div className="resourceRelationFact" data-aihub-resource-publisher>
+                <b>{uiText("resources.publisher")}</b>
+                <span>{selectedEntry.publisher.name}</span>
+              </div>
+            )}
+            <div className="resourceRelationFact resourceCompatibleHosts" data-aihub-resource-compatible-hosts>
+              <b>{uiText("resources.compatibleHosts")}</b>
+              {selectedEntry.hosts.map(({ product, target }) => (
+                <span key={product.id} data-aihub-resource-host-id={product.id}>
+                  {catalogDisplayField(product, "name", language)} · {resourceCompatibilityLabel(target.compatibility)}
+                </span>
+              ))}
+            </div>
+            {connectionEdges.length > 0 && (
+              <div className="resourceRelationFact" data-aihub-resource-connection-modes>
+                <b>{uiText("resources.connectionModes")}</b>
+                {connectionEdges.map(({ connection, host }) => (
+                  <span
+                    key={`${connection.connectionMode}:${connection.hostProductId}:${connection.bindingKind}`}
+                    data-aihub-resource-connection-mode={connection.connectionMode}
+                    data-aihub-resource-connection-host-id={connection.hostProductId}
+                    data-aihub-resource-connection-binding-kind={connection.bindingKind}
+                  >
+                    {uiText(`resources.connectionMode.${connection.connectionMode}` as LanguageKey)} · {catalogDisplayField(host.product, "name", language)}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
           <ResourceRow
-            resource={selectedResourceRow.resource}
-            target={selectedResourceRow.target}
+            resource={selectedEntry.resource}
+            target={selectedHost.target}
             storeLabel={storeLabel}
             language={language}
           />
         </section>
-      ) : selectedDirectory ? (
-        <section className="resourceLevel" data-aihub-resource-level="resources">
-          <header className="resourceLevelHeader">
-            <BackButton action="back-resource-tools" onBack={backToTools} />
-            <div>
-              <small>{vendorDisplayName(selectedDirectory.vendor, language)}</small>
-              <h2>{catalogDisplayField(selectedDirectory.product, "name", language)}</h2>
-              <span>
-                {selectedDirectory.rows.length} {uiText("resources.count")}
-              </span>
-            </div>
-          </header>
-          <div className="resourceCardGrid">
-            {selectedDirectory.rows.map(({ resource, target }) => (
-              <button
-                type="button"
-                className="resourceSummaryCard"
-                key={`${resource.id}:${target.productId}`}
-                data-aihub-action="open-resource-detail"
-                data-aihub-resource-id={resource.id}
-                onClick={() =>
-                  setSelectedResourceKey(`${resource.id}:${target.productId}`)
-                }
-              >
-                <span>{storeLabel}</span>
-                <b>{catalogDisplayField(resource, "name", language)}</b>
-                <small>{catalogDisplayField(resource, "description", language)}</small>
-                <footer>
-                  <span>{resourceCompatibilityLabel(target.compatibility)}</span>
-                  <strong>{uiText("resources.viewDetail")} →</strong>
-                </footer>
-              </button>
-            ))}
-          </div>
-        </section>
       ) : (
-        <section data-aihub-resource-level="tools">
+        <section data-aihub-resource-level="resources">
           <div className="filters resourceStoreFilters">
             <FilterRow
               label={uiText("resources.sourceFilter")}
@@ -6259,24 +6270,39 @@ function ResourceStorePage({
               active={sourceChannel}
               onChange={(value) => {
                 setSourceChannel(value as ResourceSourceChannel);
-                setSelectedProductId("");
-                setSelectedResourceKey("");
+                setSelectedResourceId("");
               }}
               marker="source-channel"
             />
+            {kind === "skill" && (
+              <FilterRow
+                label={uiText("resources.scenario")}
+                values={[ALL_FILTER, ...SCENARIO_TAGS.map((tag) => tag.id)]}
+                labels={Object.fromEntries([
+                  [ALL_FILTER, uiText("resources.filter.all")],
+                  ...SCENARIO_TAGS.map((tag) => [
+                    tag.id,
+                    uiText(`resources.scenario.${tag.id}` as LanguageKey)
+                  ])
+                ])}
+                active={scenarioTag}
+                onChange={setScenarioTag}
+                marker="scenario"
+              />
+            )}
             <FilterRow
-              label={uiText("resources.scenario")}
-              values={[ALL_FILTER, ...SCENARIO_TAGS.map((tag) => tag.id)]}
+              label={uiText("resources.hostFilter")}
+              values={[ALL_FILTER, ...hostOptions.map((product) => product.id)]}
               labels={Object.fromEntries([
                 [ALL_FILTER, uiText("resources.filter.all")],
-                ...SCENARIO_TAGS.map((tag) => [
-                  tag.id,
-                  uiText(`resources.scenario.${tag.id}` as LanguageKey)
+                ...hostOptions.map((product) => [
+                  product.id,
+                  catalogDisplayField(product, "name", language)
                 ])
               ])}
-              active={scenarioTag}
-              onChange={setScenarioTag}
-              marker="scenario"
+              active={hostId}
+              onChange={setHostId}
+              marker="host"
             />
             <FilterRow
               label={uiText("resources.agent")}
@@ -6290,24 +6316,25 @@ function ResourceStorePage({
               onChange={(value) => setAgentFilter(value as ResourceAgentFilter)}
               marker="agent"
             />
-            <div data-aihub-resource-filter="letter">
-            <FilterRow
-              label={uiText("auto.4f06c63c2949")}
-              values={letters}
-              active={letter}
-              onChange={setLetter}
-            />
-            </div>
           </div>
-          {filteredProductDirectories.length === 0 ? (
+          {filteredEntries.length === 0 ? (
             <section
               className="catalogUnavailable resourceSourceEmpty"
               role="status"
-              data-aihub-resource-empty-source={sourceChannel}
+              data-aihub-resource-empty-source={sourceEntries.length === 0 ? sourceChannel : undefined}
+              data-aihub-resource-empty-filter={sourceEntries.length > 0 ? "" : undefined}
             >
-              <b>{sourceChannel === "community" ? uiText("resources.communityEmptyTitle") : uiText("resources.emptyTitle")}</b>
-              <span>{sourceChannel === "community" ? uiText("resources.communityEmptyDescription") : uiText("resources.emptyDescription")}</span>
-              {sourceChannel === "community" && (
+              <b>{sourceEntries.length > 0
+                ? uiText("resources.filterEmptyTitle")
+                : sourceChannel === "community"
+                  ? uiText("resources.communityEmptyTitle")
+                  : uiText("resources.emptyTitle")}</b>
+              <span>{sourceEntries.length > 0
+                ? uiText("resources.filterEmptyDescription")
+                : sourceChannel === "community"
+                  ? uiText("resources.communityEmptyDescription")
+                  : uiText("resources.emptyDescription")}</span>
+              {sourceEntries.length === 0 && sourceChannel === "community" && (
                 <button
                   type="button"
                   className="accentButton"
@@ -6323,33 +6350,26 @@ function ResourceStorePage({
           <div className="directorySummary">
             <b>{sourceLabel}</b>
             <span>
-              {filteredProductDirectories.length} {uiText("resources.targetProduct")}
+              {filteredEntries.length} {uiText("resources.count")}
             </span>
           </div>
-          <div className="resourceToolGrid">
-            {filteredProductDirectories.map(({ vendor, product, rows }) => (
+          <div className="resourceCardGrid">
+            {filteredEntries.map(({ resource, hosts, publisher }) => (
               <button
                 type="button"
-                className="resourceToolCard"
-                key={product.id}
-                data-aihub-action="open-resource-tool"
-                data-aihub-resource-product-id={product.id}
-                data-aihub-resource-vendor-initial={vendor.initial}
-                onClick={() => openProduct(product.id)}
+                className="resourceSummaryCard"
+                key={resource.id}
+                data-aihub-action="open-resource-detail"
+                data-aihub-resource-id={resource.id}
+                onClick={() => setSelectedResourceId(resource.id)}
               >
-                <span className="resourceToolIdentity">
-                  <VendorMark vendor={vendor} />
-                  <span>
-                    <small>{vendorDisplayName(vendor, language)}</small>
-                    <b>{catalogDisplayField(product, "name", language)}</b>
-                  </span>
-                </span>
-                <span className="resourceToolDescription">
-                  {catalogDisplayField(product, "description", language)}
-                </span>
+                <span>{storeLabel}</span>
+                <b>{catalogDisplayField(resource, "name", language)}</b>
+                <small>{catalogDisplayField(resource, "description", language)}</small>
+                {publisher && <small>{uiText("resources.publisher")}: {publisher.name}</small>}
                 <footer>
-                  <span>{rows.length} {uiText("resources.count")}</span>
-                  <strong>{uiText("resources.viewResources")} →</strong>
+                  <span>{uiText("resources.compatibleHostCount", { value1: hosts.length })}</span>
+                  <strong>{uiText("resources.viewDetail")} →</strong>
                 </footer>
               </button>
             ))}
@@ -6385,9 +6405,6 @@ function ResourceRow({
     ? Object.entries(source.externalReference)
     : [];
   const facts = [
-    resource.publisher
-      ? `${uiText("resources.publisher")}: ${resource.publisher}`
-      : "",
     resource.versionRef
       ? `${uiText("resources.version")}: ${resource.versionRef}`
       : "",

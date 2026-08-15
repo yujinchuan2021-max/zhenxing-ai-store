@@ -156,6 +156,23 @@ export type ResourceTarget = {
   enabled: boolean;
 };
 
+export type ResourceConnection = {
+  resourceId: string;
+  hostProductId: string;
+  connectionMode:
+    | "remote-mcp"
+    | "chatgpt-app"
+    | "claude-connector"
+    | "claude-integration";
+  bindingKind:
+    | "skill-context"
+    | "mcp-tool"
+    | "mcp-resource"
+    | "mcp-prompt"
+    | "plugin-host-extension"
+    | "connector-authorized-connection";
+};
+
 export type EcosystemResource = {
   id: string;
   enabled?: boolean;
@@ -175,6 +192,7 @@ export type EcosystemResource = {
     | "manually-reviewed"
     | "rejected";
   riskLevel?: "low" | "guarded" | "unsafe";
+  scenarioTags?: string[];
   metadataSnapshot?: {
     sourcePlatform: string;
     discoveredVia: string;

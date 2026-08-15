@@ -379,7 +379,6 @@ type CatalogCommunity = {
 };
 
 type RemoteCatalog = {
-  schemaVersion: 1 | 2;
   updatedAt?: string;
   categories?: import("./data").ProductCategory[];
   brand?: CatalogBrand;
@@ -393,7 +392,10 @@ type RemoteCatalog = {
   vendors: import("./data").Vendor[];
   resourceStores?: import("./data").ResourceStore[];
   resources?: import("./data").EcosystemResource[];
-};
+} & (
+  | { schemaVersion: 1 | 2; resourceConnections?: never }
+  | { schemaVersion: 3; resourceConnections: import("./data").ResourceConnection[] }
+);
 
 type ClientInstallProfile = {
   id: string;
