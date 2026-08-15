@@ -53,3 +53,11 @@ Post-activation checks confirmed:
 The user-visible blank community incident is resolved in production. A future Identity image rebuild remains blocked by the separate frozen source-digest gate noted above; this hotfix does not claim to authorize or perform that rebuild.
 
 Do not repackage the desktop client for this server-header defect. A future Flarum integration should prefer nonce- or hash-authorized bootstrap scripts when supported, instead of broadening other origins or script sources.
+
+## 2026-08-16 follow-up: Identity source closure drift
+
+The two previously unrelated deployment-test failures were reproduced as a tight 31/33 RED. The current `shared/catalog.cjs` requires `resource-marketplace.cjs`, which in turn requires `catalog-projections.cjs`, but the explicit Identity Docker COPY allowlist omitted both files. The same test also compared current HEAD bytes with the older deployed `2a114…` image digest, conflating a source candidate with an already reviewed image.
+
+The Dockerfile now copies exactly those two missing transitive dependencies. Its generated current source manifest is `d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8` with 78 manifest entries and 76 actual COPY inputs. Tests separately preserve the deployed `2a114…` image and workflow evidence until a new image is deliberately built and reviewed. The original deployment suite is 33/33 GREEN, and the generated shared dependency set equals the Docker COPY set.
+
+This follow-up does not build, tag, load, deploy, or authorize a replacement Identity image. Production continues using the previously reviewed image; a future rebuild still requires its own isolated image and cutover acceptance.

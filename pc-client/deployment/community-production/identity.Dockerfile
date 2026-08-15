@@ -28,6 +28,7 @@ COPY shared/active-catalog-products.cjs \
      shared/avatar-image.cjs \
      shared/catalog-key-retirement.cjs \
      shared/catalog-localization.cjs \
+     shared/catalog-projections.cjs \
      shared/catalog-taxonomy.cjs \
      shared/catalog-published-icon-url.cjs \
      shared/catalog-release.cjs \
@@ -55,6 +56,7 @@ COPY shared/active-catalog-products.cjs \
      shared/product-policy.cjs \
      shared/python-cli-locks-expansion.json \
      shared/python-cli-locks.cjs \
+     shared/resource-marketplace.cjs \
      shared/resource-platform-availability.cjs \
      shared/resource-store.cjs \
      shared/sha256-portable.cjs \

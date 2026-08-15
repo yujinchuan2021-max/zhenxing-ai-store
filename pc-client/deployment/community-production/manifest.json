@@ -9,18 +9,18 @@
     "encoding": "utf8",
     "ordering": "path ascending by UTF-16 code units",
     "record": "<path>\\t<bytes>\\t<sha256>\\n",
-    "sha256": "36016f835e36c91023ed518bb18011e9690784ee8a3a5edd2aaea50a06ab2fc1"
+    "sha256": "71ca9f85440b79d2f4b2a868fcd33885c513667965d363bc6886d4278c1aee48"
   },
   "files": [
     {
       "path": "deployment/community-production/Caddyfile",
-      "bytes": 2133,
-      "sha256": "dc49124efe5d2d35ec148bb825cd06ad08474c92ea4e72fd7938491689aad940"
+      "bytes": 2341,
+      "sha256": "98007e40b9a0d173bbb494b73bfd6fa6735b0c8ba0ab84c139556585e427717e"
     },
     {
       "path": "deployment/community-production/README.md",
-      "bytes": 61353,
-      "sha256": "e2ad16c326f8fe650c3c4c62bfbd418fc96b633f76ceb19d5816d1abf49bde2f"
+      "bytes": 61568,
+      "sha256": "0cb123cd3e16582d6126b55734e4334bee589313dcfe732908c253da6db6d73c"
     },
     {
       "path": "deployment/community-production/backup.sh",
@@ -64,8 +64,13 @@
     },
     {
       "path": "deployment/community-production/compose.server.yaml",
-      "bytes": 11758,
-      "sha256": "4faf5ca4ce6f968b161ed774fea152b4ae0ddc4f548184d4ea8642a9afbb4270"
+      "bytes": 11856,
+      "sha256": "8ad2f8aa27569bef56b0bd76745595601c71e0283a3973657be4ac8f57d74d09"
+    },
+    {
+      "path": "deployment/community-production/compose.software-update-static.yaml",
+      "bytes": 226,
+      "sha256": "c1e35b232d9c8fe584616102751f5bfa5b779e38c1273aedfb54f9906301daf5"
     },
     {
       "path": "deployment/community-production/compose.windows-acceptance.yaml",
@@ -104,8 +109,8 @@
     },
     {
       "path": "deployment/community-production/identity.Dockerfile",
-      "bytes": 3000,
-      "sha256": "c7ac0b596f24ea2b250e3499f2f26ebf2b0c3716cc11087aa55c529a87b80049"
+      "bytes": 3157,
+      "sha256": "bb66bdbd0395071b8df9525aa0c67e0e82d2f13f817a5a445e088a792fbec83f"
     },
     {
       "path": "deployment/community-production/issue-caddy-gateway-secret.sh",

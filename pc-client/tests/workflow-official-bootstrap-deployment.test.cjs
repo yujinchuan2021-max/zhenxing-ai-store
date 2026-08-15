@@ -26,8 +26,8 @@ test("official Workflow bootstrap deployment is explicit, disabled by default, a
   assert.equal(overlay.includes("AIHUB_WORKFLOW_OFFICIAL_BOOTSTRAP_ENABLED: \"1\""), false);
 
   const source = createIdentitySourceManifest();
-  assert.equal(source.digest.sha256, "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7");
-  assert.equal(source.files.length, 74);
+  assert.equal(source.digest.sha256, "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8");
+  assert.equal(source.files.length, 78);
   for (const relative of [
     "community/workflow-official-bootstrap.cjs",
     "community/workflow-official-source-posts.cjs",

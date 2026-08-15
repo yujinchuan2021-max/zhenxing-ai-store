@@ -41,8 +41,9 @@ const caddyRuntimeOwnershipGatePath = path.join(root, "scripts", "test-caddy-run
 const workflowProductionOverlaySmokePath = path.join(root, "scripts", "test-workflow-production-overlay-smoke.cjs");
 const workflowProductionMigrationRollbackPath = path.join(root, "scripts", "test-workflow-production-migration-rollback.cjs");
 const workflowCandidate = fs.readFileSync(path.join(root, "docs", "workflow-store-production-deployment-candidate.md"), "utf8");
-const expectedIdentitySourceDigest = "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7";
-const expectedIdentityImage = "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e";
+const currentIdentitySourceDigest = "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8";
+const deployedIdentitySourceDigest = "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7";
+const deployedIdentityImage = "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e";
 const nodeHttpHealth = /require\('http'\)\.get\(\{host:'127\.0\.0\.1',port:4173,path:'\/health',agent:false\},r=>\{r\.resume\(\);process\.exit\(r\.statusCode===200\?0:1\)\}\);req\.setTimeout\(2000,\(\)=>\{req\.destroy\(\);process\.exit\(1\)\}\);req\.on\('error',\(\)=>process\.exit\(1\)\)/;
 
 test("production topology has no build, default secret, public database, or signing key", () => {
@@ -273,8 +274,8 @@ test("Identity image copies one Workflow state machine and its exact persistence
   assert.equal((identityDockerfile.match(/community\/workflow-store\.cjs/g) || []).length, 1);
   const manifest = require("../deployment/community-production/identity-source-manifest.cjs")
     .createIdentitySourceManifest();
-  assert.equal(manifest.digest.sha256, expectedIdentitySourceDigest);
-  assert.equal(manifest.files.length, 74);
+  assert.equal(manifest.digest.sha256, currentIdentitySourceDigest);
+  assert.equal(manifest.files.length, 78);
   assert.deepEqual(
     manifest.files.find((entry) => entry.path === "deployment/community-production/workflow-migrate.cjs"),
     {
@@ -305,11 +306,12 @@ test("Identity image copies one Workflow state machine and its exact persistence
   assert.equal(manifest.files.some((entry) => /(?:\.env|\.(?:pem|key))$/i.test(entry.path)), false);
 });
 
-test("Identity deployment pins one image built from the canonical events source closure", () => {
-  assert.equal((compose.match(new RegExp(`image: ${expectedIdentityImage}`, "g")) || []).length, 3);
+test("Identity deployment keeps the reviewed image pinned until the current source closure is rebuilt", () => {
+  assert.equal((compose.match(new RegExp(`image: ${deployedIdentityImage}`, "g")) || []).length, 3);
   assert.doesNotMatch(compose, /AIHUB_IDENTITY_IMAGE/);
-  assert.match(workflowCandidate, new RegExp(expectedIdentitySourceDigest));
-  assert.match(workflowCandidate, new RegExp(expectedIdentityImage.replaceAll("/", "\\/")));
+  assert.match(workflowCandidate, new RegExp(deployedIdentitySourceDigest));
+  assert.doesNotMatch(workflowCandidate, new RegExp(currentIdentitySourceDigest));
+  assert.match(workflowCandidate, new RegExp(deployedIdentityImage.replaceAll("/", "\\/")));
   assert.match(workflowCandidate, /Community inner public projection/);
   assert.match(workflowCandidate, /Identity outer wire DTO/);
 });
