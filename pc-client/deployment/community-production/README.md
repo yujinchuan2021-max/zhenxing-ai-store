@@ -692,7 +692,7 @@ for repeated real loopback HTTP requests. Its fixed budget is 30 seconds at a
 250 ms interval with a 10-second request bound and a 35-second outer kill bound.
 It succeeds only for HTTP `200` plus the exact owner capability values
 `enabled=true`, `schemaVersion=1`, `execution=false`, and
-`workflowSubmissionLookup=true`; only status, the resulting boolean and the
+`workflowSubmissionLookup=false`; only status, the resulting boolean and the
 attempt count cross the child boundary. This capability is not a channel
 attestation. Exact signed v2 active7 release ID/version/catalog SHA and parent
 remain independently enforced by `catalog-active7-state-activation.cjs`, the

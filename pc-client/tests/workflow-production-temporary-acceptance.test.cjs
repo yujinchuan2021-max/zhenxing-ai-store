@@ -489,7 +489,7 @@ test("full-stack catalog readiness reaches the fifth real HTTP response in one p
         enabled: attempt >= 5,
         execution: false,
         schemaVersion: 1,
-        workflowSubmissionLookup: attempt >= 5
+        workflowSubmissionLookup: false
       })
     }),
     async (attempts) => {
@@ -535,9 +535,9 @@ test("catalog readiness persistent probe fails closed for non-2xx, false, malfor
 test("catalog readiness persistent probe requires the exact owner capability contract without exporting it", async (t) => {
   const runner = require(runnerPath);
   const cases = [
-    ["schema drift", { enabled: true, execution: false, schemaVersion: 2, workflowSubmissionLookup: true }],
-    ["execution drift", { enabled: true, execution: true, schemaVersion: 1, workflowSubmissionLookup: true }],
-    ["submission lookup disabled", { enabled: true, execution: false, schemaVersion: 1, workflowSubmissionLookup: false }],
+    ["schema drift", { enabled: true, execution: false, schemaVersion: 2, workflowSubmissionLookup: false }],
+    ["execution drift", { enabled: true, execution: true, schemaVersion: 1, workflowSubmissionLookup: false }],
+    ["submission lookup enabled", { enabled: true, execution: false, schemaVersion: 1, workflowSubmissionLookup: true }],
     ["submission lookup missing", { enabled: true, execution: false, schemaVersion: 1 }]
   ];
   for (const [name, body] of cases) {
@@ -686,6 +686,34 @@ test("private cleanup removes only approved entries and the privileged helper ne
     const source = fs.readFileSync(runnerPath, "utf8");
     assert.match(source, /--cap-drop", "ALL"[\s\S]*--cap-add", "CHOWN"[\s\S]*--cap-add", "DAC_READ_SEARCH"/);
     assert.doesNotMatch(source, /\bsudo\b/);
+  } finally {
+    fs.rmSync(evidence, { recursive: true, force: true });
+  }
+});
+
+test("private cleanup falls back to a strict postorder walk when recursive removal is a no-op", () => {
+  const runner = require(runnerPath);
+  const evidence = fs.mkdtempSync(path.join(os.tmpdir(), "workflow-runner-evidence-"));
+  const project = "workflowacceptance20260808123456789abcdef123456";
+  const runRoot = path.join(evidence, `${project}-private`);
+  const noContainers = (args) => args[0] === "ps" ? "" : "[]";
+  let removeCalls = 0;
+  fs.mkdirSync(path.join(runRoot, "community-db", "mysql"), { recursive: true });
+  fs.writeFileSync(path.join(runRoot, "community-db", "mysql", "ibdata1"), "fixture");
+  try {
+    assert.equal(runner.cleanupPrivateFixtureDirectory({
+      evidence,
+      project,
+      runRoot,
+      dockerFn: noContainers,
+      removeFn(target, options) {
+        removeCalls += 1;
+        assert.equal(target, fs.realpathSync.native(runRoot));
+        assert.deepEqual(options, { recursive: true, force: true });
+      }
+    }), true);
+    assert.equal(removeCalls, 1);
+    assert.equal(fs.existsSync(runRoot), false);
   } finally {
     fs.rmSync(evidence, { recursive: true, force: true });
   }

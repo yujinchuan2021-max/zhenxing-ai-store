@@ -11,9 +11,11 @@ const OWNER_ID = "11111111-1111-4111-8111-111111111111";
 const REVIEWER_ID = "22222222-2222-4222-8222-222222222222";
 const ADMIN_IMAGE = "zhenxing-ai/admin:0.1.40-src-186ff057efd3";
 const EXPECTED_ADMIN_IMAGE_ID = "sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd";
-const IDENTITY_IMAGE = "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e";
-const EXPECTED_IDENTITY_IMAGE_ID = "sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748";
-const EXPECTED_SOURCE_DIGEST = "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7";
+const PRODUCTION_IDENTITY_CONTRACT = Object.freeze({
+  image: "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e",
+  imageId: "sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748",
+  sourceDigest: "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7"
+});
 const CADDY_IMAGE = "caddy:2.10-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d";
 const REPORT_SCHEMA = "aihub-workflow-temporary-acceptance-v1";
 // Bounded just above each service's own Compose health window; these are not shared startup sleeps.
@@ -319,7 +321,7 @@ async function request(){
     const response=await fetch(target,{method:'GET',headers:{accept:'application/json'},redirect:'manual',signal:controller.signal});
     const text=await response.text();
     let body=null;try{body=JSON.parse(text)}catch{}
-    const ready=response.status===200&&body!==null&&body.enabled===true&&body.schemaVersion===1&&body.execution===false&&body.workflowSubmissionLookup===true;
+    const ready=response.status===200&&body!==null&&body.enabled===true&&body.schemaVersion===1&&body.execution===false&&body.workflowSubmissionLookup===false;
     return {status:response.status,enabled:ready};
   }catch{return {status:0,enabled:false}}
   finally{clearTimeout(timer)}
@@ -443,22 +445,56 @@ function restorePrivateFixtureOwnership(runRoot, dockerFn = docker) {
   ], { stdio: ["ignore", "ignore", "ignore"] });
 }
 
-function cleanupPrivateFixtureDirectory({ evidence, project, runRoot, dockerFn = docker }) {
+function removePrivateFixtureTreePostorder(directory) {
+  const root = fs.lstatSync(directory);
+  if (root.isSymbolicLink() || !root.isDirectory()) {
+    throw new Error("private cleanup fallback encountered an unsafe directory");
+  }
+  for (const entry of fs.readdirSync(directory)) {
+    const target = path.join(directory, entry);
+    const stat = fs.lstatSync(target);
+    if (stat.isSymbolicLink()) {
+      throw new Error("private cleanup fallback encountered a symbolic link");
+    }
+    if (stat.isDirectory()) removePrivateFixtureTreePostorder(target);
+    else if (stat.isFile()) fs.unlinkSync(target);
+    else throw new Error("private cleanup fallback encountered a special entry");
+  }
+  fs.rmdirSync(directory);
+}
+
+function cleanupPrivateFixtureDirectory({ evidence, project, runRoot, dockerFn = docker, removeFn = fs.rmSync }) {
   if (!fs.existsSync(runRoot)) return true;
   try {
     const exactRoot = validatePrivateFixtureCleanupScope({ evidence, project, runRoot });
     assertPrivateFixtureEntries(exactRoot);
     assertNoContainerMountReference(exactRoot, dockerFn);
     restorePrivateFixtureOwnership(exactRoot, dockerFn);
-    fs.rmSync(exactRoot, { recursive: true, force: true });
+    removeFn(exactRoot, { recursive: true, force: true });
+    if (fs.existsSync(exactRoot)) removePrivateFixtureTreePostorder(exactRoot);
     return !fs.existsSync(exactRoot);
   } catch {
     return false;
   }
 }
 
-async function execute(argv = process.argv.slice(2)) {
+function normalizeIdentityContract(value) {
+  if (
+    !value || typeof value !== "object" ||
+    Object.keys(value).sort().join(",") !== "image,imageId,sourceDigest" ||
+    !/^zhenxing-ai\/identity:workflow-readiness-candidate-[0-9a-f]{12}$/.test(value.image) ||
+    !/^sha256:[0-9a-f]{64}$/.test(value.imageId) ||
+    !/^[0-9a-f]{64}$/.test(value.sourceDigest) ||
+    !value.image.endsWith(value.sourceDigest.slice(0, 12))
+  ) {
+    throw new Error("Identity acceptance contract is invalid");
+  }
+  return Object.freeze({ ...value });
+}
+
+async function executeWithIdentityContract(argv, requestedIdentityContract) {
   normalizeFixturePostId(FIXTURE_POST_ID);
+  const identityContract = normalizeIdentityContract(requestedIdentityContract);
   const scriptDirectory = __dirname;
   const [base, overlay, evidence] = validateArguments(argv, scriptDirectory);
   const suffix = crypto.randomBytes(6).toString("hex");
@@ -572,12 +608,12 @@ async function execute(argv = process.argv.slice(2)) {
     fs.mkdirSync(runRoot, { recursive: false, mode: 0o700 });
     const manifest = JSON.parse(fs.readFileSync(path.join(scriptDirectory, "manifest.json"), "utf8"));
     report.manifestDigest = manifest.digest.sha256;
-    const image = JSON.parse(docker(["image", "inspect", IDENTITY_IMAGE]))[0];
-    if (image.Id !== EXPECTED_IDENTITY_IMAGE_ID || image.Config?.Labels?.["com.aihub.source-content-sha256"] !== EXPECTED_SOURCE_DIGEST) {
+    const image = JSON.parse(docker(["image", "inspect", identityContract.image]))[0];
+    if (image.Id !== identityContract.imageId || image.Config?.Labels?.["com.aihub.source-content-sha256"] !== identityContract.sourceDigest) {
       throw new Error("Identity candidate image does not match frozen source");
     }
     report.identityImageId = image.Id;
-    report.identitySourceDigest = EXPECTED_SOURCE_DIGEST;
+    report.identitySourceDigest = identityContract.sourceDigest;
     const adminImage = JSON.parse(docker(["image", "inspect", ADMIN_IMAGE]))[0];
     if (adminImage.Id !== EXPECTED_ADMIN_IMAGE_ID) throw new Error("Admin candidate image is not the frozen acceptance image");
     report.checks.supplyChain = true;
@@ -609,7 +645,7 @@ async function execute(argv = process.argv.slice(2)) {
       .replace(/^\{\$AIHUB_COMMUNITY_PUBLIC_HOST\}/m, "http://{$AIHUB_COMMUNITY_PUBLIC_HOST}"));
     const override = path.join(runRoot, "compose.workflow-temporary-acceptance.yaml");
     const caddyMount = `${caddyfile.replaceAll("\\", "/")}:/etc/caddy/Caddyfile:ro`;
-    writePrivate(override, `services:\n  admin:\n    ports: !reset []\n  identity:\n    environment:\n      AIHUB_WORKFLOW_REVIEWER_ID: ${REVIEWER_ID}\n  caddy:\n    ports: !reset []\n    volumes:\n      - ${JSON.stringify(caddyMount)}\n`);
+    writePrivate(override, `services:\n  identity-migrate:\n    image: ${identityContract.image}\n  workflow-migrate:\n    image: ${identityContract.image}\n  workflow-official-bootstrap:\n    image: ${identityContract.image}\n  workflow-reviewer-provision:\n    image: ${identityContract.image}\n  admin:\n    ports: !reset []\n  identity:\n    image: ${identityContract.image}\n    environment:\n      AIHUB_WORKFLOW_REVIEWER_ID: ${REVIEWER_ID}\n  caddy:\n    ports: !reset []\n    volumes:\n      - ${JSON.stringify(caddyMount)}\n`);
     composeFiles = [base, overlay];
     if (process.platform === "win32") composeFiles.push(path.join(scriptDirectory, "compose.windows-acceptance.yaml"));
     composeFiles.push(override);
@@ -870,6 +906,10 @@ async function execute(argv = process.argv.slice(2)) {
   return report;
 }
 
+async function execute(argv = process.argv.slice(2)) {
+  return executeWithIdentityContract(argv, PRODUCTION_IDENTITY_CONTRACT);
+}
+
 if (require.main === module) {
   execute().catch(() => { process.exitCode = 1; });
 }
@@ -877,6 +917,7 @@ if (require.main === module) {
 module.exports = {
   FIXTURE_POST_ID,
   CADDY_IMAGE,
+  PRODUCTION_IDENTITY_CONTRACT,
   PRIVATE_FIXTURE_OWNERSHIP_SCRIPT,
   UINT32_MAX,
   assertSafeReport,
@@ -884,6 +925,7 @@ module.exports = {
   classifyReadyHealth,
   createReadyAttribution,
   execute,
+  executeWithIdentityContract,
   normalizeFixturePostId,
   runCatalogReadinessProbe,
   cleanupPrivateFixtureDirectory,

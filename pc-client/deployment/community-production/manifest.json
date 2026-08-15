@@ -9,7 +9,7 @@
     "encoding": "utf8",
     "ordering": "path ascending by UTF-16 code units",
     "record": "<path>\\t<bytes>\\t<sha256>\\n",
-    "sha256": "78b157cacb67aeac0220fbe927877b75699f49b89d0e203f1ccf96465da17ce1"
+    "sha256": "e0fdd2ad48685541e56d5e77de7638d36368902682e3ea9841be46ca74a94edc"
   },
   "files": [
     {
@@ -19,8 +19,8 @@
     },
     {
       "path": "deployment/community-production/README.md",
-      "bytes": 62117,
-      "sha256": "12ca6e86cedf33474d3b8056cb96dc91164ed0d3a99afe5e77c51b811c7c7a8d"
+      "bytes": 62118,
+      "sha256": "dceead79b1dfe5cbeff15f9f14bdcf3cfd83bec2d2a8fdda81d5839cbe54fae5"
     },
     {
       "path": "deployment/community-production/backup.sh",
@@ -319,8 +319,8 @@
     },
     {
       "path": "deployment/community-production/workflow-production-temporary-acceptance.cjs",
-      "bytes": 48583,
-      "sha256": "efe61ab7d63486b75e1c2a45df06e1cc4dac9e6cfce4c8fcdc300d0e0b843f2c"
+      "bytes": 50572,
+      "sha256": "b713ebd064592318171930b4a39ea467b1e45eaf5a9a41d50b9afe00347615ea"
     },
     {
       "path": "deployment/community-production/workflow-review-secret.sh",

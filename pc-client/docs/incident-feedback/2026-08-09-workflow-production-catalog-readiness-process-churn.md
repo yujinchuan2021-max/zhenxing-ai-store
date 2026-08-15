@@ -115,3 +115,45 @@ Focused acceptance is 37/37, each previously flaky leaf family is stable for
 command is 133/133. The runner's changed source is frozen in a regenerated
 deployment manifest; the test-harness SHA is frozen in the corresponding local
 stability report.
+
+## Current Profile A correction and Windows cleanup fallback (2026-08-16)
+
+The first local A–E run against current Identity closure
+`d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8`
+failed closed. Its report is
+`output/workflow-current-identity-ae-20260816034637012-abbdf02e2564/workflow-temporary-acceptance-report.json`,
+SHA-256 `d3d694b87cf0ceeacff6bd8c710e53af56f3e5978ae373aeb57e901b46d37a48`.
+The report is `candidateOnly=true`, `deployable=false`, and must not be used as
+acceptance evidence.
+
+Two independent local defects were exposed. First, the retained historical
+probe contract above required `workflowSubmissionLookup=true`, while current
+Profile A deliberately keeps resource submissions and Workflow submission
+lookup disabled. Current readiness therefore requires HTTP `200`,
+`enabled=true`, `schemaVersion=1`, `execution=false`, and
+`workflowSubmissionLookup=false`; signed catalog and owner gates remain
+unchanged. Focused negative tests reject the field when it is true or missing.
+
+Second, Windows `fs.rmSync(..., { recursive: true, force: true })` returned
+without throwing while a Docker bind-populated private fixture tree remained.
+The runner already rejected non-canonical paths, unapproved top-level entries,
+symbolic links, nested mounts and active container references, and restored
+ownership with a non-deleting helper. After those gates, it now checks whether
+the exact directory remains and uses a strict postorder fallback that accepts
+only ordinary files and directories, rejects links and special entries, and
+removes no path outside the validated runner-owned root. A no-op recursive
+remove fixture provides the regression gate.
+
+Future Identity candidates must run A–E through an explicit local candidate
+contract while the production entry point remains pinned to its frozen image.
+All Identity-based migration and runtime services in that isolated project must
+use the same candidate image. A failed attempt is preserved as evidence, never
+silently promoted, and a fresh run is required after runner or contract changes.
+
+The subsequent fresh run passed and finalized without residue. Its report is
+`output/workflow-current-identity-ae-20260816035843590-ea48d8c84d97/workflow-temporary-acceptance-report.json`,
+SHA-256 `0efd9b5c8f21be30c72c0dc628c306c8ce04d39453e02a707317e6f2def9a78c`.
+Both cleanup facts are true, the evidence directory contains only the safe
+report, and the isolated project has no remaining container, network, volume or
+private fixture directory. This is local candidate acceptance only; it did not
+load a server image, alter production, authorize cutover or publish a release.
