@@ -97,5 +97,28 @@
 ### 尚未越过的边界
 
 - 0.1.97 是本地未签名 review 包，不是正式签名发布。
-- 生产地址当前对 `/software-update-release.json` 返回 404。社区 Apache 不负责该签名清单；生产 Caddy/管理后台部署尚未完成，因此不能宣称公网更新服务已上线。
+- 截至该轮验收，生产地址对 `/software-update-release.json` 返回 404。社区 Apache 不负责该签名清单；该缺口已在下述 2026-08-16 生产切片闭合。
 - 本次验收下载的 Python 安装包保留在用户下载目录，未静默安装或删除。
+
+## 2026-08-16：生产软件更新清单上线
+
+### 生产故障与最小修复
+
+- 上线前反馈回路为：`/software-update-release.json` 返回 404，而 `/channels/v2/catalog-release.json` 与社区首页均返回 200。DNS 和直连源站复核证明请求已到 `47.236.62.189` 的生产 Caddy，不是 Sites、Apache 或客户端缓存问题。
+- 生产 Caddy 仍使用旧热修配置，生产 Admin 镜像也没有软件更新接口；直接升级整套 Admin 会无谓扩大到社区与身份服务。
+- 生产拓扑改为由 Caddy 从现有 Admin published 目录只读提供固定文件。网络仍只能获得已签名的 `{kind, subjectId, mode, version}` 发布清单，不获得下载地址、命令、凭据或安装配置。
+- 基础 Compose 增加 published 目录只读挂载；独立 hotfix overlay 只替换受审 Caddyfile 并加入同一只读挂载，便于旧生产 release 在不重建其他服务的情况下采用修复。
+
+### 部署与反馈回路
+
+- 部署前清单使用客户端同一公钥链验签通过：`releaseVersion=2`、`entries=0`、429 字节、文件 SHA-256 `8a9628eddc35424639e7b63a4792838df352158755c26ebed334e256e153ca99`。
+- 新 Caddyfile 与线上旧文件逐行对比，唯一语义差异是新增固定软件更新路径；使用线上当前 Caddy 镜像 ID 离线校验得到 `Valid configuration`。
+- 仅执行一次 `docker compose ... up -d --no-deps --force-recreate caddy`。Admin、Identity、社区、PostgreSQL 与 MariaDB 的容器 ID 和启动时间均未改变，部署后六个服务全部 healthy。
+- 生产 GET 最终返回 200、`application/json`、`Cache-Control: public, max-age=0, must-revalidate`；响应仍为 429 字节且 SHA-256 与发布源一致，客户端同款验签再次通过。目录、社区与健康接口继续返回 200。
+- 本轮没有改 Apache、数据库、社区数据、身份数据或密钥，没有运行安装器，也没有给空清单伪造更新。客户端下次启动或刷新时会自动读取这份已发布撤回态。
+
+### 验证边界与预防门
+
+- 专属部署测试先因生产缺少只读静态路由与挂载得到 RED，修复后 2/2 GREEN；软件更新协议、服务端接线和部署相关用例通过。
+- 较大的 community production 套件另有两项既有 Identity source-manifest 漂移，与本次 Caddy 文件和软件更新路由无因果关系；本次没有借机修改 Identity 构建闭包。
+- 以后新增更新类型仍必须先由软件更新中心检测、管理员审核并签名发布；生产只暴露固定签名清单，客户端再以本地受审适配器执行用户明确选择的单项或全部更新。

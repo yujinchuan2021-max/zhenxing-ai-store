@@ -1,0 +1,5 @@
+services:
+  caddy:
+    volumes:
+      - ${AIHUB_SOFTWARE_UPDATE_CADDYFILE:?set reviewed Caddyfile path}:/etc/caddy/Caddyfile:ro
+      - ${AIHUB_ADMIN_PUBLISHED_DIR:?set signed catalog state path}:/srv/aihub-admin-published:ro

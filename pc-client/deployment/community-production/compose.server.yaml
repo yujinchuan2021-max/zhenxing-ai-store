@@ -253,6 +253,7 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./caddy-entrypoint.sh:/usr/local/bin/aihub-caddy-entrypoint:ro
+      - ${AIHUB_ADMIN_PUBLISHED_DIR:?set signed catalog state path}:/srv/aihub-admin-published:ro
       - caddy_data:/data
       - caddy_config:/config
       - caddy_cms_secret:/run/aihub-caddy-secret:ro
