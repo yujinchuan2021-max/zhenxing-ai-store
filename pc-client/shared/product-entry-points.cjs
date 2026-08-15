@@ -111,16 +111,36 @@ function legacyProductEntryPoints(product) {
   } else if (product.productType === "cli-official") {
     entries.push({ type: "cli", label: "查看 CLI 安装说明" });
     addTutorial();
-  } else if (["desktop-reviewed", "local-model"].includes(product.productType)) {
+  } else if (["desktop-reviewed", "desktop-download-only", "local-model"].includes(product.productType)) {
     addLink("website", "工具官网", product.website);
     addTutorial();
     entries.push({ type: "desktop", label: "一键安装" });
-  } else if (product.productType === "cli") {
+  } else if (["cli", "cli-deploy-only"].includes(product.productType)) {
     addLink("website", "CLI 官网", product.website);
     addTutorial();
     entries.push({ type: "cli", label: "一键安装" });
   }
   return entries;
+}
+
+function clientOwnedActionLabel(product, entry) {
+  if (
+    entry.type !== "desktop" ||
+    typeof product.name !== "string" ||
+    !product.name.trim()
+  ) {
+    return entry.label;
+  }
+  if (product.downloadPolicy === "official-page") {
+    return "\u524d\u5f80\u5b98\u7f51\u4e0b\u8f7d";
+  }
+  if (
+    product.downloadPolicy === "client-managed" ||
+    product.downloadPolicy === "desktop-download-only"
+  ) {
+    return "\u4e00\u952e\u4e0b\u8f7d";
+  }
+  return entry.label;
 }
 
 function resolveProductEntryPoints(product) {
@@ -129,7 +149,9 @@ function resolveProductEntryPoints(product) {
       ? legacyProductEntryPoints(product)
       : product.entryPoints;
   return Object.freeze(
-    source.map((entry) => Object.freeze({ ...entry }))
+    source.map((entry) =>
+      Object.freeze({ ...entry, label: clientOwnedActionLabel(product, entry) })
+    )
   );
 }
 

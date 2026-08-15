@@ -17,11 +17,11 @@ https://localhost:4443 {
     }
   }
 
-  @catalog path /catalog-release.json
+  @catalog path /catalog-release.json /channels/v2/catalog-release.json /software-update-release.json
   handle @catalog {
     header Cache-Control "public, max-age=0, must-revalidate"
     header X-Content-Type-Options "nosniff"
-    reverse_proxy admin:4173 {
+    reverse_proxy host.docker.internal:4173 {
       header_down -Cache-Control
       header_down -X-Content-Type-Options
     }
@@ -31,7 +31,7 @@ https://localhost:4443 {
   handle @vendorIcons {
     header Cache-Control "public, max-age=31536000, immutable"
     header X-Content-Type-Options "nosniff"
-    reverse_proxy admin:4173 {
+    reverse_proxy host.docker.internal:4173 {
       header_down -Cache-Control
       header_down -X-Content-Type-Options
     }

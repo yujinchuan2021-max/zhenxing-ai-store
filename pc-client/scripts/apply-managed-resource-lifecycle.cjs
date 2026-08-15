@@ -6,7 +6,7 @@ const { validateCatalog } = require("../shared/catalog.cjs");
 const { getInstallRegistration } = require("../shared/install-registry.cjs");
 
 const catalogPath = path.join(__dirname, "..", "admin", "data", "catalog-v1.json");
-const verifiedAt = "2026-08-03T20:00:00.000Z";
+const verifiedAt = "2026-08-04T00:00:00.000Z";
 
 const SKILL_CAPABILITIES = Object.freeze([
   "website",
@@ -22,6 +22,13 @@ const FULL_CAPABILITIES = Object.freeze([
   "repair",
   "enable",
   "disable",
+  "uninstall"
+]);
+const MCP_CONFIG_CAPABILITIES = Object.freeze([
+  "website",
+  "install",
+  "update",
+  "repair",
   "uninstall"
 ]);
 
@@ -66,18 +73,20 @@ function applyManagedResourceLifecycle(catalog) {
   Object.assign(mcp, {
     name: "OpenAI Developer Docs MCP",
     description:
-      "OpenAI 官方只读开发者文档 MCP。枕星 AI 只维护 Codex 用户配置中的固定 openaiDeveloperDocs 条目。",
+      "OpenAI 官方只读开发者文档 MCP。Codex、Claude Code 和 Cursor 分别使用独立的客户端固定配置与收据。",
     website: "https://developers.openai.com/resources/docs-mcp",
     tutorial: "https://developers.openai.com/codex/mcp",
-    versionRef: "2026-08-03",
-    requestedPermissions: ["读取公开 OpenAI 开发者文档", "写入一个固定 Codex MCP 配置条目"],
+    versionRef: "2026-08-04",
+    requestedPermissions: ["读取公开 OpenAI 开发者文档", "写入所选宿主的一个固定 MCP 配置条目"],
     credentialRequirements: ["无需凭据"],
-    installScope: "Codex 用户级 ~/.codex/config.toml 的 openaiDeveloperDocs 条目",
+    installScope: "所选宿主的用户级 openaiDeveloperDocs 条目；每个宿主独立安装和管理",
     uninstallPlan:
-      "仅删除枕星 AI 标记且内容未被用户修改的 openaiDeveloperDocs 配置块。",
+      "仅凭对应宿主的合法收据删除内容仍匹配的 openaiDeveloperDocs 条目；不接管同名外部配置。",
     provenanceEvidence: [
       "https://developers.openai.com/resources/docs-mcp",
-      "https://developers.openai.com/codex/mcp"
+      "https://developers.openai.com/codex/mcp",
+      "https://code.claude.com/docs/en/mcp",
+      "https://docs.cursor.com/context/model-context-protocol"
     ],
     lastVerifiedAt: verifiedAt,
     targets: [
@@ -87,6 +96,22 @@ function applyManagedResourceLifecycle(catalog) {
         moduleId: "mcp-managed",
         installProfileId: "mcp.codex.openai-developer-docs",
         capabilities: [...FULL_CAPABILITIES],
+        enabled: true
+      },
+      {
+        productId: "claude-code",
+        compatibility: "protocol-compatible",
+        moduleId: "mcp-managed",
+        installProfileId: "mcp.claude-code.openai-developer-docs",
+        capabilities: [...MCP_CONFIG_CAPABILITIES],
+        enabled: true
+      },
+      {
+        productId: "cursor-desktop",
+        compatibility: "protocol-compatible",
+        moduleId: "mcp-managed",
+        installProfileId: "mcp.cursor.openai-developer-docs",
+        capabilities: [...MCP_CONFIG_CAPABILITIES],
         enabled: true
       }
     ]
@@ -152,5 +177,6 @@ if (require.main === module) main();
 module.exports = {
   applyManagedResourceLifecycle,
   FULL_CAPABILITIES,
+  MCP_CONFIG_CAPABILITIES,
   SKILL_CAPABILITIES
 };

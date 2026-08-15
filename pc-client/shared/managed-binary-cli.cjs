@@ -7,7 +7,9 @@ const path = require("node:path");
 const PRODUCT_ID = /^[a-z0-9][a-z0-9-]{0,79}$/;
 const VERSION = /^[0-9A-Za-z][0-9A-Za-z._+-]{0,127}$/;
 const COMMAND = /^[a-z0-9][a-z0-9-]{0,31}$/i;
-const FILE_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,95}\.exe$/;
+const FILE_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,95}\.exe$/i;
+const ARCHIVE_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}(?:\.zip|\.tar\.gz)$/i;
+const SAFE_ARGUMENT = /^(?:--?[A-Za-z0-9][A-Za-z0-9-]*|[A-Za-z0-9][A-Za-z0-9._+@/:=-]{0,191})$/;
 const INTEGRITY_PATTERNS = Object.freeze({
   sha256: /^[a-f0-9]{64}$/,
   sha512: /^[a-f0-9]{128}$/
@@ -40,6 +42,18 @@ function pathIsInside(candidate, parent) {
   );
 }
 
+function executableRelativePath(value) {
+  if (typeof value !== "string" || !value.trim()) return "";
+  const normalized = path.win32.normalize(value.trim());
+  const segments = normalized.split("\\");
+  return !path.win32.isAbsolute(normalized) &&
+    segments.length <= 12 &&
+    segments.every((segment) => segment && segment !== "." && segment !== ".." && !/[:*?"<>|]/.test(segment)) &&
+    FILE_NAME.test(segments.at(-1))
+    ? normalized
+    : "";
+}
+
 function integrityForArtifact(artifact) {
   if (!artifact || typeof artifact !== "object") return null;
   const matches = Object.entries(INTEGRITY_PATTERNS).filter(
@@ -52,15 +66,47 @@ function integrityForArtifact(artifact) {
 
 function artifactFor(plan, architecture) {
   const artifact = plan?.artifacts?.[architecture];
-  const integrity = integrityForArtifact(artifact);
+  const downloadIntegrity = integrityForArtifact(artifact);
+  const archived = ARCHIVE_NAME.test(String(artifact?.fileName || ""));
+  const archiveKind = archived && artifact?.archiveKind === "directory"
+    ? "zip-directory"
+    : archived
+      ? "zip-single-executable"
+      : "standalone-executable";
+  const executableFileName = archived
+    ? executableRelativePath(
+        archiveKind === "zip-directory"
+          ? artifact?.executableRelativePath
+          : artifact?.archiveEntry
+      )
+    : String(artifact?.fileName || "");
+  const executableIntegrity = archived
+    ? { algorithm: "sha256", value: String(artifact?.expectedExecutableSha256 || "") }
+    : downloadIntegrity;
   if (
     plan?.driver !== "portable-binary" ||
     !VERSION.test(String(plan.version || "")) ||
     !COMMAND.test(String(plan.commandName || "")) ||
     !SUPPORTED_ARCHITECTURES.has(architecture) ||
     !artifact ||
-    !FILE_NAME.test(String(artifact.fileName || "")) ||
-    !integrity ||
+    (archived && artifact.archiveKind !== undefined && artifact.archiveKind !== "directory") ||
+    !(FILE_NAME.test(String(artifact.fileName || "")) || archived) ||
+    !executableFileName ||
+    (archiveKind !== "zip-directory" && path.win32.basename(executableFileName) !== executableFileName) ||
+    !downloadIntegrity ||
+    !executableIntegrity ||
+    !INTEGRITY_PATTERNS[executableIntegrity.algorithm].test(executableIntegrity.value) ||
+    (archived &&
+      (!Number.isSafeInteger(artifact.maximumExtractedBytes) ||
+        artifact.maximumExtractedBytes < 1024 ||
+        artifact.maximumExtractedBytes > 1024 * 1024 * 1024)) ||
+    (archiveKind === "zip-directory" &&
+      (!Number.isSafeInteger(artifact.maximumArchiveEntries) ||
+        artifact.maximumArchiveEntries < 1 ||
+        artifact.maximumArchiveEntries > 10_000)) ||
+    (!Array.isArray(plan.launchArgs || []) ||
+      (plan.launchArgs || []).length > 16 ||
+      (plan.launchArgs || []).some((argument) => !SAFE_ARGUMENT.test(String(argument || "")))) ||
     !Number.isSafeInteger(artifact.maximumBytes) ||
     artifact.maximumBytes < 1024 ||
     artifact.maximumBytes > 512 * 1024 * 1024
@@ -85,9 +131,15 @@ function artifactFor(plan, architecture) {
   return {
     url: artifact.url,
     fileName: artifact.fileName,
-    integrityAlgorithm: integrity.algorithm,
-    integrity: integrity.value,
+    kind: archiveKind,
+    executableFileName,
+    downloadIntegrityAlgorithm: downloadIntegrity.algorithm,
+    downloadIntegrity: downloadIntegrity.value,
+    integrityAlgorithm: executableIntegrity.algorithm,
+    integrity: executableIntegrity.value,
     maximumBytes: artifact.maximumBytes,
+    ...(archived ? { maximumExtractedBytes: artifact.maximumExtractedBytes } : {}),
+    ...(archiveKind === "zip-directory" ? { maximumArchiveEntries: artifact.maximumArchiveEntries } : {}),
     allowedHosts: [...artifact.allowedHosts]
   };
 }
@@ -105,7 +157,7 @@ function createManagedBinaryLayout({ productId, plan, prefix, architecture }) {
     prefix: normalizedPrefix,
     productRoot,
     directory,
-    executable: path.win32.join(directory, artifact.fileName),
+    executable: path.win32.join(directory, artifact.executableFileName),
     marker: path.win32.join(directory, MARKER_NAME),
     version: plan.version,
     architecture,
@@ -362,7 +414,7 @@ function createManagedBinaryTerminalAction({
     }
     return {
       executable: command,
-      args: ["/d", "/k", "call", executable],
+      args: ["/d", "/k", "call", executable, ...(plan.launchArgs || [])],
       environment: { ...(plan.managedEnvironment || {}) },
       options: {
         cwd: status.directory,

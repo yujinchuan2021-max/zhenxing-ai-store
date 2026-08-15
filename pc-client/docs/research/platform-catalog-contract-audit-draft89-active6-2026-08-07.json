@@ -1,0 +1,81 @@
+{
+  "notice": "candidate-only; read-only shape audit; no saveDraft, publish, package, upload, install or client platform changes",
+  "checkedAt": "2026-08-07",
+  "sourceOfTruth": {
+    "draftRevision": 89,
+    "draftFile": "pc-client/admin/published/catalog-store/state.json",
+    "v2ActiveReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "v2ActiveFile": "pc-client/admin/published/catalog-store/releases/catalog-v00000006-567e671621f1-3dcee587.json"
+  },
+  "baseline": {
+    "vendors": 375,
+    "draftProducts": 615,
+    "activeProducts": 615,
+    "resources": 146,
+    "resourceTargets": 513,
+    "resourceStores": ["skill", "mcp", "plugin", "connector"],
+    "resourceTypeCounts": {"skill": 16, "mcp": 123, "plugin": 8, "connector": 3},
+    "productTypeCounts": {"desktop-reviewed": 37, "desktop-official": 161, "desktop-download-only": 66, "cli": 34, "cli-official": 13, "cli-deploy-only": 1, "web": 247, "tutorial": 55, "local-model": 1},
+    "desktopCards": 264,
+    "explicitNoWindowsRecords": 1,
+    "officialDownloadKindCounts": {"download-page": 130, "login-required": 18, "stable-redirect": 4, "store": 1, "no-windows": 1, "manual-selector": 3, "vendor-bootstrap": 5},
+    "productProfilesNonEmpty": 139,
+    "productRequirementsNonEmpty": 26,
+    "productCapabilityCounts": {"website": 560, "tutorial": 615, "install": 139, "open": 73, "uninstall": 72, "update": 33, "repair": 32},
+    "resourceTargetModuleCounts": {"resource-link": 505, "mcp-managed": 6, "skill-managed": 1, "plugin-managed": 1}
+  },
+  "shapeFindings": {
+    "productStructuredPlatformFields": [],
+    "resourceStructuredPlatformFields": [],
+    "targetStructuredPlatformFields": [],
+    "platformEvidenceFields": [],
+    "architectureFields": [],
+    "runtimeFormFields": [],
+    "observedAtFields": ["resource.lastVerifiedAt"],
+    "interpretation": "No product/resource/target platform contract exists. Descriptions, URLs, desktop productType, environment requirements and officialDownload are not proof of native Windows/macOS/Linux support. resource.lastVerifiedAt is resource provenance time, not platform evidence time.",
+    "currentHiddenAssumptions": ["desktop productType is treated as Windows-oriented by existing client flows", "environment requirements such as python/docker/wsl are not native OS support", "resource-link targets are shown without host-platform intersection"]
+  },
+  "minimalExtensibleContractCandidate": {
+    "canonicalPlatformIds": ["windows", "macos", "linux"],
+    "runtimeForms": ["native", "wsl", "container", "browser", "remote"],
+    "supportStatuses": ["supported", "unsupported", "unknown", "blocked"],
+    "architectureIds": ["x64", "arm64", "x86", "universal", "unknown"],
+    "productOrResourceSupportRecord": {
+      "platform": "windows|macos|linux",
+      "architectures": "unique architectureIds; empty means unknown, not universal",
+      "runtime": "native|wsl|container|browser|remote",
+      "status": "supported|unsupported|unknown|blocked",
+      "evidence": [{"url": "HTTPS first-party or approved official/community channel", "observedAt": "ISO-8601"}],
+      "note": "Do not infer native support from a web page, Electron, Python package or browser/remote endpoint. A record without evidence remains unknown/blocked."
+    },
+    "targetIntersection": {
+      "rule": "availability = resourceSupport ∩ hostProductSupport ∩ requestedPlatform",
+      "storedOnTarget": false,
+      "projectionInput": ["resource support records", "host product support records", "target compatibility", "requested platform"],
+      "unknownPolicy": "hide or render unsupported; never fall back to execution"
+    },
+    "hostPlatformBoundary": "Windows fixed profiles and managed actions cannot imply macOS/Linux support. Each platform requires independent profile, artifact, lifecycle and receipt review.",
+    "taxonomyBoundary": "Keep the existing 21 scenario/canonical tags and four resource-store semantics unchanged; platform/runtime is orthogonal metadata, not a new product category."
+  },
+  "projectionAndBrokerSeam": {
+    "catalogProjection": "Add a pure platform intersection projection beside existing resourceTargetsByType; do not copy resources or targets per OS.",
+    "agentCapabilityBroker": "Broker must require the same platform intersection before catalogBinding/localStatus/grantFor; a valid host/profile alone is insufficient.",
+    "currentGap": "shared/agent-capability-broker.cjs filters hostProductId and installProfileId but has no requested platform or runtime input.",
+    "resourceGap": "shared/ecosystem-resources.cjs validates resource/target identity and modules but has no platform availability field."
+  },
+  "batchEstimate": {
+    "mechanicalBatch": {"scope": "615 product identities + 146 resource identities + 513 targets", "estimate": "one schema migration/shape pass; no platform conclusion"},
+    "firstPartyProductBatch": {"scope": "264 desktop cards + 48 CLI/agent products", "estimate": "3 batches of roughly 100-110 products; verify native OS, architecture, runtime and lifecycle separately"},
+    "resourceHostBatch": {"scope": "146 resources and 513 host targets", "estimate": "2 batches: four stores/resource provenance, then host×platform intersections"},
+    "profileAcceptanceBatch": {"scope": "139 non-empty product profiles and 8 managed resource targets", "estimate": "one platform-specific lifecycle/receipt review per profile; no cross-platform inheritance"},
+    "windowsOnlyAndRemote": "Current schema cannot count these safely. 264 desktop cards are Windows-oriented UI records, not verified Windows-only evidence; 505 resource-link targets are external-entry records, not proof of native or remote platform support."
+  },
+  "requiredFollowUps": [
+    "Backend: approve additive platform support shape and validation/unknown behavior.",
+    "Frontend: add three client download cards only; after installation filter resources by requested platform intersection.",
+    "Desktop management: independently review macOS/Linux profiles, artifacts, lifecycle and receipts; do not reuse Windows profiles.",
+    "Agent Capability Broker: consume platform intersection before granting a capability.",
+    "Catalog/Research: fill records only from first-party evidence with observedAt; keep unknown/blocked explicit."
+  ],
+  "forbidden": ["web|wsl|docker|browser|remote masquerading as native platform", "automatic OS detection", "resource duplication per OS", "execution fallback for unknown", "new scenario tags or resource-store semantics"]
+}

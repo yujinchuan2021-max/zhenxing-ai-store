@@ -2,9 +2,33 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AI Hub｜可信 AI 工具集市",
+  metadataBase: new URL("https://zhenxingai.com"),
+  title: "枕星 AI｜桌面 AI 的可信入口",
   description:
-    "发现、了解并安全获取适合你的 AI 工具，从 Web 应用到桌面端与 CLI，一个地方完成。",
+    "枕星 AI 官方网站：清楚展示桌面版本状态、发布完整性与可信入口。",
+  alternates: { canonical: "/" },
+  icons: { icon: "/zhenxingai-logo-simple.png" },
+  openGraph: {
+    type: "website",
+    locale: "zh_CN",
+    siteName: "枕星 AI",
+    title: "枕星 AI｜桌面 AI 的可信入口",
+    description: "清楚展示桌面版本状态、发布完整性与可信入口。",
+    images: [
+      {
+        url: "/og-zhenxingai.png",
+        width: 1536,
+        height: 1024,
+        alt: "枕星 AI 星图观测台",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "枕星 AI｜桌面 AI 的可信入口",
+    description: "清楚展示桌面版本状态、发布完整性与可信入口。",
+    images: ["/og-zhenxingai.png"],
+  },
 };
 
 export default function RootLayout({

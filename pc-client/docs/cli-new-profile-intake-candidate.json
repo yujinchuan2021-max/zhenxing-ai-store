@@ -1,0 +1,49 @@
+{
+  "notice": "candidate-only，不可发布",
+  "sourceRevision": 79,
+  "sourceProductCount": 615,
+  "sourceDocument": "pc-client/docs/research/cli-agent-official-install-research.md",
+  "candidateCount": 3,
+  "blockerCount": 3,
+  "candidates": [
+    {
+      "vendorId": "anysphere",
+      "productId": "cursor-cli",
+      "proposedDriver": "wsl",
+      "artifactIdentity": "official installer entry https://cursor.com/install; command identity cursor-agent",
+      "environmentRequirements": ["WSL", "Linux shell", "curl"],
+      "windowsSupport": "Windows via WSL; native Windows not documented",
+      "officialEvidence": "https://docs.cursor.com/en/cli/installation",
+      "capabilities": {"install": true, "open": true, "update": true, "repair": false, "uninstall": false},
+      "blockers": ["no fixed version/artifact hash", "official CLI document lacks uninstall and repair contract"],
+      "needsReview": true
+    },
+    {
+      "vendorId": "foundation-agents",
+      "productId": "openmanus-cli",
+      "proposedDriver": "python-venv",
+      "artifactIdentity": "official source repository FoundationAgents/OpenManus; requirements.txt",
+      "environmentRequirements": ["Python 3.12 venv", "uv", "optional Playwright/Chromium", "LLM API configuration"],
+      "windowsSupport": "Windows venv path documented; source install",
+      "officialEvidence": "https://github.com/FoundationAgents/OpenManus/blob/main/README.md",
+      "capabilities": {"install": true, "open": true, "update": false, "repair": false, "uninstall": false},
+      "blockers": ["no fixed release artifact", "no unified update/repair/uninstall contract", "Playwright lifecycle needs review"],
+      "needsReview": true
+    },
+    {
+      "vendorId": "swe-agent",
+      "productId": "mini-swe-agent-cli",
+      "proposedDriver": "python-venv",
+      "artifactIdentity": "PyPI package mini-swe-agent; official repository also documents uvx/pip/source paths",
+      "environmentRequirements": ["Python runtime", "uv or pip"],
+      "windowsSupport": "No Windows-specific binary documented; Python install path",
+      "officialEvidence": "https://github.com/SWE-agent/mini-swe-agent",
+      "capabilities": {"install": true, "open": true, "update": true, "repair": false, "uninstall": false},
+      "blockers": ["no independent repair/uninstall contract", "Windows acceptance and profile policy still require CLI review"],
+      "needsReview": true
+    }
+  ],
+  "blockers": [
+    "All three remain candidate-only and require CLI employee approval before any install capability is granted."
+  ]
+}

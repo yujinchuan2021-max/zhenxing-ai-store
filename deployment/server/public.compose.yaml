@@ -1,0 +1,103 @@
+name: zhenxing-ai
+
+services:
+  website:
+    image: zhenxing-ai/website:${AIHUB_DEPLOY_VERSION:-0.1.36}
+    init: true
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000').then(r=>{if(!r.ok)process.exit(1)})"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 256
+    mem_limit: 384m
+    logging: &default_logging
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  admin:
+    image: zhenxing-ai/admin:${AIHUB_DEPLOY_VERSION:-0.1.36}
+    environment:
+      AIHUB_ADMIN_HOST: 0.0.0.0
+      AIHUB_ADMIN_PORT: 4173
+      AIHUB_ADMIN_PUBLIC_ORIGIN: https://${AIHUB_DOMAIN:-zhenxingai.com}
+      AIHUB_ADMIN_WRITE_ORIGINS: http://127.0.0.1:4173,http://127.0.0.1:4174
+      AIHUB_CATALOG_ASSET_ORIGIN: https://${AIHUB_DOMAIN:-zhenxingai.com}
+      AIHUB_DISCOVERY_SCAN_INTERVAL_HOURS: 24
+    ports:
+      - "127.0.0.1:4173:4173"
+    volumes:
+      - admin_data:/app/admin/data
+      - admin_published:/app/admin/published
+      - catalog_channels:/app/catalog
+      - update_channels:/app/updates
+      - admin_output:/app/output
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4173/ready').then(r=>{if(!r.ok)process.exit(1)})"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 256
+    mem_limit: 256m
+    logging: *default_logging
+
+  gateway:
+    image: caddy:2.10-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d
+    environment:
+      AIHUB_SERVER_IP: ${AIHUB_SERVER_IP:-47.236.62.189}
+    ports:
+      - "80:80"
+    volumes:
+      - ./Caddyfile.public:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      website:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --header=\"Host: $${AIHUB_SERVER_IP}\" -O /dev/null http://127.0.0.1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    pids_limit: 256
+    mem_limit: 128m
+    logging: *default_logging
+
+volumes:
+  admin_data:
+  admin_published:
+  admin_output:
+  catalog_channels:
+  update_channels:
+  caddy_data:
+  caddy_config:

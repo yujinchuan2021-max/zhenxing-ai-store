@@ -302,6 +302,8 @@ test("every checked-in managed resource is authorized only through its local pro
   for (const profileId of [
     "skill.codex.chatgpt-apps",
     "mcp.codex.openai-developer-docs",
+    "mcp.claude-code.openai-developer-docs",
+    "mcp.cursor.openai-developer-docs",
     "plugin.claude.commit-commands"
   ]) {
     const result = evaluateFreshCatalogResourceAuthorization({

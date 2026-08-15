@@ -59,6 +59,25 @@ button.primary, button.secondary, .smallButton, .dangerButton {
 button.primary { border: 0; color: #10241e; background: #9eff4f; }
 button.secondary, .smallButton { border: 1px solid #d8e2dc; color: #17211e; background: #fff; }
 .dangerButton { border: 1px solid #efc6bf; color: #af4d3f; background: #fff7f5; }
+.communityActions { display: flex; align-items: center; gap: 9px; }
+a.smallButton { display: inline-grid; place-items: center; text-decoration: none; }
+.communitySummary {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;
+  margin-bottom: 18px;
+}
+.communitySummary > div {
+  display: grid; gap: 7px; padding: 16px 18px; border: 1px solid #dce6df;
+  border-radius: 14px; background: #fff;
+}
+.communitySummary span { color: #718079; font-size: 11px; }
+.communitySummary b { font-size: 19px; }
+.communitySummary.ready > div:first-child b { color: #315d1c; }
+.communitySummary.unavailable > div:first-child b { color: #9b4337; }
+.communityAdminNote p { color: #718079; line-height: 1.7; }
+.communityTargetList { display: grid; gap: 9px; }
+.communityTarget { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px; border: 1px solid #dce6df; border-radius: 10px; }
+.communityTarget b, .communityTarget small { display: block; }
+.communityTarget small { margin-top: 5px; color: #718079; }
 
 .content { padding: 30px 34px 70px; }
 .intro { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
@@ -116,6 +135,8 @@ textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
   display: grid; width: 34px; height: 34px; place-items: center;
   border-radius: 9px; color: #183124; background: #9eff4f; font-weight: 900;
 }
+.carouselSlide { margin-top: 14px; padding: 14px; border: 1px solid #dce6df; border-radius: 12px; background: #f8fbf9; }
+.carouselPreview { display: block; width: min(100%, 440px); height: 160px; margin-top: 12px; border-radius: 10px; object-fit: cover; background: #eef3f1; }
 .publishCard {
   padding: 26px; border-radius: 18px; color: #fff;
   background: linear-gradient(135deg,#10241e,#1d4236);
@@ -242,5 +263,6 @@ textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
 @media (max-width: 980px) {
   .sourceList > div { grid-template-columns: 1fr 1fr; }
   .reviewSummary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .communitySummary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .resourceStores > div { grid-template-columns: 1fr 1fr; }
 }

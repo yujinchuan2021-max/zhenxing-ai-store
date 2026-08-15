@@ -50,8 +50,108 @@ const EXTENSION_INSTALL_REGISTRY = Object.freeze({
     ]),
     adapterId: "codex-mcp-toml",
     serverId: "openaiDeveloperDocs",
-    versionRef: "2026-08-03",
+    versionRef: "2026-08-04",
     entry: Object.freeze({ url: "https://developers.openai.com/mcp" })
+  }),
+  "mcp.claude-code.openai-developer-docs": Object.freeze({
+    label: "OpenAI Developer Docs MCP · Claude Code",
+    moduleId: "mcp-managed",
+    extensionId: "openai-codex-mcp-config",
+    hostProductId: "claude-code",
+    capabilities: Object.freeze([
+      "website",
+      "install",
+      "update",
+      "repair",
+      "uninstall"
+    ]),
+    adapterId: "claude-code-mcp-cli",
+    serverId: "openaiDeveloperDocs",
+    scope: "user",
+    versionRef: "2026-08-04",
+    entry: Object.freeze({ url: "https://developers.openai.com/mcp" })
+  }),
+  "mcp.cursor.openai-developer-docs": Object.freeze({
+    label: "OpenAI Developer Docs MCP · Cursor",
+    moduleId: "mcp-managed",
+    extensionId: "openai-codex-mcp-config",
+    hostProductId: "cursor-desktop",
+    capabilities: Object.freeze([
+      "website",
+      "install",
+      "update",
+      "repair",
+      "uninstall"
+    ]),
+    adapterId: "cursor-mcp-json",
+    serverId: "openaiDeveloperDocs",
+    scope: "user",
+    versionRef: "2026-08-04",
+    entry: Object.freeze({ url: "https://developers.openai.com/mcp" })
+  }),
+  "mcp.codex.zep-docs": Object.freeze({
+    label: "Zep Documentation MCP",
+    moduleId: "mcp-managed",
+    extensionId: "zep-docs-mcp",
+    hostProductId: "codex-cli",
+    capabilities: Object.freeze([
+      "website",
+      "install",
+      "update",
+      "repair",
+      "enable",
+      "disable",
+      "uninstall"
+    ]),
+    adapterId: "codex-mcp-toml",
+    serverId: "zepDocs",
+    transport: "streamable-http",
+    remoteCapabilities: Object.freeze(["documentation-search", "page-read"]),
+    permissions: Object.freeze(["read"]),
+    versionRef: "2026-08-04",
+    entry: Object.freeze({ url: "https://docs-mcp.getzep.com/mcp" })
+  }),
+  "mcp.claude-code.zep-docs": Object.freeze({
+    label: "Zep Documentation MCP · Claude Code",
+    moduleId: "mcp-managed",
+    extensionId: "zep-docs-mcp",
+    hostProductId: "claude-code",
+    capabilities: Object.freeze([
+      "website",
+      "install",
+      "update",
+      "repair",
+      "uninstall"
+    ]),
+    adapterId: "claude-code-mcp-cli",
+    serverId: "zepDocs",
+    scope: "user",
+    transport: "streamable-http",
+    remoteCapabilities: Object.freeze(["documentation-search", "page-read"]),
+    permissions: Object.freeze(["read"]),
+    versionRef: "2026-08-04",
+    entry: Object.freeze({ url: "https://docs-mcp.getzep.com/mcp" })
+  }),
+  "mcp.cursor.zep-docs": Object.freeze({
+    label: "Zep Documentation MCP · Cursor",
+    moduleId: "mcp-managed",
+    extensionId: "zep-docs-mcp",
+    hostProductId: "cursor-desktop",
+    capabilities: Object.freeze([
+      "website",
+      "install",
+      "update",
+      "repair",
+      "uninstall"
+    ]),
+    adapterId: "cursor-mcp-json",
+    serverId: "zepDocs",
+    scope: "user",
+    transport: "streamable-http",
+    remoteCapabilities: Object.freeze(["documentation-search", "page-read"]),
+    permissions: Object.freeze(["read"]),
+    versionRef: "2026-08-04",
+    entry: Object.freeze({ url: "https://docs-mcp.getzep.com/mcp" })
   }),
   "plugin.claude.commit-commands": Object.freeze({
     label: "Claude Code Commit Commands",

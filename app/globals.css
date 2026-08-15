@@ -145,6 +145,120 @@ button {
   text-decoration: none;
 }
 
+.topbarActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.downloadAction {
+  position: relative;
+  display: inline-flex;
+}
+
+.desktopDownloadButton,
+.settingsDropdown > summary {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--surface);
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.desktopDownloadButton {
+  border-color: var(--deep);
+  color: var(--surface);
+  background: var(--deep);
+}
+
+.settingsDropdown {
+  position: relative;
+}
+
+.settingsDropdown > summary {
+  list-style: none;
+}
+
+.settingsDropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.settingsPopover {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 250px;
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.settingsOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.settingsOption > span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.compactSegmented {
+  display: flex;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper);
+}
+
+.compactSegmented button {
+  min-height: 28px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 6px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.compactSegmented button.active {
+  color: var(--accent-ink);
+  background: var(--accent);
+  font-weight: 800;
+}
+
+.downloadStatus {
+  position: absolute;
+  z-index: 21;
+  top: calc(100% + 8px);
+  left: 50%;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-size: 9px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
 .shell {
   width: min(1400px, calc(100% - 48px));
   min-height: calc(100vh - 198px);
@@ -253,9 +367,13 @@ button {
   align-items: center;
   padding: 0 18px;
   border-radius: 10px;
-  color: white;
-  background: var(--deep);
-  text-decoration: none;
+    color: white;
+    background: var(--deep);
+    border: 0;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
   font-size: 12px;
   font-weight: 800;
 }
@@ -990,68 +1108,6 @@ button {
   font-style: normal;
 }
 
-.settingsList {
-  display: grid;
-  gap: 12px;
-  margin-top: 25px;
-}
-
-.settingCard {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  background: var(--surface);
-}
-
-.settingCard h2,
-.settingCard p {
-  margin: 0;
-}
-
-.settingCard h2 {
-  margin-bottom: 6px;
-  font-size: 14px;
-}
-
-.settingCard p {
-  color: var(--muted);
-  font-size: 10px;
-}
-
-.segmented {
-  display: flex;
-  padding: 3px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--paper);
-}
-
-.segmented button {
-  min-height: 31px;
-  padding: 0 12px;
-  border: 0;
-  border-radius: 7px;
-  color: var(--muted);
-  background: transparent;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-.segmented button.active {
-  color: var(--accent-ink);
-  background: var(--accent);
-  font-weight: 800;
-}
-
-.outlineButton:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
 .loginPanel {
   width: min(430px, 100%);
   margin: 45px auto;
@@ -1156,7 +1212,7 @@ footer {
 @media (max-width: 760px) {
   .topbar {
     width: calc(100% - 28px);
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto 1fr;
     gap: 12px;
     padding: 14px 0;
   }
@@ -1168,6 +1224,22 @@ footer {
   .search {
     grid-column: 1 / -1;
     grid-row: 2;
+  }
+
+  .topbarActions {
+    min-width: 0;
+    gap: 5px;
+  }
+
+  .desktopDownloadButton,
+  .settingsDropdown > summary,
+  .loginButton {
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .settingsPopover {
+    right: -42px;
   }
 
   .shell {
@@ -1274,7 +1346,6 @@ footer {
   }
 
   .tutorialBlock,
-  .settingCard,
   footer {
     align-items: flex-start;
     flex-direction: column;

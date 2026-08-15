@@ -1,0 +1,24 @@
+AIHUB_DOMAIN=zhenxingai.com
+AIHUB_SERVER_IP=47.236.62.189
+AIHUB_ACME_EMAIL=admin@zhenxingai.com
+AIHUB_DEPLOY_VERSION=0.1.36
+
+# Generate every value independently; do not reuse account or SSH passwords.
+AIHUB_IDENTITY_DB_PASSWORD=replace-with-random-value
+AIHUB_FORUM_DB_PASSWORD=replace-with-random-value
+AIHUB_FORUM_DB_ROOT_PASSWORD=replace-with-random-value
+AIHUB_FORUM_ADMIN_PASSWORD=replace-with-random-value
+AIHUB_FORUM_API_KEY=replace-with-random-value
+AIHUB_FORUM_PASSWORD_TOKEN=replace-with-random-value
+AIHUB_COMMUNITY_INTERNAL_SECRET=replace-with-random-value
+
+# Keep registration closed until a real SMTP account is configured and tested.
+AIHUB_REGISTRATION_ENABLED=false
+AIHUB_SMTP_HOST=
+AIHUB_SMTP_PORT=587
+AIHUB_SMTP_SECURE=false
+AIHUB_SMTP_REQUIRE_TLS=true
+AIHUB_SMTP_USER=
+AIHUB_SMTP_PASSWORD=
+AIHUB_MAIL_FROM=ZhenXing AI <no-reply@zhenxingai.com>
+

@@ -58,6 +58,8 @@ const metadata = state.history.find(
   (entry) => entry.releaseId === state.activeReleaseId
 );
 if (!metadata) throw new Error("后台没有活动目录版本");
+const catalogKeyMetadata = state.trustedKeys.find((entry) => entry.keyId === metadata.keyId);
+if (!catalogKeyMetadata) throw new Error("后台活动目录签名公钥不存在");
 const catalogEnvelope = JSON.parse(
   fs.readFileSync(
     path.join(
@@ -85,7 +87,8 @@ const result = prepareReleaseBundle({
       dataDirectory: path.join(root, "admin", "data"),
       env: process.env,
       requireEnvironment: true,
-      environmentVariable: "AIHUB_CATALOG_SIGNING_PRIVATE_KEY"
+      environmentVariable: "AIHUB_CATALOG_SIGNING_PRIVATE_KEY",
+      keyMetadata: catalogKeyMetadata
     }),
     update: loadSigningKey({
       dataDirectory: path.join(root, "admin", "data"),

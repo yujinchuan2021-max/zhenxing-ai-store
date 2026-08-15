@@ -6,82 +6,43 @@ const path = require("node:path");
 const test = require("node:test");
 
 const { getManagedDownload } = require("../shared/managed-downloads.cjs");
-const {
-  validateWindowsInstallerIdentity
-} = require("../shared/windows-installer-identity.cjs");
+const CORE_DESKTOP_DOWNLOADS = [
+  "chatgpt-desktop",
+  "claude-desktop",
+  "comfy-desktop",
+  "ollama-cli"
+];
 
-const MACHINE = Object.freeze({ x86: 0x014c, x64: 0x8664 });
-
-function peFixture(architecture) {
-  const buffer = Buffer.alloc(0x200);
-  buffer.write("MZ", 0, "ascii");
-  buffer.writeUInt32LE(0x80, 0x3c);
-  buffer.write("PE\0\0", 0x80, "binary");
-  buffer.writeUInt16LE(MACHINE[architecture], 0x84);
-  return buffer;
-}
-
-const OBSERVED_VERSION_INFO = Object.freeze({
-  "chatgpt-desktop": Object.freeze({
-    ProductName: "Store Installer",
-    FileDescription: "Store Installer",
-    OriginalFilename: "StoreInstaller.exe",
-    CompanyName: "Microsoft Corporation"
-  }),
-  "claude-desktop": Object.freeze({
-    ProductName: "Claude",
-    FileDescription: "Claude Setup",
-    OriginalFilename: "ClaudeSetup.exe",
-    CompanyName: "Anthropic, PBC"
-  }),
-  "comfy-desktop": Object.freeze({
-    ProductName: "Comfy Desktop",
-    FileDescription: "Comfy Desktop",
-    OriginalFilename: "",
-    CompanyName: "Comfy Org"
-  }),
-  "ollama-cli": Object.freeze({
-    ProductName: "Ollama                                                      ",
-    FileDescription: "Ollama Setup                                                ",
-    OriginalFilename: "                                                  ",
-    CompanyName: "Ollama                                                      "
-  })
-});
-
-test("the four core desktop downloads carry an executable identity contract", () => {
-  for (const productId of Object.keys(OBSERVED_VERSION_INFO)) {
+test("the four core desktop downloads carry a direct HTTPS file contract", () => {
+  for (const productId of CORE_DESKTOP_DOWNLOADS) {
     const plan = getManagedDownload(productId);
-    assert.ok(plan.expectedInstallerIdentity, productId);
-    assert.ok(
-      ["store-bootstrapper", "vendor-installer"].includes(plan.installerKind),
-      productId
-    );
-    const expected = plan.expectedInstallerIdentity;
-    const result = validateWindowsInstallerIdentity({
-      buffer: peFixture(expected.architecture),
-      versionInfo: OBSERVED_VERSION_INFO[productId],
-      expected
-    });
-    assert.equal(result.ok, true, productId);
+    assert.ok(plan, productId);
+    assert.equal(new URL(plan.url).protocol, "https:", productId);
+    assert.ok(plan.allowedHosts.includes(new URL(plan.url).hostname), productId);
+    assert.match(plan.fileName, /\.(?:exe|msi|msix|zip)$/i, productId);
   }
 });
 
-test("installer inspection and launch share the same hash, signature and identity gate", () => {
+test("desktop packages open directly without installer-content validation", () => {
   const source = fs.readFileSync(
     path.resolve(__dirname, "../electron/main.cjs"),
     "utf8"
   );
-  const inspection = source.match(
-    /async function inspectManagedDesktopDownloadRecord[\s\S]*?function removeTrustedCompletedPackage/
-  )?.[0];
   const launch = source.match(
     /ipcMain\.handle\("installer:launch"[\s\S]*?ipcMain\.handle\("desktop:operation-get"/
   )?.[0];
-  assert.ok(inspection);
   assert.ok(launch);
-  assert.match(inspection, /inspectWindowsInstallerIdentity\(/);
   assert.match(launch, /inspectCompletedDownloadRecord\(productId\)/);
-  assert.doesNotMatch(launch, /productId === "chatgpt-desktop"/);
+  assert.match(launch, /shell\.openPath\(resolvedFile\)/);
+  assert.match(launch, /verificationMode:\s*"manual-installer"/);
+  assert.match(
+    launch,
+    /if \(managedDownload\?\.installerKind === "store-bootstrapper"\)[\s\S]*?showDesktopInstallConfirmation/
+  );
+  assert.doesNotMatch(
+    launch,
+    /inspectWindowsInstallerIdentity|fileSha256|verifyExpectedSignature|installPortableDesktopProduct|operationController\.begin\(/
+  );
 });
 
 test("fresh installer retrieval is a dedicated reviewed IPC action", () => {
@@ -101,10 +62,13 @@ test("fresh installer retrieval is a dedicated reviewed IPC action", () => {
   assert.match(main, /startFreshManagedDownload\(productId\)/);
   assert.match(preload, /refreshDownload:[\s\S]*?"download:refresh"/);
   assert.match(app, /intent === "refresh"/);
-  assert.match(app, /window\.aihubPC\.refreshDownload\(product\.id\)/);
+  assert.match(
+    app,
+    /window\.aihubPC\.refreshDownload\(product\.id, product\.download\)/
+  );
 });
 
-test("a replacement is fully verified before its record commit and old-package cleanup", () => {
+test("a fresh desktop download commits the file before old-package cleanup", () => {
   const main = fs.readFileSync(
     path.resolve(__dirname, "../electron/main.cjs"),
     "utf8"
@@ -113,12 +77,9 @@ test("a replacement is fully verified before its record commit and old-package c
     /function beginManagedDownloadAttempt[\s\S]*?return advanceManagedDownloadCompleted\(/
   )?.[0];
   assert.ok(completion);
-  const verifyAt = completion.indexOf(
-    "inspectManagedDesktopDownloadRecord("
-  );
   const commitAt = completion.indexOf("commitManagedDownloadReplacement({");
-  assert.ok(verifyAt >= 0);
-  assert.ok(commitAt > verifyAt);
+  assert.ok(commitAt >= 0);
+  assert.doesNotMatch(completion, /inspectManagedDesktopDownloadRecord\(/);
   assert.doesNotMatch(
     main.match(
       /function startFreshManagedDownloadAfterAdmission[\s\S]*?function startFreshManagedDownload\(/
@@ -177,6 +138,21 @@ test("an unavailable Windows signature probe is neither cached nor treated as ab
   assert.match(
     detector,
     /registryScanSucceeded: registryEvidenceScanSucceeded/
+  );
+});
+
+test("PowerShell JSON probes force UTF-8 before reading localized identities", () => {
+  const main = fs.readFileSync(
+    path.resolve(__dirname, "../electron/main.cjs"),
+    "utf8"
+  );
+  assert.match(
+    main,
+    /const POWERSHELL_UTF8_OUTPUT =\s*\n?\s*"\[Console\]::OutputEncoding=\[System\.Text\.UTF8Encoding\]::new\(\$false\)"/
+  );
+  assert.ok(
+    (main.match(/POWERSHELL_UTF8_OUTPUT,/g) || []).length >= 4,
+    "every JSON-producing PowerShell probe must preserve localized text"
   );
 });
 

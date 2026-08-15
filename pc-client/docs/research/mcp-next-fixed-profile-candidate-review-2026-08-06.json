@@ -1,0 +1,38 @@
+{
+  "date": "2026-08-06",
+  "status": "no-op",
+  "factSource": "pc-client/admin/published/catalog-store/state.json",
+  "draftRevision": 89,
+  "activeReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+  "mcpResources": 123,
+  "targets": 472,
+  "resourceLinkTargets": 469,
+  "newFixedProfileCandidates": [],
+  "nearMisses": [
+    {"resourceId":"unity-official-mcp-server","targetHost":"codex-cli","status":"blocked","blocker":"rolling official package; no local ownership receipt or lifecycle contract"},
+    {"resourceId":"microsoft-playwright-mcp","targetHost":"codex-cli","status":"blocked","blocker":"rolling package and dynamic browser profile; no safe receipt boundary"},
+    {"resourceId":"gitbook-published-docs-mcp","targetHost":"codex-cli","status":"blocked","blocker":"user-site URL and remote account authorization; not a fixed local package"},
+    {"resourceId":"figma-mcp-server","targetHost":"cursor-desktop","status":"blocked","blocker":"OAuth remote service or user-enabled desktop state; AI Hub cannot collect authorization or own lifecycle"},
+    {"resourceId":"minimax-official-mcp","targetHost":"minimax-cli","status":"blocked","blocker":"API key and region host required; rolling runner/dependencies and no fixed Windows lifecycle"}
+  ],
+  "readOnly": true,
+  "changedCode": false,
+  "changedCatalog": false,
+  "changedState": false,
+  "savedDraft": false,
+  "published": false,
+  "packaged": false,
+  "downloaded": false,
+  "installed": false,
+  "officialSources": [
+    "https://unity.com/features/ai",
+    "https://docs.unity3d.com/Packages/com.unity.ai.assistant@latest/index.html?subfolder=%2Fmanual%2Fintegration%2Funity-mcp-get-started.html",
+    "https://github.com/microsoft/playwright-mcp",
+    "https://gitbook.com/docs/publishing-documentation/mcp-servers-for-published-docs",
+    "https://developers.figma.com/docs/figma-mcp-server/",
+    "https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/",
+    "https://developers.figma.com/docs/figma-mcp-server/local-server-installation/",
+    "https://github.com/MiniMax-AI/MiniMax-MCP"
+  ],
+  "nextOwner": "AI 商店后台先冻结 profile/schema 合同；随后由桌面或 CLI 员工实现客户端适配"
+}

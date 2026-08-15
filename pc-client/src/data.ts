@@ -6,6 +6,7 @@ export type ProductType =
   | "web"
   | "desktop-official"
   | "desktop-reviewed"
+  | "desktop-download-only"
   | "cli-official"
   | "cli"
   | "local-model"
@@ -15,9 +16,10 @@ export type InstallPolicy =
   | "open-official-download"
   | "open-official-install"
   | "client-managed-installer"
+  | "client-managed-download"
   | "client-managed-cli"
   | "open-tutorial";
-export type DownloadPolicy = "none" | "official-page" | "client-managed";
+export type DownloadPolicy = "none" | "official-page" | "client-managed" | "desktop-download-only";
 export type SignaturePolicy =
   | "not-applicable"
   | "vendor-controlled"
@@ -36,6 +38,10 @@ export type ProductCapability =
   | "open"
   | "uninstall";
 
+export type EnglishLocalization<T extends Record<string, string>> = {
+  localized?: { en: T };
+};
+
 export type ProductEntryPoint =
   | {
       type: "website" | "web" | "tutorial" | "external";
@@ -47,6 +53,21 @@ export type ProductEntryPoint =
       label: string;
     };
 
+export type OfficialDownload = {
+  url: string;
+  kind:
+    | "vendor-bootstrap"
+    | "download-page"
+    | "fixed-redirect"
+    | "stable-redirect"
+    | "store"
+    | "login-required"
+    | "manual-selector"
+    | "no-windows";
+  coveredProductIds?: string[];
+  note?: string;
+};
+
 export type Product = {
   id: string;
   enabled?: boolean;
@@ -56,6 +77,7 @@ export type Product = {
   kind: ProductKind;
   category: ProductCategory;
   description: string;
+  localized?: { en: { name: string; description: string } };
   website: string;
   tutorial: string;
   productType: ProductType;
@@ -68,10 +90,16 @@ export type Product = {
   uninstallPolicy: UninstallPolicy;
   capabilities?: ProductCapability[];
   entryPoints?: ProductEntryPoint[];
+  officialDownload?: OfficialDownload;
   componentProductIds?: string[];
+  scenarioTags?: string[];
+  agentTag?: boolean;
+  agentChannel?: "mature-agent";
   download?: {
     url: string;
     fileName: string;
+    artifactKind?: "exe" | "msi" | "msix" | "zip";
+    mirrors?: string[];
   };
 };
 
@@ -91,14 +119,18 @@ export type Vendor = {
   mark: string;
   color: string;
   description: string;
+  localized?: { en: { name: string; description: string } };
   website: string;
   tutorial: string;
   products: Product[];
 };
 
+export type ResourceStoreKind = "skill" | "mcp" | "connector" | "plugin";
+
 export type ResourceStore = {
-  id: string;
+  id: ResourceStoreKind;
   label: string;
+  localized?: { en: { label: string } };
   enabled: boolean;
   order: number;
 };
@@ -124,18 +156,52 @@ export type ResourceTarget = {
   enabled: boolean;
 };
 
+export type ResourceConnection = {
+  resourceId: string;
+  hostProductId: string;
+  connectionMode:
+    | "remote-mcp"
+    | "chatgpt-app"
+    | "claude-connector"
+    | "claude-integration";
+  bindingKind:
+    | "skill-context"
+    | "mcp-tool"
+    | "mcp-resource"
+    | "mcp-prompt"
+    | "plugin-host-extension"
+    | "connector-authorized-connection";
+};
+
 export type EcosystemResource = {
   id: string;
   enabled?: boolean;
   order?: number;
   name: string;
-  resourceTypes: string[];
+  resourceTypes: ResourceStoreKind[];
   description: string;
+  localized?: { en: { name: string; description: string } };
   website: string;
   tutorial: string;
   publisherVendorId?: string;
   publisher?: string;
   sourceKind?: "official" | "reviewed-community" | "community";
+  reviewStatus?:
+    | "unreviewed"
+    | "automated-reviewed"
+    | "manually-reviewed"
+    | "rejected";
+  riskLevel?: "low" | "guarded" | "unsafe";
+  scenarioTags?: string[];
+  metadataSnapshot?: {
+    sourcePlatform: string;
+    discoveredVia: string;
+    sourcePage: string;
+    canonicalSource?: string;
+    originalAuthor?: string;
+    observedAt: string;
+    externalReference?: Record<string, string | number>;
+  };
   sourceProductIds: string[];
   targets: ResourceTarget[];
   versionRef?: string;

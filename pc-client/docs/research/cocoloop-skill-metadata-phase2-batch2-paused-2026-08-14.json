@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "phase": "public-page-metadata-batch2-paused-for-audit",
+  "targetCumulative": 5000,
+  "networkResumptionAuthorized": false,
+  "pause": {
+    "completedCumulative": 1409,
+    "completedThisBatch": 409,
+    "fetchFailureThisBatch": 1,
+    "parseFailureThisBatch": 2,
+    "otherFailureThisBatch": 0,
+    "consecutiveFailures": 0,
+    "http403": 0,
+    "http429": 0,
+    "relatedNodeProcesses": 0,
+    "ownerLockRetainedForManualReview": true
+  },
+  "artifacts": {
+    "metadata": { "path": "output/research/cocoloop-skill-intake/phase2-first1000/metadata.ndjson", "lines": 1400, "sha256": "2ce25570ac033fb928da3f903bf1544ebf1c42e30d8f6d598a6b36c9d54dba14" },
+    "failures": { "path": "output/research/cocoloop-skill-intake/phase2-first1000/failures.ndjson", "lines": 9, "sha256": "b0298a752f95b9b4a9311f70a835d89dac25152640d610cf414bc299d55d8d2f" },
+    "checkpoint": { "path": "output/research/cocoloop-skill-intake/phase2-first1000/checkpoint.json", "sha256": "efc32eeb320a90f56d9de228a3700aa88d13cce3ce2020bfed612ca9124ffa81" },
+    "summary": { "path": "output/research/cocoloop-skill-intake/phase2-first1000/summary.json", "sha256": "06960defc1f7927b7df521dff7e682baf6550945cc6a2715abaf0d004a572584" },
+    "ownerLock": { "path": "output/research/cocoloop-skill-intake/phase2-first1000/owner.lock", "sha256": "9f292cefec2b8d424cb123e196638b2ccbbc0678576ce51eb0f162102de23995" }
+  },
+  "prefixEvidence": {
+    "first1000MetadataBytes": 611474,
+    "first1000MetadataPrefixSha256": "bcbc7f4dd689a3ddfe3baffec1e17744db1c4e387fe30f9d8060b8795ed61d9f",
+    "first1000FailureBytes": 842,
+    "first1000FailurePrefixSha256": "3f988fd88601880a2141406740cebc1a297d0825f58233e8d57342745b8e9410"
+  },
+  "implementation": {
+    "parserArtifactPath": "shared/cocoloop-skill-metadata-parser.cjs",
+    "parserArtifactSha256": "0182e734cfe891f340e7c630b99f5c321dcdd916b1cca83bf5fd515b143919b8",
+    "sharedSha256": "8c48b25432d299e7650b77a4594ee654f5e35015d921574b972f54d66488ef98",
+    "scriptSha256": "fa14e20f59320e5e03f35e4ca6282959f781422edea5d511e73a2bb678d94bab",
+    "testSha256": "749e5ca35e59ff5c92df46b2b7baf1d1ce8595eda05cb15b8543d0247be64646",
+    "focusedGreen": "22 passed, 0 failed",
+    "parserBindingMigration": "exact allowlist source f4b70082f622f5daf16f9b1a597dcecc005bac89059ef5ceaeac732c80b22e9c to exact target 0182e734cfe891f340e7c630b99f5c321dcdd916b1cca83bf5fd515b143919b8 after checkpoint/input/outcome/owner/stop validation; zero network and zero metadata/failure/summary/lock writes",
+    "stopMarkerContract": "after O_EXCL owner acquisition and before migration, network, or output writes; strict exact safe schema; corrupt, extra-field, non-regular, symlink/reparse, or canonical drift fails closed",
+    "resetOrAcknowledgeImplemented": false
+  },
+  "notes": [
+    "The owner lock is intentionally retained after the interrupted executor did not reach finally. It was not automatically removed.",
+    "No stopped.json existed at pause time; the retained owner lock currently prevents restart. The new stop-marker gate is covered with isolated fixtures.",
+    "The summary remains the completed first-1000 summary and is not presented as cumulative batch-2 completion.",
+    "No RED replay evidence is claimed."
+  ],
+  "scope": "No active catalog, state, channel, release, package, App, schema, or server path was written. Network remains stopped pending fresh audit and exact manual lock handling authorization."
+}

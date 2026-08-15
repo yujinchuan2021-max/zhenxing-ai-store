@@ -3,7 +3,10 @@ const test = require("node:test");
 
 const {
   applyDownloadTaskEvent,
-  restoreDownloadTask
+  restoreDownloadTask,
+  projectManagedDownloadTask,
+  authorizeManagedDownloadCancellation,
+  validateManagedDownloadCancelRequest
 } = require("../shared/download-task.cjs");
 
 const times = [
@@ -36,6 +39,97 @@ function startTask(attemptId = "attempt-1") {
   assert.equal(result.accepted, true);
   return result.task;
 }
+
+test("keeps a queued download distinct from a started transfer", () => {
+  const queued = applyDownloadTaskEvent(
+    null,
+    { type: "queue", productId: "ollama", attemptId: "attempt-1" },
+    at(0)
+  );
+  assert.equal(queued.accepted, true);
+  assert.equal(queued.task.phase, "queued");
+  assert.equal(queued.task.progress.receivedBytes, 0);
+  const started = applyDownloadTaskEvent(
+    queued.task,
+    { type: "begin", attemptId: "attempt-1" },
+    at(1)
+  );
+  assert.equal(started.accepted, true);
+  assert.equal(started.task.phase, "starting");
+});
+
+test("projects every durable phase through the strict five-phase public task contract", () => {
+  const phases = [
+    ["queued", "queued", "active", true, false],
+    ["starting", "queued", "active", true, false],
+    ["downloading", "downloading", "active", true, false],
+    ["pausing", "downloading", "active", true, false],
+    ["paused", "downloading", "active", true, false],
+    ["canceling", "downloading", "active", true, false],
+    ["failed", "failed", "failed", true, true],
+    ["canceled", "cancelled", "failed", false, true],
+    ["completed", "downloaded", "completed", false, false]
+  ];
+  for (const [internal, phase, state, canCancel, canRetry] of phases) {
+    const task = {
+      productId: "safe-product",
+      attemptId: `attempt-${internal}`,
+      phase: internal,
+      progress: { receivedBytes: 1, totalBytes: 2, bytesPerSecond: 1, percent: 50 },
+      errorCode: internal === "failed" ? "DOWNLOAD_FAILED" : null,
+      filePath: "C:\\private\\artifact.exe",
+      errorMessage: "private detail"
+    };
+    assert.deepEqual(projectManagedDownloadTask(task, { profileId: "fixed-profile" }), {
+      taskId: `attempt-${internal}`,
+      productId: "safe-product",
+      profileId: "fixed-profile",
+      phase,
+      progress: { receivedBytes: 1, totalBytes: 2, bytesPerSecond: 1, percent: 50 },
+      ...(internal === "failed" ? { errorCode: "DOWNLOAD_FAILED" } : {}),
+      presentation: { state, canCancel, canRetry }
+    });
+  }
+  assert.equal(projectManagedDownloadTask({ productId: "safe-product", attemptId: "attempt", phase: "unknown" }, { profileId: "fixed-profile" }), null);
+});
+
+test("authorizes only an exact current cancellable attempt", () => {
+  const request = { productId: "safe-product", taskId: "attempt-1", confirmed: true };
+  assert.deepEqual(validateManagedDownloadCancelRequest(request), request);
+  for (const invalid of [
+    null,
+    { productId: "safe-product", confirmed: true },
+    { ...request, confirmed: false },
+    { ...request, command: "cmd.exe" },
+    { ...request, path: "C:\\private\\file.part" }
+  ]) assert.equal(validateManagedDownloadCancelRequest(invalid), null);
+  for (const phase of ["queued", "starting", "downloading", "pausing", "paused", "failed", "canceling"]) {
+    assert.deepEqual(
+      authorizeManagedDownloadCancellation({
+        request,
+        task: { productId: "safe-product", attemptId: "attempt-1", phase },
+        plan: { downloadPolicy: "desktop-download-only" }
+      }),
+      { ok: true, productId: "safe-product", attemptId: "attempt-1" }
+    );
+  }
+  assert.equal(
+    authorizeManagedDownloadCancellation({
+      request,
+      task: { productId: "safe-product", attemptId: "attempt-2", phase: "downloading" },
+      plan: { downloadPolicy: "desktop-download-only" }
+    }).errorCode,
+    "DOWNLOAD_ATTEMPT_MISMATCH"
+  );
+  assert.equal(
+    authorizeManagedDownloadCancellation({
+      request,
+      task: { productId: "safe-product", attemptId: "attempt-1", phase: "completed" },
+      plan: { downloadPolicy: "desktop-download-only" }
+    }).errorCode,
+    "DOWNLOAD_ALREADY_COMPLETED"
+  );
+});
 
 function progress(receivedBytes, overrides = {}) {
   return {

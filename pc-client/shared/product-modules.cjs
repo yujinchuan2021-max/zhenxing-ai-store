@@ -1,5 +1,12 @@
 "use strict";
 
+const {
+  LEGACY_DESKTOP_DOWNLOAD_MODULE_ID,
+  SIGNED_CATALOG_MODULE_ID,
+  SIGNED_CATALOG_PROFILE_ID,
+  getDesktopDownloadOnlyProfile
+} = require("./desktop-download-only.cjs");
+
 const PRODUCT_MODULES = Object.freeze({
   "web-link": Object.freeze({
     id: "web-link",
@@ -31,8 +38,8 @@ const PRODUCT_MODULES = Object.freeze({
   }),
   "desktop-managed": Object.freeze({
     id: "desktop-managed",
-    label: "桌面产品一键安装",
-    description: "检测环境、下载、校验并打开已审核安装器。",
+    label: "桌面产品下载",
+    description: "下载官方桌面安装包；完成后由用户点击打开并继续厂商安装流程。",
     productType: "desktop-reviewed",
     kind: "桌面端",
     installPolicy: "client-managed-installer",
@@ -48,6 +55,22 @@ const PRODUCT_MODULES = Object.freeze({
     ]),
     requiresProfile: true,
     allowsRequirements: true
+  }),
+  [SIGNED_CATALOG_MODULE_ID]: Object.freeze({
+    id: SIGNED_CATALOG_MODULE_ID,
+    label: "桌面产品官方包下载",
+    description: "仅下载并打开官方安装包；不检测、不管理已安装产品。",
+    productType: "desktop-download-only",
+    kind: "桌面端",
+    installPolicy: "client-managed-download",
+    downloadPolicy: "desktop-download-only",
+    signaturePolicy: "vendor-controlled",
+    uninstallPolicy: "not-managed",
+    capabilities: Object.freeze(["website", "tutorial", "install"]),
+    requiresProfile: true,
+    catalogProfileId: SIGNED_CATALOG_PROFILE_ID,
+    legacyModuleIds: Object.freeze([LEGACY_DESKTOP_DOWNLOAD_MODULE_ID]),
+    allowsRequirements: false
   }),
   "cli-official": Object.freeze({
     id: "cli-official",
@@ -85,10 +108,24 @@ const PRODUCT_MODULES = Object.freeze({
     requiresProfile: true,
     allowsRequirements: true
   }),
+  "cli-deploy-only": Object.freeze({
+    id: "cli-deploy-only",
+    label: "CLI \u90e8\u7f72",
+    description: "\u4ec5\u68c0\u67e5\u73af\u5883\u3001\u90e8\u7f72\u56fa\u5b9a\u5ba2\u6237\u7aef CLI \u5236\u54c1\u3001\u590d\u6838\u5e76\u6253\u5f00\u72ec\u7acb\u7ec8\u7aef\u3002",
+    productType: "cli-deploy-only",
+    kind: "CLI",
+    installPolicy: "client-managed-cli-deploy-only",
+    downloadPolicy: "none",
+    signaturePolicy: "client-reviewed",
+    uninstallPolicy: "not-managed",
+    capabilities: Object.freeze(["website", "tutorial", "install", "open"]),
+    requiresProfile: true,
+    allowsRequirements: true
+  }),
   "local-model-managed": Object.freeze({
     id: "local-model-managed",
-    label: "本地模型工具安装",
-    description: "按客户端本地批准的模型工具策略安装和检测。",
+    label: "本地模型工具下载",
+    description: "下载官方桌面包；完成后由用户点击打开并继续厂商安装流程。",
     productType: "local-model",
     kind: "桌面端",
     installPolicy: "client-managed-installer",
@@ -131,6 +168,9 @@ const MODULE_BY_PRODUCT_TYPE = Object.freeze(
 );
 
 function getProductModule(moduleId) {
+  if (moduleId === LEGACY_DESKTOP_DOWNLOAD_MODULE_ID) {
+    return PRODUCT_MODULES[SIGNED_CATALOG_MODULE_ID];
+  }
   return PRODUCT_MODULES[moduleId] || null;
 }
 
@@ -141,6 +181,10 @@ function moduleIdForProductType(productType) {
 function applyProductModule(product, moduleId) {
   const module = getProductModule(moduleId);
   if (!module) throw new Error(`未知产品模块：${moduleId}`);
+  const fixedDesktopDownloadProfile =
+    module.id === SIGNED_CATALOG_MODULE_ID
+      ? getDesktopDownloadOnlyProfile(product.id)
+      : null;
   return {
     ...product,
     moduleId: module.id,
@@ -153,7 +197,7 @@ function applyProductModule(product, moduleId) {
     capabilities: [...module.capabilities],
     requirements: module.allowsRequirements ? product.requirements || [] : [],
     installProfileId: module.requiresProfile
-      ? product.installProfileId || ""
+      ? fixedDesktopDownloadProfile?.profileId || module.catalogProfileId || product.installProfileId || ""
       : ""
   };
 }

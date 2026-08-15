@@ -124,7 +124,7 @@ test("builds and verifies a server-migratable signed release bundle", () => {
     const outputDirectory = path.join(value.root, "bundle");
     const result = prepareReleaseBundle({
       outputDirectory,
-      baseUrl: "https://localhost:4443/",
+      baseUrl: "https://release.example/",
       catalogEnvelope: value.catalogEnvelope,
       installerPath: value.installer,
       version: "0.1.1",
@@ -184,7 +184,7 @@ test("signed build provenance binds both Setup and Portable acceptance bytes", (
     const outputDirectory = path.join(value.root, "portable-bundle");
     prepareReleaseBundle({
       outputDirectory,
-      baseUrl: "https://localhost:4443/",
+      baseUrl: "https://release.example/",
       catalogEnvelope: value.catalogEnvelope,
       installerPath: value.installer,
       version: "0.1.1",
@@ -204,7 +204,7 @@ test("signed build provenance binds both Setup and Portable acceptance bytes", (
       () =>
         prepareReleaseBundle({
           outputDirectory: path.join(value.root, "tampered-portable-bundle"),
-          baseUrl: "https://localhost:4443/",
+          baseUrl: "https://release.example/",
           catalogEnvelope: value.catalogEnvelope,
           installerPath: value.installer,
           version: "0.1.1",
@@ -226,7 +226,7 @@ test("rejects source provenance changed outside the signed build attestation", (
     const outputDirectory = path.join(value.root, "bundle");
     prepareReleaseBundle({
       outputDirectory,
-      baseUrl: "https://localhost:4443/",
+      baseUrl: "https://release.example/",
       catalogEnvelope: value.catalogEnvelope,
       installerPath: value.installer,
       version: "0.1.1",
@@ -287,13 +287,34 @@ test("accepts only the fixed local Docker installer name variant", () => {
   }
 });
 
+test("production bundles reject loopback release addresses", () => {
+  const value = fixture();
+  try {
+    assert.throws(
+      () =>
+        prepareReleaseBundle({
+          outputDirectory: path.join(value.root, "loopback-bundle"),
+          baseUrl: "https://localhost:4443/",
+          catalogEnvelope: value.catalogEnvelope,
+          installerPath: value.installer,
+          version: "0.1.1",
+          buildProvenance: value.buildProvenance,
+          signingKeys: { catalog: signingKey(), update: signingKey() }
+        }),
+      /非回环 HTTPS/
+    );
+  } finally {
+    fs.rmSync(value.root, { recursive: true, force: true });
+  }
+});
+
 test("detects a modified installer before accepting a release bundle", () => {
   const value = fixture();
   try {
     const outputDirectory = path.join(value.root, "bundle");
     const result = prepareReleaseBundle({
       outputDirectory,
-      baseUrl: "https://localhost:4443/",
+      baseUrl: "https://release.example/",
       catalogEnvelope: value.catalogEnvelope,
       installerPath: value.installer,
       version: "0.1.1",
@@ -329,7 +350,7 @@ test("rejects one signing key reused for catalog and update", () => {
       () =>
         prepareReleaseBundle({
           outputDirectory: path.join(value.root, "bundle"),
-          baseUrl: "https://localhost:4443/",
+          baseUrl: "https://release.example/",
           catalogEnvelope: value.catalogEnvelope,
           installerPath: value.installer,
           version: "0.1.1",
@@ -350,7 +371,7 @@ test("rejects an installer whose filename version differs from the release", () 
       () =>
         prepareReleaseBundle({
           outputDirectory: path.join(value.root, "bundle"),
-          baseUrl: "https://localhost:4443/",
+          baseUrl: "https://release.example/",
           catalogEnvelope: value.catalogEnvelope,
           installerPath: value.installer,
           version: "0.1.2",

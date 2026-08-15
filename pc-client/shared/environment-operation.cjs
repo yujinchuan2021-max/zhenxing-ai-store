@@ -81,18 +81,25 @@ function toEnvironmentEnvelope(records) {
 function createEnvironmentOperationController({
   loadRecords,
   saveRecords,
+  checkProduct,
   onChange = () => {},
   ...options
 }) {
   if (
     typeof loadRecords !== "function" ||
     typeof saveRecords !== "function" ||
+    typeof checkProduct !== "function" ||
     typeof onChange !== "function"
   ) {
     throw new TypeError("环境操作控制器参数无效");
   }
+  let scanOverride = null;
   const core = createDesktopOperationController({
     ...options,
+    checkProduct: (environmentId) =>
+      scanOverride?.environmentId === environmentId
+        ? scanOverride.status
+        : checkProduct(environmentId),
     loadRecords: () => toCoreEnvelope(loadRecords()),
     saveRecords: (records) =>
       saveRecords(toEnvironmentEnvelope(records)),
@@ -119,6 +126,27 @@ function createEnvironmentOperationController({
       return toEnvironmentTask(
         await core.checkNow(environmentId, generation, operationId)
       );
+    },
+    async reconcileScan(environmentId, generation, operationId, status) {
+      const current = core.get(environmentId);
+      if (
+        !current ||
+        current.phase !== "timed-out" ||
+        current.generation !== generation ||
+        current.operationId !== operationId ||
+        scanOverride
+      ) {
+        return toEnvironmentTask(current);
+      }
+      const token = { environmentId, status };
+      scanOverride = token;
+      try {
+        return toEnvironmentTask(
+          await core.checkNow(environmentId, generation, operationId)
+        );
+      } finally {
+        if (scanOverride === token) scanOverride = null;
+      }
     },
     resume() {
       return core.resume().map(toEnvironmentTask);

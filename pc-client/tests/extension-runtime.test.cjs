@@ -102,6 +102,11 @@ test("production registry exposes only locally reviewed resource profiles", () =
   assert.deepEqual(Object.keys(EXTENSION_INSTALL_REGISTRY), [
     "skill.codex.chatgpt-apps",
     "mcp.codex.openai-developer-docs",
+    "mcp.claude-code.openai-developer-docs",
+    "mcp.cursor.openai-developer-docs",
+    "mcp.codex.zep-docs",
+    "mcp.claude-code.zep-docs",
+    "mcp.cursor.zep-docs",
     "plugin.claude.commit-commands"
   ]);
   assert.deepEqual(

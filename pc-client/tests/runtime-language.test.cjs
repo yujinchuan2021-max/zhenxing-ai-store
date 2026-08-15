@@ -17,6 +17,18 @@ test("runtime copy is selected by stable code", () => {
     runtimeText("DOWNLOAD_CONNECTION_FAILED", "zh"),
     "下载连接失败"
   );
+  assert.equal(
+    runtimeText("WPM_CONFIRM", "zh", { action: "安装", name: "示例" }),
+    "使用 Windows 程序包管理器安装示例？"
+  );
+  assert.equal(
+    runtimeText("WPM_STATE_UNKNOWN", "en"),
+    "The current Windows package state could not be verified."
+  );
+  assert.equal(
+    runtimeText("WPM_STORE_CONFIRM", "zh", { name: "Copilot" }),
+    "安装Copilot前，请先关闭 VPN 或代理"
+  );
 });
 
 test("English IPC payloads never expose Chinese diagnostics", () => {

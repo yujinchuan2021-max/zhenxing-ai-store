@@ -1,0 +1,17 @@
+services:
+  identity:
+    environment:
+      AIHUB_RESOURCE_SUBMISSIONS_ENABLED: "1"
+      AIHUB_RESOURCE_SUBMISSIONS_SCHEMA_VERSION: "1"
+      AIHUB_WORKFLOW_STORE_ENABLED: "1"
+      AIHUB_WORKFLOW_PUBLIC_STORE_ENABLED: "1"
+      AIHUB_WORKFLOW_SUBMISSION_LOOKUP_ENABLED: "1"
+      AIHUB_WORKFLOW_STORE_SCHEMA_VERSION: "1"
+      AIHUB_WORKFLOW_REVIEW_SECRET_FILE: /run/secrets/workflow_review_secret
+      AIHUB_WORKFLOW_REVIEWER_ID: ${AIHUB_WORKFLOW_ACCEPTANCE_REVIEWER_ID:?set isolated acceptance reviewer identity}
+    secrets:
+      - workflow_review_secret
+
+secrets:
+  workflow_review_secret:
+    file: ${AIHUB_WORKFLOW_ACCEPTANCE_SECRET_DIR:?set isolated acceptance secret directory}/workflow_review_secret

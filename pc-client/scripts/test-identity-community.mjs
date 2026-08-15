@@ -151,6 +151,106 @@ const sessions = await request("/v1/sessions", {
 assert.equal(sessions.sessions.length, 1);
 assert.equal(sessions.sessions[0].current, true);
 
+const publicPeer = await request(
+  `/v1/users/by-username/${encodeURIComponent(secondRegistration.user.username)}`,
+  { accessToken: registered.accessToken }
+);
+assert.equal(publicPeer.id, secondRegistration.user.id);
+assert.equal("email" in publicPeer, false);
+assert.equal("phone" in publicPeer, false);
+
+const followed = await request(
+  `/v1/me/following/${secondRegistration.user.id}`,
+  {
+    method: "PUT",
+    accessToken: registered.accessToken,
+    body: {}
+  }
+);
+assert.equal(followed.following, true);
+assert.equal(followed.created, true);
+const repeatedFollow = await request(
+  `/v1/me/following/${secondRegistration.user.id}`,
+  {
+    method: "PUT",
+    accessToken: registered.accessToken,
+    body: {}
+  }
+);
+assert.equal(repeatedFollow.created, false);
+assert.equal(
+  (
+    await request("/v1/me/following", {
+      accessToken: registered.accessToken
+    })
+  ).users.some((user) => user.id === secondRegistration.user.id),
+  true
+);
+assert.equal(
+  (
+    await request("/v1/me/followers", {
+      accessToken: secondRegistration.accessToken
+    })
+  ).users.some((user) => user.id === registered.user.id),
+  true
+);
+const followMessages = await request("/v1/me/messages", {
+  accessToken: secondRegistration.accessToken
+});
+assert.equal(
+  followMessages.messages.filter((message) =>
+    message.title.includes("关注了你")
+  ).length,
+  1
+);
+
+const sentDirect = await request(
+  `/v1/me/direct-messages/${secondRegistration.user.id}`,
+  {
+    method: "POST",
+    accessToken: registered.accessToken,
+    body: { body: "真实 PostgreSQL 私信闭环。" }
+  }
+);
+assert.equal(sentDirect.senderUserId, registered.user.id);
+const peerConversations = await request("/v1/me/direct-messages", {
+  accessToken: secondRegistration.accessToken
+});
+assert.equal(peerConversations.conversations[0].peer.id, registered.user.id);
+assert.equal(peerConversations.conversations[0].unreadCount, 1);
+const peerThread = await request(
+  `/v1/me/direct-messages/${registered.user.id}`,
+  { accessToken: secondRegistration.accessToken }
+);
+assert.equal(peerThread.messages.at(-1).id, sentDirect.id);
+await request(
+  `/v1/me/direct-messages/${registered.user.id}/read`,
+  {
+    method: "PUT",
+    accessToken: secondRegistration.accessToken,
+    body: { throughMessageId: sentDirect.id }
+  }
+);
+const directReply = await request(
+  `/v1/me/direct-messages/${registered.user.id}`,
+  {
+    method: "POST",
+    accessToken: secondRegistration.accessToken,
+    body: { body: "私信回复已收到。" }
+  }
+);
+assert.equal(directReply.recipientUserId, registered.user.id);
+const socialCenter = await request("/v1/me/personal-center", {
+  accessToken: registered.accessToken
+});
+assert.deepEqual(socialCenter.social, { followers: 0, following: 1 });
+assert.equal(socialCenter.summary.unreadDirectMessages, 1);
+assert.equal(Array.isArray(socialCenter.readingHistory), true);
+await request(`/v1/me/following/${secondRegistration.user.id}`, {
+  method: "DELETE",
+  accessToken: registered.accessToken
+});
+
 const discussion = await request("/v1/discussions", {
   method: "POST",
   accessToken: registered.accessToken,
@@ -214,6 +314,9 @@ process.stdout.write(
       accountSwitch: "verified",
       sessionRotation: "verified",
       avatarStorage: "verified",
+      userFollow: "verified",
+      directMessages: "verified",
+      systemInbox: "verified",
       refreshReuse: "revoked",
       discussionId: discussion.id,
       replies: replied.replies.length,

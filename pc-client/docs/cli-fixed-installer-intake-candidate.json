@@ -1,0 +1,96 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "sourceRevision": 87,
+  "sourceProductCount": 615,
+  "sourceFile": "docs/research/windows-desktop-acquisition-deep-rescan-draft87-active4-2026-08-05.json",
+  "summary": "No new managed CLI binding is safe from this intake. Every fixed-script or package-manager candidate is accounted for below.",
+  "intakeContract": {
+    "backendSelection": "The backend may select only a client-approved moduleId and installProfileId plus a structured source version summary.",
+    "backendForbiddenFields": [
+      "command",
+      "args",
+      "env",
+      "headers",
+      "credentials",
+      "url",
+      "script"
+    ],
+    "independentProductIdentityRequired": true,
+    "officialScriptRequirements": [
+      "official HTTPS source tied to an immutable tag or commit",
+      "client-pinned content SHA-256",
+      "client-fixed interpreter and arguments",
+      "no nested mutable remote script pipeline",
+      "fixed dependency identities, versions and integrity metadata",
+      "user-visible dependency plan and confirmation",
+      "bounded cancellation, timeout, staging and failure cleanup",
+      "tri-state detection and post-deploy recheck",
+      "exact AI Hub receipt and no adoption of manual installs",
+      "owned terminal, update, repair, uninstall, rollback and data-preservation boundaries"
+    ],
+    "packageManagerRequirements": [
+      "independent first-class CLI product identity",
+      "client-fixed manager, package identity and version",
+      "fixed source and integrity evidence",
+      "deterministic command entry point and terminal launch",
+      "exact receipt, recheck, update, repair, uninstall and data-preservation boundaries",
+      "no adoption of an existing user-managed installation"
+    ]
+  },
+  "acceptedProfiles": [],
+  "proposedBindings": [],
+  "decisions": [
+    {
+      "vendorId": "nousresearch",
+      "productId": "nous-hermes-agent",
+      "classification": "blocked",
+      "reasonCodes": [
+        "nested-mutable-remote-bootstrap",
+        "compound-runtime-and-source-checkout",
+        "service-path-and-data-ownership-incomplete",
+        "atomic-rollback-not-expressible-by-current-drivers"
+      ],
+      "existingDriverFit": null,
+      "requiredNextEvidence": "Replace nested mutable dependency bootstraps with immutable, integrity-pinned artifacts and define exact runtime, repository, venv, PATH, gateway task, update, repair, rollback, uninstall and preserved-data ownership."
+    },
+    {
+      "vendorId": "raycast",
+      "productId": "raycast-windows",
+      "classification": "out-of-scope-desktop",
+      "reasonCodes": [
+        "desktop-product-identity",
+        "desktop-acquisition-owned-elsewhere"
+      ],
+      "existingDriverFit": null,
+      "requiredNextEvidence": "None for the CLI module; retain the desktop acquisition contract under the desktop owner."
+    },
+    {
+      "vendorId": "gitkraken",
+      "productId": "gitkraken-desktop",
+      "classification": "blocked-directory-identity",
+      "reasonCodes": [
+        "cli-package-attached-to-desktop-product-id",
+        "fixed-version-and-lifecycle-evidence-incomplete"
+      ],
+      "existingDriverFit": null,
+      "requiredNextEvidence": "Create and approve an independent first-class CLI product identity, then provide fixed version, source, integrity, entry-point, lifecycle and data-boundary evidence."
+    },
+    {
+      "vendorId": "oray",
+      "productId": "sunlogin-windows",
+      "classification": "blocked-directory-identity",
+      "reasonCodes": [
+        "cli-package-attached-to-desktop-product-id",
+        "fixed-version-and-lifecycle-evidence-incomplete"
+      ],
+      "existingDriverFit": "npm-after-independent-intake",
+      "requiredNextEvidence": "Create and approve an independent first-class CLI product identity, then pin the official npm version and prove scripts, entry point, update, repair, uninstall and data boundaries before reusing the npm driver."
+    }
+  ],
+  "blockers": [
+    "No candidate satisfies both independent CLI identity and the complete fixed lifecycle contract.",
+    "No managed-official-script driver is proposed because the only script candidate violates the no-nested-mutable-bootstrap boundary.",
+    "No backend binding may be generated from this candidate."
+  ]
+}

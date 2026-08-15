@@ -32,10 +32,18 @@ async function assertElectronBuilderPackageChannels(context) {
   ) {
     return;
   }
-  const variant =
+  if (
+    config.extraMetadata?.serverConnectedReview === true &&
     config.extraMetadata?.localReleaseAcceptance === true
-      ? "local"
-      : "production";
+  ) {
+    throw new Error("server-connected review cannot be a local acceptance package");
+  }
+  const variant =
+    config.extraMetadata?.serverConnectedReview === true
+      ? "server-connected-review"
+      : config.extraMetadata?.localReleaseAcceptance === true
+        ? "local"
+        : "production";
   assertReleasePackageReady({
     variant,
     catalogChannel: channelFromResources(
@@ -47,6 +55,13 @@ async function assertElectronBuilderPackageChannels(context) {
       config,
       appDir,
       "updates/channel.json"
+    ),
+    clientServices: config.extraMetadata?.clientServices,
+    catalogReleaseStoreDirectory: path.join(
+      appDir,
+      "admin",
+      "published",
+      "catalog-store"
     )
   });
 }

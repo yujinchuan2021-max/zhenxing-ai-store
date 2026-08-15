@@ -4,6 +4,11 @@ const {
   matchesManagedDownload
 } = require("./managed-downloads.cjs");
 const {
+  getDesktopDownloadOnlyProfile,
+  validateDesktopDownloadOnlyArtifact,
+  validateSignedDesktopDownloadArtifact
+} = require("./desktop-download-only.cjs");
+const {
   validateProductPolicy
 } = require("./product-policy.cjs");
 const {
@@ -17,6 +22,9 @@ const {
   validateResourceStore
 } = require("./ecosystem-resources.cjs");
 const {
+  RESOURCE_STORE_KINDS
+} = require("./resource-store.cjs");
+const {
   validateProductComponentLinks
 } = require("./product-components.cjs");
 const {
@@ -25,6 +33,16 @@ const {
 const {
   validateVendorIconAsset
 } = require("./vendor-icon.cjs");
+const {
+  createResourceMarketplace
+} = require("./resource-marketplace.cjs");
+const {
+  isAgentClassification,
+  isCanonicalScenarioTags
+} = require("./catalog-taxonomy.cjs");
+const {
+  validateEnglishLocalization
+} = require("./catalog-localization.cjs");
 
 const PRODUCT_KINDS = new Set(["桌面端", "CLI", "其他产品"]);
 const DEFAULT_PRODUCT_CATEGORIES = Object.freeze([
@@ -41,6 +59,7 @@ const ENVIRONMENT_REQUIREMENTS = new Set([
   "node",
   "git",
   "python",
+  "python312",
   "docker",
   "wsl"
 ]);
@@ -57,8 +76,44 @@ const LEGACY_CATALOG_FIELDS = new Set([
 ]);
 const CATALOG_FIELDS = new Set([
   ...LEGACY_CATALOG_FIELDS,
+  "homeCarousel",
   "resourceStores",
   "resources"
+]);
+const CATALOG_V3_FIELDS = new Set([
+  ...CATALOG_FIELDS,
+  "resourceConnections"
+]);
+const HOME_CAROUSEL_FIELDS = new Set(["autoplayMs", "slides"]);
+const HOME_SLIDE_FIELDS = new Set([
+  "id",
+  "imageUrl",
+  "imageAlt",
+  "title",
+  "description",
+  "primaryAction",
+  "secondaryAction",
+  "sort",
+  "enabled",
+  "localized"
+]);
+const HOME_ACTION_FIELDS = new Set(["label", "href", "localized"]);
+const LEGACY_HOME_BANNER_FIELDS = new Set([
+  "eyebrow",
+  "title",
+  "description",
+  "action"
+]);
+const HOME_BANNER_FIELDS = new Set([
+  ...LEGACY_HOME_BANNER_FIELDS,
+  "localized"
+]);
+const HOME_CAROUSEL_ROUTES = new Set([
+  "/vendors",
+  "/resources/skill",
+  "/resources/mcp",
+  "/resources/plugin",
+  "/resources/connector"
 ]);
 const VENDOR_FIELDS = new Set([
   "id",
@@ -74,7 +129,8 @@ const VENDOR_FIELDS = new Set([
   "description",
   "website",
   "tutorial",
-  "products"
+  "products",
+  "localized"
 ]);
 const PRODUCT_DIRECTORY_KINDS = new Set(["ai-tool", "ai-connectable"]);
 const DEFAULT_RESOURCE_STORES = Object.freeze([
@@ -112,6 +168,73 @@ function isShortText(value, max = 300) {
   return typeof value === "string" && value.length > 0 && value.length <= max;
 }
 
+function isAllowedCarouselImageUrl(value) {
+  if (!isShortText(value, 500)) return false;
+  if (/^\/assets\/[A-Za-z0-9][A-Za-z0-9._/-]*\.(svg|png|jpe?g|webp|avif)$/i.test(value)) {
+    return !value.includes("..") && !value.includes("//");
+  }
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
+
+function isAllowedCarouselAction(action) {
+  if (
+    !hasOnlyFields(action, HOME_ACTION_FIELDS) ||
+    !isShortText(action.label, 40) ||
+    !isShortText(action.href, 2048) ||
+    !validateEnglishLocalization(action.localized, { label: 40 })
+  ) return false;
+  if (HOME_CAROUSEL_ROUTES.has(action.href)) return true;
+  try {
+    const url = new URL(action.href);
+    return url.protocol === "https:" && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
+
+function validateHomeCarousel(homeCarousel) {
+  if (
+    !hasOnlyFields(homeCarousel, HOME_CAROUSEL_FIELDS) ||
+    !Number.isInteger(homeCarousel.autoplayMs) ||
+    homeCarousel.autoplayMs < 3000 ||
+    homeCarousel.autoplayMs > 12000 ||
+    !Array.isArray(homeCarousel.slides) ||
+    homeCarousel.slides.length > 10
+  ) return false;
+  const ids = new Set();
+  const sorts = new Set();
+  return homeCarousel.slides.every((slide) => {
+    if (
+      !hasOnlyFields(slide, HOME_SLIDE_FIELDS) ||
+      !isShortText(slide.id, 80) ||
+      ids.has(slide.id) ||
+      !isAllowedCarouselImageUrl(slide.imageUrl) ||
+      !isShortText(slide.imageAlt, 200) ||
+      !isShortText(slide.title, 120) ||
+      !isShortText(slide.description, 400) ||
+      !validateEnglishLocalization(slide.localized, {
+        imageAlt: 200,
+        title: 120,
+        description: 400
+      }) ||
+      !isAllowedCarouselAction(slide.primaryAction) ||
+      (slide.secondaryAction !== undefined && !isAllowedCarouselAction(slide.secondaryAction)) ||
+      !Number.isInteger(slide.sort) ||
+      slide.sort < 0 ||
+      sorts.has(slide.sort) ||
+      typeof slide.enabled !== "boolean"
+    ) return false;
+    ids.add(slide.id);
+    sorts.add(slide.sort);
+    return true;
+  });
+}
+
 function resolveCatalogCategories(catalog) {
   if (catalog?.categories === undefined) return [...DEFAULT_PRODUCT_CATEGORIES];
   return Array.isArray(catalog.categories) ? [...catalog.categories] : [];
@@ -139,6 +262,7 @@ function normalizeCatalog(catalog) {
         } = extension;
         resources.push({
           ...resource,
+          sourceKind: extension.sourceKind || "community",
           resourceTypes: [extensionType],
           sourceProductIds: [],
           targets: [
@@ -172,10 +296,14 @@ function validateCatalog(catalog) {
   const inputSchemaVersion = catalog?.schemaVersion;
   if (
     !catalog ||
-    ![1, 2].includes(inputSchemaVersion) ||
+    ![1, 2, 3].includes(inputSchemaVersion) ||
     !hasOnlyFields(
       catalog,
-      inputSchemaVersion === 1 ? LEGACY_CATALOG_FIELDS : CATALOG_FIELDS
+      inputSchemaVersion === 1
+        ? LEGACY_CATALOG_FIELDS
+        : inputSchemaVersion === 2
+          ? CATALOG_FIELDS
+          : CATALOG_V3_FIELDS
     ) ||
     !Array.isArray(catalog.vendors) ||
     catalog.vendors.length < 1 ||
@@ -199,7 +327,7 @@ function validateCatalog(catalog) {
   const allowedProductCategories = new Set(productCategories);
 
   const resourceStoreIds = new Set();
-  if (inputSchemaVersion === 2) {
+  if (inputSchemaVersion !== 1) {
     if (
       !Array.isArray(catalog.resourceStores) ||
       catalog.resourceStores.length < 1 ||
@@ -216,6 +344,18 @@ function validateCatalog(catalog) {
       }
       resourceStoreIds.add(store.id);
     }
+    if (
+      resourceStoreIds.size !== RESOURCE_STORE_KINDS.length ||
+      RESOURCE_STORE_KINDS.some((kind) => !resourceStoreIds.has(kind))
+    ) {
+      throw new Error("生态资源商店必须包含固定的四类频道");
+    }
+    if (
+      inputSchemaVersion === 3 &&
+      !Array.isArray(catalog.resourceConnections)
+    ) {
+      throw new Error("生态资源连接结构无效");
+    }
   }
 
   const vendorIds = new Set();
@@ -228,6 +368,11 @@ function validateCatalog(catalog) {
       !isShortText(vendor.id, 80) ||
       vendorIds.has(vendor.id) ||
       !isShortText(vendor.name, 100) ||
+      (inputSchemaVersion === 1 && vendor.localized !== undefined) ||
+      !validateEnglishLocalization(vendor.localized, {
+        name: 100,
+        description: 500
+      }) ||
       (vendor.enabled !== undefined && typeof vendor.enabled !== "boolean") ||
       (vendor.requiresCrossBorderNetwork !== undefined &&
         typeof vendor.requiresCrossBorderNetwork !== "boolean") ||
@@ -266,6 +411,11 @@ function validateCatalog(catalog) {
         !isShortText(product.id, 100) ||
         productIds.has(product.id) ||
         !isShortText(product.name, 150) ||
+        (inputSchemaVersion === 1 && product.localized !== undefined) ||
+        !validateEnglishLocalization(product.localized, {
+          name: 150,
+          description: 500
+        }) ||
         (product.enabled !== undefined &&
           typeof product.enabled !== "boolean") ||
         (product.order !== undefined &&
@@ -273,10 +423,12 @@ function validateCatalog(catalog) {
             product.order < 0 ||
             product.order > 100000)) ||
         (inputSchemaVersion === 1 && product.directoryKind !== undefined) ||
-        (inputSchemaVersion === 2 &&
+        (inputSchemaVersion !== 1 &&
           !PRODUCT_DIRECTORY_KINDS.has(product.directoryKind)) ||
         !PRODUCT_KINDS.has(product.kind) ||
         !allowedProductCategories.has(product.category) ||
+        !isCanonicalScenarioTags(product.scenarioTags) ||
+        !isAgentClassification(product) ||
         !isShortText(product.description, 500) ||
         !isAllowedUrl(product.website) ||
         !Array.isArray(product.requirements) ||
@@ -290,7 +442,7 @@ function validateCatalog(catalog) {
         throw new Error(`产品教程地址无效：${product.id}`);
       }
       if (
-        inputSchemaVersion === 2 &&
+        inputSchemaVersion !== 1 &&
         product.extensions !== undefined
       ) {
         throw new Error(`产品不能再包含扩展子目录：${product.id}`);
@@ -337,17 +489,20 @@ function validateCatalog(catalog) {
           !isShortText(product.download.fileName, 180) ||
           path.basename(product.download.fileName) !==
             product.download.fileName ||
-          !/\.(exe|msi|msix|zip)$/i.test(product.download.fileName))
+          !/\.(exe|msi|msix|zip)$/i.test(product.download.fileName) ||
+          (product.download.artifactKind !== undefined && !/^(exe|msi|msix|zip)$/.test(product.download.artifactKind)))
       ) {
         throw new Error(`下载配置无效：${product.id}`);
       }
-      if (
-        product.download &&
-        !matchesManagedDownload(product.id, product.download)
-      ) {
+      if (product.download && product.downloadPolicy === "client-managed" && !matchesManagedDownload(product.id, product.download)) {
         throw new Error(
           `托管安装包未通过客户端策略审核：${product.id}`
         );
+      }
+      if (product.downloadPolicy === "desktop-download-only" && !(getDesktopDownloadOnlyProfile(product.id)
+        ? validateDesktopDownloadOnlyArtifact(product.id, product.download)
+        : validateSignedDesktopDownloadArtifact(product.download)).ok) {
+        throw new Error(`desktop-download-only artifact rejected: ${product.id}`);
       }
       const policyError = validateProductPolicy(product, vendor.id);
       if (policyError) {
@@ -358,7 +513,7 @@ function validateCatalog(catalog) {
     }
   }
 
-  if (inputSchemaVersion === 2) {
+  if (inputSchemaVersion !== 1) {
     const resourceIds = new Set();
     for (const resource of catalog.resources) {
       if (resourceIds.has(resource?.id)) {
@@ -403,7 +558,9 @@ function validateCatalog(catalog) {
     catalog.brand &&
     (!isShortText(catalog.brand.name, 60) ||
       !isShortText(catalog.brand.mark, 4) ||
-      !isShortText(catalog.brand.slogan, 160))
+      !isShortText(catalog.brand.slogan, 160) ||
+      (inputSchemaVersion === 1 && catalog.brand.localized !== undefined) ||
+      !validateEnglishLocalization(catalog.brand.localized, { slogan: 160 }))
   ) {
     throw new Error("品牌配置无效");
   }
@@ -417,6 +574,8 @@ function validateCatalog(catalog) {
           !isShortText(section.id, 80) ||
           !isShortText(section.title, 80) ||
           !isShortText(section.description, 300) ||
+          (inputSchemaVersion === 1 && section.localized !== undefined) ||
+          !validateEnglishLocalization(section.localized, { title: 80 }) ||
           typeof section.enabled !== "boolean" ||
           !isAllowedUrl(section.url)
       ) ||
@@ -430,6 +589,11 @@ function validateCatalog(catalog) {
     catalog.community &&
     (!isShortText(catalog.community.title, 80) ||
       !isShortText(catalog.community.description, 300) ||
+      (inputSchemaVersion === 1 && catalog.community.localized !== undefined) ||
+      !validateEnglishLocalization(catalog.community.localized, {
+        title: 80,
+        description: 300
+      }) ||
       !isShortText(catalog.community.provider, 40) ||
       typeof catalog.community.enabled !== "boolean" ||
       (catalog.community.url !== "" &&
@@ -447,10 +611,22 @@ function validateCatalog(catalog) {
       catalog.home.banners.length > 10 ||
       catalog.home.banners.some(
         (banner) =>
+          !hasOnlyFields(
+            banner,
+            inputSchemaVersion === 1
+              ? LEGACY_HOME_BANNER_FIELDS
+              : HOME_BANNER_FIELDS
+          ) ||
           !isShortText(banner.eyebrow, 80) ||
           !isShortText(banner.title, 120) ||
           !isShortText(banner.description, 400) ||
-          !isShortText(banner.action, 40)
+          !isShortText(banner.action, 40) ||
+          !validateEnglishLocalization(banner.localized, {
+            eyebrow: 80,
+            title: 120,
+            description: 400,
+            action: 40
+          })
       ) ||
       !Array.isArray(catalog.home.featuredVendorIds) ||
       catalog.home.featuredVendorIds.length > 12 ||
@@ -458,6 +634,16 @@ function validateCatalog(catalog) {
     ) {
       throw new Error("首页配置无效");
     }
+  }
+
+  if (catalog.homeCarousel !== undefined && !validateHomeCarousel(catalog.homeCarousel)) {
+    throw new Error("首页视觉轮播配置无效");
+  }
+  if (inputSchemaVersion === 3) {
+    createResourceMarketplace({
+      ...catalog,
+      connections: catalog.resourceConnections
+    });
   }
   return inputSchemaVersion === 1
     ? validateCatalog(normalizeCatalog(catalog))
@@ -475,7 +661,10 @@ module.exports = {
   PRODUCT_DIRECTORY_KINDS,
   PRODUCT_CATEGORIES,
   PRODUCT_KINDS,
+  HOME_CAROUSEL_ROUTES,
   isAllowedUrl,
+  isAllowedCarouselImageUrl,
+  validateHomeCarousel,
   normalizeCatalog,
   resolveCatalogCategories,
   sha256,

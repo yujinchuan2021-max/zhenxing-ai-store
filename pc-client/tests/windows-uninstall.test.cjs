@@ -89,6 +89,31 @@ test("accepts Claude's reviewed Squirrel uninstaller", () => {
   });
 });
 
+test("accepts Wispr Flow's reviewed Squirrel uninstaller and restores interaction", () => {
+  const installLocation =
+    "C:\\Users\\Tester\\AppData\\Local\\WisprFlow";
+  const update = `${installLocation}\\Update.exe`;
+  const fileSystem = fakeFileSystem([installLocation, update]);
+  const policy =
+    WINDOWS_DESKTOP_PRODUCTS["wispr-flow-desktop"].adapter.uninstall;
+  const action = resolveTrustedUninstallAction({
+    entry: {
+      displayname: "Wispr Flow",
+      publisher: "Wispr Flow",
+      installlocation: installLocation,
+      uninstallstring: `"${update}" --uninstall -s`
+    },
+    policy,
+    ...fileSystem
+  });
+
+  assert.deepEqual(action, {
+    kind: "executable",
+    executable: update,
+    args: ["--uninstall"]
+  });
+});
+
 test("strips Claude's silent flag only after the complete registered command is trusted", () => {
   const installLocation =
     "C:\\Users\\Tester\\AppData\\Local\\AnthropicClaude";

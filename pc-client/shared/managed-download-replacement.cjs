@@ -2,6 +2,9 @@
 
 const path = require("node:path");
 const { isDeepStrictEqual } = require("node:util");
+const {
+  environmentIdFromManagedDownload
+} = require("./environment-download.cjs");
 
 const CLEANUP_QUEUE_RECORD_KEY = "__managedDownloadSupersededPackagesV1";
 const CLEANUP_RECEIPT_SCHEMA_VERSION = 1;
@@ -16,6 +19,14 @@ const CLEANUP_RECEIPT_KEYS = Object.freeze([
   "schemaVersion",
   "sha256"
 ]);
+
+function isApprovedManagedDownloadProductId(productId) {
+  return (
+    (typeof productId === "string" &&
+      /^[a-z0-9][a-z0-9-]{0,127}$/.test(productId)) ||
+    Boolean(environmentIdFromManagedDownload(productId))
+  );
+}
 
 function recordsMatch(left, right) {
   if (left === null || left === undefined) {
@@ -84,10 +95,7 @@ function validateSupersededPackageReceipt(value) {
   if (value.schemaVersion !== CLEANUP_RECEIPT_SCHEMA_VERSION) {
     throw new TypeError("Managed download cleanup receipt version is invalid");
   }
-  if (
-    typeof value.productId !== "string" ||
-    !/^[a-z0-9][a-z0-9-]{0,127}$/.test(value.productId)
-  ) {
+  if (!isApprovedManagedDownloadProductId(value.productId)) {
     throw new TypeError("Managed download cleanup product is invalid");
   }
   assertExpectedFileName(value.expectedFileName);
@@ -212,10 +220,7 @@ function managedDownloadCleanupCapacity(records) {
 
 function cancelSupersededPackageCleanupForProduct(records, productId) {
   assertPlainRecords(records);
-  if (
-    typeof productId !== "string" ||
-    !/^[a-z0-9][a-z0-9-]{0,127}$/.test(productId)
-  ) {
+  if (!isApprovedManagedDownloadProductId(productId)) {
     throw new TypeError("Managed download cleanup product is invalid");
   }
 

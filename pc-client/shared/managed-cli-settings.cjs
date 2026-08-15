@@ -153,7 +153,7 @@ function applyManagedCliSettings({
     !/^[A-Za-z]:\\/.test(homeDirectory) ||
     !policy ||
     !Array.isArray(policy.relativePath) ||
-    policy.relativePath.length < 2 ||
+    policy.relativePath.length < 1 ||
     policy.relativePath.length > 5 ||
     policy.relativePath.some(
       (segment) =>

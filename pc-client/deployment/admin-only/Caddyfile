@@ -1,0 +1,54 @@
+{$AIHUB_PUBLIC_HOST} {
+  header {
+    -Server
+    X-Frame-Options "DENY"
+    Referrer-Policy "no-referrer"
+  }
+
+  @health {
+    host {$AIHUB_PUBLIC_HOST}
+    path /health
+  }
+  handle @health {
+    rewrite * /ready
+    reverse_proxy admin:4173
+  }
+
+  @catalog {
+    host {$AIHUB_PUBLIC_HOST}
+    path /catalog-release.json /channels/v2/catalog-release.json /software-update-release.json
+  }
+  handle @catalog {
+    header Cache-Control "public, max-age=0, must-revalidate"
+    header X-Content-Type-Options "nosniff"
+    reverse_proxy admin:4173
+  }
+
+  @vendorIcons {
+    host {$AIHUB_PUBLIC_HOST}
+    path /vendor-icons/*
+  }
+  handle @vendorIcons {
+    header Cache-Control "public, max-age=31536000, immutable"
+    header X-Content-Type-Options "nosniff"
+    reverse_proxy admin:4173
+  }
+
+  handle {
+    respond "not found" 404
+  }
+}
+
+http://:2015 {
+  bind 127.0.0.1
+
+  @health path /health
+  handle @health {
+    rewrite * /ready
+    reverse_proxy admin:4173
+  }
+
+  handle {
+    respond "not found" 404
+  }
+}

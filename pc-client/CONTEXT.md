@@ -36,8 +36,28 @@ _Avoid_: 账号中心、社区个人页
 _Avoid_: 登录账号、用户标识
 
 **站内信**：
-枕星 AI 在产品内部发送给一个用户的私有消息。
-_Avoid_: 社区通知、系统日志
+枕星 AI 系统在产品内部发送给一个用户的私有通知；发送方不是另一个用户。
+_Avoid_: 私信、社区通知、系统日志
+
+**关注关系**：
+一个用户主动关注另一个用户形成的有向关系。关注者与被关注者不能是同一个用户。
+_Avoid_: 讨论关注、收藏、好友关系
+
+**粉丝**：
+某个用户全部关注者的反向视图，不单独保存为第二份关系。
+_Avoid_: 关注记录、好友
+
+**私信会话**：
+两个用户之间一对一私信记录形成的私密沟通视图；当前不单独保存会话实体。
+_Avoid_: 站内信、社区讨论、群聊
+
+**私信**：
+一个用户在私信会话中发送给另一个用户的消息。
+_Avoid_: 站内信、社区回复、系统通知
+
+**阅读记录**：
+用户实际打开社区讨论后由社区保存的私有浏览记录，包括讨论和最后阅读时间。
+_Avoid_: 收藏、喜欢、客户端访问日志
 
 **讨论**：
 围绕一个主题发布并接受回复的社区内容。
@@ -51,6 +71,10 @@ _Avoid_: 产品论坛、产品群
 身份服务为一次社区进入签发的短期、单次使用证明。
 _Avoid_: 单点登录 Token、管理员密钥
 
+**社区映射名**：
+身份服务仅按不可变用户 ID 为 Flarum 生成的稳定技术标识；它与用户可选择的用户名无关，用户界面不展示该值。既有 Flarum 资料首次按身份邮箱认领并迁移，随后由永久身份链接绑定固定论坛用户 ID，因此更换登录邮箱不会创建新社区账号。
+_Avoid_: 用户名、昵称、社区账号
+
 **内嵌社区会话**：
 PC 客户端内部受限社区容器持有的 Flarum 会话，由当前用户的社区跳转凭据建立，不共享 PC 会话凭据。
 _Avoid_: 浏览器登录、PC Token、社区账号
@@ -62,6 +86,90 @@ _Avoid_: 关注、订阅
 **喜欢**：
 用户对一个讨论表达的认可，并在个人中心保留互动记录。
 _Avoid_: 收藏、评分
+
+**CommunityPost**：
+Flarum 保存的社区讨论或回复，只负责讨论、展示并引用精确的 `workflowId + version`；它不是工作流内容或执行事实源。
+_Avoid_: 可执行帖子、工作流发布版本、工作流包
+
+**WorkflowDraft**：
+作者可修改并重复投稿的结构化工作流候选；作者始终绑定不可变用户 ID，内容变化后必须重新审核。
+_Avoid_: 社区帖子、已发布工作流、可执行流程
+
+**WorkflowRelease**：
+一次审核通过后生成的不可变 data-only 工作流版本，只声明固定输入输出、人工说明、canonical 依赖、权限、无值秘密占位符和不可变来源。
+_Avoid_: 工作流草稿、脚本、命令、执行计划
+
+**WorkflowProvenance**：
+工作流不可变的归属记录，分别保存原作者、许可证、canonical source、派生版本和 `discoveredVia`；聚合站或转帖人只能是发现渠道，不能替代创作者。
+_Avoid_: 来源链接、转帖作者、聚合站作者
+
+**WorkflowListing**：
+商店对审核结果、上架状态、WorkflowProvenance、警示详情和精选组织的投影；星级与热度只是并列的用户参考，不改变审核状态或风险等级。
+_Avoid_: 工作流发布版本、安全认证、热度审核
+
+**公开贡献**：
+一条已接受且获明确公开许可的投稿或目录候选的只读呈现；它不是原投稿、目录写入或执行许可。
+_Avoid_: 公开草稿、独立资源副本、已安装资源
+
+**贡献修订记录**：
+公开贡献中可安全展示的时间顺序来源与内容修订视图，保留合并贡献者而不公开内部审核或滥用审计。
+_Avoid_: 审核备注、内部日志、投稿副本
+
+**来源快照**：
+投稿每次来源变更时追加的不可变记录，以 `{ submissionId, revision }` 精确引用；公开贡献只能消费其白名单字段，不能从当前 proposal 倒推历史来源。
+_Avoid_: 当前投稿、审核审计、可变来源链接
+
+**公开贡献资格**：
+后台对已接受对象作出的独立公开许可判断；版权或许可证争议可以暂时取消展示，但不会删除原始审计或历史。
+_Avoid_: 审核状态、风险等级、用户隐私设置
+
+**ImportedWorkflow**：
+用户从一个可导入 WorkflowRelease 创建的独立副本，保留来源版本、审核状态与风险等级，但不继承任何执行许可。
+_Avoid_: 已安装工作流、原始发布版本、Agent 绑定
+
+**WorkflowComposition**：
+绑定精确 WorkflowRelease 的有序、data-only 模块组合声明，只表达受限依赖、输入和输出，不创建新的工作流状态或执行事实。
+_Avoid_: 节点图、执行计划、发布版本
+
+**WorkflowStep**：
+WorkflowComposition 中一个有顺序的声明步骤，只能引用 Release 已声明的精确依赖以及工作流输入或前序步骤输出。
+_Avoid_: 命令、脚本、URL、动态参数
+
+**WorkflowRunSelection**：
+本地运行时对主 Agent 的独立选择；Release 只声明能力要求，除显式宿主约束外不把具体 Agent 写入内容版本。
+_Avoid_: WorkflowRelease 字段、审核结论、执行授权
+
+**WorkflowOfficialPublisher**：枕星 AI 用于发布官方 WorkflowRelease 的固定组织服务身份；它不是用户或 reviewer，不能登录，也没有会话、资料、头像或设备关系，公开作者名只投影为“枕星 AI”。_Avoid_: 普通用户、官方个人账号、审核服务身份
+
+**WorkflowOfficialSourcePost**：由受控社区官方发布路径创建的真实 Flarum 讨论首帖，用于可追溯的 Workflow 来源讨论与展示；它与 WorkflowOfficialPublisher 身份分离，帖子不是工作流内容或执行事实源。其真实 Flarum post ID 只有在逐条 exact GET 验证后才能进入冻结 manifest。_Avoid_: mock 帖子、直接数据库写入、共享验收 fixture、用服务身份冒充发帖人
+
+**WorkflowCommercialPolicy / Offer**：
+未来可独立关联 WorkflowListing 或精确 WorkflowRelease 的商业投影，内容版本、审核风险和使用资格均不从中相互推导。
+_Avoid_: 价格、订单、entitlement、Workflow 状态机
+
+**reviewStatus**：
+内容审核轴，固定为 `unreviewed`、`automated-reviewed`、`manually-reviewed` 或 `rejected`。
+_Avoid_: 安全等级、可信度、星级
+
+**riskLevel**：
+审核后的风险轴，固定为 `low`、`guarded` 或 `unsafe`；`unsafe` 是已审核的高风险结论，`low` 也不是绝对安全声明。
+_Avoid_: 审核状态、热度、安全保证
+
+**资源来源频道**：
+资源商店的派生浏览视图；`official` 频道只投影 `sourceKind=official`，`community` 频道投影 `reviewed-community` 和 `community`，但不会复制 canonical resource，也不会抹去细分来源。
+_Avoid_: 第二份资源记录、商店特例
+
+**外部参考指标**：
+第三方平台观察到的星级、热度、收藏、安装量或 CLS 等声明；必须带 `sourcePlatform`、`observedAt` 与原始含义，只供排序、筛选、审计参考，绝不映射为 `reviewStatus`、`riskLevel` 或安全证明。
+_Avoid_: 安全评级、我方审核结论
+
+**资源依赖 tuple**：
+未来 Workflow 或 Capability Broker 读取资源时使用的精确关系：`{kind:'resource', canonicalId:resourceId, hostProductId, bindingKind}`。`bindingKind` 仅可为 `skill-context`、`mcp-tool`、`mcp-resource`、`mcp-prompt`、`plugin-host-extension` 或 `connector-authorized-connection`，且必须命中活动签名目录中的固定 target/profile；它不代表 invoke 指令。
+_Avoid_: 任意 endpoint、通用调用、命令
+
+**场景标签与成熟 Agent 频道**：
+`scenarioTags` 只保存固定 canonical tag ID，aliases 只用于 intake/search；`agentTag=true` 是普通兼容标签，`agentChannel="mature-agent"` 是唯一共享成熟频道，必须附可核验身份、维护、资源与连续性审核证据，不能为单一产品创建频道。
+_Avoid_: 自由标签、伪造热度、按产品特例频道
 
 ## 目录
 

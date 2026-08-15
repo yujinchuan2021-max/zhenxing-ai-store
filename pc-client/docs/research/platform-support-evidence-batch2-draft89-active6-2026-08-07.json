@@ -1,0 +1,1668 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "checkedAt": "2026-08-07T00:00:00.000Z",
+  "sourceRevision": 89,
+  "sourceProductCount": 615,
+  "activeReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+  "policy": "Product platform evidence only. First-party HTTPS evidence is required per platform; missing evidence is unknown. Native, WSL, container, browser and remote are never inferred. No resources/targets or execution fields are included.",
+  "summary": {
+    "selected": 30,
+    "claims": 90,
+    "supported": 71,
+    "unknown": 15,
+    "unsupported": 4,
+    "blocked": 0
+  },
+  "records": [
+    {
+      "vendorId": "moonshot",
+      "productId": "kimi-work-desktop",
+      "name": "Kimi Work（Windows）",
+      "selectionReason": "Agent/desktop identity; official help names Mac/Windows",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.kimi.com/de/help/kimi-work/overview",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.kimi.com/de/help/kimi-work/overview",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.kimi.com/de/help/kimi-work/overview",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "msty",
+      "productId": "msty-go",
+      "name": "Msty Go",
+      "selectionReason": "Local-model desktop representative; per-platform evidence still needed",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://msty.ai/go/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://msty.ai/go/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://msty.ai/go/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "pieces",
+      "productId": "pieces-for-developers",
+      "name": "Pieces for Developers",
+      "selectionReason": "Developer AI desktop with explicit three-platform download chooser",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://pieces.app/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://pieces.app/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://pieces.app/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "raycast",
+      "productId": "raycast-windows",
+      "name": "Raycast",
+      "selectionReason": "Windows beta and macOS official FAQ; Linux explicitly not planned",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.raycast.com/faq",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.raycast.com/faq",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unsupported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.raycast.com/faq",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "thinkinai",
+      "productId": "deepchat-desktop",
+      "name": "DeepChat",
+      "selectionReason": "Official repository states Windows/macOS/Linux multi-platform",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/ThinkInAIXYZ/deepchat",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/ThinkInAIXYZ/deepchat",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/ThinkInAIXYZ/deepchat",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "notion",
+      "productId": "notion-desktop",
+      "name": "Notion",
+      "selectionReason": "Official desktop download identity; Linux native evidence absent",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.notion.com/desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.notion.com/desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.notion.com/desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "obsidian",
+      "productId": "obsidian-desktop",
+      "name": "Obsidian",
+      "selectionReason": "Official download page is platform-specific; verify current Linux packaging",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://obsidian.md/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://obsidian.md/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://obsidian.md/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "canva",
+      "productId": "affinity",
+      "name": "Affinity",
+      "selectionReason": "Creative desktop representative; Windows/macOS evidence, Linux absent",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.affinity.studio/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.affinity.studio/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.affinity.studio/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "unity-technologies",
+      "productId": "unity-editor",
+      "name": "Unity 6",
+      "selectionReason": "Official Hub docs state Windows/macOS/Linux Editor support",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.unity.com/en-us/hub/install-hub",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.unity.com/en-us/hub/install-hub",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.unity.com/en-us/hub/install-hub",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "figma",
+      "productId": "figma-design",
+      "name": "Figma",
+      "selectionReason": "Desktop download representative; Linux native evidence not verified",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.figma.com/downloads/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.figma.com/downloads/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.figma.com/downloads/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "linear",
+      "productId": "linear-workspace",
+      "name": "Linear",
+      "selectionReason": "Official docs state macOS/Windows desktop and browser-only Linux",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://linear.app/docs/get-the-app",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://linear.app/docs/get-the-app",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unsupported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://linear.app/docs/get-the-app",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "jetbrains",
+      "productId": "jetbrains-intellij-idea",
+      "name": "IntelliJ IDEA",
+      "selectionReason": "Official download lists Windows/macOS/Linux builds",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.jetbrains.com/idea/download/?os=win&section=windows",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.jetbrains.com/idea/download/?os=win&section=windows",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.jetbrains.com/idea/download/?os=win&section=windows",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "postman",
+      "productId": "postman-api-platform",
+      "name": "Postman",
+      "selectionReason": "Official install docs list native Windows/macOS/Linux and architectures",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://learning.postman.com/docs/getting-started/installation/install-app/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://learning.postman.com/docs/getting-started/installation/install-app/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://learning.postman.com/docs/getting-started/installation/install-app/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "godot",
+      "productId": "godot-engine",
+      "name": "Godot Engine",
+      "selectionReason": "Official Windows download identity; cross-platform release evidence",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://godotengine.org/download/windows/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://godotengine.org/download/windows/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://godotengine.org/download/windows/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "epic-games",
+      "productId": "unreal-engine",
+      "name": "Unreal Engine",
+      "selectionReason": "Official engine distribution representative; platform-specific editor evidence requires follow-up",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.unrealengine.com/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.unrealengine.com/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.unrealengine.com/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "trimble",
+      "productId": "sketchup",
+      "name": "SketchUp 2026",
+      "selectionReason": "Official help lists Windows offline installer and macOS; no Linux native",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://help.sketchup.com/en/downloading-sketchup",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://help.sketchup.com/en/downloading-sketchup",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unsupported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://help.sketchup.com/en/downloading-sketchup",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "blackmagic-design",
+      "productId": "davinci-resolve",
+      "name": "DaVinci Resolve",
+      "selectionReason": "Official download page exposes Windows/macOS/Linux options",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.blackmagicdesign.com/uk/event/davinciresolvedownload",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.blackmagicdesign.com/uk/event/davinciresolvedownload",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.blackmagicdesign.com/uk/event/davinciresolvedownload",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "monday",
+      "productId": "monday-work-management",
+      "name": "monday",
+      "selectionReason": "Official desktop-app documentation; Linux native evidence absent",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.monday.com/hc/en-us/articles/115005316885-monday-com-s-desktop-app",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.monday.com/hc/en-us/articles/115005316885-monday-com-s-desktop-app",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.monday.com/hc/en-us/articles/115005316885-monday-com-s-desktop-app",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "mongodb",
+      "productId": "mongodb-compass",
+      "name": "MongoDB Compass",
+      "selectionReason": "Official GUI download exposes Windows/macOS and Linux installer paths",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.mongodb.com/try/download/compass",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.mongodb.com/try/download/compass",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.mongodb.com/try/download/compass",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "roblox",
+      "productId": "roblox-studio",
+      "name": "Roblox Studio",
+      "selectionReason": "Official Creator docs explicitly state Windows and Mac; no Linux native",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://create.roblox.com/docs/studio/setup",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://create.roblox.com/docs/studio/setup",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unsupported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://create.roblox.com/docs/studio/setup",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "clickup",
+      "productId": "clickup-workspace",
+      "name": "ClickUp",
+      "selectionReason": "Official help lists Windows, macOS and Linux desktop apps",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://help.clickup.com/hc/en-us/articles/6311884486423-Use-the-ClickUp-desktop-app",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://help.clickup.com/hc/en-us/articles/6311884486423-Use-the-ClickUp-desktop-app",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://help.clickup.com/hc/en-us/articles/6311884486423-Use-the-ClickUp-desktop-app",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "box",
+      "productId": "box-content-cloud",
+      "name": "Box",
+      "selectionReason": "Official Box Drive docs state Windows Explorer and macOS Finder; Linux absent",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.box.com/hc/en-us/sections/21356707082387-Box-Drive",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.box.com/hc/en-us/sections/21356707082387-Box-Drive",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.box.com/hc/en-us/sections/21356707082387-Box-Drive",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "zoom",
+      "productId": "zoom-workplace",
+      "name": "Zoom Workplace",
+      "selectionReason": "Official download-center identity; platform claims require current page verification",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.zoom.com/en/products/virtual-meetings/download-center/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.zoom.com/en/products/virtual-meetings/download-center/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.zoom.com/en/products/virtual-meetings/download-center/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "redis",
+      "productId": "redis-insight",
+      "name": "Redis Insight",
+      "selectionReason": "Official FAQ states traditional OS packages for Windows/macOS/Linux",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://redis.io/faq/doc/18gyy2gec1/how-to-download-and-install-redisinsight",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://redis.io/faq/doc/18gyy2gec1/how-to-download-and-install-redisinsight",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://redis.io/faq/doc/18gyy2gec1/how-to-download-and-install-redisinsight",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "neo4j",
+      "productId": "neo4j-desktop",
+      "name": "Neo4j Desktop",
+      "selectionReason": "Official installation docs state Mac/Linux/Windows availability",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://neo4j.com/docs/desktop/current/installation/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://neo4j.com/docs/desktop/current/installation/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://neo4j.com/docs/desktop/current/installation/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "opera",
+      "productId": "opera-one",
+      "name": "Opera Stable",
+      "selectionReason": "Official support pages cover Windows/macOS/Linux desktop browsers",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://help.opera.com/en/latest/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://help.opera.com/en/latest/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://help.opera.com/en/latest/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "dassault-systemes",
+      "productId": "dassault-solidworks-design",
+      "name": "SOLIDWORKS Design",
+      "selectionReason": "Enterprise CAD representative; official support/download page is Windows-focused",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.solidworks.com/support/downloads",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.solidworks.com/support/downloads",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.solidworks.com/support/downloads",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "audacity",
+      "productId": "audacity-desktop",
+      "name": "Audacity",
+      "selectionReason": "Official downloads state Windows/macOS/GNU/Linux",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.audacityteam.org/download/?lang=en",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.audacityteam.org/download/?lang=en",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.audacityteam.org/download/?lang=en",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    },
+    {
+      "vendorId": "streamlabs",
+      "productId": "streamlabs-desktop",
+      "name": "Streamlabs Desktop",
+      "selectionReason": "Official requirements state Windows 10 and macOS 12+; Linux absent",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.streamlabs.com/hc/en-us/articles/4417738527515-Streamlabs-Desktop-System-Requirements",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.streamlabs.com/hc/en-us/articles/4417738527515-Streamlabs-Desktop-System-Requirements",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.streamlabs.com/hc/en-us/articles/4417738527515-Streamlabs-Desktop-System-Requirements",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Verify platform-specific first-party requirements/release assets before any catalog claim."
+    },
+    {
+      "vendorId": "navicat",
+      "productId": "navicat-premium",
+      "name": "Navicat Premium",
+      "selectionReason": "Official download page lists Windows/macOS/Linux trial editions",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.navicat.com.sg/download/navicat-premium",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.navicat.com.sg/download/navicat-premium",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.navicat.com.sg/download/navicat-premium",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "No platform follow-up beyond independent profile review."
+    }
+  ],
+  "batch2Estimate": {
+    "targetSelected": "30-40 products",
+    "pageBudget": "80-120 first-party pages",
+    "nextBatch": "30-40 products after this batch, excluding these productIds and Batch 1",
+    "method": "low-concurrency cached first-party pages only"
+  },
+  "forbiddenFieldScan": {
+    "passed": true,
+    "forbiddenFields": [
+      "command",
+      "args",
+      "env",
+      "headers",
+      "credentials",
+      "script",
+      "artifactUrl",
+      "installProfileId",
+      "moduleId",
+      "downloadUrl",
+      "profile"
+    ]
+  },
+  "checks": {
+    "canonicalProductIdsPendingRuntimeValidation": true,
+    "duplicateProductIds": false,
+    "claimsPerProduct": 3,
+    "resourceCountExcluded": 146,
+    "targetCountExcluded": 513
+  }
+}

@@ -34,3 +34,10 @@ Python 3.13.13 已安装，Python 安装器显示“Upgrade to Python 3.13.14”
 ## 防回归门槛
 
 不能把 `PATH` 当成 Windows 软件是否安装的唯一证据。环境检测必须验证命令位置或受信任注册表提供的真实可执行文件。
+
+## 2026-08-13 复发：精确注册表缺值被误判为探针失败
+
+- 用户机器保留可信 Python 3.12.10；Python 3.13 的程序文件和卸载项均已不存在，但客户端长期显示“暂时无法确认”。
+- `locateRegisteredPythonWithStatus` 对固定 `PythonCore\\3.x\\InstallPath` 的 `ExecutablePath` 做精确 `reg.exe` 查询。值不存在时 `reg.exe` 以代码 `1` 退出；Node 捕获的本地化 stderr 可能乱码，旧实现依赖错误文字匹配，因此把确定缺值误判为探针失败。
+- 修复只作用于该精确值查询：`code === 1` 且没有 killed、timeout 或 signal 时视为 missing；超时、被终止和其他退出码继续 fail closed。通用卸载注册表递归扫描仍使用原有保守分类，没有放宽。
+- 自动回归覆盖乱码 code 1、killed、timeout、signal、其他退出码；真实用户机器仍需重新扫描确认 Python 3.13 为 absent、Python 3.12.10 为 installed。

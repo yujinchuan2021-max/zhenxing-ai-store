@@ -15,6 +15,13 @@ const {
   normalizeSourcePreferences
 } = require("../shared/environment-download.cjs");
 const { validateCatalog } = require("../shared/catalog.cjs");
+const { applyProductModule } = require("../shared/product-modules.cjs");
+const {
+  getDesktopDownloadOnlyProfile,
+  LEGACY_DESKTOP_DOWNLOAD_MODULE_ID,
+  SIGNED_CATALOG_MODULE_ID
+} = require("../shared/desktop-download-only.cjs");
+const { getCliDeployOnlyProfile } = require("../shared/cli-deploy-only.cjs");
 
 function catalogFixture() {
   return JSON.parse(
@@ -173,6 +180,73 @@ test("publication requires an exact module and reviewed install profile", () => 
   assert.throws(
     () => validatePublication(wrongProfile, defaultReleaseSettings()),
     /安装配置|白名单/
+  );
+});
+
+test("publication recognizes fixed download-only and deploy-only client profiles", () => {
+  const catalog = catalogFixture();
+  const desktop = catalog.vendors
+    .flatMap((vendor) => vendor.products.map((product) => ({ vendor, product })))
+    .find(({ product }) => product.id === "docker-desktop");
+  const desktopProfile = getDesktopDownloadOnlyProfile(desktop.product.id);
+  desktop.vendor.products[desktop.vendor.products.indexOf(desktop.product)] =
+    applyProductModule({
+      ...desktop.product,
+      installProfileId: desktopProfile.profileId,
+      download: {
+        url: "https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe",
+        fileName: "Docker Desktop Installer.exe",
+        artifactKind: "exe"
+      }
+    }, "desktop-download-only");
+  desktop.vendor.products.find((product) => product.id === desktop.product.id).moduleId =
+    LEGACY_DESKTOP_DOWNLOAD_MODULE_ID;
+  const cli = catalog.vendors
+    .flatMap((vendor) => vendor.products.map((product) => ({ vendor, product })))
+    .find(({ product }) => product.id === "anytype-cli");
+  const cliProfile = getCliDeployOnlyProfile(cli.product.id);
+  cli.vendor.products[cli.vendor.products.indexOf(cli.product)] =
+    applyProductModule({ ...cli.product, installProfileId: cliProfile.profileId }, "cli-deploy-only");
+  assert.doesNotThrow(() =>
+    validatePublication(validateCatalog(catalog), defaultReleaseSettings())
+  );
+});
+
+test("publication accepts the bounded signed-catalog desktop download contract", () => {
+  const catalog = catalogFixture();
+  const row = catalog.vendors
+    .flatMap((vendor) => vendor.products.map((product) => ({ vendor, product })))
+    .find(({ product }) => product.id === "tana-outliner");
+  row.vendor.products[row.vendor.products.indexOf(row.product)] = applyProductModule({
+    ...row.product,
+    download: {
+      url: "https://assets.tana.inc/desktop/Tana-Setup-windows.exe",
+      fileName: "Tana-Setup-2026.29.20+c0082d7-windows.exe",
+      artifactKind: "exe",
+      mirrors: []
+    }
+  }, SIGNED_CATALOG_MODULE_ID);
+  assert.doesNotThrow(() =>
+    validatePublication(validateCatalog(catalog), defaultReleaseSettings())
+  );
+});
+
+test("signed-catalog download can replace an unrelated legacy installation registry binding", () => {
+  const catalog = catalogFixture();
+  const row = catalog.vendors
+    .flatMap((vendor) => vendor.products.map((product) => ({ vendor, product })))
+    .find(({ product }) => product.id === "chatgpt-desktop");
+  row.vendor.products[row.vendor.products.indexOf(row.product)] = applyProductModule({
+    ...row.product,
+    download: {
+      url: "https://downloads.example.com/ChatGPTSetup.exe",
+      fileName: "ChatGPTSetup.exe",
+      artifactKind: "exe",
+      mirrors: []
+    }
+  }, SIGNED_CATALOG_MODULE_ID);
+  assert.doesNotThrow(() =>
+    validatePublication(validateCatalog(catalog), defaultReleaseSettings())
   );
 });
 

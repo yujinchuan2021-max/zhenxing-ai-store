@@ -244,6 +244,20 @@ test("propagates a structured PE parsing failure through the validation seam", (
   assert.equal(result.error.code, "PE_DOS_HEADER_TRUNCATED");
 });
 
+test("allows a pinned signed installer that has no usable VersionInfo resource", () => {
+  const result = validateWindowsInstallerIdentity({
+    buffer: peFixture(0x8664),
+    versionInfo: {},
+    expected: {
+      architecture: "x64",
+      versionInfoUnavailable: "qt-installer-framework-empty-version-resource"
+    }
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.value.versionInfo, {});
+});
+
 test("the identity module is in-process only and cannot execute platform commands", () => {
   const source = fs.readFileSync(
     path.resolve(__dirname, "../shared/windows-installer-identity.cjs"),

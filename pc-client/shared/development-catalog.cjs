@@ -14,7 +14,10 @@ function plainObject(value) {
 function validCatalog(catalog) {
   return (
     plainObject(catalog) &&
-    [1, 2].includes(catalog.schemaVersion) &&
+    [1, 2, 3].includes(catalog.schemaVersion) &&
+    (catalog.schemaVersion !== 3 ||
+      (Array.isArray(catalog.resources) &&
+        Array.isArray(catalog.resourceConnections))) &&
     Array.isArray(catalog.vendors) &&
     catalog.vendors.every(
       (vendor) =>

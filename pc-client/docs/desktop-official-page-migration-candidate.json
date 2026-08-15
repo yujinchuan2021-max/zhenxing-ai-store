@@ -1,0 +1,1023 @@
+{
+  "notice": "仅候选、不可发布",
+  "source": "authoritative revision store",
+  "sourceRevision": "authoritative-revision-store/draft-74",
+  "sourceProductCount": 615,
+  "generatedAt": "2026-08-04T16:51:02.883Z",
+  "candidateCount": 126,
+  "blockerCount": 0,
+  "candidates": [
+    {
+      "vendorId": "acd-systems",
+      "productId": "acdsee-photo-studio-ultimate",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.acdsee.com/en/products/photo-studio-ultimate/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-acrobat-reader-ai",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.adobe.com/acrobat/pdf-reader.html",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-creative-cloud",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.adobe.com/download/creative-cloud",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "affine",
+      "productId": "affine-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://affine.pro/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "canva",
+      "productId": "affinity",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.affinity.studio/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "airtable",
+      "productId": "airtable-platform",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.airtable.com/windows",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-dingtalk-ai",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.dingtalk.com/download?isLite=0",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-quark-ai-browser",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.quark.cn/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "anydesk",
+      "productId": "anydesk-windows",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://anydesk.com/en/downloads/windows",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "anytype",
+      "productId": "anytype-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://anytype.io/downloads",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "appflowy",
+      "productId": "appflowy-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://appflowy.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "asana",
+      "productId": "asana-work-graph",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://asana.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "audacity",
+      "productId": "audacity-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.audacityteam.org/download/windows/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "techsmith",
+      "productId": "audiate",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.techsmith.com/camtasia/audiate/download/download-audiate-win/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "autodesk",
+      "productId": "autodesk-fusion",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.autodesk.com/products/fusion-360/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "blender",
+      "productId": "blender",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.blender.org/download/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "block",
+      "productId": "block-buzz",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://block.github.io/buzz/support.html",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "box",
+      "productId": "box-content-cloud",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.box.com/drive",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "brave",
+      "productId": "brave-browser-leo",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://brave.com/download/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "browseros",
+      "productId": "browseros-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://browseros.com/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-capcut-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.capcut.com/tools/desktop-video-editor",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-feishu",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.feishu.cn/download?lang=zh-CN",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-ui-tars-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://github.com/bytedance/UI-TARS-desktop/releases/latest",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "techsmith",
+      "productId": "camtasia",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.techsmith.com/download/camtasia/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "canva",
+      "productId": "canva-windows",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.canva.com/en_in/download/windows/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "chatboxai",
+      "productId": "chatbox-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://chatboxai.app/en/install",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "cherryhq",
+      "productId": "cherry-studio",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://cherry-ai.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "cisco",
+      "productId": "cisco-webex-ai-assistant",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.webex.com/downloads.html",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "lumivero",
+      "productId": "citavi",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www1.citavi.com/sub/manual7/en/using_msi_assistant.html",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "clickup",
+      "productId": "clickup-workspace",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://clickup.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "craft",
+      "productId": "craft-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.craft.do/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "thinkinai",
+      "productId": "deepchat-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://github.com/ThinkInAIXYZ/deepchat/releases/latest",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "deepl",
+      "productId": "deepl-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.deepl.com/en/windows-app",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "descript",
+      "productId": "descript-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.descript.com/download/windows",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "dialpad",
+      "productId": "dialpad-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.dialpad.com/download/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "discord",
+      "productId": "discord-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://discord.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "docker",
+      "productId": "docker-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.docker.com/products/docker-desktop/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "duckduckgo",
+      "productId": "duckduckgo-browser",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://duckduckgo.com/app",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "clarivate",
+      "productId": "endnote-2025",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://endnote.com/downloads/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "evernote",
+      "productId": "evernote-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://evernote.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "excire",
+      "productId": "excire-foto",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://support.excire.com/portal/en/kb/articles/download-excire-foto-2025",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "factory-ai",
+      "productId": "factory-droids",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://factory.ai/product/desktop",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "fathom",
+      "productId": "fathom-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://fathom.video/download/win",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "fellow",
+      "productId": "fellow-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://fellow.app/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "figma",
+      "productId": "figma-design",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.figma.com/downloads/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "fiveire",
+      "productId": "fiveire-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://5ire.app/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "fotor",
+      "productId": "fotor-windows",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.fotor.com/windows/index.html",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "genesys",
+      "productId": "genesys-cloud-cx",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://help.genesys.cloud/articles/desktop-app/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "gitbutler",
+      "productId": "gitbutler-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://gitbutler.com/downloads",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "gitkraken",
+      "productId": "gitkraken-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.gitkraken.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "godot",
+      "productId": "godot-engine",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://godotengine.org/download/windows/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "google",
+      "productId": "google-android-studio",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://developer.android.com/studio",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "google",
+      "productId": "google-chrome-devtools",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.google.com/chrome/download-chrome/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "grammarly",
+      "productId": "grammarly-windows",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.grammarly.com/desktop/windows",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "granola",
+      "productId": "granola-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.granola.ai/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "iflytek",
+      "productId": "iflytek-listen",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.iflyrec.com/html/iflyrecAssistant.html",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "iflytek",
+      "productId": "iflytek-simultaneous",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://tongchuan.iflyrec.com/download.html",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "jetbrains",
+      "productId": "jetbrains-intellij-idea",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.jetbrains.com/idea/download/?section=windows",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "knime",
+      "productId": "knime-analytics-platform",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.knime.com/get-started",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "lens",
+      "productId": "lens-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://k8slens.dev/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "linear",
+      "productId": "linear-workspace",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://linear.app/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "lobehub",
+      "productId": "lobehub-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://github.com/lobehub/lobehub/releases/latest",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "meitu",
+      "productId": "meitu-ultra",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://ultra.meitu.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-365-copilot",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://support.microsoft.com/en-us/microsoft-365-copilot/access-microsoft-365-copilot-on-windows",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-edge-ai",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.microsoft.com/en-us/edge/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-power-bi-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.microsoft.com/en-us/download/details.aspx?id=58494",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "miro",
+      "productId": "miro-workspace",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://miro.com/apps/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "moises",
+      "productId": "moises-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://moises.ai/products/moises-desktop-app/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "monday",
+      "productId": "monday-work-management",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://support.monday.com/hc/en-us/articles/115005316885-monday-com-s-desktop-app",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "mongodb",
+      "productId": "mongodb-compass",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.mongodb.com/try/download/compass",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "monica",
+      "productId": "monica-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://monica.im/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "motion",
+      "productId": "motion-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.usemotion.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "movavi",
+      "productId": "movavi-video-editor",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.movavi.com/video-editor-plus/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "mozilla",
+      "productId": "mozilla-firefox",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.firefox.com/en-US/download/windows/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "msty",
+      "productId": "msty-studio",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://msty.ai/products/studio/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "navicat",
+      "productId": "navicat-premium",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.navicat.com/en/download/navicat-premium",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "neo4j",
+      "productId": "neo4j-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://neo4j.com/download/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "notion",
+      "productId": "notion-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.notion.com/desktop",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "obs-project",
+      "productId": "obs-studio",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://obsproject.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "obsidian",
+      "productId": "obsidian-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://obsidian.md/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "openwebui",
+      "productId": "open-webui",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://github.com/open-webui/desktop/releases/latest",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "opera",
+      "productId": "opera-one",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.opera.com/one",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "orange-data-mining",
+      "productId": "orange-data-mining-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://orangedatamining.com/download/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "pdfgear",
+      "productId": "pdfgear-windows",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.pdfgear.com/pdfgear-for-windows/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "perplexity",
+      "productId": "perplexity-comet",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.perplexity.ai/comet",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "perplexity",
+      "productId": "perplexity-web",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.perplexity.ai/platforms",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "pinokio",
+      "productId": "pinokio-ai-browser",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://github.com/pinokiocomputer/pinokio/releases/latest",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "quora",
+      "productId": "poe",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://poe.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "postman",
+      "productId": "postman-api-platform",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.postman.com/downloads/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "qihoo360",
+      "productId": "qihoo360-nami-ai-pc",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.n.cn/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "qihoo360",
+      "productId": "qihoo360-safe-claw",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://claw.360.cn/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "qupath",
+      "productId": "qupath-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://github.com/qupath/qupath/releases",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "redis",
+      "productId": "redis-insight",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://redis.io/docs/latest/operate/redisinsight/install/install-on-desktop/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "roblox",
+      "productId": "roblox-studio",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://create.roblox.com/docs/studio/setup",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "trimble",
+      "productId": "sketchup",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://sketchup.trimble.com/en/download/all",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "skywork",
+      "productId": "skywork-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://skywork.ai/desktop/zh/index.html",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "slack",
+      "productId": "slack-workspace",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://slack.com/downloads/windows",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "techsmith",
+      "productId": "snagit",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.techsmith.com/snagit/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "spark-mail",
+      "productId": "spark-mail-windows",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://sparkmailapp.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "streamlabs",
+      "productId": "streamlabs-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://streamlabs.com/desktop",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "superwhisper",
+      "productId": "superwhisper-windows",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://superwhisper.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "salesforce",
+      "productId": "tableau-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.tableau.com/support/releases",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "taskade",
+      "productId": "taskade-workspace",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.taskade.com/downloads",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "teamviewer",
+      "productId": "teamviewer-remote-ai",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.teamviewer.com/en/download/windows/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "tencent",
+      "productId": "tencent-qq-ai-browser",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://browser.qq.com/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "termius",
+      "productId": "termius-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://termius.com/download/windows",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "topazlabs",
+      "productId": "topaz-gigapixel",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.topazlabs.com/downloads",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "topazlabs",
+      "productId": "topaz-photo",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.topazlabs.com/downloads",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "topazlabs",
+      "productId": "topaz-video",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.topazlabs.com/downloads",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "unity-technologies",
+      "productId": "unity-editor",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://unity.com/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "updf",
+      "productId": "updf-windows",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://updf.com/download/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "upscayl",
+      "productId": "upscayl-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://upscayl.org/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "vrew",
+      "productId": "vrew-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://vrew.ai/es/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "warp",
+      "productId": "warp-windows",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.warp.dev/windows-terminal",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "windsurf",
+      "productId": "windsurf-editor",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://windsurf.com/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "wondershare",
+      "productId": "wondershare-edrawmax",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://edraw.wondershare.cn/download/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "wondershare",
+      "productId": "wondershare-edrawmind",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://edraw.wondershare.cn/download/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "wondershare",
+      "productId": "wondershare-filmora",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://filmora.wondershare.com/video-editor/video-editor-download.html",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "wondershare",
+      "productId": "wondershare-pdfelement",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://pdf.wondershare.cn/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "kingsoft",
+      "productId": "wps-office-ai",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.wps.cn/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "wrike",
+      "productId": "wrike-desktop",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.wrike.com/apps/mobile-and-desktop/desktop-app/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "xmind",
+      "productId": "xmind-ai",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://xmind.cn/download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "youdao",
+      "productId": "youdao-lobsterai",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://lobsterai.youdao.com/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "youdao",
+      "productId": "youdao-note",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://note.youdao.com/note-download",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "youdao",
+      "productId": "youdao-translate",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://fanyi.youdao.com/download/",
+      "sourceField": "website"
+    },
+    {
+      "vendorId": "zoom",
+      "productId": "zoom-workplace",
+      "currentStrategy": "package-manager-only",
+      "proposedStrategy": "official-page-only",
+      "existingOfficialUrl": "https://www.zoom.com/en/products/virtual-meetings/download-center/",
+      "sourceField": "website"
+    }
+  ],
+  "blockers": [],
+  "appliedDraftRevision": 76,
+  "status": "applied-draft",
+  "appliedAt": "2026-08-04T17:04:13.163Z"
+}

@@ -1,0 +1,18 @@
+{
+  "sourceRevision": 84,
+  "sourceProductCount": 615,
+  "scope": "six needs-first-party-review skill resources",
+  "officialSourcesOnly": true,
+  "installed": false,
+  "candidates": [],
+  "resources": [
+    {"resourceId":"anythingllm-agent-skills","publisher":"Mintplex Labs","officialIdentity":true,"versionRef":null,"immutableSource":false,"hosts":["anythingllm-desktop"],"windowsLifecycle":"not-contractual","permissions":"app/workspace agent skills and MCP","credentials":"app/provider configuration","classification":"official-link-only","blocker":"dynamic app-managed mixed Skill/MCP content; no existing fixed profile"},
+    {"resourceId":"pika-mcp-skills","publisher":"Pika / Pika Labs","officialIdentity":true,"versionRef":null,"immutableSource":false,"hosts":["pika-agent","Claude via MCP"],"windowsLifecycle":"not-contractual","permissions":"creative MCP tools and content generation","credentials":"Auth and/or Pika Agent API key","classification":"official-link-only","blocker":"dynamic skills, auth, npx plugin install, non-read-only capabilities"},
+    {"resourceId":"cline-official-skills-plugins","publisher":"Cline","officialIdentity":true,"versionRef":"3.0.27 CLI skill command","immutableSource":false,"hosts":["cline-agent"],"windowsLifecycle":"CLI docs describe macOS/Linux preview","permissions":"agent skills/plugins/MCP","credentials":"cline auth","classification":"official-link-only","blocker":"no existing Cline profile; CLI/npm/auth and mixed resource"},
+    {"resourceId":"matlab-agentic-toolkit","publisher":"MathWorks","officialIdentity":true,"versionRef":"repository releases exist; no selected immutable Skill snapshot","immutableSource":false,"hosts":["codex-cli","claude-code","github-copilot","gemini-cli","sourcegraph-amp"],"windowsLifecycle":"not fixed in reviewed contract","permissions":"MATLAB MCP Core Server and curated skills","credentials":"MATLAB/Git and agent configuration","classification":"official-link-only","blocker":"toolkit downloads/configures MCP and registers multiple skills; no single profile snapshot"},
+    {"resourceId":"simulink-agentic-toolkit","publisher":"MathWorks / Simulink","officialIdentity":true,"versionRef":"repository source; no selected immutable Skill snapshot","immutableSource":false,"hosts":["AI agents listed by official setup","requires MATLAB R2023a+ and Simulink"],"windowsLifecycle":"not fixed in reviewed contract","permissions":"Simulink/MATLAB tools and skills","credentials":"MATLAB/Simulink installation and agent configuration","classification":"official-link-only","blocker":"MATLAB installer and combined toolkit configuration; no single profile snapshot"},
+    {"resourceId":"nvidia-omniverse-agent-skills","publisher":"NVIDIA","officialIdentity":true,"versionRef":"catalog commits/signatures exist; current resource has no selected skill name/commit","immutableSource":false,"hosts":["codex","claude-code","cursor","other skills CLI agents"],"windowsLifecycle":"skills CLI provides update/remove, not existing fixed adapter contract","permissions":"product-specific NVIDIA skills; varies by selected skill","credentials":"varies by selected skill","classification":"official-link-only","blocker":"broad/daily-synced catalog and npx skills CLI; no single immutable profile source"}
+  ],
+  "contract": {"approvedSkillProfile":"skill.codex.chatgpt-apps","adapter":"directory-snapshot","requires":"fixed host, immutable source snapshot, receipt ownership, no arbitrary commands/headers/credentials"},
+  "status":"candidate-only; no managed promotion"
+}

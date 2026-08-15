@@ -56,8 +56,22 @@ function resolveCodexConfigPath({
   return pathApi.join(pathApi.resolve(codexHome), "config.toml");
 }
 
+function resolveCursorMcpConfigPath({
+  homedir = os.homedir,
+  pathApi = path
+} = {}) {
+  const home = homedir();
+  if (!home || home.includes("\0") || !pathApi.isAbsolute(home)) {
+    const error = new Error("User home must be an absolute local path");
+    error.code = "EXTENSION_USER_HOME_INVALID";
+    throw error;
+  }
+  return pathApi.join(pathApi.resolve(home), ".cursor", "mcp.json");
+}
+
 module.exports = {
   resolveCodexConfigPath,
   resolveCodexSkillsRoot,
+  resolveCursorMcpConfigPath,
   resolveLegacyCodexSkillsRoot
 };

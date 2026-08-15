@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "scope": "local-admin-image-only",
+  "sourceManifest": {
+    "path": "output/admin-only-snapshots/186ff057efd317b5b54af564e22c7cf3e3eac0f8af62b18dd48defc2d719f6e9/source-manifest.json",
+    "contentDigest": "186ff057efd317b5b54af564e22c7cf3e3eac0f8af62b18dd48defc2d719f6e9",
+    "gitReference": "f90543d936397fbdfa8a370a9a0b62e7b3a3f0ce",
+    "baseImage": "node:24-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432d679c54fbfd",
+    "requiredClosure": [
+      "shared/catalog.cjs",
+      "shared/ecosystem-resources.cjs",
+      "shared/catalog-release.cjs",
+      "shared/signed-release.cjs",
+      "admin/server.cjs",
+      "admin/release-store.cjs"
+    ]
+  },
+  "image": {
+    "candidateTag": "zhenxing-ai/admin:0.1.40-src-186ff057efd3",
+    "runtimeContract": "admin-only-v1",
+    "composeFile": "deployment/admin-only/compose.server.yaml",
+    "service": "admin",
+    "requiredSourceContentDigest": "186ff057efd317b5b54af564e22c7cf3e3eac0f8af62b18dd48defc2d719f6e9",
+    "buildStatus": "built locally",
+    "imageId": "sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd",
+    "imageDigest": "sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd",
+    "imageSizeBytes": 60307150,
+    "labels": {
+      "com.aihub.release-version": "0.1.40",
+      "com.aihub.runtime-contract": "admin-only-v1",
+      "com.aihub.source-content-sha256": "186ff057efd317b5b54af564e22c7cf3e3eac0f8af62b18dd48defc2d719f6e9",
+      "com.aihub.source-revision": "f90543d936397fbdfa8a370a9a0b62e7b3a3f0ce"
+    }
+  },
+  "remoteRollbackEvidence": {
+    "remoteBaseline": "v2 active6 / catalog-v00000006-567e671621f1-3dcee587",
+    "remoteStateSha256": "abffc088a113160ee85fb0efaead8ddff0230021992c9252df82453e396490a9",
+    "remoteV1": "catalog-v00000072-e286516335da-a8b62a49",
+    "priorAdminImage": "zhenxing-ai/admin:community-candidate-b6ea4c5bd0e9",
+    "backupPath": "/opt/zhenxing-ai/shared/backups/catalog-v2-pre-active7-admin-20260808T184010Z/",
+    "active7RemoteSwitch": "not performed"
+  },
+  "deploymentManifestCandidate": {
+    "path": "deployment/admin-only/compose.server.yaml",
+    "service": "admin",
+    "imageReference": "zhenxing-ai/admin:0.1.40-src-186ff057efd3",
+    "expectedImageId": "sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd",
+    "requiredConfiguration": {
+      "AIHUB_SOURCE_CONTENT_DIGEST": "186ff057efd317b5b54af564e22c7cf3e3eac0f8af62b18dd48defc2d719f6e9",
+      "AIHUB_ADMIN_READ_ONLY": "1",
+      "AIHUB_DISCOVERY_SCAN_INTERVAL_HOURS": "0"
+    },
+    "persistentMountPurpose": [
+      "admin data",
+      "published catalog state",
+      "admin output"
+    ],
+    "networkExposure": "admin binds to 127.0.0.1:4173; Caddy is the public reverse proxy",
+    "rollbackImageReference": "zhenxing-ai/admin:community-candidate-b6ea4c5bd0e9",
+    "applyStatus": "candidate only; no server upload, switch, or catalog publication is authorized"
+  },
+  "requiredAcceptance": {
+    "offlineSignedRelease": {
+      "active7EnvelopeSha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4",
+      "expectedCounts": { "products": 615, "resources": 250, "targets": 777, "resourceStores": 4 },
+      "expectedSkill": { "official": 16, "community": 104 },
+      "v1Unchanged": true
+    },
+    "status": "passed",
+    "postgresql": "not applicable: admin-only catalog release store is filesystem-backed and the approved compose has no PostgreSQL service",
+    "isolatedTransaction": {
+      "baseline": "fixture v2 active6 catalog-v00000006-567e671621f1-3dcee587; draft revision 89; v1 active72",
+      "saveDraft": "PUT /api/catalog accepted expectedRevision=89 and returned revision 90",
+      "validate": "POST /api/validate returned HTTP 200 with 615 products, 250 resources, 777 targets, 4 stores and no errors",
+      "publish": {
+        "channel": "v2",
+        "catalogVersion": 7,
+        "releaseId": "catalog-v00000007-76b59e3e33fc-618e1ac3",
+        "releaseSha256": "88e57cfd19d2ae526c2efef7d7d89bc2bad055d1d46769ffc71660760048d037",
+        "signatureReadback": "verified with the fixture signing public key; Skill official=16, reviewed-community=104"
+      },
+      "rollback": {
+        "requestedReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+        "catalogVersion": 8,
+        "releaseId": "catalog-v00000008-567e671621f1-228fd850",
+        "signatureReadback": "verified; v2 payload returned to 615 products, 146 resources, 513 targets, 4 stores",
+        "v1Unchanged": "active catalog version 72 and release catalog-v00000072-e286516335da-a8b62a49 remained unchanged"
+      }
+    }
+  },
+  "regression": {
+    "staticFocusedTests": "49 passed",
+    "sourceClosurePreparation": "passed",
+    "nodeSyntax": "162 CJS files passed node --check",
+    "dockerBuild": "passed",
+    "secrets": "no secrets added",
+    "catalogState": "unchanged"
+  }
+}

@@ -1,0 +1,4304 @@
+{
+  "notice": "read-only candidate, not publishable",
+  "sourceRevision": 83,
+  "activeRelease": "catalog-v00000072-e286516335da-a8b62a49",
+  "sourceProductCount": 615,
+  "relatedProductCount": 266,
+  "candidateCount": 266,
+  "candidates": [
+    {
+      "vendorId": "ableton",
+      "productId": "ableton-live",
+      "productName": "Ableton Live",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "dynamic-or-login",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.ableton.com/en/trial/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Official entry requires account, subscription, or dynamic flow; stable direct link not promised",
+      "needsReview": true
+    },
+    {
+      "vendorId": "acd-systems",
+      "productId": "acdsee-photo-studio-ultimate",
+      "productName": "ACDSee Photo Studio Ultimate",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.acdsee.com/en/products/photo-studio-ultimate/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-acrobat-reader-ai",
+      "productName": "Adobe Acrobat Reader",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.adobe.com/acrobat/pdf-reader.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-creative-cloud",
+      "productName": "Adobe Creative Cloud",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.adobe.com/download/creative-cloud",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-illustrator",
+      "productName": "Adobe Illustrator",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.adobe.com/products/illustrator/free-trial-download.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-lightroom",
+      "productName": "Adobe Lightroom",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.adobe.com/products/photoshop-lightroom/free-trial-download.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-photoshop",
+      "productName": "Adobe Photoshop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.adobe.com/products/photoshop/free-trial-download.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-premiere",
+      "productName": "Adobe Premiere",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.adobe.com/products/premiere/free-trial-download.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "affine",
+      "productId": "affine-desktop",
+      "productName": "AFFiNE",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://affine.pro/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "canva",
+      "productId": "affinity",
+      "productName": "Affinity",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "dynamic-or-login",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.affinity.studio/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Official entry requires account, subscription, or dynamic flow; stable direct link not promised",
+      "needsReview": true
+    },
+    {
+      "vendorId": "aftershoot",
+      "productId": "aftershoot",
+      "productName": "Aftershoot",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://aftershoot.com/downloads/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "airtable",
+      "productId": "airtable-platform",
+      "productName": "Airtable",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.airtable.com/windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-dingtalk-ai",
+      "productName": "钉钉",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.dingtalk.com/download?isLite=0",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-qoder-cn-ide",
+      "productName": "Qoder CN IDE",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://qoder.com.cn/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-qoderwork-cn",
+      "productName": "QoderWork CN",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://qoder.com.cn/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-quark-ai-browser",
+      "productName": "夸克 AI 浏览器",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.quark.cn/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-qwen-studio",
+      "productName": "千问桌面版",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://b.qianwen.com/apps/qkhomepage_twofoufeb/routes/l5Utxkrh6",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "allplan",
+      "productId": "allplan",
+      "productName": "ALLPLAN",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.allplan.com/products/allplan/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "alteryx",
+      "productId": "alteryx-designer",
+      "productName": "Alteryx Designer",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://help.alteryx.com/current/en/designer/what-s-new-in-designer.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "amazon",
+      "productId": "amazon-kiro-ide",
+      "productName": "Kiro IDE",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://kiro.dev/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "amd",
+      "productId": "amd-gaia",
+      "productName": "GAIA",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/amd/gaia/releases/latest",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "ansys",
+      "productId": "ansys-lumerical",
+      "productName": "Ansys Lumerical",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.ansys.com/products/optics",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "anydesk",
+      "productId": "anydesk-windows",
+      "productName": "AnyDesk",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://anydesk.com/en/downloads/windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "mintplex",
+      "productId": "anythingllm-desktop",
+      "productName": "AnythingLLM Desktop",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://anythingllm.com/desktop",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "anytype",
+      "productId": "anytype-desktop",
+      "productName": "Anytype",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://anytype.io/downloads",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "appflowy",
+      "productId": "appflowy-desktop",
+      "productName": "AppFlowy",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://appflowy.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "asana",
+      "productId": "asana-work-graph",
+      "productName": "Asana",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://asana.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lumivero",
+      "productId": "atlas-ti",
+      "productName": "ATLAS.ti",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://atlasti.com/atlas-ti-desktop",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "audacity",
+      "productId": "audacity-desktop",
+      "productName": "Audacity",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.audacityteam.org/download/windows/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "techsmith",
+      "productId": "audiate",
+      "productName": "Camtasia Audiate",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.techsmith.com/camtasia/audiate/download/download-audiate-win/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "autodesk",
+      "productId": "autodesk-autocad",
+      "productName": "AutoCAD",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "dynamic-or-login",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.autodesk.com/products/autocad/overview",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Official entry requires account, subscription, or dynamic flow; stable direct link not promised",
+      "needsReview": true
+    },
+    {
+      "vendorId": "autodesk",
+      "productId": "autodesk-fusion",
+      "productName": "Autodesk Fusion",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "dynamic-or-login",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.autodesk.com/products/fusion-360/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Official entry requires account, subscription, or dynamic flow; stable direct link not promised",
+      "needsReview": true
+    },
+    {
+      "vendorId": "autodesk",
+      "productId": "autodesk-revit",
+      "productName": "Revit",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "dynamic-or-login",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.autodesk.com/products/revit/overview/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Official entry requires account, subscription, or dynamic flow; stable direct link not promised",
+      "needsReview": true
+    },
+    {
+      "vendorId": "baidu",
+      "productId": "baidu-ruliu",
+      "productName": "如流",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://infoflow.baidu.com/newweb/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "blender",
+      "productId": "blender",
+      "productName": "Blender",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.blender.org/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "block",
+      "productId": "block-buzz",
+      "productName": "Buzz",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://block.github.io/buzz/support.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "box",
+      "productId": "box-content-cloud",
+      "productName": "Box",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.box.com/drive",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "brave",
+      "productId": "brave-browser-leo",
+      "productName": "Brave",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://brave.com/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "browseros",
+      "productId": "browseros-desktop",
+      "productName": "BrowserOS",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://browseros.com/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-capcut-desktop",
+      "productName": "CapCut",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.capcut.com/tools/desktop-video-editor",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-doubao",
+      "productName": "豆包桌面版",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.doubao.com/download/desktop",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-feishu",
+      "productName": "飞书",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.feishu.cn/download?lang=zh-CN",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-ui-tars-desktop",
+      "productName": "UI TARS",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/bytedance/UI-TARS-desktop/releases/latest",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "techsmith",
+      "productId": "camtasia",
+      "productName": "Camtasia",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "dynamic-or-login",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.techsmith.com/download/camtasia/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Official entry requires account, subscription, or dynamic flow; stable direct link not promised",
+      "needsReview": true
+    },
+    {
+      "vendorId": "canarymail",
+      "productId": "canary-mail",
+      "productName": "Canary Mail",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://canarymail.io/downloads",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "canva",
+      "productId": "canva-windows",
+      "productName": "Canva for Windows",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.canva.com/en_in/download/windows/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "capacities",
+      "productId": "capacities-desktop",
+      "productName": "Capacities",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://capacities.io/download-app",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "capture-one",
+      "productId": "capture-one-pro",
+      "productName": "Capture One Pro",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.captureone.com/en/account/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "chatboxai",
+      "productId": "chatbox-desktop",
+      "productName": "Chatbox",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://chatboxai.app/en/install",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "openai",
+      "productId": "chatgpt-desktop",
+      "productName": "ChatGPT",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://chatgpt.com/download",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "cherryhq",
+      "productId": "cherry-studio",
+      "productName": "Cherry Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://cherry-ai.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "cisco",
+      "productId": "cisco-webex-ai-assistant",
+      "productName": "Webex",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.webex.com/downloads.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lumivero",
+      "productId": "citavi",
+      "productName": "Citavi 7",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www1.citavi.com/sub/manual7/en/using_msi_assistant.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "anthropic",
+      "productId": "claude-desktop",
+      "productName": "Claude",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://claude.com/download",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "clickup",
+      "productId": "clickup-brain-max",
+      "productName": "ClickUp Brain MAX",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://clickup.com/brain/max",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "clickup",
+      "productId": "clickup-workspace",
+      "productName": "ClickUp",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://clickup.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "comfy",
+      "productId": "comfy-desktop",
+      "productName": "Comfy Desktop",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.comfy.org/download",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "corel",
+      "productId": "coreldraw-graphics-suite",
+      "productName": "CorelDRAW Graphics Suite",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.coreldraw.com/en/product/coreldraw/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "craft",
+      "productId": "craft-desktop",
+      "productName": "Craft",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.craft.do/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "anysphere",
+      "productId": "cursor-desktop",
+      "productName": "Cursor",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://cursor.com/download",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "cyberlink",
+      "productId": "cyberlink-photodirector",
+      "productName": "PhotoDirector",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.cyberlink.com/products/photodirector-photo-editing-software-365/features_en_AU.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "cyberlink",
+      "productId": "cyberlink-powerdirector",
+      "productName": "PowerDirector",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.cyberlink.com/products/powerdirector-video-editing-software/overview_en_US.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "dassault-systemes",
+      "productId": "dassault-solidworks-design",
+      "productName": "SOLIDWORKS Design",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "dynamic-or-login",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.solidworks.com/support/downloads",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Official entry requires account, subscription, or dynamic flow; stable direct link not promised",
+      "needsReview": true
+    },
+    {
+      "vendorId": "blackmagic-design",
+      "productId": "davinci-resolve",
+      "productName": "DaVinci Resolve",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.blackmagicdesign.com/products/davinciresolve",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "dbeaver",
+      "productId": "dbeaver-pro",
+      "productName": "DBeaver PRO",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://dbeaver.com/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "thinkinai",
+      "productId": "deepchat-desktop",
+      "productName": "DeepChat",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/ThinkInAIXYZ/deepchat/releases/latest",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "deepl",
+      "productId": "deepl-desktop",
+      "productName": "DeepL",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.deepl.com/en/windows-app",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "descript",
+      "productId": "descript-desktop",
+      "productName": "Descript",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.descript.com/download/windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "dialpad",
+      "productId": "dialpad-desktop",
+      "productName": "Dialpad",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.dialpad.com/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "discord",
+      "productId": "discord-desktop",
+      "productName": "Discord",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://discord.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "docker",
+      "productId": "docker-desktop",
+      "productName": "Docker Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.docker.com/products/docker-desktop/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "dropbox",
+      "productId": "dropbox-dash",
+      "productName": "Dropbox Dash",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://help.dropbox.com/installs/download-install-dropbox-dash",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "duckduckgo",
+      "productId": "duckduckgo-browser",
+      "productName": "DuckDuckGo Browser",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://duckduckgo.com/app",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "dxo",
+      "productId": "dxo-photolab",
+      "productName": "DxO PhotoLab",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.dxo.com/en/dxo-photolab/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "clarivate",
+      "productId": "endnote-2025",
+      "productName": "EndNote 2025",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://endnote.com/downloads/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "evernote",
+      "productId": "evernote-desktop",
+      "productName": "Evernote",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://evernote.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "evoto",
+      "productId": "evoto-desktop",
+      "productName": "Evoto",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.evoto.ai/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "excire",
+      "productId": "excire-foto",
+      "productName": "Excire Foto",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://support.excire.com/portal/en/kb/articles/download-excire-foto-2025",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "factory-ai",
+      "productId": "factory-droids",
+      "productName": "Factory",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://factory.ai/product/desktop",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "fathom",
+      "productId": "fathom-desktop",
+      "productName": "Fathom",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://fathom.video/download/win",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "fellow",
+      "productId": "fellow-desktop",
+      "productName": "Fellow",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://fellow.app/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "figma",
+      "productId": "figma-design",
+      "productName": "Figma",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.figma.com/downloads/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "finevoice",
+      "productId": "finevoice-desktop",
+      "productName": "FineVoice",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://finevoice.ai/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "firefliesai",
+      "productId": "fireflies-desktop",
+      "productName": "Fireflies",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://fireflies.ai/desktop",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "fiveire",
+      "productId": "fiveire-desktop",
+      "productName": "5ire",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://5ire.app/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "fotor",
+      "productId": "fotor-windows",
+      "productName": "Fotor",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.fotor.com/windows/index.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "genesys",
+      "productId": "genesys-cloud-cx",
+      "productName": "Genesys Cloud",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://help.genesys.cloud/articles/desktop-app/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "genspark",
+      "productId": "genspark-ai-browser",
+      "productName": "Genspark AI Browser",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.genspark.ai/browser",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "genspark",
+      "productId": "genspark-claw",
+      "productName": "Genspark Claw",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.genspark.ai/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "genspark",
+      "productId": "genspark-speakly",
+      "productName": "Speakly",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.genspark.ai/helpcenter/speakly",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "gitbutler",
+      "productId": "gitbutler-desktop",
+      "productName": "GitButler",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://gitbutler.com/downloads",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "gitkraken",
+      "productId": "gitkraken-desktop",
+      "productName": "GitKraken",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.gitkraken.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "godot",
+      "productId": "godot-engine",
+      "productName": "Godot Engine",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://godotengine.org/download/windows/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "google",
+      "productId": "google-android-studio",
+      "productName": "Android Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://developer.android.com/studio",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "google",
+      "productId": "google-antigravity-desktop",
+      "productName": "Google Antigravity 2.0",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://antigravity.google/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "google",
+      "productId": "google-chrome-devtools",
+      "productName": "Google Chrome",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.google.com/chrome/download-chrome/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "aaif",
+      "productId": "goose-desktop",
+      "productName": "Goose Desktop",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/aaif-goose/goose/releases/latest",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "nomic",
+      "productId": "gpt4all-desktop",
+      "productName": "GPT4All Desktop",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://gpt4all.io/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "grammarly",
+      "productId": "grammarly-windows",
+      "productName": "Grammarly",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.grammarly.com/desktop/windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "granola",
+      "productId": "granola-desktop",
+      "productName": "Granola",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.granola.ai/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "graphisoft",
+      "productId": "graphisoft-archicad",
+      "productName": "Archicad",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.graphisoft.com/en-us/downloads/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "heptabase",
+      "productId": "heptabase-desktop",
+      "productName": "Heptabase",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://heptabase.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "hitpaw",
+      "productId": "hitpaw-edimakor",
+      "productName": "HitPaw Edimakor",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.hitpaw.com/download-center/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "hitpaw",
+      "productId": "hitpaw-fotorpea",
+      "productName": "HitPaw FotorPea",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.hitpaw.com/download-center/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "hitpaw",
+      "productId": "hitpaw-vikpea",
+      "productName": "HitPaw VikPea",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.hitpaw.com/download-center/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "hitpaw",
+      "productId": "hitpaw-voicepea",
+      "productName": "HitPaw VoicePea",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.hitpaw.com/download-center/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "iflytek",
+      "productId": "iflytek-listen",
+      "productName": "讯飞听见",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.iflyrec.com/html/iflyrecAssistant.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "iflytek",
+      "productId": "iflytek-simultaneous",
+      "productName": "讯飞同传",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://tongchuan.iflyrec.com/download.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "iflytek",
+      "productId": "iflytek-sparkdesk",
+      "productName": "讯飞星火",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://xinghuo.xfyun.cn/app/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "ilastik",
+      "productId": "ilastik-desktop",
+      "productName": "ilastik",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.ilastik.org/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "intel",
+      "productId": "intel-ai-playground",
+      "productName": "AI Playground",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://game.intel.com/stories/introducing-ai-playground/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "invokeai",
+      "productId": "invokeai-community-edition",
+      "productName": "Invoke Community Edition",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://invoke.ai/download/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "izotope",
+      "productId": "izotope-rx",
+      "productName": "iZotope RX",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.izotope.com/en/products/downloads.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "jan",
+      "productId": "jan-desktop",
+      "productName": "Jan",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.jan.ai/docs/desktop/install/windows",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "jetbrains",
+      "productId": "jetbrains-intellij-idea",
+      "productName": "IntelliJ IDEA",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.jetbrains.com/idea/download/?section=windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "jianying",
+      "productName": "剪映专业版",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.capcut.cn",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "moonshot",
+      "productId": "kimi-work-desktop",
+      "productName": "Kimi Work（Windows）",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.kimi.com/zh-cn/products/kimi-work",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "knime",
+      "productId": "knime-analytics-platform",
+      "productName": "KNIME Analytics Platform",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.knime.com/get-started",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lostruins",
+      "productId": "koboldcpp",
+      "productName": "KoboldCpp",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/LostRuins/koboldcpp/releases/latest",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "krisp",
+      "productId": "krisp-desktop",
+      "productName": "Krisp",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://help.krisp.ai/hc/en-us/articles/4420088642460-Install-Krisp-AI-Meeting-Assistant",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "laiye",
+      "productId": "laiye-rpa",
+      "productName": "来也 RPA",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://laiye.com/product/rpa-platform",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "laiye",
+      "productId": "laiye-worker",
+      "productName": "Laiye Worker",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://laiye.com/product/worker",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lalalai",
+      "productId": "lalalai-desktop",
+      "productName": "LALAL.AI Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.lalal.ai/desktop-app/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lens",
+      "productId": "lens-desktop",
+      "productName": "Lens",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://k8slens.dev/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "letta",
+      "productId": "letta-agent",
+      "productName": "Letta",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://docs.letta.com/platform/desktop-app",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "linear",
+      "productId": "linear-workspace",
+      "productName": "Linear",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://linear.app/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lmstudio",
+      "productId": "lm-studio-desktop",
+      "productName": "LM Studio",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://lmstudio.ai/download",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lobehub",
+      "productId": "lobehub-desktop",
+      "productName": "LobeHub",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/lobehub/lobehub/releases/latest",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lovable",
+      "productId": "lovable-ai-app-builder",
+      "productName": "Lovable",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://lovable.dev/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "skylum",
+      "productId": "luminar-neo",
+      "productName": "Luminar Neo",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://skylum.com/luminar-download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "manus",
+      "productId": "manus-desktop",
+      "productName": "Manus",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://manus.im/desktop",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "mathworks",
+      "productId": "matlab",
+      "productName": "MATLAB",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.mathworks.com/products/matlab.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "maxqda",
+      "productId": "maxqda-desktop",
+      "productName": "MAXQDA",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.maxqda.com/updates",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "meetgeek",
+      "productId": "meetgeek-desktop",
+      "productName": "MeetGeek Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://meetgeek.ai/desktop-app",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "meitu",
+      "productId": "meitu-pc",
+      "productName": "美图秀秀",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://pc.meitu.com/pc",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "meitu",
+      "productId": "meitu-ultra",
+      "productName": "美图云修",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://ultra.meitu.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-365-copilot",
+      "productName": "Microsoft 365 Copilot",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://support.microsoft.com/en-us/microsoft-365-copilot/access-microsoft-365-copilot-on-windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-copilot-desktop",
+      "productName": "Microsoft Copilot",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/get-copilot",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-edge-ai",
+      "productName": "Microsoft Edge",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.microsoft.com/en-us/edge/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-power-bi-desktop",
+      "productName": "Microsoft PowerBI Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.microsoft.com/en-us/download/details.aspx?id=58494",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-visual-studio",
+      "productName": "Visual Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://visualstudio.microsoft.com/downloads/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-vscode",
+      "productName": "Visual Studio Code",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://code.visualstudio.com/download",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "miro",
+      "productId": "miro-workspace",
+      "productName": "Miro",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://miro.com/apps/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "moises",
+      "productId": "moises-desktop",
+      "productName": "Moises Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://moises.ai/products/moises-desktop-app/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "moises",
+      "productId": "moises-live",
+      "productName": "Moises Live",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://moises.ai/products/live/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "monday",
+      "productId": "monday-work-management",
+      "productName": "monday",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://support.monday.com/hc/en-us/articles/115005316885-monday-com-s-desktop-app",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "mongodb",
+      "productId": "mongodb-compass",
+      "productName": "MongoDB Compass",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.mongodb.com/try/download/compass",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "monica",
+      "productId": "monica-desktop",
+      "productName": "Monica",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://monica.im/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "motion",
+      "productId": "motion-desktop",
+      "productName": "Motion",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.usemotion.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "movavi",
+      "productId": "movavi-video-editor",
+      "productName": "Movavi Video Editor",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.movavi.com/video-editor-plus/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "mozilla",
+      "productId": "mozilla-firefox",
+      "productName": "Mozilla Firefox",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.firefox.com/en-US/download/windows/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "msty",
+      "productId": "msty-go",
+      "productName": "Msty Go",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://msty.ai/go/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "msty",
+      "productId": "msty-nexus",
+      "productName": "Msty Nexus",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://msty.ai/products/nexus/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "msty",
+      "productId": "msty-studio",
+      "productName": "Msty Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://msty.ai/products/studio/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "mylio",
+      "productId": "mylio-photos",
+      "productName": "Mylio Photos",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://support.mylio.com/where-can-i-download-the-mylio-photos-software",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "navicat",
+      "productId": "navicat-premium",
+      "productName": "Navicat Premium",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.navicat.com/en/download/navicat-premium",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "neo4j",
+      "productId": "neo4j-desktop",
+      "productName": "Neo4j Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://neo4j.com/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "neo4j",
+      "productId": "neo4j-enterprise-studio",
+      "productName": "Neo4j Enterprise Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://neo4j.com/product/enterprise-studio/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "nero",
+      "productId": "nero-ai-image-upscaler",
+      "productName": "Nero AI Image Upscaler",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.nero.com/eng/downloads/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "nero",
+      "productId": "nero-ai-photo-tagger",
+      "productName": "Nero AI Photo Tagger",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.nero.com/eng/downloads/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "nero",
+      "productId": "nero-ai-video-upscaler",
+      "productName": "Nero AI Video Upscaler",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.nero.com/eng/downloads/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "notion",
+      "productId": "notion-desktop",
+      "productName": "Notion",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.notion.com/desktop",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "nousresearch",
+      "productId": "nous-hermes-desktop",
+      "productName": "Hermes Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/nousresearch/hermes-agent/releases/latest",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "nvidia",
+      "productId": "nvidia-ai-workbench",
+      "productName": "NVIDIA AI Workbench",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://developer.nvidia.com/ai-workbench",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "nvidia",
+      "productId": "nvidia-broadcast",
+      "productName": "NVIDIA Broadcast",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.nvidia.com/en-us/geforce/broadcasting/broadcast-app/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "nvidia",
+      "productId": "nvidia-canvas",
+      "productName": "NVIDIA Canvas",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.nvidia.com/en-us/studio/canvas.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lumivero",
+      "productId": "nvivo",
+      "productName": "NVivo",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://lumivero.com/resources/support/getting-started-with-nvivo/download-and-activate-nvivo/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "obs-project",
+      "productId": "obs-studio",
+      "productName": "OBS Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://obsproject.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "obsidian",
+      "productId": "obsidian-desktop",
+      "productName": "Obsidian",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://obsidian.md/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "octave",
+      "productId": "octave-bricscad",
+      "productName": "Octave BricsCAD",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://bricscad.octave.com/bricscad",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "ollama",
+      "productId": "ollama-cli",
+      "productName": "Ollama",
+      "currentGroup": "local-model",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://ollama.com/download/windows",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "on1",
+      "productId": "on1-photo-raw",
+      "productName": "ON1 Photo RAW",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.on1.com/products/photo-raw/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "open-interpreter",
+      "productId": "open-interpreter-desktop",
+      "productName": "Open Interpreter Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.openinterpreter.com/desktop",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "openwebui",
+      "productId": "open-webui",
+      "productName": "Open WebUI",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/open-webui/desktop/releases/latest",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "openclaw",
+      "productId": "openclaw-windows-hub",
+      "productName": "OpenClaw Windows Hub",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://docs.openclaw.ai/windows",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "anomalyco",
+      "productId": "opencode",
+      "productName": "OpenCode Desktop",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://opencode.ai/docs",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "opera",
+      "productId": "opera-neon",
+      "productName": "Opera Neon",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.operaneon.com/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "opera",
+      "productId": "opera-one",
+      "productName": "Opera Stable",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.opera.com/one",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "orange-data-mining",
+      "productId": "orange-data-mining-desktop",
+      "productName": "Orange",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://orangedatamining.com/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "otterai",
+      "productId": "otter-desktop",
+      "productName": "Otter",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://otter.ai/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "corel",
+      "productId": "paintshop-pro",
+      "productName": "PaintShop Pro",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.paintshoppro.com/en/products/paintshop-pro/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "pdfgear",
+      "productId": "pdfgear-windows",
+      "productName": "PDFgear",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.pdfgear.com/pdfgear-for-windows/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "perplexity",
+      "productId": "perplexity-comet",
+      "productName": "Comet",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.perplexity.ai/comet",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "perplexity",
+      "productId": "perplexity-web",
+      "productName": "Perplexity",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.perplexity.ai/platforms",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "pieces",
+      "productId": "pieces-for-developers",
+      "productName": "Pieces for Developers",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://pieces.app/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "pinokio",
+      "productId": "pinokio-ai-browser",
+      "productName": "Pinokio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/pinokiocomputer/pinokio/releases/latest",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "quora",
+      "productId": "poe",
+      "productName": "Poe",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://poe.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "anthropics",
+      "productId": "portraitpro",
+      "productName": "PortraitPro",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.anthropics.com/portraitpro/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "postman",
+      "productId": "postman-api-platform",
+      "productName": "Postman",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.postman.com/downloads/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "ptc",
+      "productId": "ptc-creo",
+      "productName": "PTC Creo / Creo+",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.ptc.com/en/products/creo/capabilities",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "qihoo360",
+      "productId": "qihoo360-agent-safe",
+      "productName": "360 智能体卫士",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://agentsafe.360.cn/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "qihoo360",
+      "productId": "qihoo360-ai-browser",
+      "productName": "360 AI 浏览器",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://browser.360.cn/?from=xp",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "qihoo360",
+      "productId": "qihoo360-ai-office",
+      "productName": "360 AI 办公",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://bangong.360.cn/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "qihoo360",
+      "productId": "qihoo360-nami-ai-pc",
+      "productName": "纳米 AI PC",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.n.cn/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "qihoo360",
+      "productId": "qihoo360-safe-claw",
+      "productName": "360 安全龙虾",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://claw.360.cn/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "qupath",
+      "productId": "qupath-desktop",
+      "productName": "QuPath",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/qupath/qupath/releases",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "raycast",
+      "productId": "raycast-windows",
+      "productName": "Raycast",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.raycast.com/windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "read-ai",
+      "productId": "read-desktop",
+      "productName": "Read Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.read.ai/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "redis",
+      "productId": "redis-insight",
+      "productName": "Redis Insight",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://redis.io/docs/latest/operate/redisinsight/install/install-on-desktop/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "roblox",
+      "productId": "roblox-studio",
+      "productName": "Roblox Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "dynamic-or-login",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://create.roblox.com/docs/studio/setup",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Official entry requires account, subscription, or dynamic flow; stable direct link not promised",
+      "needsReview": true
+    },
+    {
+      "vendorId": "rowboat",
+      "productId": "rowboat-desktop",
+      "productName": "Rowboat",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.rowboatlabs.com/downloads",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "screenpipe",
+      "productId": "screenpipe-desktop",
+      "productName": "screenpipe",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://screenpipe.com/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "sider",
+      "productId": "sider-windows",
+      "productName": "Sider for Windows",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://sider.ai/apps/windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "siemens",
+      "productId": "siemens-designcenter-nx",
+      "productName": "Designcenter NX",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.siemens.com/en-us/products/designcenter/cad-software/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "siemens",
+      "productId": "siemens-eigen-engineering-agent",
+      "productName": "Eigen Engineering Agent",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.siemens.com/en-us/products/tia-portal/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "siemens",
+      "productId": "siemens-rapidminer-ai-studio",
+      "productName": "Rapidminer AI Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.siemens.com/en-us/products/rapidminer/ai-studio/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "mathworks",
+      "productId": "simulink",
+      "productName": "Simulink",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.mathworks.com/products/simulink.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "skales",
+      "productId": "skales-desktop",
+      "productName": "Skales",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://skales.app/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "trimble",
+      "productId": "sketchup",
+      "productName": "SketchUp 2026",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://sketchup.trimble.com/en/download/all",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "skywork",
+      "productId": "skywork-desktop",
+      "productName": "Skywork Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://skywork.ai/desktop/zh/index.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "slack",
+      "productId": "slack-workspace",
+      "productName": "Slack",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://slack.com/downloads/windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "techsmith",
+      "productId": "snagit",
+      "productName": "Snagit 2026",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "dynamic-or-login",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.techsmith.com/snagit/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Official entry requires account, subscription, or dynamic flow; stable direct link not promised",
+      "needsReview": true
+    },
+    {
+      "vendorId": "spark-mail",
+      "productId": "spark-mail-windows",
+      "productName": "Spark",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://sparkmailapp.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "lykos-ai",
+      "productId": "stability-matrix",
+      "productName": "Stability Matrix",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://github.com/LykosAI/StabilityMatrix/releases/latest",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "steinberg",
+      "productId": "steinberg-spectralayers",
+      "productName": "SpectraLayers",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.steinberg.net/spectralayers/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "streamlabs",
+      "productId": "streamlabs-desktop",
+      "productName": "Streamlabs Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://streamlabs.com/desktop",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "oray",
+      "productId": "sunlogin-windows",
+      "productName": "向日葵远程控制 Windows 版",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://sunlogin.oray.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "supernormal",
+      "productId": "supernormal-desktop",
+      "productName": "Supernormal",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://help.supernormal.com/en/articles/11801191-download-the-app-for-your-system",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "superwhisper",
+      "productId": "superwhisper-windows",
+      "productName": "superwhisper",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://superwhisper.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "synopsys",
+      "productId": "synopsys-verdi",
+      "productName": "Synopsys Verdi",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.synopsys.com/verification/debug/verdi.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "salesforce",
+      "productId": "tableau-desktop",
+      "productName": "Tableau Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.tableau.com/support/releases",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "tana",
+      "productId": "tana-outliner",
+      "productName": "Tana Outliner",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://tana.inc/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "taskade",
+      "productId": "taskade-workspace",
+      "productName": "Taskade",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.taskade.com/downloads",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "teamviewer",
+      "productId": "teamviewer-remote-ai",
+      "productName": "TeamViewer",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.teamviewer.com/en/download/windows/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "tencent",
+      "productId": "tencent-codebuddy",
+      "productName": "CodeBuddy",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.codebuddy.ai/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "tencent",
+      "productId": "tencent-ima",
+      "productName": "ima",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://ima.qq.com/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "tencent",
+      "productId": "tencent-qclaw",
+      "productName": "QClaw",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://qclaw.qq.com/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "tencent",
+      "productId": "tencent-qq-ai-browser",
+      "productName": "QQ 浏览器",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://browser.qq.com/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "tencent",
+      "productId": "tencent-workbuddy",
+      "productName": "WorkBuddy",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://cloud.tencent.com/product/workbuddy",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "tencent",
+      "productId": "tencent-yuanbao-desktop",
+      "productName": "腾讯元宝电脑版",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://yuanbao.tencent.com/evt/dl",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "termius",
+      "productId": "termius-desktop",
+      "productName": "Termius",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://termius.com/download/windows",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "tldv",
+      "productId": "tldv-desktop",
+      "productName": "tl;dv Desktop",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://tldv.io/desktop-app/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "topazlabs",
+      "productId": "topaz-gigapixel",
+      "productName": "Topaz Gigapixel",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.topazlabs.com/downloads",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "topazlabs",
+      "productId": "topaz-photo",
+      "productName": "Topaz Photo",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.topazlabs.com/downloads",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "topazlabs",
+      "productId": "topaz-video",
+      "productName": "Topaz Video",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.topazlabs.com/downloads",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "trae-desktop",
+      "productName": "TRAE",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.trae.ai/download",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "trae-solo-cn",
+      "productName": "TRAE Work",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.trae.cn/ide/download",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "trimble",
+      "productId": "trimble-tekla-structures",
+      "productName": "Tekla Structures",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://download.trimble.com/tekla-structures/for-businesses",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "uipath",
+      "productId": "uipath-studio",
+      "productName": "UiPath Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.uipath.com/product/studio",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "unity-technologies",
+      "productId": "unity-editor",
+      "productName": "Unity 6",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://unity.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "epic-games",
+      "productId": "unreal-engine",
+      "productName": "Unreal Engine",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.unrealengine.com/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "updf",
+      "productId": "updf-windows",
+      "productName": "UPDF",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://updf.com/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "upscayl",
+      "productId": "upscayl-desktop",
+      "productName": "Upscayl",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://upscayl.org/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "vectorworks",
+      "productId": "vectorworks-design-suite",
+      "productName": "Vectorworks Design Suite",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.vectorworks.net/en-US/products?showModal=trial-form",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "boris-fx",
+      "productId": "vegas-pro",
+      "productName": "Vegas Pro",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://vfx.borisfx.com/vegas-pro-free-trial",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "voiceai",
+      "productId": "voice-ai-windows",
+      "productName": "Voice.ai",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://voice.ai/platforms/pc",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "voicemod",
+      "productId": "voicemod-windows",
+      "productName": "Voicemod",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.voicemod.net/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "vrew",
+      "productId": "vrew-desktop",
+      "productName": "Vrew",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://vrew.ai/es/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "warp",
+      "productId": "warp-windows",
+      "productName": "Warp",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.warp.dev/windows-terminal",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "windsurf",
+      "productId": "windsurf-editor",
+      "productName": "Windsurf",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://windsurf.com/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "wisprflow",
+      "productId": "wispr-flow-desktop",
+      "productName": "Wispr Flow",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://wisprflow.ai/",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "wolfram-research",
+      "productId": "wolfram-mathematica",
+      "productName": "Wolfram Mathematica",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.wolfram.com/mathematica/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "wondershare",
+      "productId": "wondershare-edrawmax",
+      "productName": "EdrawMax（万兴图示）",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://edraw.wondershare.cn/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "wondershare",
+      "productId": "wondershare-edrawmind",
+      "productName": "EdrawMind（万兴脑图）",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://edraw.wondershare.cn/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "wondershare",
+      "productId": "wondershare-filmora",
+      "productName": "Filmora",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://filmora.wondershare.com/video-editor/video-editor-download.html",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "wondershare",
+      "productId": "wondershare-pdfelement",
+      "productName": "PDFelement（万兴 PDF）",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://pdf.wondershare.cn/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "kingsoft",
+      "productId": "wps-office-ai",
+      "productName": "WPS Office",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.wps.cn/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "wrike",
+      "productId": "wrike-desktop",
+      "productName": "Wrike Desktop App",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.wrike.com/apps/mobile-and-desktop/desktop-app/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "xmind",
+      "productId": "xmind-ai",
+      "productName": "Xmind",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://xmind.cn/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "yingdao",
+      "productId": "yingdao-rpa",
+      "productName": "影刀 RPA 6",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.yingdao.com/xbot-go-download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "youdao",
+      "productId": "youdao-lobsterai",
+      "productName": "有道龙虾",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://lobsterai.youdao.com/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "youdao",
+      "productId": "youdao-note",
+      "productName": "有道云笔记",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://note.youdao.com/note-download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "youdao",
+      "productId": "youdao-translate",
+      "productName": "有道翻译",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://fanyi.youdao.com/download/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "zed-industries",
+      "productId": "zed-editor",
+      "productName": "Zed",
+      "currentGroup": "desktop-reviewed",
+      "currentStrategy": "client-managed",
+      "classification": "stable-official-direct",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://zed.dev/windows",
+      "proposedModule": "desktop-managed",
+      "proposedButtons": [
+        "download",
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "zoner",
+      "productId": "zoner-studio",
+      "productName": "Zoner Studio",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.zoner.com/en/download",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    },
+    {
+      "vendorId": "zoom",
+      "productId": "zoom-workplace",
+      "productName": "Zoom Workplace",
+      "currentGroup": "desktop-official",
+      "currentStrategy": "official-page",
+      "classification": "official-page-only",
+      "windowsForm": "Windows graphical desktop product",
+      "officialEvidenceUrl": "https://www.zoom.com/en/products/virtual-meetings/download-center/",
+      "proposedModule": "desktop-official",
+      "proposedButtons": [
+        "official-page"
+      ],
+      "reason": "Based on authoritative draft product type and website field; final entry requires desktop manager review",
+      "needsReview": true
+    }
+  ]
+}

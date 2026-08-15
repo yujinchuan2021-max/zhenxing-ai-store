@@ -1,0 +1,30 @@
+{
+  "date": "2026-08-06",
+  "decision": "no-op",
+  "factSource": {
+    "path": "pc-client/admin/published/catalog-store/state.json",
+    "draftRevision": 89,
+    "v2": {
+      "activeCatalogVersion": 6,
+      "activeReleaseId": "catalog-v00000006-567e671621f1-3dcee587"
+    }
+  },
+  "candidateLimit": 5,
+  "newCandidates": [],
+  "stateChanged": false,
+  "catalogChanged": false,
+  "draftSaved": false,
+  "published": false,
+  "packaged": false,
+  "downloaded": false,
+  "installed": false,
+  "screenedResources": [
+    {"resourceId":"anthropic-official-plugin-marketplace","hostProductId":"claude-code","decision":"official-link-only","blocker":"remote marketplace and non-fixed plugin identity/lifecycle"},
+    {"resourceId":"comfy-custom-nodes","hostProductId":"comfy-desktop","decision":"official-link-only","blocker":"rolling custom-code node set, dependencies and script/package execution"},
+    {"resourceId":"google-gemini-cli-extensions","hostProductId":"gemini-cli","decision":"official-link-only","blocker":"non-fixed URL/local/Git sources plus commands/hooks/MCP and sensitive settings"},
+    {"resourceId":"moonshot-kimi-plugins","hostProductId":"moonshot-kimi-code-cli","decision":"official-link-only","blocker":"remote marketplace, user login/secrets, dynamic content and interactive confirmation"},
+    {"resourceId":"amazon-kiro-powers","hostProductId":"amazon-kiro-ide","decision":"official-link-only","blocker":"documentation does not establish fixed Windows lifecycle and receipt contract"},
+    {"resourceId":"openclaw-clawhub-plugins","hostProductId":"openclaw-agent","decision":"official-link-only","blocker":"dynamic multi-source registry, gateway admin, restart, credentials and trust flow"},
+    {"resourceId":"cline-official-skills-plugins","hostProductId":"cline-agent","decision":"official-link-only","blocker":"mixed Skill/Plugin/MCP scope with no fixed plugin lifecycle contract"}
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "sourceRevision": 78,
+  "sourceProductCount": 615,
+  "candidates": [
+    {
+      "vendorId": "google",
+      "productId": "google-antigravity-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.antigravity",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "moonshot",
+      "productId": "moonshot-kimi-code-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.kimi-code",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "amp",
+      "productId": "amp-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.amp",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "daytona",
+      "productId": "daytona-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.daytona",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "rightnow-ai",
+      "productId": "openfang-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.openfang",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "zeroclaw-labs",
+      "productId": "zeroclaw-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.zeroclaw",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "open-interpreter",
+      "productId": "open-interpreter-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.open-interpreter",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "deepgram",
+      "productId": "deepgram-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.deepgram",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "hkuds",
+      "productId": "hkuds-nanobot-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.nanobot",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "praisonai",
+      "productId": "praisonai-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.praisonai",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "aider",
+      "productId": "aider-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.aider",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "comfy",
+      "productId": "comfy-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.comfy",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "huggingface",
+      "productId": "hf-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.hugging-face",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "mistral",
+      "productId": "mistral-vibe-code-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.mistral-vibe",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    }
+  ],
+  "blockers": [
+    "draft78 catalog capabilities still omit update and repair for all 14 candidates; this file is a synchronization candidate only and is not publishable",
+    "candidate must be rechecked against the authoritative catalog after capability synchronization"
+  ],
+  "appliedDraftRevision": 79,
+  "status": "applied-draft",
+  "appliedAt": "2026-08-04T17:30:06.903Z"
+}

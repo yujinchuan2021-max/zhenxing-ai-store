@@ -1,0 +1,67 @@
+services:
+  admin:
+    image: ${AIHUB_ADMIN_IMAGE:?set the locally verified admin image reference}
+    environment:
+      AIHUB_ADMIN_HOST: 0.0.0.0
+      AIHUB_ADMIN_PORT: 4173
+      AIHUB_ADMIN_READ_ONLY: "1"
+      AIHUB_DISCOVERY_SCAN_INTERVAL_HOURS: "0"
+    labels:
+      com.aihub.source-content-sha256: ${AIHUB_SOURCE_CONTENT_DIGEST:?set the verified source content digest}
+    ports:
+      - "127.0.0.1:4173:4173"
+    volumes:
+      - ${AIHUB_ADMIN_DATA_DIR:?set persistent non-secret admin data path}:/app/admin/data
+      - ${AIHUB_ADMIN_PUBLISHED_DIR:?set persistent catalog state path}:/app/admin/published
+      - ${AIHUB_ADMIN_OUTPUT_DIR:?set persistent admin output path}:/app/output
+    healthcheck:
+      test: ["CMD", "node", "-e", "const req=require('http').get({host:'127.0.0.1',port:4173,path:'/health',agent:false},r=>{r.resume();process.exit(r.statusCode===200?0:1)});req.setTimeout(2000,()=>{req.destroy();process.exit(1)});req.on('error',()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+    restart: unless-stopped
+    read_only: true
+    pids_limit: 128
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp
+
+  caddy:
+    image: caddy:2.10-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d
+    environment:
+      AIHUB_PUBLIC_HOST: ${AIHUB_PUBLIC_HOST:?set the public catalog host}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      admin:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:2015/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+    restart: unless-stopped
+    read_only: true
+    pids_limit: 128
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    tmpfs:
+      - /tmp
+
+volumes:
+  caddy_data:
+  caddy_config:

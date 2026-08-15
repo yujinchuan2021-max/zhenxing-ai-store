@@ -1,0 +1,39 @@
+{
+  "date": "2026-08-06",
+  "factSource": {
+    "path": "pc-client/admin/published/catalog-store/state.json",
+    "draftRevision": 89,
+    "legacyV1": {
+      "activeCatalogVersion": 72,
+      "activeReleaseId": "catalog-v00000072-e286516335da-a8b62a49"
+    },
+    "v2": {
+      "activeCatalogVersion": 6,
+      "activeReleaseId": "catalog-v00000006-567e671621f1-3dcee587"
+    },
+    "activeVersionMismatch": false
+  },
+  "counts": {"draftResources": 146, "pluginResources": 8, "unmanagedReviewed": 7},
+  "catalogChanged": false,
+  "stateChanged": false,
+  "draftSaved": false,
+  "published": false,
+  "downloaded": false,
+  "newProfileCandidates": [],
+  "existingProfileInScope": {
+    "resourceId": "anthropic-commit-commands-plugin",
+    "hostProductId": "claude-code",
+    "profileId": "plugin.claude.commit-commands",
+    "moduleId": "plugin-managed",
+    "status": "retain-for-existing-client-review"
+  },
+  "unmanaged": [
+    {"resourceId":"anthropic-official-plugin-marketplace","hostProductId":"claude-code","decision":"official-link-only"},
+    {"resourceId":"comfy-custom-nodes","hostProductId":"comfy-desktop","decision":"official-link-only"},
+    {"resourceId":"google-gemini-cli-extensions","hostProductId":"gemini-cli","decision":"official-link-only"},
+    {"resourceId":"moonshot-kimi-plugins","hostProductId":"moonshot-kimi-code-cli","decision":"official-link-only"},
+    {"resourceId":"amazon-kiro-powers","hostProductId":"amazon-kiro-ide","decision":"official-link-only"},
+    {"resourceId":"openclaw-clawhub-plugins","hostProductId":"openclaw-agent","decision":"official-link-only"},
+    {"resourceId":"cline-official-skills-plugins","hostProductId":"cline-agent","decision":"official-link-only"}
+  ]
+}

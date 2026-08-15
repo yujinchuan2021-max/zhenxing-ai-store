@@ -1,0 +1,74 @@
+{
+  "source": "authoritative revision store",
+  "sourceRevision": 84,
+  "sourceProductCount": 615,
+  "status": "no-op-candidate",
+  "proposedBindings": [],
+  "verifiedManagedReady": [
+    ["openai", "codex-cli", "cli.codex", "npm"],
+    ["anthropic", "claude-code", "cli.claude-code", "npm"],
+    ["bytedance", "bytedance-agent-tars-cli", "cli.agent-tars", "npm"],
+    ["comfy", "comfy-cli", "cli.comfy", "python-venv"],
+    ["google", "gemini-cli", "cli.gemini", "npm"],
+    ["google", "google-antigravity-cli", "cli.antigravity", "portable-binary"],
+    ["github", "github-copilot-cli", "cli.github-copilot", "npm"],
+    ["moonshot", "moonshot-kimi-code-cli", "cli.kimi-code", "portable-binary"],
+    ["alibaba", "alibaba-qwen-code", "cli.qwen-code", "npm"],
+    ["alibaba", "alibaba-qoder-cn-cli", "cli.qoder-cn", "npm"],
+    ["amazon", "amazon-kiro-cli", "cli.kiro", "managed-msi"],
+    ["mistral", "mistral-vibe-code-cli", "cli.mistral-vibe", "python-venv"],
+    ["minimax", "minimax-cli", "cli.minimax", "npm"],
+    ["huggingface", "hf-cli", "cli.hugging-face", "python-venv"],
+    ["openclaw", "openclaw-agent", "cli.openclaw", "npm"],
+    ["deepgram", "deepgram-cli", "cli.deepgram", "python-venv"],
+    ["pixverse", "pixverse-cli", "cli.pixverse", "npm"],
+    ["rightnow-ai", "openfang-cli", "cli.openfang", "portable-binary"],
+    ["zeroclaw-labs", "zeroclaw-cli", "cli.zeroclaw", "portable-binary"],
+    ["near-ai", "ironclaw-cli", "cli.ironclaw", "managed-msi"],
+    ["hkuds", "hkuds-nanobot-cli", "cli.nanobot", "python-venv"],
+    ["open-interpreter", "open-interpreter-cli", "cli.open-interpreter", "portable-binary"],
+    ["factory-ai", "factory-cli", "cli.factory", "npm"],
+    ["aider", "aider-cli", "cli.aider", "python-venv"],
+    ["continue", "continue-cli", "cli.continue", "npm"],
+    ["kilo", "kilo-code-cli", "cli.kilo-code", "npm"],
+    ["letta", "letta-code-cli", "cli.letta-code", "npm"],
+    ["praisonai", "praisonai-cli", "cli.praisonai", "python-venv"],
+    ["ruvnet", "ruflo-cli", "cli.ruflo", "npm"],
+    ["amp", "amp-cli", "cli.amp", "portable-binary"],
+    ["promptfoo", "promptfoo-cli", "cli.promptfoo", "npm"],
+    ["daytona", "daytona-cli", "cli.daytona", "portable-binary"]
+  ],
+  "managedReadyChecks": ["local-profile", "catalog-binding", "environment-check", "deploy", "recheck", "open-terminal"],
+  "managedPartial": [
+    {"vendorId":"openclaw","productId":"openclaw-wsl-gateway","profileId":"cli.openclaw-wsl","driver":"companion-runtime","availableCapabilities":["website","tutorial","install","open","uninstall"],"gap":"No approved fixed update/repair receipt and rollback contract for the WSL gateway/service."},
+    {"vendorId":"augment","productId":"augment-auggie-cli","profileId":"cli.augment-auggie","driver":"wsl-managed","availableCapabilities":["website","tutorial","install","update","open","uninstall"],"gap":"Repair remains unavailable: the official Node requirement conflict is not resolved by the existing safe WSL evidence."}
+  ],
+  "deployOnly": [
+    {"vendorId":"anytype","productId":"anytype-cli","profileId":"cli-deploy-only.anytype","moduleId":"cli-deploy-only","driver":"portable-binary","capabilities":["website","tutorial","install","open"],"operations":["environment-check","deploy","recheck","open-terminal"],"excludedCapabilities":["update","repair","uninstall"],"reason":"The fixed ZIP may be deployed, but Anytype service ownership remains outside this module."}
+  ],
+  "blocked": [
+    ["anysphere","cursor-cli","WSL-only dynamic installer; no fixed Windows artifact or hash","slice-a"],
+    ["nvidia","nvidia-nemoclaw-cli","WSL2/Docker dynamic installer and sandbox stack; no fixed Windows artifact or hash","slice-a"],
+    ["nousresearch","nous-hermes-agent","Dynamic PowerShell installer, mutable default and no fixed artifact/hash","slice-b"],
+    ["tabnine","tabnine-cli","Tenant-hosted dynamic installer and no fixed package/hash","slice-b"],
+    ["browser-use","browser-use-cli","Dynamic installer plus Chromium/daemon boundary; no fixed Windows artifact/hash","slice-b"],
+    ["foundation-agents","openmanus-cli","Source checkout and unpinned dependencies with browser/configuration boundary","slice-b"],
+    ["foundation-agents","metagpt-framework","Unpinned package and Python/Node/pnpm composite runtime","slice-b"],
+    ["nanoco","nanoclaw-cli","WSL2/Docker/interactive setup; no native Windows artifact","slice-b"],
+    ["kortix","kortix-cli","Docker/service deployment and dynamic installer; desktop EXE is not the CLI","slice-c"],
+    ["swe-agent","mini-swe-agent-cli","Bash/container execution contract is not a safe Windows venv profile","slice-c"],
+    ["plandex","plandex-cli","WSL-only command runtime with Docker-backed service/state","slice-c"],
+    ["simular-ai","simular-agent-s-cli","GUI/OCR/model-service computer-use boundary exceeds a Python receipt","slice-c"],
+    ["agenticseek","agenticseek-cli","Self-hosted source/Docker stack; merge or reclassify rather than create a CLI profile","slice-c"]
+  ],
+  "researchEvidence": [
+    "docs/research/cli-agent-slice-a-official-research-2026-08-05.json",
+    "docs/research/cli-agent-slice-b-official-research-2026-08-05.json",
+    "docs/research/cli-agent-slice-c-official-research-2026-08-05.json"
+  ],
+  "guards": [
+    "No new local profile or backend binding is proposed.",
+    "Backend may select only a fixed local module/profile and cannot carry command, args, env, headers, url or script fields.",
+    "This candidate does not save a draft, alter active/history, publish, package or claim real-device acceptance."
+  ]
+}

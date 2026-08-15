@@ -1,0 +1,2209 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "checkedAt": "2026-08-07T00:00:00.000Z",
+  "sourceRevision": 89,
+  "sourceProductCount": 615,
+  "activeReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+  "policy": "Product platform evidence only. First-party HTTPS evidence is required per platform; unknown is used whenever a native platform statement was not verified. Runtime forms are not inferred from labels, packages, browser reachability or Windows profiles. Resources and targets are excluded.",
+  "summary": {
+    "selected": 40,
+    "claims": 120,
+    "supported": 84,
+    "unknown": 36,
+    "unsupported": 0,
+    "blocked": 0
+  },
+  "records": [
+    {
+      "vendorId": "bytedance",
+      "productId": "trae-desktop",
+      "name": "TRAE",
+      "selectionReason": "AI IDE with official platform download center",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.trae.ai/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.trae.ai/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.trae.ai/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-capcut-desktop",
+      "name": "CapCut",
+      "selectionReason": "Video editor with official Windows/macOS desktop pages",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.capcut.com/tools/desktop-video-editor",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.capcut.com/tools/desktop-video-editor",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.capcut.com/tools/desktop-video-editor",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-ui-tars-desktop",
+      "name": "UI TARS",
+      "selectionReason": "GUI agent desktop and official repository release identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/bytedance/ui-tars-desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/bytedance/ui-tars-desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/bytedance/ui-tars-desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "bytedance",
+      "productId": "bytedance-feishu",
+      "name": "飞书",
+      "selectionReason": "Enterprise collaboration desktop with explicit multi-platform downloads",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.feishu.cn/download?lang=zh-CN",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.feishu.cn/download?lang=zh-CN",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.feishu.cn/download?lang=zh-CN",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "google",
+      "productId": "google-chrome-devtools",
+      "name": "Google Chrome",
+      "selectionReason": "Browser desktop representative with official OS download pages",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.google.com/chrome/download-chrome/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.google.com/chrome/download-chrome/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.google.com/chrome/download-chrome/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "google",
+      "productId": "google-android-studio",
+      "name": "Android Studio",
+      "selectionReason": "Developer IDE with official Windows/macOS/Linux install docs",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://developer.android.com/studio/install",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://developer.android.com/studio/install",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://developer.android.com/studio/install",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-copilot-desktop",
+      "name": "Microsoft Copilot",
+      "selectionReason": "AI desktop identity; Windows official, other native evidence absent",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/get-copilot",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/get-copilot",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/get-copilot",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-365-copilot",
+      "name": "Microsoft 365 Copilot",
+      "selectionReason": "Enterprise AI desktop entry; Windows evidence is explicit",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/access-microsoft-365-copilot-on-windows",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/access-microsoft-365-copilot-on-windows",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/access-microsoft-365-copilot-on-windows",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-visual-studio",
+      "name": "Visual Studio",
+      "selectionReason": "Windows IDE representative; macOS/Linux native identity unresolved",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://visualstudio.microsoft.com/downloads/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://visualstudio.microsoft.com/downloads/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://visualstudio.microsoft.com/downloads/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "github",
+      "productId": "github-copilot-cli",
+      "name": "GitHub Copilot CLI",
+      "selectionReason": "Official CLI documentation and package identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-in-the-cli",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-in-the-cli",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-in-the-cli",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "anysphere",
+      "productId": "cursor-cli",
+      "name": "Cursor CLI",
+      "selectionReason": "Independent CLI identity distinct from Cursor desktop",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://cursor.com/cli",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://cursor.com/cli",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://cursor.com/cli",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-qwen-studio",
+      "name": "千问桌面版",
+      "selectionReason": "AI desktop candidate from Alibaba official entry",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://b.qianwen.com/apps/qkhomepage_twofoufeb/routes/l5Utxkrh6",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://b.qianwen.com/apps/qkhomepage_twofoufeb/routes/l5Utxkrh6",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://b.qianwen.com/apps/qkhomepage_twofoufeb/routes/l5Utxkrh6",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-qwen-code",
+      "name": "Qwen Code",
+      "selectionReason": "Official CLI docs/repository with Windows and Unix guidance",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://qwenlm.github.io/qwen-code-docs/en/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://qwenlm.github.io/qwen-code-docs/en/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://qwenlm.github.io/qwen-code-docs/en/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-quark-ai-browser",
+      "name": "夸克 AI 浏览器",
+      "selectionReason": "Windows browser identity; native non-Windows evidence absent",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.quark.cn/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.quark.cn/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.quark.cn/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-dingtalk-ai",
+      "name": "钉钉",
+      "selectionReason": "Official download page lists Windows/macOS/Linux clients",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.dingtalk.com/download?isLite=0",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.dingtalk.com/download?isLite=0",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.dingtalk.com/download?isLite=0",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "tencent",
+      "productId": "tencent-codebuddy",
+      "name": "CodeBuddy",
+      "selectionReason": "Tencent AI coding desktop identity; platform claims need follow-up",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.codebuddy.ai/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.codebuddy.ai/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.codebuddy.ai/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "tencent",
+      "productId": "tencent-yuanbao-desktop",
+      "name": "腾讯元宝电脑版",
+      "selectionReason": "Windows desktop download identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://yuanbao.tencent.com/evt/dl",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://yuanbao.tencent.com/evt/dl",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://yuanbao.tencent.com/evt/dl",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "nomic",
+      "productId": "gpt4all-desktop",
+      "name": "GPT4All Desktop",
+      "selectionReason": "Local-model desktop with official download identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://gpt4all.io/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://gpt4all.io/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://gpt4all.io/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "mintplex",
+      "productId": "anythingllm-desktop",
+      "name": "AnythingLLM Desktop",
+      "selectionReason": "Local/hosted agent desktop with official desktop page",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://anythingllm.com/desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://anythingllm.com/desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://anythingllm.com/desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "amazon",
+      "productId": "amazon-kiro-ide",
+      "name": "Kiro IDE",
+      "selectionReason": "Agentic IDE official product/download identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://kiro.dev/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://kiro.dev/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://kiro.dev/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "amazon",
+      "productId": "amazon-kiro-cli",
+      "name": "Kiro CLI",
+      "selectionReason": "Independent CLI identity and official CLI docs",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://kiro.dev/docs/cli/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://kiro.dev/docs/cli/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://kiro.dev/docs/cli/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "mistral",
+      "productId": "mistral-vibe-code-cli",
+      "name": "Vibe Code CLI",
+      "selectionReason": "Official CLI documentation and package identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.mistral.ai/vibe/code/overview",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.mistral.ai/vibe/code/overview",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.mistral.ai/vibe/code/overview",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "huggingface",
+      "productId": "hf-cli",
+      "name": "Hugging Face CLI",
+      "selectionReason": "Official CLI docs and package registry identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://huggingface.co/docs/huggingface_hub/en/guides/cli",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://huggingface.co/docs/huggingface_hub/en/guides/cli",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://huggingface.co/docs/huggingface_hub/en/guides/cli",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "nvidia",
+      "productId": "nvidia-ai-workbench",
+      "name": "NVIDIA AI Workbench",
+      "selectionReason": "Desktop environment officially documented for Windows/Linux",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://developer.nvidia.com/ai-workbench",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://developer.nvidia.com/ai-workbench",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://developer.nvidia.com/ai-workbench",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "nvidia",
+      "productId": "nvidia-broadcast",
+      "name": "NVIDIA Broadcast",
+      "selectionReason": "GPU desktop utility with Windows-only official requirements",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.nvidia.com/en-us/geforce/broadcasting/broadcast-app/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.nvidia.com/en-us/geforce/broadcasting/broadcast-app/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.nvidia.com/en-us/geforce/broadcasting/broadcast-app/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "nvidia",
+      "productId": "nvidia-nemoclaw-cli",
+      "name": "NVIDIA NemoClaw CLI",
+      "selectionReason": "CLI/agent identity; Windows native support is not established",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/NVIDIA/NemoClaw",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/NVIDIA/NemoClaw",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/NVIDIA/NemoClaw",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "openclaw",
+      "productId": "openclaw-windows-hub",
+      "name": "OpenClaw Windows Hub",
+      "selectionReason": "Windows companion product with official Windows docs",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.openclaw.ai/windows",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.openclaw.ai/windows",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://docs.openclaw.ai/windows",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "nousresearch",
+      "productId": "nous-hermes-desktop",
+      "name": "Hermes Desktop",
+      "selectionReason": "Official Windows installer identity; other native platforms unresolved",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://hermes-agent.nousresearch.com/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://hermes-agent.nousresearch.com/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://hermes-agent.nousresearch.com/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "cline",
+      "productId": "cline-agent",
+      "name": "Cline",
+      "selectionReason": "Agent product identity; host/platform support requires official verification",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/cline/cline",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/cline/cline",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/cline/cline",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "cherryhq",
+      "productId": "cherry-studio",
+      "name": "Cherry Studio",
+      "selectionReason": "AI desktop application with official download page",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://cherry-ai.com/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://cherry-ai.com/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://cherry-ai.com/download",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "chatboxai",
+      "productId": "chatbox-desktop",
+      "name": "Chatbox",
+      "selectionReason": "AI desktop application with official install page",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://chatboxai.app/en/install",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://chatboxai.app/en/install",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://chatboxai.app/en/install",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "msty",
+      "productId": "msty-studio",
+      "name": "Msty Studio",
+      "selectionReason": "Local-model desktop line; platform claims require page-level verification",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://msty.ai/products/studio/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://msty.ai/products/studio/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://msty.ai/products/studio/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "lobehub",
+      "productId": "lobehub-desktop",
+      "name": "LobeHub",
+      "selectionReason": "Desktop release identity from official repository",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/lobehub/lobehub/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/lobehub/lobehub/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/lobehub/lobehub/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "windsurf",
+      "productId": "windsurf-editor",
+      "name": "Windsurf",
+      "selectionReason": "AI coding desktop representative",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://windsurf.com/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://windsurf.com/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://windsurf.com/",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "warp",
+      "productId": "warp-windows",
+      "name": "Warp",
+      "selectionReason": "Terminal desktop with Windows product page and cross-platform docs",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.warp.dev/windows-terminal",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.warp.dev/windows-terminal",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://www.warp.dev/windows-terminal",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "manus",
+      "productId": "manus-desktop",
+      "name": "Manus",
+      "selectionReason": "Agent desktop identity; official Windows/macOS entry, Linux unresolved",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://manus.im/desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://manus.im/desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://manus.im/desktop",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "pinokio",
+      "productId": "pinokio-ai-browser",
+      "name": "Pinokio",
+      "selectionReason": "Local AI browser desktop release identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/pinokiocomputer/pinokio/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/pinokiocomputer/pinokio/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/pinokiocomputer/pinokio/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "lykos-ai",
+      "productId": "stability-matrix",
+      "name": "Stability Matrix",
+      "selectionReason": "Local model manager desktop release identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/LykosAI/StabilityMatrix/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/LykosAI/StabilityMatrix/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/LykosAI/StabilityMatrix/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    },
+    {
+      "vendorId": "amd",
+      "productId": "amd-gaia",
+      "name": "GAIA",
+      "selectionReason": "AMD local AI desktop/release representative",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/amd/gaia/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/amd/gaia/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "unknown",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/amd/gaia/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Official per-platform evidence remains incomplete; keep unknown until a first-party statement is verified."
+    },
+    {
+      "vendorId": "aaif",
+      "productId": "goose-desktop",
+      "name": "Goose Desktop",
+      "selectionReason": "Open-source agent desktop release identity",
+      "claims": [
+        {
+          "platform": "windows",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/aaif-goose/goose/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "macos",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/aaif-goose/goose/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "platform": "linux",
+          "runtime": "native",
+          "status": "supported",
+          "architectures": [
+            "unknown"
+          ],
+          "evidence": [
+            {
+              "kind": "first-party",
+              "url": "https://github.com/aaif-goose/goose/releases/latest",
+              "observedAt": "2026-08-07T00:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "followUp": "Independent platform profile/artifact review required; do not reuse Windows approvals."
+    }
+  ],
+  "batch3Estimate": {
+    "selection": "40 products, excluding Batch 1 (20) and Batch 2 (30)",
+    "pageBudget": "80-120 first-party pages",
+    "nextBatch": "40-50 products after this batch, exact ID exclusion required"
+  },
+  "forbiddenFieldScan": {
+    "passed": true,
+    "forbiddenFields": [
+      "command",
+      "args",
+      "env",
+      "headers",
+      "credentials",
+      "script",
+      "artifactUrl",
+      "installProfileId",
+      "moduleId",
+      "downloadUrl",
+      "profile",
+      "endpoint",
+      "path"
+    ]
+  },
+  "checks": {
+    "canonicalProductIdsPendingRuntimeValidation": true,
+    "duplicateProductIds": false,
+    "claimsPerProduct": 3,
+    "resourceCountExcluded": 146,
+    "targetCountExcluded": 513
+  }
+}

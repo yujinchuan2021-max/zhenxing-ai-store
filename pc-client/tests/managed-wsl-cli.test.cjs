@@ -6,8 +6,11 @@ const {
   createManagedWslBootstrapAction,
   createManagedWslDeployAction,
   createManagedWslDistributionAction,
+  createManagedWslInstallPreflightAction,
   createManagedWslOpenAction,
   createManagedWslProbeAction,
+  createManagedWslRepairAction,
+  createManagedWslRepairProbeAction,
   createManagedWslReceipt,
   createManagedWslUninstallActions,
   inspectManagedWslCli,
@@ -38,6 +41,17 @@ const plan = Object.freeze({
 
 const wsl = "C:\\Windows\\System32\\wsl.exe";
 const cmd = "C:\\Windows\\System32\\cmd.exe";
+const managementId = "1".repeat(48);
+
+function receiptFor(productId = "example-agent-wsl") {
+  return createManagedWslReceipt({
+    productId,
+    plan,
+    distributionIdentity: "Ubuntu-24.04",
+    managementId,
+    now: () => "2026-08-01T00:00:00.000Z"
+  });
+}
 
 test("WSL bootstrap installs only fixed local-profile prerequisites as root", () => {
   const action = createManagedWslBootstrapAction({
@@ -78,27 +92,42 @@ test("one reviewed WSL driver creates reusable distribution and deploy actions",
     args: ["--install", "--distribution", "Ubuntu-24.04", "--no-launch"],
     options: { windowsHide: false, shell: false }
   });
+  assert.match(
+    createManagedWslInstallPreflightAction({ plan, wslExecutable: wsl }).args.at(-1),
+    /\[ ! -e "\$prefix" \].*\[ ! -L "\$prefix" \]/
+  );
   const deploy = createManagedWslDeployAction({
     productId: "example-agent-wsl",
     plan,
     wslExecutable: wsl,
-    scriptWindowsPath: "C:\\Users\\test\\AppData\\Local\\Temp\\example-agent-install-1.2.3.sh"
+    scriptWindowsPath: "C:\\Users\\test\\AppData\\Local\\Temp\\example-agent-install-1.2.3.sh",
+    managementId
   });
   assert.equal(deploy.executable, wsl);
   assert.deepEqual(deploy.args, [
     "--distribution", "Ubuntu-24.04", "--exec", "bash",
     "/mnt/c/Users/test/AppData/Local/Temp/example-agent-install-1.2.3.sh",
-    "--version", "1.2.3"
+    "--version", "1.2.3", "--management-id", managementId
   ]);
 });
 
 test("WSL probe, open and uninstall actions stay inside the local reviewed profile", () => {
-  const probe = createManagedWslProbeAction({ plan, wslExecutable: wsl });
+  const receipt = receiptFor();
+  const probe = createManagedWslProbeAction({
+    productId: "example-agent-wsl",
+    plan,
+    receipt,
+    wslExecutable: wsl
+  });
   assert.equal(probe.executable, wsl);
-  assert.match(probe.args.at(-1), /\.example-agent\/bin\/example-agent/);
+  assert.match(probe.args.at(-1), /\.aihub-owner/);
+  assert.match(probe.args.at(-1), new RegExp(managementId));
+  assert.match(probe.args.at(-1), /command_real.*prefix_real\/bin\/example-agent/);
 
   const open = createManagedWslOpenAction({
+    productId: "example-agent-wsl",
     plan,
+    receipt,
     status: { installed: true, managed: true },
     wslExecutable: wsl,
     commandExecutable: cmd
@@ -110,30 +139,50 @@ test("WSL probe, open and uninstall actions stay inside the local reviewed profi
   const uninstall = createManagedWslUninstallActions({
     productId: "example-agent-wsl",
     plan,
-    receipt: createManagedWslReceipt({
-      productId: "example-agent-wsl",
-      plan,
-      distributionIdentity: "Ubuntu-24.04",
-      now: () => "2026-08-01T00:00:00.000Z",
-      randomBytes: () => Buffer.alloc(24, 1)
-    }),
+    receipt,
     wslExecutable: wsl
   });
   assert.equal(uninstall.length, 2);
   assert.match(uninstall[0].args.at(-1), /uninstall --service --yes/);
-  assert.match(uninstall[1].args.at(-1), /npm.*uninstall.*example-agent/);
-  assert.match(uninstall[1].args.at(-1), /tools\/node-v24\.18\.0/);
-  assert.doesNotMatch(uninstall[1].args.at(-1), /rm -rf|unregister/i);
+  assert.match(uninstall[1].args.at(-1), /\.aihub-owner/);
+  assert.match(uninstall[1].args.at(-1), /rm -rf -- "\$prefix"/);
+  assert.doesNotMatch(uninstall[1].args.at(-1), /unregister/i);
+});
+
+test("WSL repair requires an exact receipt and a marker-owned fixed rebuild strategy", () => {
+  const repairPlan = { ...plan, repairStrategy: "rebuild-owned-prefix" };
+  const receipt = receiptFor();
+  const ownership = createManagedWslRepairProbeAction({
+    productId: "example-agent-wsl", plan: repairPlan, receipt, wslExecutable: wsl
+  });
+  assert.match(ownership.args.at(-1), /\.aihub-owner/);
+  assert.doesNotMatch(ownership.args.at(-1), /command_real/);
+  const repair = createManagedWslRepairAction({
+    productId: "example-agent-wsl",
+    plan: repairPlan,
+    receipt,
+    wslExecutable: wsl,
+    scriptWindowsPath: "C:\\Users\\test\\AppData\\Local\\Temp\\example-agent-install-1.2.3.sh"
+  });
+  assert.deepEqual(repair.args.slice(-3), ["--repair", "--management-id", managementId]);
+  assert.equal(createManagedWslRepairAction({
+    productId: "example-agent-wsl",
+    plan,
+    receipt,
+    wslExecutable: wsl,
+    scriptWindowsPath: "C:\\Users\\test\\AppData\\Local\\Temp\\example-agent-install-1.2.3.sh"
+  }), null);
+  assert.equal(createManagedWslRepairAction({
+    productId: "example-agent-wsl",
+    plan: repairPlan,
+    receipt: { ...receipt, installScriptSha256: "b".repeat(64) },
+    wslExecutable: wsl,
+    scriptWindowsPath: "C:\\Users\\test\\AppData\\Local\\Temp\\example-agent-install-1.2.3.sh"
+  }), null);
 });
 
 test("managed WSL status requires an exact receipt and exact version", () => {
-  const receipt = createManagedWslReceipt({
-    productId: "example-agent-wsl",
-    plan,
-    distributionIdentity: "Ubuntu-24.04",
-    now: () => "2026-08-01T00:00:00.000Z",
-    randomBytes: () => Buffer.alloc(24, 2)
-  });
+  const receipt = receiptFor();
   assert.equal(inspectManagedWslCli({ productId: "example-agent-wsl", plan, receipt, probe: { ok: true, version: "1.2.3" } }).canUninstall, true);
   assert.equal(inspectManagedWslCli({ productId: "example-agent-wsl", plan, receipt, probe: { ok: true, version: "9.9.9" } }).ownership, "mismatch");
   assert.equal(inspectManagedWslCli({ productId: "example-agent-wsl", plan, receipt: null, probe: { ok: true, version: "1.2.3" } }).ownership, "untracked");
@@ -145,5 +194,17 @@ test("backend-like shell payloads cannot become WSL actions", () => {
     launchArguments: ["onboard; calc.exe"]
   };
   assert.equal(managedWslArtifact(hostile), null);
-  assert.equal(createManagedWslProbeAction({ plan: hostile, wslExecutable: wsl }), null);
+  assert.equal(createManagedWslDeployAction({
+    productId: "example-agent-wsl",
+    plan,
+    wslExecutable: wsl,
+    scriptWindowsPath: "C:\\Users\\test\\install.sh",
+    managementId: "not-an-id"
+  }), null);
+  assert.equal(createManagedWslProbeAction({
+    productId: "example-agent-wsl",
+    plan: hostile,
+    receipt: receiptFor(),
+    wslExecutable: wsl
+  }), null);
 });

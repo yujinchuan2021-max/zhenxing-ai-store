@@ -1,0 +1,1106 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "generatedAt": "2026-08-08T00:00:00.000Z",
+  "title": "Community Skill Store Batch 1 canonical merge staging candidate",
+  "source": {
+    "draftRevision": 89,
+    "v2ActiveCatalogVersion": 6,
+    "v2ActiveReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "stateSha256": "abffc088a113160ee85fb0efaead8ddff0230021992c9252df82453e396490a9",
+    "sourceCandidateSha256": "a74ccb8c45de2d168f47fd8fc05c96e793059a3f9cfbc1543440078726bafc70",
+    "baselineCatalogJsonSha256": "50d8368a00c347b2e575bbe9993272971e1010a1d3eff8db4e16edf427add7da",
+    "baselineCatalogCanonicalSha256": "b077fcddc7163b219f230c8fd66d693003dccc19e02a0c4310229e243de04691",
+    "productCount": 615,
+    "resourceCount": 146,
+    "targetCount": 513,
+    "resourceStoreCount": 4
+  },
+  "proposedChanges": [
+    {
+      "resourceId": "obra-superpowers-brainstorming",
+      "action": "create-canonical",
+      "resourceJsonSha256": "24a5bcab61422a67acf8648d46688ff36dae756c71e60b4d8e192ff0062912f6",
+      "resource": {
+        "id": "obra-superpowers-brainstorming",
+        "enabled": true,
+        "order": 147,
+        "name": "Brainstorming",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "在编码前澄清需求、约束与设计取舍。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/brainstorming",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/brainstorming/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/brainstorming/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/brainstorming",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/brainstorming",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#brainstorming",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-writing-plans",
+      "action": "create-canonical",
+      "resourceJsonSha256": "02d1fea86291093b0f74f394ff9b0f12883dfc5a31bf0f3c8acb74a32c7fcdc0",
+      "resource": {
+        "id": "obra-superpowers-writing-plans",
+        "enabled": true,
+        "order": 148,
+        "name": "Writing Plans",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "把已确认设计拆成可核验的实施步骤。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-plans",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-plans/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-plans/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-plans",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-plans",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#writing-plans",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-executing-plans",
+      "action": "create-canonical",
+      "resourceJsonSha256": "ff68ca30f71ea01469caf27962fd573986a0921c43facbdb2f503e52fcabbb8f",
+      "resource": {
+        "id": "obra-superpowers-executing-plans",
+        "enabled": true,
+        "order": 149,
+        "name": "Executing Plans",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "按计划分批执行开发任务并设置复核点。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/executing-plans",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/executing-plans/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/executing-plans/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/executing-plans",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/executing-plans",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#executing-plans",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-dispatching-parallel-agents",
+      "action": "create-canonical",
+      "resourceJsonSha256": "7ecdec3be1e943e95e7f13a4f069931af012847015649b445b0f92b9be73b1ba",
+      "resource": {
+        "id": "obra-superpowers-dispatching-parallel-agents",
+        "enabled": true,
+        "order": 150,
+        "name": "Dispatching Parallel Agents",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "为可独立的问题组织并行 Agent 协作。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/dispatching-parallel-agents",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/dispatching-parallel-agents/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/dispatching-parallel-agents/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/dispatching-parallel-agents",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/dispatching-parallel-agents",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#dispatching-parallel-agents",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-requesting-code-review",
+      "action": "create-canonical",
+      "resourceJsonSha256": "e03aebada8c96d44a715e55eef321d8f0297aacb213b87573861abb7ac330ca2",
+      "resource": {
+        "id": "obra-superpowers-requesting-code-review",
+        "enabled": true,
+        "order": 151,
+        "name": "Requesting Code Review",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "在任务完成后准备并发起代码审查。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/requesting-code-review",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/requesting-code-review/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/requesting-code-review/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/requesting-code-review",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/requesting-code-review",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#requesting-code-review",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-receiving-code-review",
+      "action": "create-canonical",
+      "resourceJsonSha256": "0b5b9d7443bcf7a62443094865d56e3265a70249ef167994d0a0b008667a13e9",
+      "resource": {
+        "id": "obra-superpowers-receiving-code-review",
+        "enabled": true,
+        "order": 152,
+        "name": "Receiving Code Review",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "核实并处理代码审查反馈。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/receiving-code-review",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/receiving-code-review/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/receiving-code-review/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/receiving-code-review",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/receiving-code-review",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#receiving-code-review",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-using-git-worktrees",
+      "action": "create-canonical",
+      "resourceJsonSha256": "bf69c91067295252fd9a2d11fc9402f0afa007aa6eff4609a9e809c7f6960e15",
+      "resource": {
+        "id": "obra-superpowers-using-git-worktrees",
+        "enabled": true,
+        "order": 153,
+        "name": "Using Git Worktrees",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "使用隔离工作树组织并行开发。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-git-worktrees",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-git-worktrees/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-git-worktrees/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-git-worktrees",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-git-worktrees",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#using-git-worktrees",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-finishing-development-branch",
+      "action": "create-canonical",
+      "resourceJsonSha256": "e856231ac6198c5a4ce9440b589bbb17d9d5e63d6229226a8afa813f792edec3",
+      "resource": {
+        "id": "obra-superpowers-finishing-development-branch",
+        "enabled": true,
+        "order": 154,
+        "name": "Finishing a Development Branch",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "在验证后收口开发分支并选择交付方式。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/finishing-a-development-branch",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/finishing-a-development-branch/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/finishing-a-development-branch/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/finishing-a-development-branch",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/finishing-a-development-branch",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#finishing-a-development-branch",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-subagent-driven-development",
+      "action": "create-canonical",
+      "resourceJsonSha256": "a7ef89bda4e015464c6847f4667c56589860ef862560c7dd3fdab555ec0e39e3",
+      "resource": {
+        "id": "obra-superpowers-subagent-driven-development",
+        "enabled": true,
+        "order": 155,
+        "name": "Subagent Driven Development",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "通过分阶段审查组织子 Agent 开发。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/subagent-driven-development",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/subagent-driven-development/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/subagent-driven-development/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/subagent-driven-development",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/subagent-driven-development",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#subagent-driven-development",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-test-driven-development",
+      "action": "create-canonical",
+      "resourceJsonSha256": "bb7e2845dda9fbf57b3eb7f08ffd83e982c534ef9de6bf6836d0e24c1487b2f5",
+      "resource": {
+        "id": "obra-superpowers-test-driven-development",
+        "enabled": true,
+        "order": 156,
+        "name": "Test Driven Development",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "按红、绿、重构循环推进实现。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/test-driven-development",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/test-driven-development/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/test-driven-development/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/test-driven-development",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/test-driven-development",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#test-driven-development",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-systematic-debugging",
+      "action": "create-canonical",
+      "resourceJsonSha256": "14deaa01e37055d73fed2a849d9abecfcefb337fbb842872508f401faa844793",
+      "resource": {
+        "id": "obra-superpowers-systematic-debugging",
+        "enabled": true,
+        "order": 157,
+        "name": "Systematic Debugging",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "以根因分析和验证为中心系统排查问题。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/systematic-debugging",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/systematic-debugging/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/systematic-debugging/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/systematic-debugging",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/systematic-debugging",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#systematic-debugging",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-verification-before-completion",
+      "action": "create-canonical",
+      "resourceJsonSha256": "11dadd843ff48307ae8820aca2d3654195c73c85b43e2dfe41a5b54d4a849c10",
+      "resource": {
+        "id": "obra-superpowers-verification-before-completion",
+        "enabled": true,
+        "order": 158,
+        "name": "Verification Before Completion",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "在宣告完成前收集并检查验证证据。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/verification-before-completion",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/verification-before-completion/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/verification-before-completion/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/verification-before-completion",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/verification-before-completion",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#verification-before-completion",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-writing-skills",
+      "action": "create-canonical",
+      "resourceJsonSha256": "11829915bde7c3d71a50d9889a4779b1f00e3d12bef722bd5f24668d4868af6a",
+      "resource": {
+        "id": "obra-superpowers-writing-skills",
+        "enabled": true,
+        "order": 159,
+        "name": "Writing Skills",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "编写、校验并改进 Agent Skill。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-skills",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-skills/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-skills/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-skills",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/writing-skills",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#writing-skills",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-using-superpowers",
+      "action": "create-canonical",
+      "resourceJsonSha256": "8f19e6e3ebe93e54e5eaa113b44f05dbeac635be284714f7bb5677b8402eda74",
+      "resource": {
+        "id": "obra-superpowers-using-superpowers",
+        "enabled": true,
+        "order": 160,
+        "name": "Using Superpowers",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "说明 Superpowers Skill 集合的调用与使用约束。",
+        "website": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-superpowers",
+        "tutorial": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-superpowers/SKILL.md",
+        "publisher": "Jesse Vincent / Prime Radiant",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "codex-cli",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "verified",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+        "provenanceEvidence": [
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-superpowers/SKILL.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/README.md",
+          "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-08T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "github",
+          "sourcePage": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-superpowers",
+          "canonicalSource": "https://github.com/obra/superpowers/tree/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/using-superpowers",
+          "originalAuthor": "Jesse Vincent / Prime Radiant",
+          "licenseId": "MIT",
+          "sourceRevision": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:obra/superpowers#using-superpowers",
+          "observedAt": "2026-08-08T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "resourceDelta": 14,
+    "targetDelta": 42,
+    "managedTargetDelta": 0,
+    "agentBindingDelta": 0,
+    "workflowDependencyDelta": 0,
+    "candidateResourceCount": 160,
+    "candidateTargetCount": 555,
+    "candidateSkillStats": {
+      "total": 30,
+      "official": 16,
+      "community": 14,
+      "sourceKinds": {
+        "official": 16,
+        "reviewed-community": 14,
+        "community": 0
+      }
+    },
+    "candidateCatalogJsonSha256": "584147e0126cbc8622e4bd45f0a0e9d151d75fad13895e8eae5d088ffaeb1ade",
+    "candidateCatalogCanonicalSha256": "460b24be812ddb8c91b8956259343f2bf5e069f1e23586c2a6d27c00323cd85b"
+  },
+  "preservation": {
+    "metadataSnapshot": "catalog resource metadataSnapshot is retained byte-for-value through validation and canonical signing",
+    "permittedFields": [
+      "sourcePlatform",
+      "discoveredVia",
+      "sourcePage",
+      "canonicalSource",
+      "originalAuthor",
+      "licenseId",
+      "sourceRevision",
+      "provenanceStatus",
+      "externalId",
+      "observedAt",
+      "licenseStatus",
+      "externalReference"
+    ],
+    "grantsManagedInstall": false,
+    "grantsAgentBinding": false,
+    "grantsWorkflowDependency": false
+  },
+  "consumptionPrerequisites": [
+    "Re-read the exact draft revision and v2 active release before any separately authorized save.",
+    "Keep all targets resource-link with no install profile and website-only capability.",
+    "Run full catalog validation, publication validation, and an independently authorized signing flow only after approval.",
+    "Never treat metadataSnapshot, reviewStatus, or riskLevel as an installation, Agent, or Workflow authorization."
+  ],
+  "rollback": "No state was written. Discard this candidate; any future authorized state mutation must use the catalog release rollback process, not this file."
+}

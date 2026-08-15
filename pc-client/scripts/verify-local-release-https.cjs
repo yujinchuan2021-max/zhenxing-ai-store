@@ -38,7 +38,11 @@ function loadVerifiedLocalContext() {
   if (!caPath || !path.isAbsolute(caPath)) {
     throw new Error("必须传入 Caddy 根证书的绝对路径");
   }
-  verifyReleaseBundle({ bundleDirectory, allowLocalRuntimeTrust: true });
+  verifyReleaseBundle({
+    bundleDirectory,
+    allowLocalhost: true,
+    allowLocalRuntimeTrust: true
+  });
   ca = fs.readFileSync(caPath);
   updateEnvelope = readLocalEnvelope("update-release.json");
   buildEnvelope = readLocalEnvelope("build-provenance.json");

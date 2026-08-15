@@ -8,14 +8,21 @@ const {
 } = require("./windows-desktop-catalog.cjs");
 const { WINDOWS_CLI_PRODUCTS } = require("./windows-cli-catalog.cjs");
 const {
+  WINDOWS_PACKAGE_MANAGER_PRODUCTS,
+  getWindowsPackageManagerProduct,
+  rowsAreApproved
+} = require("./windows-package-manager-catalog.cjs");
+const {
   buildProductIntakeDossier,
+  executionContractSha256,
   validateProductIntakeDossier
 } = require("./product-intake-dossier.cjs");
 const PRODUCT_INTAKE_APPROVALS = require("./product-intake-approvals.cjs");
 
 const INSTALL_MODES = Object.freeze({
   MANAGED_CLI: "managed-cli",
-  MANAGED_INSTALLER: "managed-installer"
+  MANAGED_INSTALLER: "managed-installer",
+  MANAGED_PACKAGE_MANAGER: "managed-package-manager"
 });
 
 const INSTALL_REGISTRY = Object.freeze({
@@ -125,7 +132,7 @@ const INSTALL_REGISTRY = Object.freeze({
     kind: "CLI",
     mode: INSTALL_MODES.MANAGED_CLI,
     capabilities: Object.freeze([
-      "website", "tutorial", "install", "open", "uninstall"
+      "website", "tutorial", "install", "update", "repair", "open", "uninstall"
     ]),
     requirements: Object.freeze([]),
     cli: Object.freeze({
@@ -163,7 +170,7 @@ const INSTALL_REGISTRY = Object.freeze({
     kind: "CLI",
     mode: INSTALL_MODES.MANAGED_CLI,
     capabilities: Object.freeze([
-      "website", "tutorial", "install", "open", "uninstall"
+      "website", "tutorial", "install", "update", "repair", "open", "uninstall"
     ]),
     requirements: Object.freeze(["git"]),
     cli: Object.freeze({
@@ -270,6 +277,53 @@ const INSTALL_REGISTRY = Object.freeze({
       ])
     })
   }),
+  "augment-auggie-cli": Object.freeze({
+    label: "Auggie CLI",
+    profileId: "cli.augment-auggie",
+    moduleId: "cli-managed",
+    vendorId: "augment",
+    productType: "cli",
+    kind: "CLI",
+    mode: INSTALL_MODES.MANAGED_CLI,
+    capabilities: Object.freeze([
+      "website", "tutorial", "install", "update", "repair", "open", "uninstall"
+    ]),
+    requirements: Object.freeze(["wsl"]),
+    cli: Object.freeze({
+      name: "Auggie CLI",
+      driver: "wsl-managed",
+      distribution: "Ubuntu-24.04",
+      version: "0.34.0",
+      nodeVersion: "22.23.2",
+      bootstrapPackages: Object.freeze([
+        "ca-certificates", "curl", "git", "xz-utils"
+      ]),
+      commandName: "auggie",
+      managedPrefix: "$HOME/.aihub-auggie",
+      repairStrategy: "rebuild-owned-prefix",
+      installScript: Object.freeze({
+        source: "packaged",
+        relativePath: "managed-wsl-scripts/augment-auggie-0.34.0.sh",
+        fileName: "augment-auggie-0.34.0.sh",
+        sha256: "03054bf581b75d472940693ec1c11759f221fee7b424ae9203a9a8e34a4c7c10",
+        maximumBytes: 8 * 1024
+      }),
+      installArguments: Object.freeze([]),
+      launchArguments: Object.freeze([]),
+      serviceUninstallArguments: Object.freeze([]),
+      // node-pty is deliberately omitted: core Auggie remains available, but
+      // its optional daemon-backed PTY terminal feature is not installed.
+      packageName: "@augmentcode/auggie",
+      linuxDependencies: Object.freeze(["node", "npm", "git"]),
+      officialSources: Object.freeze([
+        "https://docs.augmentcode.com/cli/setup-auggie/install-auggie-cli",
+        "https://nodejs.org/dist/v22.23.2/",
+        "https://nodejs.org/dist/v22.23.2/SHASUMS256.txt",
+        "https://registry.npmjs.org/%40augmentcode%2Fauggie/0.34.0",
+        "https://registry.npmjs.org/@augmentcode/auggie/-/auggie-0.34.0.tgz"
+      ])
+    })
+  }),
   ...Object.fromEntries(
     Object.entries(WINDOWS_CLI_PRODUCTS).map(([productId, product]) => [
       productId,
@@ -308,7 +362,30 @@ const INSTALL_REGISTRY = Object.freeze({
     requirements: Object.freeze([])
   }),
   ...Object.fromEntries(
-    Object.entries(WINDOWS_DESKTOP_PRODUCTS).map(([productId, product]) => [
+    Object.entries(WINDOWS_DESKTOP_PRODUCTS)
+      .filter(([, product]) => product.lifecycle)
+      .map(([productId, product]) => [
+        productId,
+        Object.freeze({
+          label: product.label,
+          profileId: product.profileId,
+          moduleId: "desktop-managed",
+          vendorId: product.vendorId,
+          productType: "desktop-reviewed",
+          kind: "桌面端",
+          mode: INSTALL_MODES.MANAGED_INSTALLER,
+          desktopAdapterId: product.adapterId,
+          capabilities: product.capabilities,
+          requirements: product.requirements
+        })
+      ])
+  ),
+  // Keep this spread last: a reviewed package-manager contract explicitly
+  // replaces any older download-only definition for the same product ID.
+  ...Object.fromEntries(
+    Object.entries(
+      rowsAreApproved() ? WINDOWS_PACKAGE_MANAGER_PRODUCTS : {}
+    ).map(([productId, product]) => [
       productId,
       Object.freeze({
         label: product.label,
@@ -316,9 +393,10 @@ const INSTALL_REGISTRY = Object.freeze({
         moduleId: "desktop-managed",
         vendorId: product.vendorId,
         productType: "desktop-reviewed",
-        kind: "桌面端",
-        mode: INSTALL_MODES.MANAGED_INSTALLER,
-        desktopAdapterId: product.adapterId,
+        kind: "\u684c\u9762\u7aef",
+        mode: INSTALL_MODES.MANAGED_PACKAGE_MANAGER,
+        downloadPolicy: "package-manager",
+        packageManager: product.packageManager,
         capabilities: product.capabilities,
         requirements: product.requirements
       })
@@ -333,6 +411,13 @@ function getInstallRegistration(productId) {
 function getProductIntakeDossier(productId) {
   const registration = getInstallRegistration(productId);
   if (!registration) return null;
+  const packageManagerDefinition = getWindowsPackageManagerProduct(productId);
+  if (
+    registration.mode === INSTALL_MODES.MANAGED_PACKAGE_MANAGER &&
+    registration.packageManager !== packageManagerDefinition?.packageManager
+  ) {
+    return null;
+  }
   const reviewedRegistration = registration.desktopAdapterId
     ? {
         ...registration,
@@ -340,11 +425,27 @@ function getProductIntakeDossier(productId) {
         desktopLifecycle: getDesktopLifecycle(productId)
       }
     : registration;
+  const download =
+    registration.mode === INSTALL_MODES.MANAGED_INSTALLER
+      ? getManagedDownload(productId)
+      : null;
+  const approval =
+    registration.mode === INSTALL_MODES.MANAGED_PACKAGE_MANAGER
+      ? {
+          executionContractSha256: executionContractSha256(
+            productId,
+            reviewedRegistration,
+            null
+          ),
+          reviewReference: registration.packageManager.reviewReference,
+          reviewedAt: registration.packageManager.reviewedAt
+        }
+      : PRODUCT_INTAKE_APPROVALS[productId] || null;
   const dossier = buildProductIntakeDossier(
     productId,
     reviewedRegistration,
-    getManagedDownload(productId),
-    PRODUCT_INTAKE_APPROVALS[productId] || null
+    download,
+    approval
   );
   return validateProductIntakeDossier(dossier) ? null : Object.freeze(dossier);
 }
@@ -360,7 +461,10 @@ function getInstallProfile(profileId) {
 function publicInstallProfiles() {
   return Object.freeze(
     Object.entries(INSTALL_REGISTRY).map(([productId, entry]) => {
-      const download = getManagedDownload(productId);
+      const download =
+        entry.mode === INSTALL_MODES.MANAGED_INSTALLER
+          ? getManagedDownload(productId)
+          : null;
       const lifecycle = getDesktopLifecycle(productId);
       return Object.freeze({
         id: entry.profileId,
@@ -373,6 +477,9 @@ function publicInstallProfiles() {
         mode: entry.mode,
         requirements: entry.requirements,
         capabilities: entry.capabilities,
+        ...(entry.downloadPolicy
+          ? { downloadPolicy: entry.downloadPolicy }
+          : {}),
         ...(lifecycle ? { lifecycle } : {}),
         ...(download
           ? {

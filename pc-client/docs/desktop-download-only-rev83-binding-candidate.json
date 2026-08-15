@@ -1,0 +1,16 @@
+{
+  "expectedRevision": 83,
+  "operation": "single-draft-binding",
+  "moduleId": "desktop-download-only",
+  "productType": "desktop-download-only",
+  "installPolicy": "client-managed-download",
+  "downloadPolicy": "desktop-download-only",
+  "signaturePolicy": "vendor-controlled",
+  "uninstallPolicy": "not-managed",
+  "capabilities": ["website", "tutorial", "install"],
+  "products": [
+    "audacity-desktop", "canva-windows", "craft-desktop", "deepl-desktop", "docker-desktop", "evernote-desktop", "finevoice-desktop", "taskade-workspace", "teamviewer-remote-ai", "wondershare-edrawmax", "wondershare-edrawmind", "wondershare-filmora", "wondershare-pdfelement", "xmind-ai"
+  ],
+  "artifactSource": "docs/research/windows-desktop-download-deep-research-rev83.json",
+  "excluded": ["coreldraw-graphics-suite", "tana-outliner"]
+}

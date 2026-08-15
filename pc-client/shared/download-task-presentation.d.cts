@@ -16,3 +16,23 @@ export type DownloadTaskRevisionTracker = {
 };
 
 export function createDownloadTaskRevisionTracker(): DownloadTaskRevisionTracker;
+
+export type DownloadPopoverItem = {
+  id: string;
+  productId: string;
+  name: string;
+  source: "queue" | "legacy";
+  phase: string;
+  state: "active" | "failed" | "completed";
+  percent: number | null;
+};
+
+export function buildDownloadPopoverItems(input?: {
+  names?: Record<string, string>;
+  queueTasks?: Record<string, ManagedDownloadQueueTask>;
+  legacyTasks?: Record<string, ManagedDownloadTask>;
+}): {
+  activeCount: number;
+  totalCount: number;
+  items: DownloadPopoverItem[];
+};

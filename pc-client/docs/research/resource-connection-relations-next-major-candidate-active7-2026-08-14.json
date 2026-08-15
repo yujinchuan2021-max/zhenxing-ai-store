@@ -1,0 +1,801 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "freezeOnly": true,
+  "targetRelease": "next-major",
+  "generatedAt": "2026-08-14T00:00:00.000Z",
+  "title": "AI connection relations candidate over active7 and next-major",
+  "inputs": {
+    "active7": {
+      "path": "admin/published/catalog-store/releases/catalog-v00000007-8c49e1972186-0cec5335.json",
+      "sha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4",
+      "resources": 250,
+      "targets": 777
+    },
+    "nextMajorConsolidation": {
+      "path": "docs/research/resource-store-next-major-consolidation-active7-2026-08-14.json",
+      "sha256": "131182b35aaf510230c574f343c7174a860e8a1a1a0df5e3cd0e03558840373c",
+      "proposedResources": 7
+    },
+    "connectorCensus": {
+      "path": "docs/research/comprehensive-ai-connector-resources-census-2026-08-14.md",
+      "sha256": "aa177c0d7a268f5305c7a295ff112180fd345cda8240d20ba0f726afa35a9dfc",
+      "censusIds": 106
+    }
+  },
+  "summary": {
+    "censusIds": 106,
+    "readyLinkOnly": 18,
+    "discoveryCollections": 8,
+    "canonicalResourceFamilies": 10,
+    "duplicateMappings": 46,
+    "duplicateResourceIds": 53,
+    "active7DuplicateRows": 43,
+    "nextMajorDuplicateRows": 3,
+    "providerOnly": 14,
+    "deferred": 22,
+    "blocked": 6,
+    "projectedResources": 5,
+    "connectionBindings": 12,
+    "boundDependencyTuples": 10,
+    "unboundBindings": 5
+  },
+  "bindingContract": {
+    "dependencyTupleKeys": [
+      "kind",
+      "canonicalId",
+      "hostProductId",
+      "bindingKind"
+    ],
+    "allowedBindingKinds": [
+      "skill-context",
+      "mcp-tool",
+      "mcp-resource",
+      "mcp-prompt",
+      "plugin-host-extension",
+      "connector-authorized-connection"
+    ],
+    "missingHostPolicy": "explicit-unbound",
+    "credentialPolicy": "never-collect"
+  },
+  "discoveryCollections": [
+    {
+      "censusId": "H01",
+      "canonicalIdentity": "openai:plugin-directory",
+      "sourceUrl": "https://help.openai.com/en/articles/20001256",
+      "relationKind": "discovery-collection",
+      "resourceCreated": false
+    },
+    {
+      "censusId": "H07",
+      "canonicalIdentity": "anthropic:connectors-directory",
+      "sourceUrl": "https://claude.com/docs/connectors/directory",
+      "relationKind": "discovery-collection",
+      "resourceCreated": false
+    },
+    {
+      "censusId": "H13",
+      "canonicalIdentity": "microsoft:m365-copilot-connectors-gallery",
+      "sourceUrl": "https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/connectors-gallery",
+      "relationKind": "discovery-collection",
+      "resourceCreated": false
+    },
+    {
+      "censusId": "H26",
+      "canonicalIdentity": "cursor:mcp-tools-collection",
+      "sourceUrl": "https://docs.cursor.com/en/tools/mcp",
+      "relationKind": "discovery-collection",
+      "resourceCreated": false
+    },
+    {
+      "censusId": "H28",
+      "canonicalIdentity": "cursor:plugin-marketplace",
+      "sourceUrl": "https://cursor.com/marketplace",
+      "relationKind": "discovery-collection",
+      "resourceCreated": false
+    },
+    {
+      "censusId": "H29",
+      "canonicalIdentity": "github:github-mcp-registry",
+      "sourceUrl": "https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/extend-copilot-chat-with-mcp",
+      "relationKind": "discovery-collection",
+      "resourceCreated": false
+    },
+    {
+      "censusId": "H35",
+      "canonicalIdentity": "perplexity:connectors-catalog",
+      "sourceUrl": "https://www.perplexity.ai/help-center/en/collections/18799295-connectors-integrations",
+      "relationKind": "discovery-collection",
+      "resourceCreated": false
+    },
+    {
+      "censusId": "H39",
+      "canonicalIdentity": "mistral:vibe-mcp-connectors-directory",
+      "sourceUrl": "https://docs.mistral.ai/vibe/work/connectors/mcp-connectors",
+      "relationKind": "discovery-collection",
+      "resourceCreated": false
+    }
+  ],
+  "resourceFamilies": [
+    {
+      "censusId": "S02",
+      "canonicalIdentity": "dropbox:official-ai-connections",
+      "resourceId": "dropbox-official-ai-connections",
+      "sourceUrl": "https://help.dropbox.com/integrations/connect-dropbox-mcp-server",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "remote-mcp",
+          "status": "bound",
+          "dependencies": [
+            {
+              "kind": "resource",
+              "canonicalId": "dropbox-official-ai-connections",
+              "hostProductId": "chatgpt-desktop",
+              "bindingKind": "mcp-tool"
+            },
+            {
+              "kind": "resource",
+              "canonicalId": "dropbox-official-ai-connections",
+              "hostProductId": "claude-desktop",
+              "bindingKind": "mcp-tool"
+            },
+            {
+              "kind": "resource",
+              "canonicalId": "dropbox-official-ai-connections",
+              "hostProductId": "openai-codex",
+              "bindingKind": "mcp-tool"
+            },
+            {
+              "kind": "resource",
+              "canonicalId": "dropbox-official-ai-connections",
+              "hostProductId": "cursor-desktop",
+              "bindingKind": "mcp-tool"
+            }
+          ]
+        },
+        {
+          "connectionMode": "chatgpt-app",
+          "status": "bound",
+          "dependencies": [
+            {
+              "kind": "resource",
+              "canonicalId": "dropbox-official-ai-connections",
+              "hostProductId": "chatgpt-desktop",
+              "bindingKind": "connector-authorized-connection"
+            }
+          ]
+        },
+        {
+          "connectionMode": "claude-connector",
+          "status": "bound",
+          "dependencies": [
+            {
+              "kind": "resource",
+              "canonicalId": "dropbox-official-ai-connections",
+              "hostProductId": "claude-desktop",
+              "bindingKind": "connector-authorized-connection"
+            }
+          ]
+        }
+      ],
+      "proposedResource": {
+        "id": "dropbox-official-ai-connections",
+        "enabled": true,
+        "order": 252,
+        "name": "Dropbox AI Connections",
+        "resourceTypes": [
+          "mcp",
+          "connector"
+        ],
+        "description": "Dropbox 官方 AI 连接资源族；一个资源承载远程 MCP、ChatGPT App 与 Claude Connector 三种连接面。",
+        "website": "https://help.dropbox.com/integrations/connect-dropbox-mcp-server",
+        "tutorial": "https://help.dropbox.com/integrations/connect-dropbox-mcp-server",
+        "publisherVendorId": "dropbox",
+        "publisher": "Dropbox",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "chatgpt-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "openai-codex",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "rolling-official-service",
+        "requestedPermissions": [
+          "远程 MCP 当前公开工具为只读；ChatGPT 与 Claude 连接面可保存、分享、恢复内容或创建文件请求，动作由宿主提示。"
+        ],
+        "credentialRequirements": [
+          "OAuth 由 Dropbox 与目标宿主管理；枕星 AI 不收集、保存或转发凭据。"
+        ],
+        "installScope": "仅打开 Dropbox 官方说明；不写客户端配置，不启动连接，不发起授权。",
+        "uninstallPlan": "在目标宿主断开连接，并在 Dropbox connected apps 中撤销授权。",
+        "provenanceEvidence": [
+          "https://help.dropbox.com/integrations/connect-dropbox-mcp-server",
+          "https://help.dropbox.com/integrations/chatGPT-app",
+          "https://help.dropbox.com/integrations/connect-dropbox-to-claude"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z"
+      }
+    },
+    {
+      "censusId": "S05",
+      "canonicalIdentity": "openai:sharepoint-app",
+      "resourceId": "chatgpt-sharepoint-app",
+      "sourceUrl": "https://help.openai.com/en/articles/12143177-sharepoint-apps-in-chatgpt",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "chatgpt-app",
+          "status": "bound",
+          "dependencies": [
+            {
+              "kind": "resource",
+              "canonicalId": "chatgpt-sharepoint-app",
+              "hostProductId": "chatgpt-desktop",
+              "bindingKind": "connector-authorized-connection"
+            }
+          ]
+        }
+      ],
+      "proposedResource": {
+        "id": "chatgpt-sharepoint-app",
+        "enabled": true,
+        "order": 253,
+        "name": "SharePoint App for ChatGPT",
+        "resourceTypes": [
+          "connector"
+        ],
+        "description": "OpenAI 官方说明的 ChatGPT SharePoint App 入口，支持经组织授权的检索、同步与可选动作。",
+        "website": "https://help.openai.com/en/articles/12143177-sharepoint-apps-in-chatgpt",
+        "tutorial": "https://help.openai.com/en/articles/12143177-sharepoint-apps-in-chatgpt",
+        "publisherVendorId": "openai",
+        "publisher": "OpenAI + Microsoft",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "chatgpt-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "rolling-official-service",
+        "requestedPermissions": [
+          "可读取已授权文件；启用 actions 时可能更新内容，具体动作必须由 ChatGPT 展示并确认。"
+        ],
+        "credentialRequirements": [
+          "Microsoft OAuth 与 Entra 管理由服务方处理；枕星 AI 不收集凭据。"
+        ],
+        "installScope": "仅打开官方说明；不发起 OAuth，不启用同步或动作。",
+        "uninstallPlan": "在 ChatGPT Apps 中断开或由管理员禁用，并按需在 Entra 撤销授权。",
+        "provenanceEvidence": [
+          "https://help.openai.com/en/articles/12143177-sharepoint-apps-in-chatgpt"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z"
+      }
+    },
+    {
+      "censusId": "S06",
+      "canonicalIdentity": "openai:google-drive-app",
+      "resourceId": "chatgpt-google-drive-app",
+      "sourceUrl": "https://help.openai.com/en/articles/10948259-google-drive-synced-connectors-self-service-setup/",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "chatgpt-app",
+          "status": "bound",
+          "dependencies": [
+            {
+              "kind": "resource",
+              "canonicalId": "chatgpt-google-drive-app",
+              "hostProductId": "chatgpt-desktop",
+              "bindingKind": "connector-authorized-connection"
+            }
+          ]
+        }
+      ],
+      "proposedResource": {
+        "id": "chatgpt-google-drive-app",
+        "enabled": true,
+        "order": 254,
+        "name": "Google Drive App for ChatGPT",
+        "resourceTypes": [
+          "connector"
+        ],
+        "description": "OpenAI 官方说明的 ChatGPT Google Drive App 入口，支持授权内容的检索、同步与可选文档动作。",
+        "website": "https://help.openai.com/en/articles/10948259-google-drive-synced-connectors-self-service-setup/",
+        "tutorial": "https://help.openai.com/en/articles/10948259-google-drive-synced-connectors-self-service-setup/",
+        "publisherVendorId": "openai",
+        "publisher": "OpenAI + Google",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "chatgpt-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "rolling-official-service",
+        "requestedPermissions": [
+          "可读取或下载已授权文件；启用 actions 后可能写入 Docs、Sheets 或 Slides。"
+        ],
+        "credentialRequirements": [
+          "Google OAuth 由 Google 与 ChatGPT 管理；枕星 AI 不收集凭据。"
+        ],
+        "installScope": "仅打开官方说明；不发起 OAuth，不启用同步或动作。",
+        "uninstallPlan": "在 ChatGPT Apps 中断开，并在 Google third-party connections 中撤销授权。",
+        "provenanceEvidence": [
+          "https://help.openai.com/en/articles/10948259-google-drive-synced-connectors-self-service-setup/"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z"
+      }
+    },
+    {
+      "censusId": "S07",
+      "canonicalIdentity": "openai:slack-app",
+      "resourceId": "chatgpt-slack-app",
+      "sourceUrl": "https://help.openai.com/en/articles/12525822",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "chatgpt-app",
+          "status": "bound",
+          "dependencies": [
+            {
+              "kind": "resource",
+              "canonicalId": "chatgpt-slack-app",
+              "hostProductId": "chatgpt-desktop",
+              "bindingKind": "connector-authorized-connection"
+            }
+          ]
+        }
+      ],
+      "proposedResource": {
+        "id": "chatgpt-slack-app",
+        "enabled": true,
+        "order": 255,
+        "name": "Slack App for ChatGPT",
+        "resourceTypes": [
+          "connector"
+        ],
+        "description": "OpenAI 官方说明的 ChatGPT Slack App 入口，支持授权消息检索、研究与可选工作区动作。",
+        "website": "https://help.openai.com/en/articles/12525822",
+        "tutorial": "https://help.openai.com/en/articles/12525822",
+        "publisherVendorId": "openai",
+        "publisher": "OpenAI + Slack",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "chatgpt-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "rolling-official-service",
+        "requestedPermissions": [
+          "可读取授权消息；启用 actions 时可能加入频道、创建提醒、上传文件或修改资料。"
+        ],
+        "credentialRequirements": [
+          "Slack OAuth 由 Slack 与 ChatGPT 管理；枕星 AI 不收集凭据。"
+        ],
+        "installScope": "仅打开官方说明；不发起 OAuth，不创建或修改 Slack 内容。",
+        "uninstallPlan": "在 ChatGPT Apps 中断开，并在 Slack connected apps 中撤销授权。",
+        "provenanceEvidence": [
+          "https://help.openai.com/en/articles/12525822"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z"
+      }
+    },
+    {
+      "censusId": "S08",
+      "canonicalIdentity": "anthropic:google-drive-integration",
+      "resourceId": "claude-google-drive-integration",
+      "sourceUrl": "https://support.anthropic.com/en/articles/10166901-using-the-google-docs-integration",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "claude-integration",
+          "status": "bound",
+          "dependencies": [
+            {
+              "kind": "resource",
+              "canonicalId": "claude-google-drive-integration",
+              "hostProductId": "claude-desktop",
+              "bindingKind": "connector-authorized-connection"
+            }
+          ]
+        }
+      ],
+      "proposedResource": {
+        "id": "claude-google-drive-integration",
+        "enabled": true,
+        "order": 256,
+        "name": "Google Drive Integration for Claude",
+        "resourceTypes": [
+          "connector"
+        ],
+        "description": "Anthropic 官方说明的 Claude Google Drive 集成入口，用于读取与同步用户已授权的 Google Docs 文本。",
+        "website": "https://support.anthropic.com/en/articles/10166901-using-the-google-docs-integration",
+        "tutorial": "https://support.anthropic.com/en/articles/10166901-using-the-google-docs-integration",
+        "publisherVendorId": "anthropic",
+        "publisher": "Anthropic + Google",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "claude-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "rolling-official-service",
+        "requestedPermissions": [
+          "仅读取与持续同步用户已授权的 Google Docs 文本，不据此宣称写入 Google Drive。"
+        ],
+        "credentialRequirements": [
+          "Google OAuth 由 Google 与 Claude 管理；枕星 AI 不收集凭据。"
+        ],
+        "installScope": "仅打开官方说明；不发起 OAuth，不启用同步。",
+        "uninstallPlan": "在 Claude Settings 的 Integrations 中断开，并在 Google account 中删除连接。",
+        "provenanceEvidence": [
+          "https://support.anthropic.com/en/articles/10166901-using-the-google-docs-integration"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z"
+      }
+    },
+    {
+      "censusId": "D12",
+      "canonicalIdentity": "pagerduty:official-mcp",
+      "resourceId": "pagerduty-official-mcp",
+      "sourceUrl": "https://support.pagerduty.com/main/docs/pagerduty-mcp-server",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "remote-or-local-mcp",
+          "status": "unbound",
+          "dependencies": [],
+          "unboundReason": "The census proves an official MCP service but does not name one exact active7 host product."
+        }
+      ],
+      "proposedResource": null
+    },
+    {
+      "censusId": "D13",
+      "canonicalIdentity": "launchdarkly:official-mcp",
+      "resourceId": "launchdarkly-official-mcp",
+      "sourceUrl": "https://launchdarkly.com/docs/home/getting-started/mcp",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "hosted-or-local-mcp",
+          "status": "unbound",
+          "dependencies": [],
+          "unboundReason": "The census proves an official MCP service but does not name one exact active7 host product."
+        }
+      ],
+      "proposedResource": null
+    },
+    {
+      "censusId": "D14",
+      "canonicalIdentity": "snyk:studio-mcp",
+      "resourceId": "snyk-studio-mcp",
+      "sourceUrl": "https://docs.snyk.io/integrations/snyk-studio-agentic-integrations/getting-started-with-snyk-studio",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "local-mcp",
+          "status": "unbound",
+          "dependencies": [],
+          "unboundReason": "The census proves a local MCP service but does not name one exact active7 host product."
+        }
+      ],
+      "proposedResource": null
+    },
+    {
+      "censusId": "D15",
+      "canonicalIdentity": "twilio:docs-mcp",
+      "resourceId": "twilio-docs-mcp",
+      "sourceUrl": "https://www.twilio.com/docs/ai/mcp",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "remote-docs-mcp",
+          "status": "unbound",
+          "dependencies": [],
+          "unboundReason": "The census proves a read-only public MCP service but does not name one exact active7 host product."
+        }
+      ],
+      "proposedResource": null
+    },
+    {
+      "censusId": "D16",
+      "canonicalIdentity": "square:official-mcp",
+      "resourceId": "square-official-mcp",
+      "sourceUrl": "https://developer.squareup.com/docs/mcp",
+      "credentialPolicy": "never-collect",
+      "connectionBindings": [
+        {
+          "connectionMode": "remote-or-local-mcp",
+          "status": "unbound",
+          "dependencies": [],
+          "unboundReason": "The census proves an official MCP service but does not name one exact active7 host product."
+        }
+      ],
+      "proposedResource": null
+    }
+  ],
+  "duplicateMappings": {
+    "H12": [
+      "anthropic-claude-code-mcp"
+    ],
+    "H24": [
+      "google-gemini-cli-extensions"
+    ],
+    "S01": [
+      "airtable-mcp-server"
+    ],
+    "S09": [
+      "box-mcp-server"
+    ],
+    "S10": [
+      "notion-mcp"
+    ],
+    "S11": [
+      "slack-mcp-server"
+    ],
+    "S12": [
+      "atlassian-rovo-mcp-server"
+    ],
+    "S13": [
+      "google-gmail-mcp",
+      "google-drive-mcp",
+      "google-docs-mcp",
+      "google-sheets-mcp",
+      "google-slides-mcp",
+      "google-calendar-mcp",
+      "google-chat-mcp",
+      "google-people-mcp"
+    ],
+    "S14": [
+      "figma-mcp-server"
+    ],
+    "S15": [
+      "canva-mcp"
+    ],
+    "S16": [
+      "linear-mcp-server"
+    ],
+    "S17": [
+      "asana-mcp-server-v2"
+    ],
+    "S18": [
+      "monday-platform-mcp"
+    ],
+    "S19": [
+      "hubspot-mcp-server"
+    ],
+    "S20": [
+      "salesforce-hosted-mcp-servers"
+    ],
+    "S21": [
+      "stripe-mcp-server"
+    ],
+    "S22": [
+      "sentry-mcp"
+    ],
+    "S23": [
+      "github-copilot-mcp"
+    ],
+    "S24": [
+      "gitlab-mcp-server"
+    ],
+    "S25": [
+      "servicenow-mcp-server"
+    ],
+    "S26": [
+      "clickup-mcp-server"
+    ],
+    "S27": [
+      "intercom-mcp-server"
+    ],
+    "S28": [
+      "zoom-mcp-server"
+    ],
+    "S29": [
+      "paypal-mcp-server"
+    ],
+    "S30": [
+      "shopify-storefront-mcp"
+    ],
+    "P01": [
+      "zapier-mcp"
+    ],
+    "P02": [
+      "pipedream-mcp"
+    ],
+    "P03": [
+      "composio-mcp"
+    ],
+    "P04": [
+      "make-mcp-server"
+    ],
+    "P05": [
+      "n8n-mcp-server"
+    ],
+    "P10": [
+      "apify-mcp"
+    ],
+    "D01": [
+      "microsoft-azure-mcp"
+    ],
+    "D04": [
+      "cloudflare-api-mcp-server"
+    ],
+    "D05": [
+      "databricks-managed-mcp-directory"
+    ],
+    "D06": [
+      "snowflake-managed-mcp"
+    ],
+    "D07": [
+      "redis-mcp-server"
+    ],
+    "D08": [
+      "neon-mcp"
+    ],
+    "D09": [
+      "mongodb-mcp-server"
+    ],
+    "D10": [
+      "supabase-mcp-server"
+    ],
+    "D11": [
+      "vercel-mcp"
+    ],
+    "L01": [
+      "adobe-for-creativity"
+    ],
+    "L02": [
+      "sketchup-claude-connector"
+    ],
+    "L03": [
+      "affinity-ai-connector"
+    ],
+    "L04": [
+      "lovable-official-mcp"
+    ],
+    "L05": [
+      "lucid-claude-connector"
+    ],
+    "L06": [
+      "microsoft-learn-mcp-server"
+    ]
+  },
+  "providerOnly": [
+    "H02",
+    "H03",
+    "H04",
+    "H08",
+    "H14",
+    "H15",
+    "H20",
+    "H21",
+    "H37",
+    "P06",
+    "P07",
+    "P08",
+    "P09",
+    "D03"
+  ],
+  "reviewLedger": {
+    "deferred": [
+      "H05",
+      "H06",
+      "H09",
+      "H10",
+      "H11",
+      "H16",
+      "H17",
+      "H18",
+      "H19",
+      "H22",
+      "H23",
+      "H25",
+      "H27",
+      "H30",
+      "H31",
+      "H32",
+      "H33",
+      "H36",
+      "H38",
+      "H40",
+      "D02",
+      "D17"
+    ],
+    "blocked": [
+      "H34",
+      "B01",
+      "B02",
+      "B03",
+      "B04",
+      "B05"
+    ]
+  },
+  "safety": {
+    "relationSnapshotOnly": true,
+    "writesProduction": false,
+    "installsOrRunsConnectors": false,
+    "collectsCredentials": false,
+    "requiresCtoAudit": true
+  }
+}

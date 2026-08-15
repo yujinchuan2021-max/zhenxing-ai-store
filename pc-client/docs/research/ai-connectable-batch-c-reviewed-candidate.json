@@ -1,0 +1,15 @@
+{
+  "notice":"candidate-only; no saveDraft or publish",
+  "sourceRevision":84,
+  "sourceProductCount":615,
+  "batch":"C",
+  "sourceConsistency":{"reportedConfirmedProducts":7,"listedConfirmedProducts":7,"summaryNamePhrases":6,"explanation":"Neo4j Desktop and Neo4j Enterprise Studio were combined into one summary phrase."},
+  "summary":{"accepted":3,"rejected":0,"needsMoreEvidence":17},
+  "accepted":[
+    {"vendorId":"siemens","productId":"siemens-eigen-engineering-agent","officialEvidenceUrl":"https://www.siemens.com/de-ch/products/tia-portal/eigen-engineering-agent/","directoryKind":"ai-connectable","category":"工程计算与仿真","fieldCheck":"correct-no-op"},
+    {"vendorId":"genesys","productId":"genesys-cloud-cx","officialEvidenceUrl":"https://www.genesys.com/capabilities/artificial-intelligence","directoryKind":"ai-connectable","category":"客户服务","fieldCheck":"correct-no-op"},
+    {"vendorId":"dialpad","productId":"dialpad-desktop","officialEvidenceUrl":"https://www.dialpad.com/features/ai/","directoryKind":"ai-connectable","category":"客户服务","fieldCheck":"correct-no-op"}
+  ],
+  "needsMoreEvidenceProductIds":["redis-insight","neo4j-desktop","neo4j-enterprise-studio","cisco-webex-ai-assistant","siemens-designcenter-nx","synopsys-verdi","obsidian-desktop","discord-desktop","opera-one","mozilla-firefox","graphisoft-archicad","vectorworks-design-suite","dassault-solidworks-design","audacity-desktop","streamlabs-desktop","navicat-premium","octave-bricscad"],
+  "minimalCatalogPatch":{"operation":"no-op","patches":[]}
+}

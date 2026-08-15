@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 2,
+  "status": "applied-draft",
+  "appliedDraftRevision": 83,
+  "appliedAt": "2026-08-04T18:00:35.608Z",
+  "operation": "update-existing-targets",
+  "sourceRevision": 82,
+  "sourceProductCount": 615,
+  "existingResourceSnapshot": {
+    "id": "zep-docs-mcp",
+    "name": "Zep Documentation MCP",
+    "resourceTypes": ["mcp"],
+    "description": "Zep 官方公共文档检索 MCP，与企业版用户记忆 MCP 明确分离。",
+    "website": "https://help.getzep.com/docs-mcp-server",
+    "tutorial": "https://help.getzep.com/docs-mcp-server",
+    "publisherVendorId": "zep",
+    "publisher": "Zep",
+    "sourceKind": "official",
+    "sourceProductIds": ["zep-agent-memory"],
+    "targetCount": 4,
+    "targets": [
+      {"productId": "codex-cli", "compatibility": "protocol-compatible", "moduleId": "resource-link", "installProfileId": "", "capabilities": ["website"], "enabled": true},
+      {"productId": "claude-code", "compatibility": "protocol-compatible", "moduleId": "resource-link", "installProfileId": "", "capabilities": ["website"], "enabled": true},
+      {"productId": "claude-desktop", "compatibility": "protocol-compatible", "moduleId": "resource-link", "installProfileId": "", "capabilities": ["website"], "enabled": true},
+      {"productId": "cursor-desktop", "compatibility": "protocol-compatible", "moduleId": "resource-link", "installProfileId": "", "capabilities": ["website"], "enabled": true}
+    ],
+    "versionRef": "rolling-official-docs",
+    "requestedPermissions": ["只检索 Zep 公共文档，不读取或修改用户记忆。"],
+    "credentialRequirements": ["按 Zep 官方文档配置；目录不保存任何账户凭据。"],
+    "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
+    "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+    "provenanceEvidence": ["https://help.getzep.com/docs-mcp-server"],
+    "lastVerifiedAt": "2026-08-03T16:00:00.000Z",
+    "enabled": true,
+    "order": 132
+  },
+  "expectedTargetCount": 4,
+  "proposedChanges": {
+    "updateTargets": [
+      {
+        "productId": "codex-cli",
+        "compatibility": "protocol-compatible",
+        "moduleId": "mcp-managed",
+        "installProfileId": "mcp.codex.zep-docs",
+        "capabilities": ["website", "install", "update", "repair", "enable", "disable", "uninstall"],
+        "enabled": true,
+        "operation": "replace-existing-target"
+      },
+      {
+        "productId": "claude-code",
+        "compatibility": "protocol-compatible",
+        "moduleId": "mcp-managed",
+        "installProfileId": "mcp.claude-code.zep-docs",
+        "capabilities": ["website", "install", "update", "repair", "uninstall"],
+        "enabled": true,
+        "operation": "replace-existing-target"
+      },
+      {
+        "productId": "cursor-desktop",
+        "compatibility": "protocol-compatible",
+        "moduleId": "mcp-managed",
+        "installProfileId": "mcp.cursor.zep-docs",
+        "capabilities": ["website", "install", "update", "repair", "uninstall"],
+        "enabled": true,
+        "operation": "replace-existing-target"
+      }
+    ],
+    "preserveTargets": [
+      {"productId": "claude-desktop", "moduleId": "resource-link", "installProfileId": "", "capabilities": ["website"], "enabled": true}
+    ]
+  },
+  "expectedResult": {
+    "resources": 146,
+    "targets": 513,
+    "managedTargets": 8,
+    "managedProfiles": 8,
+    "linkOnlyTargets": 505
+  },
+  "blockers": [],
+  "note": "仅候选原地更新三个既有 targets；不得新增、覆盖 resource 身份或由后台覆盖 profile 固定 endpoint。"
+}

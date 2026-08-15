@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "freezeOnly": true,
+  "generatedAt": "2026-08-14T00:00:00.000Z",
+  "title": "CocoLoop public Skill small-batch 2 candidate against active7",
+  "source": {
+    "discoveryOrigin": "https://hub.cocoloop.cn/",
+    "robotsUrl": "https://hub.cocoloop.cn/robots.txt",
+    "sitemapIndex": "https://hub.cocoloop.cn/sitemap-index.xml",
+    "activeReleaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "activeCatalogVersion": 7,
+    "activeResources": 250,
+    "activeTargets": 777,
+    "activeCommunitySkills": 104,
+    "priorCandidateLedger": "docs/research/community-skill-store-cocoloop-next-batch-candidate-active7-2026-08-13.json",
+    "historicalReviewLedgers": [
+      "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "docs/research/community-skill-store-index-re-review-2026-08-09.json"
+    ]
+  },
+  "discovery": {
+    "observed": 6,
+    "candidate": 1,
+    "deferred": 3,
+    "blocked": 2,
+    "nonCandidate": 5
+  },
+  "proposedChanges": [
+    {
+      "resourceId": "openclaw-mcporter-skill",
+      "canonicalKey": "github:openclaw/openclaw#skills/mcporter",
+      "action": "create-canonical",
+      "resource": {
+        "id": "openclaw-mcporter-skill",
+        "enabled": true,
+        "order": 253,
+        "name": "OpenClaw mcporter Skill",
+        "resourceTypes": ["skill"],
+        "description": "OpenClaw community Skill for listing, configuring, authenticating, calling, and inspecting MCP servers and tools with mcporter. Review the pinned source before use.",
+        "website": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter",
+        "tutorial": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter/SKILL.md",
+        "publisher": "OpenClaw Foundation",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "openclaw-agent",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": ["website"],
+            "enabled": true
+          }
+        ],
+        "versionRef": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+        "provenanceEvidence": [
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter/SKILL.md",
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "cocoloop",
+          "sourcePage": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter/SKILL.md",
+          "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter",
+          "originalAuthor": "OpenClaw Foundation",
+          "licenseId": "MIT",
+          "sourceRevision": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:openclaw/openclaw#skills/mcporter",
+          "observedAt": "2026-08-14T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    }
+  ],
+  "reviewLedger": [
+    {
+      "rank": 1,
+      "cocoloopId": "186",
+      "cocoloopUrl": "https://hub.cocoloop.cn/skills/186",
+      "name": "mcporter",
+      "outcome": "candidate",
+      "reason": "OpenClaw first-party repository closes the exact skills/mcporter/SKILL.md and MIT license at pinned revision 6f99d3405cec1221c4fd9fa30f89795acc5f427d"
+    },
+    {
+      "rank": 2,
+      "cocoloopId": "800",
+      "cocoloopUrl": "https://hub.cocoloop.cn/skills/800",
+      "name": "readwise-mcp",
+      "outcome": "deferred",
+      "reason": "public detail page does not close an original-author repository, pinned revision, exact SKILL path, and same-revision license"
+    },
+    {
+      "rank": 3,
+      "cocoloopId": "1734",
+      "cocoloopUrl": "https://hub.cocoloop.cn/skills/1734",
+      "name": "little-snitch",
+      "outcome": "blocked",
+      "reason": "source and license closure are absent, while the instructions include sudo and host-firewall mutation that require a separate platform and safety review"
+    },
+    {
+      "rank": 4,
+      "cocoloopId": "4885",
+      "cocoloopUrl": "https://hub.cocoloop.cn/skills/4885",
+      "name": "meeting-notes",
+      "outcome": "deferred",
+      "reason": "the listing claims MIT and Claude contributor provenance but exposes neither the original repository nor a pinned SKILL and license pair, so those claims cannot be promoted"
+    },
+    {
+      "rank": 5,
+      "cocoloopId": "4762",
+      "cocoloopUrl": "https://hub.cocoloop.cn/skills/4762",
+      "name": "qwen3-tts-instruct",
+      "outcome": "blocked",
+      "reason": "repository and same-revision license closure are absent, and setup scripts, Python execution, API-key handling, and external audio generation require separate runtime review"
+    },
+    {
+      "rank": 6,
+      "cocoloopId": "1049",
+      "cocoloopUrl": "https://hub.cocoloop.cn/skills/1049",
+      "name": "swissweather",
+      "outcome": "deferred",
+      "reason": "the page names public weather services but does not identify the original Skill repository, pinned revision, exact SKILL path, or same-revision license"
+    }
+  ],
+  "safety": {
+    "allTargets": "resource-link with empty installProfileId and website-only capability",
+    "cocoloopRole": "discovery only; no aggregator payload is catalog provenance",
+    "downloadedZip": false,
+    "executedThirdPartyContent": false,
+    "calledApi": false,
+    "managedInstall": false,
+    "agentBinding": false,
+    "workflowDependency": false,
+    "stateMutation": false
+  },
+  "rollback": "No active catalog, state, profile, release, package, upload, signature, or publication was written. Delete this candidate, its research note, and focused test to discard the handoff."
+}

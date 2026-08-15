@@ -3,6 +3,7 @@
 const SCHEMA_VERSION = 1;
 const MAX_LOGS = 40;
 const PHASES = new Set([
+  "queued",
   "starting",
   "downloading",
   "pausing",
@@ -11,6 +12,22 @@ const PHASES = new Set([
   "canceling",
   "canceled",
   "completed"
+]);
+const PUBLIC_MANAGED_DOWNLOAD_PHASES = new Set([
+  "queued",
+  "downloading",
+  "downloaded",
+  "failed",
+  "cancelled"
+]);
+const CANCELLABLE_PHASES = new Set([
+  "queued",
+  "starting",
+  "downloading",
+  "pausing",
+  "paused",
+  "failed",
+  "canceling"
 ]);
 const PROGRESS_FIELDS = [
   "receivedBytes",
@@ -228,6 +245,100 @@ function restoreDownloadTask(value) {
   return phaseInvariantsHold(restored) ? restored : null;
 }
 
+function publicManagedDownloadPhase(phase) {
+  if (phase === "completed") return "downloaded";
+  if (phase === "canceled") return "cancelled";
+  if (phase === "queued" || phase === "starting") return "queued";
+  if (["downloading", "pausing", "paused", "canceling"].includes(phase)) {
+    return "downloading";
+  }
+  return phase === "failed" ? "failed" : null;
+}
+
+function publicManagedDownloadProgress(value) {
+  const receivedBytes = Number.isSafeInteger(value?.receivedBytes) && value.receivedBytes >= 0
+    ? value.receivedBytes
+    : 0;
+  const totalBytes = Number.isSafeInteger(value?.totalBytes) && value.totalBytes >= 0
+    ? value.totalBytes
+    : 0;
+  const bytesPerSecond = Number.isSafeInteger(value?.bytesPerSecond) && value.bytesPerSecond >= 0
+    ? value.bytesPerSecond
+    : 0;
+  const percent = Number.isFinite(value?.percent) && value.percent >= 0 && value.percent <= 100
+    ? value.percent
+    : null;
+  return Object.freeze({ receivedBytes, totalBytes, bytesPerSecond, percent });
+}
+
+function projectManagedDownloadTask(task, { profileId = "" } = {}) {
+  if (
+    !isRecord(task) ||
+    !isNonEmptyString(task.productId) ||
+    !isNonEmptyString(task.attemptId) ||
+    !PHASES.has(task.phase) ||
+    typeof profileId !== "string" ||
+    profileId.length > 160
+  ) return null;
+  const phase = publicManagedDownloadPhase(task.phase);
+  if (!PUBLIC_MANAGED_DOWNLOAD_PHASES.has(phase)) return null;
+  const canCancel = CANCELLABLE_PHASES.has(task.phase);
+  const canRetry = task.phase === "failed" || task.phase === "canceled";
+  return Object.freeze({
+    taskId: task.attemptId,
+    productId: task.productId,
+    profileId,
+    phase,
+    progress: publicManagedDownloadProgress(task.progress),
+    ...(isNonEmptyString(task.errorCode) ? { errorCode: task.errorCode } : {}),
+    presentation: Object.freeze({
+      state: phase === "downloaded" ? "completed" : phase === "failed" || phase === "cancelled" ? "failed" : "active",
+      canCancel,
+      canRetry
+    })
+  });
+}
+
+function plainObject(value) {
+  if (!isRecord(value)) return false;
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === null || prototype === Object.prototype;
+}
+
+function safeCancelId(value) {
+  return typeof value === "string" && value.length > 0 && value.length <= 160;
+}
+
+function validateManagedDownloadCancelRequest(value) {
+  if (!plainObject(value)) return null;
+  const fields = Object.keys(value);
+  if (
+    fields.length !== 3 ||
+    !fields.every((field) => ["productId", "taskId", "confirmed"].includes(field)) ||
+    !safeCancelId(value.productId) ||
+    !safeCancelId(value.taskId) ||
+    value.confirmed !== true
+  ) return null;
+  return Object.freeze({ productId: value.productId, taskId: value.taskId, confirmed: true });
+}
+
+function rejectManagedDownloadCancellation(errorCode) {
+  return Object.freeze({ ok: false, errorCode });
+}
+
+function authorizeManagedDownloadCancellation({ request, task, plan } = {}) {
+  const confirmed = validateManagedDownloadCancelRequest(request);
+  if (!confirmed) return rejectManagedDownloadCancellation("DOWNLOAD_CANCEL_REQUEST_INVALID");
+  if (!plan) return rejectManagedDownloadCancellation("DOWNLOAD_PLAN_NOT_FOUND");
+  if (!isRecord(task)) return rejectManagedDownloadCancellation("DOWNLOAD_TASK_NOT_FOUND");
+  if (task.productId !== confirmed.productId || task.attemptId !== confirmed.taskId) {
+    return rejectManagedDownloadCancellation("DOWNLOAD_ATTEMPT_MISMATCH");
+  }
+  if (task.phase === "completed") return rejectManagedDownloadCancellation("DOWNLOAD_ALREADY_COMPLETED");
+  if (!CANCELLABLE_PHASES.has(task.phase)) return rejectManagedDownloadCancellation("DOWNLOAD_NOT_CANCELLABLE");
+  return Object.freeze({ ok: true, productId: confirmed.productId, attemptId: confirmed.taskId });
+}
+
 function appendLog(logs, message) {
   return [...logs, message].slice(-MAX_LOGS);
 }
@@ -269,7 +380,7 @@ function applyDownloadTaskEvent(current, event, options) {
     return rejected(current, null);
   }
 
-  if (event.type === "start") {
+  if (event.type === "start" || event.type === "queue") {
     if (current !== null && current !== undefined) return rejected(current, null);
     if (
       !isNonEmptyString(event.productId) ||
@@ -287,7 +398,7 @@ function applyDownloadTaskEvent(current, event, options) {
         attemptId: event.attemptId,
         attempt: 1,
         revision: 1,
-        phase: "starting",
+        phase: event.type === "queue" ? "queued" : "starting",
         resumable: false,
         progress: initialProgress,
         errorCode: null,
@@ -297,7 +408,7 @@ function applyDownloadTaskEvent(current, event, options) {
         fileSize: null,
         createdAt: timestamp,
         updatedAt: timestamp,
-        logs: ["开始下载"]
+        logs: [event.type === "queue" ? "已加入下载队列" : "开始下载"]
       }
     };
   }
@@ -305,7 +416,20 @@ function applyDownloadTaskEvent(current, event, options) {
   const task = restoreDownloadTask(current);
   if (!task) return { accepted: false, task: current ?? null };
 
-  if (event.type === "retry") {
+  if (event.type === "begin") {
+    if (!validEventIdentity(task, event) || task.phase !== "queued") {
+      return rejected(current, task);
+    }
+    return {
+      accepted: true,
+      task: withState(task, timestamp, {
+        phase: "starting",
+        resumable: false
+      }, "开始下载")
+    };
+  }
+
+  if (event.type === "retry" || event.type === "queue") {
     if (
       !["failed", "paused", "canceled", "completed"].includes(task.phase) ||
       !isNonEmptyString(event.attemptId) ||
@@ -315,6 +439,10 @@ function applyDownloadTaskEvent(current, event, options) {
     ) {
       return rejected(current, task);
     }
+    const queuedProgress = event.type === "queue" && event.progress !== undefined
+      ? normalizeProgress(event.progress)
+      : { ...EMPTY_PROGRESS };
+    if (!queuedProgress) return rejected(current, task);
     return {
       accepted: true,
       task: withState(
@@ -323,16 +451,18 @@ function applyDownloadTaskEvent(current, event, options) {
         {
           attemptId: event.attemptId,
           attempt: task.attempt + 1,
-          phase: "starting",
-          resumable: false,
-          progress: { ...EMPTY_PROGRESS },
+          phase: event.type === "queue" ? "queued" : "starting",
+          resumable: event.type === "queue" && event.resumable === true,
+          progress: queuedProgress,
           errorCode: null,
           errorMessage: null,
           filePath: null,
           sha256: null,
           fileSize: null
         },
-        `开始第 ${task.attempt + 1} 次下载`
+        event.type === "queue"
+          ? `已加入第 ${task.attempt + 1} 次下载队列`
+          : `开始第 ${task.attempt + 1} 次下载`
       )
     };
   }
@@ -472,7 +602,7 @@ function applyDownloadTaskEvent(current, event, options) {
 
   if (event.type === "cancel-requested") {
     if (
-      !["starting", "downloading", "pausing", "paused", "failed"].includes(
+      !["queued", "starting", "downloading", "pausing", "paused", "failed"].includes(
         task.phase
       )
     ) {
@@ -497,6 +627,7 @@ function applyDownloadTaskEvent(current, event, options) {
   if (event.type === "cancel") {
     if (
       ![
+        "queued",
         "starting",
         "downloading",
         "pausing",
@@ -570,5 +701,8 @@ function applyDownloadTaskEvent(current, event, options) {
 
 module.exports = {
   applyDownloadTaskEvent,
-  restoreDownloadTask
+  restoreDownloadTask,
+  projectManagedDownloadTask,
+  authorizeManagedDownloadCancellation,
+  validateManagedDownloadCancelRequest
 };

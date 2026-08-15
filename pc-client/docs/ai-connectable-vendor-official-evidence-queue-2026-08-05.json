@@ -1,0 +1,1308 @@
+{
+  "notice": "read-only queue; do not saveDraft or publish",
+  "sourceRevision": 83,
+  "sourceProductCount": 615,
+  "aiConnectableDesktopCount": 65,
+  "candidates": [
+    {
+      "vendorId": "ableton",
+      "productId": "ableton-live",
+      "productName": "Ableton Live",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.ableton.com/en/trial/",
+        "https://github.com/uisato/ableton-mcp-extended"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-acrobat-reader-ai",
+      "productName": "Adobe Acrobat Reader",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.adobe.com/acrobat/pdf-reader.html",
+        "https://helpx.adobe.com/acrobat/desktop/use-acrobat-ai/generative-ai-features/ai-get-answers.html"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "adobe",
+      "productId": "adobe-creative-cloud",
+      "productName": "Adobe Creative Cloud",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.adobe.com/download/creative-cloud",
+        "https://developer.adobe.com/adobe-for-creativity/getting-started/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "canva",
+      "productId": "affinity",
+      "productName": "Affinity",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.affinity.studio/",
+        "https://www.canva.com/newsroom/news/canva-create-2026-launches/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "airtable",
+      "productId": "airtable-platform",
+      "productName": "Airtable",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.airtable.com/windows",
+        "https://support.airtable.com/v1/docs/using-the-airtable-mcp-server"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "allplan",
+      "productId": "allplan",
+      "productName": "ALLPLAN",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.allplan.com/products/allplan/",
+        "https://www.allplan.com/us_en/system/releasenotes/2026/allplan-2026-0-1/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "ansys",
+      "productId": "ansys-lumerical",
+      "productName": "Ansys Lumerical",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.ansys.com/products/optics",
+        "https://github.com/ansys/pylumerical-mcp"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "anydesk",
+      "productId": "anydesk-windows",
+      "productName": "AnyDesk",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://anydesk.com/en/downloads/windows",
+        "https://support.anydesk.com/docs/rest-api"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "anytype",
+      "productId": "anytype-desktop",
+      "productName": "Anytype",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://anytype.io/downloads",
+        "https://doc.anytype.io/anytype-docs/getting-started/install-and-setup"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "asana",
+      "productId": "asana-work-graph",
+      "productName": "Asana",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://asana.com/download",
+        "https://help.asana.com/s/article/asana-desktop-app?language=en_US"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "audacity",
+      "productId": "audacity-desktop",
+      "productName": "Audacity",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.audacityteam.org/download/windows/",
+        "https://www.audacityteam.org/download/openvino/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "autodesk",
+      "productId": "autodesk-autocad",
+      "productName": "AutoCAD",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.autodesk.com/products/autocad/overview",
+        "https://help.autodesk.com/cloudhelp/2026/ENU/AutoCAD-WhatsNew/files/GUID-B4E1E636-E08E-4277-8971-910D47440116.htm"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "autodesk",
+      "productId": "autodesk-fusion",
+      "productName": "Autodesk Fusion",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.autodesk.com/products/fusion-360/",
+        "https://help.autodesk.com/view/fusion360/ENU/?guid=FMCP-OVERVIEW"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "autodesk",
+      "productId": "autodesk-revit",
+      "productName": "Revit",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.autodesk.com/products/revit/overview/",
+        "https://help.autodesk.com/view/RVT/2027/ENU/?guid=GUID-68D8FE6D-C5B0-4503-AE27-02C715BAC25B"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "blender",
+      "productId": "blender",
+      "productName": "Blender",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.blender.org/download/",
+        "https://github.com/ahujasid/blender-mcp"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "box",
+      "productId": "box-content-cloud",
+      "productName": "Box",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.box.com/drive",
+        "https://support.box.com/hc/en-us/articles/50483150712723-Box-AI-for-Drive"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "cisco",
+      "productId": "cisco-webex-ai-assistant",
+      "productName": "Webex",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.webex.com/downloads.html",
+        "https://help.webex.com/article/ub8jcj/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "clickup",
+      "productId": "clickup-workspace",
+      "productName": "ClickUp",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://clickup.com/download",
+        "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "dassault-systemes",
+      "productId": "dassault-solidworks-design",
+      "productName": "SOLIDWORKS Design",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.solidworks.com/support/downloads",
+        "https://my.solidworks.com/training"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "blackmagic-design",
+      "productId": "davinci-resolve",
+      "productName": "DaVinci Resolve",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.blackmagicdesign.com/products/davinciresolve",
+        "https://github.com/samuelgursky/davinci-resolve-mcp"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "dialpad",
+      "productId": "dialpad-desktop",
+      "productName": "Dialpad",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.dialpad.com/download/",
+        "https://help.dialpad.com/v1/docs/en/dialpad-app-requirements"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "discord",
+      "productId": "discord-desktop",
+      "productName": "Discord",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://discord.com/download",
+        "https://discord.com/developers/docs/intro"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "docker",
+      "productId": "docker-desktop",
+      "productName": "Docker Desktop",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.docker.com/products/docker-desktop/",
+        "https://docs.docker.com/ai/mcp-catalog-and-toolkit/get-started/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "figma",
+      "productId": "figma-design",
+      "productName": "Figma",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.figma.com/downloads/",
+        "https://developers.figma.com/docs/figma-mcp-server/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "genesys",
+      "productId": "genesys-cloud-cx",
+      "productName": "Genesys Cloud",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://help.genesys.cloud/articles/desktop-app/",
+        "https://developer.genesys.cloud/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "godot",
+      "productId": "godot-engine",
+      "productName": "Godot Engine",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://godotengine.org/download/windows/",
+        "https://github.com/tomyud1/godot-mcp"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "google",
+      "productId": "google-android-studio",
+      "productName": "Android Studio",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://developer.android.com/studio",
+        "https://developer.android.com/studio/gemini/overview"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "google",
+      "productId": "google-chrome-devtools",
+      "productName": "Google Chrome",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.google.com/chrome/download-chrome/",
+        "https://support.google.com/chrome/answer/16283624"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "graphisoft",
+      "productId": "graphisoft-archicad",
+      "productName": "Archicad",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.graphisoft.com/en-us/downloads/",
+        "https://help.graphisoft.com/AC/28/INT/_AC28_Help/100_Visualization/100_Visualization-10.htm"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "jetbrains",
+      "productId": "jetbrains-intellij-idea",
+      "productName": "IntelliJ IDEA",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.jetbrains.com/idea/download/?section=windows",
+        "https://www.jetbrains.com/help/idea/mcp-server.html"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "laiye",
+      "productId": "laiye-rpa",
+      "productName": "来也 RPA",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://laiye.com/product/rpa-platform",
+        "https://documents.laiye.com/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "linear",
+      "productId": "linear-workspace",
+      "productName": "Linear",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://linear.app/download",
+        "https://linear.app/docs/mcp"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "mathworks",
+      "productId": "matlab",
+      "productName": "MATLAB",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.mathworks.com/products/matlab.html",
+        "https://www.mathworks.com/products/matlab-mcp-server.html"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-edge-ai",
+      "productName": "Microsoft Edge",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.microsoft.com/en-us/edge/download",
+        "https://support.microsoft.com/en-us/microsoft-copilot/getting-started-with-copilot-in-microsoft-edge"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-visual-studio",
+      "productName": "Visual Studio",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://visualstudio.microsoft.com/downloads/",
+        "https://learn.microsoft.com/en-us/visualstudio/ide/visual-studio-github-copilot-install-and-states?view=visualstudio"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "miro",
+      "productId": "miro-workspace",
+      "productName": "Miro",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://miro.com/apps/",
+        "https://help.miro.com/hc/en-us/articles/31625301583890-How-to-enable-Miro-s-MCP-Server-user-guide"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "monday",
+      "productId": "monday-work-management",
+      "productName": "monday",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://support.monday.com/hc/en-us/articles/115005316885-monday-com-s-desktop-app",
+        "https://developer.monday.com/api-reference/docs/integrate-with-monday-mcp"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "mongodb",
+      "productId": "mongodb-compass",
+      "productName": "MongoDB Compass",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.mongodb.com/try/download/compass",
+        "https://www.mongodb.com/docs/compass/query-with-natural-language/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "mozilla",
+      "productId": "mozilla-firefox",
+      "productName": "Mozilla Firefox",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.firefox.com/en-US/download/windows/",
+        "https://support.mozilla.org/en-US/kb/ai-chatbot"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "navicat",
+      "productId": "navicat-premium",
+      "productName": "Navicat Premium",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.navicat.com/en/download/navicat-premium",
+        "https://www.navicat.com/en/navicat-17-highlights.html"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "neo4j",
+      "productId": "neo4j-desktop",
+      "productName": "Neo4j Desktop",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://neo4j.com/download/",
+        "https://neo4j.com/docs/desktop/current/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "neo4j",
+      "productId": "neo4j-enterprise-studio",
+      "productName": "Neo4j Enterprise Studio",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://neo4j.com/product/enterprise-studio/",
+        "https://neo4j.com/product/enterprise-studio/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "obs-project",
+      "productId": "obs-studio",
+      "productName": "OBS Studio",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://obsproject.com/download",
+        "https://github.com/sbroenne/mcp-server-obs"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "obsidian",
+      "productId": "obsidian-desktop",
+      "productName": "Obsidian",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://obsidian.md/download",
+        "https://help.obsidian.md/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "octave",
+      "productId": "octave-bricscad",
+      "productName": "Octave BricsCAD",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://bricscad.octave.com/bricscad",
+        "https://help.bricsys.com/en-us/document/bricscad/installation-and-licensing/installing-bricscad"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "opera",
+      "productId": "opera-one",
+      "productName": "Opera Stable",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.opera.com/one",
+        "https://help.opera.com/en/browser-ai-faq/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "postman",
+      "productId": "postman-api-platform",
+      "productName": "Postman",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.postman.com/downloads/",
+        "https://learning.postman.com/docs/reference/postman-api/postman-mcp-server/overview/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "ptc",
+      "productId": "ptc-creo",
+      "productName": "PTC Creo / Creo+",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.ptc.com/en/products/creo/capabilities",
+        "https://www.ptc.com/en/news/2026/ptc-brings-ai-powered-guidance-to-the-design-environment-with-creo-13"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "redis",
+      "productId": "redis-insight",
+      "productName": "Redis Insight",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://redis.io/docs/latest/operate/redisinsight/install/install-on-desktop/",
+        "https://redis.io/docs/latest/operate/redisinsight/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "roblox",
+      "productId": "roblox-studio",
+      "productName": "Roblox Studio",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://create.roblox.com/docs/studio/setup",
+        "https://create.roblox.com/docs/studio/mcp"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "siemens",
+      "productId": "siemens-designcenter-nx",
+      "productName": "Designcenter NX",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.siemens.com/en-us/products/designcenter/cad-software/",
+        "https://blogs.sw.siemens.com/designcenter/learn-designcenter-nx-cad-software/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "siemens",
+      "productId": "siemens-eigen-engineering-agent",
+      "productName": "Eigen Engineering Agent",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.siemens.com/en-us/products/tia-portal/",
+        "https://www.siemens.com/en-us/products/tia-portal/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "mathworks",
+      "productId": "simulink",
+      "productName": "Simulink",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.mathworks.com/products/simulink.html",
+        "https://www.mathworks.com/products/simulink-agentic-toolkit.html"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "trimble",
+      "productId": "sketchup",
+      "productName": "SketchUp 2026",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://sketchup.trimble.com/en/download/all",
+        "https://help.sketchup.com/pl/sketchup-claude-connector"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "slack",
+      "productId": "slack-workspace",
+      "productName": "Slack",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://slack.com/downloads/windows",
+        "https://docs.slack.dev/ai/slack-mcp-server/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "streamlabs",
+      "productId": "streamlabs-desktop",
+      "productName": "Streamlabs Desktop",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://streamlabs.com/desktop",
+        "https://support.streamlabs.com/hc/en-us/articles/47097311788443-Introducing-the-Game-Pulse-Widget-by-Streamlabs"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "oray",
+      "productId": "sunlogin-windows",
+      "productName": "向日葵远程控制 Windows 版",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://sunlogin.oray.com/download",
+        "https://service.oray.com/question/50091.html"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "synopsys",
+      "productId": "synopsys-verdi",
+      "productName": "Synopsys Verdi",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.synopsys.com/verification/debug/verdi.html",
+        "https://www.synopsys.com/blogs/chip-design/using-ai-to-debug-more-quickly-and-accurately.html"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "trimble",
+      "productId": "trimble-tekla-structures",
+      "productName": "Tekla Structures",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://download.trimble.com/tekla-structures/for-businesses",
+        "https://support.tekla.com/tekla-structures/learn"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "uipath",
+      "productId": "uipath-studio",
+      "productName": "UiPath Studio",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.uipath.com/product/studio",
+        "https://www.uipath.com/platform/agentic-automation/agentic-ai/agent-builder"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "unity-technologies",
+      "productId": "unity-editor",
+      "productName": "Unity 6",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://unity.com/download",
+        "https://docs.unity3d.com/Packages/com.unity.ai.assistant@latest/index.html?subfolder=%2Fmanual%2Fintegration%2Funity-mcp-get-started.html"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "epic-games",
+      "productId": "unreal-engine",
+      "productName": "Unreal Engine",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.unrealengine.com/download",
+        "https://github.com/GenOrca/unreal-mcp"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "vectorworks",
+      "productId": "vectorworks-design-suite",
+      "productName": "Vectorworks Design Suite",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.vectorworks.net/en-US/products?showModal=trial-form",
+        "https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Rendering2/Generating_AI_images.htm"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "wolfram-research",
+      "productId": "wolfram-mathematica",
+      "productName": "Wolfram Mathematica",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.wolfram.com/mathematica/",
+        "https://www.wolfram.com/artificial-intelligence/mcp/local/wolfram-mcp-local/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    },
+    {
+      "vendorId": "zoom",
+      "productId": "zoom-workplace",
+      "productName": "Zoom Workplace",
+      "currentDirectoryKind": "ai-connectable",
+      "currentProductType": "desktop-official",
+      "officialEvidenceUrls": [
+        "https://www.zoom.com/en/products/virtual-meetings/download-center/",
+        "https://developers.zoom.us/docs/mcp/zoom-mcp-server/"
+      ],
+      "proposedReviewCategory": "pending-identity-and-capability-review",
+      "evidenceStatus": "pending-first-party-confirmation",
+      "reviewQuestions": [
+        "真实厂商/API/模型服务或仅桌面软件",
+        "官方文档是否明确 API/SDK/MCP/OAuth/Webhook/OpenAI-compatible 能力",
+        "是否应与一级厂商产品建立明确关系",
+        "是否应从 ai-connectable 退回 ai-tool 或交由桌面目录处理"
+      ],
+      "notes": "本记录仅为复核队列，不代表已确认可接入"
+    }
+  ]
+}

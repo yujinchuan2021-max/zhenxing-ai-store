@@ -1,5 +1,16 @@
 "use strict";
 
+const {
+  normalizeResourceSourceChannel,
+  resourceSourceChannel
+} = require("./resource-store.cjs");
+const {
+  MATURE_AGENT_CHANNEL,
+  canonicalScenarioTags,
+  scenarioTag,
+  scenarioTagStats
+} = require("./catalog-taxonomy.cjs");
+
 const DIRECTORY_KINDS = Object.freeze(["ai-tool", "ai-connectable"]);
 
 function resolvedDirectoryKind(product) {
@@ -29,7 +40,13 @@ function projectVendorsByDirectory(
     .filter((vendor) => vendor.products.length > 0);
 }
 
-function resourceTargetsByType(resources, vendors, resourceType) {
+function resourceTargetsByType(
+  resources,
+  vendors,
+  resourceType,
+  { sourceChannel = "all" } = {}
+) {
+  sourceChannel = normalizeResourceSourceChannel(sourceChannel);
   const productOwners = new Map();
   for (const vendor of projectVendorsByDirectory(vendors, "ai-tool")) {
     for (const product of vendor.products) {
@@ -41,7 +58,8 @@ function resourceTargetsByType(resources, vendors, resourceType) {
   for (const resource of Array.isArray(resources) ? resources : []) {
     if (
       resource.enabled === false ||
-      !resource.resourceTypes?.includes(resourceType)
+      !resource.resourceTypes?.includes(resourceType) ||
+      (sourceChannel !== "all" && resourceSourceChannel(resource) !== sourceChannel)
     ) {
       continue;
     }
@@ -63,9 +81,9 @@ function resourceTargetsByType(resources, vendors, resourceType) {
   );
 }
 
-function resourceProductsByType(resources, vendors, resourceType) {
+function resourceProductsByType(resources, vendors, resourceType, options) {
   const products = new Map();
-  for (const row of resourceTargetsByType(resources, vendors, resourceType)) {
+  for (const row of resourceTargetsByType(resources, vendors, resourceType, options)) {
     let group = products.get(row.product.id);
     if (!group) {
       group = { vendor: row.vendor, product: row.product, rows: [] };
@@ -74,6 +92,28 @@ function resourceProductsByType(resources, vendors, resourceType) {
     group.rows.push(row);
   }
   return [...products.values()];
+}
+
+function allProducts(vendors, { includeDisabled = false } = {}) {
+  return (Array.isArray(vendors) ? vendors : []).flatMap((vendor) =>
+    (includeDisabled || vendor.enabled !== false)
+      ? (vendor.products || []).filter((product) => includeDisabled || product.enabled !== false).map((product) => ({ vendor, product }))
+      : []
+  );
+}
+
+function productsByScenarioTag(vendors, tag, options) {
+  const canonical = scenarioTag(tag)?.id;
+  if (!canonical) throw new TypeError("Unknown scenario tag");
+  return allProducts(vendors, options).filter(({ product }) => canonicalScenarioTags(product.scenarioTags).includes(canonical));
+}
+
+function matureAgentProducts(vendors, options) {
+  return allProducts(vendors, options).filter(({ product }) => product.agentChannel === MATURE_AGENT_CHANNEL);
+}
+
+function scenarioTagsByProduct(vendors, options) {
+  return scenarioTagStats(allProducts(vendors, options).map(({ product }) => product));
 }
 
 function normalizedSearchIdentity(value) {
@@ -101,7 +141,8 @@ function identityMatchRank(query, ...values) {
   return rank;
 }
 
-function searchCatalog({ vendors, resources, resourceStores, query }) {
+function searchCatalog({ vendors, resources, resourceStores, query, resourceSourceChannel = "all" }) {
+  resourceSourceChannel = normalizeResourceSourceChannel(resourceSourceChannel);
   const displayQuery = typeof query === "string" ? query.trim() : "";
   const normalizedQuery = normalizedSearchIdentity(displayQuery);
   if (!normalizedQuery) {
@@ -125,7 +166,17 @@ function searchCatalog({ vendors, resources, resourceStores, query }) {
         )
         .map((product) => ({
           product,
-          rank: identityMatchRank(normalizedQuery, product.id, product.name)
+          rank: identityMatchRank(
+            normalizedQuery,
+            product.id,
+            product.name,
+            ...canonicalScenarioTags(product.scenarioTags).flatMap((id) => {
+              const tag = scenarioTag(id);
+              return tag ? [tag.id, tag.label, ...tag.aliases] : [];
+            }),
+            product.agentTag ? "agent" : "",
+            product.agentChannel || ""
+          )
         }));
       const products = Number.isFinite(vendorRank)
         ? rankedProducts
@@ -168,13 +219,24 @@ function searchCatalog({ vendors, resources, resourceStores, query }) {
       store.id,
       store.label
     );
-    for (const row of resourceTargetsByType(resources, vendors, store.id)) {
+    for (const row of resourceTargetsByType(resources, vendors, store.id, {
+      sourceChannel: resourceSourceChannel
+    })) {
+      const resourceScenarioTerms = canonicalScenarioTags(
+        row.product.scenarioTags
+      ).flatMap((id) => {
+        const tag = scenarioTag(id);
+        return tag ? [tag.id, tag.label, ...tag.aliases] : [];
+      });
       const rank = Math.min(
         storeRank,
         identityMatchRank(
           normalizedQuery,
           row.resource.id,
-          row.resource.name
+          row.resource.name,
+          ...resourceScenarioTerms,
+          row.product.agentTag ? "agent" : "",
+          row.product.agentChannel || ""
         ),
         identityMatchRank(normalizedQuery, row.vendor.id, row.vendor.name),
         identityMatchRank(normalizedQuery, row.product.id, row.product.name)
@@ -205,9 +267,12 @@ function searchCatalog({ vendors, resources, resourceStores, query }) {
 
 module.exports = {
   DIRECTORY_KINDS,
+  matureAgentProducts,
+  productsByScenarioTag,
   projectVendorsByDirectory,
   resourceProductsByType,
   resourceTargetsByType,
   searchCatalog,
+  scenarioTagsByProduct,
   resolvedDirectoryKind
 };

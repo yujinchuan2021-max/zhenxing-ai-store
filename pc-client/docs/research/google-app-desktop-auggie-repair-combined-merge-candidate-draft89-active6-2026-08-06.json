@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "sourceCandidates": [
+    "docs/research/google-app-desktop-canonical-merge-candidate-draft89-active6-2026-08-06.json",
+    "docs/cli-auggie-repair-capability-canonical-merge-candidate-draft89-active6-2026-08-06.json"
+  ],
+  "expectedSource": {
+    "draftRevision": 89,
+    "draftProductCount": 615,
+    "v2ActiveCatalogVersion": 6,
+    "v2ActiveReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "v2ActiveEnvelopeSha256": "c1ea9b76d1e134be1e565cf5018a77013a2387fe59452f3ebdc1f0e96f49e139",
+    "v1ActiveCatalogVersion": 72
+  },
+  "proposedChanges": [
+    {
+      "operation": "append-product-to-existing-vendor",
+      "vendorId": "google",
+      "product": {
+        "id": "google-app-desktop",
+        "name": "Google app for desktop",
+        "kind": "桌面端",
+        "category": "浏览器与搜索",
+        "description": "Google 的 Windows 桌面搜索应用，提供 AI 回答、Lens、跨电脑和 Google Drive 搜索。",
+        "website": "https://search.google/google-app/desktop/",
+        "tutorial": "https://search.google/google-app/desktop/",
+        "productType": "desktop-download-only",
+        "moduleId": "desktop-download-only.signed-catalog",
+        "installProfileId": "desktop-download-only.signed-catalog",
+        "installPolicy": "client-managed-download",
+        "downloadPolicy": "desktop-download-only",
+        "signaturePolicy": "vendor-controlled",
+        "uninstallPolicy": "not-managed",
+        "requirements": [],
+        "capabilities": [
+          "website",
+          "tutorial",
+          "install"
+        ],
+        "entryPoints": [
+          {
+            "type": "website",
+            "label": "工具官网",
+            "url": "https://search.google/google-app/desktop/"
+          },
+          {
+            "type": "tutorial",
+            "label": "使用教程",
+            "url": "https://search.google/google-app/desktop/"
+          },
+          {
+            "type": "desktop",
+            "label": "一键下载"
+          }
+        ],
+        "enabled": true,
+        "order": 16,
+        "directoryKind": "ai-tool",
+        "download": {
+          "url": "https://dl.google.com/windows-google-app/GoogleAppInstaller.exe",
+          "fileName": "GoogleAppInstaller.exe",
+          "artifactKind": "exe",
+          "mirrors": []
+        }
+      }
+    },
+    {
+      "operation": "replace-product-capabilities-only",
+      "vendorId": "augment",
+      "productId": "augment-auggie-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.augment-auggie",
+      "currentCapabilities": [
+        "website",
+        "tutorial",
+        "install",
+        "update",
+        "open",
+        "uninstall"
+      ],
+      "proposedCapabilities": [
+        "website",
+        "tutorial",
+        "install",
+        "update",
+        "repair",
+        "open",
+        "uninstall"
+      ],
+      "addedCapabilities": [
+        "repair"
+      ]
+    }
+  ],
+  "expectedResult": {
+    "productCount": 616,
+    "resourceCount": 146,
+    "resourceStoreCount": 4,
+    "cliCoverage": {
+      "managedReady": 33,
+      "managedPartial": 1,
+      "deployOnly": 1,
+      "officialBlocked": 13
+    },
+    "unchangedExistingProductsExceptAuggie": true,
+    "unchangedResources": true
+  },
+  "validation": {
+    "catalog": "passed in memory",
+    "publication": "passed in memory",
+    "forbiddenBindingFields": []
+  },
+  "nextStep": "Requires separate explicit authorization to recheck preconditions, save draft, and publish."
+}

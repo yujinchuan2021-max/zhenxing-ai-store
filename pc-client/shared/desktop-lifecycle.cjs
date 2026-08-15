@@ -1,5 +1,9 @@
 "use strict";
 
+const {
+  WINDOWS_DESKTOP_PRODUCTS
+} = require("./windows-desktop-catalog.cjs");
+
 function deepFreeze(value) {
   if (!value || typeof value !== "object" || Object.isFrozen(value)) {
     return value;
@@ -123,7 +127,15 @@ const DESKTOP_LIFECYCLES = deepFreeze({
         }
       }
     }
-  }
+  },
+  ...Object.fromEntries(
+    Object.entries(WINDOWS_DESKTOP_PRODUCTS)
+      .filter(([, product]) => product.lifecycle)
+      .map(([productId, product]) => [
+        productId,
+        { productId, ...product.lifecycle }
+      ])
+  )
 });
 
 function getDesktopLifecycle(productId) {

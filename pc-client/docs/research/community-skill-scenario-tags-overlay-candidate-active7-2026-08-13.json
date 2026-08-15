@@ -1,0 +1,2257 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "generatedAt": "2026-08-13T00:00:00.000Z",
+  "title": "active7 Skill scenarioTags evidence overlay candidate",
+  "source": {
+    "activeReleaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "activeCatalogVersion": 7,
+    "activeCatalogPath": "admin/published/catalog-store/releases/catalog-v00000007-8c49e1972186-0cec5335.json",
+    "activeCatalogSha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4",
+    "reviewedLedgers": [
+      {
+        "batch": "B1",
+        "path": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+        "sha256": "a74ccb8c45de2d168f47fd8fc05c96e793059a3f9cfbc1543440078726bafc70"
+      },
+      {
+        "batch": "B2",
+        "path": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+        "sha256": "0439b82a47a6e0af98ac526f3c769810eda526e07ca0b7078c958b18acd2da24"
+      },
+      {
+        "batch": "B3",
+        "path": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+        "sha256": "64ab2e07eb345ba6d258329ac3fd52d684b0dfa93de5bff7bc0dcd4292777523"
+      }
+    ],
+    "officialReview": {
+      "path": "docs/research/skill-store-first-party-review-2026-08-06.json",
+      "sha256": "4dc24371b840c763c43a7b49ca4c529de4aacf66afd8c1571758dceabf81ff70",
+      "result": "no frozen per-resource scenario classification fields"
+    }
+  },
+  "taxonomy": {
+    "source": "shared/catalog-taxonomy.cjs",
+    "sha256": "65bcfab1bb70ca77025f596f65f86d0e3db4e807bdc0c2299900108014af5bdf",
+    "ids": [
+      "programming-development",
+      "agent-multi-agent",
+      "automation-rpa",
+      "office-collaboration",
+      "data-analytics",
+      "research",
+      "knowledge-docs",
+      "writing-content",
+      "image-design",
+      "video-audio",
+      "3d-cad-industrial",
+      "gaming",
+      "game-development",
+      "marketing",
+      "ecommerce",
+      "finance-investing",
+      "education",
+      "life-health",
+      "cybersecurity-operations",
+      "social-communication",
+      "browser-information-collection"
+    ]
+  },
+  "overlays": [
+    {
+      "resourceId": "obra-superpowers-brainstorming",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#brainstorming",
+      "scenarioTags": [
+        "agent-multi-agent",
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-writing-plans",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#writing-plans",
+      "scenarioTags": [
+        "agent-multi-agent",
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-executing-plans",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#executing-plans",
+      "scenarioTags": [
+        "agent-multi-agent",
+        "automation-rpa",
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-dispatching-parallel-agents",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#dispatching-parallel-agents",
+      "scenarioTags": [
+        "agent-multi-agent",
+        "automation-rpa",
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-requesting-code-review",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#requesting-code-review",
+      "scenarioTags": [
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-receiving-code-review",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#receiving-code-review",
+      "scenarioTags": [
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-using-git-worktrees",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#using-git-worktrees",
+      "scenarioTags": [
+        "automation-rpa",
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-finishing-development-branch",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#finishing-a-development-branch",
+      "scenarioTags": [
+        "automation-rpa",
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-subagent-driven-development",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#subagent-driven-development",
+      "scenarioTags": [
+        "agent-multi-agent",
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-test-driven-development",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#test-driven-development",
+      "scenarioTags": [
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-systematic-debugging",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#systematic-debugging",
+      "scenarioTags": [
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-verification-before-completion",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#verification-before-completion",
+      "scenarioTags": [
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-writing-skills",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#writing-skills",
+      "scenarioTags": [
+        "agent-multi-agent",
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "obra-superpowers-using-superpowers",
+      "batch": "B1",
+      "sourceLedger": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "canonicalKey": "github:obra/superpowers#using-superpowers",
+      "scenarioTags": [
+        "agent-multi-agent",
+        "programming-development"
+      ],
+      "evidenceMode": "frozen-normalized-tags"
+    },
+    {
+      "resourceId": "anthropic-skills-algorithmic-art",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#algorithmic-art",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/algorithmic-art/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/algorithmic-art/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-brand-guidelines",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#brand-guidelines",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/brand-guidelines/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/brand-guidelines/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-canvas-design",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#canvas-design",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/canvas-design/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/canvas-design/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-doc-coauthoring",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#doc-coauthoring",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/doc-coauthoring/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/doc-coauthoring/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-frontend-design",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#frontend-design",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/frontend-design/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/frontend-design/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-internal-comms",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#internal-comms",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/internal-comms/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/internal-comms/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-skill-creator",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#skill-creator",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/skill-creator/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/skill-creator/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-slack-gif-creator",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#slack-gif-creator",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/slack-gif-creator/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/slack-gif-creator/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-theme-factory",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#theme-factory",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/theme-factory/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/theme-factory/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-web-artifacts-builder",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#web-artifacts-builder",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/web-artifacts-builder/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/web-artifacts-builder/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "anthropic-skills-webapp-testing",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:anthropics/skills#webapp-testing",
+      "scenarioTags": [
+        "knowledge-docs",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "knowledge-docs",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/webapp-testing/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/anthropics/skills/blob/f17010c9bb483898c1d9c9f42dde2b3a98889434/skills/webapp-testing/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "sentry-skills-agents-md",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:getsentry/skills#agents-md",
+      "scenarioTags": [
+        "programming-development",
+        "cybersecurity-operations"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/agents-md/SKILL.md"
+        },
+        {
+          "canonicalTag": "cybersecurity-operations",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/agents-md/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "sentry-skills-blog-writing-guide",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:getsentry/skills#blog-writing-guide",
+      "scenarioTags": [
+        "programming-development",
+        "cybersecurity-operations"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/blog-writing-guide/SKILL.md"
+        },
+        {
+          "canonicalTag": "cybersecurity-operations",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/blog-writing-guide/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "sentry-skills-brand-guidelines",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:getsentry/skills#brand-guidelines",
+      "scenarioTags": [
+        "programming-development",
+        "cybersecurity-operations"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/brand-guidelines/SKILL.md"
+        },
+        {
+          "canonicalTag": "cybersecurity-operations",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/brand-guidelines/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "sentry-skills-code-review",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:getsentry/skills#code-review",
+      "scenarioTags": [
+        "programming-development",
+        "cybersecurity-operations"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/code-review/SKILL.md"
+        },
+        {
+          "canonicalTag": "cybersecurity-operations",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/code-review/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "sentry-skills-code-simplifier",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:getsentry/skills#code-simplifier",
+      "scenarioTags": [
+        "programming-development",
+        "cybersecurity-operations"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/code-simplifier/SKILL.md"
+        },
+        {
+          "canonicalTag": "cybersecurity-operations",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/code-simplifier/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "sentry-skills-django-access-review",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:getsentry/skills#django-access-review",
+      "scenarioTags": [
+        "programming-development",
+        "cybersecurity-operations"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/django-access-review/SKILL.md"
+        },
+        {
+          "canonicalTag": "cybersecurity-operations",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/django-access-review/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "sentry-skills-django-perf-review",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:getsentry/skills#django-perf-review",
+      "scenarioTags": [
+        "programming-development",
+        "cybersecurity-operations"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/django-perf-review/SKILL.md"
+        },
+        {
+          "canonicalTag": "cybersecurity-operations",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/django-perf-review/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "sentry-skills-doc-coauthoring",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:getsentry/skills#doc-coauthoring",
+      "scenarioTags": [
+        "programming-development",
+        "cybersecurity-operations"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/doc-coauthoring/SKILL.md"
+        },
+        {
+          "canonicalTag": "cybersecurity-operations",
+          "evidence": "https://github.com/getsentry/skills/blob/24fdb833b9e67670a027e3b482189100a69ff7f9/skills/doc-coauthoring/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "supabase-agent-skills-supabase-postgres-best-practices",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:supabase/agent-skills#supabase-postgres-best-practices",
+      "scenarioTags": [
+        "programming-development",
+        "data-analytics"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/supabase/agent-skills/blob/1207767388a0ffb55f21fb4e6988fee96942431d/skills/supabase-postgres-best-practices/SKILL.md"
+        },
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/supabase/agent-skills/blob/1207767388a0ffb55f21fb4e6988fee96942431d/skills/supabase-postgres-best-practices/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-ads-explorer",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/creative-ads-explorer",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-ads-explorer/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-ads-explorer/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-explore",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/creative-explore",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-explore/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-explore/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-moodboard",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/creative-moodboard",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-moodboard/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-moodboard/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-offer",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/creative-offer",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-offer/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-offer/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-polish",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/creative-polish",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-polish/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-polish/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-positioning",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/creative-positioning",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-positioning/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-positioning/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-production",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/creative-production",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-production/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-production/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-scene",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/creative-scene",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-scene/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-scene/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-shot",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/creative-shot",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-shot/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/creative-shot/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-audit",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/design-audit",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-audit/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-audit/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-get-context",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/design-get-context",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-get-context/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-get-context/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-ideate",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/design-ideate",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-ideate/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-ideate/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-image-to-code",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/design-image-to-code",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-image-to-code/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-image-to-code/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-prototype",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/design-prototype",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-prototype/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-prototype/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-qa",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/design-qa",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-qa/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-qa/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-research",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/design-research",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-research/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-research/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-share",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/design-share",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-share/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-share/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-url-to-code",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/design-url-to-code",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-url-to-code/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/design-url-to-code/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-product-design",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DKeken/codex-skills-alternative#skills/product-design",
+      "scenarioTags": [
+        "image-design",
+        "writing-content"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "image-design",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/product-design/SKILL.md"
+        },
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/DKeken/codex-skills-alternative/blob/68c441a222d39360e8ed215dac0c141efe7360ff/skills/product-design/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-architecture-impact",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/architecture-impact",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/architecture-impact/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/architecture-impact/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-blog-post",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/blog-post",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/blog-post/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/blog-post/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-changelog",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/changelog",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/changelog/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/changelog/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-docs",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/docs",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/docs/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/docs/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-epic-workshop",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/epic-workshop",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/epic-workshop/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/epic-workshop/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-marketing-brief",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/marketing-brief",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/marketing-brief/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/marketing-brief/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-newsletter",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/newsletter",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/newsletter/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/newsletter/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-rfc",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/rfc",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/rfc/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/rfc/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-social-copy",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/social-copy",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/social-copy/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/social-copy/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-video-script",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/video-script",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/video-script/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/video-script/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "alemtuzlak-skills-youtube-copy",
+      "batch": "B2",
+      "sourceLedger": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:AlemTuzlak/skills#skills/youtube-copy",
+      "scenarioTags": [
+        "writing-content",
+        "marketing"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "writing-content",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/youtube-copy/SKILL.md"
+        },
+        {
+          "canonicalTag": "marketing",
+          "evidence": "https://github.com/AlemTuzlak/skills/blob/7a6c6dbb104244f02d8e584b6efc94013cc67c37/skills/youtube-copy/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-antislop-codebase",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#antislop-codebase",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/antislop-codebase/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/antislop-codebase/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-app-ux-paradigms",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#app-ux-paradigms",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/app-ux-paradigms/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/app-ux-paradigms/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-autoreview",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#autoreview",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/autoreview/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/autoreview/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-blog-system-design",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#blog-system-design",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/blog-system-design/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/blog-system-design/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-cli-ux",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#cli-ux",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/cli-ux/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/cli-ux/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-codebase-maintainability-guardrails",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#codebase-maintainability-guardrails",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/codebase-maintainability-guardrails/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/codebase-maintainability-guardrails/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-future-only",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#future-only",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/future-only/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/future-only/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-jfdi",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#jfdi",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/jfdi/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/jfdi/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-observability-hardening",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#observability-hardening",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/observability-hardening/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/observability-hardening/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-release-readiness-hardening",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#release-readiness-hardening",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/release-readiness-hardening/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/release-readiness-hardening/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-schedule-design",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#schedule-design",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/schedule-design/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/schedule-design/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-security-hardening",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#security-hardening",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/security-hardening/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/security-hardening/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-smart-entity-resolution",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#smart-entity-resolution",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/smart-entity-resolution/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/smart-entity-resolution/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-test-strategy-hardening",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#test-strategy-hardening",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/test-strategy-hardening/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/test-strategy-hardening/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-web-animation-perf",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#web-animation-perf",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/web-animation-perf/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/web-animation-perf/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "swyxio-skills-web-perf",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:swyxio/skills#web-perf",
+      "scenarioTags": [
+        "programming-development",
+        "automation-rpa"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/web-perf/SKILL.md"
+        },
+        {
+          "canonicalTag": "automation-rpa",
+          "evidence": "https://github.com/swyxio/skills/blob/a456d64611dc99ef02948757f4c09db5a2329b3e/web-perf/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-a2ui-renderer",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/a2ui-renderer",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/a2ui-renderer/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/a2ui-renderer/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-channels-setup",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/channels-setup",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/channels-setup/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/channels-setup/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-agui",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/copilotkit-agui",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-agui/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-agui/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-channels",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/copilotkit-channels",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-channels/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-channels/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-contribute",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/copilotkit-contribute",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-contribute/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-contribute/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-debug",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/copilotkit-debug",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-debug/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-debug/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-develop",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/copilotkit-develop",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-develop/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-develop/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-integrations",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/copilotkit-integrations",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-integrations/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/copilotkit-integrations/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-react-core",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/react-core",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/react-core/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/react-core/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "copilotkit-skills-runtime",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:CopilotKit/CopilotKit#skills/runtime",
+      "scenarioTags": [
+        "programming-development",
+        "agent-multi-agent"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/runtime/SKILL.md"
+        },
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/CopilotKit/CopilotKit/blob/2328062960a1e9b4b8bc2eb2817724fc624f8785/skills/runtime/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "denis-agents-best-practices-agents-best-practices",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:DenisSergeevitch/agents-best-practices#agents-best-practices",
+      "scenarioTags": [
+        "agent-multi-agent",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "agent-multi-agent",
+          "evidence": "https://github.com/DenisSergeevitch/agents-best-practices/blob/b612ddbcfb710f47ffac117fd327c10a070b3d81/agents-best-practices/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/DenisSergeevitch/agents-best-practices/blob/b612ddbcfb710f47ffac117fd327c10a070b3d81/agents-best-practices/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-app-design",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-app-design",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-app-design/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-app-design/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-dabs",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-dabs",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-dabs/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-dabs/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-jobs",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-jobs",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-jobs/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-jobs/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-lakebase",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-lakebase",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-lakebase/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-lakebase/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-serverless-migration",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-serverless-migration",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-serverless-migration/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-serverless-migration/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-ai-functions",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-ai-functions",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-ai-functions/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-ai-functions/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-aibi-dashboards",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-aibi-dashboards",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-aibi-dashboards/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-aibi-dashboards/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-dbsql",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-dbsql",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-dbsql/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-dbsql/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-docs",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-docs",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-docs/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-docs/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-iceberg",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-iceberg",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-iceberg/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-iceberg/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-metric-views",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-metric-views",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-metric-views/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-metric-views/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-synthetic-data-gen",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-synthetic-data-gen",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-synthetic-data-gen/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-synthetic-data-gen/SKILL.md"
+        }
+      ]
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-unstructured-pdf-generation",
+      "batch": "B3",
+      "sourceLedger": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "canonicalKey": "github:databricks/databricks-agent-skills#skills/databricks-unstructured-pdf-generation",
+      "scenarioTags": [
+        "data-analytics",
+        "programming-development"
+      ],
+      "evidenceMode": "per-tag-first-party-evidence",
+      "mappingEvidence": [
+        {
+          "canonicalTag": "data-analytics",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-unstructured-pdf-generation/SKILL.md"
+        },
+        {
+          "canonicalTag": "programming-development",
+          "evidence": "https://github.com/databricks/databricks-agent-skills/blob/fe7c98eacc56762174ebc07c4da5256e65aaac99/skills/databricks-unstructured-pdf-generation/SKILL.md"
+        }
+      ]
+    }
+  ],
+  "unclassified": [
+    {
+      "resourceId": "openai-codex-skills-catalog",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "openai-chatgpt-apps-skill",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "anythingllm-agent-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "minimax-official-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "pika-mcp-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "hf-agent-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "openclaw-clawhub-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "hermes-agent-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "cline-official-skills-plugins",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "opencode-agent-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "matlab-agentic-toolkit",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "simulink-agentic-toolkit",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "nvidia-omniverse-agent-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "cesium-agent-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "meshy-3d-skill",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    },
+    {
+      "resourceId": "krea-agent-skills",
+      "sourceKind": "official",
+      "scenarioTags": [],
+      "reason": "no frozen per-resource scenario classification evidence"
+    }
+  ],
+  "summary": {
+    "skillCount": 120,
+    "taggedCount": 104,
+    "unclassifiedCount": 16,
+    "batchCounts": {
+      "B1": 14,
+      "B2": 50,
+      "B3": 40
+    },
+    "categoryCounts": {
+      "programming-development": 63,
+      "agent-multi-agent": 18,
+      "automation-rpa": 20,
+      "office-collaboration": 0,
+      "data-analytics": 14,
+      "research": 0,
+      "knowledge-docs": 11,
+      "writing-content": 41,
+      "image-design": 19,
+      "video-audio": 0,
+      "3d-cad-industrial": 0,
+      "gaming": 0,
+      "game-development": 0,
+      "marketing": 11,
+      "ecommerce": 0,
+      "finance-investing": 0,
+      "education": 0,
+      "life-health": 0,
+      "cybersecurity-operations": 8,
+      "social-communication": 0,
+      "browser-information-collection": 0
+    }
+  },
+  "preservation": {
+    "apply": "add each overlay scenarioTags to the exact matching active7 resourceId",
+    "reverse": "delete resources[].scenarioTags",
+    "stripScenarioTagsEqualsActive7": true
+  },
+  "safety": {
+    "skillOnly": true,
+    "changesOnly": [
+      "resources[].scenarioTags"
+    ],
+    "catalogWritten": false,
+    "stateWritten": false,
+    "signed": false,
+    "published": false
+  },
+  "consumptionPrerequisites": [
+    "Catalog schema owner must independently add and validate optional canonical resources[].scenarioTags.",
+    "Frontend must consume resource scenarioTags; target product tags are not Skill categories.",
+    "Re-run exact active release identity, strip equivalence, signed-catalog validation, and UI category matrix before any save/sign/publish."
+  ],
+  "rollback": "Delete this candidate, generator, focused test, and handoff; active catalog and state were never changed."
+}

@@ -1,0 +1,3 @@
+services:
+  identity:
+    image: zhenxing-ai/identity:workflow-readiness-candidate-19a223a18392

@@ -1,0 +1,677 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "freezeOnly": true,
+  "targetRelease": "next-major",
+  "generatedAt": "2026-08-14T00:00:00.000Z",
+  "title": "Skill, MCP, and Connector next-major consolidation candidate on active7",
+  "baseline": {
+    "activeReleaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "activeCatalogPath": "admin/published/catalog-store/releases/catalog-v00000007-8c49e1972186-0cec5335.json",
+    "activeCatalogSha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4",
+    "resources": 250,
+    "targets": 777
+  },
+  "summary": {
+    "examinedNonemptyCandidateOnlyBatches": 9,
+    "includedSourceBatches": 5,
+    "excludedSourceBatches": 4,
+    "proposedResources": 7,
+    "proposedTargets": 11,
+    "byChannel": {
+      "skill": 4,
+      "mcp": 2,
+      "connector": 1,
+      "plugin": 0
+    },
+    "sourceFocusedTests": {
+      "tests": 10,
+      "passed": 10,
+      "failed": 0
+    }
+  },
+  "sourceBatches": [
+    {
+      "batchId": "cocoloop-next-batch-active7",
+      "candidate": {
+        "path": "docs/research/community-skill-store-cocoloop-next-batch-candidate-active7-2026-08-13.json",
+        "sha256": "e82aaf9fc999a700ab07931d1bbe07010ad39095f5f68059681d3393aa180928"
+      },
+      "evidence": [
+        {
+          "role": "focused-test",
+          "path": "tests/community-skill-store-cocoloop-next-batch-candidate.test.cjs",
+          "sha256": "bbfef791dd18a2e4465318ef93d9686a2b1e2e597af9cebb927c4edfd9425f17"
+        },
+        {
+          "role": "frozen-handoff",
+          "path": "docs/research/community-skill-store-cocoloop-next-batch-frozen-handoff-2026-08-13.md",
+          "sha256": "354cfa0d1762ed90af805e33fb23844b6e5b8fa8cadef90d2c516fa822320fca"
+        }
+      ],
+      "sourceProposalCount": 2,
+      "includedResourceIds": [
+        "openclaw-summarize-skill",
+        "openclaw-wacli-skill"
+      ],
+      "currentReadOnlyAudit": "pass-current-bytes"
+    },
+    {
+      "batchId": "cocoloop-small-batch2-active7",
+      "candidate": {
+        "path": "docs/research/community-skill-store-cocoloop-small-batch2-candidate-active7-2026-08-14.json",
+        "sha256": "f8f5d0669a1368cd9ab5995b11b815af314c5fd196aff4719b343c2fa24bbe75"
+      },
+      "evidence": [
+        {
+          "role": "research",
+          "path": "docs/research/community-skill-store-cocoloop-small-batch2-research-2026-08-14.md",
+          "sha256": "e4652674829b1d9500203c8b27092b573deab6e8a42ab16f8bc09306f27a1d51"
+        },
+        {
+          "role": "focused-test",
+          "path": "tests/community-skill-store-cocoloop-small-batch2-candidate.test.cjs",
+          "sha256": "93b998112fc284655ac145900a9711cd8760c69ae37b4e1ed43b757c9ddb2ade"
+        },
+        {
+          "role": "frozen-handoff",
+          "path": "docs/research/community-skill-store-cocoloop-small-batch2-frozen-handoff-2026-08-14.md",
+          "sha256": "61f9acf4e2f998d21dd8aeefa8da8e352fd92e5d92a20201a9542bed87ac6b7f"
+        }
+      ],
+      "sourceProposalCount": 1,
+      "includedResourceIds": [
+        "openclaw-mcporter-skill"
+      ],
+      "currentReadOnlyAudit": "pass-current-bytes"
+    },
+    {
+      "batchId": "cocoloop-small-batch3-active7",
+      "candidate": {
+        "path": "docs/research/community-skill-store-cocoloop-small-batch3-candidate-active7-2026-08-14.json",
+        "sha256": "464d035403d2afac8c437f3a5c2b7ebb6552c253c9f45dfb63367735d4372282"
+      },
+      "evidence": [
+        {
+          "role": "research",
+          "path": "docs/research/community-skill-store-cocoloop-small-batch3-research-2026-08-14.md",
+          "sha256": "8c162dacbac85c9f433e675be98571e684d5ce931c5713d693ab2df86b4f4159"
+        },
+        {
+          "role": "focused-test",
+          "path": "tests/community-skill-store-cocoloop-small-batch3-candidate.test.cjs",
+          "sha256": "d4082ce06769b1fda758862c6ffc559e02a7f05444443e8d228d48a39e51ba5a"
+        },
+        {
+          "role": "frozen-handoff",
+          "path": "docs/research/community-skill-store-cocoloop-small-batch3-frozen-handoff-2026-08-14.md",
+          "sha256": "e3d09a12b015799d33dd0fe0041d28014bd1d3ab53657125e93ede4e38e3c709"
+        }
+      ],
+      "sourceProposalCount": 1,
+      "includedResourceIds": [
+        "openclaw-weather-skill"
+      ],
+      "currentReadOnlyAudit": "pass-current-bytes"
+    },
+    {
+      "batchId": "mcp-connector-small-batch-active7",
+      "candidate": {
+        "path": "docs/research/mcp-connector-small-batch-candidate-active7-2026-08-14.json",
+        "sha256": "ee151bc52a47f42b96d113be26652247ec1dd257178a3706799efd18463715cd"
+      },
+      "evidence": [
+        {
+          "role": "focused-test",
+          "path": "tests/mcp-connector-small-batch-active7-candidate.test.cjs",
+          "sha256": "e2e702718cd32f4503b9f4963a06d09a0c0c95973edebbd3ae11effdba7c08c4"
+        },
+        {
+          "role": "frozen-handoff",
+          "path": "docs/research/2026-08-14-mcp-connector-small-batch-handoff.md",
+          "sha256": "516a6884bbcd5088d27e9ca3872101652c9819bec1f3489d4adc253e9917f7df"
+        }
+      ],
+      "sourceProposalCount": 2,
+      "includedResourceIds": [
+        "lovable-official-mcp",
+        "lucid-claude-connector"
+      ],
+      "currentReadOnlyAudit": "pass-current-bytes"
+    },
+    {
+      "batchId": "mcp-official-small-batch2-active7",
+      "candidate": {
+        "path": "docs/research/mcp-connector-official-small-batch2-candidate-active7-2026-08-14.json",
+        "sha256": "f2df99357f958ef3dd7fe512640cfc5a3eda9e66ceff788ea1cda7d08afe2962"
+      },
+      "evidence": [
+        {
+          "role": "research",
+          "path": "docs/research/mcp-connector-official-small-batch2-research-2026-08-14.md",
+          "sha256": "9c97b3073e803e13a57a08cd33f4357081af1e300592e7da5d3f20c65cdad161"
+        },
+        {
+          "role": "focused-test",
+          "path": "tests/mcp-connector-official-small-batch2-active7-candidate.test.cjs",
+          "sha256": "64fe6246a85cae5264b7a16f23fd588533d5fc6485707177c6bcb24689d9fadc"
+        },
+        {
+          "role": "frozen-handoff",
+          "path": "docs/research/mcp-connector-official-small-batch2-frozen-handoff-2026-08-14.md",
+          "sha256": "9d2f205d81026b33015b71c80aafa0eede04ca3adaa45a3668d59550852f2eb8"
+        }
+      ],
+      "sourceProposalCount": 1,
+      "includedResourceIds": [
+        "microsoft-learn-mcp-server"
+      ],
+      "currentReadOnlyAudit": "pass-current-bytes"
+    }
+  ],
+  "excludedBatches": [
+    {
+      "batchId": "skill-listing-batch1-active6",
+      "candidate": {
+        "path": "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+        "sha256": "a74ccb8c45de2d168f47fd8fc05c96e793059a3f9cfbc1543440078726bafc70"
+      },
+      "sourceProposalCount": 14,
+      "reasonCode": "already-present-in-active7"
+    },
+    {
+      "batchId": "skill-listing-batch1-canonical-merge-active6",
+      "candidate": {
+        "path": "docs/research/community-skill-store-listing-batch1-canonical-merge-candidate-draft89-active6-2026-08-08.json",
+        "sha256": "acae78bdce33b5cc3f44f22ab9be96d71a908133af5fdf666d68a860a60dd58d"
+      },
+      "sourceProposalCount": 14,
+      "reasonCode": "already-present-in-active7"
+    },
+    {
+      "batchId": "skill-batch2-canonical-merge-active6",
+      "candidate": {
+        "path": "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+        "sha256": "0439b82a47a6e0af98ac526f3c769810eda526e07ca0b7078c958b18acd2da24"
+      },
+      "sourceProposalCount": 50,
+      "reasonCode": "already-present-in-active7"
+    },
+    {
+      "batchId": "skill-batch3-canonical-merge-active6",
+      "candidate": {
+        "path": "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+        "sha256": "64ab2e07eb345ba6d258329ac3fd52d684b0dfa93de5bff7bc0dcd4292777523"
+      },
+      "sourceProposalCount": 40,
+      "reasonCode": "already-present-in-active7"
+    }
+  ],
+  "deduplication": {
+    "dimensions": [
+      "id",
+      "name",
+      "canonicalIdentity",
+      "canonicalSource",
+      "sourcePage",
+      "website"
+    ],
+    "comparedAgainst": [
+      "active7",
+      "included-source-batches",
+      "other-candidateOnly-proposal-rows"
+    ],
+    "otherProposalRowsScanned": 118,
+    "result": "pass-no-semantic-collision"
+  },
+  "proposedResources": [
+    {
+      "sourceBatchId": "cocoloop-next-batch-active7",
+      "channel": "skill",
+      "credentialPolicy": "never-collect",
+      "canonicalIdentity": "github:openclaw/openclaw#skills/summarize",
+      "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize",
+      "resource": {
+        "id": "openclaw-summarize-skill",
+        "enabled": true,
+        "order": 251,
+        "name": "OpenClaw summarize Skill",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "OpenClaw community Skill for summarizing or extracting content from URLs, files, podcasts, and media. Review the pinned source before use.",
+        "website": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize",
+        "tutorial": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize/SKILL.md",
+        "publisher": "OpenClaw Foundation",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "openclaw-agent",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+        "provenanceEvidence": [
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize/SKILL.md",
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-13T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "cocoloop",
+          "sourcePage": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize/SKILL.md",
+          "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize",
+          "originalAuthor": "OpenClaw Foundation",
+          "licenseId": "MIT",
+          "sourceRevision": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:openclaw/openclaw#skills/summarize",
+          "observedAt": "2026-08-13T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "sourceBatchId": "cocoloop-next-batch-active7",
+      "channel": "skill",
+      "credentialPolicy": "never-collect",
+      "canonicalIdentity": "github:openclaw/openclaw#extensions/whatsapp/skills/wacli",
+      "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli",
+      "resource": {
+        "id": "openclaw-wacli-skill",
+        "enabled": true,
+        "order": 252,
+        "name": "OpenClaw wacli Skill",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "OpenClaw community Skill describing explicit-user-request WhatsApp messaging and history search through wacli. Review the pinned source before use.",
+        "website": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli",
+        "tutorial": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli/SKILL.md",
+        "publisher": "OpenClaw Foundation",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "openclaw-agent",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+        "provenanceEvidence": [
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli/SKILL.md",
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-13T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "cocoloop",
+          "sourcePage": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli/SKILL.md",
+          "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli",
+          "originalAuthor": "OpenClaw Foundation",
+          "licenseId": "MIT",
+          "sourceRevision": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:openclaw/openclaw#extensions/whatsapp/skills/wacli",
+          "observedAt": "2026-08-13T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "sourceBatchId": "cocoloop-small-batch2-active7",
+      "channel": "skill",
+      "credentialPolicy": "never-collect",
+      "canonicalIdentity": "github:openclaw/openclaw#skills/mcporter",
+      "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter",
+      "resource": {
+        "id": "openclaw-mcporter-skill",
+        "enabled": true,
+        "order": 253,
+        "name": "OpenClaw mcporter Skill",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "OpenClaw community Skill for listing, configuring, authenticating, calling, and inspecting MCP servers and tools with mcporter. Review the pinned source before use.",
+        "website": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter",
+        "tutorial": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter/SKILL.md",
+        "publisher": "OpenClaw Foundation",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "openclaw-agent",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+        "provenanceEvidence": [
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter/SKILL.md",
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "cocoloop",
+          "sourcePage": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter/SKILL.md",
+          "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/mcporter",
+          "originalAuthor": "OpenClaw Foundation",
+          "licenseId": "MIT",
+          "sourceRevision": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:openclaw/openclaw#skills/mcporter",
+          "observedAt": "2026-08-14T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "sourceBatchId": "cocoloop-small-batch3-active7",
+      "channel": "skill",
+      "credentialPolicy": "never-collect",
+      "canonicalIdentity": "github:openclaw/openclaw#skills/weather",
+      "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather",
+      "resource": {
+        "id": "openclaw-weather-skill",
+        "enabled": true,
+        "order": 254,
+        "name": "OpenClaw Weather Skill",
+        "resourceTypes": [
+          "skill"
+        ],
+        "description": "OpenClaw official Skill for current weather and forecasts using web fetch, with a guarded curl fallback. Review the pinned external-content warning before use.",
+        "website": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather",
+        "tutorial": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather/SKILL.md",
+        "publisher": "OpenClaw Foundation",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "openclaw-agent",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+        "provenanceEvidence": [
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather/SKILL.md",
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "cocoloop",
+          "sourcePage": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather/SKILL.md",
+          "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather",
+          "originalAuthor": "OpenClaw Foundation",
+          "licenseId": "MIT",
+          "sourceRevision": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:openclaw/openclaw#skills/weather",
+          "observedAt": "2026-08-14T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "sourceBatchId": "mcp-connector-small-batch-active7",
+      "channel": "mcp",
+      "credentialPolicy": "never-collect",
+      "canonicalIdentity": "url:https://docs.lovable.dev/integrations/lovable-mcp-server",
+      "canonicalSource": "https://docs.lovable.dev/integrations/lovable-mcp-server",
+      "resource": {
+        "id": "lovable-official-mcp",
+        "enabled": true,
+        "order": 124,
+        "name": "Lovable MCP",
+        "resourceTypes": [
+          "mcp"
+        ],
+        "description": "Lovable 官方远程 MCP，让受支持的 AI 客户端在用户授权后创建、检查、迭代和部署 Lovable 项目。",
+        "website": "https://docs.lovable.dev/integrations/lovable-mcp-server",
+        "tutorial": "https://github.com/lovablelabs/mcp/tree/0336e6db8026b0f02cb89d1451cc48ea3f469791",
+        "publisherVendorId": "lovable",
+        "publisher": "Lovable",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "chatgpt-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "microsoft-vscode",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "server.json@0.1.3+0336e6db8026b0f02cb89d1451cc48ea3f469791",
+        "requestedPermissions": [
+          "继承用户完整 Lovable 账号权限；创建、编辑、部署、数据库写入和消耗额度前必须由目标客户端提示并取得用户确认。"
+        ],
+        "credentialRequirements": [
+          "仅由 Lovable 与目标客户端完成 OAuth；枕星 AI 不收集、保存或转发令牌。"
+        ],
+        "installScope": "仅打开固定版本的一方接入说明；不写入客户端配置，不发起 OAuth。",
+        "uninstallPlan": "由用户在目标客户端移除连接，并在 Lovable 的第三方 MCP 客户端设置中撤销访问。",
+        "provenanceEvidence": [
+          "https://docs.lovable.dev/integrations/lovable-mcp-server",
+          "https://github.com/lovablelabs/mcp/blob/0336e6db8026b0f02cb89d1451cc48ea3f469791/server.json",
+          "https://github.com/lovablelabs/mcp/blob/0336e6db8026b0f02cb89d1451cc48ea3f469791/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z"
+      }
+    },
+    {
+      "sourceBatchId": "mcp-connector-small-batch-active7",
+      "channel": "connector",
+      "credentialPolicy": "never-collect",
+      "canonicalIdentity": "url:https://lucid.co/mcp-server",
+      "canonicalSource": "https://lucid.co/mcp-server",
+      "resource": {
+        "id": "lucid-claude-connector",
+        "enabled": true,
+        "order": 55,
+        "name": "Lucid for Claude",
+        "resourceTypes": [
+          "connector"
+        ],
+        "description": "Lucid 官方 Claude 连接入口，可在用户授权后查找、总结和分享 Lucid 文档，并从对话生成图表。",
+        "website": "https://lucid.co/mcp-server",
+        "tutorial": "https://help.lucid.co/hc/en-us/articles/47850709372180-Connect-Lucid-to-Claude",
+        "publisher": "Lucid Software",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "claude-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "rolling-official-service",
+        "requestedPermissions": [
+          "用户在 Lucid 与 Claude 的官方授权界面决定文档访问；创建、编辑、分享或删除内容前必须由 Claude 显示动作并取得确认。"
+        ],
+        "credentialRequirements": [
+          "OAuth 由 Lucid 与 Claude 管理；枕星 AI 不收集账号、OAuth 令牌或 API key。"
+        ],
+        "installScope": "仅打开 Lucid 官方 Claude 连接和教程页面；不代替用户授权，不写入本地配置。",
+        "uninstallPlan": "不声明断开或撤销能力；当前 Lucid 一手帮助页只证明用户授权连接，未提供可复核的用户侧断开或撤销步骤，等待补证。",
+        "provenanceEvidence": [
+          "https://lucid.co/mcp-server",
+          "https://help.lucid.co/hc/en-us/articles/42578801807508-Integrate-Lucid-with-AI-tools-using-the-Lucid-MCP-server",
+          "https://help.lucid.co/hc/en-us/articles/47850709372180-Connect-Lucid-to-Claude"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z"
+      }
+    },
+    {
+      "sourceBatchId": "mcp-official-small-batch2-active7",
+      "channel": "mcp",
+      "credentialPolicy": "never-collect",
+      "canonicalIdentity": "microsoft:learn-mcp-server",
+      "canonicalSource": "https://learn.microsoft.com/en-us/training/support/mcp",
+      "resource": {
+        "id": "microsoft-learn-mcp-server",
+        "enabled": true,
+        "order": 251,
+        "name": "Microsoft Learn MCP Server",
+        "resourceTypes": [
+          "mcp"
+        ],
+        "description": "Microsoft 官方托管的只读 Learn MCP 服务，用于搜索和读取公开 Microsoft 技术文档与代码示例。",
+        "website": "https://learn.microsoft.com/en-us/training/support/mcp",
+        "tutorial": "https://learn.microsoft.com/en-us/training/support/mcp-get-started",
+        "publisherVendorId": "microsoft",
+        "publisher": "Microsoft",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "microsoft-vscode",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "rolling-ga-2025-11-07",
+        "requestedPermissions": [
+          "仅搜索和读取公开 Microsoft Learn 文档与代码示例；官方说明明确不包含培训记录或用户资料。"
+        ],
+        "credentialRequirements": [
+          "官方服务无需认证、API key、登录或注册；枕星 AI 不收集或保存凭据。"
+        ],
+        "installScope": "仅打开 Microsoft Learn 与 VS Code 官方接入说明；不写入 VS Code 配置，不启动连接。",
+        "uninstallPlan": "用户可在 VS Code 的 MCP Servers 管理界面禁用或卸载该服务；枕星 AI 不持有连接状态。",
+        "provenanceEvidence": [
+          "https://learn.microsoft.com/en-us/training/support/mcp",
+          "https://learn.microsoft.com/en-us/training/support/mcp-get-started",
+          "https://learn.microsoft.com/en-us/training/support/mcp-release-notes",
+          "https://learn.microsoft.com/en-us/legal/termsofuse",
+          "https://code.visualstudio.com/docs/agent-customization/mcp-servers"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "microsoft-learn",
+          "discoveredVia": "microsoft-learn",
+          "sourcePage": "https://learn.microsoft.com/en-us/training/support/mcp",
+          "canonicalSource": "https://learn.microsoft.com/en-us/training/support/mcp",
+          "originalAuthor": "Microsoft",
+          "licenseId": "service-terms",
+          "sourceRevision": "rolling-ga-2025-11-07",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "microsoft:learn-mcp-server",
+          "observedAt": "2026-08-14T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    }
+  ],
+  "safety": {
+    "candidateOnly": true,
+    "resourceLinkOnly": true,
+    "websiteCapabilityOnly": true,
+    "emptyInstallProfileOnly": true,
+    "credentialPolicy": "never-collect",
+    "publisherRelation": "factual-only",
+    "targetRelation": "CompatibleHost-only",
+    "managedExecution": false,
+    "catalogWritten": false,
+    "stateWritten": false,
+    "channelWritten": false,
+    "signed": false,
+    "published": false,
+    "packaged": false,
+    "networkInstall": false
+  }
+}

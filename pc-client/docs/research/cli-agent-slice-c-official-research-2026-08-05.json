@@ -1,0 +1,23 @@
+{
+  "researchDate": "2026-08-05",
+  "slice": "slice-c",
+  "scope": "kortix-cli, mini-swe-agent-cli, plandex-cli, simular-agent-s-cli, agenticseek-cli",
+  "readOnly": true,
+  "managedWindowsProfilesApproved": [],
+  "products": [
+    { "productId": "kortix-cli", "vendorId": "kortix", "status": "blocked", "installShape": "multi-service shell-installer/server deployment", "artifactUrl": null, "officialHash": null, "terminalStart": "kortix start|stop|restart|logs|status|update|reset", "dependencies": ["Docker/services", "persistent configuration", "secrets"], "blocker": "No fixed Windows CLI artifact; official Windows EXE is Desktop rather than CLI; dynamic installer and service/data lifecycle are outside the current driver.", "sourceRefs": ["kortix-official-repository"] },
+    { "productId": "mini-swe-agent-cli", "vendorId": "swe-agent", "status": "blocked", "installShape": "Python package or source; no Windows binary", "artifactUrl": null, "officialHash": null, "terminalStart": "mini or uvx mini-swe-agent", "dependencies": ["Python", "Bash semantics or container runtime", "model provider configuration"], "blocker": "Python installation does not establish the official Bash/container execution contract; no accepted Windows shell adapter or fixed binary.", "sourceRefs": ["mini-swe-agent-official-repository"] },
+    { "productId": "plandex-cli", "vendorId": "plandex", "status": "blocked", "installShape": "WSL shell install plus optional Docker local mode", "artifactUrl": null, "officialHash": null, "terminalStart": "plandex or pdx in WSL", "dependencies": ["WSL", "Docker for local mode", "provider credentials", "server/project state"], "blocker": "Officially WSL-only on Windows; CMD/PowerShell unsupported; current driver cannot receipt WSL binary plus Docker-backed server/state.", "sourceRefs": ["plandex-official-repository", "plandex-release-cli-v2.2.1"] },
+    { "productId": "simular-agent-s-cli", "vendorId": "simular-ai", "status": "blocked", "installShape": "Python framework/console with computer-use dependencies", "artifactUrl": null, "officialHash": null, "terminalStart": "Agent-S Python console/framework entry point", "dependencies": ["Python", "GUI control", "OCR/Tesseract/Paddle", "model and grounding endpoints", "Windows automation packages"], "blocker": "A plain Python receipt cannot safely own GUI permissions, OCR/model assets, arbitrary local execution, or teardown; no fixed Windows bundle/hash.", "sourceRefs": ["agent-s-official-repository"] },
+    { "productId": "agenticseek-cli", "vendorId": "agenticseek", "status": "merge-or-reclassify", "installShape": "source checkout plus Docker Compose service stack", "artifactUrl": null, "officialHash": null, "terminalStart": "uv run cli.py", "dependencies": ["Git", "Python 3.10.x", "Docker Engine/Compose", "Redis/SearxNG and project services", "workspace/model configuration"], "blocker": "CLI mode is part of the self-hosted source project, not a separately distributed CLI; service, workspace, and secret ownership exceed the current package receipt.", "sourceRefs": ["agenticseek-official-repository"] }
+  ],
+  "sourceRefs": [
+    "kortix-official-repository",
+    "mini-swe-agent-official-repository",
+    "plandex-official-repository",
+    "plandex-release-cli-v2.2.1",
+    "agent-s-official-repository",
+    "agenticseek-official-repository"
+  ],
+  "policy": "Only official repositories, official documentation, and official releases were used. No installer was executed. The record contains no executable instruction fields or secrets. artifactUrl is reserved for a verified fixed download and is null for all five products."
+}

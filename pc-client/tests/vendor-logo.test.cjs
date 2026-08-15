@@ -33,8 +33,8 @@ test("vendor logos fail back to the catalog mark without leaking referrers", () 
     "utf8"
   );
   assert.match(styles, /\.vendorMark img \{[^}]*width: 100%;[^}]*height: 100%;/s);
-  assert.match(styles, /\.vendorMark\.large \{[^}]*color: #17362d;/s);
-  assert.match(styles, /\.vendorMark\.heroMark \{[^}]*color: #17362d;/s);
+  assert.match(styles, /\.vendorMark\.large \{[^}]*color: var\(--accent-ink\);/s);
+  assert.match(styles, /\.vendorMark\.heroMark \{[^}]*color: var\(--accent-ink\);/s);
 
   const admin = fs.readFileSync(
     path.join(__dirname, "..", "admin", "public", "app.js"),

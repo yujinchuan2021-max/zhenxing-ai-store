@@ -1,6 +1,7 @@
 const PLANS = Object.freeze({
   node: {
     name: "Node.js",
+    recommendedVersion: "24.18.0",
     fileName: "node-v24.18.0-x64.msi",
     sources: [
       {
@@ -23,6 +24,7 @@ const PLANS = Object.freeze({
   },
   git: {
     name: "Git",
+    recommendedVersion: "2.55.0.3",
     fileName: "Git-2.55.0.3-64-bit.exe",
     sources: [
       {
@@ -40,6 +42,7 @@ const PLANS = Object.freeze({
   },
   python: {
     name: "Python",
+    recommendedVersion: "3.13.14",
     fileName: "python-3.13.14-amd64.exe",
     sources: [
       {
@@ -60,8 +63,24 @@ const PLANS = Object.freeze({
       }
     ]
   },
+  python312: {
+    name: "Python 3.12",
+    recommendedVersion: "3.12.10",
+    fileName: "python-3.12.10-amd64.exe",
+    sources: [
+      {
+        id: "python312-official",
+        kind: "official",
+        region: "global",
+        label: "Python 3.12 官方源",
+        url: "https://www.python.org/ftp/python/3.12.10/python-3.12.10-amd64.exe",
+        allowedHosts: ["www.python.org"]
+      }
+    ]
+  },
   docker: {
     name: "Docker Desktop",
+    recommendedVersion: "",
     fileName: "Docker Desktop Installer.exe",
     sources: [
       {
@@ -82,6 +101,9 @@ function validatePlan(environmentId, plan) {
   if (
     !plan ||
     typeof plan.name !== "string" ||
+    typeof plan.recommendedVersion !== "string" ||
+    (plan.recommendedVersion &&
+      !/^\d+\.\d+\.\d+(?:\.\d+)?$/.test(plan.recommendedVersion)) ||
     !/^[^<>:"/\\|?*]+\.(exe|msi)$/i.test(plan.fileName) ||
     !Array.isArray(plan.sources) ||
     plan.sources.length < 1
@@ -212,6 +234,7 @@ function getEnvironmentDownloadPlan(environmentId, sourcePreferences) {
     });
   return {
     name: plan.name,
+    recommendedVersion: plan.recommendedVersion,
     fileName: plan.fileName,
     sources: orderedSources.map((source) => ({
       ...source,

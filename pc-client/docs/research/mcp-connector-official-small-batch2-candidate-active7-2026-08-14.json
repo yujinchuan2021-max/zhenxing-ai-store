@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "freezeOnly": true,
+  "generatedAt": "2026-08-14T00:00:00.000Z",
+  "source": {
+    "activeReleaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "activeCatalogPath": "admin/published/catalog-store/releases/catalog-v00000007-8c49e1972186-0cec5335.json",
+    "activeCatalogSha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4",
+    "historicalSemanticScan": "docs/**/*.json with candidate, review, or index in basename"
+  },
+  "summary": {
+    "ready": 1,
+    "mcp": 1,
+    "connector": 0,
+    "plugin": 0,
+    "deferred": 2
+  },
+  "ready": [
+    {
+      "channel": "mcp",
+      "credentialPolicy": "no-auth",
+      "fixedRevision": null,
+      "license": "service-terms",
+      "canonicalKey": "microsoft:learn-mcp-server",
+      "resource": {
+        "id": "microsoft-learn-mcp-server",
+        "enabled": true,
+        "order": 251,
+        "name": "Microsoft Learn MCP Server",
+        "resourceTypes": ["mcp"],
+        "description": "Microsoft 官方托管的只读 Learn MCP 服务，用于搜索和读取公开 Microsoft 技术文档与代码示例。",
+        "website": "https://learn.microsoft.com/en-us/training/support/mcp",
+        "tutorial": "https://learn.microsoft.com/en-us/training/support/mcp-get-started",
+        "publisherVendorId": "microsoft",
+        "publisher": "Microsoft",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "microsoft-vscode",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": ["website"],
+            "enabled": true
+          }
+        ],
+        "versionRef": "rolling-ga-2025-11-07",
+        "requestedPermissions": [
+          "仅搜索和读取公开 Microsoft Learn 文档与代码示例；官方说明明确不包含培训记录或用户资料。"
+        ],
+        "credentialRequirements": [
+          "官方服务无需认证、API key、登录或注册；枕星 AI 不收集或保存凭据。"
+        ],
+        "installScope": "仅打开 Microsoft Learn 与 VS Code 官方接入说明；不写入 VS Code 配置，不启动连接。",
+        "uninstallPlan": "用户可在 VS Code 的 MCP Servers 管理界面禁用或卸载该服务；枕星 AI 不持有连接状态。",
+        "provenanceEvidence": [
+          "https://learn.microsoft.com/en-us/training/support/mcp",
+          "https://learn.microsoft.com/en-us/training/support/mcp-get-started",
+          "https://learn.microsoft.com/en-us/training/support/mcp-release-notes",
+          "https://learn.microsoft.com/en-us/legal/termsofuse",
+          "https://code.visualstudio.com/docs/agent-customization/mcp-servers"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "microsoft-learn",
+          "discoveredVia": "microsoft-learn",
+          "sourcePage": "https://learn.microsoft.com/en-us/training/support/mcp",
+          "canonicalSource": "https://learn.microsoft.com/en-us/training/support/mcp",
+          "originalAuthor": "Microsoft",
+          "licenseId": "service-terms",
+          "sourceRevision": "rolling-ga-2025-11-07",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "microsoft:learn-mcp-server",
+          "observedAt": "2026-08-14T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    }
+  ],
+  "deferred": [
+    {
+      "channel": "mcp",
+      "name": "ElevenLabs MCP",
+      "reason": "官方仓库与 MIT 许可证可闭合，但本地 Python/uvx 运行、API key、音频生成及卸载生命周期需独立安全审核，本批不扩成执行型候选。"
+    },
+    {
+      "channel": "mcp",
+      "name": "SonarQube MCP Server",
+      "reason": "官方仓库与发行版可闭合，但 Docker/Java 本地运行、用户 token、可写存储与遥测边界需独立安全审核，本批不扩成执行型候选。"
+    }
+  ],
+  "safety": {
+    "candidateOnly": true,
+    "resourceLinkOnly": true,
+    "credentialPolicy": "no-auth",
+    "catalogWritten": false,
+    "stateWritten": false,
+    "channelWritten": false,
+    "signed": false,
+    "published": false,
+    "packaged": false
+  }
+}

@@ -6,6 +6,9 @@ const test = require("node:test");
 const {
   readResponseTextWithLimit
 } = require("../shared/limited-response.cjs");
+const {
+  CATALOG_RELEASE_MAX_BYTES
+} = require("../shared/catalog-release.cjs");
 
 function response(chunks, headers = { "content-type": "application/json" }) {
   let index = 0;
@@ -54,5 +57,22 @@ test("rejects oversized content-length and non-JSON content", async () => {
       16
     ),
     /不是 JSON/
+  );
+});
+
+test("catalog releases allow the shared 2 MiB contract and reject larger responses", async () => {
+  assert.equal(CATALOG_RELEASE_MAX_BYTES, 2 * 1024 * 1024);
+  await assert.doesNotReject(
+    readResponseTextWithLimit(
+      response([Buffer.alloc(CATALOG_RELEASE_MAX_BYTES)]),
+      CATALOG_RELEASE_MAX_BYTES
+    )
+  );
+  await assert.rejects(
+    readResponseTextWithLimit(
+      response([Buffer.alloc(CATALOG_RELEASE_MAX_BYTES + 1)]),
+      CATALOG_RELEASE_MAX_BYTES
+    ),
+    /大小限制/
   );
 });

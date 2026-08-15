@@ -1,0 +1,1325 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "source": {
+    "draftRevision": 86,
+    "productCount": 615,
+    "v2ActiveCatalogVersion": 3,
+    "v2ActiveReleaseId": "catalog-v00000003-e36977a17c2d-ba2c3b1b",
+    "coverageFile": "windows-desktop-official-download-coverage-draft86-active3-2026-08-05.json"
+  },
+  "contract": {
+    "field": "officialDownload",
+    "fields": [
+      "url",
+      "kind",
+      "coveredProductIds?",
+      "note?"
+    ],
+    "kinds": [
+      "vendor-bootstrap",
+      "download-page",
+      "fixed-redirect",
+      "stable-redirect",
+      "store",
+      "login-required",
+      "manual-selector",
+      "no-windows"
+    ],
+    "directArtifact": "retain existing canonical desktop-download-only or client-managed binding; never replace a legal existing binding",
+    "noWindows": "apply web-link and preserve only informational officialDownload.kind=no-windows"
+  },
+  "proposedChanges": [
+    {
+      "productId": "ableton-live",
+      "vendorId": "ableton",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.ableton.com/en/trial/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "acdsee-photo-studio-ultimate",
+      "vendorId": "acd-systems",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.acdsee.com/en/products/photo-studio-ultimate/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "adobe-acrobat-reader-ai",
+      "vendorId": "adobe",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.adobe.com/acrobat/pdf-reader.html",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "adobe-creative-cloud",
+      "vendorId": "adobe",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.adobe.com/download/creative-cloud",
+        "kind": "vendor-bootstrap",
+        "coveredProductIds": [
+          "adobe-creative-cloud",
+          "adobe-illustrator",
+          "adobe-lightroom",
+          "adobe-photoshop",
+          "adobe-premiere"
+        ]
+      }
+    },
+    {
+      "productId": "adobe-illustrator",
+      "vendorId": "adobe",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.adobe.com/products/illustrator/free-trial-download.html",
+        "kind": "vendor-bootstrap",
+        "coveredProductIds": [
+          "adobe-creative-cloud",
+          "adobe-illustrator",
+          "adobe-lightroom",
+          "adobe-photoshop",
+          "adobe-premiere"
+        ]
+      }
+    },
+    {
+      "productId": "adobe-lightroom",
+      "vendorId": "adobe",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.adobe.com/products/photoshop-lightroom/free-trial-download.html",
+        "kind": "vendor-bootstrap",
+        "coveredProductIds": [
+          "adobe-creative-cloud",
+          "adobe-illustrator",
+          "adobe-lightroom",
+          "adobe-photoshop",
+          "adobe-premiere"
+        ]
+      }
+    },
+    {
+      "productId": "adobe-photoshop",
+      "vendorId": "adobe",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.adobe.com/products/photoshop/free-trial-download.html",
+        "kind": "vendor-bootstrap",
+        "coveredProductIds": [
+          "adobe-creative-cloud",
+          "adobe-illustrator",
+          "adobe-lightroom",
+          "adobe-photoshop",
+          "adobe-premiere"
+        ]
+      }
+    },
+    {
+      "productId": "adobe-premiere",
+      "vendorId": "adobe",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.adobe.com/products/premiere/free-trial-download.html",
+        "kind": "vendor-bootstrap",
+        "coveredProductIds": [
+          "adobe-creative-cloud",
+          "adobe-illustrator",
+          "adobe-lightroom",
+          "adobe-photoshop",
+          "adobe-premiere"
+        ]
+      }
+    },
+    {
+      "productId": "affinity",
+      "vendorId": "canva",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.affinity.studio/",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "alibaba-dingtalk-ai",
+      "vendorId": "alibaba",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.dingtalk.com/download?isLite=0",
+        "kind": "store"
+      }
+    },
+    {
+      "productId": "allplan",
+      "vendorId": "allplan",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.allplan.com/products/allplan/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "alteryx-designer",
+      "vendorId": "alteryx",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://help.alteryx.com/current/en/designer/what-s-new-in-designer.html",
+        "kind": "manual-selector"
+      }
+    },
+    {
+      "productId": "ansys-lumerical",
+      "vendorId": "ansys",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.ansys.com/products/optics",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "appflowy-desktop",
+      "vendorId": "appflowy",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://appflowy.com/download",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "autodesk-autocad",
+      "vendorId": "autodesk",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.autodesk.com/products/autocad/overview",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "autodesk-fusion",
+      "vendorId": "autodesk",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.autodesk.com/products/fusion-360/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "autodesk-revit",
+      "vendorId": "autodesk",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.autodesk.com/products/revit/overview/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "blender",
+      "vendorId": "blender",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.blender.org/download/",
+        "kind": "store"
+      }
+    },
+    {
+      "productId": "block-buzz",
+      "vendorId": "block",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://block.github.io/buzz/support.html",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "box-content-cloud",
+      "vendorId": "box",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.box.com/drive",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "bytedance-capcut-desktop",
+      "vendorId": "bytedance",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.capcut.com/tools/desktop-video-editor",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "bytedance-feishu",
+      "vendorId": "bytedance",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.feishu.cn/download?lang=zh-CN",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "bytedance-ui-tars-desktop",
+      "vendorId": "bytedance",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://github.com/bytedance/UI-TARS-desktop/releases/latest",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "camtasia",
+      "vendorId": "techsmith",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.techsmith.com/download/camtasia/",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "canary-mail",
+      "vendorId": "canarymail",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://canarymail.io/downloads",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "capacities-desktop",
+      "vendorId": "capacities",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://capacities.io/download-app",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "capture-one-pro",
+      "vendorId": "capture-one",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.captureone.com/en/account/download",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "chatbox-desktop",
+      "vendorId": "chatboxai",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://chatboxai.app/en/install",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "cisco-webex-ai-assistant",
+      "vendorId": "cisco",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.webex.com/downloads.html",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "citavi",
+      "vendorId": "lumivero",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www1.citavi.com/sub/manual7/en/using_msi_assistant.html",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "clickup-workspace",
+      "vendorId": "clickup",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://clickup.com/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "cyberlink-powerdirector",
+      "vendorId": "cyberlink",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.cyberlink.com/products/powerdirector-video-editing-software/overview_en_US.html",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "dassault-solidworks-design",
+      "vendorId": "dassault-systemes",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.solidworks.com/support/downloads",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "davinci-resolve",
+      "vendorId": "blackmagic-design",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.blackmagicdesign.com/products/davinciresolve",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "descript-desktop",
+      "vendorId": "descript",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.descript.com/download/windows",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "dialpad-desktop",
+      "vendorId": "dialpad",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.dialpad.com/download/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "dxo-photolab",
+      "vendorId": "dxo",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.dxo.com/en/dxo-photolab/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "endnote-2025",
+      "vendorId": "clarivate",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://endnote.com/downloads/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "evoto-desktop",
+      "vendorId": "evoto",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.evoto.ai/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "factory-droids",
+      "vendorId": "factory-ai",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://factory.ai/product/desktop",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "fellow-desktop",
+      "vendorId": "fellow",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://fellow.app/download",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "genesys-cloud-cx",
+      "vendorId": "genesys",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://help.genesys.cloud/articles/desktop-app/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "genspark-ai-browser",
+      "vendorId": "genspark",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.genspark.ai/browser",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "genspark-claw",
+      "vendorId": "genspark",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.genspark.ai/download",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "genspark-speakly",
+      "vendorId": "genspark",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.genspark.ai/helpcenter/speakly",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "gitkraken-desktop",
+      "vendorId": "gitkraken",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.gitkraken.com/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "grammarly-windows",
+      "vendorId": "grammarly",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.grammarly.com/desktop/windows",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "graphisoft-archicad",
+      "vendorId": "graphisoft",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.graphisoft.com/en-us/downloads/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "iflytek-sparkdesk",
+      "vendorId": "iflytek",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://xinghuo.xfyun.cn/app/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "izotope-rx",
+      "vendorId": "izotope",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.izotope.com/en/products/downloads.html",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "jetbrains-intellij-idea",
+      "vendorId": "jetbrains",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.jetbrains.com/idea/download/?section=windows",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "knime-analytics-platform",
+      "vendorId": "knime",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.knime.com/get-started",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "krisp-desktop",
+      "vendorId": "krisp",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://help.krisp.ai/hc/en-us/articles/4420088642460-Install-Krisp-AI-Meeting-Assistant",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "laiye-rpa",
+      "vendorId": "laiye",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://laiye.com/product/rpa-platform",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "lalalai-desktop",
+      "vendorId": "lalalai",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.lalal.ai/desktop-app/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "lens-desktop",
+      "vendorId": "lens",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://k8slens.dev/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "linear-workspace",
+      "vendorId": "linear",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://linear.app/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "lovable-ai-app-builder",
+      "vendorId": "lovable",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://lovable.dev/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "luminar-neo",
+      "vendorId": "skylum",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://skylum.com/luminar-download",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "manus-desktop",
+      "vendorId": "manus",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://manus.im/desktop",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "matlab",
+      "vendorId": "mathworks",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.mathworks.com/products/matlab.html",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "meetgeek-desktop",
+      "vendorId": "meetgeek",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://meetgeek.ai/desktop-app",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "meitu-ultra",
+      "vendorId": "meitu",
+      "change": "correct-to-web-link",
+      "officialDownload": {
+        "url": "https://ultra.meitu.com/download",
+        "kind": "no-windows"
+      },
+      "productType": "web",
+      "moduleId": "web-link"
+    },
+    {
+      "productId": "microsoft-365-copilot",
+      "vendorId": "microsoft",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/access-microsoft-365-copilot-on-windows",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "microsoft-copilot-desktop",
+      "vendorId": "microsoft",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/get-copilot",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "microsoft-visual-studio",
+      "vendorId": "microsoft",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://visualstudio.microsoft.com/downloads/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "moises-desktop",
+      "vendorId": "moises",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://moises.ai/products/moises-desktop-app/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "moises-live",
+      "vendorId": "moises",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://moises.ai/products/live/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "monday-work-management",
+      "vendorId": "monday",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://support.monday.com/hc/en-us/articles/115005316885-monday-com-s-desktop-app",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "mongodb-compass",
+      "vendorId": "mongodb",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.mongodb.com/try/download/compass",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "mylio-photos",
+      "vendorId": "mylio",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://support.mylio.com/where-can-i-download-the-mylio-photos-software",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "neo4j-desktop",
+      "vendorId": "neo4j",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://neo4j.com/download/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "neo4j-enterprise-studio",
+      "vendorId": "neo4j",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://neo4j.com/product/enterprise-studio/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "nero-ai-image-upscaler",
+      "vendorId": "nero",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.nero.com/eng/downloads/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "nero-ai-photo-tagger",
+      "vendorId": "nero",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.nero.com/eng/downloads/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "nero-ai-video-upscaler",
+      "vendorId": "nero",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.nero.com/eng/downloads/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "notion-desktop",
+      "vendorId": "notion",
+      "change": "correct-to-web-link",
+      "officialDownload": {
+        "url": "https://www.notion.com/desktop",
+        "kind": "no-windows"
+      },
+      "productType": "web",
+      "moduleId": "web-link"
+    },
+    {
+      "productId": "nous-hermes-desktop",
+      "vendorId": "nousresearch",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://github.com/nousresearch/hermes-agent/releases/latest",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "nvivo",
+      "vendorId": "lumivero",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://lumivero.com/resources/support/getting-started-with-nvivo/download-and-activate-nvivo/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "octave-bricscad",
+      "vendorId": "octave",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://bricscad.octave.com/bricscad",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "on1-photo-raw",
+      "vendorId": "on1",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.on1.com/products/photo-raw/download/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "opera-neon",
+      "vendorId": "opera",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.operaneon.com/",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "otter-desktop",
+      "vendorId": "otterai",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://otter.ai/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "pdfgear-windows",
+      "vendorId": "pdfgear",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.pdfgear.com/pdfgear-for-windows/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "pinokio-ai-browser",
+      "vendorId": "pinokio",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://github.com/pinokiocomputer/pinokio/releases/latest",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "postman-api-platform",
+      "vendorId": "postman",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.postman.com/downloads/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "ptc-creo",
+      "vendorId": "ptc",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.ptc.com/en/products/creo/capabilities",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "qihoo360-nami-ai-pc",
+      "vendorId": "qihoo360",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.n.cn/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "raycast-windows",
+      "vendorId": "raycast",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.raycast.com/windows",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "redis-insight",
+      "vendorId": "redis",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://redis.io/docs/latest/operate/redisinsight/install/install-on-desktop/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "screenpipe-desktop",
+      "vendorId": "screenpipe",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://screenpipe.com/",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "simulink",
+      "vendorId": "mathworks",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.mathworks.com/products/simulink.html",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "skales-desktop",
+      "vendorId": "skales",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://skales.app/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "sketchup",
+      "vendorId": "trimble",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://sketchup.trimble.com/en/download/all",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "slack-workspace",
+      "vendorId": "slack",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://slack.com/downloads/windows",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "snagit",
+      "vendorId": "techsmith",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.techsmith.com/snagit/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "spark-mail-windows",
+      "vendorId": "spark-mail",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://sparkmailapp.com/download",
+        "kind": "store"
+      }
+    },
+    {
+      "productId": "steinberg-spectralayers",
+      "vendorId": "steinberg",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.steinberg.net/spectralayers/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "streamlabs-desktop",
+      "vendorId": "streamlabs",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://streamlabs.com/desktop",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "sunlogin-windows",
+      "vendorId": "oray",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://sunlogin.oray.com/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "supernormal-desktop",
+      "vendorId": "supernormal",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://help.supernormal.com/en/articles/11801191-download-the-app-for-your-system",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "tableau-desktop",
+      "vendorId": "salesforce",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.tableau.com/support/releases",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "tldv-desktop",
+      "vendorId": "tldv",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://tldv.io/desktop-app/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "topaz-gigapixel",
+      "vendorId": "topazlabs",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.topazlabs.com/downloads",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "topaz-photo",
+      "vendorId": "topazlabs",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.topazlabs.com/downloads",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "topaz-video",
+      "vendorId": "topazlabs",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.topazlabs.com/downloads",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "trimble-tekla-structures",
+      "vendorId": "trimble",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://download.trimble.com/tekla-structures/for-businesses",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "uipath-studio",
+      "vendorId": "uipath",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.uipath.com/product/studio",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "unity-editor",
+      "vendorId": "unity-technologies",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://unity.com/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "unreal-engine",
+      "vendorId": "epic-games",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.unrealengine.com/download",
+        "kind": "login-required"
+      }
+    },
+    {
+      "productId": "vegas-pro",
+      "vendorId": "boris-fx",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://vfx.borisfx.com/vegas-pro-free-trial",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "voicemod-windows",
+      "vendorId": "voicemod",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.voicemod.net/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "windsurf-editor",
+      "vendorId": "windsurf",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://windsurf.com/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "wolfram-mathematica",
+      "vendorId": "wolfram-research",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.wolfram.com/mathematica/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "zoner-studio",
+      "vendorId": "zoner",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.zoner.com/en/download",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "zoom-workplace",
+      "vendorId": "zoom",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.zoom.com/en/products/virtual-meetings/download-center/",
+        "kind": "download-page"
+      }
+    },
+    {
+      "productId": "navicat-premium",
+      "vendorId": "navicat",
+      "change": "set-officialDownload",
+      "officialDownload": {
+        "url": "https://www.navicat.com/en/download/navicat-premium",
+        "kind": "download-page"
+      }
+    }
+  ],
+  "noops": {
+    "retainedManagedOrDirect": [
+      "affine-desktop",
+      "aftershoot",
+      "airtable-platform",
+      "alibaba-qoder-cn-ide",
+      "alibaba-qoderwork-cn",
+      "alibaba-qwen-studio",
+      "amazon-kiro-ide",
+      "amd-gaia",
+      "anythingllm-desktop",
+      "audacity-desktop",
+      "audiate",
+      "bytedance-doubao",
+      "canva-windows",
+      "coreldraw-graphics-suite",
+      "craft-desktop",
+      "cursor-desktop",
+      "deepl-desktop",
+      "docker-desktop",
+      "evernote-desktop",
+      "excire-foto",
+      "finevoice-desktop",
+      "fireflies-desktop",
+      "google-antigravity-desktop",
+      "goose-desktop",
+      "gpt4all-desktop",
+      "heptabase-desktop",
+      "hitpaw-edimakor",
+      "hitpaw-fotorpea",
+      "hitpaw-vikpea",
+      "hitpaw-voicepea",
+      "ilastik-desktop",
+      "intel-ai-playground",
+      "invokeai-community-edition",
+      "jan-desktop",
+      "jianying",
+      "kimi-work-desktop",
+      "koboldcpp",
+      "laiye-worker",
+      "lm-studio-desktop",
+      "lobehub-desktop",
+      "maxqda-desktop",
+      "meitu-pc",
+      "microsoft-power-bi-desktop",
+      "microsoft-vscode",
+      "miro-workspace",
+      "motion-desktop",
+      "movavi-video-editor",
+      "msty-go",
+      "msty-nexus",
+      "msty-studio",
+      "nvidia-ai-workbench",
+      "nvidia-broadcast",
+      "nvidia-canvas",
+      "obs-studio",
+      "obsidian-desktop",
+      "open-webui",
+      "openclaw-windows-hub",
+      "opencode",
+      "orange-data-mining-desktop",
+      "paintshop-pro",
+      "qihoo360-agent-safe",
+      "qihoo360-ai-browser",
+      "qihoo360-ai-office",
+      "qupath-desktop",
+      "read-desktop",
+      "rowboat-desktop",
+      "skywork-desktop",
+      "stability-matrix",
+      "tana-outliner",
+      "taskade-workspace",
+      "teamviewer-remote-ai",
+      "tencent-codebuddy",
+      "tencent-ima",
+      "tencent-qclaw",
+      "tencent-workbuddy",
+      "tencent-yuanbao-desktop",
+      "trae-desktop",
+      "trae-solo-cn",
+      "upscayl-desktop",
+      "wispr-flow-desktop",
+      "wondershare-edrawmax",
+      "wondershare-edrawmind",
+      "wondershare-filmora",
+      "wondershare-pdfelement",
+      "xmind-ai",
+      "youdao-note",
+      "zed-editor"
+    ],
+    "alreadyExactAcquisition": [
+      "alibaba-quark-ai-browser",
+      "anydesk-windows",
+      "anytype-desktop",
+      "asana-work-graph",
+      "atlas-ti",
+      "baidu-ruliu",
+      "brave-browser-leo",
+      "browseros-desktop",
+      "cherry-studio",
+      "clickup-brain-max",
+      "cyberlink-photodirector",
+      "dbeaver-pro",
+      "deepchat-desktop",
+      "discord-desktop",
+      "dropbox-dash",
+      "duckduckgo-browser",
+      "fathom-desktop",
+      "figma-design",
+      "fiveire-desktop",
+      "fotor-windows",
+      "gitbutler-desktop",
+      "godot-engine",
+      "google-android-studio",
+      "google-chrome-devtools",
+      "granola-desktop",
+      "iflytek-listen",
+      "iflytek-simultaneous",
+      "microsoft-edge-ai",
+      "monica-desktop",
+      "mozilla-firefox",
+      "open-interpreter-desktop",
+      "opera-one",
+      "perplexity-comet",
+      "perplexity-web",
+      "pieces-for-developers",
+      "poe",
+      "portraitpro",
+      "qihoo360-safe-claw",
+      "roblox-studio",
+      "sider-windows",
+      "siemens-designcenter-nx",
+      "siemens-eigen-engineering-agent",
+      "siemens-rapidminer-ai-studio",
+      "superwhisper-windows",
+      "synopsys-verdi",
+      "tencent-qq-ai-browser",
+      "termius-desktop",
+      "updf-windows",
+      "vectorworks-design-suite",
+      "voice-ai-windows",
+      "vrew-desktop",
+      "warp-windows",
+      "wps-office-ai",
+      "wrike-desktop",
+      "yingdao-rpa",
+      "youdao-lobsterai",
+      "youdao-translate"
+    ],
+    "retainedClientManaged": [
+      "chatgpt-desktop",
+      "claude-desktop",
+      "comfy-desktop",
+      "letta-agent"
+    ]
+  },
+  "rejectedArtifacts": [
+    {
+      "productId": "navicat-premium",
+      "url": "https://www.navicat.com/download/support-download?product=navicat17_premium_en_x64.exe",
+      "fileName": "support-download",
+      "artifactKind": "exe",
+      "reason": "rejected evidence only: fileName does not match artifactKind; not written to catalog"
+    }
+  ],
+  "validation": {
+    "validateCatalog": true,
+    "validatePublication": true
+  },
+  "expected": {
+    "productCount": 615,
+    "productTypesBefore": {
+      "desktop-reviewed": 37,
+      "cli": 34,
+      "web": 246,
+      "tutorial": 55,
+      "desktop-official": 174,
+      "local-model": 1,
+      "desktop-download-only": 54,
+      "cli-official": 13,
+      "cli-deploy-only": 1
+    },
+    "productTypesAfter": {
+      "desktop-reviewed": 37,
+      "cli": 34,
+      "web": 248,
+      "tutorial": 55,
+      "desktop-official": 172,
+      "local-model": 1,
+      "desktop-download-only": 54,
+      "cli-official": 13,
+      "cli-deploy-only": 1
+    },
+    "officialDownloadCount": 174,
+    "resources": 146,
+    "proposedChangeCount": 117,
+    "noOpCount": 148,
+    "rejectedArtifactCount": 1
+  }
+}

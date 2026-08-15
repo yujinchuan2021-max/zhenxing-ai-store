@@ -1,0 +1,40 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "source": {
+    "draftRevision": 89,
+    "activeChannel": "v2",
+    "activeCatalogVersion": 6,
+    "activeReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "observedAt": "2026-08-07T00:00:00.000Z"
+  },
+  "scope": {"resourceCount": 8, "targetCount": 8, "managedTargetCount": 1, "resourceLinkTargetCount": 7},
+  "platforms": ["windows", "macos", "linux"],
+  "resourceClaims": [
+    {"resourceId":"anthropic-official-plugin-marketplace","hostProductId":"claude-code","moduleId":"resource-link","profileId":"","capabilities":["website"],"runtimeByPlatform":{"windows":"wsl","macos":"native","linux":"native"},"statusByPlatform":{"windows":"unknown","macos":"unknown","linux":"unknown"},"evidence":["https://code.claude.com/docs/en/discover-plugins","https://github.com/anthropics/claude-code/blob/main/plugins/README.md"]},
+    {"resourceId":"comfy-custom-nodes","hostProductId":"comfy-desktop","moduleId":"resource-link","profileId":"","capabilities":["website"],"runtimeByPlatform":{"windows":"native","macos":"native","linux":"native"},"statusByPlatform":{"windows":"unknown","macos":"unknown","linux":"unknown"},"evidence":["https://docs.comfy.org/development/core-concepts/custom-nodes","https://docs.comfy.org/installation/desktop/windows"]},
+    {"resourceId":"google-gemini-cli-extensions","hostProductId":"gemini-cli","moduleId":"resource-link","profileId":"","capabilities":["website"],"runtimeByPlatform":{"windows":"native","macos":"native","linux":"native"},"statusByPlatform":{"windows":"unknown","macos":"unknown","linux":"unknown"},"evidence":["https://github.com/google-gemini/gemini-cli/blob/main/docs/extensions/reference.md"]},
+    {"resourceId":"moonshot-kimi-plugins","hostProductId":"moonshot-kimi-code-cli","moduleId":"resource-link","profileId":"","capabilities":["website"],"runtimeByPlatform":{"windows":"native","macos":"native","linux":"native"},"statusByPlatform":{"windows":"unknown","macos":"unknown","linux":"unknown"},"evidence":["https://www.kimi.com/code/docs/en/kimi-code-cli/customization/plugins.html"]},
+    {"resourceId":"amazon-kiro-powers","hostProductId":"amazon-kiro-ide","moduleId":"resource-link","profileId":"","capabilities":["website"],"runtimeByPlatform":{"windows":"native","macos":"native","linux":"native"},"statusByPlatform":{"windows":"unknown","macos":"unknown","linux":"unknown"},"evidence":["https://kiro.dev/docs/powers/"]},
+    {"resourceId":"openclaw-clawhub-plugins","hostProductId":"openclaw-agent","moduleId":"resource-link","profileId":"","capabilities":["website"],"runtimeByPlatform":{"windows":"native","macos":"native","linux":"native"},"statusByPlatform":{"windows":"unknown","macos":"unknown","linux":"unknown"},"evidence":["https://docs.openclaw.ai/cli/plugins"]},
+    {"resourceId":"cline-official-skills-plugins","hostProductId":"cline-agent","moduleId":"resource-link","profileId":"","capabilities":["website"],"runtimeByPlatform":{"windows":"native","macos":"native","linux":"native"},"statusByPlatform":{"windows":"unknown","macos":"unknown","linux":"unknown"},"evidence":["https://docs.cline.bot/cline-overview"]},
+    {"resourceId":"anthropic-commit-commands-plugin","hostProductId":"claude-code","moduleId":"plugin-managed","profileId":"plugin.claude.commit-commands","capabilities":["website","install","update","repair","enable","disable","uninstall"],"runtimeByPlatform":{"windows":"wsl","macos":"native","linux":"native"},"statusByPlatform":{"windows":"unknown","macos":"unknown","linux":"unknown"},"evidence":["https://github.com/anthropics/claude-code/tree/main/plugins/commit-commands"]}
+  ],
+  "profilePlatformSupportClaims": [],
+  "hostClaims": [
+    {"hostProductId":"claude-code","windows":"supported-wsl","macos":"supported-native","linux":"supported-native","evidence":"https://docs.anthropic.com/en/docs/claude-code/getting-started"},
+    {"hostProductId":"comfy-desktop","windows":"supported-native-x64","macos":"supported-native-arm64","linux":"unknown","evidence":"https://docs.comfy.org/installation/system_requirements"},
+    {"hostProductId":"gemini-cli","windows":"unknown","macos":"unknown","linux":"unknown","evidence":"https://github.com/google-gemini/gemini-cli"},
+    {"hostProductId":"moonshot-kimi-code-cli","windows":"unknown","macos":"unknown","linux":"unknown","evidence":"https://www.kimi.com/code/docs/en/kimi-code-cli/customization/plugins.html"},
+    {"hostProductId":"amazon-kiro-ide","windows":"unknown","macos":"unknown","linux":"unknown","evidence":"https://kiro.dev/docs/powers/"},
+    {"hostProductId":"openclaw-agent","windows":"unknown","macos":"unknown","linux":"unknown","evidence":"https://docs.openclaw.ai/cli/plugins"},
+    {"hostProductId":"cline-agent","windows":"unknown","macos":"unknown","linux":"unknown","evidence":"https://docs.cline.bot/cline-overview"}
+  ],
+  "intersectionPreview": {"requestedPlatformTriples":24,"available":0,"managedEligible":0,"blocked":24,"blockedReasons":["resource-platform-unknown","profile-platform-support-unreviewed","platform-support-does-not-grant-lifecycle"]},
+  "platformSummary": {"resourceClaims":{"windows":{"supported":0,"unknown":8},"macos":{"supported":0,"unknown":8},"linux":{"supported":0,"unknown":8}},"hostClaims":{"windows":{"supported":2,"unknown":6},"macos":{"supported":2,"unknown":6},"linux":{"supported":1,"unknown":7}}},
+  "checks": {"resourceIdsUnique":true,"targetTuplesMatchActiveCatalog":true,"targetPlatformFieldsWritten":false,"forbiddenFieldsPresent":[],"duplicateTargets":false,"managedProfileCount":1,"managedProfilePlatformClaims":0},
+  "managedEligible": false,
+  "managedBlockReason": "blocked-profile-platform-unreviewed",
+  "writes": [],
+  "responsibility": {"pluginStore":"first-party evidence, canonical identity, review follow-up","backend":"schema and CRUD validation","frontend":"projection and blocked-state presentation","desktop":"real-host lifecycle verification","agentBroker":"compatibility visibility only","cto":"candidate disposition"}
+}

@@ -1,0 +1,19 @@
+{
+  "date": "2026-08-05",
+  "scope": "7 plugin resources without fixed profiles",
+  "catalogChanged": false,
+  "draftSaved": false,
+  "published": false,
+  "downloaded": false,
+  "profilesProposed": [],
+  "defaultAction": "official-link-only",
+  "resources": [
+    {"id":"anthropic-official-plugin-marketplace","hostProductId":"claude-code","decision":"official-link-only","reason":"interactive remote marketplace; no fixed source/version/install contract"},
+    {"id":"comfy-custom-nodes","hostProductId":"comfy-desktop","decision":"official-link-only","reason":"custom code and dynamic node/dependency installation"},
+    {"id":"google-gemini-cli-extensions","hostProductId":"gemini-cli","decision":"official-link-only","reason":"Git/local source, MCP/hooks/commands and sensitive settings"},
+    {"id":"moonshot-kimi-plugins","hostProductId":"moonshot-kimi-code-cli","decision":"official-link-only","reason":"interactive marketplace, URL/GitHub/zip install, hooks/MCP/credentials"},
+    {"id":"amazon-kiro-powers","hostProductId":"amazon-kiro-ide","decision":"official-link-only","reason":"insufficient first-party fixed Windows lifecycle contract"},
+    {"id":"openclaw-clawhub-plugins","hostProductId":"openclaw-agent","decision":"official-link-only","reason":"Gateway-admin dynamic registry, multiple sources, restart and credentials"},
+    {"id":"cline-official-skills-plugins","hostProductId":"cline-agent","decision":"official-link-only","reason":"no fixed plugin contract; mixed Skill/Plugin/MCP resource scope"}
+  ]
+}

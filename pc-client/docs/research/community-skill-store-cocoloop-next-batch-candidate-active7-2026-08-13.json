@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "freezeOnly": true,
+  "generatedAt": "2026-08-13T00:00:00.000Z",
+  "title": "CocoLoop public Top next-batch Skill candidate against active7",
+  "source": {
+    "discoveryOrigin": "https://hub.cocoloop.cn/",
+    "robotsUrl": "https://hub.cocoloop.cn/robots.txt",
+    "sitemapIndex": "https://hub.cocoloop.cn/sitemap-index.xml",
+    "activeReleaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "activeCatalogVersion": 7,
+    "activeResources": 250,
+    "activeTargets": 777,
+    "activeCommunitySkills": 104,
+    "historicalReviewLedger": "docs/research/community-skill-store-index-re-review-2026-08-09.json"
+  },
+  "discovery": {
+    "requestedTop": 50,
+    "observed": 10,
+    "candidate": 2,
+    "deferred": 6,
+    "blocked": 1,
+    "existingBlockedDuplicate": 1,
+    "nonCandidate": 8
+  },
+  "proposedChanges": [
+    {
+      "resourceId": "openclaw-summarize-skill",
+      "canonicalKey": "github:openclaw/openclaw#skills/summarize",
+      "action": "create-canonical",
+      "resource": {
+        "id": "openclaw-summarize-skill",
+        "enabled": true,
+        "order": 251,
+        "name": "OpenClaw summarize Skill",
+        "resourceTypes": ["skill"],
+        "description": "OpenClaw community Skill for summarizing or extracting content from URLs, files, podcasts, and media. Review the pinned source before use.",
+        "website": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize",
+        "tutorial": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize/SKILL.md",
+        "publisher": "OpenClaw Foundation",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [{"productId":"openclaw-agent","compatibility":"official","moduleId":"resource-link","installProfileId":"","capabilities":["website"],"enabled":true}],
+        "versionRef": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+        "provenanceEvidence": [
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize/SKILL.md",
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-13T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "cocoloop",
+          "sourcePage": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize/SKILL.md",
+          "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/summarize",
+          "originalAuthor": "OpenClaw Foundation",
+          "licenseId": "MIT",
+          "sourceRevision": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:openclaw/openclaw#skills/summarize",
+          "observedAt": "2026-08-13T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    },
+    {
+      "resourceId": "openclaw-wacli-skill",
+      "canonicalKey": "github:openclaw/openclaw#extensions/whatsapp/skills/wacli",
+      "action": "create-canonical",
+      "resource": {
+        "id": "openclaw-wacli-skill",
+        "enabled": true,
+        "order": 252,
+        "name": "OpenClaw wacli Skill",
+        "resourceTypes": ["skill"],
+        "description": "OpenClaw community Skill describing explicit-user-request WhatsApp messaging and history search through wacli. Review the pinned source before use.",
+        "website": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli",
+        "tutorial": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli/SKILL.md",
+        "publisher": "OpenClaw Foundation",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [{"productId":"openclaw-agent","compatibility":"official","moduleId":"resource-link","installProfileId":"","capabilities":["website"],"enabled":true}],
+        "versionRef": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+        "provenanceEvidence": [
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli/SKILL.md",
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-13T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "cocoloop",
+          "sourcePage": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli/SKILL.md",
+          "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/extensions/whatsapp/skills/wacli",
+          "originalAuthor": "OpenClaw Foundation",
+          "licenseId": "MIT",
+          "sourceRevision": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:openclaw/openclaw#extensions/whatsapp/skills/wacli",
+          "observedAt": "2026-08-13T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    }
+  ],
+  "reviewLedger": [
+    {"rank":1,"cocoloopId":"1155","name":"tavily-search-pro","outcome":"deferred","reason":"public page exposes no first-party repository and fixed revision/license closure"},
+    {"rank":2,"cocoloopId":"666","name":"capability-evolver","outcome":"blocked","reason":"first-party repository resolved, but autonomous self-modification and command/runtime behavior require a separate content and lifecycle review"},
+    {"rank":3,"cocoloopId":"1430","name":"agent-overflow","outcome":"deferred","reason":"official site exists, but repository identity, fixed revision, and license were not closed from first-party evidence"},
+    {"rank":4,"cocoloopId":"165","cocoloopUrl":"https://hub.cocoloop.cn/skills/165","name":"summarize","outcome":"candidate","canonicalKey":"github:openclaw/openclaw#skills/summarize"},
+    {"rank":5,"cocoloopId":"840","name":"docker-sandbox","outcome":"deferred","reason":"first-party repository, exact Skill subpath, fixed revision, and license were not closed"},
+    {"rank":6,"cocoloopId":"175","name":"agent-browser","outcome":"existing-blocked-duplicate","canonicalKey":"github:vercel-labs/agent-browser#agent-browser","reason":"historical ledger already blocks dynamic browsing/runtime dependency"},
+    {"rank":7,"cocoloopId":"5936","name":"self-improvement","outcome":"deferred","reason":"ambiguous upstream identity and runtime/hooks behavior require tighter review"},
+    {"rank":8,"cocoloopId":"177","name":"humanize-ai-text","outcome":"deferred","reason":"CocoLoop identity was not closed to an exact original-author repository and pinned Skill path"},
+    {"rank":9,"cocoloopId":"5058","name":"postgres-job-queue","outcome":"deferred","reason":"only aggregator traces were found; original-author repository and license closure remain unresolved"},
+    {"rank":10,"cocoloopId":"7299","cocoloopUrl":"https://hub.cocoloop.cn/skills/7299","name":"wacli","outcome":"candidate","canonicalKey":"github:openclaw/openclaw#extensions/whatsapp/skills/wacli"}
+  ],
+  "safety": {
+    "allTargets": "resource-link with empty installProfileId and website-only capability",
+    "cocoloopRole": "discoveredVia only",
+    "downloadedZip": false,
+    "executedThirdPartyContent": false,
+    "calledApi": false,
+    "managedInstall": false,
+    "agentBinding": false,
+    "workflowDependency": false,
+    "stateMutation": false
+  },
+  "rollback": "No catalog, state, profile, release, package, upload, or publication was written. Delete this candidate and its focused test to discard the handoff."
+}

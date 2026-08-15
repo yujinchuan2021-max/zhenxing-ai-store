@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "archiveRoots": [
+    "var/lib/flarum",
+    "var/www/html/storage",
+    "var/www/html/public/assets"
+  ],
+  "excludedGeneratedPaths": [
+    "var/www/html/storage/formatter"
+  ]
+}

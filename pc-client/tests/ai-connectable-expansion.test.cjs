@@ -103,9 +103,10 @@ test("first official AI-connectable expansion keeps vendors singular and directo
   );
 
   const docker = productById.get("docker-desktop");
-  assert.equal(docker.productType, "desktop-official");
-  assert.equal(docker.moduleId, "desktop-official");
-  assert.equal(docker.downloadPolicy, "official-page");
+  assert.equal(docker.productType, "desktop-reviewed");
+  assert.equal(docker.moduleId, "desktop-managed");
+  assert.equal(docker.downloadPolicy, "package-manager");
+  assert.equal(docker.installProfileId, "desktop.docker-desktop.winget");
   assert.equal("download" in docker, false);
 
   const aiIds = new Set(
@@ -141,7 +142,13 @@ test("the next connectable batch keeps official MCP products in the connectable 
     const product = products.get(id);
     assert.ok(product, id);
     assert.equal(product.directoryKind, "ai-connectable", id);
-    assert.equal(product.productType === "web" || product.productType === "desktop-official", true, id);
+    assert.equal(
+      ["web", "desktop-official", "desktop-reviewed"].includes(
+        product.productType
+      ),
+      true,
+      id
+    );
     assert.equal("download" in product, false, id);
   }
 
@@ -191,7 +198,11 @@ test("API, docs MCP, and Alpha infrastructure keep their exact connectable bound
     assert.equal(products.get(id)?.directoryKind, "ai-connectable", id);
   }
   assert.equal(products.get("tripo-studio")?.directoryKind, "ai-tool");
-  assert.equal(products.get("anydesk-windows")?.productType, "desktop-official");
+  assert.equal(products.get("anydesk-windows")?.productType, "desktop-reviewed");
+  assert.equal(
+    products.get("anydesk-windows")?.downloadPolicy,
+    "package-manager"
+  );
 
   const resources = new Map(catalog.resources.map((resource) => [resource.id, resource]));
   for (const id of [

@@ -8,7 +8,8 @@ export type ClientInstallProfileSnapshot = {
   vendorId: string;
   productType: string;
   kind: string;
-  mode: "managed-installer" | "managed-cli";
+  mode: "managed-installer" | "managed-package-manager" | "managed-cli";
+  downloadPolicy?: "package-manager";
   requirements: string[];
   capabilities: string[];
   download?: { url: string; fileName: string };

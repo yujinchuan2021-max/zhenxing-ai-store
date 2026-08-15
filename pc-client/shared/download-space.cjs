@@ -6,24 +6,26 @@ function assessDownloadSpace({
   availableBytes,
   totalBytes,
   receivedBytes,
-  safetyReserveBytes
+  safetyReserveBytes,
+  nextWriteBytes = 0
 }) {
-  if (!validBytes(totalBytes) || totalBytes < 1) {
-    const error = new Error("无法确认安装包大小，已停止下载");
-    error.code = "SIZE_UNKNOWN";
-    throw error;
-  }
   if (
     !validBytes(availableBytes) ||
+    !validBytes(totalBytes) ||
     !validBytes(receivedBytes) ||
-    !validBytes(safetyReserveBytes)
+    !validBytes(safetyReserveBytes) ||
+    !validBytes(nextWriteBytes)
   ) {
     throw new Error("磁盘空间检测结果无效");
   }
-  const remainingBytes = Math.max(0, totalBytes - receivedBytes);
+  const sizeKnown = totalBytes > 0;
+  const remainingBytes = sizeKnown
+    ? Math.max(0, totalBytes - receivedBytes)
+    : nextWriteBytes;
   const requiredBytes = remainingBytes + safetyReserveBytes;
   return {
     ok: availableBytes >= requiredBytes,
+    ...(sizeKnown ? {} : { sizeKnown: false }),
     availableBytes,
     requiredBytes,
     shortfallBytes: Math.max(0, requiredBytes - availableBytes),

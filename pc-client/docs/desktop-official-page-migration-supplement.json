@@ -1,0 +1,20 @@
+{
+  "notice": "仅候选、不可发布",
+  "source": "authoritative revision store",
+  "sourceRevision": 76,
+  "sourceProductCount": 615,
+  "candidateCount": 6,
+  "blockerCount": 0,
+  "candidates": [
+    {"vendorId":"microsoft","productId":"microsoft-copilot-desktop","currentStrategy":"package-manager-only","proposedStrategy":"official-page-only","existingOfficialUrl":"https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/get-copilot","sourceField":"website"},
+    {"vendorId":"raycast","productId":"raycast-windows","currentStrategy":"package-manager-only","proposedStrategy":"official-page-only","existingOfficialUrl":"https://www.raycast.com/windows","sourceField":"website"},
+    {"vendorId":"skylum","productId":"luminar-neo","currentStrategy":"package-manager-only","proposedStrategy":"official-page-only","existingOfficialUrl":"https://skylum.com/luminar-download","sourceField":"website"},
+    {"vendorId":"voicemod","productId":"voicemod-windows","currentStrategy":"package-manager-only","proposedStrategy":"official-page-only","existingOfficialUrl":"https://www.voicemod.net/","sourceField":"website"},
+    {"vendorId":"krisp","productId":"krisp-desktop","currentStrategy":"package-manager-only","proposedStrategy":"official-page-only","existingOfficialUrl":"https://help.krisp.ai/hc/en-us/articles/4420088642460-Install-Krisp-AI-Meeting-Assistant","sourceField":"website"},
+    {"vendorId":"canarymail","productId":"canary-mail","currentStrategy":"package-manager-only","proposedStrategy":"official-page-only","existingOfficialUrl":"https://canarymail.io/downloads","sourceField":"website"}
+  ],
+  "blockers": [],
+  "appliedDraftRevision": 77,
+  "status": "applied-draft",
+  "appliedAt": "2026-08-04T17:07:05.017Z"
+}

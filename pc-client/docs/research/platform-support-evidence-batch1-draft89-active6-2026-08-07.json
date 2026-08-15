@@ -1,0 +1,121 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "checkedAt": "2026-08-07T00:00:00.000Z",
+  "sourceRevision": 89,
+  "sourceProductCount": 615,
+  "activeReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+  "policy": "First-party evidence only. Unknown is explicit; browser/remote/WSL/container never masquerade as native. No artifact/profile/lifecycle is granted by this candidate.",
+  "summary": {"selected": 20, "claims": 61, "supported": 54, "unknown": 7, "unsupported": 0, "blocked": 0},
+  "records": [
+    {"vendorId":"openai","productId":"chatgpt-desktop","name":"ChatGPT","selectionReason":"High-value official desktop AI host already in the catalog; OpenAI explicitly names macOS and Windows desktop apps.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://help.openai.com/en/articles/20001276-moving-to-the-new-chatgpt-desktop-app","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://help.openai.com/en/articles/20001276-moving-to-the-new-chatgpt-desktop-app","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://chatgpt.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display Windows/macOS support only; Linux needs evidence. Existing Windows profile cannot be reused for macOS."},
+    {"vendorId":"anthropic","productId":"claude-desktop","name":"Claude","selectionReason":"Mature AI desktop host with official Windows, macOS and Linux statements.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://claude.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://claude.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["x64","arm64"],"evidence":[{"kind":"first-party","url":"https://claude.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Linux is beta and needs an independent package/profile/lifecycle review; do not inherit Windows profile."},
+    {"vendorId":"anysphere","productId":"cursor-desktop","name":"Cursor","selectionReason":"High-value AI code editor; official download page lists all three desktop platforms.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://cursor.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://cursor.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://cursor.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display all three; each platform needs its own artifact/profile/lifecycle review."},
+    {"vendorId":"microsoft","productId":"microsoft-vscode","name":"Visual Studio Code","selectionReason":"Canonical cross-platform development host and common AI/MCP host in the existing directory.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://code.visualstudio.com/docs/getstarted/overview","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://code.visualstudio.com/docs/getstarted/overview","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://code.visualstudio.com/docs/getstarted/overview","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display support; separate artifact/profile review for each OS."},
+    {"vendorId":"zed-industries","productId":"zed-editor","name":"Zed","selectionReason":"Official high-performance editor with current Windows, macOS and Linux download paths.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://zed.dev/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://zed.dev/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://zed.dev/download","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display support only until per-OS artifacts and lifecycle are independently reviewed."},
+    {"vendorId":"ollama","productId":"ollama-cli","name":"Ollama","selectionReason":"Existing local-model product with first-party platform download and update documentation.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://ollama.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://ollama.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://ollama.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Native host support is evidenced; model/runtime lifecycle and receipts still need per-platform review."},
+    {"vendorId":"lmstudio","productId":"lm-studio-desktop","name":"LM Studio","selectionReason":"Local-model desktop app with explicit OS and CPU architecture documentation.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["x64","arm64"],"evidence":[{"kind":"first-party","url":"https://www.lmstudio.ai/docs/app/system-requirements","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["x64","arm64"],"evidence":[{"kind":"first-party","url":"https://www.lmstudio.ai/docs/app/system-requirements","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["x64","arm64"],"evidence":[{"kind":"first-party","url":"https://www.lmstudio.ai/docs/app/system-requirements","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Each architecture requires independent artifact/profile/lifecycle review."},
+    {"vendorId":"docker","productId":"docker-desktop","name":"Docker Desktop","selectionReason":"Common AI/MCP host; official docs explicitly cover Mac, Linux and Windows desktop environments.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.docker.com/desktop/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.docker.com/desktop/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.docker.com/desktop/","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Host app support is not container support; Docker engine/container profiles need separate runtime evidence."},
+    {"vendorId":"blender","productId":"blender","name":"Blender","selectionReason":"High-value official desktop creative tool with stable three-platform download page.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://www.blender.org/download/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://www.blender.org/download/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://www.blender.org/download/","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display support; artifact/profile/lifecycle remain independent per OS."},
+    {"vendorId":"obs-project","productId":"obs-studio","name":"OBS Studio","selectionReason":"Official open-source desktop host with Windows, macOS and Linux downloads and releases.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["x64"],"evidence":[{"kind":"first-party","url":"https://obsproject.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://obsproject.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://obsproject.com/download","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display support; use official release assets only after per-OS artifact review."},
+    {"vendorId":"anytype","productId":"anytype-desktop","name":"Anytype","selectionReason":"Existing local-first knowledge product; official repository explicitly identifies MacOS, Linux and Windows client.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://github.com/anyproto/anytype-ts","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://github.com/anyproto/anytype-ts","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://github.com/anyproto/anytype-ts","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display support only; releases require independent artifact/profile and data-retention review."},
+    {"vendorId":"jan","productId":"jan-desktop","name":"Jan","selectionReason":"High-value local AI desktop app with official platform download matrix and agent/connector features.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["x64"],"evidence":[{"kind":"first-party","url":"https://www.jan.ai/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["universal"],"evidence":[{"kind":"first-party","url":"https://www.jan.ai/download","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://www.jan.ai/download","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display support; local model and connector lifecycle still need per-platform review."},
+    {"vendorId":"discord","productId":"discord-desktop","name":"Discord","selectionReason":"Common AI-tool host/community client with official Windows, macOS and Linux installation guidance.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://support.discord.com/hc/en-us/articles/360034561191-Desktop-Installation-Guide","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://support.discord.com/hc/en-us/articles/360034561191-Desktop-Installation-Guide","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://support.discord.com/hc/en-us/articles/360034561191-Desktop-Installation-Guide","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display support; Discord developer/API resources remain separate from desktop platform claims."},
+    {"vendorId":"slack","productId":"slack-workspace","name":"Slack","selectionReason":"Common AI/MCP host; official system requirements explicitly list supported desktop OSes.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://slack.com/help/articles/115002037526-System-requirements-for-using-Slack","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://slack.com/help/articles/115002037526-System-requirements-for-using-Slack","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://slack.com/help/articles/115002037526-System-requirements-for-using-Slack","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display support; Slack MCP resource remains a separate resource-store target."},
+    {"vendorId":"comfy","productId":"comfy-desktop","name":"Comfy Desktop","selectionReason":"AI image workflow desktop with explicit Windows and macOS documentation; Linux status is deliberately separated.","claims":[
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["x64"],"evidence":[{"kind":"first-party","url":"https://docs.comfy.org/installation/desktop/windows","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["arm64"],"evidence":[{"kind":"first-party","url":"https://docs.comfy.org/installation/system_requirements","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.comfy.org/installation/system_requirements","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Display Windows/macOS; Linux requires first-party desktop evidence and a separate profile."},
+    {"vendorId":"anthropic","productId":"claude-code","name":"Claude Code","selectionReason":"Mature CLI/Agent identity with explicit native macOS/Linux and WSL Windows support.","claims":[
+      {"platform":"windows","runtime":"wsl","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.anthropic.com/en/docs/claude-code/getting-started","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.anthropic.com/en/docs/claude-code/getting-started","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.anthropic.com/en/docs/claude-code/getting-started","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Windows claim is WSL only and needs an independent WSL profile; no native Windows claim."},
+    {"vendorId":"google","productId":"gemini-cli","name":"Gemini CLI","selectionReason":"Official AI agent CLI with platform-specific configuration paths in the first-party repository.","claims":[
+      {"platform":"windows","runtime":"native","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://github.com/google-gemini/gemini-cli","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://github.com/google-gemini/gemini-cli","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://github.com/google-gemini/gemini-cli","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Configuration paths do not prove distribution; CLI employee must verify fixed artifacts, Windows native/WSL mode and lifecycle."},
+    {"vendorId":"openai","productId":"codex-cli","name":"Codex CLI","selectionReason":"Canonical AI coding CLI; official repository/release documentation distinguishes native and WSL paths.","claims":[
+      {"platform":"windows","runtime":"wsl","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://github.com/openai/codex","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://github.com/openai/codex","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://github.com/openai/codex","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Windows WSL and native macOS/Linux require separate CLI profiles and receipts; no Windows native claim."},
+    {"vendorId":"openwebui","productId":"open-webui","name":"Open WebUI","selectionReason":"High-value local AI interface whose official quickstart is container/remote rather than native desktop.","claims":[
+      {"platform":"windows","runtime":"container","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.openwebui.com/getting-started/quick-start/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"container","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.openwebui.com/getting-started/quick-start/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"container","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://docs.openwebui.com/getting-started/quick-start/","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Container/remote availability only; never display as native OS support and requires independent container profile."},
+    {"vendorId":"anomalyco","productId":"opencode","name":"OpenCode","selectionReason":"AI coding agent with official Windows WSL guidance and a desktop/WSL split.","claims":[
+      {"platform":"windows","runtime":"wsl","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://opencode.ai/docs/windows-wsl/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"windows","runtime":"native","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://opencode.ai/docs/windows-wsl/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://dev.opencode.ai/docs/config","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"supported","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://opencode.ai/en/docs","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],"followUp":"Windows WSL/native and macOS claims remain distinct; Linux native support is explicitly documented, but platform artifacts and profiles still require separate review."}
+  ],
+  "batch2Estimate": {
+    "scope": "remaining high-value products/resources after this 20-product sample",
+    "network": "approximately 80-120 first-party page/release/API requests; no artifact downloads; HEAD/page requests only where needed",
+    "humanTime": "2-3 focused research sessions for 30-40 products, plus one review session for resource×host intersections",
+    "deliverables": ["platform claims with evidence/observedAt", "unknown/blocked queue", "per-platform profile/artifact/lifecycle handoff"]
+  },
+  "forbiddenFieldScan": {"passed": true, "forbiddenFields": ["command","args","env","headers","credentials","script","artifactUrl","installProfileId","moduleId"]},
+  "checks": {"canonicalIdsUnique": true, "evidenceHttpsAndFirstPartyKind": true, "observedAtIso": true, "claimsValidatedAgainstAdapter": true, "catalogStateModified": false}
+}

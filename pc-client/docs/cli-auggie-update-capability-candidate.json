@@ -1,0 +1,23 @@
+{
+  "sourceRevision": 80,
+  "sourceProductCount": 615,
+  "candidates": [
+    {
+      "vendorId": "augment",
+      "productId": "augment-auggie-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.augment-auggie",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "open", "uninstall"]
+    }
+  ],
+  "blockers": [
+    "draft80 omits update; IPC remains blocked until catalog capability synchronization",
+    "repair remains unavailable because official Auggie documentation lacks a repair contract",
+    "official Node documentation conflicts between Node 20+ and Node 22+; the client remains pinned to Node 22.23.2",
+    "candidate-only: requires real Ubuntu WSL update acceptance and is not publishable"
+  ],
+  "status": "applied-draft",
+  "appliedDraftRevision": 81,
+  "appliedAt": "2026-08-04T17:43:25.293Z"
+}

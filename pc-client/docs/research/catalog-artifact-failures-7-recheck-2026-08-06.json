@@ -1,0 +1,235 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "source": {
+    "acceptanceReport": "pc-client/docs/acceptance/v2-active5-0.1.52-full-discovery-2026-08-06-final.{md,csv}",
+    "activeReleaseId": "catalog-v00000005-9654219dbedb-3f44cffa",
+    "sourceRevision": 88,
+    "sourceProductCount": 615,
+    "failureProductCount": 7,
+    "checkedAt": "2026-08-06"
+  },
+  "records": [
+    {
+      "vendorId": "alibaba",
+      "productId": "alibaba-quark-ai-browser",
+      "current": {
+        "strategy": "direct-artifact",
+        "url": "https://umcdn.quark.cn/download/37212/quarkpc/pcquark@store_guanwang/QuarkPC_V1.2.5.25_pc_pf30002_(zh-cn)_release_(Build1707620-240313220512-x64).exe",
+        "fileName": "QuarkPC_V1.2.5.25_pc_pf30002_(zh-cn)_release_(Build1707620-240313220512-x64).exe",
+        "artifactKind": "exe",
+        "probe": { "status": 404, "contentType": "application/xml", "contentLength": 491, "rangeStatus": 404 }
+      },
+      "recommendedStrategy": "stable-redirect",
+      "evidenceUrl": "https://www.quark.cn/",
+      "downloadUrl": "https://download.quark.cn/download/quarkpc?ch=pcquark@default",
+      "finalArtifactUrl": "https://umcdn.quark.cn/download/37212/quarkpc/pcquark@default/QuarkPC_V7.0.5.931_pc_pf30002_(zh-cn)_releasemini_(Build3017926-1001-x64).exe",
+      "fileName": "QuarkPC_V7.0.5.931_pc_pf30002_(zh-cn)_releasemini_(Build3017926-1001-x64).exe",
+      "artifactKind": "exe",
+      "officialHost": "download.quark.cn",
+      "finalArtifactHost": "umcdn.quark.cn",
+      "versionOrStable": "stable-redirect-to-versioned-artifact",
+      "probe": {
+        "redirectStatus": 302,
+        "finalStatus": 200,
+        "finalContentType": "application/octet-stream",
+        "finalContentLength": 3316024,
+        "rangeStatus": 206,
+        "contentRange": "bytes 0-1023/3316024"
+      },
+      "blockedReason": null
+    },
+    {
+      "vendorId": "firefliesai",
+      "productId": "fireflies-desktop",
+      "current": {
+        "strategy": "direct-artifact",
+        "url": "https://storage.googleapis.com/desktop-releases-staging-ff/desktop/releases/Fireflies%20Setup%200.1.23.exe",
+        "fileName": "Fireflies Setup 0.1.23.exe",
+        "artifactKind": "exe",
+        "probe": { "status": 404, "contentType": "application/xml; charset=UTF-8", "contentLength": 233 }
+      },
+      "recommendedStrategy": "stable-redirect",
+      "evidenceUrl": "https://fireflies.ai/desktop",
+      "downloadUrl": "https://m.fireflies.ai/desktop/releases/download?platform=windows",
+      "finalArtifactUrl": "https://storage.googleapis.com/desktop-releases-production-ff/desktop/releases/Fireflies%20Setup%200.1.38.exe",
+      "fileName": "Fireflies Setup 0.1.38.exe",
+      "artifactKind": "exe",
+      "officialHost": "m.fireflies.ai",
+      "finalArtifactHost": "storage.googleapis.com",
+      "versionOrStable": "stable-redirect-to-versioned-artifact",
+      "probe": {
+        "redirectStatus": 302,
+        "finalStatus": 200,
+        "finalContentType": "application/x-msdos-program",
+        "finalContentLength": 221304736,
+        "rangeStatus": 206,
+        "contentRange": "bytes 0-1023/221304736"
+      },
+      "blockedReason": null,
+      "probeNote": "A prior page-extraction command accidentally followed this redirect and streamed approximately 210 MB into a pipeline; no file was written, installed, or launched. Subsequent checks used HEAD and a 1 KiB Range only."
+    },
+    {
+      "vendorId": "upscayl",
+      "productId": "upscayl-desktop",
+      "current": {
+        "strategy": "direct-artifact",
+        "url": "https://github.com/upscayl/upscayl/releases/download/latest/upscayl-latest-win.exe",
+        "fileName": "upscayl-latest-win.exe",
+        "artifactKind": "exe",
+        "probe": { "status": 404, "contentType": "text/plain; charset=utf-8", "contentLength": 9 }
+      },
+      "recommendedStrategy": "direct-artifact",
+      "evidenceUrl": "https://upscayl.org/download",
+      "releaseEvidenceUrl": "https://api.github.com/repos/upscayl/upscayl/releases/latest",
+      "downloadUrl": "https://github.com/upscayl/upscayl/releases/download/v2.15.0/upscayl-2.15.0-win.exe",
+      "finalArtifactUrl": "https://github.com/upscayl/upscayl/releases/download/v2.15.0/upscayl-2.15.0-win.exe",
+      "fileName": "upscayl-2.15.0-win.exe",
+      "artifactKind": "exe",
+      "officialHost": "github.com",
+      "finalArtifactHost": "release-assets.githubusercontent.com",
+      "versionOrStable": "versioned-release-v2.15.0",
+      "probe": {
+        "releaseApiStatus": 200,
+        "redirectStatus": 302,
+        "finalStatus": 200,
+        "finalContentType": "application/octet-stream",
+        "finalContentLength": 260912662,
+        "rangeStatus": 206,
+        "contentRange": "bytes 0-1023/260912662",
+        "contentDispositionFileName": "upscayl-2.15.0-win.exe"
+      },
+      "blockedReason": null
+    },
+    {
+      "vendorId": "blender",
+      "productId": "blender",
+      "current": {
+        "strategy": "direct-artifact",
+        "url": "https://www.blender.org/download/release/Blender5.2/blender-5.2.0-windows-x64.msi",
+        "fileName": "blender-5.2.0-windows-x64.msi",
+        "artifactKind": "msi",
+        "probe": {
+          "firstStatus": 301,
+          "location": "https://www.blender.org/download/release/Blender5.2/blender-5.2.0-windows-x64.msi/",
+          "followedStatus": 206,
+          "followedContentType": "text/html; charset=UTF-8",
+          "followedContentRange": "bytes 0-1023/10820"
+        }
+      },
+      "recommendedStrategy": "direct-artifact",
+      "evidenceUrl": "https://www.blender.org/download/",
+      "downloadUrl": "https://download.blender.org/release/Blender5.2/blender-5.2.0-windows-x64.msi",
+      "finalArtifactUrl": "https://download.blender.org/release/Blender5.2/blender-5.2.0-windows-x64.msi",
+      "fileName": "blender-5.2.0-windows-x64.msi",
+      "artifactKind": "msi",
+      "officialHost": "download.blender.org",
+      "versionOrStable": "versioned-release-Blender5.2",
+      "probe": {
+        "finalStatus": 200,
+        "finalContentType": "application/octet-stream",
+        "finalContentLength": 365240320,
+        "rangeStatus": 206,
+        "contentRange": "bytes 0-1023/365240320"
+      },
+      "blockedReason": null,
+      "explanation": "The failed run reserved 536918667 bytes but received 47755 bytes from the www.blender.org URL. That URL 301-redirects to a trailing-slash HTML page (not an MSI). The official Blender CDN URL above returns an octet-stream MSI with a different current size (365240320 bytes) and a valid partial response; the 47755-byte completion was HTML/error content, not a truncated MSI."
+    },
+    {
+      "vendorId": "pieces",
+      "productId": "pieces-for-developers",
+      "current": {
+        "strategy": "download-page",
+        "url": "https://pieces.app/download",
+        "probe": { "status": 404, "contentType": "application/json", "contentLength": 148 }
+      },
+      "recommendedStrategy": "stable-redirect",
+      "evidenceUrl": "https://docs.pieces.app/products/meet-pieces/windows-installation-guide/exe",
+      "downloadUrl": "https://builds.pieces.app/stages/production/pieces_for_x/windows-exe/download?download=true&product=DOCUMENTATION_WEBSITE",
+      "finalArtifactUrl": "https://storage.googleapis.com/app-releases-production/pieces_for_x/282gha/out-windows.exe",
+      "fileName": "out-windows.exe",
+      "artifactKind": "exe",
+      "officialHost": "builds.pieces.app",
+      "finalArtifactHost": "storage.googleapis.com",
+      "versionOrStable": "stable-redirect-to-production-build",
+      "probe": {
+        "redirectStatus": 302,
+        "finalStatus": 200,
+        "finalContentType": "application/x-msdownload",
+        "finalContentLength": 113015544,
+        "rangeStatus": 206,
+        "contentRange": "bytes 0-1023/113015544"
+      },
+      "blockedReason": null,
+      "notes": "The first-party Windows guide also documents the AppInstaller at https://builds.pieces.app/stages/production/appinstaller/pieces_for_x.appinstaller and WinGet; this candidate uses the verified EXE path and does not add a package-manager command."
+    },
+    {
+      "vendorId": "zoom",
+      "productId": "zoom-workplace",
+      "current": {
+        "strategy": "download-page",
+        "url": "https://www.zoom.com/en/products/virtual-meetings/download-center/?cms_guid=false",
+        "probe": { "status": 404, "contentType": "text/html; charset=utf-8" }
+      },
+      "recommendedStrategy": "stable-redirect",
+      "evidenceUrl": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060407",
+      "downloadUrl": "https://zoom.us/client/latest/ZoomInstaller.exe?archType=x64",
+      "finalArtifactUrl": "https://cdn.zoom.us/prod/7.1.5.43453/x64/ZoomInstaller.exe",
+      "fileName": "ZoomInstaller.exe",
+      "artifactKind": "exe",
+      "officialHost": "zoom.us",
+      "finalArtifactHost": "cdn.zoom.us",
+      "versionOrStable": "stable-redirect-to-versioned-artifact",
+      "probe": {
+        "redirectStatus": 302,
+        "finalStatus": 200,
+        "finalContentType": "application/octet-stream",
+        "finalContentLength": 38034584,
+        "rangeStatus": 206,
+        "contentRange": "bytes 0-1023/38034584"
+      },
+      "blockedReason": null,
+      "notes": "Zoom's first-party installer index also exposes the x64 MSI endpoint, but the x64 EXE was used for this candidate."
+    },
+    {
+      "vendorId": "anytype",
+      "productId": "anytype-desktop",
+      "current": {
+        "strategy": "download-page",
+        "url": "https://anytype.io/downloads",
+        "probe": { "status": 404, "contentType": "text/html", "contentLength": 2335 }
+      },
+      "recommendedStrategy": "direct-artifact",
+      "evidenceUrl": "https://download.anytype.io/",
+      "releaseApiUrl": "https://publish-releases.anytype.io/api/v1/latestRelease",
+      "downloadUrl": "https://anytype-release.fra1.cdn.digitaloceanspaces.com/Anytype%20Setup%200.56.1.exe",
+      "finalArtifactUrl": "https://anytype-release.fra1.cdn.digitaloceanspaces.com/Anytype%20Setup%200.56.1.exe",
+      "fileName": "Anytype Setup 0.56.1.exe",
+      "artifactKind": "exe",
+      "officialHost": "publish-releases.anytype.io",
+      "finalArtifactHost": "anytype-release.fra1.cdn.digitaloceanspaces.com",
+      "versionOrStable": "versioned-latestRelease-api",
+      "probe": {
+        "releaseApiStatus": 200,
+        "finalStatus": 200,
+        "finalContentType": "application/vnd.microsoft.portable-executable",
+        "finalContentLength": 231536320,
+        "rangeStatus": 206,
+        "contentRange": "bytes 0-1023/231536320"
+      },
+      "blockedReason": null,
+      "notes": "The official download landing page is a Nuxt shell; its official client fetches latestRelease, whose WINDOWS entry supplies the exact EXE URL, size and SHA-512."
+    }
+  ],
+  "validation": {
+    "recordCount": 7,
+    "uniqueProductIds": true,
+    "allHaveEvidence": true,
+    "allHaveRecommendedStrategy": true,
+    "forbiddenFieldViolations": [],
+    "forbiddenFieldNamesChecked": ["command", "args", "env", "script", "headers", "credentials"],
+    "fullArtifactSavedOrInstalled": false,
+    "fullResponseStreamedByMistake": true,
+    "largeProbeIncidentRecorded": true
+  }
+}

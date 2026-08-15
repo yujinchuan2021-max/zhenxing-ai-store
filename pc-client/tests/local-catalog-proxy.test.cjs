@@ -14,7 +14,7 @@ test("the local HTTPS catalog endpoint follows the backend active signed release
     path.resolve(__dirname, "../deployment/local/compose.yaml"),
     "utf8"
   );
-  const catalogHandle = /@catalog path \/catalog-release\.json[\s\S]*?handle @catalog \{[\s\S]*?reverse_proxy admin:4173[\s\S]*?\}/;
+  const catalogHandle = /@catalog path \/catalog-release\.json \/channels\/v2\/catalog-release\.json[\s\S]*?handle @catalog \{[\s\S]*?reverse_proxy host\.docker\.internal:4173[\s\S]*?\}/;
   assert.match(caddy, catalogHandle);
   const allowedFiles = caddy.match(/@allowedFiles path ([^\r\n]+)/)?.[1] || "";
   assert.doesNotMatch(allowedFiles, /catalog-release\.json/);

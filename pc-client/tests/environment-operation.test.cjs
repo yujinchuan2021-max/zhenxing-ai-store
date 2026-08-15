@@ -343,3 +343,41 @@ test("a timed-out operation preserves identity across restart and manual checks"
     operation: null
   });
 });
+
+test("a trusted global scan settles only the exact timed-out operation identity", async () => {
+  const harness = createHarness({ statuses: [unknown] });
+  const launching = harness.controller.begin("python", "uninstall");
+  harness.controller.finishLaunch(
+    launching.environmentId,
+    launching.generation,
+    launching.operationId,
+    true
+  );
+  harness.advance(10 * 60 * 1_000);
+  await harness.runNext();
+  const timedOut = harness.controller.get("python");
+
+  assert.equal(timedOut.phase, "timed-out");
+  assert.deepEqual(
+    await harness.controller.reconcileScan(
+      timedOut.environmentId,
+      timedOut.generation - 1,
+      timedOut.operationId,
+      absent
+    ),
+    timedOut
+  );
+  assert.deepEqual(harness.controller.get("python"), timedOut);
+
+  const settled = await harness.controller.reconcileScan(
+    timedOut.environmentId,
+    timedOut.generation,
+    timedOut.operationId,
+    absent
+  );
+
+  assert.equal(settled.phase, "uninstalled");
+  assert.equal(settled.generation, timedOut.generation);
+  assert.equal(settled.operationId, timedOut.operationId);
+  assert.equal(harness.controller.get("python"), null);
+});

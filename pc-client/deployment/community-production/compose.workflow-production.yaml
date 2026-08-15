@@ -1,0 +1,65 @@
+services:
+  workflow-official-bootstrap:
+    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    profiles: ["workflow-official-bootstrap"]
+    network_mode: "service:community"
+    environment:
+      AIHUB_IDENTITY_DATABASE_PASSWORD_FILE: /run/secrets/identity_db_password
+      AIHUB_IDENTITY_SCHEMA_MODE: external
+      AIHUB_WORKFLOW_OFFICIAL_BOOTSTRAP_MODE: run
+      AIHUB_WORKFLOW_REVIEW_SECRET_FILE: /run/secrets/workflow_review_secret
+    secrets:
+      - identity_db_password
+      - forum_api_key
+      - workflow_review_secret
+    depends_on:
+      identity-database: { condition: service_healthy }
+      admin: { condition: service_healthy }
+      community: { condition: service_healthy }
+    restart: "no"
+    read_only: true
+    mem_limit: 192m
+    cpus: "0.35"
+    pids_limit: 128
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    tmpfs: ["/tmp"]
+
+  workflow-reviewer-provision:
+    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    profiles: ["workflow-reviewer-provision"]
+    environment:
+      AIHUB_IDENTITY_DATABASE_PASSWORD_FILE: /run/secrets/identity_db_password
+      AIHUB_IDENTITY_SCHEMA_MODE: external
+      AIHUB_WORKFLOW_REVIEWER_PROVISION_MODE: hold
+      AIHUB_WORKFLOW_REVIEW_SECRET_FILE: /run/secrets/workflow_review_secret
+    secrets:
+      - identity_db_password
+      - workflow_review_secret
+    depends_on:
+      identity-database: { condition: service_healthy }
+    restart: "no"
+    read_only: true
+    mem_limit: 192m
+    cpus: "0.35"
+    pids_limit: 128
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    tmpfs: ["/tmp"]
+
+  identity:
+    environment:
+      AIHUB_RESOURCE_SUBMISSIONS_ENABLED: "0"
+      AIHUB_RESOURCE_SUBMISSIONS_SCHEMA_VERSION: "0"
+      AIHUB_WORKFLOW_STORE_ENABLED: "1"
+      AIHUB_WORKFLOW_PUBLIC_STORE_ENABLED: "1"
+      AIHUB_WORKFLOW_SUBMISSION_LOOKUP_ENABLED: "0"
+      AIHUB_WORKFLOW_STORE_SCHEMA_VERSION: "1"
+      AIHUB_WORKFLOW_REVIEW_SECRET_FILE: /run/secrets/workflow_review_secret
+      AIHUB_WORKFLOW_REVIEWER_ID: 5f16d5ac-6663-5905-b920-c2140ac6769c
+    secrets:
+      - workflow_review_secret
+
+secrets:
+  workflow_review_secret:
+    file: ${AIHUB_WORKFLOW_PRODUCTION_SECRET_DIR:?set production workflow secret directory}/workflow_review_secret

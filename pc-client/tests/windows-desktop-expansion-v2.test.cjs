@@ -1,4 +1,6 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const test = require("node:test");
 
 const catalog = require("../admin/data/catalog-v1.json");
@@ -7,6 +9,10 @@ const {
   existingVendorProducts,
   newVendors
 } = require("../catalog/windows-desktop-expansion-v2.cjs");
+const {
+  INSTALL_MODES,
+  getInstallRegistration
+} = require("../shared/install-registry.cjs");
 
 const catalogProducts = new Map(
   catalog.vendors.flatMap((vendor) =>
@@ -30,12 +36,18 @@ test("the second Windows pass records the complete reviewed research batch", () 
     for (const expected of definition.products) {
       const located = catalogProducts.get(expected.id);
       assert.equal(located?.vendor.id, definition.id, expected.id);
-      assert.equal(located?.product.productType, "desktop-official", expected.id);
+      assert.equal(
+        located?.product.productType,
+        getInstallRegistration(expected.id)
+          ? "desktop-reviewed"
+          : "desktop-official",
+        expected.id
+      );
     }
   }
 });
 
-test("new official desktop entries cannot gain managed execution authority", () => {
+test("desktop expansion gains authority only from a client-owned registration", () => {
   const expansionIds = new Set([
     ...newVendors.flatMap((vendor) => vendor.products.map((product) => product.id)),
     ...Object.values(existingVendorProducts).flatMap((products) =>
@@ -45,6 +57,23 @@ test("new official desktop entries cannot gain managed execution authority", () 
   for (const productId of expansionIds) {
     const product = catalogProducts.get(productId)?.product;
     assert.ok(product, productId);
+    const registration = getInstallRegistration(productId);
+    if (registration) {
+      assert.equal(product.productType, "desktop-reviewed", productId);
+      assert.equal(product.moduleId, "desktop-managed", productId);
+      assert.equal(product.installProfileId, registration.profileId, productId);
+      if (registration.mode === INSTALL_MODES.MANAGED_PACKAGE_MANAGER) {
+        assert.equal(product.downloadPolicy, "package-manager", productId);
+        assert.equal(product.download, undefined, productId);
+      } else {
+        assert.equal(
+          registration.mode,
+          INSTALL_MODES.MANAGED_INSTALLER,
+          productId
+        );
+      }
+      continue;
+    }
     assert.equal(product.productType, "desktop-official", productId);
     assert.equal(product.moduleId, "desktop-official", productId);
     assert.equal(product.installProfileId, "", productId);
@@ -119,5 +148,16 @@ test("existing products gain Windows entry points without duplicate product card
       (entry) => entry.type === "external" && entry.label === "CapCut 全球版"
     ),
     true
+  );
+});
+
+test("desktop expansion replay removes stale managed download fields", () => {
+  const source = fs.readFileSync(
+    path.resolve(__dirname, "../scripts/apply-windows-desktop-expansion-v2.cjs"),
+    "utf8"
+  );
+  assert.match(
+    source,
+    /if \(!Object\.hasOwn\(definition, "download"\)\) delete existing\.download/
   );
 });

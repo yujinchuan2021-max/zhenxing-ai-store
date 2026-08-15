@@ -7,6 +7,7 @@ const REGISTERED_EXECUTABLES = Object.freeze({
     ["bin", "git.exe"]
   ],
   python: [["python.exe"]],
+  python312: [["python.exe"]],
   docker: [["Docker Desktop.exe"]]
 });
 
@@ -125,9 +126,42 @@ function resolveEnvironmentOperationStatus({
   };
 }
 
+function numericVersion(value) {
+  if (typeof value !== "string" || !/^\d+\.\d+\.\d+(?:\.\d+)?$/.test(value)) {
+    return null;
+  }
+  const parts = value.split(".").map(Number);
+  return parts.every(Number.isSafeInteger) ? parts : null;
+}
+
+function resolveEnvironmentUpdateOffer({
+  detection,
+  installedVersion,
+  recommendedVersion
+}) {
+  const installed = numericVersion(installedVersion);
+  const recommended = numericVersion(recommendedVersion);
+  let canUpdate = detection === "installed" && Boolean(installed && recommended);
+  if (canUpdate) {
+    canUpdate = false;
+    for (let index = 0; index < Math.max(installed.length, recommended.length); index += 1) {
+      const difference = (installed[index] || 0) - (recommended[index] || 0);
+      if (difference !== 0) {
+        canUpdate = difference < 0;
+        break;
+      }
+    }
+  }
+  return {
+    recommendedVersion: recommended ? recommendedVersion : "",
+    canUpdate
+  };
+}
+
 module.exports = {
   resolveRegisteredEnvironmentExecutable,
   resolveEnvironmentEvidence,
   resolveEnvironmentOperationStatus,
+  resolveEnvironmentUpdateOffer,
   resolveTrustedEnvironmentExecutableProbe
 };

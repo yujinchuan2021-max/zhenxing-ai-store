@@ -1,0 +1,34 @@
+{
+  "date": "2026-08-06",
+  "factSource": "pc-client/admin/published/catalog-store/state.json",
+  "factSourceRole": "state.draft.catalog at draft revision 89; v2 active6 via channels.v2.activeReleaseId",
+  "rawDraft89Found": true,
+  "draftRevision": 89,
+  "activeReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+  "activeCatalogVersion": 6,
+  "readOnly": true,
+  "changedSharedCode": false,
+  "changedCatalog": false,
+  "changedState": false,
+  "savedDraft": false,
+  "published": false,
+  "downloadedLargeFiles": false,
+  "mcpResources": 123,
+  "targets": 472,
+  "resourceIdsUnique": true,
+  "sourceKindTargetCounts": {"official": 451, "reviewed-community": 17, "community": 4},
+  "moduleTargetCounts": {"resource-link": 469, "mcp-managed": 3},
+  "forbiddenFieldScan": {"fields": ["command", "args", "env", "headers", "script", "credentials"], "matches": 0},
+  "queue": [
+    {"resourceId":"openai-codex-mcp-config","hostProductId":"codex-cli","installProfileId":"mcp.codex.openai-developer-docs","versionRef":"2026-08-04","status":"candidate-for-fixed-profile-review"},
+    {"resourceId":"openai-codex-mcp-config","hostProductId":"claude-code","installProfileId":"mcp.claude-code.openai-developer-docs","versionRef":"2026-08-04","status":"candidate-for-fixed-profile-review"},
+    {"resourceId":"openai-codex-mcp-config","hostProductId":"cursor-desktop","installProfileId":"mcp.cursor.openai-developer-docs","versionRef":"2026-08-04","status":"candidate-for-fixed-profile-review"}
+  ],
+  "blockedPolicy": "resource-link or blocked when source/version/package/Windows lifecycle/permission/credential boundary is insufficient",
+  "nextOwner": {"team":"AI商店后台","threadId":"019fcd18-fc4d-7960-9aa6-e0e1720e90d4","action":"freeze and review existing CRUD/schema contracts before any client implementation"},
+  "officialSources": [
+    "https://developers.openai.com/codex/mcp",
+    "https://code.claude.com/docs/en/mcp",
+    "https://docs.cursor.com/context/model-context-protocol"
+  ]
+}

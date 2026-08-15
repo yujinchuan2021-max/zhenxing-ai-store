@@ -15,6 +15,14 @@ const {
   getProductModule,
   moduleIdForProductType
 } = require("../shared/product-modules.cjs");
+const {
+  getDesktopDownloadOnlyProfile,
+  SIGNED_CATALOG_MODULE_ID,
+  SIGNED_CATALOG_PROFILE_ID
+} = require("../shared/desktop-download-only.cjs");
+const {
+  getCliDeployOnlyProfile
+} = require("../shared/cli-deploy-only.cjs");
 
 const TOP_LEVEL_FIELDS = new Set([
   "schemaVersion",
@@ -184,12 +192,26 @@ function validatePublication(
         throw new Error(`产品尚未绑定有效模块：${product.id}`);
       }
       const registration = getInstallRegistration(product.id);
+      const fixedProfile =
+        module.id === SIGNED_CATALOG_MODULE_ID
+          ? getDesktopDownloadOnlyProfile(product.id)
+          : module.id === "cli-deploy-only"
+            ? getCliDeployOnlyProfile(product.id)
+            : null;
+      const catalogProfile =
+        module.id === SIGNED_CATALOG_MODULE_ID && !fixedProfile
+          ? {
+              profileId: SIGNED_CATALOG_PROFILE_ID,
+              capabilities: module.capabilities
+            }
+          : null;
+      const reviewedProfile = fixedProfile || catalogProfile || registration;
       if (
         module.requiresProfile &&
-        (!registration ||
-          product.installProfileId !== registration.profileId ||
-          registration.moduleId !== module.id ||
-          registration.vendorId !== vendor.id)
+        (!reviewedProfile ||
+          product.installProfileId !== reviewedProfile.profileId ||
+          (!fixedProfile && !catalogProfile && registration && registration.moduleId !== module.id) ||
+          (reviewedProfile.vendorId !== undefined && reviewedProfile.vendorId !== vendor.id))
       ) {
         throw new Error(`产品尚未绑定客户端已审核安装配置：${product.id}`);
       }
@@ -197,7 +219,7 @@ function validatePublication(
         throw new Error(`直达模块不能绑定安装配置：${product.id}`);
       }
       const approvedCapabilities =
-        registration?.capabilities || module.capabilities;
+        reviewedProfile?.capabilities || module.capabilities;
       if (
         product.capabilities !== undefined &&
         (!Array.isArray(product.capabilities) ||
@@ -253,6 +275,7 @@ function validatePublication(
       resources: enabledResources.length,
       resourceStores: enabledStoreIds.size,
       banners: validatedCatalog.home.banners.length,
+      homeCarouselSlides: validatedCatalog.homeCarousel?.slides.length || 0,
       featuredVendors: validatedCatalog.home.featuredVendorIds.length,
       approvedDownloadSources: validatedCatalog.environmentDownloads.sources.filter(
         (entry) => entry.enabled

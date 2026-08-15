@@ -40,7 +40,11 @@ const SERVICE_NAMES = Object.freeze(Object.keys(SERVICE_SPECS));
 const IDENTITY_SHARED_FILES = new Set([
   "shared/active-catalog-products.cjs",
   "shared/avatar-image.cjs",
+  "shared/catalog-taxonomy.cjs",
   "shared/identity-security.cjs"
+]);
+const IDENTITY_ADAPTER_FILES = new Set([
+  "admin/resource-submissions.cjs"
 ]);
 const ADMIN_DATA_FILES = new Set([
   "admin/data/catalog-v1.json",
@@ -53,6 +57,12 @@ const COMMUNITY_CONTAINER_PATHS = Object.freeze({
     "/etc/apache2/conf-available/flarum.conf",
   "community/flarum/docker-entrypoint.sh":
     "/usr/local/bin/aihub-flarum-entrypoint",
+  "community/flarum/migration-entrypoint.sh":
+    "/usr/local/bin/aihub-flarum-migration-entrypoint",
+  "community/flarum/production-entrypoint.sh":
+    "/usr/local/bin/aihub-community-production-entrypoint",
+  "community/flarum/aihub-community-management.php":
+    "/var/www/html/public/aihub-community-management.php",
   "community/flarum/aihub-sso.php":
     "/var/www/html/public/aihub-sso.php",
   "community/flarum/aihub-personal-center.php":
@@ -93,6 +103,7 @@ function sourcePathsForService(service, revisionFiles) {
       (file) =>
         (file.startsWith("identity/") &&
           !file.includes("/node_modules/")) ||
+        IDENTITY_ADAPTER_FILES.has(file) ||
         IDENTITY_SHARED_FILES.has(file)
     );
   } else if (service === "community") {
@@ -126,12 +137,17 @@ function assertRequiredSourceFiles(service, sourcePaths) {
       "scripts/discover-official-products.mjs"
     ],
     "identity-community": [
+      "admin/resource-submissions.cjs",
       "identity/server.cjs",
-      "shared/active-catalog-products.cjs"
+      "shared/active-catalog-products.cjs",
+      "shared/catalog-taxonomy.cjs"
     ],
     community: [
+      "community/flarum/aihub-community-management.php",
       "community/flarum/aihub-sso.php",
       "community/flarum/aihub-personal-center.php",
+      "community/flarum/migration-entrypoint.sh",
+      "community/flarum/production-entrypoint.sh",
       "community/flarum/dependency-lock.json"
     ]
   }[service];
@@ -412,6 +428,9 @@ module.exports = {
   assertCandidateImageInspection,
   assertPreviousRuntimeContracts,
   assertLocalServiceRuntimeContracts,
+  assertRequiredSourceFiles,
+  containerPathForSource,
   createLocalServiceReleaseManifest,
+  sourcePathsForService,
   validateLocalServiceReleaseManifest
 };

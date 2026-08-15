@@ -1,0 +1,14 @@
+{
+  "status": "blocked-before-crawl",
+  "sourcePlatform": "cocoloop",
+  "sitemapIndex": "https://skill.cocoloop.com/sitemap-index.xml",
+  "robotsUrl": "https://skill.cocoloop.com/robots.txt",
+  "observedAt": "2026-08-07",
+  "failure": "TLS handshake failed in the current environment; Node fetch and PowerShell could not read public HTTPS entrypoints",
+  "index": {"complete": false, "shards": null, "entries": null, "duplicates": null, "missing": null},
+  "metadataEstimate": {"pagesAssumed": 160000, "requestsIncludingBootstrap": 160002, "rateMs": 1500, "minimumHours": 66.67, "cacheBytesAt200KiBPerPage": 32768000000},
+  "classification": {"canonicalScenarioTags": ["编程", "Agent", "多Agent", "自动化", "办公", "数据", "科研", "知识库", "内容", "图像", "视频音频", "3D/CAD", "游戏", "营销", "电商", "财务", "教育", "健康", "安全运维", "社交", "浏览器采集"], "rawTagsPreserved": true, "externalPopularityOnly": true, "hermesMatureAgentCandidateHint": true},
+  "tests": {"file": "tests/cocoloop-skill-intake.test.cjs", "passed": 5, "failed": 0},
+  "writes": [],
+  "forbiddenActions": ["api", "login", "zip-download", "source-download", "install", "saveDraft", "publish", "package", "upload"]
+}

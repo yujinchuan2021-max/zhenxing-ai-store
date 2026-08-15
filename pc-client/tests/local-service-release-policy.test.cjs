@@ -18,6 +18,7 @@ const revision = "a".repeat(40);
 const version = "0.1.25";
 const revisionFiles = [
   "admin/config-validation.cjs",
+  "admin/resource-submissions.cjs",
   "admin/data/catalog-v1.json",
   "admin/data/release-settings.json",
   "admin/data/vendor-icon-fallbacks.json",
@@ -26,10 +27,13 @@ const revisionFiles = [
   "admin/public/styles.css",
   "admin/server.cjs",
   "community/flarum/aihub-personal-center.php",
+  "community/flarum/aihub-community-management.php",
   "community/flarum/aihub-sso.php",
   "community/flarum/apache.conf",
   "community/flarum/dependency-lock.json",
   "community/flarum/docker-entrypoint.sh",
+  "community/flarum/migration-entrypoint.sh",
+  "community/flarum/production-entrypoint.sh",
   "identity/identity-community.cjs",
   "identity/package-lock.json",
   "identity/package.json",
@@ -37,6 +41,7 @@ const revisionFiles = [
   "scripts/discover-official-products.mjs",
   "shared/active-catalog-products.cjs",
   "shared/avatar-image.cjs",
+  "shared/catalog-taxonomy.cjs",
   "shared/catalog.cjs",
   "shared/identity-security.cjs"
 ];
@@ -123,11 +128,14 @@ test("service release manifests cover every source copied into the three images"
   assert.deepEqual(
     community.sourceFiles.map((entry) => entry.sourcePath),
     [
+      "community/flarum/aihub-community-management.php",
       "community/flarum/aihub-personal-center.php",
       "community/flarum/aihub-sso.php",
       "community/flarum/apache.conf",
       "community/flarum/dependency-lock.json",
-      "community/flarum/docker-entrypoint.sh"
+      "community/flarum/docker-entrypoint.sh",
+      "community/flarum/migration-entrypoint.sh",
+      "community/flarum/production-entrypoint.sh"
     ]
   );
 });

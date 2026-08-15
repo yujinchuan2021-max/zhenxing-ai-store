@@ -1,0 +1,5019 @@
+{
+  "candidateLabel": "0.1.82-localized-en-content-a",
+  "candidateOnly": true,
+  "publishable": false,
+  "manifestKind": "localized-content-completeness-and-sha-map",
+  "recordCount": 1002,
+  "entries": [
+    {
+      "objectType": "brand",
+      "objectId": "brand",
+      "localizedContentSha256": "1f2a9f6bdf9b52fa82526aabf8118cabc22224f352036f1d72071bbe800a4a1f"
+    },
+    {
+      "objectType": "community",
+      "objectId": "community",
+      "localizedContentSha256": "18af0401d5f2e3076461a6c529af28c90293633de8f1591a3c5f9beb99525563"
+    },
+    {
+      "objectType": "banner",
+      "objectId": "banner-1",
+      "localizedContentSha256": "94b42bacaeb8e2f944ec943be0b67b6c3f4b8063179265c9f7f324f9e85ec423"
+    },
+    {
+      "objectType": "banner",
+      "objectId": "banner-2",
+      "localizedContentSha256": "09c4c4a3f5b2386af96474ae8b665a1113403137ba2466d5ba56de419cce94fe"
+    },
+    {
+      "objectType": "carousel-slide",
+      "objectId": "constellation-vendors",
+      "localizedContentSha256": "c954ccf2ca45ccd4b38d45ab80e08d43d681557710fc536621aa7d4ac10e2b4a"
+    },
+    {
+      "objectType": "carousel-action",
+      "objectId": "constellation-vendors:primary",
+      "localizedContentSha256": "fe01fe1760b80e2fd6af29eafcfbeb0d82b755d076a38e68aff5e540672c564a"
+    },
+    {
+      "objectType": "carousel-action",
+      "objectId": "constellation-vendors:secondary",
+      "localizedContentSha256": "fa12cf9bcd4b0b47c1d1ec7fd7b7b64399387fb69cf6918a13103601a6a6288c"
+    },
+    {
+      "objectType": "carousel-slide",
+      "objectId": "aurora-desktop",
+      "localizedContentSha256": "d72ed5230a4be3311d5f5dfc7abc72d2760e354cdc2100875933d56006b8c0ef"
+    },
+    {
+      "objectType": "carousel-action",
+      "objectId": "aurora-desktop:primary",
+      "localizedContentSha256": "fe01fe1760b80e2fd6af29eafcfbeb0d82b755d076a38e68aff5e540672c564a"
+    },
+    {
+      "objectType": "carousel-slide",
+      "objectId": "orbit-resources",
+      "localizedContentSha256": "0ea81fd769dd3503c6bb75d03d70cf9f129b682d5f1b8ff8233ca93813c0d1a9"
+    },
+    {
+      "objectType": "carousel-action",
+      "objectId": "orbit-resources:primary",
+      "localizedContentSha256": "04c40520cb0733a4f72cb26082ae3c87b005c7f0b2bbc067ea51ea4f3e70f041"
+    },
+    {
+      "objectType": "carousel-action",
+      "objectId": "orbit-resources:secondary",
+      "localizedContentSha256": "9cd16e43d394e64f5f2d132c62d00ec307390e80d0db7be743dbec5f83926d25"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "openai",
+      "localizedContentSha256": "0e845aa3790748f25d30d80543c89911b1f1dfa70dd11d722d399923b0e49ced"
+    },
+    {
+      "objectType": "product",
+      "objectId": "chatgpt-desktop",
+      "localizedContentSha256": "becbc90b498e9d98ae1ae8ccc38102d4817ccfacb4176ecbaa5c73b2c53ac169"
+    },
+    {
+      "objectType": "product",
+      "objectId": "codex-cli",
+      "localizedContentSha256": "80216032e8886595bcd88647dccc2d7e69888bbe815aa706e778179e2a79231d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "openai-codex",
+      "localizedContentSha256": "15930792aa50596dcba9ecf7865f7b9da7cd55e0da9d083f15858ef0cfef69fb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "chatgpt-work",
+      "localizedContentSha256": "8b2c0dc725e6e00802cc05bea6a5ff4ec0a5e7c56f8d8c3886fad564ef42942e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "anthropic",
+      "localizedContentSha256": "10c4534077de9e0c2413242205d2477e37580021488aadbe793deaee23b4e843"
+    },
+    {
+      "objectType": "product",
+      "objectId": "claude-desktop",
+      "localizedContentSha256": "020ec279d97fce44724bc8827ef2dd87584d42b4af25ca1993b046f6b71c0e66"
+    },
+    {
+      "objectType": "product",
+      "objectId": "claude-code",
+      "localizedContentSha256": "a003638bf43345c4f021b616ce3a36efaea02f8dbf8cb62916ccf2abfb08872d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "anthropic-agent-sdk",
+      "localizedContentSha256": "b84a1c50d2dd9c949c4d3a62ab7937032eabf28006d2520cba372bebc8e2a0e4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "claude-cowork",
+      "localizedContentSha256": "aa8e1c6a685803fc9e08e22851820973f2b0e68fbe27fd79940ac52bb6f58265"
+    },
+    {
+      "objectType": "product",
+      "objectId": "claude-tag",
+      "localizedContentSha256": "12b1ce1ab389a229069626f632883e401c16a71a61516e939e2968dfcc5c00c5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "bytedance",
+      "localizedContentSha256": "7105e01e7f21fb87d80567a03af3a9defee305f2b3c1650a7da606d8f60783fb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "jianying",
+      "localizedContentSha256": "d335e9e95fcb83221215cddad54c67618a5dba2b2e8111b95263a3925f214ce7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "trae-desktop",
+      "localizedContentSha256": "f298f50bf248156645ca78d23db3cb2400e87b5c491f1ee68d07f9ae986362d6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "jimeng-web",
+      "localizedContentSha256": "b3065b36270079eefdb62bc7df5058466cd7f5b53e8aecdce2cea9277f332fec"
+    },
+    {
+      "objectType": "product",
+      "objectId": "coze-web",
+      "localizedContentSha256": "41e081dcd885eeda2746b4f66050b5fc39a118952cf50780b5b385b2924f54fd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bytedance-doubao",
+      "localizedContentSha256": "553af163c7cefcd15c83e977e7f1c9224367f3cbb9fff6b2e9b337fc0533e24c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "trae-solo-cn",
+      "localizedContentSha256": "c98a4dbd9bf4b74932ce61fd06b4aca048414bd15aa07e15c506f3e13d444817"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bytedance-feishu",
+      "localizedContentSha256": "2dddbe2295a72e172cfcb85854173b9cb7cd4507000c23bfdd5b1c5ec573e5c6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bytedance-capcut-desktop",
+      "localizedContentSha256": "6583e9ca08a566046caf25ffac9da5abf8b586e5f00727abf8229cf40c8f9faa"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bytedance-ui-tars-desktop",
+      "localizedContentSha256": "bc40952dab8e7dd7f632b07085272979ff7c0564bfa8181c19d07e9bb23a251e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bytedance-agent-tars-cli",
+      "localizedContentSha256": "b8495733463584be39624a41d8e248c3593a66fcc28741ea37325038ca0439c5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bytedance-deerflow",
+      "localizedContentSha256": "1f02adce7b7bad8deb6222f3b1ed0f068a9e053bc9f8c1b7e88e8ca8a248e5f5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "comfy",
+      "localizedContentSha256": "a08174dd71ad8a3c793cab6e46342fdf28d667af2fc2290765061d241c049f16"
+    },
+    {
+      "objectType": "product",
+      "objectId": "comfy-desktop",
+      "localizedContentSha256": "24b38c7d82ba78f34d25b1c3b1ce209a45bda65dc0cdf0a1051c2bdd80a202ae"
+    },
+    {
+      "objectType": "product",
+      "objectId": "comfy-cli",
+      "localizedContentSha256": "e871a07021cd512d1980e38e29ee676ae499b836cb707cc2f762c43c7d6711b9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "comfy-registry",
+      "localizedContentSha256": "232894719ecdadb384a7c732c380ebbb51431503ad6d4200650dec31b90b6b4f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "deepseek",
+      "localizedContentSha256": "20bfcd9c12d39b9ca4ecebc4432b2ae675381ba2234aa76b38b37c9f2669a6d3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "deepseek-web",
+      "localizedContentSha256": "3d776d63c9633f0272a46c6fdc0b386592f167a5030a6132c230e0cfd28baa9b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "deepseek-api",
+      "localizedContentSha256": "3bf114ce34eb1cc5cc1393a3ec44a585f6dee11f487e1578e5d4fc87cbc0aa0a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "deepseek-open-models",
+      "localizedContentSha256": "1b52a3f079b1d5dfdc0e2c017b1ce191e272d056c91fd8452f7d69152f604628"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "google",
+      "localizedContentSha256": "a654b1480390b1b206d0112a8d4b1b7de4f1e56cd67791d94c9c21fd12b7b8f1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gemini-web",
+      "localizedContentSha256": "592cbc57f94a2d38bd43c5f2ffc53bb9320c622a08770f9a46f49847112b8156"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gemini-cli",
+      "localizedContentSha256": "d139b1a21bb53655e218fb75dbb9be9f6ad8cf3fa4d8216455ed8bcb96df17bb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-jules",
+      "localizedContentSha256": "dcfb03af3b935224f1b336eb3cebb867875da25dc188e26a6c1cee563c4182e6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-notebooklm",
+      "localizedContentSha256": "bcd10f33322d6bfd25f649a2a347a05bbacf9356961b9c236038b19e2e4ff581"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-ai-studio",
+      "localizedContentSha256": "760a60ce59e0965f2ac738c7819abaa5f2d935d68c2d25b63f290f49e50991a6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-antigravity-desktop",
+      "localizedContentSha256": "6a3b7bdae186274f4e027e7c78b7f1895689675a2c7aff527a19b2bddf674cd1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-antigravity-cli",
+      "localizedContentSha256": "960215f5a2a44990d32868b70a82d648643c22bad4d264a22dc6ae3557109434"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-antigravity-sdk",
+      "localizedContentSha256": "8c231e2796adcfb802e94dc1b5c7a87cd605a78a8fb004b61cd13b7515ec2f4b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-gemini-spark",
+      "localizedContentSha256": "d727d69daa8d2d2fe08cd1498af999c3faa9eb02ab0eef2aef780227f3d8240c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-flow",
+      "localizedContentSha256": "cd4d3844c8805d55885b50e27c6575097b0af42abda8ef6d017b39d4f89269a5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-flow-music",
+      "localizedContentSha256": "0bfe1e50986ecf91ada8028274f872118609121b31daa1a1d0d9c1bc50f215f0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-stitch",
+      "localizedContentSha256": "39d18b4fc9c14870472ce24cd1017c055a36c776a2993168b03eb509958dee9c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-project-genie",
+      "localizedContentSha256": "60c752e8bfe30d87d669602878c1bb32f586c4e6fdfe27d4da833eaeae47dd71"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-musicfx",
+      "localizedContentSha256": "41308230404bd413d587abeb71a76d73c309e495881b33c6dfdd24a93b428b90"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-chrome-devtools",
+      "localizedContentSha256": "c51982d04ec1607e85653e80570646b1e85b2b3e27e433b629362733ca4ee781"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-workspace",
+      "localizedContentSha256": "3603dcbf560f2272b5c6bb2740c4067d60bf3517b97046df03f8a6cf13f1ed13"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-android-studio",
+      "localizedContentSha256": "7844b416833d53481959d5c7e6fab1611553701ce9ead957b4c145f26ae1f6da"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-agent-development-kit",
+      "localizedContentSha256": "b27309535758a3e97e57319fc687ae719d48056de9aac8164e59fe3306bfc1e8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "google-gemini-code-assist",
+      "localizedContentSha256": "5b5a16c932f1862505e7327c6aea347e2c961be4a4d4e393c3073d67776ff226"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "dify",
+      "localizedContentSha256": "b1d00c42fc13345efa948a3eb347c784ce9f8183fe89daebf76600017d2b62d0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "dify-web",
+      "localizedContentSha256": "e64a80e7025ed0b360f1c14d341561cf3e61534cae89531ef86f48684197282e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "ollama",
+      "localizedContentSha256": "d5eadee5da4e4710a96afa0f5621bc8ddf06d1398febd52c1682978a1e2d4fb3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ollama-cli",
+      "localizedContentSha256": "439fdfdd742532107257493ba36f996697239764e75b19c0b4c923fa82c0dada"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ollama-model-library",
+      "localizedContentSha256": "95dc8ef91b8905b2f15c9ff2de24add7619eebce2a043c6bdf211864e939101f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "microsoft",
+      "localizedContentSha256": "6050bc212ce316e735f396d136937719f56045b5a37ddff09e8964ca4860fb0a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-copilot-desktop",
+      "localizedContentSha256": "ce1a1f0575be4ba53039188aea167c006e1376090d2a7975a4f0eca9670ee84a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-copilot-studio",
+      "localizedContentSha256": "8aed9cc66bc2f1bb0c4e90d786c8b80c5365f56b85264563cfac90dae6e95d92"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-foundry",
+      "localizedContentSha256": "f73f1bbb04973823c35aff420d9521a1f45e55731edcd2234030264f4ea96169"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-agent-framework",
+      "localizedContentSha256": "40c35e8670f3dcfd53a48b6eacca8062491f0f3f7ed6eda90db8a99ad01cad34"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-agent-365",
+      "localizedContentSha256": "3196437b4da23aa0119eded6581c6d49f40c178073591ed47d243bc5f5aa6583"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-365-copilot",
+      "localizedContentSha256": "f9e75dd8420c52b540feada7d30bdfff0d92aa10e5addebe2ca6e4b406755552"
+    },
+    {
+      "objectType": "product",
+      "objectId": "azure-devops",
+      "localizedContentSha256": "c05c25dfe93034fb9a2b3a47633fcacda33738916d06d5860c048fccdf2918db"
+    },
+    {
+      "objectType": "product",
+      "objectId": "azure-cloud-platform",
+      "localizedContentSha256": "522c909639806a41780f1a671ac712e2bf662157998defcf3d6f682a3ce42c3e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-vscode",
+      "localizedContentSha256": "f158661ffbdc979907caaedd468c242f567ed9aeae0122e148d62eed9df99f65"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-visual-studio",
+      "localizedContentSha256": "b94c6edfa05be6cb7e5fea632bff25b8b28fe0cbd45985bbd09f4799edd2a01c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-edge-ai",
+      "localizedContentSha256": "12c6bfa9824c3ea441a9f8747dcf270ca09d349d6a2c130dd8c36d0b3ae8b69c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-power-bi-desktop",
+      "localizedContentSha256": "70814e150fee4c39911529f0f0e538873d875776b5c1609ebda3edcbc7573df4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "microsoft-security-copilot",
+      "localizedContentSha256": "adbf8863d29a7178f0b2b85bc0da8923b64d5f3066a9512c949a78ab33204989"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "github",
+      "localizedContentSha256": "c109e5f5ffc619f8af5678a3405a9c85761c55d59ad405b02eb6f4c10592d636"
+    },
+    {
+      "objectType": "product",
+      "objectId": "github-copilot",
+      "localizedContentSha256": "4185aa6922e84f6ed164d8da39c89ea1b12dce3a851cabcd99b3f85a25dc1781"
+    },
+    {
+      "objectType": "product",
+      "objectId": "github-copilot-cli",
+      "localizedContentSha256": "60ebc4d7e92b16c338cbc7ebc33fe4a735e2a60b97299105eac45161d23f1299"
+    },
+    {
+      "objectType": "product",
+      "objectId": "github-platform",
+      "localizedContentSha256": "c432deff4c2cc4f9b7c7eeff5ac127bc5fda3bbd9ae16d4ca6097e0f07ffc175"
+    },
+    {
+      "objectType": "product",
+      "objectId": "github-spark",
+      "localizedContentSha256": "33060a8cfd2460ac804c7f9b21c414c63866e5cba235ad7d553e53f1c073a546"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "anysphere",
+      "localizedContentSha256": "ffad7a3d826c1ff57ffb5c42768ce5120e75a27a6c9f1892f6ce083aba330e8e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cursor-desktop",
+      "localizedContentSha256": "25e3298aa37e4b2c0a0549cec1ef56c72c23ac444fafd453b72fa56d794e165a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cursor-cli",
+      "localizedContentSha256": "813aa0b484f6c8458119cafa216bf469ab37e1ab95747ea00031808ee6d61855"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "moonshot",
+      "localizedContentSha256": "62e4811341785b1cc7b2d7e6a11873696f579f3f6cdc7fe1afc8c02c9e82d65b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kimi-web",
+      "localizedContentSha256": "97074e0ec2fcfb1f0441515387b4a76e9255590c7895e886569c4e408870ba43"
+    },
+    {
+      "objectType": "product",
+      "objectId": "moonshot-kimi-code-cli",
+      "localizedContentSha256": "271ad0b318a3b2f388a111a03c76f5a41cb4b79b955f0beb050643232f167f38"
+    },
+    {
+      "objectType": "product",
+      "objectId": "moonshot-open-platform",
+      "localizedContentSha256": "1f1cd7fd14952b138a653dfe339434c84a9e83fe16e974171351613dbc028fe4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kimi-work-desktop",
+      "localizedContentSha256": "131aa26ccd17ccd58782b591e68dd739fc6f1f6f8bd819572251eb78ae5ae2cd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kimi-claw",
+      "localizedContentSha256": "4fca83310f188757af451681af9494e75e6b397425d81cd53f4802bb1ebcbbac"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kimi-claw-desktop",
+      "localizedContentSha256": "994c7a24589a3441fc3a791bfac45578321a39c3dc2bed242682037e1729dfc5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kimi-webbridge",
+      "localizedContentSha256": "e4539839b7367ca41cc01ccc3a83bd2d1f499fd0510b85c8295b873c579a8abe"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "alibaba",
+      "localizedContentSha256": "b6cbdab261e3f8334c5a1251aeaac7d971dc6a794c57f8c6bf237e4bc4e32202"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-qwen-studio",
+      "localizedContentSha256": "3ba1c27b689c9c0b1983faca8bceffd30e615d061cf7dbb30f0c25c2dbebe857"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-qwen-code",
+      "localizedContentSha256": "66f20e04e075e364e7e9788ae13c3039e7966475040bfc01b3c74fe53ef2608a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-model-studio",
+      "localizedContentSha256": "d13341d8642b237cbf449c457e6f4a4570e5e4c3403c20bc3c331f8a3a790209"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-qwen-models",
+      "localizedContentSha256": "b50e63ecabecd681d7382eddacc090e8e08c526f17d6377bcd34f36268d469a3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-qoder-cn-ide",
+      "localizedContentSha256": "02152b5533ca6705d159ad6e6c76b89c60becd20a9f64f64f8993607a391c343"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-qoderwork-cn",
+      "localizedContentSha256": "6bfbfbf2460ffb7276a77147cceba8922ebc0dad651b55fc3ad29e42734df1f2"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-qoder-cn-cli",
+      "localizedContentSha256": "ab3d52501a2476e27d30108634d08b6586640e1ba442f4083de21b48d9f07206"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-qoderwake-cn",
+      "localizedContentSha256": "35344e3bb44d0424c5279b77c6536f77a346b63f7b4ceff80f3aadcd43b9e234"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-qoder-cloud-agents-cn",
+      "localizedContentSha256": "4b955ab22b8ab4df3e6779ca568d47afef1170c4d98cfe40544ce671448c3ffe"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-quark-ai-browser",
+      "localizedContentSha256": "36762a2e519e6091d2b313fa7c05fe6a2414e305dce998e5910536ba6a8c69d8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alibaba-dingtalk-ai",
+      "localizedContentSha256": "6ef84fea64fe7a5512fdc99eec0aba649cb0803fda647353b8126f534289f1f9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "tencent",
+      "localizedContentSha256": "dbda74673b0e235c65c8a14b693c0c6e90cd825440ac939bcb64cfd25e3ae1cb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tencent-yuanbao-desktop",
+      "localizedContentSha256": "0b6d19382e236dcfbc4e842819af672f10e7ede24fc483e14c8df8c55398ef12"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tencent-codebuddy",
+      "localizedContentSha256": "8e1e760e2c7d92ec4af33d592a2d081577e299983a89485a759c982bc5b005c8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tencent-workbuddy",
+      "localizedContentSha256": "83135fe40f4bd4b2c8cef15459d41c681daf427673f0b9d9bebe539c655de63f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tencent-hunyuan-platform",
+      "localizedContentSha256": "4b972cb90682d0f99c4530f3ece092f1d8c31dc8568ba3fa272214a94d96207e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tencent-qclaw",
+      "localizedContentSha256": "27d0b958e2205ff8581adb156a996ad4d2c550801ea4aa139cfae903d6b038f1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tencent-ima",
+      "localizedContentSha256": "e7562ff3f5e5be2004efd7dda505c90751b69368b8aeb45439df367c3fe80966"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tencent-clawpro",
+      "localizedContentSha256": "2d76bee7df702315fc4c64bafcc58c2320658778a3fa53dc5841a690b501d6ab"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tencent-ardot",
+      "localizedContentSha256": "9484cace45cfdd3fec82d9d8eda2440a065c0da9a323910dacbca94233dda4fa"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tencent-qq-ai-browser",
+      "localizedContentSha256": "dd318479789514ec58c2eaecffa1328ce925db74663c86c022d0f49de9fe0e74"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "zhipu",
+      "localizedContentSha256": "1b6d71babbb03be67a0998980e1d46724529bba1ab97f067214984c601199bda"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zhipu-qingyan-web",
+      "localizedContentSha256": "1a2a6e50dca28cea64051d932f8a6d4ee00466d013fbe814b1fd2f2ccdf06dca"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zhipu-glm-coding-plan",
+      "localizedContentSha256": "b9be77e74bfd3ecb4138182b32ff1580512b4c19609d03693ab5779b29a268ef"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zhipu-bigmodel-platform",
+      "localizedContentSha256": "a42853af3715f4ce0059158be81c61d49d66c162711eadd4aecad7313b6ac4b5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "midjourney",
+      "localizedContentSha256": "ae3aff307771f9e4f3e60bf62607152c9dd2fd0d84412d6aebe34005cd5bbec1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "midjourney-web",
+      "localizedContentSha256": "d1c713e83d258d8ec5a6b854a241814dec5481bbf6462fac92cf553365ed6fa7"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "runway",
+      "localizedContentSha256": "f3fecf03f4c094d1d39b64ed8052a3b70c9492bd32d9bf8217c07d40b555f5bf"
+    },
+    {
+      "objectType": "product",
+      "objectId": "runway-web",
+      "localizedContentSha256": "0165e343f2f0fe4629ad23c6c29969278a969fff3a92c637d1b65e045fe4861f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "runway-agent",
+      "localizedContentSha256": "bbc97e3fce68b1a393f0a25c17cfe5efc8bab675a9e944d8d471e636e8002faa"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "elevenlabs",
+      "localizedContentSha256": "1725c4ed5a357f11341161dc70c635ac7d3414eac581424b39aece13d70c403d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "elevenlabs-web",
+      "localizedContentSha256": "d2a963b43eed7a55efb8426a2cc734b74da2f5b375ee8b934850242eeec6bf93"
+    },
+    {
+      "objectType": "product",
+      "objectId": "elevenlabs-agents",
+      "localizedContentSha256": "4d1d0a7b725dad24ded2f44fa6e0660b6686190920a7b4f0984b7785a5d6210f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "elevenlabs-studio",
+      "localizedContentSha256": "fb645099c48ca73b29c87c011efb3c929ece247ed253c4b0431249e039136bc2"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "suno",
+      "localizedContentSha256": "9a9f6fde6e477023af33e79e7e4f7b40e31b69363f4ef14cbe724ee1f8b13ada"
+    },
+    {
+      "objectType": "product",
+      "objectId": "suno-web",
+      "localizedContentSha256": "f156f3fc1241491904618891b26080e793af06a4664672afc9715488f411e08d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lmstudio",
+      "localizedContentSha256": "54bb8e4d90b4fca009d40f04d6dc8a4c86c97fe3a921c14c6ab24969506b04a5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "lm-studio-desktop",
+      "localizedContentSha256": "78c2cf39678b6596b993b6524748dc547ffb8adec39881648b8fcbabc0296ef9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "nomic",
+      "localizedContentSha256": "8a951b38a05f8563da7f7031fbda48e91e10a3afb8ca2cc68f891b7e55c51f33"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gpt4all-desktop",
+      "localizedContentSha256": "104825c9327f76987ae8497504f107900b72cd5f1592e0577a2a9ead14732710"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "mintplex",
+      "localizedContentSha256": "02223210ef339b7240b85722fba8324320bdec34e38adf9ec976e3dc681110bd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "anythingllm-desktop",
+      "localizedContentSha256": "b7d654fd8e39b40817de43eddd2cec46a43cbb4b9cb691a982cf1b41b47a59d9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "meta",
+      "localizedContentSha256": "6e8b2677f9867ac2fb9a0941629e192f892c7f8120f9c731dd61240324642940"
+    },
+    {
+      "objectType": "product",
+      "objectId": "meta-ai-web",
+      "localizedContentSha256": "471d4736f1d671d0253d4e3d13f8c566391bef1bf5be5e6d6ad46e47c7a5bc48"
+    },
+    {
+      "objectType": "product",
+      "objectId": "meta-llama-models",
+      "localizedContentSha256": "633e57d39c4ae48fd8991f8cbb8395076fa3050ea3acad87b7bba0d207cec6d9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "meta-llama-stack",
+      "localizedContentSha256": "f2c2192e8d2fec4b0e727b0520cd899adaed2a1f6de55707949eafe4ad5d5bfc"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "amazon",
+      "localizedContentSha256": "571ff0fa4201887963402246438d44e4bef09897ba5642621666fab88c269a47"
+    },
+    {
+      "objectType": "product",
+      "objectId": "amazon-kiro-ide",
+      "localizedContentSha256": "75a4b3bb9f9e6f0373d687986268fb0b3bf9909eac1fb66bedf7106b154fcf1d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "amazon-kiro-cli",
+      "localizedContentSha256": "e41d5403d9eeac70401abf8635aa959bae48f8dcd72d122ac15c40a8144bd93d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "amazon-bedrock-agents",
+      "localizedContentSha256": "58738570c398d374d49edd1510d4f0ff53546aa9b7c1259b70c28765f853312e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "amazon-strands-agents",
+      "localizedContentSha256": "01dece326c11deea79cfadfc4ae2dd1f9500a63bab78f78b0fa58a3442e5b7c2"
+    },
+    {
+      "objectType": "product",
+      "objectId": "aws-cloud-platform",
+      "localizedContentSha256": "95ae5c9f174cb325fd842c7b2023237a0fe304e5cf5e693cbab07d537bbf3a9f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "amazon-q-developer",
+      "localizedContentSha256": "577e6f8f218b176aa1b8da0b671023a471067d9f37ae308385bec98eca33c83d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "xai",
+      "localizedContentSha256": "395b2df1b2bdb314ba4b7695a2ef662f6d8cfb6f7b1b8ca06c6636d90c8bf652"
+    },
+    {
+      "objectType": "product",
+      "objectId": "xai-grok-web",
+      "localizedContentSha256": "10f973f23108767d43d8a9edfd02640db2e4149c68f1c121d27037569a8e6fb9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "xai-api",
+      "localizedContentSha256": "c3e117e84415464b68adebdc81f083a5cfea8542b6d76f6f63e55d99d20f14e9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "mistral",
+      "localizedContentSha256": "d9f476e09014a578a11a8a4547252cbfffc2d0089e0d41324f1373c3deb065c7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mistral-vibe",
+      "localizedContentSha256": "b986c3445777c47d8e77650178e10723a79b48297c8fcc0327dfd457c6692627"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mistral-vibe-code-cli",
+      "localizedContentSha256": "170b2145bac771159d5c32e3744aa411e4f4d2c42dde31433dc03d99afe83e8a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mistral-studio-api",
+      "localizedContentSha256": "4b7290bc8b503fa7711466466107a9e456227087e838b4f46c21e1c6ec2223a2"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "cohere",
+      "localizedContentSha256": "98ab4dcf4eb0a2531415bb911a4aab93ccf9b2c5c4582762a17f497d2366a325"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cohere-north",
+      "localizedContentSha256": "4ee3a899c760e07e254a8f209edf44b5ec526aa536a06e8e9b40857a973c9ec0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cohere-platform-api",
+      "localizedContentSha256": "3841aa04170949399ef254d462da98a7d2c35cbae050344c40886f5b1a2ed520"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "perplexity",
+      "localizedContentSha256": "72bc8da872ebefe07d76eaa06dd3e7d4d311976663c8ec467e0bce5d470f375f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "perplexity-web",
+      "localizedContentSha256": "d950ed16cf2ede22474f7e82e1d037e632050bde6b21d7198384dba21fbd8e62"
+    },
+    {
+      "objectType": "product",
+      "objectId": "perplexity-comet",
+      "localizedContentSha256": "ea8feaca962de50b303fa7403f6b824c4511e9d3e87c04481cc71697d975397f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "perplexity-sonar-api",
+      "localizedContentSha256": "0bdf425bd19519f161083be4bf1ea39473925be14e6b0a27500000f494ac3132"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "baidu",
+      "localizedContentSha256": "855a786f8a8f98fe53ed84b65c172f271f3b082cff33a2c5e44a6cfe57b63442"
+    },
+    {
+      "objectType": "product",
+      "objectId": "baidu-wenxiaoyan",
+      "localizedContentSha256": "026bbca8ed7b6e334edb96340d7f261de68b9084a5ce9df99872d901148a34d3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "baidu-comate",
+      "localizedContentSha256": "cfff211ce9dab8e4a4a490f72a8f59abbcd4272009194276802efdcca58a9c94"
+    },
+    {
+      "objectType": "product",
+      "objectId": "baidu-qianfan",
+      "localizedContentSha256": "e9f19a72825fc69a47c685701778a9e0cd88d7f6832ee89b856a5ea0fff926dd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "baidu-ruliu",
+      "localizedContentSha256": "f84eb17340217c28c6e70149c05a0538262f683c8156205c9295ed861e612607"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "minimax",
+      "localizedContentSha256": "472a1b685dc0b8ad9ba11750457bc970d5585ddc9236d80518bb02b75adb7850"
+    },
+    {
+      "objectType": "product",
+      "objectId": "minimax-chat",
+      "localizedContentSha256": "b9a4d367956845569da60ea70ed58c64322f3ac9d61b42c3a1fa1134981fccbc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "minimax-agent",
+      "localizedContentSha256": "18004ecbe097e84c06da08ea8bd33b10da858439a21399fb438e2d42ffde6bde"
+    },
+    {
+      "objectType": "product",
+      "objectId": "minimax-hailuo",
+      "localizedContentSha256": "52a1d2b1bcb44b5e397d27a7de627b0b029dd9fc92d7ac9b6fa046e32c6a8994"
+    },
+    {
+      "objectType": "product",
+      "objectId": "minimax-cli",
+      "localizedContentSha256": "65a40f0f5085415f93228c1bc246a94aa53f2ee0a408cda89b5483d75a58f94d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "minimax-openroom",
+      "localizedContentSha256": "cb82c00f7b107de2eb3716b73a509a91d4b801f30da6fe24df23199de47436fc"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "01ai",
+      "localizedContentSha256": "4231fba3c4b871b978bd75769619a610f5c489fc5f516bc3974a5d4f52f61cba"
+    },
+    {
+      "objectType": "product",
+      "objectId": "01ai-yi-models",
+      "localizedContentSha256": "ce8b309c6ffcfe9e1908830b0763c864c048c6821da826976f4679956d60b387"
+    },
+    {
+      "objectType": "product",
+      "objectId": "01ai-api-platform",
+      "localizedContentSha256": "a3deb8afd0aba1624a34bcfa50374d641268ae9cbc23a7b6ff9a666a0755ce29"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "baichuan",
+      "localizedContentSha256": "50f67d7ea57b652c0e15656e9650b0de92541bc81e0733a33c518a58e79b75f7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "baichuan-ying",
+      "localizedContentSha256": "d7ee61297b8c727d8e5f9ee45cd85b43d92414a7499dc5b7452aed687de661f5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "baichuan-platform",
+      "localizedContentSha256": "cd2b8f3d21e2210be6aae31a9e9b43110ff4a07481d413b361035313190f7015"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "kuaishou",
+      "localizedContentSha256": "0cbed2961da78bbe2d674a8dc37b7ae0e392a41a9c23565bd50ca21bf06dc297"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kuaishou-kling",
+      "localizedContentSha256": "a4d4fea82ac5e4a0bb6e030ab941abc28b2ab07e77e0da98943118a01db110c3"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "sensetime",
+      "localizedContentSha256": "83d52770b12bcfc0038e291702a29020cf137c01f733dfaa82196c7d664855ee"
+    },
+    {
+      "objectType": "product",
+      "objectId": "sensetime-sensechat",
+      "localizedContentSha256": "220513a6ca9ce2b6f5e85d90c631b5d36750a06648ad67f29d62cfecfc5c28d6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "stability",
+      "localizedContentSha256": "2018b0286a64f6a146992246a0af2d71b395173ab5c2ca486d09ac0ce6ea217e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "stability-stable-assistant",
+      "localizedContentSha256": "60c68e7ad9d793fb20cabc8c0b0134f0ba66cd219c2cd30533b13710831bdd6c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "stability-dreamstudio",
+      "localizedContentSha256": "0021611cd254b8b6dfd758c52b25adab7058d34257cfb8e1f9a8685a383f4362"
+    },
+    {
+      "objectType": "product",
+      "objectId": "stability-platform-api",
+      "localizedContentSha256": "ea531efc17a916dfea8565925a401b0a74afcf5202bbf0cef606c322b256c06c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pika",
+      "localizedContentSha256": "f42228f9a8d7260eaab8811e7d845bd1fc64b16ff94466919d893d684be8f03d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pika-web",
+      "localizedContentSha256": "1ef34784f735a4efe7e1e06ca20cf651b0a3059a6b50772e078dcb483406c063"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pika-agent",
+      "localizedContentSha256": "6b32706227bf52296b075c28965e4ca98f2d52819099738c4b0846498f3de0a0"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "bfl",
+      "localizedContentSha256": "a17024989dcc94b4cd9ff44df75e2e05dcc5bab04fcde849bc20fd86816e68e8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bfl-playground",
+      "localizedContentSha256": "ae9887e0b6bd1bdd97bc6f290850a8ae0ee82ba1e3fe3569637c25c62616f09f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bfl-flux-api-models",
+      "localizedContentSha256": "892e32f74ed9f9bbb70694355dd75b415fb6dfd43c9df64dcb7f286537d6314f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "huggingface",
+      "localizedContentSha256": "2d7e788518f4b2565bba11e646ef0749e0932a391419e09181148bb1f1e0be8e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hf-hub",
+      "localizedContentSha256": "879a634f6da84774598c8f6cf2ba6aef8c629be407f5d61c242b0f8416dada5c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hf-cli",
+      "localizedContentSha256": "6449f07b8b703565ae123fe458cee6ff8179d392c94a3351285700d154ee0a6d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "huggingface-smolagents",
+      "localizedContentSha256": "0b049727a0fc050943e8d9d18ae67b09aad2601707b23017f1045fe937bedf89"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "replicate",
+      "localizedContentSha256": "3e490309bade45705f05c82eb951269c5a96e3ae47284cff87713032a8d1d5f4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "replicate-web",
+      "localizedContentSha256": "4c159e09654fe5374b4f89c4c073dc52978c86fdfc152e9723c75610e28dc507"
+    },
+    {
+      "objectType": "product",
+      "objectId": "replicate-api-cog",
+      "localizedContentSha256": "fd8be2f793395a116e04e78e0415d33cf83deca5fc98db14c9306fcbb089771a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "together",
+      "localizedContentSha256": "12da5d8337745b193a50d243c33f97c55c67d0ed8164e2e228c1f62bcefea03b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "together-playground",
+      "localizedContentSha256": "6841e5bded993b427fe179f269948988e33fcef99ce10af06476835ccfab543f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "together-api",
+      "localizedContentSha256": "c81dd0874cbda609a4aba9cec17eb80af9b683e586db1819e5762c07db986e81"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "groq",
+      "localizedContentSha256": "c99b7a347a1e61d056527c2c2ffc8b6bc3e9a8ab7bf0cbcf0efe75f7d87c1cf1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "groq-console",
+      "localizedContentSha256": "848be34f973a90f6e7099cd1c0fcb53e63947ab2ff47f726ae7b7ae5aea4006b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "groq-api-agents",
+      "localizedContentSha256": "542f22f4e665f36000fe43dadbe7e6af71bb1dae8202730aa32c9f3b0d97a9ad"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "nvidia",
+      "localizedContentSha256": "8231e0e421fdf9e9d171358bb53c9c33a34de8974b374fb80dad9121cce1eb50"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nvidia-nim",
+      "localizedContentSha256": "ff5e7e228b69e0a776e40e931acab1b4a9d448468409b6eab4b7b0845d905849"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nvidia-ai-workbench",
+      "localizedContentSha256": "38c462adb29817a8010cd1a24c7c7ce475e389681095e5fa02a9cd6149ae0e44"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nvidia-nemo-agent-toolkit",
+      "localizedContentSha256": "a942583469d9b395e8bb9ac1a99f7b216421dc5ad7f755126409b2473ffa4204"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nvidia-broadcast",
+      "localizedContentSha256": "b0cd3ceed6a01c4d032491bd2e91b54ffb964d4c641b82dd8a9ae79b1958ed07"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nvidia-canvas",
+      "localizedContentSha256": "89eb437bdc3a7bfcd84365207eda2b05a32994349d438aaa1c702771e6819fa5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nvidia-omniverse",
+      "localizedContentSha256": "8a1256c9ee9d34a2680056c1cd1e52ef077b221388f51fcae4fea8dcd337130b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nvidia-nemoclaw-cli",
+      "localizedContentSha256": "d44f265b307ab50319cbeca8e5caa8243643834961ff7005db95a75ecbb4c9d9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "openclaw",
+      "localizedContentSha256": "09b88430c2a1b994a3dd3b555c101477267534b2ba7b502e7455b52e1b381674"
+    },
+    {
+      "objectType": "product",
+      "objectId": "openclaw-agent",
+      "localizedContentSha256": "713a332203958d47f615fde631d221a5ccbd73eb68c47954a54f2d90e8d2427d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "openclaw-windows-hub",
+      "localizedContentSha256": "8d0a1d2e39993feb3bb7a72d7987f974bf04af56a176679af8ea791f032d36f1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "openclaw-wsl-gateway",
+      "localizedContentSha256": "b5ec0e7d723b6f3dd1322fbd5ded7291d8150c4a8eea555e46f06dae86fb32c6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "nousresearch",
+      "localizedContentSha256": "135466793e2eabd79f4880e527a5dff4c74899afb65ff540f18fa8bb6a20edb1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nous-hermes-agent",
+      "localizedContentSha256": "da041d1195d4ea7f8b82b9ee1780a9d7d462d511f0dd10037693f564240d7205"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nous-hermes-desktop",
+      "localizedContentSha256": "f0772212ffe686957b07355c93bba9ab3e9615db90abd2f301c1b9e662b7e2dd"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "cline",
+      "localizedContentSha256": "0d08cf1e3028a004386bc63d20f75e9ad451fed76c6ffe95d0edafa313c66b24"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cline-agent",
+      "localizedContentSha256": "ddb59bc748ff59d834a7ef7ee985bcd675938d1719242491685a00e0d1bce406"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "anomalyco",
+      "localizedContentSha256": "bf16861e7e388f34e82eb5204fafd5103774285492f3c68386ea5b10862b08e3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "opencode",
+      "localizedContentSha256": "65364295d3f7e254fd23c314a638299f3f43d0e264b53cff60c8211f3afbbdbc"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "langchain",
+      "localizedContentSha256": "553b7672ee0718d3da6e35359c92c6cec60fcb89600e9d3f8afd582300a16f16"
+    },
+    {
+      "objectType": "product",
+      "objectId": "langgraph",
+      "localizedContentSha256": "54b75c19117e9c33c52028897c719e2690406a8f1086375c942638469d3bdbd3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "langchain-deep-agents",
+      "localizedContentSha256": "4ca83f198b6c40bf444ead5c570d581a8521a61c07db0ee721a28cc2ba053f24"
+    },
+    {
+      "objectType": "product",
+      "objectId": "langchain-langsmith",
+      "localizedContentSha256": "8325f0ae1ce4e3ab6135bae97642aa8782831615f0ba6bf68f7a23bd8be534a9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "crewai",
+      "localizedContentSha256": "b1b3e3c6632c9e1851ccdb47543176ca33222944e49765999f7cedc2e11b4e27"
+    },
+    {
+      "objectType": "product",
+      "objectId": "crewai-framework",
+      "localizedContentSha256": "b19f292c1f5b51e73a61ac88c1ce3b6199db4fa5aaf9ba7001d5a513bf8221e7"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "openwebui",
+      "localizedContentSha256": "0aaa6de20b7ba7716314db97b18e0a2d47c10a38ccfc9b8294161a14552b6631"
+    },
+    {
+      "objectType": "product",
+      "objectId": "open-webui",
+      "localizedContentSha256": "ad48fca8edfd36c439abc56d9773d7654d602cd7b9bd9bcbde48c918e12df4ea"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "jan",
+      "localizedContentSha256": "922a9c7b780556b892d54083b35e08eb3d5175533c9df597d7f99ac8d7727c9f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "jan-desktop",
+      "localizedContentSha256": "86ed503dbf7745202a8403729841a30e31502d77ff05ffee930480d258435e83"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "cherryhq",
+      "localizedContentSha256": "3c97814c1fe25dd09d5fcaa116e0fb8c2afca8cc98831f5fe980aedf6a414452"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cherry-studio",
+      "localizedContentSha256": "3620e2435f416bab925b183ec228eb72ecb6b7e298b6de8be0be2de2082b1dc7"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "chatboxai",
+      "localizedContentSha256": "f45feeacbb18170b2bc91a76e128febf8cbbbb384cb41d05fa1fe4c4d453a444"
+    },
+    {
+      "objectType": "product",
+      "objectId": "chatbox-desktop",
+      "localizedContentSha256": "8f166df3b2f7b6aae06ff39abfaceedf26c048fd1e10ab145efe5c2a2cff7267"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "msty",
+      "localizedContentSha256": "a42f1283a55d4d508c6b42ff404aea930463b016e66d15951409ad94cfe3d659"
+    },
+    {
+      "objectType": "product",
+      "objectId": "msty-studio",
+      "localizedContentSha256": "1259bad1cab08d440f3e14172b02afad2cb0a0f34f6e108a837b1c69527d3d30"
+    },
+    {
+      "objectType": "product",
+      "objectId": "msty-go",
+      "localizedContentSha256": "b651131991e56ecafb68918b98c813ff0fd25c4982bf5eaad6ed322020e2f4fc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "msty-nexus",
+      "localizedContentSha256": "53b6ca0a1cd29ccf7ba9209061ba5baf7e72054a39ea386c9b639e5001697834"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lobehub",
+      "localizedContentSha256": "ec8daac6f2419b1f24d7b57dc2044c48009f97e6c6e1bce6059dc0652bd7c455"
+    },
+    {
+      "objectType": "product",
+      "objectId": "lobehub-desktop",
+      "localizedContentSha256": "0443d748a1975abd39281f3a9f4cd589aa04fc35a6678b2385f8c27632b26f57"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pieces",
+      "localizedContentSha256": "800c8de952334fff3610ab524d72c776697a070d171d9c4f8f0117cff068f5f1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pieces-for-developers",
+      "localizedContentSha256": "f9055635ecdab7db6aa608a72d3693e700e00ce1d4b53cf6d252a993a21b3ef3"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "windsurf",
+      "localizedContentSha256": "01018786bf55f11f0b38c52f3ab91c33593c9de3c996ac9623f0f8fec3ab8004"
+    },
+    {
+      "objectType": "product",
+      "objectId": "windsurf-editor",
+      "localizedContentSha256": "2db496f14ed427b77e463870a2edd9faeefab7e1e2a098184a1cfb20f28dc16e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "warp",
+      "localizedContentSha256": "015dc169036b8629ceb5dbd46388994bfe0fbbb729ff4e24af280b12db19521b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "warp-windows",
+      "localizedContentSha256": "491e191bdb620a4faf7ac9a75cf04290507ccd495e5094f2a05dd2da3b2d8697"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "zed-industries",
+      "localizedContentSha256": "126accca65c371e3235c7fd9716b25fada4562519a13591f1147683cbda92ef1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zed-editor",
+      "localizedContentSha256": "c65fea4f59d7a7c94500b8056431ad47f0dd81c453e54028eb96bdc2d2c8997c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "raycast",
+      "localizedContentSha256": "b85ca049ab92a7d753c117933a80ca92c700b390d8c0baef74185915b844816f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "raycast-windows",
+      "localizedContentSha256": "833b101efbfe5cdcf8e40628bd997b8f73b1c6b0ab87214007e2fd7a6e93f9b6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "manus",
+      "localizedContentSha256": "1bae46cb0eb4afc813fb700223b1081e04442566e66b55a22839ab1242430a45"
+    },
+    {
+      "objectType": "product",
+      "objectId": "manus-desktop",
+      "localizedContentSha256": "e59dc97c85673751c732c499e7fbf40cae6a7e4f89c12eea6c8f9b90dcaedd21"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "quora",
+      "localizedContentSha256": "69d43173bcb5d2b9cc71b67b64da2d6e1f007cff6cbc4b8a21219766a49608ee"
+    },
+    {
+      "objectType": "product",
+      "objectId": "poe",
+      "localizedContentSha256": "11c874eb39c3fa2937f5a6d22b56ee98a980f008f04421d7258761c6e4b94a68"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pinokio",
+      "localizedContentSha256": "29d8eb8c94ab3f4f19d64f31126c70b7980dfafb3a0c82a8258d3de427bfc8c3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pinokio-ai-browser",
+      "localizedContentSha256": "493619aaea1bb7529024c0f0b948b3062cef18f5a4c38ad795886cf96481b745"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lykos-ai",
+      "localizedContentSha256": "65fa7457dfe1111169aa4bcff34e49bcae3b1a8b93a047f99e250e609269195c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "stability-matrix",
+      "localizedContentSha256": "183dac4ce3f34f4d1ea6f7a3c49f414040009cee828270f9a9732b4ac2eb5409"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "intel",
+      "localizedContentSha256": "26f65c7fe0ac1a96ee1a1f1506771dc46172b2ec17cef26e6e0a810d5683c2d5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "intel-ai-playground",
+      "localizedContentSha256": "2b85faacca09d0c822ceba987eefb9b29506c0e3787f3efe2b15908722779045"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "amd",
+      "localizedContentSha256": "643502a664919cb8c33a4ae4e15e2e37835869c5232c1fb9e3b002dd9facb417"
+    },
+    {
+      "objectType": "product",
+      "objectId": "amd-gaia",
+      "localizedContentSha256": "95d7ad5d1c6c0d6caf031b121958daf21dc03b1be8ada4295efb62cc5406e772"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "aaif",
+      "localizedContentSha256": "fcdec62a6ed5818a537f11ff4adc66bc022258ad5e94615cb84ab144881efc0f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "goose-desktop",
+      "localizedContentSha256": "ff594b754fbc8c99b2a3699d74380a36f8451f4659a1d8ccb92ea43aba3af345"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "thinkinai",
+      "localizedContentSha256": "512fe3abee13a4439bb8018e0c42a94f8c95b8f835c00f268b5a06ddf7a3d5a3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "deepchat-desktop",
+      "localizedContentSha256": "453a7fd5af13fcb9fe6e8c600f32711c7b9dd43bce1318f05ae1c7da66f3306b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "fiveire",
+      "localizedContentSha256": "5d9a5117ab4b6d61d664d57cac66ede0c0b5a383151a9f0b639b47963a33f0e5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "fiveire-desktop",
+      "localizedContentSha256": "88ab0af88ee745ae1488de065b5eac5d95a6299529b0b5742191cef2463f1873"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "browseros",
+      "localizedContentSha256": "32a7c6703b0dd5ad6808959b2fd7c31030782ba7a8c9a91b841967e9e40a8b01"
+    },
+    {
+      "objectType": "product",
+      "objectId": "browseros-desktop",
+      "localizedContentSha256": "5042939401f8af39fb9fb73aa77c727078d7f5608dc2e461b110396b86977e81"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "genspark",
+      "localizedContentSha256": "dc16aef88749fda0763c63c227ebbcf8837ad2482ba284f8d4d8986e935d4d97"
+    },
+    {
+      "objectType": "product",
+      "objectId": "genspark-claw",
+      "localizedContentSha256": "51e36a6b2f01739a3b588ebe08241cf668bbea7c9a3fac9958b03dfd36903c31"
+    },
+    {
+      "objectType": "product",
+      "objectId": "genspark-ai-browser",
+      "localizedContentSha256": "7ec5394cef08073622d968453ff059db6eb2044bb3559fb3c1f510576ec78f24"
+    },
+    {
+      "objectType": "product",
+      "objectId": "genspark-speakly",
+      "localizedContentSha256": "44dc6d9f3f75ab597fe29933b91e4e1b9aa5e2e795073b5cd166b5f65d380653"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "block",
+      "localizedContentSha256": "46d11d3b35dbf8883ccd962c627bcb75a2b570ee2e763bef784a151dc31f50b8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "block-buzz",
+      "localizedContentSha256": "c07f6eb58eb4c5ab189464b7a6118ab21d4c3ba46a363357f6c88097e6b5a568"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lostruins",
+      "localizedContentSha256": "e7ebe4f4c3af7031358ec281364ba0a2dadf0ebc4320f7d8bf2dc9b61597491b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "koboldcpp",
+      "localizedContentSha256": "6c64544e8800451a4dca20ca55ca272737fad93a1733fae05559d6a610b76aa3"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "deepl",
+      "localizedContentSha256": "ecbf698610adabbd1fc370d5fe99d3e25a60c8c820d646df6532b81130251ce9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "deepl-desktop",
+      "localizedContentSha256": "47567de677782cb6aac7bbed39e096bc59837257fbda0a5cd97f131634bb502e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "grammarly",
+      "localizedContentSha256": "0326982a96bcf8b06442061eb15b484175da6c15e97282e722f3787f39aeee26"
+    },
+    {
+      "objectType": "product",
+      "objectId": "grammarly-windows",
+      "localizedContentSha256": "682556e3679dc92f470a686effcf592db870c8f3b04698b80b3e1162c818ffea"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "notion",
+      "localizedContentSha256": "2dcad8c54771671a316f603e5a94ce2f07be814703bff509ed2352262d479f03"
+    },
+    {
+      "objectType": "product",
+      "objectId": "notion-desktop",
+      "localizedContentSha256": "2d61a336be55084fac00f5f4826a1ebedbf0f62915020faa9b9c42cef4a3f170"
+    },
+    {
+      "objectType": "product",
+      "objectId": "notion-workspace",
+      "localizedContentSha256": "03e1c1a7cfd738fac4d8a328318933f68d792e969c5c4f4f41dc4fd3c80d2d47"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "descript",
+      "localizedContentSha256": "8530fbb3c901449245049b04f9f92a88342994835248c89f7f34333e36251429"
+    },
+    {
+      "objectType": "product",
+      "objectId": "descript-desktop",
+      "localizedContentSha256": "082167afc3c8dee19824c8a7b18b01fb76238005517e7d786b06ea300d762ff3"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "read-ai",
+      "localizedContentSha256": "a168d820031b5a725a2ff6796b43af2c7db8a47fcf45530a1cfe839b06d1b837"
+    },
+    {
+      "objectType": "product",
+      "objectId": "read-desktop",
+      "localizedContentSha256": "c62d7871db736c04bc2e70e865cfd35fd8fbdddd5b6c2e3229b27ea7a1e959e3"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "canva",
+      "localizedContentSha256": "fa9dcf69b860f9b8d251fa3c3a18ea7c0a994814e4ee53ffca0d89b9409d8ff4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "canva-windows",
+      "localizedContentSha256": "c7d3b06b8ba9bd70e0ade8a762a357093850aa240daae442083810b6b1c63645"
+    },
+    {
+      "objectType": "product",
+      "objectId": "canva-design",
+      "localizedContentSha256": "461e108edc29ae542b58e30f166b6bbb3be9139d5f6fed6a3ab05448e24c0d71"
+    },
+    {
+      "objectType": "product",
+      "objectId": "affinity",
+      "localizedContentSha256": "c137109b05c4bb206a62594262d41a606ab427eef333db362074504ef9631347"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "wondershare",
+      "localizedContentSha256": "91e54c2b1f89df87d2bb5bd3440c0e6a57705830710d4e5de910504b6c98ceab"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wondershare-filmora",
+      "localizedContentSha256": "9714199554b024c4b2b763d4d701b0691c64395eb21af84cb658dfe1f6d44168"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wondershare-edrawmax",
+      "localizedContentSha256": "ae04689d77b8ee82eda7765ce003f6d90b7e7bab0167a9d46cf3f8009433a0a5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wondershare-edrawmind",
+      "localizedContentSha256": "73d228c86d9fb46ec10f4483b2a40bd447dda28b95736109b1eef9176c30542c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wondershare-pdfelement",
+      "localizedContentSha256": "ff249c30951481b1d695fd9f98e36c29ebf84ef5e52a24e50dd14b5789269db7"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "skylum",
+      "localizedContentSha256": "0bc1ab915fb37436b72801416b1af45b5cd34451a0efdf2612450a3ddcaee100"
+    },
+    {
+      "objectType": "product",
+      "objectId": "luminar-neo",
+      "localizedContentSha256": "8df9ec5818f649861e30b3867c68b173027543bbae0b66c1bcafc35cbbc9fc02"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "topazlabs",
+      "localizedContentSha256": "afcdb89f8ec8999a8f15bb1cb6f75c43c7556941c0ca1d0699211dd068ced942"
+    },
+    {
+      "objectType": "product",
+      "objectId": "topaz-photo",
+      "localizedContentSha256": "c5c27a212188612611f15ff1b72830fac45b2e8f431a5d04e3196b74d95d2de8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "topaz-video",
+      "localizedContentSha256": "6863eeedecd5b63d98285cc66ad61c27e1f3708cbd2bc4114f95b2f0456ce029"
+    },
+    {
+      "objectType": "product",
+      "objectId": "topaz-gigapixel",
+      "localizedContentSha256": "3681ec8212c4520c39bf3531df208560dbd687c5a91a58b02efb0d84f1ab109e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "moises",
+      "localizedContentSha256": "cde878e080f9e8c81a5842f700d0bf5332d94fc9b701a2b5526f8ace90b3bea1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "moises-desktop",
+      "localizedContentSha256": "e352684e860c724709a1815826eb111dc1e37c919fc197e84ebf51a5f07065ea"
+    },
+    {
+      "objectType": "product",
+      "objectId": "moises-live",
+      "localizedContentSha256": "3745e3cfcb1ac892d23a7c06368b4057910690bf0bbe5acf3e853279cb2d1b0c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "voicemod",
+      "localizedContentSha256": "c1a4242ac79e4a0f0447787eee5f57ee1d7c30a6f5dd773e891edc8b07c2398c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "voicemod-windows",
+      "localizedContentSha256": "8364bb2e6983ef5d3a0b94ec9c8232e3d61f8e3da45f7e95949310f4871cf7aa"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lalalai",
+      "localizedContentSha256": "b03d11f6adad4f4136993f5fecc768a26bc443d6891b538659d4dfbef36a6093"
+    },
+    {
+      "objectType": "product",
+      "objectId": "lalalai-desktop",
+      "localizedContentSha256": "a0ea1700ddc014778b8d43b8b93c8401b483bc363ee276fd84083d99975ddbef"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "otterai",
+      "localizedContentSha256": "92551e077099e3179c0847350f8c31937e9090c221edce686f49be2ce6ee6b5e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "otter-desktop",
+      "localizedContentSha256": "0220a65d17c25a5fd0ab777494f9e4e948ebbaa9b2c2bcffd98a88bab5caa58a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "firefliesai",
+      "localizedContentSha256": "da3c423327dcd1a996bd51f3e9e37853afc3d208136fe145433c829979a359be"
+    },
+    {
+      "objectType": "product",
+      "objectId": "fireflies-desktop",
+      "localizedContentSha256": "6680b3005f40ec2986c88114e35a9e56398b6546e1fee4c17db3efedea169518"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "fathom",
+      "localizedContentSha256": "6e7a6f779def4b082f1073a68b3d710eddcf92ecfba0bf32484f6d02af5d2f9f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "fathom-desktop",
+      "localizedContentSha256": "4ab76cd4e85bbe807118b8f9c41fbd66b332e8411d8aa1f277fdb61638944567"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "granola",
+      "localizedContentSha256": "83abaa1c1584a0df49d87fc14dfc6578fd4c6ea4ee3c111094c1fbc96d49b7a6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "granola-desktop",
+      "localizedContentSha256": "efc5ed4444b4602580aee201701e9517cdc17fe4c0780bb1a0c38783f8e845aa"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "krisp",
+      "localizedContentSha256": "d244338e6b8c6a93373659eae71be3bb7c30162835a442755807e559f9f93b2f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "krisp-desktop",
+      "localizedContentSha256": "59beb89d71ddc9c26e621fb07915e9a8a6802a1cf402ddf0ce2f4a9a081a1401"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "wisprflow",
+      "localizedContentSha256": "c41d1039fc851cec30ec942ab79b9d2973508af14a08e55136e18ccab29272b7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wispr-flow-desktop",
+      "localizedContentSha256": "b6bfea27d7798f9bdac38e61d54709b5d741d141e547ac7820a4f09fc868744a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "qihoo360",
+      "localizedContentSha256": "cdb8422a143ff8b6eb10b8949ecf35233c37e9f128e488350cc50475b57028e6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qihoo360-ai-browser",
+      "localizedContentSha256": "ca960dbc434122b4972ba77b6959ce4833d09bee71586c5d9a59e04867216b8c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qihoo360-nami-ai-pc",
+      "localizedContentSha256": "e3eafac3dc5834b821ddafcffe4d8404317e8e39f510c72fd30697ff654c8b29"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qihoo360-ai-office",
+      "localizedContentSha256": "cf9ab6ec7b774ff04f89a68394102e73747f9825c503b942200981d6e8c1098b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qihoo360-safe-claw",
+      "localizedContentSha256": "6c3fe3fff27a1c85e0e660a5ac0ea47325217080cde224d5a136b3aded2d6521"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qihoo360-agent-safe",
+      "localizedContentSha256": "4c9f25bdc12746399c043fa104599820ee86e1e3785d098954c3d5834bf3df85"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "iflytek",
+      "localizedContentSha256": "666cb5270dc56e2ae0980bea17c0a2c3e7168f9a8de3dfb6d558ab4a722b0162"
+    },
+    {
+      "objectType": "product",
+      "objectId": "iflytek-sparkdesk",
+      "localizedContentSha256": "3c2d4ce95079be44fc2e1e9a5bb8caa19b703df813d58b3988361ef1ba6371ff"
+    },
+    {
+      "objectType": "product",
+      "objectId": "iflytek-listen",
+      "localizedContentSha256": "0e97c1a1678cdcc306a111dff43ead0f81ef8663e4d091f9064aa3c3d4bf089d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "iflytek-simultaneous",
+      "localizedContentSha256": "ec7a477b9a9210f8df6fd0f3d3c5d95c918582f1defaa1179d5acf02b2c7984c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "youdao",
+      "localizedContentSha256": "057973a684ca52be8186f70a7b2a3b053ec2c28d61f46762be933c1366c8a144"
+    },
+    {
+      "objectType": "product",
+      "objectId": "youdao-lobsterai",
+      "localizedContentSha256": "a7a1ae2cfc60fe99a719d243f19f11f6d199fdcbe13f9d431b2a48a69a8077a6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "youdao-translate",
+      "localizedContentSha256": "d1c6e76d7516f5193872396086acd7aff9d33ba33ae99789544e350554644d31"
+    },
+    {
+      "objectType": "product",
+      "objectId": "youdao-note",
+      "localizedContentSha256": "29810864eba92a1797596cf4233136181616457a31ab59af609608b14ffce198"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "laiye",
+      "localizedContentSha256": "6122fbf6cf9f6e83f11e51620dc6df6f26243086d6e9bef94173dc56131982df"
+    },
+    {
+      "objectType": "product",
+      "objectId": "laiye-worker",
+      "localizedContentSha256": "6eb6ad0b08c6663f5af7d3b719182cf04a217e0f8680f9dd43fd85c0f2d63522"
+    },
+    {
+      "objectType": "product",
+      "objectId": "laiye-adp",
+      "localizedContentSha256": "2d05d320b9fda4fb33ab23c7398518e16e777d75dda75515ee7013b7655bedd5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "laiye-rpa",
+      "localizedContentSha256": "475b74e363a0b171ebc90f673bdbbaf77b24e956ad599dce880969412f135244"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "skywork",
+      "localizedContentSha256": "c35ac6c26f8b892cf29de5804b36a7f9e5183122ef903e046eacf2741b965377"
+    },
+    {
+      "objectType": "product",
+      "objectId": "skywork-desktop",
+      "localizedContentSha256": "b9b0596ef6f59d80e227bd8dd9ba328ac8a30a389c8985339e2d1625340a2c48"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "monica",
+      "localizedContentSha256": "ef5febd8328f94e3235183f9165a1c119a4b0ae4af3e843e5795c431f5eb555a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "monica-desktop",
+      "localizedContentSha256": "17a1883b29940b29ae9643e0dc890995177f17e122f7590b1dde8a62dc9bab1f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "kingsoft",
+      "localizedContentSha256": "f009c0f75a5f8e94698b9cc3d0c2c3047881b728a5fc0a02e8c6db7e9de5afd8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wps-office-ai",
+      "localizedContentSha256": "76356e4a476f1776bec2b56a5e7e60313661d31ff256dc7bd4ab10a8d04b8f3b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "xmind",
+      "localizedContentSha256": "f665145ad46791d57266f55244bf79289ee4f070e5df6bb4bcd066aa2ca14c81"
+    },
+    {
+      "objectType": "product",
+      "objectId": "xmind-ai",
+      "localizedContentSha256": "98203dc802dad20836479e00da99e28637d76149f502b8600cd24ebd2f310bda"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "meitu",
+      "localizedContentSha256": "f9293300dedd58f886a178894c5b698dd692cabe980ff4f3f5bd238ed9206424"
+    },
+    {
+      "objectType": "product",
+      "objectId": "meitu-pc",
+      "localizedContentSha256": "297b4ad00074544c83c71a7bc534cc8abdc2e07012f5bf4073ea8fbbd6756b0f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "meitu-ultra",
+      "localizedContentSha256": "f033c832b1882a01d624e3898fee4b120239cffd0a7513f1d137917dff9ebd6b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "yingdao",
+      "localizedContentSha256": "dec2ca8e7f837b0e04fbde988a9a64b004750ecddcc6e817a58dc9f27e6273c4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "yingdao-rpa",
+      "localizedContentSha256": "5577a22e86c467c1e1184a1386cf3645d237602fadb904cc0d4a84b307fb4215"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "unity-technologies",
+      "localizedContentSha256": "c53888e6f9b353db47effbb279604489cee5adf6a34cf4247f1d1a6a7164b046"
+    },
+    {
+      "objectType": "product",
+      "objectId": "unity-ai-assistant",
+      "localizedContentSha256": "f1da9ff6accce9d88d1fdc3f49f16587c1212a56bc9faeb51b36869fd92bb363"
+    },
+    {
+      "objectType": "product",
+      "objectId": "unity-editor",
+      "localizedContentSha256": "978878254d7b57d4ac097877190b7d3c80ffab25da6f9a085e363089075e34cc"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "oray",
+      "localizedContentSha256": "3e1d3f834e306027aeba20242e7ef38e5d4fe75ebd8e8efcd1c9f1aeff7946d1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "sunlogin-windows",
+      "localizedContentSha256": "8a0a9a4f494033cd4e7dd310a0476a404bdd789ffddee46c766702730d222e4f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "figma",
+      "localizedContentSha256": "fc2655c7714031686ae616c43ac35e77b3579c9d6afb6dde513c36f888756d26"
+    },
+    {
+      "objectType": "product",
+      "objectId": "figma-design",
+      "localizedContentSha256": "df33b101f9acbd867affaee71067e9956936940a6f717f35d428ff55a7484d29"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "atlassian",
+      "localizedContentSha256": "df7851b5cee4c55685f399164efbbfd0e8021da056e83fb623b7cb02281bbbf6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "atlassian-jira",
+      "localizedContentSha256": "9fde2de379ab9cd5b344e3b03293a0a600ad21ccc8670516fa759b7e2643a51d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "atlassian-confluence",
+      "localizedContentSha256": "2771a3251377f7f81518ae1aa6b9c2f5e3f3ea3279c11ef596c5712e11f8e357"
+    },
+    {
+      "objectType": "product",
+      "objectId": "atlassian-bitbucket",
+      "localizedContentSha256": "f2bcbe702ca0676030f46d136ceef7a222c31cf6951a345dc3552d4756b73d8d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "atlassian-rovo",
+      "localizedContentSha256": "31216483df18516ad1a9f8e81b4eb791cac2a6a919af40dbd4ae4c61d3da39e7"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "docker",
+      "localizedContentSha256": "e724ca6a3b166e2ca67545df384a13112d7ac71d98ab192b6c325e09697064e9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "docker-desktop",
+      "localizedContentSha256": "32a6408cfe0d5019107a19757392fb84949cd77ea71ef6a548e1581db3d82bd6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "cloudflare",
+      "localizedContentSha256": "61d481b46eed828a1ad87ee88f7028342f2cea39e5a705c44cbc7b1bf2f5f658"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cloudflare-platform",
+      "localizedContentSha256": "e5f39336a3c206fa5018fb197ae9cfec7da7259f816d3eabbea088c617686d78"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cloudflare-agents",
+      "localizedContentSha256": "7583b1f7fdec90d30f00a1ee50edada88ab77cb238535c785cabdbf18b835e79"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "linear",
+      "localizedContentSha256": "0ed46c0034248371e870a8e04e4eca68f805ed3294cf1a03b67b27fde11f8253"
+    },
+    {
+      "objectType": "product",
+      "objectId": "linear-workspace",
+      "localizedContentSha256": "9f8d4ed22381b190edc6e3311a6743a3f6eaca285945cc17ff960b8ee5b3835b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "sentry",
+      "localizedContentSha256": "452219e7ad928f4747c6aa2a885642fe28300a972c140a69f0bb454e24cbc5d1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "sentry-platform",
+      "localizedContentSha256": "f876515f6f4268e5a6fcf741006569f98e1f29451ca68fe0ed8b6f5c8c5697b0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "sentry-seer-agent",
+      "localizedContentSha256": "dd5f5b7fe648f59c1680528997613b3c43a99bf5a8f5e9fe1dfdce7813dc0f6f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "stripe",
+      "localizedContentSha256": "ae1e313570b2afbb17366fdcf79ad754c7eadd863fc07dc351c5612ce2b0dcdf"
+    },
+    {
+      "objectType": "product",
+      "objectId": "stripe-platform",
+      "localizedContentSha256": "fbb59d770602019e5d0e9b6df74da1014ed4428c397b4d1d0c1fc55959ddf217"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "supabase",
+      "localizedContentSha256": "8be37e13cc163720477fb189d4c719aad3ce0130e4f9c645df72ebd0df0cf7e8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "supabase-projects",
+      "localizedContentSha256": "cbd8d0ced30eff2fe770ba09e0926ff07b548ee70cc5e40196ae4fc6065765e9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "slack",
+      "localizedContentSha256": "75c34ece8427fbe5827efcbf9033001dbb07f89cd7b1b1e55aba66f018daabe3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "slack-workspace",
+      "localizedContentSha256": "bd5bc58ccf4e2320290ddfb73b4a521ec6af32c1c5231c2759ab655f57dbce3f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "jetbrains",
+      "localizedContentSha256": "76b2988d70953d666bc41b72f6e8546bc825206429928f638656ee232bc363f9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "jetbrains-intellij-idea",
+      "localizedContentSha256": "e35d32aa10e389a7247565fe7e78dafc220a4f768b223c680cb48ad96d48d05b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "jetbrains-junie",
+      "localizedContentSha256": "aeb76419280e07779794422212d2d755370d083954231519b2fb408b6f3642fb"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "vercel",
+      "localizedContentSha256": "b6db82616ee8a7a54018d9737ef31cf08bbc5021f88f88a1b35877a48036fdcc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "vercel-projects",
+      "localizedContentSha256": "1244e58d7b282dc9f00734167141e42b0e638f01841664fc32ee7cf43c8710ab"
+    },
+    {
+      "objectType": "product",
+      "objectId": "vercel-v0",
+      "localizedContentSha256": "3c49c63ffb0f5c034fcc3cc2a627423a57c5835df1f51f3ce8dce86eb6ebbfdf"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "postman",
+      "localizedContentSha256": "99e1f0e0bc12f33349fac3af6c78e03c5d7a7fc4bbd59082896d97ffedc94ca7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "postman-api-platform",
+      "localizedContentSha256": "e14902219f8b1fa13a103d5ff6261a9e623830c52b928203b5015d57b915ec38"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "asana",
+      "localizedContentSha256": "321dbf540ebe5ef82d482d36d03e1d1676bb5294161f8c9a24409847bd15ba1b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "asana-work-graph",
+      "localizedContentSha256": "250c1aa714a6bf08cb20b1e7c42d637d7e43e1042565ab54a6a50fd55a2777ce"
+    },
+    {
+      "objectType": "product",
+      "objectId": "asana-ai-teammates",
+      "localizedContentSha256": "60939ed74501953df95b0484d0c376c444a8cae6f9aa6370da7529b64908ec58"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "hubspot",
+      "localizedContentSha256": "c5de7a2d59f5323a7f4ea1031a3ec48ce69928c3db68bd37059db997f1bfc634"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hubspot-crm",
+      "localizedContentSha256": "864a6874902065d6215c8fbc1f1cfb0abf7ec2ae3fb6b24352ae11b435633909"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hubspot-customer-agent",
+      "localizedContentSha256": "585caf1cea011a49a594f2477c26d307c3e10f12b4bc68704f855619ac38a8c3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hubspot-prospecting-agent",
+      "localizedContentSha256": "a6a1cda71d426ed1c5ed7f51161dd2d8dd1cba33b45e8bfe79606ade07238fbc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hubspot-data-agent",
+      "localizedContentSha256": "6f94f112cd9a36ae4d2cb28c8658e8a96d9a20ff4fd95a296468fb2019457192"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "blender",
+      "localizedContentSha256": "fc16be6044cc5ef0820ec98934b508cdbf12b79f977f12bb684ad151cf998bf3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "blender",
+      "localizedContentSha256": "db5750fab6b6cd62ca8271931a9d8dea1e00ae1f8caa2a2b53021938507763f0"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "godot",
+      "localizedContentSha256": "d24b620741b7b74c586c74c0cb11e9a2c55d33fdecd3aa09598f16f35dc4b79e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "godot-engine",
+      "localizedContentSha256": "610e2e319667b4ecef6dbae593297c6204418ee221a7fc1bc8284ab5feeb6fba"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "epic-games",
+      "localizedContentSha256": "1b859f4a46091e30885f69974b70c907528ddb0ea7c8c4c0d04c5c0fe2950a0a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "unreal-engine",
+      "localizedContentSha256": "f2da8caa767bef463c5fbbac8710ce87c18a430a4b497c7ab9ec6f1af15dd5b1"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "ableton",
+      "localizedContentSha256": "5608e608482cda404ae96395d36c94132bf19f058b7fcd7a09d52cf529180de9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ableton-live",
+      "localizedContentSha256": "6db6b059765d6e6561ea95611991168da3fff188fe978c2ee68ecfb1e0831242"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "obs-project",
+      "localizedContentSha256": "35b622b407162f1a32765cd434ce2488e25bccb38bb8ac38e6fab43e51bcde09"
+    },
+    {
+      "objectType": "product",
+      "objectId": "obs-studio",
+      "localizedContentSha256": "7dc4a13153fb35ee5408d539fdf2c882949e1bd576beb2f8e0d4117ae22ed14b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "n8n",
+      "localizedContentSha256": "c3ba6a1296f8a30b49dc6ac50a579e42e599d7906b7c6139644e142c30708e74"
+    },
+    {
+      "objectType": "product",
+      "objectId": "n8n-platform",
+      "localizedContentSha256": "fae37baea7f6ac83445e4036b68d0c4c5a1f21c7f995ea399a3bbb3688b1f29d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "uipath",
+      "localizedContentSha256": "36c8cce081491ca2316fb250a9bb1e729ed54da55567873791eb12439b5909f2"
+    },
+    {
+      "objectType": "product",
+      "objectId": "uipath-platform",
+      "localizedContentSha256": "01443ca40a052074d261f7a41c980fe448fd13aacc5a7578a4a3521b289e6180"
+    },
+    {
+      "objectType": "product",
+      "objectId": "uipath-agent-builder",
+      "localizedContentSha256": "72cc55fc39dbc4901f01ed12b79280b8c572bfbf118991c3e1051c27a034d95a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "uipath-studio",
+      "localizedContentSha256": "9e4fbeba51b5277de4d30fc76dfccd7fd46be333392bfdbb0ae47f79436efc87"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "open-home-foundation",
+      "localizedContentSha256": "d9f953db21d2b6fc4fd36e151b1ae0a0767d21af8a7ec79a291e20076bc4b9fb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "home-assistant",
+      "localizedContentSha256": "dbc037aa01690594e75bd984cc4b5df2ef8e9d927b9c5abd8d22c74b68561819"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "adobe",
+      "localizedContentSha256": "aee160468bd2be6d5c138d102fcd25fcc68bd5c318efd5ec8fd544f8e0245e15"
+    },
+    {
+      "objectType": "product",
+      "objectId": "adobe-creative-cloud",
+      "localizedContentSha256": "874c2cbfd4a4df17253103605c61293bb19c86da42b6e50ecb62e009fd079cba"
+    },
+    {
+      "objectType": "product",
+      "objectId": "adobe-acrobat-reader-ai",
+      "localizedContentSha256": "4a90a83c0d916a42a35c3423c06ae73bb87dfbd778eb36a3108673cbf08a7f95"
+    },
+    {
+      "objectType": "product",
+      "objectId": "adobe-photoshop",
+      "localizedContentSha256": "006793e069430495fcb3b2a5cd372b5cd24194b1f7e5eaca9eb5a053a585993d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "adobe-lightroom",
+      "localizedContentSha256": "4869bfe20cc63ef89962af709325e503fcf78c4905790dfb619d0065a261f329"
+    },
+    {
+      "objectType": "product",
+      "objectId": "adobe-premiere",
+      "localizedContentSha256": "0c3189e0b454a99154719626430992fa1584bda2ac20715e9153902ed9e7815d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "adobe-illustrator",
+      "localizedContentSha256": "396eb78ef4e4045b591cdfa5fe5224c0e04950d1712e1d6bc88ca55c397d8392"
+    },
+    {
+      "objectType": "product",
+      "objectId": "adobe-firefly",
+      "localizedContentSha256": "14db52441484bc976e668a9de6d195a72e00bef215b229bcf8b028639cc0975e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "autodesk",
+      "localizedContentSha256": "dbde4e45cc709634e6d57aa6fc35f28118a51310374dbdf01f5343b9ca63d05e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "autodesk-fusion",
+      "localizedContentSha256": "94b3805c62ebb7cf7b67deb2df36cd1c3e630a25c4edc5e5e070a1d9425947e7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "autodesk-autocad",
+      "localizedContentSha256": "0fc1ff75bd714fc61a14c23b579526ad9793207c2dbe5fdabb7d49a32f1a592e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "autodesk-revit",
+      "localizedContentSha256": "56808df19b8c25071631fb0372c3e59838d443cc6015e99e8ac8cf91009ca961"
+    },
+    {
+      "objectType": "product",
+      "objectId": "autodesk-flow-studio",
+      "localizedContentSha256": "cb86c91f23d35e6b959c0f0a34d552fdfef7976fb90d7b3d8f49210601d8ec3b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "trimble",
+      "localizedContentSha256": "7f2d6471ac76e8805508442e43ff4b1ec442322b8cd0bd7d889922c658472007"
+    },
+    {
+      "objectType": "product",
+      "objectId": "sketchup",
+      "localizedContentSha256": "ea9d93b4870697fa383679d0ca26fb338820ca22e4e629cc021dfd19820479b3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "trimble-tekla-structures",
+      "localizedContentSha256": "adc9b0ca6cd148f4e0d152d73ede839fa9283c3f5a3d275b284b745273c69819"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "blackmagic-design",
+      "localizedContentSha256": "2ec27bd8f711a1a1f8d2e27b78a946ba4a3e8ec880be3ff4417efb76f728ee2a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "davinci-resolve",
+      "localizedContentSha256": "dc928f463bc2dc930e02fdacc7faafe43a99c1d4da737224580608c1249ad3bb"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "zapier",
+      "localizedContentSha256": "7d3dad3271e1b38aa48f9565aed0eafbbc88fda1eaf00001a7625ad991d419c0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zapier-platform",
+      "localizedContentSha256": "684764c176e7ff6ae6995e8aa71ec59302eed68af59ec68e6e8f78bdbd6d9159"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "monday",
+      "localizedContentSha256": "2cab38b17ea3531302448ea61681940b70af64f1b8b5b1b7abb2a1f9223456e5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "monday-work-management",
+      "localizedContentSha256": "8a0ddde9573c9d2ce217e5cc20cfe56bbc81b666021ccb59c40bf1a249b94ca8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "mongodb",
+      "localizedContentSha256": "de242552eb1bc91d9caaa4a4a1961a9486da326d9e9c035bc2bf5963768977b4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mongodb-platform",
+      "localizedContentSha256": "6276e3d516ac2a3fac1a18352593dad3b705d0eb0c33b92701458d0a44f480dd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mongodb-compass",
+      "localizedContentSha256": "66a51d7018f37746f0b553cda6721bd208b8306974e4dd7cade080b6888336df"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "grafana",
+      "localizedContentSha256": "0b5af2161e0db8e498466033c002beef624fe25049784f632e71cc46c8f2235e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "grafana-platform",
+      "localizedContentSha256": "c9458c3589c8988ad01cbee685955f64fdf07a09b969bb0125bb58fc7e062025"
+    },
+    {
+      "objectType": "product",
+      "objectId": "grafana-agent-observability",
+      "localizedContentSha256": "a6f42cdba75b4d5acc71aae08bc9e2b091787e10ec704b51e9697e426036acf1"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "datadog",
+      "localizedContentSha256": "499fcd63a5e02be92ab26b481fe0b9df713aeb75e5946d559eb6eb9f292f21fe"
+    },
+    {
+      "objectType": "product",
+      "objectId": "datadog-platform",
+      "localizedContentSha256": "015180b2a05741ff5876c257dc6b532df8d6e645e53918cc560dfdc00f5c0f14"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "elastic",
+      "localizedContentSha256": "b0a9d30d08f09396919a40f33464c9a279650f2845df24ecbb54d5170a821c4b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "elastic-platform",
+      "localizedContentSha256": "f1859af44fda35b5219f0f05138e01ac05f977edeb1635e28be991f7b96e54e5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "roblox",
+      "localizedContentSha256": "3e072d4176925d4ec096a90ae4d4562c566d94289f37b70a2120f78e3e697fca"
+    },
+    {
+      "objectType": "product",
+      "objectId": "roblox-studio",
+      "localizedContentSha256": "fdda7f5a92ce78a7fcc8677ef1dbdbbd0e5955e7c7c7079f1f7772df6a127e45"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "penpot",
+      "localizedContentSha256": "76fc245f7de7f8940dd14805900c186e20ef804225b14aebc6ebdde0c1336b96"
+    },
+    {
+      "objectType": "product",
+      "objectId": "penpot-platform",
+      "localizedContentSha256": "d85f83cccd66d29d8b93acedf73ab53e7308aaf21b1974d493e72ac2d1c0aa49"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "webflow",
+      "localizedContentSha256": "246b42581a1889f32135aef2f7609a58217245ea06d8705ef64d9f1f7c787cd5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "webflow-platform",
+      "localizedContentSha256": "e5e3645b1a7bb744646ca1257e9619de4959e56e0be7b4577c0088fb1d750458"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "miro",
+      "localizedContentSha256": "a9b449a49b95f2662d4171f72caca97aea2b62a7a5e26504fb59d7c90203cc7e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "miro-workspace",
+      "localizedContentSha256": "fb79cd418d25a9922605c2790bfdafbf855f9c5f3120f1a526e0b710d3b558bd"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "mathworks",
+      "localizedContentSha256": "451a04904fbaa12602e76e4e1366fa4de0976a04bd52cd80cc88a81f24e143eb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "matlab",
+      "localizedContentSha256": "99a88f29309dbe0edd69a7ebe396e6e71e77528b3df1ab8fef846dc8c132621f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "simulink",
+      "localizedContentSha256": "32f29579d76bb16772e8a394068bb0116316724b9fa411f5150c22a1316c8339"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "gitlab",
+      "localizedContentSha256": "d7c1bb5682411206db4f94782fb214f3fbe966f3ce6d15f84d25b24fb624ae67"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gitlab-platform",
+      "localizedContentSha256": "2ad3fbe80b29f58a86c6a978de5759f6b4b29746a90cc83616b2fd9a7e030ee8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "salesforce",
+      "localizedContentSha256": "9c12e753a48fb4dad11ec1fa7ac07523c744fe22d363c5a7d74708d93b9e94ab"
+    },
+    {
+      "objectType": "product",
+      "objectId": "salesforce-platform",
+      "localizedContentSha256": "6054abf3c7d7ba9a577214458afbfd58173e3a8afe99dd051f074ca4da9d091a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tableau-desktop",
+      "localizedContentSha256": "072068b0015336e95ed78f2cadf61ce091a67ddd22203e5ce3fbab95430bce23"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "servicenow",
+      "localizedContentSha256": "e9448227a25591d9569e8531630dce3b8ba076cbdc024e48dd14754b011bc0ba"
+    },
+    {
+      "objectType": "product",
+      "objectId": "servicenow-platform",
+      "localizedContentSha256": "3acec67391c7594b3e65310f19a63853cea8b6c641f8e7031fd05eea87b7d955"
+    },
+    {
+      "objectType": "product",
+      "objectId": "servicenow-build-agent",
+      "localizedContentSha256": "4dfc33fc8bd541e1772cd2ac95aaab606f9e1d67783146989bca27286532bdb7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "servicenow-ai-agents",
+      "localizedContentSha256": "a86043921f238de7e6ccbaea2e6cd1da3d7e8e90f7fc7fbc45a07b35c535c99b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "hashicorp",
+      "localizedContentSha256": "13e5a0f8c6bd506ba684e8b5e5d360ebbee5aafca88c4c8920f2bd10fdf00108"
+    },
+    {
+      "objectType": "product",
+      "objectId": "terraform-platform",
+      "localizedContentSha256": "a1f20b3b8538769b66546a761b0b0520c266d17c4acb424b3a55d2104569d83c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pulumi",
+      "localizedContentSha256": "82770e67eac22c3bc6ce9231dfddd098652c665f27e37dd3032a8a32c3bf6b31"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pulumi-cloud",
+      "localizedContentSha256": "ebc2b13530ec2f0f76c8b805dde162eab541b914dc0d42889a2607d5b9951d72"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "browserstack",
+      "localizedContentSha256": "b9a725311e9540e3d17606c397f8f1ab4640afca4467090203623e242fdfa20f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "browserstack-test-platform",
+      "localizedContentSha256": "e079aef506a239787434cbb395a4e864a2e6a4050d317cccfeb4c367264a0821"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "circleci",
+      "localizedContentSha256": "1ba7be6c385a65326c97b10aa433f36d236fdb090e613ee1bcae73d460962e61"
+    },
+    {
+      "objectType": "product",
+      "objectId": "circleci-platform",
+      "localizedContentSha256": "476de87725a6eebc0f6ef488c2194638d7e22d2b4b028446f7a234d16399b473"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "clickup",
+      "localizedContentSha256": "0a69665819a68415a7ca0b1f0f69892d150136e9cf724599fd889df339b215cc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "clickup-workspace",
+      "localizedContentSha256": "9fd050cefcf41e543206bd210d402e6c3684ec01769a79b3709c1ae1589aa352"
+    },
+    {
+      "objectType": "product",
+      "objectId": "clickup-brain-max",
+      "localizedContentSha256": "01e0262ff716a95911d37d28612f61fa8988aaeb1c0d637e12dfd99a1348ea9f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "box",
+      "localizedContentSha256": "8ec2f2a8cb4bd21ec9251f6cc4d0de7c968d84d1792e3d3a06d8291d28e11537"
+    },
+    {
+      "objectType": "product",
+      "objectId": "box-content-cloud",
+      "localizedContentSha256": "192b930d9c274e6ab65593203151bddd4ba26ce4a0a886315e11696b33003005"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pipedream",
+      "localizedContentSha256": "0d60a15e8860541fe706ec081b684b092730d971f4c194d72a75df8d76b7abc2"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pipedream-platform",
+      "localizedContentSha256": "dd304aca6cb95fa1de96728b4bb34d642f77dbf0e0e2272d8e0eaf0374b50100"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "make",
+      "localizedContentSha256": "04ea9a1ea67e770d6e5faa72d9fdc831156e2ab2a34f70740d0328ad45284c97"
+    },
+    {
+      "objectType": "product",
+      "objectId": "make-platform",
+      "localizedContentSha256": "aeed38539e6a5ad82794c2572b5849b5dd6fd50beba638383a90fe7d5a8781fe"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "zoom",
+      "localizedContentSha256": "3e48f0d26917a365c61e53f8b1e97aea76e6865be5f800ee475673e62d7559cc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zoom-workplace",
+      "localizedContentSha256": "c70fc091e9f535be6b0dc2643f53863f81b790173531e1ff9edf35845161b82c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zoom-virtual-agent",
+      "localizedContentSha256": "61ea4d29ac8b1158e9b01ee405ff59c042e8097e8b74e1d565c234fa2e9f981a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "shopify",
+      "localizedContentSha256": "7b7f97d3b9eb54b86fdb9eac1b969413d3bcd421b82c77c2af57275829393120"
+    },
+    {
+      "objectType": "product",
+      "objectId": "shopify-storefront",
+      "localizedContentSha256": "b702fc22e625e4ef28c48e7779f40e0eebea838609281a30aff3e6e4035395f1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "shopify-commerce-for-agents",
+      "localizedContentSha256": "84e6c7b387d0f731a0e2a405ab63059dfa9a755bc90e6ec8b260e3bff2996c59"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "wolfram-research",
+      "localizedContentSha256": "12266e22825e819bc89894f1b0230a9e3a6864a14b5c7ab1431a655a927780a5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wolfram-mathematica",
+      "localizedContentSha256": "23c0a64e86367e8d2a5721ecbd4c390cc8b435449ce7c91d45cdbf2f068eb602"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wolfram-cloud",
+      "localizedContentSha256": "0f2697b031d5596100d85faa105ea67da7f51c45b2ab63d918211f1400ba44fc"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "ansys",
+      "localizedContentSha256": "c68bb16cddbd39810bc5a4bf509befecdd9eceeced9154a2dce4bb5b3aa26649"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ansys-lumerical",
+      "localizedContentSha256": "be727d26cb7c5e9986e0d940bd5e5e55c436f874d3ab1906aa901ada9f320ddf"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "cesium",
+      "localizedContentSha256": "e9bc8eba6c253357406cc5c1b19fdd51ab90e7ec1f83dd1283fbec7932db3a6c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cesiumjs",
+      "localizedContentSha256": "7c258f7a4aacd833c0607c1d5a273717cf646ddb92aabf56e16314695f438b44"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "siemens",
+      "localizedContentSha256": "30dc7d8dd1625b46309789882a5bce9d1a76e1beb53f4c4fc61621c46c80deed"
+    },
+    {
+      "objectType": "product",
+      "objectId": "siemens-xcelerator-developer-portal",
+      "localizedContentSha256": "627b33f4b87478180dd2fb00a63d20c5906088eb777bf460c99593afd8e77df7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "siemens-designcenter-nx",
+      "localizedContentSha256": "1aa63ac27688857b95c3ff826bcaaefeed5299724b320201141264022ec8d2fa"
+    },
+    {
+      "objectType": "product",
+      "objectId": "siemens-rapidminer-ai-studio",
+      "localizedContentSha256": "4f11568e7c95d6a9b5fc882de1d3d7479511892895884da5139d6d9aad69d687"
+    },
+    {
+      "objectType": "product",
+      "objectId": "siemens-eigen-engineering-agent",
+      "localizedContentSha256": "77dbb598ef10b8671906462d60cdb329e4faaf6ad50d2032c235fd1df47b50aa"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "esri",
+      "localizedContentSha256": "333d48f69496ef2db0eafcad69752ebe6f271b520da243a488f6f050470048d4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "arcgis-location-platform",
+      "localizedContentSha256": "31849f35eb2183cfee81fe2ca0cbae0aef7798bef7aadd03b44180623ad5c421"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "synopsys",
+      "localizedContentSha256": "074fd0567faab0e6409dbed0e6d1423f1522ccad51694546c3767498212088a3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "synopsys-verdi",
+      "localizedContentSha256": "d560b668998975a43494e198d689710a3066bdb3a0d4d79c5f92eaa6e779c656"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "databricks",
+      "localizedContentSha256": "e3d1f900ceb5b28d83381f7b036a6de2db2bbff5b9257c3ea2d937676c57040a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "databricks-data-intelligence-platform",
+      "localizedContentSha256": "7c5d1e66a794bf885fb611a018ed7bef537766cf6124f10ae4033d87c0d218da"
+    },
+    {
+      "objectType": "product",
+      "objectId": "databricks-lakebase",
+      "localizedContentSha256": "0cfc0645a190979bd174684b1fd86dfcc5a449a8e9793c81aaa5f3e38d5201ac"
+    },
+    {
+      "objectType": "product",
+      "objectId": "databricks-agent-bricks",
+      "localizedContentSha256": "0b1c64782123a052042e710390e786ce201c2b4cfc845b275fbd3e05971e4cbc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "databricks-apps",
+      "localizedContentSha256": "9eedce569b31c217539970012dde21aa3b48281d7fd69b59b26b4f22e4ee0497"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "snowflake",
+      "localizedContentSha256": "acd23fcbea066fce1cb24e3cbbe7e07783bdb2585de143b13acc7b900f2c6b91"
+    },
+    {
+      "objectType": "product",
+      "objectId": "snowflake-ai-data-cloud",
+      "localizedContentSha256": "7ad3445f0c5d9ce5bde5f6e40da17e96f47b9fbf6c8631db88166ee2ce3c67b8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "redis",
+      "localizedContentSha256": "202fa315944fa4d599877fb634af03cf8cb400f44b29b7f06b4b2854a4096266"
+    },
+    {
+      "objectType": "product",
+      "objectId": "redis-database",
+      "localizedContentSha256": "641f0a7c0efdfac3f82e0854c0afef5077ec430e55c6ecfe1cfdc544e22b5949"
+    },
+    {
+      "objectType": "product",
+      "objectId": "redis-insight",
+      "localizedContentSha256": "300ef557b8d68377fc36bdee9b89db9d96735ab7c6e0daec20e191bfe9d5abff"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "neo4j",
+      "localizedContentSha256": "1824ad40d61f7563bee8f7b667b6e866f6b6868798f9fb75b402e1915fffb95c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "neo4j-graph-database",
+      "localizedContentSha256": "89a415a3dc8ae20a01e4663ab156dd44bbcfbd9678b1c7b913c061e4bb4b92b9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "neo4j-desktop",
+      "localizedContentSha256": "3eeafe1a7e68dc95cac2774666b146ab31052fbf5008e71cd9cab7d47b08bde9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "neo4j-aura-agent",
+      "localizedContentSha256": "6e912305666c5c5ad8e2f05a8caf15917fc7a7f6a6de4e3f5f8ce248f7e69afc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "neo4j-enterprise-studio",
+      "localizedContentSha256": "2492077874b0cb31c47869c06365cf80ab787fcc71700b377579502fb5c879a6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "confluent",
+      "localizedContentSha256": "5151b9502cd6d8549010d64f85ae15a284b19520ed2ef4969afd4c1b9b8c4ddc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "confluent-cloud",
+      "localizedContentSha256": "2528e9d1645dc15c18fd432eb49554ba28f090fefb980a272614d1e4a9d2b959"
+    },
+    {
+      "objectType": "product",
+      "objectId": "confluent-streaming-agents",
+      "localizedContentSha256": "1faf3268cd10452b97a53dbcc630ce5a496604b536a947ba621958c2027341f7"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "paypal",
+      "localizedContentSha256": "dc96f7ebd625f537c2f4bcfa4eb9c8d2a44445b2459a42b0c643ec4f9cc3bfda"
+    },
+    {
+      "objectType": "product",
+      "objectId": "paypal-commerce-platform",
+      "localizedContentSha256": "9a607474552b2dfd07637818631394d21be7bfbab833d8070b7ce11f6611555f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "wix",
+      "localizedContentSha256": "ab90b828e6b8d690584feab597f14d7addae3ea7cbe2f1de0ca43edf01cfd246"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wix-platform",
+      "localizedContentSha256": "dda95309f37276b9e595beaf764d6eb775281bfe846b9e2261d9c2e5446d93a5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "automattic",
+      "localizedContentSha256": "35e04de2c5f5d112d7882fb58dd856ff744e46ae486400d48ea51766efb35879"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wordpress-com",
+      "localizedContentSha256": "c0dc3a5114d73f3c71eaec916cec00e59a972b7d1c2e6b73aaa7ab6370eadf91"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "semrush",
+      "localizedContentSha256": "b00c04ced9c43b9c0b19cdfba5873f584a8bcac392be6e3a17d3c4e7324b972d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "semrush-platform",
+      "localizedContentSha256": "66b4f73c88fe27bfaf477b9df8d6c448a451560a0936cda948749cf63cb9edf1"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "intercom",
+      "localizedContentSha256": "f4dbfb877802d72266fe9a91b4e8f056cd85b480f32c0707e361eeed0cb20269"
+    },
+    {
+      "objectType": "product",
+      "objectId": "intercom-platform",
+      "localizedContentSha256": "25e0a45df7ca4ae8b39ba133d1ee43d636ac85fedfcbc8cb85b035968e78a2e0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "intercom-fin",
+      "localizedContentSha256": "56778dc3555a048ec97708ae0596b885914109cbcd0e2b1e6f1ae2e604e95d12"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "replit",
+      "localizedContentSha256": "f899c578f47ffbec359cae61877aa755e8ff146b9ab9cfd38f2e75938804ab39"
+    },
+    {
+      "objectType": "product",
+      "objectId": "replit-agent",
+      "localizedContentSha256": "c34c886cf2b6912a1eb29a780c4960f6e131b2b88b421bbbec56c4804ece0a0d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "stackblitz",
+      "localizedContentSha256": "f935a6bd4f05d7408f6f69507ddbfcbd6e338fb7d3860b99f37dd7e2e04d7f12"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bolt-new",
+      "localizedContentSha256": "0c8a51951882e17dd8d39063812bb8e0f0da0009b4f6b7c4da0c2e048fd73f4c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lovable",
+      "localizedContentSha256": "1ef2abb4cda14e3363708cc9a649e816656d5ff19fa3d80c4e854e3a7c8eabdb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "lovable-ai-app-builder",
+      "localizedContentSha256": "e23f0a2291cf4e1d2eb2d252e3c06c14d19cb7f9ffefe436deacde29070a5a74"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "brave",
+      "localizedContentSha256": "77f5e245e0f6cdf6a054adb7a733787938ad8520e0c735d3edb7ce4a1b4ba964"
+    },
+    {
+      "objectType": "product",
+      "objectId": "brave-browser-leo",
+      "localizedContentSha256": "a5102ba6ca75f8c459f4f9dcad85c1a236f724e005445f0a6b906e91ff08bc50"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "tabnine",
+      "localizedContentSha256": "b8b94dfe7d5712900cf91fd9a1b43804a9fa46e91ecd14d805277c81779e173b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tabnine-ai-code-assistant",
+      "localizedContentSha256": "b5f1e2c0ef1ffb2640473feaee8cc6a24a705fc191c09d12682d760e80284850"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tabnine-cli",
+      "localizedContentSha256": "0a0d309354d384bf25143d500dfa417d7ab95be97b2bced16ac31e7f14b06875"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "ideogram",
+      "localizedContentSha256": "ab31547b388d1fc0aec9cd39afbe1808e03abeace138d3dff59ef9e53945cac3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ideogram-web",
+      "localizedContentSha256": "748b4802b4c0f6a7a32c0ebe5c7e6b1a61c1ed5277f48687dceb05b0ba8fe342"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "recraft",
+      "localizedContentSha256": "52f9fe986dffed9543fb29b465206125b56ed10ccf5692fb6f629b48c5c5db95"
+    },
+    {
+      "objectType": "product",
+      "objectId": "recraft-studio",
+      "localizedContentSha256": "991b198c9adf0290f65526a44bbb9fca7bb0a6ddb913586b9162bb5b5aeb6673"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "luma",
+      "localizedContentSha256": "6eaf0afe705976d4dbc872a66aa2c641247e7eac03b7945b228fa73a9bd84ec3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "luma-app",
+      "localizedContentSha256": "7ec7bb23a873d9ba7dcc4b27c2a813a3114c90a167fdba1420977ffd19b816ca"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "heygen",
+      "localizedContentSha256": "a76a934733a1f7d97d133423603ac4e2353c1a38bf3020c0f7529b55d0b76dd9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "heygen-ai-video",
+      "localizedContentSha256": "e8d83c5afb7919eebc06cb8fb72c4c76ffdf577877bcbd8a1e6a7ddb1e947510"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "synthesia",
+      "localizedContentSha256": "0b7ab2df521346ecd183b48107cfa51ae07d7e319123de0e18365017145e4dbc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "synthesia-ai-video",
+      "localizedContentSha256": "77854ffe9a654631326a64519b81cb329e6e58fda9469193d0485b2f94a7087f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "ibm",
+      "localizedContentSha256": "f23e7494c0cf9447c78d525bd7a2d671469689a345be51f18ed05e49be49c3b4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "watsonx-ai",
+      "localizedContentSha256": "3959757a6504ab7a54802844c188ad50cb93f4d046e4c014a6d257a2d871df95"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "deepgram",
+      "localizedContentSha256": "e1a1b606ab974b06790f60986334124644bff0fd0d5b23319bd81c68e0a0c612"
+    },
+    {
+      "objectType": "product",
+      "objectId": "deepgram-voice-ai-platform",
+      "localizedContentSha256": "79a361314930029b65ed6759f26117778278e3c7957908b40e22a27459bda974"
+    },
+    {
+      "objectType": "product",
+      "objectId": "deepgram-cli",
+      "localizedContentSha256": "160726f487e10726f717d248585f335346e1ca7bf5066daf86922c7c1674b61b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pinecone",
+      "localizedContentSha256": "94773e6c1493f69c71e16dab93665b1eab67591a4e40f4e5e2b7b1e22f8cef28"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pinecone-vector-database",
+      "localizedContentSha256": "28682527226d135e2702d0694b64792ce0e919cc011a2dcf94a15c6b3999bde6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "oracle",
+      "localizedContentSha256": "1879c42fa5f651c3fd486a3873a8d845c3591cc2a1e7292ffa06e69a9f7961b1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "oracle-cloud-infrastructure",
+      "localizedContentSha256": "4d8df2dba1715568b1c7e007a24fb8f9a1128610a6d70f54ce207244286f9711"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "sap",
+      "localizedContentSha256": "43e4d0e07493ea429014f3c6e6e2d03eceb4331eac31587c590b8d528a51787b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "sap-business-ai-platform",
+      "localizedContentSha256": "e300ba37c1c9d6aef4e88755b32f9344efd0c37cc817d596b7710a74b90492a3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "sap-joule",
+      "localizedContentSha256": "3a7dacf1c68e21df13502c3570e6f40ad0754fb12da8420c99b7c3f15c36e5aa"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "gamma",
+      "localizedContentSha256": "79c659e0f7bb38412f0b5f5e8fbed6362aabed13ccb834160efd10d3674497ab"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gamma-app",
+      "localizedContentSha256": "9dc4ed23fca3df00903d828e90b40afb9cfa627e4686ded2b9e344de55dcbfa1"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "krea",
+      "localizedContentSha256": "ef77a92223ebb1b013bd66b27787e26459cc95b09865e65f832ee03c3b9d1aae"
+    },
+    {
+      "objectType": "product",
+      "objectId": "krea-ai",
+      "localizedContentSha256": "9a7f626bb4bfd0c1072ad6bc966f40489b462370ae987a0b18c043b4af79a94d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "krea-agent-platform",
+      "localizedContentSha256": "eee73f391e5b8ff675c5674e05539d716cf6b1e81d76323328f4ad112f966b15"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "meshy",
+      "localizedContentSha256": "c07130f11884e9cee4c228a24268346480e0d2660a23f9a156011cc54c73b197"
+    },
+    {
+      "objectType": "product",
+      "objectId": "meshy-ai",
+      "localizedContentSha256": "a3a5deaf400e0e1a4b94b9381498fc14dcb5cc989bc312a8d73578d429eff663"
+    },
+    {
+      "objectType": "product",
+      "objectId": "meshy-3d-agent",
+      "localizedContentSha256": "3e42239c5eae5258aa367bad029c10a19754f07462c07b82896c94d97906e21c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "meshy-developer-platform",
+      "localizedContentSha256": "7e61b4156d883563a394bbe89f289bd1a113364db4965272d47e1026c9309c57"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "shengshu",
+      "localizedContentSha256": "b8fbb94ee1ac936a6df365150b247aea39a4d1b0490b3d17f879a23f42ef95cc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "shengshu-vidu",
+      "localizedContentSha256": "d7f6e31fad64b8afed11533ca131718584e15e68ab7b9fb172981cc42c23be4f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "shengshu-vidu-claw",
+      "localizedContentSha256": "826a0c7e46990beaa0705650bcadbf01ae7a76aa19beda49228f8b8da1b417f3"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pixverse",
+      "localizedContentSha256": "a410c0d57f79420e7e0c71c3a18c7e22be78f3932095aa8296a7ecccfa770726"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pixverse-ai-video",
+      "localizedContentSha256": "a337ab0e6b988a068f7debe853a7c983043d3af195d7a7ef2027cc3e0f856174"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pixverse-agent",
+      "localizedContentSha256": "4fbf5040ab618d343711472ca2e7358c76e14b516ef15b4a0cf35af70fb3ebb1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pixverse-developer-platform",
+      "localizedContentSha256": "0795e5f27e7f1e9b111653435c4033ab14ce67cf7dc0ebe8524b8cff02b469c6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pixverse-cli",
+      "localizedContentSha256": "da40600f752b8922aa259e6d462754359c883c2d58d9399d0e097f2aef132b9b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "udio",
+      "localizedContentSha256": "378c6f4e4a6c854c137f16d43696a897004e2f519092de7a7c252db39c624d5e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "udio-ai-music",
+      "localizedContentSha256": "72e108d7b689928fda3c334e497dd00643038d63b52c04a0e20f8dafb979e3ca"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "obsidian",
+      "localizedContentSha256": "cc58d5da46b4e51bc32016e0c1ea08bcc384dc74559b9a1184f4f4e3f4f5a25d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "obsidian-desktop",
+      "localizedContentSha256": "dd9b47ca26204237d69f8753ad4e6d9b1986a9ea517029688b70825be8ead8cb"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "discord",
+      "localizedContentSha256": "fa17c64869436b0e3c27fc19396491362b3882e667d63533d62edf7fb20406ed"
+    },
+    {
+      "objectType": "product",
+      "objectId": "discord-desktop",
+      "localizedContentSha256": "a010b6806938552252b872570dc518b3b8606cf8c801d3f06cbf2e0caae3b0e6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "opera",
+      "localizedContentSha256": "007c7d764536421aa0daa55c8110fa05c4f375ac1e73c6ca2e67520323ab7b35"
+    },
+    {
+      "objectType": "product",
+      "objectId": "opera-one",
+      "localizedContentSha256": "14ab766c73dd812e616443172a7f514528d1bd34c152db4a2bfe6dfdfaafde75"
+    },
+    {
+      "objectType": "product",
+      "objectId": "opera-neon",
+      "localizedContentSha256": "d473e53ccb94a3c3dc4a1a977123734ec2b3409bc200d573366910da25e62af6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "mozilla",
+      "localizedContentSha256": "5e6b474ca750a69a1e59fdf52d299d08b052ab35a2db3f58f1280486291aea8e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mozilla-firefox",
+      "localizedContentSha256": "2265e5788317f590bb60d5f88129f0f2a106a78d86d505b671512b0179505b6c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "invokeai",
+      "localizedContentSha256": "fb2ebb541ea235dc47d33f0358784e2401b65de3bbedbac5f2ee99ea79b034e0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "invokeai-community-edition",
+      "localizedContentSha256": "31b7eafe049dd0c38440a8e7b3ee5a24c675443a7d38ace7e54f48e70054bd8b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "upscayl",
+      "localizedContentSha256": "08681aa0a8fb3ee06c03874cdfc59e253437347c5bbe1138723d6d66b1220399"
+    },
+    {
+      "objectType": "product",
+      "objectId": "upscayl-desktop",
+      "localizedContentSha256": "9a3d5d0734f5506f701ded07fa95eb8a8bb8a2753a1ea2ade59d7adca0f9ed0e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "fotor",
+      "localizedContentSha256": "bf69d06f547f1ea1036c378a1e599eff7eefb9e4fe31a7571e9d71953729127d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "fotor-windows",
+      "localizedContentSha256": "2f89a78d5e46f3121cd22f4941727023c99f6a3f402d91016230835018fe2e64"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "cyberlink",
+      "localizedContentSha256": "0e98ba12996aed94006127aff7edd7ac4636406c983f542452636da21a2a9a3e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cyberlink-powerdirector",
+      "localizedContentSha256": "ce077b72aadd1a8be3570e43118833b867d394855436db7e64e73cd473d6d797"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cyberlink-photodirector",
+      "localizedContentSha256": "005f5be3df1ef3218d5292cc674c18fadf90f4b7ed0d9b2b86a06dc301727438"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "on1",
+      "localizedContentSha256": "2579dc21f86545a644172b26fd0828b0b5bd815d6a7df6e97951f59f153b6904"
+    },
+    {
+      "objectType": "product",
+      "objectId": "on1-photo-raw",
+      "localizedContentSha256": "03489c217536074af90b9bf6d3dc78819ffd11f3879de537c7436005b3a77744"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "capture-one",
+      "localizedContentSha256": "04907c30271a317663b637e9c2adb785a5317de99c826a038dc3cdc192a3fbc8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "capture-one-pro",
+      "localizedContentSha256": "d07bad26920c2574962083753d5e4f30bdf81e1238704b6652ec8f5df20757ba"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "dxo",
+      "localizedContentSha256": "95324d5612e0ec5c3465d356bc30dda65d19a8ab234ec454a40705011bbff25d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "dxo-photolab",
+      "localizedContentSha256": "f925a3683eb899ed8aa78f29c49c065a026ffeddbbf0a67b8342b71ab6637adc"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "craft",
+      "localizedContentSha256": "c91feeb5933bd78f3afc809924b76255b8ee98f9a09630fac95405027714553a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "craft-desktop",
+      "localizedContentSha256": "0b37ae2fb563a6591de1937d6fc22748ac68712180e8a1845fe3901f5b19ee5f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "capacities",
+      "localizedContentSha256": "3f9aec2b88a03dd936026d11862307bb2eb1da280c2c114c5e7fe68c937f5b38"
+    },
+    {
+      "objectType": "product",
+      "objectId": "capacities-desktop",
+      "localizedContentSha256": "ee2e97ce421c88044c377d46767943ceccf2044a15a0fc765c80b1cf51d2a3b5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "evernote",
+      "localizedContentSha256": "747c927297aeb7719f4434ceaa45f86ac1fdb90c4978005ddfade8a5bddbb52a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "evernote-desktop",
+      "localizedContentSha256": "62006088d96af50a9e447808f65193939cd0fd8a1496133714dc8ee0b4d49956"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "dropbox",
+      "localizedContentSha256": "1c3afca523ebb9e42b4b37a56887d6d69059bdc33a40d2d722c8ba23faedc0d3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "dropbox-dash",
+      "localizedContentSha256": "7490342cacec19261fd118c06c8ab620518e27efe5f5cc63c4eabcaedee6a92e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "tana",
+      "localizedContentSha256": "f0433ddc95785031572467c1c9cfb9fd160f1d09ce69c848d621e8456200b75b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tana-outliner",
+      "localizedContentSha256": "6092dcb812ea2ad350a26176d9b3ff7ee76a6e0ea0e6b71084acee58517b7eb8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "heptabase",
+      "localizedContentSha256": "297572453620c5ef67e0ab1e3a1c2c6c2a24de59304a7c1ade227b59e50411b9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "heptabase-desktop",
+      "localizedContentSha256": "6e179a5cd19aabbd9de2d2163b7e89bd574fa29f144237d60194320971e1be61"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "acd-systems",
+      "localizedContentSha256": "5461dddabc2c04e10a889bc1619f239a4efac0c1709a1ed4a35682603d3178d2"
+    },
+    {
+      "objectType": "product",
+      "objectId": "acdsee-photo-studio-ultimate",
+      "localizedContentSha256": "bb4c76ab0104625a1d88ee3efd0950431d71d8283f6682fcf81fcb5879feab52"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "boris-fx",
+      "localizedContentSha256": "feba5dabbabde3736e3d8a44fc73eaa1800c70ec25d7dd920f3eb4c05898edb8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "vegas-pro",
+      "localizedContentSha256": "c7f3326a412319e4f92ee5de98723308abe4ae76e0194d7e3f348ae7fca4f77b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "zoner",
+      "localizedContentSha256": "28b4931a66d379c478914a45f1fb3fde82640e1fb1e5c82d78646bc148814ccf"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zoner-studio",
+      "localizedContentSha256": "b2ab8cdca769a75a0929495539f68ace34e909561a88d1de00c46cb00c658075"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "mylio",
+      "localizedContentSha256": "327d6071f430d0740ae1ef428e3eb9b34d8db1221abf7d2451bef2b43be001c4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mylio-photos",
+      "localizedContentSha256": "3acf5ffa974d2364e4e1a64b4452715764139c1a3092afd021c8fe256f3721ee"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "clarivate",
+      "localizedContentSha256": "e95ece0bcb88f91cc94eca9ff58bd87cae7cb250868fbe4cbb00ea6aee27f451"
+    },
+    {
+      "objectType": "product",
+      "objectId": "endnote-2025",
+      "localizedContentSha256": "c30f65086a4f93cc132768de3307806de568b9eb220a7c5db23d2127d77c4920"
+    },
+    {
+      "objectType": "product",
+      "objectId": "clarivate-web-of-science-research-assistant",
+      "localizedContentSha256": "72b00548edb9ceb05c8ba3da9da5fd01b00b4d7ec38b1c67c9b1a8666547f1e5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "taskade",
+      "localizedContentSha256": "aa00d9d143919e04f9b6e887cf24adea44186d4b954f660d13b7bfe2e8f4872f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "taskade-workspace",
+      "localizedContentSha256": "ff7d62f81dd62bce5b579aa4a13b739ef6847bc11b6484292e5a5aa930442011"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "tldv",
+      "localizedContentSha256": "c522b06f2322e413d08ce42675b2ea70a9daf34a3cff5f1ff9efc3bd47774c58"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tldv-desktop",
+      "localizedContentSha256": "6832dbf9cb55e4cb36ac24735818efe936f6d1f2e43aada20651a1617a115d00"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "aftershoot",
+      "localizedContentSha256": "34890073eeaa6a4fce6397b89d7dea2923249f54e1aa26d59cf9692c09e387d5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "aftershoot",
+      "localizedContentSha256": "b63f3f61535334aa5604bf3430fad461e5cef7af26e61bbd4475c6aa78dc19b4"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "excire",
+      "localizedContentSha256": "fc41e41f7a7d9f03cd207ea0f55d163ddfb5bb74b71cfadeed74f651f1a9f2e3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "excire-foto",
+      "localizedContentSha256": "28856aee18b11fce33f5632e738df7e92074971019063d4c003389fbea51c1e9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "evoto",
+      "localizedContentSha256": "765a2b8903ceed8768dd7399f4d7a974c3bde45f27461bea8ec06058d7e7eabf"
+    },
+    {
+      "objectType": "product",
+      "objectId": "evoto-desktop",
+      "localizedContentSha256": "02315dabd974aedb1c1aae82796322b6e86ede2518a85a0ea037fe27178a555f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "maxqda",
+      "localizedContentSha256": "9197385c3c786fe176ca75b7c3f407d1588d1638cb435e6417540ba2710b5ea9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "maxqda-desktop",
+      "localizedContentSha256": "6e5f7e014850388e358b79577f9f3c61005eedf790045be68055d9b581f5f372"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lumivero",
+      "localizedContentSha256": "77437e22bba04984b8244e09888c9d869600a8f496e24bf9e201077000fdf31e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nvivo",
+      "localizedContentSha256": "cf72643584b8d5d263789586d17029fb9bf13d14084cb63cb606cbabb74cae15"
+    },
+    {
+      "objectType": "product",
+      "objectId": "atlas-ti",
+      "localizedContentSha256": "2d47075c57fe442769f48f843f2e8c4b5c5f788e0e1e6e2499e799e9f89d81cb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "citavi",
+      "localizedContentSha256": "680cde4457031b47910320af3a90c2b35d3ec5f261a69f60ba4adea66b1473a1"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "wrike",
+      "localizedContentSha256": "d68ea83b4b998040c78851a51d315ed76ac035f078b0896b646407848f99a111"
+    },
+    {
+      "objectType": "product",
+      "objectId": "wrike-desktop",
+      "localizedContentSha256": "56c840e2384ccf12a392f67ab66480c3d4d7f193822400aba03067d6ccd4b23b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "motion",
+      "localizedContentSha256": "4dba0658d30f0e5061c90b46786a072dd79df26dd374c1126b9606b4226fc155"
+    },
+    {
+      "objectType": "product",
+      "objectId": "motion-desktop",
+      "localizedContentSha256": "b85d42a3be2c6c2863daf836ef94b6a623486958792eb683da53d6162f1f7493"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "coda",
+      "localizedContentSha256": "e35f1ef51cb37e93d1d3e1ed09291f6494dcf8d4e9f2a3fa7135de39a3bfea43"
+    },
+    {
+      "objectType": "product",
+      "objectId": "coda-ai",
+      "localizedContentSha256": "9f0ca8a6d99c21e947d0b02624d27140ad15c8b2cefe41f49beee1fe5bdc0708"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "reclaim",
+      "localizedContentSha256": "20efcac92be6af709255d1b1000073f031cd5186837b3ac56d1c36c695625dcc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "reclaim-ai",
+      "localizedContentSha256": "bec2df7d99e0b274babdccebdb7f3ce097f171788caa31075b42216fbfe706fe"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "techsmith",
+      "localizedContentSha256": "d70e258cbb5da277757ebb3d7d2b05952390c2a7d75f86d00d4869a187dc6877"
+    },
+    {
+      "objectType": "product",
+      "objectId": "camtasia",
+      "localizedContentSha256": "db7e8843fa643eb521b45133f47cf35427d5c6704f3dd3989d3e0046e85d80d1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "snagit",
+      "localizedContentSha256": "951a94eb0c6a727addc5561cc909bcde47f217a0b36745a099fa6260dba075c6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "audiate",
+      "localizedContentSha256": "c0b80c1697f13af8982fc97d39fe323f809918f03df232d669a0971af8846295"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "knime",
+      "localizedContentSha256": "0474b9b9333d6faf54ac4d5e4349bd2c80caa9753c3aabfebda7989ca9ffe6b4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "knime-analytics-platform",
+      "localizedContentSha256": "a2de9bd5e134287eceefe57d651b46993c07362da9af550f48fd84bb2f5d5163"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "dbeaver",
+      "localizedContentSha256": "c04129fa14215c3bd0a3561dbbe608f8ce49d3a25da0687b01abb9101b18de43"
+    },
+    {
+      "objectType": "product",
+      "objectId": "dbeaver-pro",
+      "localizedContentSha256": "f4f9c2e9c5005d149b0be23574d6947eada3cad1b3d1283b3881b5d95030f032"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "alteryx",
+      "localizedContentSha256": "0d235fae635f36a7a182d8172991557a0e088999f4d65eba30467cb3e350db8c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "alteryx-designer",
+      "localizedContentSha256": "deafef469a3803d194e82a263a9227688a7af6636f0170557293e93b6c73b719"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "gitkraken",
+      "localizedContentSha256": "b18d854e20f8276e757be361e2c5951423f0745a725ce43535b9ea5ce91a78f9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gitkraken-desktop",
+      "localizedContentSha256": "f5fd94b0dc6d5bf7489cd2201b59133f0e4f49d3a1d8f8589b805cb6896a5215"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "termius",
+      "localizedContentSha256": "373401c1a073613641d55533a4d84892bd3e927a92c7f708947d4cbd1c9d2308"
+    },
+    {
+      "objectType": "product",
+      "objectId": "termius-desktop",
+      "localizedContentSha256": "8a874d46ee2e02342777b00adf765953a4b7793ecd9bc96c7f0be27ed71c5aa8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lens",
+      "localizedContentSha256": "54ceb62fd75d3591c5fe22df878a90adf3c615262c02fb4019aa7ad3c913caef"
+    },
+    {
+      "objectType": "product",
+      "objectId": "lens-desktop",
+      "localizedContentSha256": "7b9c548f2ef8a91fbf3a20a476f6b2d63fc465a849a5cc360c7aaa711dd90b2a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "nero",
+      "localizedContentSha256": "8518190d32c64b0ce0f5bff2df6f4bb25f87e4ab4b345957a28551d6941a7250"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nero-ai-photo-tagger",
+      "localizedContentSha256": "d74973e35e380af53b963da6bc41d18977e1a37e55edb3d000870540c785c18f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nero-ai-image-upscaler",
+      "localizedContentSha256": "87d409811a3db89240f5dfa19cd592df4d8c751eb9cebc7cc3b31d9551b8a227"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nero-ai-video-upscaler",
+      "localizedContentSha256": "bb4dcbc746b775024aeeb5395a4f01a6f5b1354fa43927dbf2667249c2b21021"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "hitpaw",
+      "localizedContentSha256": "d7960c5b998d158144f2245bc848828f9e41c6012434033c8d0f06b3c629b9db"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hitpaw-vikpea",
+      "localizedContentSha256": "7412336ea0705c480cd95971e3e385d760c8794c88e953f1e9e85b26e4cb7d9f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hitpaw-fotorpea",
+      "localizedContentSha256": "a24f26e2607a9462fcd88a6a28bfbbd34ca50f8d96dc0a43af0e0750966e0130"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hitpaw-voicepea",
+      "localizedContentSha256": "56bb77ffc9bbc4f982fe25237c34a4f9e4e9f32f18358eeb3ba32d8decf58150"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hitpaw-edimakor",
+      "localizedContentSha256": "dffc30ccef4054d0d4f36c532901daa9876f26ecc2a2ac879e85e13af5a788d8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "anthropics",
+      "localizedContentSha256": "3df4f0ae8ac91a67db541b8abdc35d18fa70bc0d517865a1502182fa61d2df11"
+    },
+    {
+      "objectType": "product",
+      "objectId": "portraitpro",
+      "localizedContentSha256": "7501bc632ac074dea607056e9495343fa2e1e75139c9a4f40ee6618971446369"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "izotope",
+      "localizedContentSha256": "278f31f681aefb04d54ec50ba92ea8e3e8d57ebabb0bfc42fcfc444d7ea509bd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "izotope-rx",
+      "localizedContentSha256": "12d00156ccc1f8f65e63b1e410708b5f50c4735558b7c9b584be894beb4c5ab9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "steinberg",
+      "localizedContentSha256": "577afefe591c166ec1dfb0d278e787b9e103ffa0a5947ab8e43f0497e96a79ce"
+    },
+    {
+      "objectType": "product",
+      "objectId": "steinberg-spectralayers",
+      "localizedContentSha256": "16d8f6cea9bf4346a33d9d58d5b92ef485cf9c2ef484f066e79ccfc10085da2e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "supernormal",
+      "localizedContentSha256": "6b6cc4d750d87b6e0874975eb196407d72fabe7fa490fc65a6a02e01d70126d3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "supernormal-desktop",
+      "localizedContentSha256": "b7630b5333cdaf1e37b93f99f2bda0d06a4d0966ddf5669a54e1b793b29f830c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "meetgeek",
+      "localizedContentSha256": "c1032da1e603c34275c5ef17341030d0f32a1fe8ab957c27b002ddb6efa8a25c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "meetgeek-desktop",
+      "localizedContentSha256": "487f27667224700ebf6d48e99467b55003e59e80b9d78e5eb50b5127c128e2f9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "fellow",
+      "localizedContentSha256": "13d7105bb3eb2ab75003465d106b976ba00654d756cccd26cbfc48ba13825394"
+    },
+    {
+      "objectType": "product",
+      "objectId": "fellow-desktop",
+      "localizedContentSha256": "487e13548259942a85b8377393af6c6cad14cf37c34b405b00652aa9935c9001"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "teamviewer",
+      "localizedContentSha256": "7ef6ce40fc6ef0fba11eaf9d8e73b20bc447e8239b5b89807b1157a55cfca89e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "teamviewer-remote-ai",
+      "localizedContentSha256": "a525deafe6093edd280468fe446e6a50d7de9f59e08a1d787516e3e22829451d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "openhands",
+      "localizedContentSha256": "b31d340fe06a349ce527343411d2e419f3fc0109f82c68f925bd5dfc733cbbbf"
+    },
+    {
+      "objectType": "product",
+      "objectId": "openhands-cloud",
+      "localizedContentSha256": "881a31e324b57806fabd49407bbd7a93e0ab991ed6473d5ccb0345169e752c23"
+    },
+    {
+      "objectType": "product",
+      "objectId": "openhands-agent-canvas",
+      "localizedContentSha256": "cb0f14333e2beb1e092cb2d5ef54a8b3a12d6291082a583f8f561dc13fb60a24"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "significant-gravitas",
+      "localizedContentSha256": "d752b09f0b62a622e5282b4942f5a5fb3549f6701fb1c98edc7ed4f94856fb58"
+    },
+    {
+      "objectType": "product",
+      "objectId": "autogpt-platform",
+      "localizedContentSha256": "139750c6551d728af0fbbae93fc39198a8a33827b8f2f1423a2e5515104b783a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "agent0ai",
+      "localizedContentSha256": "55d75dca10c6892f929181dc07c2b3f3e2809b291f7fd4f7cc23c5b78e07406c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "agent-zero",
+      "localizedContentSha256": "ea5a18cd61c9b44caad707d34d006e4ae4a8fdb6d9fba4ee8013ddae6292fd4f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "browser-use",
+      "localizedContentSha256": "16fc21612df53f0c79eae2fe4cb29f89042a847fe520c408423154b3bfef0045"
+    },
+    {
+      "objectType": "product",
+      "objectId": "browser-use-cloud",
+      "localizedContentSha256": "66a75245d9161ad37ae0268b420185fac898824ad39a47a79044aae5082b03cb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "browser-use-cli",
+      "localizedContentSha256": "590d5e1ae86057fc9203c8aa854f0bca1c5709f8b8954ba4eb46063115059722"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "skyvern",
+      "localizedContentSha256": "79c3b96a05380f84f30d9f3d2ae4ed0941173e0c037754352c36becdf3a8a4c8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "skyvern-cloud",
+      "localizedContentSha256": "fc9ff47b3db21a8f9ce2a0be96f615cba3392e395d2e6f4f58571c607e550b0c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "skyvern-self-hosted",
+      "localizedContentSha256": "8467eba65e2147a1939b045dbbb26239d4fddd7bb758994f4031b9fc88b8f620"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "foundation-agents",
+      "localizedContentSha256": "e32be4d5022a24002372dadf6ec1fc03b59984dec5a9ae32a8644d234ed206ed"
+    },
+    {
+      "objectType": "product",
+      "objectId": "openmanus-cli",
+      "localizedContentSha256": "fdfeff7da461a54c18e7d708caa7e89d2b8c9dd8fc38913d2329dd3ec7e46dd1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "metagpt-framework",
+      "localizedContentSha256": "376c14d4503c83bacf3ff0629e029b75d5952279e0ede304f7f626741655daed"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "rightnow-ai",
+      "localizedContentSha256": "63b927035b013d0b21d60d72d9122b4fdfeb6de142b63e3a8bb8dadca2d74de4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "openfang-cli",
+      "localizedContentSha256": "f5b3a929f60a27cfe602c1140bec290217a57aeccd03447d82ef7179a455c0ef"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "zeroclaw-labs",
+      "localizedContentSha256": "0bbd3784d9d8bdfc37b73bdeedc42220c8961e31b947efc3a755815bccdf2ca6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zeroclaw-cli",
+      "localizedContentSha256": "9f8b96da868ee0d0a72794f6e15404ade0fd0a688c75e8aaa9a8cab1952b48c3"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "near-ai",
+      "localizedContentSha256": "7c3497190f50f774157f72d9b0238c67cc878919d20a4a455551730bc8f4a86d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ironclaw-cli",
+      "localizedContentSha256": "1df695d5ff445efb1d7e3b466b2c3d91715aa4941051674322cd6a51938785d1"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "hkuds",
+      "localizedContentSha256": "935151f2c3b7d2b4dd9de7e60f33bf60420d9ff8cd88e84cba1461b989f818fe"
+    },
+    {
+      "objectType": "product",
+      "objectId": "hkuds-nanobot-cli",
+      "localizedContentSha256": "3a2e6aa1ba18e49d9c8fcf6e7894b92444e5d792db6c8ee42cc7208d711e4527"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "nanoco",
+      "localizedContentSha256": "f708682be90c2a71861b0fdc8bfc4db919acc7969c0aad43d7677258f46ad39e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "nanoclaw-cli",
+      "localizedContentSha256": "96aab27ed7f7f5ab89e93d499e9e539b3fa410451ce2e9df728727fbcb06f75d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "astrbot",
+      "localizedContentSha256": "895d19ae8ea7a0af3083baeb9a94cb77fb24ffe4dc84cf9b378abb7b6a0791a7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "astrbot-platform",
+      "localizedContentSha256": "a063e6f8f3956bcec4ae038ce7e58c39729436b673ef549d8b945264ba36396d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "langbot",
+      "localizedContentSha256": "9c29b381a83b11574d663741346fb6d0323e0a5e33b84142c07c6a777c6961db"
+    },
+    {
+      "objectType": "product",
+      "objectId": "langbot-platform",
+      "localizedContentSha256": "ec49e27aeb883a7c16f0b2c7684b47cde963e3ce1d83b91555268fe94becb628"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "open-interpreter",
+      "localizedContentSha256": "2761b88f5a62dc64fe54df610b6a7234fa34d4c3aaaf99a48548961ae96476c5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "open-interpreter-cli",
+      "localizedContentSha256": "819e19e563ec064198872f33915f80dde34dfceb1d50fb3754a9512f4e8ddb1a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "open-interpreter-desktop",
+      "localizedContentSha256": "9fac62147c77956b3255a20bad875e18ff4ed98704eef46609ebc39a4fc3dc94"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "cognition",
+      "localizedContentSha256": "2ae4155e30385709c81852132651e0f831fa6a398621636e44f74367e0fe7363"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cognition-devin",
+      "localizedContentSha256": "b5a3908326b38870e4f4a3279627e1903d9f296753c112b0b9b9beb5e1e871d2"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "factory-ai",
+      "localizedContentSha256": "c6284be344d9549e70f6853c1732d4181d14dbd491d023f1f2b3e4354ea92725"
+    },
+    {
+      "objectType": "product",
+      "objectId": "factory-droids",
+      "localizedContentSha256": "3674694eb8a09f5297cd94203f6f9c7aee4c459e4649c8ff09c197ae0fe5505a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "factory-cli",
+      "localizedContentSha256": "696b57710b49b5502fea3335aa63352eea453705bb7e369232514f9d1e2e7cdf"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "kortix",
+      "localizedContentSha256": "e6bfdbf1b274390f0692407ec8f8a20de8047b03a6b02ae323188c0a705a08bd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kortix-command-center",
+      "localizedContentSha256": "aa95e80fab3ed2a7414fc6521d37e52376937b2925f0f3f847a00442f1a8d4dc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kortix-cli",
+      "localizedContentSha256": "96442b4625995bf468abe33dd18245fee30f2d45d4d15b0486e11692a4eab5dd"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "flowith",
+      "localizedContentSha256": "4f2b052132ce3fe478aefe48933ef5897a9c555cec4f8519ee6ecbcf52406d69"
+    },
+    {
+      "objectType": "product",
+      "objectId": "flowith-agent-neo",
+      "localizedContentSha256": "cf9c6a0b57e9b3403ff076b55d55efb636b1f0ba1fdc3eb72a73e5231f744123"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "relevance-ai",
+      "localizedContentSha256": "319f9466f0e20fc919d2ccdca84891633638023be62054e174f02e5b439768fd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "relevance-ai-agents",
+      "localizedContentSha256": "6834b21a30814828195fedf82923c8ae94aceb6235e0f790147aa5b17ad19fa0"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "gumloop",
+      "localizedContentSha256": "ccd7671e493900a5a06867adafad31949a18c1967895ec7802a40671503b1c84"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gumloop-agents",
+      "localizedContentSha256": "a7202d6eb537e70b24191a2769a190f639566d0b8c808b2cffb52458603d9900"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "bardeen",
+      "localizedContentSha256": "ef3ce925ba625ac9cc0e993bd2afea7529b679346a26f4a1e076b536efe06948"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bardeen-agents",
+      "localizedContentSha256": "dfc572b3cb60262b0ec353a9cca34d86cadc43f9e1ff04f88a794b092bfd4ca8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lindy",
+      "localizedContentSha256": "82609bbc7da904b61ff05aa335c6c2a8a36d09d7071d012040d09dbc09ccd415"
+    },
+    {
+      "objectType": "product",
+      "objectId": "lindy-ai-assistant",
+      "localizedContentSha256": "4a0e5e7e38013bb907e1b108328c3b64b5d234ce15cb3d3bc61f7340139866c2"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "flowise",
+      "localizedContentSha256": "d0e28ef2d9a13d18794f2f4548f1b7ad5ec21ebae112f46db685b2640a318282"
+    },
+    {
+      "objectType": "product",
+      "objectId": "flowise-platform",
+      "localizedContentSha256": "84a5985e2296139aaf3d65bb0e0ff5663672cd4384c6481d179c095393f45c1a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "langflow",
+      "localizedContentSha256": "2860d6b6eae3ff084608a27657b45d2d020b80cbe222d3d1bc3fd71bce9c82f3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "langflow-platform",
+      "localizedContentSha256": "836e3c8ba4263c312177d59c1303a3c8fe26a45897b0e90d29e337c213336fda"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "mastra",
+      "localizedContentSha256": "67a14b486b934f6b22d287458814aeb608d5b6dd34a5cd3befb9c98755f8e214"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mastra-agent-framework",
+      "localizedContentSha256": "bd418579aed91a4fff7d4aea94f2210ebf517add197faf696ce8662fc39c5296"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pydantic",
+      "localizedContentSha256": "9ecee3ed3e4e912b765967f8073097072b3ea3ecfdc7dd5fca91a6d6425b63fd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pydantic-ai-framework",
+      "localizedContentSha256": "954df77b52ef61bead4dd2da8d259d988d3e13d919646c604af0d6c6b08892c8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "agno",
+      "localizedContentSha256": "a612ad0a14e303afc5dda36d903210f0624114bf24f45b1424e9f53dd2fbb999"
+    },
+    {
+      "objectType": "product",
+      "objectId": "agno-agentos",
+      "localizedContentSha256": "786d2a13c4ab20edc1cfcda186dafb0986abe610cc055cc8a9a9feb74499e7eb"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "camel-ai",
+      "localizedContentSha256": "594a28f6969fcc8fb53dfa34484cdd759fae978accc6da1d27ac615f809b67b6"
+    },
+    {
+      "objectType": "product",
+      "objectId": "camel-ai-framework",
+      "localizedContentSha256": "5b19a1727091c2fb9ea6cb6f901963d8c6bcc9d0da565fc9a7d01a81d95f1acb"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "llamaindex",
+      "localizedContentSha256": "3efca4895b740556b4d901ff21919381b7ed174adb2b569bc8556e632a18e96c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "llamaindex-agents",
+      "localizedContentSha256": "49163928a5f64b846874c68e4cb8ef72c891ad85fbdb024843c90de70b544d52"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "aider",
+      "localizedContentSha256": "a877730185314b340922c297945df4ffd97b6125dfca7ba674b3ea069424d045"
+    },
+    {
+      "objectType": "product",
+      "objectId": "aider-cli",
+      "localizedContentSha256": "5036a71a106dcb10975aebefa17b230d58ef95e85d1e8d606fa15c71a787b9a3"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "continue",
+      "localizedContentSha256": "76ddc79e152842e2d8aa4c84c0cee7de02288eaa619c8db733c36ff870ba71f9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "continue-agent",
+      "localizedContentSha256": "460220738e3b4b4b10a5203b285e883a523f6bbc93473e770d6a83c60895f985"
+    },
+    {
+      "objectType": "product",
+      "objectId": "continue-cli",
+      "localizedContentSha256": "481bad5cd2dbb591ae98623152df76c287d8022e751a796c0911478fc1cf30b4"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "kilo",
+      "localizedContentSha256": "14f32d8c4ad68f4b3466dc8e0af38f2056c40632cb8b438e44b76362d96ed202"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kilo-code-agent",
+      "localizedContentSha256": "d3695fb17ddc6e641dd13c06d41b2a4ad4ef1ddac5cfdc11c40c606dd56741b1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "kilo-code-cli",
+      "localizedContentSha256": "c1a5126bfc349edc3c5ad1c9cfb3dbe59b92213a1a6c767d77db70e2bb2941c1"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "swe-agent",
+      "localizedContentSha256": "7a0d8294265737e9352322f71aa53f205d5f1a331aaca9722a7d361deb3498f3"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mini-swe-agent-cli",
+      "localizedContentSha256": "aaf2976831af017057dd6468d7eb120436799f768e01c487b21f0323ce41ada5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "letta",
+      "localizedContentSha256": "12717313de3db48eac60d840f40c673e168b3822728683451e8476149eb5516b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "letta-agent",
+      "localizedContentSha256": "3a7d146b34968cb42053c030558fc11c037e353a1f6578ed4ab9f3da7296ff30"
+    },
+    {
+      "objectType": "product",
+      "objectId": "letta-code-cli",
+      "localizedContentSha256": "d25feafad14b218036087184199f01e805eb73c2006b608d252f5d7b72a5b5e3"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "activepieces",
+      "localizedContentSha256": "4594a9de8a1a882f12e233783a007736907626b8b34105893c736fac4b76e25e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "activepieces-platform",
+      "localizedContentSha256": "0b91ebcaaf7242374ff309445afef57fcbe7cb4ddbba9c37a500c85e76b85aad"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "rowboat",
+      "localizedContentSha256": "14180c969bfc4ccc8e10c795816b18f6a8cc9157c457c7978f991a882152d725"
+    },
+    {
+      "objectType": "product",
+      "objectId": "rowboat-desktop",
+      "localizedContentSha256": "1f4fece1e68aaf63ce1c3520f0ce689eedf7908b307d55081eaece0a09205df4"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "plandex",
+      "localizedContentSha256": "4d49d0115334c25d596c4b9136d3a189a391730433968f6b8613816d60e85705"
+    },
+    {
+      "objectType": "product",
+      "objectId": "plandex-cli",
+      "localizedContentSha256": "1afafb444affecabb3cb1cd454657537ca1536eda01cb6c13e50f3ae820b4eb1"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "simular-ai",
+      "localizedContentSha256": "9cf6f96cd95ab6e6b87a3c046c3aaef45319482afeac235743e9aee2ca9eecf2"
+    },
+    {
+      "objectType": "product",
+      "objectId": "simular-agent-s-cli",
+      "localizedContentSha256": "d137a1ac455751265399fb7a1d9a5adeaa4bac47021385b3bd35d3cac41b648e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "bytebot",
+      "localizedContentSha256": "e7d614cce22c58da24a43590fba87c9325d334fe6915b9a62ad2a22d6036a998"
+    },
+    {
+      "objectType": "product",
+      "objectId": "bytebot-self-hosted",
+      "localizedContentSha256": "1bfe640480219dd135cbb633112392f9d2b9c81705c44730951c5fb9b2f15507"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "voltagent",
+      "localizedContentSha256": "d494b3bc86378f307af6bb8a00e31e2bc7bf14cfa85f4e9621b26c6d4cf2aeb8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "voltagent-framework",
+      "localizedContentSha256": "6d2fb8b7759cbba4b66f14a0703ae1b44cab856652da6ef75697837c01341c31"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "praisonai",
+      "localizedContentSha256": "1dfc751436d254f53e762d8ec49444509f45bed5bb3fb02a4526c34b5bcc5bd0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "praisonai-cli",
+      "localizedContentSha256": "26b13e521439aca08132d501e9fbed70b8d04619b5ace40600be65214c9706b8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "agenticseek",
+      "localizedContentSha256": "ebce4ca8178e3b4af6029a8a4a57fc2e594233327071dea443b59d28817ec2ca"
+    },
+    {
+      "objectType": "product",
+      "objectId": "agenticseek-self-hosted",
+      "localizedContentSha256": "739e9d79b67c6b46816ec7b4105ac62ff15c1b60a8f3c609d4f7376c88e0456f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "agenticseek-cli",
+      "localizedContentSha256": "ad45464537bfb068f17757bc450db19021d1b243311a9efe82c71a32be1c465a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "ruvnet",
+      "localizedContentSha256": "bc6b4a93041d350f7f4a7b7c66f736484ef22a482f6fd2ac1a7a334a79e5e39e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ruflo-cli",
+      "localizedContentSha256": "f628b1eb440cd10161e4d8f88f2351fdebbaeeb304736574ea61c75bf2ec351a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "infiniflow",
+      "localizedContentSha256": "d117d581cb48cb65e7c0852ff13d41c9948c38021b1105052848fa6dc307cc4f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ragflow-platform",
+      "localizedContentSha256": "faf888a3d98dae5394f732d76048d79d78f583c4c73bed6c34735c4917e2f187"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "graphisoft",
+      "localizedContentSha256": "145fc92311dd057b9084fc76cb0a6b5d8140b71f31cd96458e431f05f93c0999"
+    },
+    {
+      "objectType": "product",
+      "objectId": "graphisoft-archicad",
+      "localizedContentSha256": "310e0740832b1c08a7083aae9db60b1fb16f39bb99b8afc8d0d9d4c02f1bcbe8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "vectorworks",
+      "localizedContentSha256": "a5194ff35bd5a0917b0b970e76e6d1eba6995ab26c4efe071fe4f67b177074fb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "vectorworks-design-suite",
+      "localizedContentSha256": "ce72784cd6f809233cb61a95d5db37fff1e8740338bcfb9fab6691b554ec7fb0"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "dassault-systemes",
+      "localizedContentSha256": "eed51d953bc6a5aedecea1006c1113ab72b52287e887e51f8cd8186c3d47760d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "dassault-solidworks-design",
+      "localizedContentSha256": "aa9223defae5fef847637c4fb90c439e555d5541cfab5dd304c577c4b7b563b7"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "ilastik",
+      "localizedContentSha256": "a7901e72d24fd189735b3a0e9513ad4f46fe881805101122c4249ea68a270144"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ilastik-desktop",
+      "localizedContentSha256": "42ba9fbe3bcb2cbbef7fad1964cc105046fe08e7490ba60e1d54c296aa56691a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "qupath",
+      "localizedContentSha256": "acfa0ee0f0d1658115c0730056590313bea1ce63f60d99d4621a3b59034f9325"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qupath-desktop",
+      "localizedContentSha256": "b97cbe3a6bfc58acff802cb5e67e37c8964e3c2ecadcf531b921be4f92352ddc"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "orange-data-mining",
+      "localizedContentSha256": "01d5e4706acaff1b4c3483a73803766931138d7741acef9641854293e7ff092d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "orange-data-mining-desktop",
+      "localizedContentSha256": "4f60fcd2b7c339218ebc02d80a1d517ce680d32ce1e213b765a96b624b77a284"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "elsevier",
+      "localizedContentSha256": "39afe029e0de205c37adfe9fef951913c17450e358b1f80613b317aaf996193b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "elsevier-scopus-ai",
+      "localizedContentSha256": "65595d92abdff8deb3f02a2e9033aa37a60d299a1f9a478d81dc6763becb8508"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "scispace",
+      "localizedContentSha256": "44f6a29fe7fb6c5933bfd3cd49b803684faeb286fdb1aeaef3c32073c485395a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "scispace-literature-review",
+      "localizedContentSha256": "412b97f1a2049a9dcd6f1685ec298bd03339e55d84a5fbdb4c4ea6195c0f7ea6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "scite",
+      "localizedContentSha256": "ba6ea67f912b11212f2991bd474343ec8c799646b2115ace90f0554d6717f94d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "scite-assistant",
+      "localizedContentSha256": "2812f05c93525f5c5ae409425cdd289801414551285b859f435e6d777f6a7cc4"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "thomson-reuters",
+      "localizedContentSha256": "84750451784832ad6c016423526c451d60a21782056de9e4fd594580d19abac4"
+    },
+    {
+      "objectType": "product",
+      "objectId": "thomson-reuters-cocounsel-legal",
+      "localizedContentSha256": "da15e307d18447ea3e0d5a232800c6a165af16154d867fab7fb589c06c450ee4"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "lexisnexis",
+      "localizedContentSha256": "52ea2173582acfa37af45c74953e85dbdd0eb9bd39cec5fee82cf93f27733e2a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "lexisnexis-lexis-plus-protege",
+      "localizedContentSha256": "2002b4ab0766960c4858857bf17db479dc99edac26b7bcceec5918ed580303ed"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "harvey",
+      "localizedContentSha256": "6251fc97c31aeda1a5c1060ca4b998a87a57ae546e22f267345bee82c60e26a8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "harvey-platform",
+      "localizedContentSha256": "d099e55b696e7b7f1376971e5d25e92a2f3daed195dcad0bd523241db165b2b1"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "spellbook",
+      "localizedContentSha256": "4ba036cf66b949b690dc568d91796ac93e1cbc152afa76ecad263da2c9a77961"
+    },
+    {
+      "objectType": "product",
+      "objectId": "spellbook-legal",
+      "localizedContentSha256": "a9ccb4226c97b1780f821149b779afdc4e96b654272ca27f95976e857cea29b8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "vlex",
+      "localizedContentSha256": "474c1f23f7f2a309b5fb3b02fbad207cb946b55e0be25f926c8b0dfd906e7fd5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "vlex-vincent-ai",
+      "localizedContentSha256": "8a79ee2c4a90dde1394abd3ec5332d352b86f727c6aaf37d137e0044db400111"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "relativity",
+      "localizedContentSha256": "3475ab10e85f49927aeb1de7e664c95c88124dc3dba9db1734fe267f6af24c68"
+    },
+    {
+      "objectType": "product",
+      "objectId": "relativity-air-review",
+      "localizedContentSha256": "31499229fe297b8155d5cadf0f829d5ce5f5da5cc517a2e51a6d50123dda897a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "zendesk",
+      "localizedContentSha256": "33f8bb86202f46463919b4df5cdc925273baefda91a2f217afb1a84448dfc5e0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zendesk-copilot",
+      "localizedContentSha256": "3810c62908772dfa827c581111cf47abbf39e22e3ade713409775aa8e4403298"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "freshworks",
+      "localizedContentSha256": "502accd2a02f5a11ed957328ff2289f708222894fbe9e49ccfa10c45321fc07a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "freshworks-freddy-ai-copilot",
+      "localizedContentSha256": "edc894e9188bbc0dbb4c368799d63db9e1f9fd110d1b202baa4e3ce8a0c679c5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "genesys",
+      "localizedContentSha256": "27fd832e589cedc286251c56ed758762dfac5108cb3df9467cb99efae756a592"
+    },
+    {
+      "objectType": "product",
+      "objectId": "genesys-cloud-cx",
+      "localizedContentSha256": "40246743a42cb0029aea291f835e1a3f186cd091c6319416bb0ee48c1b11a9bb"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "gong",
+      "localizedContentSha256": "49b76ebd9060fb26cdfa1ea65045f64fb1a6ab1acc5e4a5a533325bab305d415"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gong-revenue-ai-os",
+      "localizedContentSha256": "425ee80ab11ba667b7d32cf5a99b2b37757122a8bd92ef72743e19c07a2b92c5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "dialpad",
+      "localizedContentSha256": "278ac34b48a4120318ff6058be12ef745f519424d6e424504ab889c5dc7abdfd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "dialpad-desktop",
+      "localizedContentSha256": "9bc2bdb7e256ed1d8ecb5af6a19e939f90b181df3e10b4032df28f91dc7b7661"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "audacity",
+      "localizedContentSha256": "bd00aa625a48ab39f3583abad62891cbb589b40288a9db2456bc7c0e9a7d2d07"
+    },
+    {
+      "objectType": "product",
+      "objectId": "audacity-desktop",
+      "localizedContentSha256": "0808537eee9e24c70939ca6d6e20ec7859b6cc8b134c4defae883995ee8f0985"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "streamlabs",
+      "localizedContentSha256": "1da42257b2c6c7a875be6aca923744e55fbe9185ca6a7c841634f9b11d8b9c25"
+    },
+    {
+      "objectType": "product",
+      "objectId": "streamlabs-desktop",
+      "localizedContentSha256": "6a44f8cfad22a6cb91b8c61eaad989096578c48a0bbd6a64c38257e4ca41062c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "riverside",
+      "localizedContentSha256": "0ff414abd5ff8008b1584a6d70cb9c38b4449fbc9d63c5190c6fa91ef2b2a161"
+    },
+    {
+      "objectType": "product",
+      "objectId": "riverside-ai-video-editor",
+      "localizedContentSha256": "38ba3dd21c1a6462fabd69629dec301f2e702e510e29e7da0df780350563ce6b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "opusclip",
+      "localizedContentSha256": "94aeab674a6b08c8bc2aa25cced65c13fff2bf2399deef23a938e49e05ab50e7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "opusclip",
+      "localizedContentSha256": "726c881b7e3b67cbbcc570bc5f422174a39167e09e698bebf745ef51eaaf3175"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "thoughtspot",
+      "localizedContentSha256": "b0c9ace560497cd3352542f602bccb33d1bdda57c4a0e88ddee2746a2b10417b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "thoughtspot-spotter",
+      "localizedContentSha256": "89f8ef34d9415ceb12cbc637b447938d28825d17185104f23bc4c175414fbcf5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "thoughtspot-analyst-studio",
+      "localizedContentSha256": "ff87d70c17e67160366fb84a64067903ed86171f2d51193acfdb6d0914583c7b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "qlik",
+      "localizedContentSha256": "b62487c1b8113d7caa6703b048b4da0c1d759a00646f2a00051026f3079c41ba"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qlik-answers",
+      "localizedContentSha256": "adeef2e8918774825ca05181b10bcbba23c06849d2391be55e67026838c9ec95"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qlik-discovery-agent",
+      "localizedContentSha256": "ddf389576fe8383cbe4d773254fe6d661a82734bc09b4e4018b8d32691d668d2"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "dataiku",
+      "localizedContentSha256": "5de620a0948d9efa3a48090261bb904543261ac7dfb4a7341cefe1925d04d138"
+    },
+    {
+      "objectType": "product",
+      "objectId": "dataiku-platform",
+      "localizedContentSha256": "edf175b58b7cf63f2cf9392e856a9de6be60c9c7e0c7ad79fdab4bac6c217195"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "navicat",
+      "localizedContentSha256": "5577b87b059f6efc81819386715a4316e81c13ccd224be9000c55ccc6652e361"
+    },
+    {
+      "objectType": "product",
+      "objectId": "navicat-premium",
+      "localizedContentSha256": "34cc1c3b59aad1d5eb949b1c499d4b7bae9a7e730f01296a308ba5d2805a6319"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "octave",
+      "localizedContentSha256": "bd7b5fc60c866d95587d97b1d07fcc3ca35caf36498999d8052c11001c177620"
+    },
+    {
+      "objectType": "product",
+      "objectId": "octave-bricscad",
+      "localizedContentSha256": "a2033715076b4c42f29dd58f54e019668ac1b54fcace4d919f067e00ba0db96e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "amp",
+      "localizedContentSha256": "778cb70fe568c35f5976393bc374c99ba96d297b1b9686ca4e09e72a926fe520"
+    },
+    {
+      "objectType": "product",
+      "objectId": "amp-cli",
+      "localizedContentSha256": "5f6046cd411ac83eff9764d08352fa46561e7c29385e8b9c76be9a684a0e2c1f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "augment",
+      "localizedContentSha256": "655cde130311537bd934010fd157e127a377d723d8b2cf4702702e8b218734a2"
+    },
+    {
+      "objectType": "product",
+      "objectId": "augment-code",
+      "localizedContentSha256": "a71491fb52389d743248e88803e224c2b66d71f0b7c87da76d612cf315a22646"
+    },
+    {
+      "objectType": "product",
+      "objectId": "augment-auggie-cli",
+      "localizedContentSha256": "f5ba8f7da0718270a03097aafc2d40d0feb2b722ce207c54f8c174fb1832db52"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "qodo",
+      "localizedContentSha256": "4be5c68f424ef04ca3016ed0023af1418aa0769eb380ecd6b6d8a179dcfcd121"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qodo-code-review",
+      "localizedContentSha256": "8a46dc6e5a71d1e3293996ffe0c4a2f3958705feda368250cff38c300d1e8917"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "coderabbit",
+      "localizedContentSha256": "3e971d972eb94764da40122a50febf8adf99d547c73b5f4f3d18b18c21dffc59"
+    },
+    {
+      "objectType": "product",
+      "objectId": "coderabbit-code-review",
+      "localizedContentSha256": "ac274645ad24f9930f0ddea9dda902e28a822d63d2ee4824e58da962b3486e78"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "greptile",
+      "localizedContentSha256": "ab374ed7aeaf0c67c09acd534519b006a932bfb72b86d0ff1b9748e101494f08"
+    },
+    {
+      "objectType": "product",
+      "objectId": "greptile-code-review",
+      "localizedContentSha256": "96fc8c4dac0f831a2699b2a6010922563efb40d31878ad680091c5137d3a8d61"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "clickhouse",
+      "localizedContentSha256": "33cfad9cd8db15716d116909585d3c7b25e0a3e15541dba9261231c10f875bb9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "clickhouse-langfuse",
+      "localizedContentSha256": "dc2a0e67d8675556c81d88bb183fc9438fa51987809bdc23539279e05c83ec12"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "promptfoo",
+      "localizedContentSha256": "57612895db3dad8414c1419d98f81aa2fc5283e25dee926242bff93a6e2d5e15"
+    },
+    {
+      "objectType": "product",
+      "objectId": "promptfoo-cli",
+      "localizedContentSha256": "30c7d329d2a8ca2b468366662de5633af0f746d69ce053c8ba81e1973227ef66"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "daytona",
+      "localizedContentSha256": "c0d402a030f7d81ef323b4c4bbfeda459636ccf343fd192aa3bcbc9c06677ccb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "daytona-sandboxes",
+      "localizedContentSha256": "751ee0fc75b64c7baef63fa867e907946af4f3db5a6bf8e858f0151c377ebad0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "daytona-cli",
+      "localizedContentSha256": "73840584cf535c85141540d72d4a6aecb863701abc0df569940d6b0557e6fe3c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "e2b",
+      "localizedContentSha256": "b1de1119897d63a7c2feeba3182bd6093b459e14bfafa0b1a0520c5fc7523680"
+    },
+    {
+      "objectType": "product",
+      "objectId": "e2b-sandboxes",
+      "localizedContentSha256": "d6ae799c6c04f0ceccdd21f73c35209414b8866a0984d12f1989b206a908332d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "cisco",
+      "localizedContentSha256": "c05982b3073de14ab14a0d9f40d935482f104b975a606e5afd6ea332d4b02f47"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cisco-webex-ai-assistant",
+      "localizedContentSha256": "6dde255c869e802651a6e3b9cd3d2bbcdbdb2914ac090f634bd8cad19c28880f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cisco-webex-ai-agent",
+      "localizedContentSha256": "9ef7c44d012812d887064909ba93d182a651195a4a02a02eac9c8fca5d2523f5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "playcanvas",
+      "localizedContentSha256": "a585f97047389c2ac5f475dbbc0076887cb5e60bbf58de0baa049b572ce5327c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "playcanvas-editor",
+      "localizedContentSha256": "4ca188a13d61c647c5db4ecabd564cb54fa6bca5b4d94a0a76bb8b55f53a3e31"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "vimeo",
+      "localizedContentSha256": "55bb4ba194a6ccce2bd676187b5a5258019d4028cfe0dc025d1244a1a79f2110"
+    },
+    {
+      "objectType": "product",
+      "objectId": "vimeo-platform",
+      "localizedContentSha256": "eac3ce78baa1886d061234d1f86f9a775f1d427a645e155a036424aa37b7154f"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "cloudinary",
+      "localizedContentSha256": "5935affaa40902df31a1aa6b14d49c9b598b22c9d1e91b39ea96cf286db6ad3f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "cloudinary-media-platform",
+      "localizedContentSha256": "2b649b09fe10a99e962d16b4496e5ed32478dbc5f47062d60a5b2de133b4fccf"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "onlyoffice",
+      "localizedContentSha256": "b7f0373cfca6853ee53d4f6157cd9e7e1d66c31b6cdcbed6c05d8f42b5f52c05"
+    },
+    {
+      "objectType": "product",
+      "objectId": "onlyoffice-docspace",
+      "localizedContentSha256": "f7218ae0aa5219c667d52f0c62f8c5b093f280612bb21298dc2b4789d5366b0b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "airtable",
+      "localizedContentSha256": "2ce81eaf0adc728a1d08a4cc5393587038ffbcbbf81635c982620d275e232d47"
+    },
+    {
+      "objectType": "product",
+      "objectId": "airtable-platform",
+      "localizedContentSha256": "b01944ea747693d7c98bed155552f1428086e5379c25c09f562d5fc36caf7ada"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pandadoc",
+      "localizedContentSha256": "1c87972aa3a18694b95f1b0693645fbaba001941b41c5a5a8f68aab4e8b8abfa"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pandadoc-workspace",
+      "localizedContentSha256": "e1470b41a68526350ce5ec7dd623425a726d00fc87c066c7c62dbe4f32afb80e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "superwhisper",
+      "localizedContentSha256": "f849eb2fc2e65599e2bb20f1f6e83b64beefe227b003d44b0548d60308956e2a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "superwhisper-windows",
+      "localizedContentSha256": "9ebb713b3306f562b901b857e0a1d158e9b9d77ce117e1e2c79a273480e4e189"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "screenpipe",
+      "localizedContentSha256": "b1e84d4df04cfa6fef83e1423593bd4e977bfa40161fc610299ac5ac620fca1d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "screenpipe-desktop",
+      "localizedContentSha256": "fbaa28974c93cec10bda9b29a4e5751992418d990e1a7b5667e7a005346bf73a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "pdfgear",
+      "localizedContentSha256": "eff0fb8144044f60a2885718d5c05ad9cdb134f04a0b46b3533b8a328f01cc03"
+    },
+    {
+      "objectType": "product",
+      "objectId": "pdfgear-windows",
+      "localizedContentSha256": "eac29ba35ccd2146738fcd64ea93acb605e662a28a500fc0ac14583b8cf4c007"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "updf",
+      "localizedContentSha256": "2d2b972bc1e8854d5d8f4631e16854d163538254d89c931248d901b9f711d1df"
+    },
+    {
+      "objectType": "product",
+      "objectId": "updf-windows",
+      "localizedContentSha256": "03320cf608f019395bfdec20e3b11c5b3ee9dbc593ff939bb53c2ce548c7c6ae"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "vrew",
+      "localizedContentSha256": "5cfeff97700644d6333a36d8b9d28c99b2c136ae6a897d892ee053db9d2e7ba0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "vrew-desktop",
+      "localizedContentSha256": "001079f6984edf6e55ad0a3da1b7dd9cff854893ed8a545c25b7c53e0ce9162d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "voiceai",
+      "localizedContentSha256": "5a43720ed2471324bfd7465d54c4becc52d44b1646654eb5c4a441411e3a2ca8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "voice-ai-windows",
+      "localizedContentSha256": "8367a5f7cbb86fcde02b762294a3726297fe91a872023a34a49a61ee3c1a424b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "finevoice",
+      "localizedContentSha256": "ea1992e803b58856e39a6d3553344ea02390cc4164140bf4c22e7dc5f3e8b473"
+    },
+    {
+      "objectType": "product",
+      "objectId": "finevoice-desktop",
+      "localizedContentSha256": "397758820f8d498df4e1b8e2850da7bff19d3b25f14d7519ffbe4f2776cee57e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "gitbutler",
+      "localizedContentSha256": "7c6b1854cb5afa699b9ebb19c9ecbe38898d93d043450af1cce9ce8305e215e7"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gitbutler-desktop",
+      "localizedContentSha256": "51cb088e5b5f8a1cce00dbade504f3a1348df1550d3e8d23b0cb0cdeef5bbe37"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "affine",
+      "localizedContentSha256": "c55d3a389f74c8bbe8c893fce5d76cbed1f342b649a72501465adaaca5b445fe"
+    },
+    {
+      "objectType": "product",
+      "objectId": "affine-desktop",
+      "localizedContentSha256": "0d96adb6066ba505b76b59fbadd344ecaac2dbcfc5c1606b97dd31c330c85a0a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "appflowy",
+      "localizedContentSha256": "d0f21332b4c0354dbe1f63c02b35c788b2cae813f4ddc07670fc3298b404d9f9"
+    },
+    {
+      "objectType": "product",
+      "objectId": "appflowy-desktop",
+      "localizedContentSha256": "d5e17840cb8b72bd751fd2e272deae21bedfd4a5207978d2c57a816605cac0fe"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "duckduckgo",
+      "localizedContentSha256": "cb52140637ad3a374a11a86e53e5ab7eae29f148402066eb9b3e23f5682736e5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "duckduckgo-browser",
+      "localizedContentSha256": "626094f4218f823db50fdf188def4e923b8e4e40b3596d7f2dcbaa67fd7416c8"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "spark-mail",
+      "localizedContentSha256": "f20420b9d05a98175b3965163a0572a94fb7446ebc43e0616cb7fc92c89ec1d8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "spark-mail-windows",
+      "localizedContentSha256": "6120167fba8ce7838868b964f96be027194b09fab1611022c9d1c47e23525ee9"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "canarymail",
+      "localizedContentSha256": "6186a04ea88965359a6a3b315eec4b2e5a5410126b36f1cdd50fd31ebb4b6ba8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "canary-mail",
+      "localizedContentSha256": "cc821481ec0994b43479861a41eb6505731cf45dbee211fb61123f219ccde47b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "movavi",
+      "localizedContentSha256": "93e33a17fec46aada4f7bcda0e833d57450b5bef7b64e507b128d860366c85eb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "movavi-video-editor",
+      "localizedContentSha256": "517e6b232a7c2e1c519bceb8ca5da2cccc8bd2edebcf7067582c3e536f855084"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "corel",
+      "localizedContentSha256": "279df911d83d5830e1ef753a6835a959055c6071f7ae990f31580624967c2b94"
+    },
+    {
+      "objectType": "product",
+      "objectId": "coreldraw-graphics-suite",
+      "localizedContentSha256": "f964dfaeb47f2ea7814548414034f79e82bc58518ecf1586d3085170b3805bbf"
+    },
+    {
+      "objectType": "product",
+      "objectId": "paintshop-pro",
+      "localizedContentSha256": "c51b98b61a87d3e9c596b1b8b33840701a79e02a99c2a8b8d20f23c9ca6e4817"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "braintrust",
+      "localizedContentSha256": "f0f524570e1090b174ee1b05d51468689a4f0856e46bde02002ca93a6c227170"
+    },
+    {
+      "objectType": "product",
+      "objectId": "braintrust-platform",
+      "localizedContentSha256": "0c43ac6017e97a2e079ca1d59282bead2f103e895e4b1e750fbd2e1b1f334c89"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "agentops",
+      "localizedContentSha256": "45ea6dd1640a4954fd0c9e5ce7ba3ead9189545732932e52df8a61df1202c792"
+    },
+    {
+      "objectType": "product",
+      "objectId": "agentops-platform",
+      "localizedContentSha256": "af82778ad07c5c494a54d15fde747e42827ca7796596db165eeb33e1e1a26406"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "helicone",
+      "localizedContentSha256": "8270d5dc7e49d730edd3e6b230ca553d307d3ad3a5c966eecda6dec27053dabc"
+    },
+    {
+      "objectType": "product",
+      "objectId": "helicone-platform",
+      "localizedContentSha256": "f48efec31c312a28d14e18a8dda5e4b23f6a9d4108a80cb0f3e5fa6e245f4694"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "mod-io",
+      "localizedContentSha256": "875349c8981d6740c313f4db23d00018ba8458fa7628fccaa2fbfb03e340f758"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mod-io-platform",
+      "localizedContentSha256": "7becf1781c70881fb1e0d683eefa27180d54e7a6717803f9099dea1e87977ee2"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "assemblyai",
+      "localizedContentSha256": "591d747b99fbbeb8661736a8a83d7c2bd3bdbe2dea08ed3690399f17f126c283"
+    },
+    {
+      "objectType": "product",
+      "objectId": "assemblyai-voice-ai-platform",
+      "localizedContentSha256": "43a033baf223452f8cf465c5f0a6f5225ce63f6b3b8f68051eb076f879748931"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "livekit",
+      "localizedContentSha256": "aa8fefba2d62ffdf1c4f3978e7faa4e3621ec5d69077dd47e7854c6353b26d22"
+    },
+    {
+      "objectType": "product",
+      "objectId": "livekit-cloud-agents",
+      "localizedContentSha256": "fada1eb053d213acd3409d42888ab455a4d92bae6a604b63f4c4ce49950a3280"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "anydesk",
+      "localizedContentSha256": "078abadd86a28cb82098f5be4fdb0ddfff69a567bb4b4155da9a1c4ccc32633e"
+    },
+    {
+      "objectType": "product",
+      "objectId": "anydesk-windows",
+      "localizedContentSha256": "e4b41b3640584ee9e497d4f734595bcf5d44a21616b1745ce007b6cb5cd920bf"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "tripo",
+      "localizedContentSha256": "8a5d6dd74bc20fac34477e3ac6e18c85cdd42aefdc073fad01798efa7b12e189"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tripo-studio",
+      "localizedContentSha256": "b3b5922b523b7b95d2ab3448498ae487c4dadd38e64b4d485ed73adf52601d4a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tripo-openapi",
+      "localizedContentSha256": "1838828044206046e6acd1c58aecb9c64998b60d8b8d0e152ce36197648d9235"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "docling-project",
+      "localizedContentSha256": "70a207d0c6bdc95426e7e6317b2ef439926e1574d5739f5f27be660e7f7eb3ef"
+    },
+    {
+      "objectType": "product",
+      "objectId": "docling",
+      "localizedContentSha256": "d66ec3fd8b8877fba783d4cb99318df930b6fb92ad4209ae94ad7c0e428e46e7"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "tailscale",
+      "localizedContentSha256": "52b12aaa834f47f47a94ef879450252f6e1bf1c7328f2f9d7f6fd910e134a82b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tailscale-aperture",
+      "localizedContentSha256": "f799df29cf7399fd8d0608361aebf68de6d401dd86d618005dc683c5a59c1dfc"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "spline",
+      "localizedContentSha256": "d4a9c5fff6c34b2611eae7fceb9d13d1150ddc03d6956298a86e77855045efc8"
+    },
+    {
+      "objectType": "product",
+      "objectId": "spline-platform",
+      "localizedContentSha256": "b0c4a589e9e20d9468c918d21361eb93c22df9bb3eca4110b89c5647f17b7088"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "copilotkit",
+      "localizedContentSha256": "aca632318733d885805e1a9d302a5005c45aa649db8ee29dde5fdddc61dfc2ac"
+    },
+    {
+      "objectType": "product",
+      "objectId": "copilotkit-agent-ui",
+      "localizedContentSha256": "cc7960425e48f4bfe41b0ad53b9d94619b64ba8ab7d4d9084a24908262a725f6"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "composio",
+      "localizedContentSha256": "45df7be00ebf20abf4699900849ecb182e18964817481e6bfe55e848c367780b"
+    },
+    {
+      "objectType": "product",
+      "objectId": "composio-agent-tools",
+      "localizedContentSha256": "d112f3ffce2ca2366c8d688f52a3aeb3baa8fc376c4a04ef18d6d1ea21410ab5"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "arcade",
+      "localizedContentSha256": "b180e21b7a12c599178d639d1d3910c4b2e471915db242c0fe8e0ccb5b35d0a5"
+    },
+    {
+      "objectType": "product",
+      "objectId": "arcade-agent-tools",
+      "localizedContentSha256": "7483a160dbb31e4c78d7153288e366afa38263f7a6ac350219c284dfb903ab03"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "deepset",
+      "localizedContentSha256": "e878cfbf0e37bb4afa91534836a4e5dc719c5dd4c23b988c6eb285f397a488dd"
+    },
+    {
+      "objectType": "product",
+      "objectId": "haystack-agent-framework",
+      "localizedContentSha256": "d8cdfc0b887087fa8273d44fa04d280ca5c33d94f528a14dda1376ad4cc3d526"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "mem0",
+      "localizedContentSha256": "ebe830b4201bc7cc06d173feca535783bf76f629470617529eabd2267e660851"
+    },
+    {
+      "objectType": "product",
+      "objectId": "mem0-agent-memory",
+      "localizedContentSha256": "423d39a457e45f50c085008a39d8aec8c8fd2bb110ecd47f345a365c90f08288"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "zep",
+      "localizedContentSha256": "6ab5b78527281d2d4896ee0b6ccd504e6b6197d22fc69a32b72c82aace0d2b4a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "zep-agent-memory",
+      "localizedContentSha256": "66fee770df584caecf27d9ece511ff99b9a87ad5480aa0704c084b6a0abdaf98"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "browserbase",
+      "localizedContentSha256": "733fdbd2a68a5a58c8b2fc08c452674698399cd418279744dc5417bc043b58aa"
+    },
+    {
+      "objectType": "product",
+      "objectId": "browserbase-platform",
+      "localizedContentSha256": "31973231c4515b849bda013d6303adb0649d4424ea30a9cc657ebe7459d9fa8f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "browserbase-stagehand",
+      "localizedContentSha256": "5e0ebbe9789ebb6f0f153a3f9db39833861c37d923cb518ece1a9e4c379511a2"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "firecrawl",
+      "localizedContentSha256": "142e67a43d2df4db108c61c5bdfe64270e6aa3787e18b48169b7a62a5d50c77d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "firecrawl-platform",
+      "localizedContentSha256": "2ae568a282a8c8cb0351796772379891c0a978c0e2ba7c5b38c1066d4079312b"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "tavily",
+      "localizedContentSha256": "914cfc05c1885e6de96d7e6082d71026b6f8564ca3f0ce8f54a3bebfe0c2946a"
+    },
+    {
+      "objectType": "product",
+      "objectId": "tavily-search-platform",
+      "localizedContentSha256": "0ea03186f4d5ae6dbf3784e74df0410f18986bdf2c7bf2bd1eb08bd082bb3b7c"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "apify",
+      "localizedContentSha256": "f78efdf12ea815a35b4c9faa0042840bf0043e9524ebf98c12fcf3e2dd4d3227"
+    },
+    {
+      "objectType": "product",
+      "objectId": "apify-platform",
+      "localizedContentSha256": "b083044798b880efc17610a6742a82ca71052372d375310f6cd0e62d9d75a240"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "qdrant",
+      "localizedContentSha256": "60c444ee3ff2ee7b030d96b10a359085d6b18f22a712e1bc920205ea03c292cb"
+    },
+    {
+      "objectType": "product",
+      "objectId": "qdrant-vector-database",
+      "localizedContentSha256": "59501a810d0d070af63b385a3d40ae17fc5ad07901bcec1e2160e18bb958ee2d"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "weaviate",
+      "localizedContentSha256": "695add84c66468c53e2b8711796b3f0f053ad8a02a6d6f2b97ebd80336ff2173"
+    },
+    {
+      "objectType": "product",
+      "objectId": "weaviate-vector-database",
+      "localizedContentSha256": "fb39897efad6e975bc12a3a211c80d8aef73e287db4d13f1080897e303114d02"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "neon-database",
+      "localizedContentSha256": "82afe5f4beb6fb57c7946a0dec8400c0fa7b3db065a9a8abfa14f0d7450fb8a0"
+    },
+    {
+      "objectType": "product",
+      "objectId": "neon-postgres",
+      "localizedContentSha256": "a4abc8f9918a95395d30332254cea78666ef12113186e995e35b1527d1bef04a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "gitbook",
+      "localizedContentSha256": "2ab2f9d5633d889d3cd96b9cd3219bf16e90b94bed5e16035bf51003b3443f56"
+    },
+    {
+      "objectType": "product",
+      "objectId": "gitbook-docs-platform",
+      "localizedContentSha256": "a98d0eefc4f637948d62a54e73d96dac0a42340217f2820a499725e385191894"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "new-relic",
+      "localizedContentSha256": "8e19096b820fc7cd828cc90c248d5e19389c8941ba1e07f4c47fc9a533e8828c"
+    },
+    {
+      "objectType": "product",
+      "objectId": "new-relic-observability",
+      "localizedContentSha256": "38f3b3ef8f7b799218ec37b8c5f97c3fedc832649d1da28fbb4d1630f9920916"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "sider",
+      "localizedContentSha256": "ab878431f4f669ea084fbb955edb925b3c4b64e68a0252a1a22add689ae880ca"
+    },
+    {
+      "objectType": "product",
+      "objectId": "sider-windows",
+      "localizedContentSha256": "d9c7d1c067dbb3e8a17a113fb58f9b149adda6f84cfc5a93e474b74c80ef6002"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "skales",
+      "localizedContentSha256": "a3ce2d8b099f1ddf91c291ed566c5b9ffaa65892dd51f3816e1583c6f7ef1caa"
+    },
+    {
+      "objectType": "product",
+      "objectId": "skales-desktop",
+      "localizedContentSha256": "fac28eb07be5ebbbf038ec14017aa91dc8017e0b574308c239091057a91e170a"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "ptc",
+      "localizedContentSha256": "76608a0591c761394baf5b44b548aa57a4d7a7f4a57fe1c415718be425592f97"
+    },
+    {
+      "objectType": "product",
+      "objectId": "onshape-ai-advisor",
+      "localizedContentSha256": "f313bd841bfd98a35fe52f44537f81f7dd14abe02bf431d6153436de31664f2d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "ptc-creo",
+      "localizedContentSha256": "619657343c2ddd317b7558a14dc628c7adef1ca8ac1533941313baeccce0047e"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "allplan",
+      "localizedContentSha256": "26a84a9b25310c9766cc4932719d36c837e02c4fab11cc6ea4a8ba49bb0ff3a1"
+    },
+    {
+      "objectType": "product",
+      "objectId": "allplan",
+      "localizedContentSha256": "f7fc54de0de2b9cf6fcc9fcc83f0ffaebb9cfbecbd6e6db8803773a01c941399"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "biorender",
+      "localizedContentSha256": "e532d1dc87af20e81872785356668da8f0e0e66677c7b0c096822c25ada34f8f"
+    },
+    {
+      "objectType": "product",
+      "objectId": "biorender-ai",
+      "localizedContentSha256": "a75055d1b4823126d1de2fbd617971e459fd68884c44b9b8264cdbe1fe452266"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "benchling",
+      "localizedContentSha256": "0737d9ae6c9835baf97d16f35c859c99fb433ee2b64f7e1f20f1aae3ee525446"
+    },
+    {
+      "objectType": "product",
+      "objectId": "benchling-ai",
+      "localizedContentSha256": "ac15ffcb437d1f9032efeca476c8ce99b9a80049708af853e642453981c9e9c4"
+    },
+    {
+      "objectType": "vendor",
+      "objectId": "anytype",
+      "localizedContentSha256": "c3b885038fd9d4fa18e3f96d20fd6aa036c8d5d2607fe1b789835776db643381"
+    },
+    {
+      "objectType": "product",
+      "objectId": "anytype-desktop",
+      "localizedContentSha256": "fb85efdcc6be6dca24721c202ecc61119005fde24b641500ec6f2adc51cdb59d"
+    },
+    {
+      "objectType": "product",
+      "objectId": "anytype-cli",
+      "localizedContentSha256": "210ad6c567f13b6370b1a31e4898b68c9c70b3cb9039cc8af2cbeb5e48d173e4"
+    }
+  ]
+}

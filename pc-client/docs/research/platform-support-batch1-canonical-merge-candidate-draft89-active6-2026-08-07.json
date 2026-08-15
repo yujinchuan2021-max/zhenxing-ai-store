@@ -1,0 +1,72 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "kind": "platform-support-canonical-merge",
+  "generatedFromCheckedAt": "2026-08-07T00:00:00.000Z",
+  "source": {
+    "draftRevision": 89,
+    "v2ActiveCatalogVersion": 6,
+    "v2ActiveReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "productCount": 615,
+    "resourceCount": 146,
+    "targetCount": 513,
+    "statePath": "admin/published/catalog-store/state.json",
+    "stateSha256": "abffc088a113160ee85fb0efaead8ddff0230021992c9252df82453e396490a9",
+    "draftCatalogJsonSha256": "50d8368a00c347b2e575bbe9993272971e1010a1d3eff8db4e16edf427add7da",
+    "evidencePath": "docs/research/platform-support-evidence-batch1-draft89-active6-2026-08-07.json",
+    "evidenceSha256": "71a183761537989463baca907eafe4e4bcd466e0d6638ebc3b6739d066160e4d"
+  },
+  "mergeOperation": {
+    "kind": "replace-product-platform-support-from-exact-evidence-record",
+    "recordKey": "productId",
+    "value": "exact source record claims",
+    "catalogFieldsChanged": ["platformSupport"],
+    "forbiddenCatalogFields": ["command", "args", "env", "headers", "credentials", "script", "artifactUrl", "installProfileId", "moduleId"]
+  },
+  "proposedChanges": [
+    {"vendorId":"openai","productId":"chatgpt-desktop","claimCount":3,"statuses":{"supported":2,"unknown":1},"platformSupportJsonSha256":"051fcdb12e116f32ddc8f055130de7f4994f3edb0bbf13191079e0b4e7e9532d"},
+    {"vendorId":"anthropic","productId":"claude-desktop","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"ac3de7196d00084f3fd1961ae61fea80ab8c85e25a4e9731317f1af9f2e8ea04"},
+    {"vendorId":"anysphere","productId":"cursor-desktop","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"4cb3762db02aceeae97185c49c531cd10f93ef215870193797e8c62b9ca8b2e8"},
+    {"vendorId":"microsoft","productId":"microsoft-vscode","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"4fbec3ddc6f42ff7fa3c947fe6f800bc52702ce3e7dff61627d104144bfd5112"},
+    {"vendorId":"zed-industries","productId":"zed-editor","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"2b4d0f9b67e8414b30bd8bbb78545d7dd341b1810c1b962f8603be3a49b8367e"},
+    {"vendorId":"ollama","productId":"ollama-cli","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"f92f6ade218709c39f36f6592e656d63bd087d8d0e24a3d0a5014600d7c521c0"},
+    {"vendorId":"lmstudio","productId":"lm-studio-desktop","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"2a84b788d34d3c7ba5c5b26be47665ced5eed080761b4943d9d0fb3971fa36c3"},
+    {"vendorId":"docker","productId":"docker-desktop","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"0777067b592e99dbc608686c19e16d1d4c9e730232e58559fd602060108512b7"},
+    {"vendorId":"blender","productId":"blender","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"ea76f3467f4cc6638abe233aa5b79c889eb193c3d6826fdd23b5fc7cc31d02bc"},
+    {"vendorId":"obs-project","productId":"obs-studio","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"a63798c2d22a6c399bb585d18cf9fe0b4770ee4fcaeeaefe56033955543f2346"},
+    {"vendorId":"anytype","productId":"anytype-desktop","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"8ddd82d638cc055d7ee08908a364323a889441e5b52a3fc9d10acbad3f267118"},
+    {"vendorId":"jan","productId":"jan-desktop","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"3139985f0f7431fcebcf2f358a5d66c08e448329b8e06ce382ffd985bcdf91af"},
+    {"vendorId":"discord","productId":"discord-desktop","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"c5a99995219e1e9ddaa6ae5a201c6fb3c1c45c2c1d006d86d0c927d68f6082f3"},
+    {"vendorId":"slack","productId":"slack-workspace","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"be4b84d44c2e3439e51ef6014ace2be0c5e376de97b507b3b65a6b8e14199e44"},
+    {"vendorId":"comfy","productId":"comfy-desktop","claimCount":3,"statuses":{"supported":2,"unknown":1},"platformSupportJsonSha256":"169602132c9d98eb0e33f01fc334c6cad88f1a7da93fb5a629eb25aadb0d00d9"},
+    {"vendorId":"anthropic","productId":"claude-code","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"6e6c47e7f6f4acfa1a21f7844cda1a86db55f79d4d105edfc987585437a3ff48"},
+    {"vendorId":"google","productId":"gemini-cli","claimCount":3,"statuses":{"unknown":3},"platformSupportJsonSha256":"1ab3504a5ca329eadfdfc187bf0490722629a343c5115089473851ca7ac9ad66"},
+    {"vendorId":"openai","productId":"codex-cli","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"0f7ca2121ed8def640eb9265c5fa72ce9c89706af644559fa0947439b9e4490a"},
+    {"vendorId":"openwebui","productId":"open-webui","claimCount":3,"statuses":{"supported":3},"platformSupportJsonSha256":"85f1f44c2f8e45e7c232bc7fea647bc1e1872c2af18450aea63f9a1ae9a43763"},
+    {"vendorId":"anomalyco","productId":"opencode","claimCount":4,"statuses":{"supported":2,"unknown":2},"platformSupportJsonSha256":"bac37f9ded4bbd86a45aadc1377b5f5aa761fa2c8e0cfd2d77de7f9c095f3f54"}
+  ],
+  "summary": {
+    "productChanges": 20,
+    "claimChanges": 61,
+    "supported": 54,
+    "unknown": 7,
+    "unchangedProducts": 595,
+    "unchangedResources": 146,
+    "unchangedTargets": 513,
+    "unchangedResourceStores": 4,
+    "candidateCatalogJsonSha256": "93b42b6e4fba53cd6246479fe33aa2bd8c2a1db717c8e404d5e89a3faebe8705"
+  },
+  "consumptionPreconditions": [
+    "Re-read source state and require every source digest and count above to match.",
+    "Re-read the evidence source and require its SHA-256 plus every per-product claims SHA-256 to match.",
+    "Run validateOptionalPlatformSupport with checkedAt for every source record before copying it.",
+    "Deep-compare all non-platformSupport product fields and all resources, targets, and stores before any save.",
+    "A separate explicit authorization is required before any draft save or publication."
+  ],
+  "activationGates": [
+    "Product claims are display/filter evidence only; supported does not mean managed, installable, or Agent-bindable.",
+    "Do not copy claims to resources, targets, or fixed profiles. Agent Broker remains fail-closed until resource and profile claims are independently reviewed.",
+    "Each platform artifact, profile, lifecycle, ownership receipt, WSL/container dependency, and action requires its own review."
+  ],
+  "rollback": "No state was changed. Discard this candidate; if a future authorized draft consumes it, remove only the 20 product platformSupport fields after verifying the recorded source digests."
+}

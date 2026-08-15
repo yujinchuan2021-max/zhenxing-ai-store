@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "phase": "sitemap-discovery-only",
+  "statusClass": "discovered-unreviewed",
+  "source": {
+    "host": "hub.cocoloop.cn",
+    "robots": "https://hub.cocoloop.cn/robots.txt",
+    "sitemapIndex": "https://hub.cocoloop.cn/sitemap-index.xml",
+    "sitemapIndexSha256": "9d1978552f348a326d70599dd0e43e32981f2ae290044d7bfe9cbff11081e37c",
+    "shardManifestSha256": "7d605ed69cef0088e05e85b4f1897e8f8f89f3c0ea8a16d74f6f5a53150adc36"
+  },
+  "run": {
+    "concurrency": 1,
+    "minimumDelayMs": 250,
+    "shards": 721,
+    "entries": 72051,
+    "uniqueUrls": 72051,
+    "uniqueExternalIds": 72051,
+    "duplicates": 0,
+    "invalid": 0,
+    "errors": 0,
+    "http403": 0,
+    "http429": 0,
+    "metadataPagesFetched": 0
+  },
+  "outputs": {
+    "index": {
+      "path": "output/research/cocoloop-skill-intake/candidate-index.ndjson",
+      "bytes": 12242811,
+      "lines": 72051,
+      "sha256": "19ca436a08f0747ff07b90baf95efa5a7bdad300c836086098e0bee19c91c171"
+    },
+    "summary": {
+      "path": "output/research/cocoloop-skill-intake/candidate-index-summary.json",
+      "sha256": "11b5c6657438e6a9024b2678dcb088024fa76de24abf84aec0c380911c9d9a4d"
+    },
+    "checkpoint": {
+      "path": "output/research/cocoloop-skill-intake/checkpoint.json",
+      "sha256": "a14f578caf407b54f0df5d03e228ad722ffdd914b1ede9bd03136d6c78d07c07",
+      "completedShards": 721,
+      "nextShard": null,
+      "outputOffset": 12242811,
+      "outputPrefixMatches": true
+    },
+    "normalizedShardFiles": {
+      "directory": "output/research/cocoloop-skill-intake/shards",
+      "count": 721,
+      "bytes": 12242811,
+      "aggregateSha256": "d5d28cb1c48a1e4d4139675b64b54c2396cf98258b66811e1c5a6c77b5cfcf65",
+      "eachFileHasSha256BytesAndLineCount": true
+    }
+  },
+  "implementation": {
+    "scriptSha256": "31fec4ceb0d1e526e9a797efd3eec69e6fbf62d8eb24db6f932c8bd3b7453cba",
+    "sharedSha256": "f08c8baab9bb03666da681b3f6a6ba23a9e3c372b91adf0bcb82ad4a6059d824",
+    "testSha256": "de91ec5c16b40b2d303ba8f867ee2b862ea66461c9aa0aabeadf17cc04e1d6eb",
+    "focusedGreen": "12 passed, 0 failed",
+    "completedLocalRerun": "verified all source/output hashes and preserved index, summary, and checkpoint SHA plus mtime",
+    "nodeCheck": "passed"
+  },
+  "boundaries": {
+    "allowedPaths": ["/robots.txt", "/sitemap-index.xml", "/sitemaps/skills-[1-9]\\d*.xml", "/skills/[1-9]\\d*"],
+    "forbiddenPaths": ["/api/", "/_next/", "login or bypass paths"],
+    "rawXmlOrHtmlPersisted": false,
+    "cookiesOrTokensPersisted": false,
+    "activeCatalogWritten": false,
+    "publicationAuthorized": false,
+    "officialSafeOrReadyClaimed": false
+  }
+}

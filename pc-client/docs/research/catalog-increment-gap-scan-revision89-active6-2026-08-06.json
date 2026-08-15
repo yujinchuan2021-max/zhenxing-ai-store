@@ -1,0 +1,108 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "source": {
+    "stateFile": "pc-client/admin/published/catalog-store/state.json",
+    "draftRevision": 89,
+    "draftProductCount": 615,
+    "v1ActiveCatalogVersion": 72,
+    "v2ActiveCatalogVersion": 6,
+    "v2ActiveReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "checkedAt": "2026-08-06"
+  },
+  "acceptedCandidates": [
+    {
+      "vendorId": "google",
+      "productId": "google-app-desktop",
+      "name": "Google app for desktop",
+      "identityReason": "Official Google product page names a distinct Windows desktop app for Lens, AI-powered responses, computer/Drive search and a keyboard shortcut; no matching productId or alias exists under the existing Google vendor.",
+      "directoryKind": "ai-tool",
+      "productType": "desktop-download-only",
+      "proposedModuleId": "desktop-download-only.signed-catalog",
+      "proposedStrategy": "direct-artifact",
+      "website": "https://search.google/google-app/desktop/",
+      "evidenceUrl": "https://search.google/google-app/desktop/",
+      "evidenceScriptUrl": "https://search.google/static/js/main.min.js?version=1785860427156",
+      "officialDownloadUrl": "https://dl.google.com/windows-google-app/GoogleAppInstaller.exe",
+      "fileName": "GoogleAppInstaller.exe",
+      "artifactKind": "exe",
+      "officialHost": "dl.google.com",
+      "versionOrStable": "stable-unversioned-official-installer",
+      "probe": {
+        "headStatus": 200,
+        "contentType": "application/x-msdos-program",
+        "contentLength": 12411832,
+        "contentDisposition": "attachment",
+        "rangeStatus": 206,
+        "contentRange": "bytes 0-1023/12411832",
+        "receivedBytes": 1024,
+        "fullArtifactDownloaded": false
+      },
+      "officialWindowsEvidence": "The product page states it is available on a Windows 10+ desktop device and the official script builds the exact dl.google.com installer path.",
+      "nextOwnerThread": "019fcd13-be2b-7990-bf2e-5f75f4a8002f",
+      "needsReview": [
+        "Confirm final product naming/branding before catalog import.",
+        "Desktop manager must review the stable installer under the signed-catalog contract; this candidate grants no install permission."
+      ]
+    }
+  ],
+  "reviewQueue": [
+    {
+      "vendorId": "google",
+      "productId": "google-agents-cli",
+      "name": "agents-cli",
+      "status": "official-native-Windows-not-supported",
+      "identityEvidenceUrl": "https://github.com/google/agents-cli",
+      "packageEvidenceUrl": "https://pypi.org/project/google-agents-cli/",
+      "officialIdentity": "Google LLC standalone CLI package google-agents-cli for building, evaluating and deploying agents; the README explicitly says it is a tool for coding agents, not an agent itself.",
+      "fixedCandidateVersion": "1.3.1",
+      "packageIdentity": {
+        "package": "google-agents-cli",
+        "artifact": "py3-none-any wheel",
+        "sha256": "0d6d34bcc753ddee19c74e22b9423b651950fac140b46bda668efdd3ed511366"
+      },
+      "windowsSupport": "WSL 2 only; native Windows is not officially supported.",
+      "dependencies": ["Python >=3.11", "uv", "Node.js"],
+      "officialEvidenceUrls": [
+        "https://google.github.io/agents-cli/guide/getting-started/",
+        "https://google.github.io/agents-cli/cli/",
+        "https://pypi.org/project/google-agents-cli/"
+      ],
+      "reason": "Google Getting Started limits support to macOS, Linux and Windows via WSL 2; native Windows is not officially supported. Setup installs skills globally or in a workspace and update uses npx; no managed uninstall or data-boundary contract was found. Existing Windows python-venv or other fixed drivers cannot safely express this lifecycle.",
+      "driverDecision": "blocked-no-existing-driver-safe",
+      "profileCreated": false,
+      "registryOrBindingCreated": false,
+      "nextOwnerThread": "019fcd17-77c8-7a92-a6d2-d1a27f792385"
+    }
+  ],
+  "rejectedOrMerged": [
+    {
+      "name": "Amazon Q Developer CLI / Q CLI",
+      "existingProductId": "amazon-kiro-cli",
+      "decision": "merge-alias-no-new-product",
+      "evidenceUrl": "https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line.html",
+      "reason": "AWS's current official documentation states that the Q CLI has become the Kiro CLI; creating amazon-q-cli would duplicate the existing Kiro CLI identity."
+    },
+    {
+      "name": "Hermes Desktop / Hermes Agent",
+      "existingProductIds": ["nous-hermes-desktop", "nous-hermes-agent"],
+      "decision": "already-cataloged",
+      "evidenceUrl": "https://github.com/NousResearch/hermes-agent",
+      "reason": "Existing directory identities cover the visual desktop product and independent CLI/Agent; no new vendor or alias is created."
+    }
+  ],
+  "dedupe": {
+    "existingProductIdsChecked": 615,
+    "existingVendorIdsChecked": 375,
+    "newProductIds": ["google-app-desktop"],
+    "newProductIdCount": 1,
+    "duplicateProductIds": [],
+    "duplicateVendorIds": []
+  },
+  "validation": {
+    "forbiddenFieldViolations": [],
+    "forbiddenFieldNamesChecked": ["command", "args", "env", "script", "headers", "credentials"],
+    "allUrlsHttps": true,
+    "fullArtifactDownloaded": false
+  }
+}

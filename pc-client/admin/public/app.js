@@ -4,6 +4,8 @@ const state = {
   selectedVendorId: "",
   selectedProductId: "",
   selectedResourceId: "",
+  resourceStoreKind: "skill",
+  resourceSourceChannel: "all",
   selectedDiscoveryId: "",
   discoveryFilter: "pending",
   discovery: null,
@@ -11,8 +13,11 @@ const state = {
   publication: null,
   draftRevision: 0,
   activeCatalogVersion: 0,
+  releaseChannel: "v1",
   releaseData: null,
   validationReport: null,
+  softwareUpdates: null,
+  communityAdmin: null,
   productCertifications: {
     revision: 0,
     summary: { total: 0, pending: 0, reviewed: 0, accepted: 0 },
@@ -21,9 +26,14 @@ const state = {
   productModules: {
     modules: [],
     entryPointTypes: [],
+    officialDownloadKinds: [],
     installProfiles: [],
     resourceModules: [],
-    extensionInstallProfiles: []
+    extensionInstallProfiles: [],
+    resourceSourceChannels: [],
+    resourceSourceKinds: [],
+    resourceReviewStatuses: [],
+    resourceRiskLevels: []
   }
 };
 
@@ -89,7 +99,13 @@ async function loadCatalog() {
     state.draftRevision = payload.revision;
     state.activeCatalogVersion = payload.activeCatalogVersion;
     state.releaseData = await request("/api/release");
+    state.softwareUpdates = await request("/api/software-updates");
     state.discovery = await request("/api/discovery");
+    try {
+      state.communityAdmin = await request("/api/community-management");
+    } catch (error) {
+      state.communityAdmin = { status: "unavailable", error: error.message };
+    }
     state.catalog.brand ||= {
       name: "枕星 AI",
       mark: "枕",
@@ -103,6 +119,7 @@ async function loadCatalog() {
       url: "",
       enabled: false
     };
+    state.catalog.homeCarousel ||= { autoplayMs: 7000, slides: [] };
     state.catalog.categories ||= [
       ...new Set(
         state.catalog.vendors.flatMap((vendor) =>
@@ -122,7 +139,10 @@ async function loadCatalog() {
     state.catalog.resources ||= [];
     state.selectedVendorId = state.catalog.vendors[0]?.id || "";
     state.selectedProductId = state.catalog.vendors[0]?.products[0]?.id || "";
-    state.selectedResourceId = state.catalog.resources[0]?.id || "";
+    state.resourceStoreKind = state.catalog.resourceStores.some(
+      (store) => store.id === state.resourceStoreKind
+    ) ? state.resourceStoreKind : state.catalog.resourceStores[0]?.id || "skill";
+    state.selectedResourceId = resourcesForSelectedStore()[0]?.id || "";
     state.selectedDiscoveryId =
       state.discovery.candidates.find((candidate) => candidate.status === "pending")?.id ||
       state.discovery.candidates[0]?.id ||
@@ -195,11 +215,11 @@ async function publish() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        channel: state.releaseChannel,
         expectedDraftRevision: state.draftRevision,
-        expectedActiveCatalogVersion: state.activeCatalogVersion
+        expectedActiveCatalogVersion: state.releaseData.channels?.[state.releaseChannel]?.state?.activeCatalogVersion ?? 0
       })
     });
-    state.activeCatalogVersion = state.publication.catalogVersion;
     state.releaseData = await request("/api/release");
     toast(`目录 v${state.publication.catalogVersion} 已签名发布`);
     state.view = "publish";
@@ -225,6 +245,33 @@ function optionList(values, selected) {
     .join("");
 }
 
+function canEditOfficialDownload(product) {
+  return (
+    (product.productType === "desktop-official" && product.downloadPolicy === "official-page") ||
+    product.productType === "web"
+  );
+}
+
+function officialDownloadKindOptions(product) {
+  const kinds = state.productModules.officialDownloadKinds || [];
+  const allowed = kinds.filter(({ kind }) =>
+    product.productType === "web" ? kind === "no-windows" : kind !== "no-windows"
+  );
+  const selected = product.officialDownload?.kind || allowed[0]?.kind || "download-page";
+  return allowed.map(({ kind, buttonLabel }) =>
+    `<option value="${escapeHtml(kind)}"${kind === selected ? " selected" : ""}>${escapeHtml(buttonLabel || kind)}</option>`
+  ).join("");
+}
+
+function officialDownloadPreview(product) {
+  const metadata = (state.productModules.officialDownloadKinds || []).find(
+    ({ kind }) => kind === product.officialDownload?.kind
+  );
+  if (!metadata) return "预览：仅打开官方入口；不会下载、安装或执行本地命令。";
+  const steps = (metadata.steps || []).join("；");
+  return `预览：${metadata.buttonLabel || "不提供 Windows 下载按钮"}。${steps}；仅打开官方入口，不会下载、安装或执行本地命令。`;
+}
+
 const capabilityLabels = Object.freeze({
   website: "官网",
   tutorial: "教程",
@@ -237,6 +284,7 @@ function productModuleFor(product) {
   return state.productModules.modules.find(
     (module) =>
       module.id === product.moduleId ||
+      module.legacyModuleIds?.includes(product.moduleId) ||
       (!product.moduleId && module.productType === product.productType)
   );
 }
@@ -247,6 +295,7 @@ function productModuleOptions(product, vendorId) {
     .map((module) => {
       const approved =
         !module.requiresProfile ||
+        Boolean(module.catalogProfileId) ||
         state.productModules.installProfiles.some(
           (profile) =>
             profile.moduleId === module.id &&
@@ -263,10 +312,11 @@ function installProfileOptions(product, vendorId) {
   if (!module?.requiresProfile) return "";
   const profiles = state.productModules.installProfiles.filter(
     (profile) =>
-      profile.moduleId === module.id &&
+      (profile.moduleId === module.id || module.legacyModuleIds?.includes(profile.moduleId)) &&
       profile.vendorId === vendorId &&
       profile.productId === product.id
   );
+  if (module.catalogProfileId && profiles.length === 0) return "";
   return [
     `<option value="">请选择客户端已审核配置</option>`,
     ...profiles.map(
@@ -290,12 +340,12 @@ function applyModule(product, moduleId, vendorId) {
   product.uninstallPolicy = module.uninstallPolicy;
   const matchingProfile = state.productModules.installProfiles.find(
     (profile) =>
-      profile.moduleId === module.id &&
+      (profile.moduleId === module.id || module.legacyModuleIds?.includes(profile.moduleId)) &&
       profile.vendorId === vendorId &&
       profile.productId === product.id
   );
   product.installProfileId = module.requiresProfile
-    ? matchingProfile?.id || ""
+    ? matchingProfile?.id || module.catalogProfileId || ""
     : "";
   product.requirements = matchingProfile?.requirements || [];
   product.capabilities = [
@@ -303,8 +353,16 @@ function applyModule(product, moduleId, vendorId) {
   ];
   if (matchingProfile?.download) {
     product.download = { ...matchingProfile.download };
+  } else if (module.catalogProfileId) {
+    product.download ||= { url: "", fileName: "", artifactKind: "exe", mirrors: [] };
   } else {
     delete product.download;
+  }
+  if (
+    module.productType !== "desktop-official" &&
+    !(module.productType === "web" && product.officialDownload?.kind === "no-windows")
+  ) {
+    delete product.officialDownload;
   }
   if (Array.isArray(product.entryPoints)) {
     product.entryPoints = product.entryPoints.filter(
@@ -368,6 +426,63 @@ function productEntryEditor(product) {
 
 function allResources() {
   return state.catalog.resources || [];
+}
+
+function selectedResourceStoreKind() {
+  return state.catalog.resourceStores.some(
+    (store) => store.id === state.resourceStoreKind
+  ) ? state.resourceStoreKind : state.catalog.resourceStores[0]?.id || "skill";
+}
+
+function selectedResourceSourceChannel() {
+  return ["all", ...(state.productModules.resourceSourceChannels || [])].includes(
+    state.resourceSourceChannel
+  ) ? state.resourceSourceChannel : "all";
+}
+
+function resourceSourceChannel(resource) {
+  return resource.sourceKind === "official" ? "official" : "community";
+}
+
+function resourceReviewStatus(resource) {
+  return (state.productModules.resourceReviewStatuses || []).includes(
+    resource.reviewStatus
+  ) ? resource.reviewStatus : "unreviewed";
+}
+
+function resourceRiskLevel(resource) {
+  return (state.productModules.resourceRiskLevels || []).includes(
+    resource.riskLevel
+  ) ? resource.riskLevel : "guarded";
+}
+
+function resourceMetadataSnapshot(resource) {
+  return resource?.metadataSnapshot &&
+    typeof resource.metadataSnapshot === "object" &&
+    !Array.isArray(resource.metadataSnapshot)
+    ? resource.metadataSnapshot
+    : {};
+}
+
+function resourceStoreSourceStats(kind) {
+  const stats = { official: 0, community: 0 };
+  for (const resource of allResources()) {
+    if (!resource.resourceTypes.includes(kind)) continue;
+    stats[resourceSourceChannel(resource)] += 1;
+  }
+  return stats;
+}
+
+function resourcesForSelectedStore() {
+  const kind = selectedResourceStoreKind();
+  const sourceChannel = selectedResourceSourceChannel();
+  return allResources()
+    .filter(
+      (resource) =>
+        resource.resourceTypes.includes(kind) &&
+        (sourceChannel === "all" || resourceSourceChannel(resource) === sourceChannel)
+    )
+    .sort((left, right) => (left.order || 0) - (right.order || 0) || left.id.localeCompare(right.id));
 }
 
 function selectedResource() {
@@ -482,9 +597,20 @@ function moveItem(items, index, offset) {
   return true;
 }
 
+function normalizeCarouselSort(slides) {
+  slides.forEach((slide, index) => (slide.sort = index));
+}
+
+function carouselPreview(imageUrl) {
+  return /^(https:\/\/|\/assets\/[A-Za-z0-9])/.test(imageUrl || "")
+    ? `<img class="carouselPreview" src="${escapeHtml(imageUrl)}" alt="">`
+    : "";
+}
+
 function renderHome() {
   title.textContent = "首页内容";
   const banners = state.catalog.home.banners;
+  const carousel = state.catalog.homeCarousel;
   content.innerHTML = `
     <section class="intro">
       <div><p class="eyebrow">首页 / BANNER</p><h2>首页轮播内容</h2>
@@ -517,6 +643,32 @@ function renderHome() {
       )
       .join("")}
     <section class="panel">
+      <div class="panelHeader"><div><h3>视觉轮播（发布路径图片）</h3><small>仅 HTTPS 或 /assets/ 图片；操作仅限已批准内部路径或 HTTPS。</small></div>
+      <button class="smallButton" data-action="add-carousel-slide">＋新增视觉轮播</button></div>
+      <div class="formGrid"><label>自动播放毫秒<input type="number" min="3000" max="12000" data-carousel-autoplay value="${carousel.autoplayMs}"></label></div>
+      ${carousel.slides.map((slide, index) => `
+        <section class="carouselSlide">
+          <div class="panelHeader"><div class="bannerIndex">${index + 1}</div><div>
+            <button class="smallButton" data-action="move-carousel-slide" data-index="${index}" data-offset="-1">上移</button>
+            <button class="smallButton" data-action="move-carousel-slide" data-index="${index}" data-offset="1">下移</button>
+            <button class="dangerButton" data-action="delete-carousel-slide" data-index="${index}">删除</button></div></div>
+          <div class="formGrid">
+            <label>标识<input data-carousel="${index}:id" value="${escapeHtml(slide.id)}"></label>
+            <label>排序<input type="number" value="${slide.sort}" readonly></label>
+            <label class="wide">图片 URL<input data-carousel="${index}:imageUrl" value="${escapeHtml(slide.imageUrl)}"></label>
+            <label class="wide">图片替代文字<input data-carousel="${index}:imageAlt" value="${escapeHtml(slide.imageAlt)}"></label>
+            <label class="wide">标题<input data-carousel="${index}:title" value="${escapeHtml(slide.title)}"></label>
+            <label class="wide">说明<textarea data-carousel="${index}:description">${escapeHtml(slide.description)}</textarea></label>
+            <label>主操作文字<input data-carousel="${index}:primaryLabel" value="${escapeHtml(slide.primaryAction.label)}"></label>
+            <label>主操作地址<input data-carousel="${index}:primaryHref" value="${escapeHtml(slide.primaryAction.href)}"></label>
+            <label>次操作文字<input data-carousel="${index}:secondaryLabel" value="${escapeHtml(slide.secondaryAction?.label || "")}"></label>
+            <label>次操作地址<input data-carousel="${index}:secondaryHref" value="${escapeHtml(slide.secondaryAction?.href || "")}"></label>
+            <label class="targetEnabled"><input type="checkbox" data-carousel-enabled="${index}" ${slide.enabled ? "checked" : ""}> 启用</label>
+          </div>
+          ${carouselPreview(slide.imageUrl)}
+        </section>`).join("") || '<p class="empty">没有 slide 时，客户端将回退到内置首页内容。</p>'}
+    </section>
+    <section class="panel">
       <div class="panelHeader"><h3>精选厂商</h3></div>
       <div class="checks">${state.catalog.vendors
         .map(
@@ -535,14 +687,50 @@ function selectedVendor() {
 }
 
 function renderCommunity() {
-  title.textContent = "社区设置";
+  title.textContent = "社区管理";
   const community = state.catalog.community;
+  const summary = state.communityAdmin || { status: "unavailable" };
+  const metric = (value) =>
+    value?.status === "ready" && Number.isSafeInteger(value.total)
+      ? value.total
+      : "—";
+  const availability = (value) =>
+    value?.status === "ready"
+      ? metric(value)
+      : value?.reason === "moderation-extension-not-configured"
+        ? "未配置"
+        : "不可用";
+  const targets = summary.targets || { discussions: [], posts: [] };
+  const capabilities = summary.capabilities || {};
   content.innerHTML = `
     <section class="intro"><div><p class="eyebrow">社区 / FLARUM</p>
-    <h2>社区入口配置</h2>
-    <p>论坛完成 HTTPS 部署和验收前保持关闭；客户端不会展示一个不可用的开放入口。</p></div></section>
+    <h2>社区管理</h2>
+    <p>摘要经 CMS 服务端从 Docker 内网读取；不嵌入 Flarum 管理页，也不传递管理员密码、Cookie 或 API key。</p></div>
+    <div class="communityActions"><button class="smallButton" data-action="refresh-community-summary">刷新摘要</button></div></section>
+    <section class="communitySummary ${summary.status === "ready" ? "ready" : "unavailable"}">
+      <div><span>社区健康</span><b>${summary.health === "ready" ? "可用" : "不可用"}</b></div>
+      <div><span>用户</span><b>${metric(summary.users)}</b></div>
+      <div><span>帖子</span><b>${metric(summary.posts)}</b></div>
+      <div><span>待审核</span><b>${availability(summary.pending)}</b></div>
+      <div><span>举报</span><b>${availability(summary.reports)}</b></div>
+    </section>
+    ${summary.status === "ready" ? "" : `<p class="reviewWarning error">${escapeHtml(summary.error || "社区管理桥未就绪。")}</p>`}
+    <section class="panel communityAdminNote"><h3>受控管理说明</h3>
+      <p>CMS 只同源调用固定社区管理 API；浏览器不会接收 Flarum 管理员密码、Cookie、API key 或上游密钥。</p>
+      <p>原生 Flarum 管理入口${capabilities.nativeAdmin ? "已配置" : "未配置"}。待审核或举报扩展未安装时明确显示“未配置”，不会以零条伪装。</p>
+    </section>
+    <section class="panel communityTargets"><div class="panelHeader"><div><h3>最近讨论</h3><small>仅显示由社区桥接提供的有限目标。</small></div></div>
+      <div class="communityTargetList">${targets.discussions.length ? targets.discussions.map((target) => `
+        <div class="communityTarget"><div><b>${escapeHtml(target.title)}</b><small>#${escapeHtml(target.id)} · ${target.hidden ? "已隐藏" : "可见"}</small></div>
+        <button class="smallButton" data-community-action="set-discussion-hidden" data-community-id="${escapeHtml(target.id)}" data-community-hidden="${target.hidden ? "false" : "true"}" ${capabilities.setDiscussionHidden ? "" : "disabled"}>${target.hidden ? "恢复显示" : "隐藏"}</button></div>`).join("") : "<p class=\"empty\">暂无可管理讨论。</p>"}</div>
+    </section>
+    <section class="panel communityTargets"><div class="panelHeader"><div><h3>最近帖子</h3><small>操作只允许切换该帖子可见状态。</small></div></div>
+      <div class="communityTargetList">${targets.posts.length ? targets.posts.map((target) => `
+        <div class="communityTarget"><div><b>${escapeHtml(target.preview)}</b><small>#${escapeHtml(target.id)} · 讨论 ${escapeHtml(target.discussionId)} · 第 ${escapeHtml(target.number)} 楼 · ${target.hidden ? "已隐藏" : "可见"}</small></div>
+        <button class="smallButton" data-community-action="set-post-hidden" data-community-id="${escapeHtml(target.id)}" data-community-hidden="${target.hidden ? "false" : "true"}" ${capabilities.setPostHidden ? "" : "disabled"}>${target.hidden ? "恢复显示" : "隐藏"}</button></div>`).join("") : "<p class=\"empty\">暂无可管理帖子。</p>"}</div>
+    </section>
     <section class="panel">
-      <div class="panelHeader"><h3>${escapeHtml(community.title)}</h3></div>
+      <div class="panelHeader"><h3>${escapeHtml(community.title)}入口配置</h3></div>
       <div class="formGrid">
         <label>社区名称<input data-community-field="title" value="${escapeHtml(community.title)}"></label>
         <label>论坛方案<input data-community-field="provider" value="${escapeHtml(community.provider)}"></label>
@@ -644,6 +832,42 @@ function productCertificationFor(productId) {
   ) || null;
 }
 
+const platformSupportOptions = Object.freeze({
+  platforms: ["windows", "macos", "linux"],
+  runtimes: ["native", "wsl", "container", "browser", "remote"],
+  statuses: ["supported", "unsupported", "unknown", "blocked"],
+  architectures: ["x64", "arm64", "x86", "universal", "unknown"]
+});
+
+function platformSupportSubject(scope) {
+  if (scope === "product") return selectedProductRecord()?.product || null;
+  if (scope === "resource") return selectedResource() || null;
+  return null;
+}
+
+function platformSupportEditor(scope, claims) {
+  const support = Array.isArray(claims) ? claims : [];
+  const select = (values, current) => optionList(values, current);
+  return `<div class="wide platformSupportCandidate">
+    <div class="panelHeader"><div><b>Platform support (candidate-only)</b><small>Disabled for execution until a separately reviewed fixed profile and client platform request exist. Targets do not duplicate these claims.</small></div>
+    <button class="smallButton" data-action="add-platform-support" data-platform-subject="${scope}">+ Add declaration</button></div>
+    ${support.length ? support.map((claim, claimIndex) => `
+      <div class="formGrid platformSupportClaim">
+        <label>Platform<select data-platform-support-claim="${scope}:${claimIndex}:platform">${select(platformSupportOptions.platforms, claim.platform)}</select></label>
+        <label>Runtime<select data-platform-support-claim="${scope}:${claimIndex}:runtime">${select(platformSupportOptions.runtimes, claim.runtime)}</select></label>
+        <label>Status<select data-platform-support-claim="${scope}:${claimIndex}:status">${select(platformSupportOptions.statuses, claim.status)}</select></label>
+        <label class="wide">Architectures<div class="checks">${platformSupportOptions.architectures.map((architecture) => `<label><input type="checkbox" data-platform-support-architecture="${scope}:${claimIndex}:${architecture}" ${(claim.architectures || []).includes(architecture) ? "checked" : ""}>${architecture}</label>`).join("")}</div></label>
+        ${(claim.evidence || []).map((evidence, evidenceIndex) => `
+          <label class="wide">First-party HTTPS evidence<input maxlength="2048" data-platform-support-evidence="${scope}:${claimIndex}:${evidenceIndex}:url" value="${escapeHtml(evidence.url || "")}" placeholder="https://official.example/platform"></label>
+          <label>Observed at<input maxlength="40" data-platform-support-evidence="${scope}:${claimIndex}:${evidenceIndex}:observedAt" value="${escapeHtml(evidence.observedAt || "")}" placeholder="2026-08-07T00:00:00.000Z"></label>
+          <button class="dangerButton" data-action="delete-platform-evidence" data-platform-subject="${scope}" data-claim-index="${claimIndex}" data-evidence-index="${evidenceIndex}" ${(claim.evidence || []).length <= 1 ? "disabled" : ""}>Remove evidence</button>`).join("")}
+        <div class="rowActions"><button class="smallButton" data-action="add-platform-evidence" data-platform-subject="${scope}" data-claim-index="${claimIndex}">+ Evidence</button>
+        <button class="dangerButton" data-action="delete-platform-support" data-platform-subject="${scope}" data-claim-index="${claimIndex}">Remove declaration</button></div>
+      </div>`).join("") : `<small>No platform declaration. Existing catalog behavior remains unchanged.</small>`}
+    <small>Only controlled platform/runtime/status/architecture values and first-party HTTPS evidence are accepted. No commands, scripts, credentials, arbitrary endpoints, or target-level overrides.</small>
+  </div>`;
+}
+
 function certificationEditor(certification) {
   if (!certification) return "";
   const status = certification.status;
@@ -717,7 +941,7 @@ function renderProducts() {
              </select></label>
              <label>产品模块<select data-product-module>${productModuleOptions(product, record.vendor.id)}</select></label>
              <label>产品形态<input value="${escapeHtml(product.kind)}" readonly></label>
-             ${productModule?.requiresProfile ? `
+             ${productModule?.requiresProfile && (!productModule.catalogProfileId || installProfileOptions(product, record.vendor.id)) ? `
              <label class="wide">已审核安装配置<select data-install-profile>${installProfileOptions(product, record.vendor.id)}</select></label>` : ""}
               <label class="wide moduleNotice">模块说明<small>${escapeHtml(productModule?.description || "请选择产品模块")}</small></label>
               ${certificationEditor(certification)}
@@ -731,6 +955,7 @@ function renderProducts() {
              <label>产品官网<input data-product-field="website" value="${escapeHtml(product.website)}"></label>
              <label class="wide">教程地址<input data-product-field="tutorial" value="${escapeHtml(product.tutorial)}"></label>
              <label class="wide">产品描述<textarea data-product-field="description">${escapeHtml(product.description)}</textarea></label>
+             ${platformSupportEditor("product", product.platformSupport)}
              ${productEntryEditor(product)}
              <label class="wide">产品组件子目录<div class="checks">${record.vendor.products
                .filter(
@@ -752,9 +977,21 @@ function renderProducts() {
              <label>下载策略<input value="${escapeHtml(product.downloadPolicy)}" readonly></label>
              <label>签名策略<input value="${escapeHtml(product.signaturePolicy)}" readonly></label>
              <label>卸载策略<input value="${escapeHtml(product.uninstallPolicy)}" readonly></label>
-             ${product.downloadPolicy === "client-managed" ? `
-             <label>已审核安装包地址<input value="${escapeHtml(product.download?.url || "")}" readonly></label>
-             <label>已审核安装包文件名<input value="${escapeHtml(product.download?.fileName || "")}" readonly></label>` : ""}
+              ${product.downloadPolicy === "client-managed" ? `
+              <label>已审核安装包地址<input value="${escapeHtml(product.download?.url || "")}" readonly></label>
+              <label>已审核安装包文件名<input value="${escapeHtml(product.download?.fileName || "")}" readonly></label>` : ""}
+              ${productModule?.catalogProfileId ? `
+              <label class="wide">HTTPS 下载地址<input maxlength="2048" data-signed-download="url" value="${escapeHtml(product.download?.url || "")}"></label>
+              <label>无路径文件名<input maxlength="180" data-signed-download="fileName" value="${escapeHtml(product.download?.fileName || "")}"></label>
+              <label>制品类型<select data-signed-download="artifactKind">${optionList(["exe", "msi", "msix", "zip"], product.download?.artifactKind || "exe")}</select></label>
+              <label class="wide">HTTPS 镜像（每行一个，最多 4 个）<textarea data-signed-download="mirrors">${escapeHtml((product.download?.mirrors || []).join("\n"))}</textarea></label>
+              <small class="wide">目录只保存下载元数据；禁止 command、args、env、script、headers、credentials，下载后仅由用户点击打开。</small>` : ""}
+             ${canEditOfficialDownload(product) ? `
+              <label class="wide">官方入口 HTTPS 地址<input maxlength="2048" data-official-download="url" value="${escapeHtml(product.officialDownload?.url || "")}"></label>
+              <label>官方入口类型<select data-official-download="kind">${officialDownloadKindOptions(product)}</select></label>
+              ${product.productType === "desktop-official" ? `<label class="wide">覆盖产品 ID（仅厂商安装流程，逗号分隔）<input maxlength="512" data-official-download="coveredProductIds" value="${escapeHtml((product.officialDownload?.coveredProductIds || []).join(","))}"></label>` : ""}
+              <label class="wide">极短说明（可选）<input maxlength="120" data-official-download="note" value="${escapeHtml(product.officialDownload?.note || "")}"></label>
+              <small class="wide">${escapeHtml(officialDownloadPreview(product))}</small>` : ""}
              <label class="toggleLabel"><input type="checkbox" data-product-enabled ${product.enabled !== false ? "checked" : ""}>在客户端中启用该产品</label>
           </div></section>`
           : `<div class="empty">暂无产品</div>`
@@ -764,7 +1001,12 @@ function renderProducts() {
 
 function renderResources() {
   title.textContent = "生态资源";
+  const resourceKind = selectedResourceStoreKind();
+  const resourceSourceChannel = selectedResourceSourceChannel();
+  const sourceStats = resourceStoreSourceStats(resourceKind);
+  const resourceItems = resourcesForSelectedStore();
   const resource = selectedResource();
+  const metadata = resourceMetadataSnapshot(resource);
   const resourceIdLocked = Boolean(
     resource?.targets.some((target) => resourceModuleFor(target)?.requiresProfile)
   );
@@ -777,6 +1019,8 @@ function renderResources() {
   content.innerHTML = `
     <section class="intro"><div><p class="eyebrow">目录 / 生态资源</p><h2>Skill、MCP、插件与连接器商店</h2>
     <p>资源独立于厂商产品保存，可关联来源产品并接入多个 AI 工具。后台只能选择客户端固定模块和已审核配置，不能下发命令。</p></div>
+    <label>当前商店<select data-resource-store-kind>${state.catalog.resourceStores.map((store) => `<option value="${escapeHtml(store.id)}"${store.id === resourceKind ? " selected" : ""}>${escapeHtml(store.label)}</option>`).join("")}</select></label>
+    <label>资源频道<select data-resource-source-channel>${[["all", "全部"], ["official", `官方 (${sourceStats.official})`], ["community", `社区 (${sourceStats.community})`]].map(([value, label]) => `<option value="${value}"${value === resourceSourceChannel ? " selected" : ""}>${label}</option>`).join("")}</select><small>社区包含已审核社区与社区来源；详情保留原始审核状态。</small></label>
     <button class="smallButton" data-action="add-resource">＋ 新增资源</button></section>
     <section class="panel">
       <div class="panelHeader"><div><h3>商店入口</h3><small>入口固定为 Skill、MCP、插件和连接器；可调整名称、顺序和启停。</small></div></div>
@@ -792,8 +1036,8 @@ function renderResources() {
         .join("")}</div>
     </section>
     <div class="twoColumn resourceColumns">
-      <section class="panel itemList">${allResources().length
-        ? allResources().map((item) => `
+      <section class="panel itemList">${resourceItems.length
+        ? resourceItems.map((item) => `
           <button data-resource="${escapeHtml(item.id)}" class="${item.id === state.selectedResourceId ? "active" : ""}">
           <i>${escapeHtml(item.resourceTypes.map((type) => type[0].toUpperCase()).join("/"))}</i>
           <span>${escapeHtml(item.name)}<br><small>${escapeHtml(item.resourceTypes.join(" + ").toUpperCase())} · ${item.enabled === false ? "已停用" : `顺序 ${escapeHtml(item.order ?? 0)}`} · ${escapeHtml(item.targets.length)} 个目标</small></span></button>`).join("")
@@ -808,11 +1052,12 @@ function renderResources() {
           <label>发布厂商<select data-resource-optional-field="publisherVendorId"><option value="">未关联厂商</option>${state.catalog.vendors.map((vendor) => `<option value="${escapeHtml(vendor.id)}"${vendor.id === resource.publisherVendorId ? " selected" : ""}>${escapeHtml(vendor.name)}</option>`).join("")}</select></label>
           <label>发布者<input data-resource-optional-field="publisher" value="${escapeHtml(resource.publisher || "")}" placeholder="厂商、组织或维护者"></label>
           <label>来源类型<select data-resource-optional-field="sourceKind">
-            <option value="">未标注</option>
             <option value="official"${resource.sourceKind === "official" ? " selected" : ""}>官方</option>
             <option value="reviewed-community"${resource.sourceKind === "reviewed-community" ? " selected" : ""}>已审核社区</option>
             <option value="community"${resource.sourceKind === "community" ? " selected" : ""}>社区</option>
           </select></label>
+          <label>审核状态<select data-resource-optional-field="reviewStatus">${(state.productModules.resourceReviewStatuses || []).map((status) => `<option value="${escapeHtml(status)}"${status === resourceReviewStatus(resource) ? " selected" : ""}>${escapeHtml(status)}</option>`).join("")}</select></label>
+          <label>风险等级<select data-resource-optional-field="riskLevel">${(state.productModules.resourceRiskLevels || []).map((level) => `<option value="${escapeHtml(level)}"${level === resourceRiskLevel(resource) ? " selected" : ""}>${escapeHtml(level)}</option>`).join("")}</select><small>风险与审核状态独立；unsafe/rejected 不能绑定受管模块。</small></label>
           <label class="wide">资源类型<div class="checks">${state.catalog.resourceStores.map((store) => `<label><input type="checkbox" data-resource-type="${escapeHtml(store.id)}" ${resource.resourceTypes.includes(store.id) ? "checked" : ""}>${escapeHtml(store.label)}</label>`).join("")}</div><small>同一个资源可以同时属于多个商店。</small></label>
           <label class="wide">官网<input data-resource-field="website" value="${escapeHtml(resource.website)}"></label>
           <label class="wide">教程地址<input data-resource-field="tutorial" value="${escapeHtml(resource.tutorial)}"></label>
@@ -820,6 +1065,23 @@ function renderResources() {
           <label class="wide">来源产品<div class="checks">${sourceProducts.length
             ? sourceProducts.map(({ vendor, product }) => `<label><input type="checkbox" data-resource-source-product="${escapeHtml(product.id)}" ${(resource.sourceProductIds || []).includes(product.id) ? "checked" : ""}>${escapeHtml(vendor.name)} / ${escapeHtml(product.name)}</label>`).join("")
             : "暂无 AI 可接入产品"}</div><small>这里只能选择“AI 可接入厂商”目录中的产品。</small></label>
+          <div class="wide resourceMetadata">
+            <div class="panelHeader"><div><b>来源快照</b><small>只保存已审核的来源、作者、许可和发现元数据；不接受命令、密钥或执行地址。</small></div></div>
+            <div class="formGrid">
+              <label>来源平台<input data-resource-metadata-field="sourcePlatform" value="${escapeHtml(metadata.sourcePlatform || "")}"></label>
+              <label>发现渠道<input data-resource-metadata-field="discoveredVia" value="${escapeHtml(metadata.discoveredVia || "")}"></label>
+              <label class="wide">来源页<input maxlength="2048" data-resource-metadata-field="sourcePage" value="${escapeHtml(metadata.sourcePage || "")}"></label>
+              <label class="wide">原始规范来源<input maxlength="2048" data-resource-metadata-field="canonicalSource" value="${escapeHtml(metadata.canonicalSource || "")}"></label>
+              <label>原作者或组织<input maxlength="160" data-resource-metadata-field="originalAuthor" value="${escapeHtml(metadata.originalAuthor || "")}"></label>
+              <label>许可 ID<input maxlength="100" data-resource-metadata-field="licenseId" value="${escapeHtml(metadata.licenseId || "")}"></label>
+              <label>固定 revision<input maxlength="128" data-resource-metadata-field="sourceRevision" value="${escapeHtml(metadata.sourceRevision || "")}"></label>
+              <label>外部 ID<input maxlength="160" data-resource-metadata-field="externalId" value="${escapeHtml(metadata.externalId || "")}"></label>
+              <label>观测时间<input maxlength="40" data-resource-metadata-field="observedAt" value="${escapeHtml(metadata.observedAt || "")}" placeholder="2026-08-08T00:00:00.000Z"></label>
+              <label>来源状态<select data-resource-metadata-field="provenanceStatus"><option value="first-party-verified"${metadata.provenanceStatus === "first-party-verified" ? " selected" : ""}>first-party-verified</option><option value="provenance-unresolved"${metadata.provenanceStatus === "provenance-unresolved" ? " selected" : ""}>provenance-unresolved</option></select></label>
+              <label>许可状态<select data-resource-metadata-field="licenseStatus"><option value="verified"${metadata.licenseStatus === "verified" ? " selected" : ""}>verified</option><option value="unverified"${metadata.licenseStatus === "unverified" ? " selected" : ""}>unverified</option></select></label>
+            </div>
+          </div>
+          ${platformSupportEditor("resource", resource.platformSupport)}
           <div class="wide resourceTargets">
             <div class="panelHeader"><div><b>接入目标</b><small>每个目标选择一个 AI 工具、兼容性和固定客户端模块。</small></div><button class="smallButton" data-action="add-resource-target" ${targetProducts.length ? "" : "disabled"}>＋ 添加目标</button></div>
             ${(resource.targets || []).map((target, index) => {
@@ -993,12 +1255,90 @@ function renderSections() {
     }`;
 }
 
+const softwareUpdateStatusLabels = {
+  ready: "已检测到审核版本",
+  delegated: "由受信软件源检测版本",
+  "manual-review": "待接入安全更新通道",
+  "vendor-managed": "由软件厂商自行更新"
+};
+
+function renderSoftwareUpdates() {
+  title.textContent = "软件更新中心";
+  const snapshot = state.softwareUpdates || {
+    revision: 0,
+    activeReleaseVersion: 0,
+    scannedAt: null,
+    publishedAt: null,
+    entries: []
+  };
+  const entries = snapshot.entries || [];
+  const publishable = entries.filter((entry) =>
+    ["ready", "delegated"].includes(entry.status)
+  );
+  const selected = publishable.filter((entry) => entry.selected);
+  const manual = entries.filter((entry) => entry.status === "manual-review");
+  const vendorManaged = entries.filter((entry) => entry.status === "vendor-managed");
+  content.innerHTML = `
+    <section class="publishCard softwareUpdateHero">
+      <p class="eyebrow">UNIFIED SOFTWARE UPDATE CENTER</p>
+      <h2>检测、审核并发布软件更新</h2>
+      <p>管理员手动扫描客户端审核注册表和当前目录；只有签名发布后，PC 客户端启动时才会显示“立即更新”。发布清单不包含命令、凭据或任意下载地址。</p>
+      <div class="publishMeta">
+        <span>扫描修订</span><code>r${escapeHtml(snapshot.revision)}</code>
+        <span>活动版本</span><code>v${escapeHtml(snapshot.activeReleaseVersion)}</code>
+        <span>上次检测</span><code>${escapeHtml(snapshot.scannedAt || "尚未检测")}</code>
+        <span>上次发布</span><code>${escapeHtml(snapshot.publishedAt || "尚未发布")}</code>
+      </div>
+      <button class="secondary" data-action="scan-software-updates">检测全部软件</button>
+      <button class="secondary" data-action="save-software-update-review" ${snapshot.scannedAt ? "" : "disabled"}>保存审核</button>
+      <button class="primary" data-action="publish-software-updates" ${snapshot.scannedAt ? "" : "disabled"}>${selected.length ? `一键发布 ${selected.length} 项` : "发布空清单（撤回全部更新）"}</button>
+    </section>
+    <section class="panel">
+      <div class="panelHeader"><h3>检测结果</h3><span>${entries.length} 项 · 可发布 ${publishable.length} · 待接入 ${manual.length} · 厂商管理 ${vendorManaged.length}</span></div>
+      ${entries.length ? `<div class="sourceList softwareUpdateList">${entries.map((entry) => `
+        <div data-software-update-id="${escapeHtml(entry.id)}">
+          <label class="toggleLabel">
+            <input type="checkbox" data-software-update-selection="${escapeHtml(entry.id)}" ${entry.selected ? "checked" : ""} ${["ready", "delegated"].includes(entry.status) ? "" : "disabled"}>
+            <b>${escapeHtml(entry.label)}</b>
+          </label>
+          <span>${escapeHtml(entry.kind)} · ${escapeHtml(entry.mode)} · ${escapeHtml(softwareUpdateStatusLabels[entry.status] || entry.status)}</span>
+          <code>${escapeHtml(entry.detectedVersion || (entry.status === "delegated" ? "客户端软件源实时版本" : "—"))}</code>
+        </div>`).join("")}</div>` : `<div class="empty">尚未检测。点击“检测全部软件”生成审核清单。</div>`}
+    </section>`;
+}
+
+async function saveSoftwareUpdateReview(showToast = true) {
+  try {
+    const snapshot = state.softwareUpdates;
+    const result = await request("/api/software-updates", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        expectedRevision: snapshot.revision,
+        selectedIds: snapshot.entries
+          .filter((entry) => entry.selected)
+          .map((entry) => entry.id)
+      })
+    });
+    state.softwareUpdates = { ...snapshot, ...result };
+    if (showToast) toast("软件更新审核已保存");
+    renderSoftwareUpdates();
+    return true;
+  } catch (error) {
+    toast(error.message, true);
+    return false;
+  }
+}
+
 function renderPublish() {
   title.textContent = "发布设置";
   const publication = state.publication;
   const release = state.releaseData;
+  const channel = state.releaseChannel;
+  const channelRelease = release?.channels?.[channel] || { state: release?.state, history: release?.history || [] };
+  const channelState = channelRelease.state;
   const settings = release?.settings;
-  const history = release?.history || [];
+  const history = channelRelease.history || [];
   const sourceRegistry = release?.approvedDownloadSources || [];
   const sourceMeta = new Map(
     sourceRegistry.map((source) => [
@@ -1008,6 +1348,7 @@ function renderPublish() {
   );
   const validation = state.validationReport;
   content.innerHTML = `
+    <label>目录频道 <select data-release-channel><option value="v1" ${channel === "v1" ? "selected" : ""}>v1（兼容）</option><option value="v2" ${channel === "v2" ? "selected" : ""}>v2（新版客户端）</option></select></label>
     <section class="publishCard">
       <p class="eyebrow">SIGNED RELEASE CHANNEL</p>
       <h2>签名发布到 PC 客户端</h2>
@@ -1018,7 +1359,7 @@ function renderPublish() {
       <span>${validation.summary.vendors} 个厂商 · ${validation.summary.products} 个产品 · ${validation.summary.resources || 0} 个生态资源 · ${validation.summary.approvedDownloadSources} 个下载源${validation.certifications ? ` · 桌面认证 ${validation.certifications.accepted}/${validation.certifications.total}` : ""}</span>
       ${(validation.warnings || []).map((warning) => `<em>${escapeHtml(warning)}</em>`).join("")}</div>` : ""}
       <div class="publishMeta">
-        <span>活动版本</span><code>v${escapeHtml(release?.state?.activeCatalogVersion || 0)}</code>
+        <span>活动版本</span><code>v${escapeHtml(channelState?.activeCatalogVersion || 0)} · ${channel}</code>
         <span>目录地址</span><code>${escapeHtml(publication?.url || "发布后生成")}</code>
         <span>SHA-256</span><code>${escapeHtml(publication?.sha256 || "发布后生成")}</code>
         <span>签名密钥</span><code>${escapeHtml(release?.signing?.keyId || "—")} · ${escapeHtml(release?.signing?.source || "—")}</code>
@@ -1069,7 +1410,7 @@ function renderPublish() {
       <div class="releaseHistory">${history.length ? history.map((item) => `
         <div><b>v${item.catalogVersion}</b><span>${escapeHtml(item.notes || "无说明")}</span>
         <code>${escapeHtml(item.releaseId)}</code>
-        ${item.catalogVersion === release.state.activeCatalogVersion ? "<em>当前</em>" : `<button class="smallButton" data-action="rollback" data-release-id="${escapeHtml(item.releaseId)}">回滚为新版本</button>`}</div>`).join("") : "<p>尚未发布目录</p>"}</div>
+        ${item.catalogVersion === channelState?.activeCatalogVersion ? "<em>当前</em>" : `<button class="smallButton" data-action="rollback" data-release-id="${escapeHtml(item.releaseId)}">回滚为新版本</button>`}</div>`).join("") : "<p>尚未发布目录</p>"}</div>
     </section>`;
 }
 
@@ -1098,6 +1439,7 @@ function render() {
   if (state.view === "products") renderProducts();
   if (state.view === "resources") renderResources();
   if (state.view === "discovery") renderDiscovery();
+  if (state.view === "software-updates") renderSoftwareUpdates();
   if (state.view === "sections") renderSections();
   if (state.view === "publish") renderPublish();
 }
@@ -1112,6 +1454,40 @@ document.querySelector("nav").addEventListener("click", (event) => {
 
 document.querySelector("#saveButton").addEventListener("click", () => saveDraft());
 document.querySelector("#publishButton").addEventListener("click", publish);
+
+async function refreshCommunitySummary() {
+  try {
+    state.communityAdmin = await request("/api/community-management");
+    renderCommunity();
+  } catch (error) {
+    state.communityAdmin = { status: "unavailable", error: error.message };
+    renderCommunity();
+    toast(error.message, true);
+  }
+}
+
+async function changeCommunityVisibility(target) {
+  const action = target.dataset.communityAction;
+  const id = target.dataset.communityId;
+  const hidden = target.dataset.communityHidden === "true";
+  const body = action === "set-discussion-hidden"
+    ? { action, discussionId: id, hidden }
+    : { action, postId: id, hidden };
+  const originalText = target.textContent;
+  target.disabled = true;
+  try {
+    await request("/api/community-management/actions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-AIHub-CSRF": "1" },
+      body: JSON.stringify(body)
+    });
+    await refreshCommunitySummary();
+  } catch (error) {
+    target.disabled = false;
+    target.textContent = originalText;
+    toast(error.message, true);
+  }
+}
 
 async function transitionProductCertification(target, status) {
   const changedBy = content.querySelector(
@@ -1164,7 +1540,48 @@ async function transitionProductCertification(target, status) {
 content.addEventListener("click", async (event) => {
   const target = event.target.closest("button");
   if (!target) return;
-  if (target.dataset.vendor) {
+  if (target.dataset.action === "scan-software-updates") {
+    target.disabled = true;
+    target.textContent = "正在检测…";
+    try {
+      const result = await request("/api/software-updates/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          expectedRevision: state.softwareUpdates?.revision ?? 0
+        })
+      });
+      state.softwareUpdates = { ...state.softwareUpdates, ...result };
+      renderSoftwareUpdates();
+      toast(`已检测 ${result.entries.length} 项软件`);
+    } catch (error) {
+      toast(error.message, true);
+      renderSoftwareUpdates();
+    }
+  } else if (target.dataset.action === "save-software-update-review") {
+    await saveSoftwareUpdateReview();
+  } else if (target.dataset.action === "publish-software-updates") {
+    if (!(await saveSoftwareUpdateReview(false))) return;
+    try {
+      const result = await request("/api/software-updates/publish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          expectedRevision: state.softwareUpdates.revision
+        })
+      });
+      state.softwareUpdates = { ...state.softwareUpdates, ...result, published: true };
+      renderSoftwareUpdates();
+      toast(`软件更新 v${result.activeReleaseVersion} 已签名发布`);
+    } catch (error) {
+      toast(error.message, true);
+      renderSoftwareUpdates();
+    }
+  } else if (target.dataset.communityAction) {
+    await changeCommunityVisibility(target);
+  } else if (target.dataset.action === "refresh-community-summary") {
+    await refreshCommunitySummary();
+  } else if (target.dataset.vendor) {
     state.selectedVendorId = target.dataset.vendor;
     render();
   } else if (target.dataset.product) {
@@ -1263,6 +1680,19 @@ content.addEventListener("click", async (event) => {
   } else if (target.dataset.action === "move-banner") {
     if (moveItem(state.catalog.home.banners, Number(target.dataset.index), Number(target.dataset.offset))) {
       markDirty(); render();
+    }
+  } else if (target.dataset.action === "add-carousel-slide") {
+    const slides = state.catalog.homeCarousel.slides;
+    slides.push({ id: `slide-${Date.now()}`, imageUrl: "/assets/home-carousel/placeholder.svg", imageAlt: "请填写图片替代文字", title: "新视觉轮播", description: "请填写轮播说明。", primaryAction: { label: "查看 AI 厂商", href: "/vendors" }, sort: slides.length, enabled: false });
+    markDirty(); render();
+  } else if (target.dataset.action === "delete-carousel-slide") {
+    state.catalog.homeCarousel.slides.splice(Number(target.dataset.index), 1);
+    normalizeCarouselSort(state.catalog.homeCarousel.slides);
+    markDirty(); render();
+  } else if (target.dataset.action === "move-carousel-slide") {
+    const slides = state.catalog.homeCarousel.slides;
+    if (moveItem(slides, Number(target.dataset.index), Number(target.dataset.offset))) {
+      normalizeCarouselSort(slides); markDirty(); render();
     }
   } else if (target.dataset.action === "add-vendor") {
     const id = `vendor-${Date.now()}`;
@@ -1409,6 +1839,48 @@ content.addEventListener("click", async (event) => {
       markDirty();
       renderProducts();
     }
+  } else if (target.dataset.action === "add-platform-support") {
+    const subject = platformSupportSubject(target.dataset.platformSubject);
+    if (!subject) return;
+    subject.platformSupport ||= [];
+    subject.platformSupport.push({
+      platform: "windows",
+      runtime: "native",
+      status: "unknown",
+      architectures: ["unknown"],
+      evidence: [{
+        kind: "first-party",
+        url: "",
+        observedAt: new Date().toISOString()
+      }]
+    });
+    markDirty();
+    render();
+  } else if (target.dataset.action === "delete-platform-support") {
+    const subject = platformSupportSubject(target.dataset.platformSubject);
+    if (!subject) return;
+    subject.platformSupport?.splice(Number(target.dataset.claimIndex), 1);
+    if (!subject.platformSupport?.length) delete subject.platformSupport;
+    markDirty();
+    render();
+  } else if (target.dataset.action === "add-platform-evidence") {
+    const subject = platformSupportSubject(target.dataset.platformSubject);
+    const claim = subject?.platformSupport?.[Number(target.dataset.claimIndex)];
+    if (!claim) return;
+    claim.evidence.push({
+      kind: "first-party",
+      url: "",
+      observedAt: new Date().toISOString()
+    });
+    markDirty();
+    render();
+  } else if (target.dataset.action === "delete-platform-evidence") {
+    const subject = platformSupportSubject(target.dataset.platformSubject);
+    const claim = subject?.platformSupport?.[Number(target.dataset.claimIndex)];
+    if (!claim || claim.evidence.length <= 1) return;
+    claim.evidence.splice(Number(target.dataset.evidenceIndex), 1);
+    markDirty();
+    render();
   } else if (target.dataset.action === "add-product") {
     const vendor = state.catalog.vendors[0];
     if (!vendor) return toast("请先创建厂商", true);
@@ -1459,10 +1931,13 @@ content.addEventListener("click", async (event) => {
       enabled: true,
       order: state.catalog.resources.length,
       name: "新生态资源",
-      resourceTypes: ["skill"],
+      resourceTypes: [selectedResourceStoreKind()],
       description: "请输入生态资源描述。",
       website: "https://example.com",
       tutorial: "https://example.com",
+      sourceKind: "community",
+      reviewStatus: "unreviewed",
+      riskLevel: "guarded",
       sourceProductIds: [],
       targets: [{
         productId: firstTarget.id,
@@ -1564,11 +2039,11 @@ content.addEventListener("click", async (event) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          channel: state.releaseChannel,
           releaseId: target.dataset.releaseId,
-          expectedActiveCatalogVersion: state.activeCatalogVersion
+          expectedActiveCatalogVersion: state.releaseData.channels?.[state.releaseChannel]?.state?.activeCatalogVersion ?? 0
         })
       });
-      state.activeCatalogVersion = result.catalogVersion;
       state.releaseData = await request("/api/release");
       toast(`已生成回滚版本 v${result.catalogVersion}`);
       render();
@@ -1580,9 +2055,30 @@ content.addEventListener("click", async (event) => {
 
 content.addEventListener("input", (event) => {
   const input = event.target;
-  if (input.dataset.home) {
+  if (input.dataset.softwareUpdateSelection) {
+    const entry = state.softwareUpdates?.entries.find(
+      (candidate) => candidate.id === input.dataset.softwareUpdateSelection
+    );
+    if (entry) entry.selected = input.checked;
+    renderSoftwareUpdates();
+    return;
+  } else if (input.dataset.home) {
     const [index, field] = input.dataset.home.split(":");
     state.catalog.home.banners[Number(index)][field] = input.value;
+  } else if (input.dataset.carousel) {
+    const [index, field] = input.dataset.carousel.split(":");
+    const slide = state.catalog.homeCarousel.slides[Number(index)];
+    if (field === "primaryLabel") slide.primaryAction.label = input.value;
+    else if (field === "primaryHref") slide.primaryAction.href = input.value;
+    else if (field === "secondaryLabel" || field === "secondaryHref") {
+      slide.secondaryAction ||= { label: "", href: "" };
+      slide.secondaryAction[field === "secondaryLabel" ? "label" : "href"] = input.value;
+      if (!slide.secondaryAction.label && !slide.secondaryAction.href) delete slide.secondaryAction;
+    } else slide[field] = input.value;
+  } else if ("carouselEnabled" in input.dataset) {
+    state.catalog.homeCarousel.slides[Number(input.dataset.carouselEnabled)].enabled = input.checked;
+  } else if ("carouselAutoplay" in input.dataset) {
+    state.catalog.homeCarousel.autoplayMs = Number(input.value);
   } else if (input.dataset.brandField) {
     state.catalog.brand[input.dataset.brandField] = input.value;
   } else if (input.dataset.communityField) {
@@ -1621,6 +2117,23 @@ content.addEventListener("input", (event) => {
       state.catalog.home.featuredVendorIds =
         state.catalog.home.featuredVendorIds.filter((id) => id !== vendor.id);
     }
+  } else if (input.dataset.platformSupportClaim) {
+    const [scope, claimIndex, field] = input.dataset.platformSupportClaim.split(":");
+    const claim = platformSupportSubject(scope)?.platformSupport?.[Number(claimIndex)];
+    if (!claim) return;
+    claim[field] = input.value;
+  } else if (input.dataset.platformSupportArchitecture) {
+    const [scope, claimIndex, architecture] = input.dataset.platformSupportArchitecture.split(":");
+    const claim = platformSupportSubject(scope)?.platformSupport?.[Number(claimIndex)];
+    if (!claim) return;
+    claim.architectures = input.checked
+      ? [...new Set([...(claim.architectures || []), architecture])]
+      : (claim.architectures || []).filter((item) => item !== architecture);
+  } else if (input.dataset.platformSupportEvidence) {
+    const [scope, claimIndex, evidenceIndex, field] = input.dataset.platformSupportEvidence.split(":");
+    const evidence = platformSupportSubject(scope)?.platformSupport?.[Number(claimIndex)]?.evidence?.[Number(evidenceIndex)];
+    if (!evidence) return;
+    evidence[field] = input.value.trim();
   } else if (input.dataset.productField) {
     const record = selectedProductRecord();
     const field = input.dataset.productField;
@@ -1727,11 +2240,49 @@ content.addEventListener("input", (event) => {
       : (product.capabilities || []).filter(
           (item) => item !== input.dataset.capability
         );
+  } else if (input.dataset.officialDownload) {
+    const product = selectedProductRecord().product;
+    product.officialDownload ||= {
+      url: "",
+      kind: product.productType === "web" ? "no-windows" : "download-page"
+    };
+    if (input.dataset.officialDownload === "coveredProductIds") {
+      const values = input.value.split(",").map((value) => value.trim()).filter(Boolean);
+      if (values.length) product.officialDownload.coveredProductIds = [...new Set(values)];
+      else delete product.officialDownload.coveredProductIds;
+    } else if (input.dataset.officialDownload === "note") {
+      const value = input.value.trim();
+      if (value) product.officialDownload.note = value;
+      else delete product.officialDownload.note;
+    } else {
+      product.officialDownload[input.dataset.officialDownload] = input.value.trim();
+    }
+  } else if (input.dataset.signedDownload) {
+    const product = selectedProductRecord().product;
+    product.download ||= { url: "", fileName: "", artifactKind: "exe", mirrors: [] };
+    if (input.dataset.signedDownload === "mirrors") {
+      product.download.mirrors = input.value
+        .split(/\r?\n/)
+        .map((value) => value.trim())
+        .filter(Boolean);
+    } else {
+      product.download[input.dataset.signedDownload] = input.value.trim();
+    }
   } else if (input.dataset.downloadField) {
     const product = selectedProductRecord().product;
     const urlInput = content.querySelector('[data-download-field="url"]').value.trim();
     const fileInput = content.querySelector('[data-download-field="fileName"]').value.trim();
     product.download = urlInput || fileInput ? { url: urlInput, fileName: fileInput } : undefined;
+  } else if ("resourceStoreKind" in input.dataset) {
+    state.resourceStoreKind = input.value;
+    state.selectedResourceId = resourcesForSelectedStore()[0]?.id || "";
+    renderResources();
+    return;
+  } else if ("resourceSourceChannel" in input.dataset) {
+    state.resourceSourceChannel = input.value;
+    state.selectedResourceId = resourcesForSelectedStore()[0]?.id || "";
+    renderResources();
+    return;
   } else if (input.dataset.resourceStoreField) {
     const [indexText, field] = input.dataset.resourceStoreField.split(":");
     state.catalog.resourceStores[Number(indexText)][field] =
@@ -1759,6 +2310,13 @@ content.addEventListener("input", (event) => {
       .filter(Boolean);
     if (values.length) resource[field] = [...new Set(values)];
     else delete resource[field];
+  } else if (input.dataset.resourceMetadataField) {
+    const resource = selectedResource();
+    const field = input.dataset.resourceMetadataField;
+    const value = input.value.trim();
+    resource.metadataSnapshot = { ...resourceMetadataSnapshot(resource) };
+    if (value) resource.metadataSnapshot[field] = value;
+    else delete resource.metadataSnapshot[field];
   } else if (input.dataset.resourceNumber) {
     selectedResource()[input.dataset.resourceNumber] = Number(input.value);
   } else if ("resourceEnabled" in input.dataset) {
@@ -1847,6 +2405,10 @@ content.addEventListener("input", (event) => {
     const field = input.dataset.releaseCatalog;
     state.releaseData.settings.catalog[field] =
       field === "rolloutPercentage" ? Number(input.value) : input.value;
+  } else if ("releaseChannel" in input.dataset) {
+    state.releaseChannel = input.value;
+    renderPublish();
+    return;
   } else if (input.dataset.releaseUpdate) {
     const field = input.dataset.releaseUpdate;
     state.releaseData.settings.update[field] =

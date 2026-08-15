@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "freezeOnly": true,
+  "publishable": false,
+  "generatedAt": "2026-08-08T18:31:56.187Z",
+  "stateFile": "admin/published/catalog-store/state.json",
+  "stateSha256": "cf0fbd33583792d0afcaf1822081b4a643fcf28d069e755003632f369ead2012",
+  "draftRevision": 90,
+  "activeV2": {
+    "releaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "catalogVersion": 7,
+    "fileName": "catalog-v00000007-8c49e1972186-0cec5335.json",
+    "sha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4",
+    "fileSha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4",
+    "releasePath": "admin/published/catalog-store/releases/catalog-v00000007-8c49e1972186-0cec5335.json",
+    "parentReleaseId": "catalog-v00000006-567e671621f1-3dcee587"
+  },
+  "rollbackV2": {
+    "releaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "catalogVersion": 6,
+    "fileName": "catalog-v00000006-567e671621f1-3dcee587.json",
+    "sha256": "c1ea9b76d1e134be1e565cf5018a77013a2387fe59452f3ebdc1f0e96f49e139",
+    "fileSha256": "c1ea9b76d1e134be1e565cf5018a77013a2387fe59452f3ebdc1f0e96f49e139",
+    "releasePath": "admin/published/catalog-store/releases/catalog-v00000006-567e671621f1-3dcee587.json"
+  },
+  "v1": {
+    "activeReleaseId": "catalog-v00000072-e286516335da-a8b62a49",
+    "activeCatalogVersion": 72,
+    "fileName": "catalog-v00000072-e286516335da-a8b62a49.json",
+    "sha256": "1321cf4507ed601fc201ed13a7ceadb9b542b51375e9f7ac6b7099d2f280b6b8",
+    "fileSha256": "1321cf4507ed601fc201ed13a7ceadb9b542b51375e9f7ac6b7099d2f280b6b8"
+  },
+  "counts": {
+    "products": 615,
+    "resources": 250,
+    "targets": 777,
+    "resourceStores": 4,
+    "skill": { "official": 16, "community": 104 }
+  },
+  "serverAction": "not connected; no upload or switch performed"
+}

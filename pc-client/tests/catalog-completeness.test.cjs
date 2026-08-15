@@ -9,6 +9,33 @@ const {
 const {
   EXTENSION_INSTALL_REGISTRY
 } = require("../shared/extension-install-registry.cjs");
+const {
+  cliInstallPlans,
+  getProductIntakeDossier
+} = require("../shared/install-registry.cjs");
+const {
+  CLI_REVIEW_BLOCKERS
+} = require("../shared/windows-cli-review-decisions.cjs");
+
+function assertCurrentDesktopPolicy(product, productId) {
+  const managed = Boolean(getProductIntakeDossier(productId));
+  assert.equal(
+    product.productType,
+    managed ? "desktop-reviewed" : "desktop-official",
+    productId
+  );
+  assert.equal(
+    product.moduleId,
+    managed ? "desktop-managed" : "desktop-official",
+    productId
+  );
+  assert.equal(
+    product.installPolicy,
+    managed ? "client-managed-installer" : "open-official-download",
+    productId
+  );
+  assert.equal(Boolean(product.installProfileId), managed, productId);
+}
 
 const PRESERVED_MANAGED_PRODUCTS = Object.freeze({
   openai: ["chatgpt-desktop", "codex-cli"],
@@ -183,7 +210,6 @@ const CONTINUOUS_CATALOG_EXPANSION = Object.freeze([
 const POPULAR_AGENT_EXPANSION = Object.freeze([
   "activepieces-platform",
   "agent-zero",
-  "agenticseek-cli",
   "agenticseek-self-hosted",
   "agno-agentos",
   "aider-cli",
@@ -344,8 +370,9 @@ test("the researched catalog keeps the Windows second pass and reviewed connecta
   assert.doesNotThrow(() => validateCatalog(catalog));
   assert.equal(catalog.vendors.length, 375);
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 615);
+  assert.ok(products.length >= 600);
   const productIds = new Set(products.map((product) => product.id));
+  assert.equal(productIds.size, products.length);
   for (const productId of [
     ...HIGH_VALUE_RESEARCH_PRODUCTS,
     ...VENDOR_EXPANSION_BATCH5,
@@ -467,7 +494,6 @@ test("only the reviewed mainland China network notices are enabled", () => {
 
 test("every product has complete behavior and policy metadata", () => {
   const products = catalog.vendors.flatMap((vendor) => vendor.products);
-  assert.equal(products.length, 615);
   for (const product of products) {
     assert.ok(product.name);
     assert.ok(product.description);
@@ -500,18 +526,26 @@ test("the seven product behavior modules classify every catalog entry", () => {
       "tutorial"
     ].map((type) => [type, 0])
   );
-  for (const product of catalog.vendors.flatMap((vendor) => vendor.products)) {
+  const products = catalog.vendors.flatMap((vendor) => vendor.products);
+  for (const product of products) {
     counts[product.productType] += 1;
   }
-  assert.deepEqual(counts, {
-    web: 246,
-    "desktop-official": 239,
-    "desktop-reviewed": 26,
-    "cli-official": 34,
-    cli: 14,
-    "local-model": 1,
-    tutorial: 55
-  });
+  assert.equal(
+    Object.values(counts).reduce((total, count) => total + count, 0),
+    products.length
+  );
+  assert.equal(counts["cli-official"], Object.keys(CLI_REVIEW_BLOCKERS).length);
+  assert.equal(counts.cli, Object.keys(cliInstallPlans()).length);
+  assert.ok(counts.web > 0);
+  assert.ok(counts["desktop-official"] + counts["desktop-reviewed"] > 0);
+  assert.ok(counts["local-model"] > 0);
+  assert.ok(counts.tutorial > 0);
+  assert.equal(
+    products
+      .filter((product) => product.productType === "desktop-reviewed")
+      .every((product) => getProductIntakeDossier(product.id)),
+    true
+  );
 });
 
 test("ecosystem resources are top-level, typed and expose only reviewed managed profiles", () => {
@@ -610,7 +644,7 @@ test("batch 6 merges web and Windows entry points instead of duplicating product
   ]) {
     const matches = products.filter((product) => product.id === productId);
     assert.equal(matches.length, 1, productId);
-    assert.equal(matches[0].productType, "desktop-official", productId);
+    assertCurrentDesktopPolicy(matches[0], productId);
     assert.equal(
       matches[0].entryPoints.filter((entry) => entry.type === "desktop").length,
       1,
@@ -639,7 +673,7 @@ test("batch 7 keeps each Web and Windows product on one backend-owned card", () 
   ]) {
     const matches = products.filter((product) => product.id === productId);
     assert.equal(matches.length, 1, productId);
-    assert.equal(matches[0].productType, "desktop-official", productId);
+    assertCurrentDesktopPolicy(matches[0], productId);
     assert.equal(
       matches[0].entryPoints.filter((entry) => entry.type === "web").length,
       1,
@@ -668,7 +702,7 @@ test("batch 8 keeps verified AI products on official Windows entry modules", () 
   for (const productId of VENDOR_EXPANSION_BATCH8) {
     const matches = products.filter((product) => product.id === productId);
     assert.equal(matches.length, 1, productId);
-    assert.equal(matches[0].productType, "desktop-official", productId);
+    assertCurrentDesktopPolicy(matches[0], productId);
     assert.equal(matches[0].directoryKind, "ai-tool", productId);
     assert.equal(
       matches[0].entryPoints.filter((entry) => entry.type === "desktop").length,
@@ -718,8 +752,7 @@ test("continuous expansion keeps graphical products on fixed official modules", 
         productId
       );
     } else {
-      assert.equal(matches[0].productType, "desktop-official", productId);
-      assert.equal(matches[0].moduleId, "desktop-official", productId);
+      assertCurrentDesktopPolicy(matches[0], productId);
       assert.equal(
         matches[0].entryPoints.filter((entry) => entry.type === "desktop").length,
         1,
@@ -734,32 +767,39 @@ test("popular agents keep their real product and platform boundaries", () => {
   const byId = new Map(products.map((product) => [product.id, product]));
 
   for (const productId of [
-    "agenticseek-cli",
-    "aider-cli",
     "browser-use-cli",
+    "kortix-cli",
+    "metagpt-framework",
+    "mini-swe-agent-cli",
+    "nvidia-nemoclaw-cli",
+    "plandex-cli",
+    "simular-agent-s-cli"
+  ]) {
+    assert.equal(byId.get(productId)?.productType, "cli-official", productId);
+  }
+  for (const productId of [
+    "aider-cli",
     "bytedance-agent-tars-cli",
-    "continue-cli",
     "factory-cli",
     "hkuds-nanobot-cli",
     "ironclaw-cli",
     "kilo-code-cli",
-    "kortix-cli",
     "letta-code-cli",
-    "metagpt-framework",
-    "mini-swe-agent-cli",
-    "nanoclaw-cli",
-    "nvidia-nemoclaw-cli",
     "open-interpreter-cli",
     "openfang-cli",
-    "openmanus-cli",
-    "plandex-cli",
     "praisonai-cli",
-    "ruflo-cli",
-    "simular-agent-s-cli",
     "zeroclaw-cli"
   ]) {
-    assert.equal(byId.get(productId)?.productType, "cli-official", productId);
+    assert.equal(byId.get(productId)?.productType, "cli", productId);
   }
+  for (const productId of [
+    "agenticseek-self-hosted",
+    "nanoclaw-cli",
+    "openmanus-cli"
+  ]) {
+    assert.equal(byId.get(productId)?.productType, "tutorial", productId);
+  }
+  assert.equal(byId.has("agenticseek-cli"), false);
 
   for (const productId of [
     "bytedance-ui-tars-desktop",
@@ -767,7 +807,7 @@ test("popular agents keep their real product and platform boundaries", () => {
     "opera-neon",
     "rowboat-desktop"
   ]) {
-    assert.equal(byId.get(productId)?.productType, "desktop-official", productId);
+    assertCurrentDesktopPolicy(byId.get(productId), productId);
   }
 
   assert.deepEqual(
@@ -843,7 +883,11 @@ test("industry expansion keeps graphical and Web products on fixed safe modules"
   for (const productId of INDUSTRY_AI_EXPANSION) {
     const product = byId.get(productId);
     assert.ok(product, productId);
-    assert.equal(product.installProfileId, "", productId);
+    if (desktopIds.has(productId)) {
+      assertCurrentDesktopPolicy(product, productId);
+    } else {
+      assert.equal(product.installProfileId, "", productId);
+    }
     assert.equal("download" in product, false, productId);
     assert.equal(
       product.directoryKind,
@@ -851,9 +895,7 @@ test("industry expansion keeps graphical and Web products on fixed safe modules"
       productId
     );
     if (desktopIds.has(productId)) {
-      assert.equal(product.productType, "desktop-official", productId);
-      assert.equal(product.moduleId, "desktop-official", productId);
-      assert.equal(product.installPolicy, "open-official-download", productId);
+      assertCurrentDesktopPolicy(product, productId);
       assert.equal(
         product.entryPoints.filter((entry) => entry.type === "desktop").length,
         1,

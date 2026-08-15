@@ -1,0 +1,97 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "observedAt": "2026-08-07T00:00:00.000Z",
+  "baseline": {
+    "draftRevision": 89,
+    "activeReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "catalogVersion": 6,
+    "resourceCount": 146,
+    "targetCount": 513,
+    "connectorResourceCount": 3,
+    "connectorTargetCount": 3,
+    "targetHasPlatformField": false
+  },
+  "adapter": {
+    "module": "pc-client/shared/resource-platform-availability.cjs",
+    "projection": "projectResourcePlatformAvailability",
+    "claimValidator": "validatePlatformSupportClaims",
+    "dedupeKey": "resourceId|hostProductId|compatibility|moduleId|installProfileId|capabilities",
+    "forbiddenFields": [
+      "command",
+      "args",
+      "env",
+      "headers",
+      "credentials",
+      "script",
+      "endpoint",
+      "path",
+      "targetOverride"
+    ]
+  },
+  "host": {
+    "hostProductId": "claude-desktop",
+    "platformClaims": [
+      {"platform":"windows","runtime":"native","status":"supported","architectures":["universal"],"evidence":[{"kind":"first-party","url":"https://claude.com/docs/connectors/getting-started","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"macos","runtime":"native","status":"supported","architectures":["universal"],"evidence":[{"kind":"first-party","url":"https://claude.com/docs/connectors/getting-started","observedAt":"2026-08-07T00:00:00.000Z"}]},
+      {"platform":"linux","runtime":"native","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://claude.com/docs/connectors/getting-started","observedAt":"2026-08-07T00:00:00.000Z"}]}
+    ],
+    "note": "Host identity is kept separate from the connector's remote/browser authorization runtime."
+  },
+  "resources": [
+    {
+      "resourceId": "adobe-for-creativity",
+      "hostProductId": "claude-desktop",
+      "targetTuple": {"compatibility":"official","moduleId":"resource-link","installProfileId":"","capabilities":["website"],"enabled":true},
+      "authorizationRuntime": "remote",
+      "resourcePlatformClaims": [
+        {"platform":"windows","runtime":"remote","status":"supported","architectures":["universal"],"evidence":[{"kind":"first-party","url":"https://developer.adobe.com/adobe-for-creativity/getting-started/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+        {"platform":"macos","runtime":"remote","status":"supported","architectures":["universal"],"evidence":[{"kind":"first-party","url":"https://developer.adobe.com/adobe-for-creativity/getting-started/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+        {"platform":"linux","runtime":"remote","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://developer.adobe.com/adobe-for-creativity/getting-started/","observedAt":"2026-08-07T00:00:00.000Z"}]}
+      ],
+      "profilePlatformClaims": [],
+      "intersectionPreview": {"windows":"PROFILE_PLATFORM_CLAIMS_MISSING","macos":"PROFILE_PLATFORM_CLAIMS_MISSING","linux":"PROFILE_PLATFORM_CLAIMS_MISSING"},
+      "managedEligible": false,
+      "blockers": ["NO_FIXED_CONNECTOR_PROFILE","NO_SECRET_STATUS_OR_TRANSACTION_CONTRACT","NO_EXACT_REVOKE_AND_POST_CHECK_CONTRACT"]
+    },
+    {
+      "resourceId": "sketchup-claude-connector",
+      "hostProductId": "claude-desktop",
+      "targetTuple": {"compatibility":"official","moduleId":"resource-link","installProfileId":"","capabilities":["website"],"enabled":true},
+      "authorizationRuntime": "remote",
+      "resourcePlatformClaims": [
+        {"platform":"windows","runtime":"remote","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://help.sketchup.com/hu/sketchup-claude-connector","observedAt":"2026-08-07T00:00:00.000Z"}]},
+        {"platform":"macos","runtime":"remote","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://help.sketchup.com/hu/sketchup-claude-connector","observedAt":"2026-08-07T00:00:00.000Z"}]},
+        {"platform":"linux","runtime":"remote","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://help.sketchup.com/hu/sketchup-claude-connector","observedAt":"2026-08-07T00:00:00.000Z"}]}
+      ],
+      "profilePlatformClaims": [],
+      "intersectionPreview": {"windows":"PROFILE_PLATFORM_CLAIMS_MISSING","macos":"PROFILE_PLATFORM_CLAIMS_MISSING","linux":"PROFILE_PLATFORM_CLAIMS_MISSING"},
+      "managedEligible": false,
+      "blockers": ["NO_EXPLICIT_OS_PLATFORM_CLAIM","NO_FIXED_CONNECTOR_PROFILE","NO_SECRET_STATUS_OR_TRANSACTION_CONTRACT","NO_EXACT_REVOKE_AND_POST_CHECK_CONTRACT"]
+    },
+    {
+      "resourceId": "affinity-ai-connector",
+      "hostProductId": "claude-desktop",
+      "targetTuple": {"compatibility":"official","moduleId":"resource-link","installProfileId":"","capabilities":["website"],"enabled":true},
+      "authorizationRuntime": "remote",
+      "resourcePlatformClaims": [
+        {"platform":"windows","runtime":"remote","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://www.canva.com/newsroom/news/canva-create-2026-launches/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+        {"platform":"macos","runtime":"remote","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://www.canva.com/newsroom/news/canva-create-2026-launches/","observedAt":"2026-08-07T00:00:00.000Z"}]},
+        {"platform":"linux","runtime":"remote","status":"unknown","architectures":["unknown"],"evidence":[{"kind":"first-party","url":"https://www.canva.com/newsroom/news/canva-create-2026-launches/","observedAt":"2026-08-07T00:00:00.000Z"}]}
+      ],
+      "profilePlatformClaims": [],
+      "intersectionPreview": {"windows":"PROFILE_PLATFORM_CLAIMS_MISSING","macos":"PROFILE_PLATFORM_CLAIMS_MISSING","linux":"PROFILE_PLATFORM_CLAIMS_MISSING"},
+      "managedEligible": false,
+      "blockers": ["NO_EXPLICIT_OS_PLATFORM_CLAIM","NO_FIXED_CONNECTOR_PROFILE","NO_SECRET_STATUS_OR_TRANSACTION_CONTRACT","NO_EXACT_REVOKE_AND_POST_CHECK_CONTRACT"]
+    }
+  ],
+  "statistics": {
+    "platforms": {"windows":3,"macos":3,"linux":3},
+    "resourceClaimStatus": {"supported":2,"unknown":7,"unsupported":0,"blocked":0},
+    "hostClaimStatus": {"supported":2,"unknown":1,"unsupported":0,"blocked":0},
+    "requestedIntersections": 9,
+    "availableIntersections": 0,
+    "managedEligible": 0,
+    "publishable": 0
+  }
+}

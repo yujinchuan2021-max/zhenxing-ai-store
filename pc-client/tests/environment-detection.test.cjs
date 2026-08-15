@@ -5,6 +5,7 @@ const {
   resolveRegisteredEnvironmentExecutable,
   resolveEnvironmentEvidence,
   resolveEnvironmentOperationStatus,
+  resolveEnvironmentUpdateOffer,
   resolveTrustedEnvironmentExecutableProbe
 } = require("../shared/environment-detection.cjs");
 
@@ -133,6 +134,18 @@ test("resolves Node and Git executables from reviewed install locations", () => 
   );
 });
 
+test("resolves the dedicated Python 3.12 environment from its reviewed install location", () => {
+  assert.equal(
+    resolveRegisteredEnvironmentExecutable({
+      environmentId: "python312",
+      installLocation:
+        "C:\\Users\\tester\\AppData\\Local\\Programs\\Python\\Python312",
+      exists: (candidate) => candidate.endsWith("\\Python312\\python.exe")
+    }),
+    "C:\\Users\\tester\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"
+  );
+});
+
 test("rejects stale and relative registry install locations", () => {
   assert.equal(
     resolveRegisteredEnvironmentExecutable({
@@ -215,5 +228,34 @@ test("confirms absence only after a complete registry scan", () => {
       canUninstall: false,
       detection: "absent"
     }
+  );
+});
+
+test("offers an update only for a trusted installed version below the reviewed version", () => {
+  assert.deepEqual(
+    resolveEnvironmentUpdateOffer({
+      detection: "installed",
+      installedVersion: "3.12.9",
+      recommendedVersion: "3.12.10"
+    }),
+    { recommendedVersion: "3.12.10", canUpdate: true }
+  );
+  for (const installedVersion of ["3.12.10", "3.13.0", "3.12", "v3.12.9", "3.12.9rc1", ""]) {
+    assert.equal(
+      resolveEnvironmentUpdateOffer({
+        detection: "installed",
+        installedVersion,
+        recommendedVersion: "3.12.10"
+      }).canUpdate,
+      false
+    );
+  }
+  assert.equal(
+    resolveEnvironmentUpdateOffer({
+      detection: "unknown",
+      installedVersion: "3.12.9",
+      recommendedVersion: "3.12.10"
+    }).canUpdate,
+    false
   );
 });

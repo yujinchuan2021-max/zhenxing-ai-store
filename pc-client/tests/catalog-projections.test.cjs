@@ -47,16 +47,28 @@ test("one resource record appears in every selected store and target group", () 
   const resources = [
     {
       id: "shared",
-      resourceTypes: ["skill", "mcp", "plugin"],
+      resourceTypes: ["skill", "mcp", "connector", "plugin"],
       targets: [{ productId: "ai", enabled: true }]
     }
   ];
-  for (const type of ["skill", "mcp", "plugin"]) {
+  for (const type of ["skill", "mcp", "connector", "plugin"]) {
     const rows = resourceTargetsByType(resources, vendors, type);
     assert.equal(rows.length, 1);
     assert.equal(rows[0].resource, resources[0]);
     assert.equal(rows[0].product.id, "ai");
   }
+});
+
+test("resource projections filter official and community channels without copying canonical records", () => {
+  const resources = [
+    { id: "official", name: "Official", sourceKind: "official", resourceTypes: ["skill"], targets: [{ productId: "ai", enabled: true }] },
+    { id: "reviewed", name: "Reviewed", sourceKind: "reviewed-community", resourceTypes: ["skill"], targets: [{ productId: "ai", enabled: true }] },
+    { id: "community", name: "Community", sourceKind: "community", resourceTypes: ["skill"], targets: [{ productId: "ai", enabled: true }] }
+  ];
+  const official = resourceTargetsByType(resources, vendors, "skill", { sourceChannel: "official" });
+  const community = resourceTargetsByType(resources, vendors, "skill", { sourceChannel: "community" });
+  assert.deepEqual(official.map((row) => row.resource), [resources[0]]);
+  assert.deepEqual(community.map((row) => row.resource), [resources[2], resources[1]]);
 });
 
 test("every resource store projects one scalable directory per target product", () => {
@@ -65,7 +77,7 @@ test("every resource store projects one scalable directory per target product", 
       id: "shared",
       name: "Shared",
       order: 0,
-      resourceTypes: ["skill", "mcp", "plugin", "workflow"],
+      resourceTypes: ["skill", "mcp", "connector", "plugin", "workflow"],
       targets: [{ productId: "ai", enabled: true }]
     },
     {
@@ -86,7 +98,7 @@ test("every resource store projects one scalable directory per target product", 
     ["shared", "second"]
   );
 
-  for (const type of ["mcp", "plugin", "workflow"]) {
+  for (const type of ["mcp", "connector", "plugin", "workflow"]) {
     const directories = resourceProductsByType(resources, vendors, type);
     assert.equal(directories.length, 1);
     assert.equal(directories[0].rows[0].resource.id, "shared");

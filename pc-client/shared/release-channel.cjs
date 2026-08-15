@@ -3,6 +3,9 @@
 const {
   normalizeTrustedKeys
 } = require("./signed-release.cjs");
+const {
+  isLoopbackHostname
+} = require("./client-services.cjs");
 
 function isPlainObject(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
@@ -20,11 +23,11 @@ function parseReleaseUrl(value, allowLocalhost) {
   } catch {
     throw new Error("发布地址无效");
   }
+  const loopback = isLoopbackHostname(parsed.hostname);
   const local =
-    allowLocalhost &&
-    parsed.protocol === "http:" &&
-    ["127.0.0.1", "localhost"].includes(parsed.hostname);
+    allowLocalhost && loopback && parsed.protocol === "http:";
   if (
+    (!allowLocalhost && loopback) ||
     (!local && parsed.protocol !== "https:") ||
     parsed.username ||
     parsed.password ||
@@ -67,11 +70,11 @@ function validateReleaseChannel(value, { kind, allowLocalhost = false }) {
     } catch {
       throw new Error("发布来源必须是完整 origin");
     }
+    const loopback = isLoopbackHostname(parsed.hostname);
     const local =
-      allowLocalhost &&
-      parsed.protocol === "http:" &&
-      ["127.0.0.1", "localhost"].includes(parsed.hostname);
+      allowLocalhost && loopback && parsed.protocol === "http:";
     if (
+      (!allowLocalhost && loopback) ||
       (!local && parsed.protocol !== "https:") ||
       parsed.origin !== origin ||
       parsed.username ||

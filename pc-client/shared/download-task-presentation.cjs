@@ -104,4 +104,44 @@ function createDownloadTaskRevisionTracker() {
   });
 }
 
-module.exports = { createDownloadTaskRevisionTracker };
+function buildDownloadPopoverItems({ names = {}, queueTasks = {}, legacyTasks = {} } = {}) {
+  const queueProductIds = new Set();
+  const items = [];
+  for (const task of Object.values(queueTasks)) {
+    if (!task?.productId || !task?.taskId) continue;
+    queueProductIds.add(task.productId);
+    items.push({
+      id: task.taskId,
+      productId: task.productId,
+      name: names[task.productId] || task.productId,
+      source: "queue",
+      phase: task.phase,
+      state: task.presentation?.state || "active",
+      percent: Number.isFinite(task.progress?.percent) ? task.progress.percent : null
+    });
+  }
+  for (const task of Object.values(legacyTasks)) {
+    if (!task?.productId || !task?.attemptId || queueProductIds.has(task.productId)) continue;
+    items.push({
+      id: task.attemptId,
+      productId: task.productId,
+      name: names[task.productId] || task.productId,
+      source: "legacy",
+      phase: task.phase,
+      state: task.phase === "completed" ? "completed" : task.phase === "failed" ? "failed" : "active",
+      percent: Number.isFinite(task.progress?.percent) ? task.progress.percent : null
+    });
+  }
+  const rank = { active: 0, failed: 1, completed: 2 };
+  items.sort((left, right) =>
+    (rank[left.state] ?? 3) - (rank[right.state] ?? 3) ||
+    left.name.localeCompare(right.name)
+  );
+  return {
+    activeCount: items.filter((item) => item.state === "active").length,
+    totalCount: items.length,
+    items
+  };
+}
+
+module.exports = { buildDownloadPopoverItems, createDownloadTaskRevisionTracker };

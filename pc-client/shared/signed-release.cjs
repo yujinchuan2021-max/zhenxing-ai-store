@@ -1,6 +1,10 @@
 "use strict";
 
 const crypto = require("node:crypto");
+const {
+  assertCatalogSigningKeyAllowed,
+  assertCatalogTrustedKeysAllowed
+} = require("./catalog-key-retirement.cjs");
 
 function isPlainObject(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
@@ -61,12 +65,13 @@ function unsignedEnvelope(envelope) {
 
 function createSignedEnvelope({ kind, keyId, payload, privateKey }) {
   if (
-    !["build-provenance", "catalog", "update"].includes(kind) ||
+    !["build-provenance", "catalog", "software-updates", "update"].includes(kind) ||
     !validKeyId(keyId) ||
     !isPlainObject(payload)
   ) {
     throw new TypeError("签名发布参数无效");
   }
+  if (kind === "catalog") assertCatalogSigningKeyAllowed(keyId, "sign");
   const envelope = {
     schemaVersion: 1,
     kind,
@@ -92,6 +97,7 @@ function normalizeTrustedKeys(trustedKeys) {
   ) {
     throw new Error("可信发布密钥配置无效");
   }
+  assertCatalogTrustedKeysAllowed(trustedKeys);
   const result = new Map();
   for (const entry of trustedKeys) {
     if (

@@ -1,0 +1,55 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "recommendedConsumption": true,
+  "kind": "platform-support-combined-canonical-merge",
+  "generatedFromCheckedAt": "2026-08-07T00:00:00.000Z",
+  "source": {
+    "draftRevision": 89,
+    "v1ActiveCatalogVersion": 72,
+    "v1ActiveReleaseId": "catalog-v00000072-e286516335da-a8b62a49",
+    "v2ActiveCatalogVersion": 6,
+    "v2ActiveReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "productCount": 615,
+    "resourceCount": 146,
+    "targetCount": 513,
+    "resourceStoreCount": 4,
+    "statePath": "admin/published/catalog-store/state.json",
+    "stateSha256": "abffc088a113160ee85fb0efaead8ddff0230021992c9252df82453e396490a9",
+    "draftCatalogJsonSha256": "50d8368a00c347b2e575bbe9993272971e1010a1d3eff8db4e16edf427add7da",
+    "evidenceInputs": [
+      {"batch":1,"path":"docs/research/platform-support-evidence-batch1-draft89-active6-2026-08-07.json","sha256":"71a183761537989463baca907eafe4e4bcd466e0d6638ebc3b6739d066160e4d","productCount":20,"claimCount":61},
+      {"batch":2,"path":"docs/research/platform-support-evidence-batch2-draft89-active6-2026-08-07.json","sha256":"b5dcef070e4c0bf35fc772bdb7972f6b6741aeec1edc84df929cde79ca1419e5","productCount":30,"claimCount":90},
+      {"batch":3,"path":"docs/research/platform-support-evidence-batch3-draft89-active6-2026-08-07.json","sha256":"59f6cbef1200b6b39c4b792d106f94e765bc7943639e6e9bdf9a870177a6e57f","productCount":40,"claimCount":120}
+    ]
+  },
+  "mergeOperation": {
+    "kind": "replace-product-platform-support-from-exact-evidence-record",
+    "catalogFieldsChanged": ["platformSupport"],
+    "forbiddenCatalogFields": ["command","args","env","headers","credentials","script","artifactUrl","installProfileId","moduleId","downloadUrl","profile","endpoint","path"]
+  },
+  "proposedChanges": [
+    {"sourceBatch":1,"vendorId":"openai","productId":"chatgpt-desktop"},{"sourceBatch":1,"vendorId":"anthropic","productId":"claude-desktop"},{"sourceBatch":1,"vendorId":"anysphere","productId":"cursor-desktop"},{"sourceBatch":1,"vendorId":"microsoft","productId":"microsoft-vscode"},{"sourceBatch":1,"vendorId":"zed-industries","productId":"zed-editor"},{"sourceBatch":1,"vendorId":"ollama","productId":"ollama-cli"},{"sourceBatch":1,"vendorId":"lmstudio","productId":"lm-studio-desktop"},{"sourceBatch":1,"vendorId":"docker","productId":"docker-desktop"},{"sourceBatch":1,"vendorId":"blender","productId":"blender"},{"sourceBatch":1,"vendorId":"obs-project","productId":"obs-studio"},{"sourceBatch":1,"vendorId":"anytype","productId":"anytype-desktop"},{"sourceBatch":1,"vendorId":"jan","productId":"jan-desktop"},{"sourceBatch":1,"vendorId":"discord","productId":"discord-desktop"},{"sourceBatch":1,"vendorId":"slack","productId":"slack-workspace"},{"sourceBatch":1,"vendorId":"comfy","productId":"comfy-desktop"},{"sourceBatch":1,"vendorId":"anthropic","productId":"claude-code"},{"sourceBatch":1,"vendorId":"google","productId":"gemini-cli"},{"sourceBatch":1,"vendorId":"openai","productId":"codex-cli"},{"sourceBatch":1,"vendorId":"openwebui","productId":"open-webui"},{"sourceBatch":1,"vendorId":"anomalyco","productId":"opencode"},
+    {"sourceBatch":2,"vendorId":"moonshot","productId":"kimi-work-desktop"},{"sourceBatch":2,"vendorId":"msty","productId":"msty-go"},{"sourceBatch":2,"vendorId":"pieces","productId":"pieces-for-developers"},{"sourceBatch":2,"vendorId":"raycast","productId":"raycast-windows"},{"sourceBatch":2,"vendorId":"thinkinai","productId":"deepchat-desktop"},{"sourceBatch":2,"vendorId":"notion","productId":"notion-desktop"},{"sourceBatch":2,"vendorId":"obsidian","productId":"obsidian-desktop"},{"sourceBatch":2,"vendorId":"canva","productId":"affinity"},{"sourceBatch":2,"vendorId":"unity-technologies","productId":"unity-editor"},{"sourceBatch":2,"vendorId":"figma","productId":"figma-design"},{"sourceBatch":2,"vendorId":"linear","productId":"linear-workspace"},{"sourceBatch":2,"vendorId":"jetbrains","productId":"jetbrains-intellij-idea"},{"sourceBatch":2,"vendorId":"postman","productId":"postman-api-platform"},{"sourceBatch":2,"vendorId":"godot","productId":"godot-engine"},{"sourceBatch":2,"vendorId":"epic-games","productId":"unreal-engine"},{"sourceBatch":2,"vendorId":"trimble","productId":"sketchup"},{"sourceBatch":2,"vendorId":"blackmagic-design","productId":"davinci-resolve"},{"sourceBatch":2,"vendorId":"monday","productId":"monday-work-management"},{"sourceBatch":2,"vendorId":"mongodb","productId":"mongodb-compass"},{"sourceBatch":2,"vendorId":"roblox","productId":"roblox-studio"},{"sourceBatch":2,"vendorId":"clickup","productId":"clickup-workspace"},{"sourceBatch":2,"vendorId":"box","productId":"box-content-cloud"},{"sourceBatch":2,"vendorId":"zoom","productId":"zoom-workplace"},{"sourceBatch":2,"vendorId":"redis","productId":"redis-insight"},{"sourceBatch":2,"vendorId":"neo4j","productId":"neo4j-desktop"},{"sourceBatch":2,"vendorId":"opera","productId":"opera-one"},{"sourceBatch":2,"vendorId":"dassault-systemes","productId":"dassault-solidworks-design"},{"sourceBatch":2,"vendorId":"audacity","productId":"audacity-desktop"},{"sourceBatch":2,"vendorId":"streamlabs","productId":"streamlabs-desktop"},{"sourceBatch":2,"vendorId":"navicat","productId":"navicat-premium"},
+    {"sourceBatch":3,"vendorId":"bytedance","productId":"trae-desktop"},{"sourceBatch":3,"vendorId":"bytedance","productId":"bytedance-capcut-desktop"},{"sourceBatch":3,"vendorId":"bytedance","productId":"bytedance-ui-tars-desktop"},{"sourceBatch":3,"vendorId":"bytedance","productId":"bytedance-feishu"},{"sourceBatch":3,"vendorId":"google","productId":"google-chrome-devtools"},{"sourceBatch":3,"vendorId":"google","productId":"google-android-studio"},{"sourceBatch":3,"vendorId":"microsoft","productId":"microsoft-copilot-desktop"},{"sourceBatch":3,"vendorId":"microsoft","productId":"microsoft-365-copilot"},{"sourceBatch":3,"vendorId":"microsoft","productId":"microsoft-visual-studio"},{"sourceBatch":3,"vendorId":"github","productId":"github-copilot-cli"},{"sourceBatch":3,"vendorId":"anysphere","productId":"cursor-cli"},{"sourceBatch":3,"vendorId":"alibaba","productId":"alibaba-qwen-studio"},{"sourceBatch":3,"vendorId":"alibaba","productId":"alibaba-qwen-code"},{"sourceBatch":3,"vendorId":"alibaba","productId":"alibaba-quark-ai-browser"},{"sourceBatch":3,"vendorId":"alibaba","productId":"alibaba-dingtalk-ai"},{"sourceBatch":3,"vendorId":"tencent","productId":"tencent-codebuddy"},{"sourceBatch":3,"vendorId":"tencent","productId":"tencent-yuanbao-desktop"},{"sourceBatch":3,"vendorId":"nomic","productId":"gpt4all-desktop"},{"sourceBatch":3,"vendorId":"mintplex","productId":"anythingllm-desktop"},{"sourceBatch":3,"vendorId":"amazon","productId":"amazon-kiro-ide"},{"sourceBatch":3,"vendorId":"amazon","productId":"amazon-kiro-cli"},{"sourceBatch":3,"vendorId":"mistral","productId":"mistral-vibe-code-cli"},{"sourceBatch":3,"vendorId":"huggingface","productId":"hf-cli"},{"sourceBatch":3,"vendorId":"nvidia","productId":"nvidia-ai-workbench"},{"sourceBatch":3,"vendorId":"nvidia","productId":"nvidia-broadcast"},{"sourceBatch":3,"vendorId":"nvidia","productId":"nvidia-nemoclaw-cli"},{"sourceBatch":3,"vendorId":"openclaw","productId":"openclaw-windows-hub"},{"sourceBatch":3,"vendorId":"nousresearch","productId":"nous-hermes-desktop"},{"sourceBatch":3,"vendorId":"cline","productId":"cline-agent"},{"sourceBatch":3,"vendorId":"cherryhq","productId":"cherry-studio"},{"sourceBatch":3,"vendorId":"chatboxai","productId":"chatbox-desktop"},{"sourceBatch":3,"vendorId":"msty","productId":"msty-studio"},{"sourceBatch":3,"vendorId":"lobehub","productId":"lobehub-desktop"},{"sourceBatch":3,"vendorId":"windsurf","productId":"windsurf-editor"},{"sourceBatch":3,"vendorId":"warp","productId":"warp-windows"},{"sourceBatch":3,"vendorId":"manus","productId":"manus-desktop"},{"sourceBatch":3,"vendorId":"pinokio","productId":"pinokio-ai-browser"},{"sourceBatch":3,"vendorId":"lykos-ai","productId":"stability-matrix"},{"sourceBatch":3,"vendorId":"amd","productId":"amd-gaia"},{"sourceBatch":3,"vendorId":"aaif","productId":"goose-desktop"}
+  ],
+  "summary": {
+    "productChanges":90,"claimChanges":271,"supported":209,"unknown":58,"unsupported":4,"blocked":0,
+    "batch1Products":20,"batch2Products":30,"batch3Products":40,"productIdOverlap":0,
+    "unchangedProducts":525,"unchangedResources":146,"unchangedTargets":513,"unchangedResourceStores":4,
+    "candidateCatalogJsonSha256":"e608af6817c57616ca033018ee67b690626a730202109fc142273d9d2d09a77e"
+  },
+  "consumptionPreconditions": [
+    "This is the only recommended combined consumption input; require all three evidence SHA-256 values to match.",
+    "Re-read source state and require every source digest, active release identity, and count above to match.",
+    "Run validateOptionalPlatformSupport with checkedAt for every exact source record before copying it.",
+    "Require all three batch product ID sets to remain disjoint, then deep-compare every non-platformSupport product field and all resources, targets, and stores before any save.",
+    "A separate explicit authorization is required before any draft save or publication."
+  ],
+  "activationGates": [
+    "Product claims are display/filter evidence only; supported does not mean managed, installable, or Agent-bindable.",
+    "Do not copy claims to resources, targets, or fixed profiles. Agent Broker remains fail-closed until resource and profile claims are independently reviewed.",
+    "Unknown and unsupported claims grant no execution capability. Each platform artifact, profile, lifecycle, ownership receipt, WSL/container dependency, and action requires its own review."
+  ],
+  "rollback":"No state was changed. Discard this candidate; if a future authorized draft consumes it, remove only the 90 product platformSupport fields after verifying all three recorded evidence inputs and source digests."
+}

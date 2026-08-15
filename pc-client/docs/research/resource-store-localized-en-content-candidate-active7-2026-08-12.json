@@ -1,0 +1,4338 @@
+{
+  "schemaVersion": 1,
+  "candidateLabel": "0.1.82-localized-en-content-b",
+  "candidateOnly": true,
+  "publishable": false,
+  "source": {
+    "releaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "catalogVersion": 7,
+    "releaseSha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4"
+  },
+  "scope": {
+    "resourceCount": 250,
+    "resourceStoreCount": 4,
+    "skillResourceCount": 120,
+    "officialSkillCount": 16,
+    "communitySkillCount": 104,
+    "communityPostTranslation": "deferred"
+  },
+  "resourceStores": [
+    {
+      "storeId": "skill",
+      "localized": {
+        "en": {
+          "label": "Skill Store"
+        }
+      }
+    },
+    {
+      "storeId": "mcp",
+      "localized": {
+        "en": {
+          "label": "MCP Store"
+        }
+      }
+    },
+    {
+      "storeId": "plugin",
+      "localized": {
+        "en": {
+          "label": "Plugin Store"
+        }
+      }
+    },
+    {
+      "storeId": "connector",
+      "localized": {
+        "en": {
+          "label": "Connector Store"
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "resourceId": "openai-codex-skills-catalog",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "d86542d68228d04925f2d94c7865a48774a27a90a9ffab588d57127e6ed4bb4d",
+      "localized": {
+        "en": {
+          "name": "OpenAI Codex Skills",
+          "description": "The official repository distinguishes system, curated, and experimental skills. ZhenXing AI allows system and curated skills by default; experimental skills require additional confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "openai-codex-mcp-config",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "e62e65f66e596b33317df829f17c1d4d107254099d632d22491205f8fd37eee0",
+      "localized": {
+        "en": {
+          "name": "OpenAI Developer Docs MCP",
+          "description": "OpenAI's official read-only developer documentation MCP. ZhenXing AI manages only the fixed openaiDeveloperDocs entry in the Codex user configuration."
+        }
+      }
+    },
+    {
+      "resourceId": "openai-chatgpt-apps-skill",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "ddadd344de9eeaae4f85ab33d82e1c6839dd35f88444991943272ec5022e39b9",
+      "localized": {
+        "en": {
+          "name": "ChatGPT Apps Skill",
+          "description": "An official OpenAI curated Skill for designing, building, and checking ChatGPT apps based on the Apps SDK. ZhenXing AI installs a reviewed directory snapshot."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-official-plugin-marketplace",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "6a184dc38b49486bab89ce8d960d578955485e96b2ad121ec367f52b87d0947b",
+      "localized": {
+        "en": {
+          "name": "Claude Code Official Plugin Marketplace",
+          "description": "The official marketplace is available automatically. Anthropic also states that it does not control all third-party code included in plugins, so each plugin still requires review."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-claude-code-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "8e6c512b99c31928ce27fe3d0cb02c1dc917c6e400846f4df7cf69890449fb10",
+      "localized": {
+        "en": {
+          "name": "Claude Code MCP",
+          "description": "Remote OAuth and local stdio are separate. Do not mistake Claude Desktop Chat configuration for Code tab configuration."
+        }
+      }
+    },
+    {
+      "resourceId": "comfy-custom-nodes",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "84c456c3980a0576b58d04b831931ef92f55b51a703f453aa15814135e70c7be",
+      "localized": {
+        "en": {
+          "name": "Comfy Custom Nodes",
+          "description": "Installation commands are documented, but Custom Nodes execute Python. Dependency conflicts, supply chain, license, snapshot, and rollback require review."
+        }
+      }
+    },
+    {
+      "resourceId": "google-gemini-cli-extensions",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "09f828c648693874b42cc176e5cd705f4598878e939a57aeb1a89cb4973af803",
+      "localized": {
+        "en": {
+          "name": "Gemini CLI Extensions",
+          "description": "The source, version, MCP access, and hook permissions of each extension must be shown separately."
+        }
+      }
+    },
+    {
+      "resourceId": "microsoft-azure-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "5cf1315bd50b909e1d110f1a1e3bb9ea3a4021996dd8a0f3d06cfa674676775a",
+      "localized": {
+        "en": {
+          "name": "Microsoft Azure MCP",
+          "description": "Inherits Azure Entra ID and RBAC. Resource listing may be read-only; the subscription, resource group, and impact must be shown and confirmed before creating, changing, deploying, or deleting cloud resources."
+        }
+      }
+    },
+    {
+      "resourceId": "microsoft-playwright-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "5ce7e4ef39d8671c1c2bf3b68ae07185b6e3dbfa20e74ea918dbd27fa127b570",
+      "localized": {
+        "en": {
+          "name": "Microsoft Playwright MCP",
+          "description": "A first-party repository with high browser-control privileges. Visited pages and local browser permissions must be disclosed."
+        }
+      }
+    },
+    {
+      "resourceId": "github-copilot-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "08302128ea2395be38e271e5af205a84bbcedeafa38b125cd857397669224375",
+      "localized": {
+        "en": {
+          "name": "GitHub MCP Server",
+          "description": "GitHub's official remote or local MCP Server for repositories, issues, pull requests, and workflows."
+        }
+      }
+    },
+    {
+      "resourceId": "moonshot-kimi-plugins",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "23cb3da46c3e6dabf7bef6e6444f37f1b1e73981b41e77b4b35ff471f4d71782",
+      "localized": {
+        "en": {
+          "name": "Kimi Code Plugins",
+          "description": "Plugins may include Skills and MCP components. Install only through Kimi's current plugin mechanism and never write to the legacy ~/.kimi directory."
+        }
+      }
+    },
+    {
+      "resourceId": "anythingllm-agent-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "f0f2f381b1756baf1254e3504e3138804313e1841d4d45951aef413238318f35",
+      "localized": {
+        "en": {
+          "name": "AnythingLLM Agent Skills and MCP",
+          "description": "Configured inside the host. Desktop and Docker use different paths and permissions; verify the official API and configuration contract first."
+        }
+      }
+    },
+    {
+      "resourceId": "amazon-kiro-powers",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "d4d8f010825309491ab0cb345dc0a47b7fdddab4af4eeb0436b8d3fb3dacdfc5",
+      "localized": {
+        "en": {
+          "name": "Kiro Powers",
+          "description": "A Power may bundle MCP, steering, and hooks. All components and permissions must be expanded before one-click installation."
+        }
+      }
+    },
+    {
+      "resourceId": "aws-mcp-servers",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "311834e300138fb24365934a7c8615169eda4c47c9e4deac30dd27ff5281ea3a",
+      "localized": {
+        "en": {
+          "name": "AWS MCP Servers",
+          "description": "Servers in the AWS Labs catalog have different maturity, dependencies, and permissions. This catalog provides official documentation only and does not treat the entire repository as one automatically deployable package."
+        }
+      }
+    },
+    {
+      "resourceId": "minimax-official-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "68b298444eaa588b7943ff502010b9150528b1abb6baffb0cf8862e3a59d7c6b",
+      "localized": {
+        "en": {
+          "name": "MiniMax Official Skills",
+          "description": "An official organization repository. Review each skill's license, scripts, and API key requirements before approval."
+        }
+      }
+    },
+    {
+      "resourceId": "minimax-official-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "19374013e916856cc18b08a234eb2d0e5aa2ad501e02858f286ad3dfdec710a6",
+      "localized": {
+        "en": {
+          "name": "MiniMax MCP",
+          "description": "A first-party MCP that calls image, video, and text-to-speech APIs. It requires a user key, billing disclosure, and output-storage guidance."
+        }
+      }
+    },
+    {
+      "resourceId": "pika-mcp-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "7c390df75f6520944ddbb0f1fd0468f61611a89436f3e9f50d15b1b62322444a",
+      "localized": {
+        "en": {
+          "name": "Pika MCP Skills",
+          "description": "Pika has publicly described its official MCP skills, but this review did not obtain a stable package ID or installation contract. Show the tutorial until an official manifest is available."
+        }
+      }
+    },
+    {
+      "resourceId": "hf-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "c0f2beeff597d9d9830913b8740cb4c6002899a6a855d4301fff1d5285ace760",
+      "localized": {
+        "en": {
+          "name": "Hugging Face MCP",
+          "description": "The official guidance recommends generating exact configuration from the settings page instead of guessing URL parameters manually."
+        }
+      }
+    },
+    {
+      "resourceId": "hf-agent-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "931d7389bb3d5ecb141a82548e6c4e3e4401b214fa37436eec0a88e1a49c739a",
+      "localized": {
+        "en": {
+          "name": "Hugging Face Agent Skills",
+          "description": "The official CLI provides host-targeted installation natively and may be suitable for a future ZhenXing AI adapter."
+        }
+      }
+    },
+    {
+      "resourceId": "openclaw-clawhub-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "0734a6b97d867ee38b487d02811f951b828f7933efa9458b2e81374cf9596bb3",
+      "localized": {
+        "en": {
+          "name": "OpenClaw ClawHub Skills",
+          "description": "ClawHub is a public registry; only verified publishers such as @openclaw/* may be labeled official. The official trust-envelope check may run before installation, but a passing scan does not replace human review."
+        }
+      }
+    },
+    {
+      "resourceId": "openclaw-clawhub-plugins",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "9f54e7d87c02569116096183f8f4fb88739a08659de95684181f172009e5ee73",
+      "localized": {
+        "en": {
+          "name": "OpenClaw ClawHub Plugins",
+          "description": "Plugins may receive broad privileges, so tool calls are not approved automatically by default."
+        }
+      }
+    },
+    {
+      "resourceId": "hermes-agent-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "fa6f6c8297bcb1e10bc971dfbd3f80537bd35af3e659c6697110e18e4c6d97b0",
+      "localized": {
+        "en": {
+          "name": "Hermes Agent Skills",
+          "description": "Hermes can create or improve skills from experience. ZhenXing AI manages only external skills with explicit provenance and must not label agent-generated content as official."
+        }
+      }
+    },
+    {
+      "resourceId": "cline-official-skills-plugins",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "21138007b060e4b0b76c1a119445bcf87f0279b51f9ddf2e37fe72f2301791d9",
+      "localized": {
+        "en": {
+          "name": "Cline Skills, Plugins, and MCP",
+          "description": "Cline's official organization publishes plugin, MCP marketplace, and skill resources. The publisher of every marketplace listing is retained separately."
+        }
+      }
+    },
+    {
+      "resourceId": "opencode-agent-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "f63a6287194bc7ede69a080d2d9d704750a34b227b5cc23fe242750a13247ddf",
+      "localized": {
+        "en": {
+          "name": "OpenCode Agent Skills",
+          "description": "OpenCode discovers local directories such as .agents/skills, but has no stable first-party protocol for one-click installation from arbitrary registries. ZhenXing AI may install only reviewed directory snapshots."
+        }
+      }
+    },
+    {
+      "resourceId": "unity-official-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "eb99de04fbf5ea2ec0edc00091a29f534b999484cd8c8971488a9e4cab8c2565",
+      "localized": {
+        "en": {
+          "name": "Unity Official MCP Server",
+          "description": "Lets AI coding tools read Unity project scenes, GameObjects, components, console output, and editor context."
+        }
+      }
+    },
+    {
+      "resourceId": "oray-awesun-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "388392a7e541585ff08eb48fa8f5fe9748f8d833bb9722608da562fb3e018bc9",
+      "localized": {
+        "en": {
+          "name": "AweSun MCP",
+          "description": "Exposes AweSun device management, remote sessions, and desktop control to AI tools through MCP."
+        }
+      }
+    },
+    {
+      "resourceId": "figma-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "6da9b0e1d769dc64d868b2df85c560c972b09ad7f0395badbb4e5516d1503d16",
+      "localized": {
+        "en": {
+          "name": "Figma MCP Server",
+          "description": "Figma's official remote MCP Server, with an additional local desktop service."
+        }
+      }
+    },
+    {
+      "resourceId": "notion-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "f098fca5850161760bce82c5049810136d87d5a7a9a19811ee76018d64c63c7f",
+      "localized": {
+        "en": {
+          "name": "Notion MCP",
+          "description": "Notion's official hosted MCP service for providing AI tools with workspace page context."
+        }
+      }
+    },
+    {
+      "resourceId": "atlassian-rovo-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "f3b3d6b89b0ee73df374e2bbaa1de4bf239b3b782c42b92d945367dfc71acf83",
+      "localized": {
+        "en": {
+          "name": "Atlassian Rovo MCP Server",
+          "description": "Atlassian's official remote MCP service connecting Jira, Confluence, and Bitbucket."
+        }
+      }
+    },
+    {
+      "resourceId": "docker-mcp-toolkit",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "a5b18f0842e2c2ccf15bc39c69c10864a81871a01d72ec5782dfc92e587bb2d9",
+      "localized": {
+        "en": {
+          "name": "Docker MCP Toolkit",
+          "description": "Docker Desktop's official MCP Toolkit, Catalog, and Gateway."
+        }
+      }
+    },
+    {
+      "resourceId": "cloudflare-api-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "6a00a1fcc339e0901f9fc1d3d14b33feb91e7de203546c5ae41109e78bf3c2b4",
+      "localized": {
+        "en": {
+          "name": "Cloudflare API MCP Server",
+          "description": "Cloudflare's official hosted API MCP Server and product-specific MCP servers."
+        }
+      }
+    },
+    {
+      "resourceId": "linear-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "6579a19e8d6a1404f5276d4cfe7ea10b4916a923c262418f5b84139ebe045e6a",
+      "localized": {
+        "en": {
+          "name": "Linear MCP Server",
+          "description": "Linear's official remote MCP Server for issues, projects, and comments."
+        }
+      }
+    },
+    {
+      "resourceId": "sentry-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "54dace4e484e7d1efe66282d880593e9cdecc7c3484e5a05c12bc124019afaf8",
+      "localized": {
+        "en": {
+          "name": "Sentry MCP",
+          "description": "Sentry's official hosted and open-source MCP services for giving coding agents troubleshooting context."
+        }
+      }
+    },
+    {
+      "resourceId": "stripe-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "974818bf6da227ca1983dc4a66d89dc09e3d7e4941e31902f70d04f46a9e0633",
+      "localized": {
+        "en": {
+          "name": "Stripe MCP Server",
+          "description": "Stripe's official remote MCP Server, currently in public preview."
+        }
+      }
+    },
+    {
+      "resourceId": "supabase-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "7002c7705a2bfd699169e5a76198c5bf206fcf69d1e2db19459487932d42a529",
+      "localized": {
+        "en": {
+          "name": "Supabase MCP Server",
+          "description": "Supabase's official remote MCP Server and official open-source implementation."
+        }
+      }
+    },
+    {
+      "resourceId": "vercel-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "fb0feedbe0fc4f25eea3ea71ff1111e34cd557b3e08c937ee5e6da252be87997",
+      "localized": {
+        "en": {
+          "name": "Vercel MCP",
+          "description": "Vercel's official remote MCP service, currently in beta."
+        }
+      }
+    },
+    {
+      "resourceId": "slack-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "7e5f627671695a63dcf36b10de1ee4d181b8b088585101732eee469490416266",
+      "localized": {
+        "en": {
+          "name": "Slack MCP Server",
+          "description": "Slack's official remote MCP Server. A registered Slack app identity is required."
+        }
+      }
+    },
+    {
+      "resourceId": "jetbrains-idea-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "b41ec5769199ff61cf7f4e8b4768ab03874dec31e73f4aa2f6aeb299bbbf8b7e",
+      "localized": {
+        "en": {
+          "name": "IntelliJ IDEA MCP Server",
+          "description": "The official MCP Server built into IntelliJ IDEA starting with version 2025.2."
+        }
+      }
+    },
+    {
+      "resourceId": "canva-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "3ce82b4c058c103cdd82cb182567f84ee0aff161cb8cd9ddd83bceeec4d3d7b1",
+      "localized": {
+        "en": {
+          "name": "Canva MCP / AI Connector",
+          "description": "Canva's official hosted MCP and AI Connector."
+        }
+      }
+    },
+    {
+      "resourceId": "postman-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "bf590ac0504025cdb2171c8257ccbbc309a585c860cab842f34b61f9879d99a6",
+      "localized": {
+        "en": {
+          "name": "Postman MCP Server",
+          "description": "Postman's official remote or local MCP Server."
+        }
+      }
+    },
+    {
+      "resourceId": "asana-mcp-server-v2",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "caf2d7445958be6bffdf2ab00c1c7917e95bf83bb705e1d26f220384b9f0492a",
+      "localized": {
+        "en": {
+          "name": "Asana MCP Server V2",
+          "description": "Asana's official remote MCP Server V2, now generally available."
+        }
+      }
+    },
+    {
+      "resourceId": "hubspot-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "ab3949254ea57f66895d462e6a8758b5e3ebc9420c62aa168dd20b549710ecb2",
+      "localized": {
+        "en": {
+          "name": "HubSpot MCP Server",
+          "description": "HubSpot's official remote MCP Server, providing CRM capabilities to compatible clients."
+        }
+      }
+    },
+    {
+      "resourceId": "google-chrome-devtools-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "eb442b413bc4c3a682b283f32f094586ded2bf16577953c84d79ea84ac7bd22e",
+      "localized": {
+        "en": {
+          "name": "Chrome DevTools MCP",
+          "description": "The official MCP Server maintained by the Google Chrome DevTools team for page inspection, debugging, and browser automation."
+        }
+      }
+    },
+    {
+      "resourceId": "blender-mcp",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "ce71032d9b44c48727dfc584faff1f9d16cb932048d4f376d64b3e149d826adc",
+      "localized": {
+        "en": {
+          "name": "Blender MCP",
+          "description": "Can read and write Blender scenes and execute Python. Arbitrary code, deletion, and external asset imports require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "godot-mcp",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "9e50b99550885a252d578e170617298703d250d4ef648e7d200e41cfc0614d14",
+      "localized": {
+        "en": {
+          "name": "Godot MCP",
+          "description": "Authorize only a user-selected Godot project. Running the project, deleting nodes, and bulk rewrites require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "unreal-mcp",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "54817ce41dc23d6aea07992e5366eb18740e3f3f1234f93bf2276d21de04621e",
+      "localized": {
+        "en": {
+          "name": "Unreal MCP",
+          "description": "Authorize only one Unreal project. Python execution, asset deletion, building, and packaging require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "ableton-mcp-extended",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "5e3ede8616e1a6137b8e7815889cea406de69c1857346ce8ca3e1c0677debde4",
+      "localized": {
+        "en": {
+          "name": "Ableton MCP Extended",
+          "description": "Modifies the current Live Session. Prompt the user to save before writing; bulk generation and external audio imports require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "obs-mcp",
+      "sourceKind": "community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "56b33869e76828615e97f3e13b98877133f7155a3bfb2dd57575b3689bea29d6",
+      "localized": {
+        "en": {
+          "name": "MCP Server for OBS",
+          "description": "Experimental resource. Starting a stream or recording, taking screenshots, and switching sensitive scenes require confirmation each time."
+        }
+      }
+    },
+    {
+      "resourceId": "n8n-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "402ea7203e29b9fd5a924ff7200bc1ecf7d2b7066b4c6ab85b87622bdb5f251b",
+      "localized": {
+        "en": {
+          "name": "n8n MCP Server",
+          "description": "Grant the minimum workspace access. Creating, updating, and running workflows require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "uipath-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "c805307cc46a2656956cd6ad8a4fa3e6e6933696a6ecc514646530c3a86c063e",
+      "localized": {
+        "en": {
+          "name": "UiPath MCP Server",
+          "description": "Grant the minimum access per Orchestrator Folder. Every RPA job run requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "home-assistant-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "337cd0f11b27fa398f214b23692c4270f78cb313e7942cf1434d7e0d3fc05b61",
+      "localized": {
+        "en": {
+          "name": "Home Assistant MCP Server",
+          "description": "Expose only entities selected by the user. Device control is disabled by default, and sensitive operations such as locks and security require confirmation each time."
+        }
+      }
+    },
+    {
+      "resourceId": "adobe-for-creativity",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "3c9f3ef1890b674d053ce34be322ce9e267dbb7f48553b1e323ad6546cb28fa2",
+      "localized": {
+        "en": {
+          "name": "Adobe for creativity",
+          "description": "Files explicitly selected by the user are sent to Adobe and Claude cloud services. The user completes organization authorization."
+        }
+      }
+    },
+    {
+      "resourceId": "autodesk-fusion-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "a20d4343ef9e397cba09def03763a1b98c62c855003b34342b577b936d5ca850",
+      "localized": {
+        "en": {
+          "name": "Autodesk Fusion MCP",
+          "description": "Allow only 127.0.0.1. Running scripts, deleting objects, and overwriting designs require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "sketchup-claude-connector",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "50b9a0fc1bdcce67dcf86bb7dd56521a3c4c221e5595849324a63fa9d7e12d2b",
+      "localized": {
+        "en": {
+          "name": "SketchUp Connector for Claude",
+          "description": "Currently creates new SKP files only and must not be described as taking control of the user's local SketchUp application."
+        }
+      }
+    },
+    {
+      "resourceId": "davinci-resolve-mcp",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "d80f4c7834fd23d32664cc2d4500d764cae2d648d0c8a3a725a74d149b169567",
+      "localized": {
+        "en": {
+          "name": "DaVinci Resolve MCP",
+          "description": "Show documentation only until a fixed version is reviewed. Changes to projects, media, render settings, and scripts require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "affinity-ai-connector",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "19f0642cbf1d001ae2d44233a79f1259fe62d87e94d5f121d1a25b697db4e889",
+      "localized": {
+        "en": {
+          "name": "Affinity AI Connector",
+          "description": "Official revocation documentation is incomplete. The first run of a generated script must show its write scope and require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "zapier-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "8b52cdab7d5abfa0b838e5176b25d7fb9e341c4a8ec985968f36a00f37e7d0f0",
+      "localized": {
+        "en": {
+          "name": "Zapier MCP",
+          "description": "Expose only apps and actions selected by the user in Zapier. Cross-app writes, sends, and deletions require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "monday-platform-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "3ffaebdc1e79f9c19eb5fdb998e9bdc0c502d235a9d1392b1a6907c597d58a39",
+      "localized": {
+        "en": {
+          "name": "monday Platform MCP",
+          "description": "Inherits the user's monday.com permissions. Creating, updating, or deleting boards and items requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "mongodb-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "711c7d6740ceb9423ff3e35e4c23ad08d8b297122f4bad89085ee4e76ef01851",
+      "localized": {
+        "en": {
+          "name": "MongoDB MCP Server",
+          "description": "Use read-only mode and a read-only database account by default. Writes, index changes, and Atlas administration require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "grafana-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "915e6abd731797895435b716b61c76d8948deccbf75223460a0a2a265a7f6e07",
+      "localized": {
+        "en": {
+          "name": "Grafana MCP",
+          "description": "Disable writes by default and use minimum RBAC. Dashboard, alert, and incident changes require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "datadog-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "5c40c44c3eee48751c41d0de12f640cb44dcb22627f9d5b021c55562ef33c32a",
+      "localized": {
+        "en": {
+          "name": "Datadog MCP Server",
+          "description": "Grant minimum access by site and team. Monitoring writes, sensitive log queries, and security actions require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "elastic-agent-builder-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "5d8a106d095642f3f75d1adb2ceec0da850b4bb62332726ce5ab504ed9b2bd11",
+      "localized": {
+        "en": {
+          "name": "Elastic Agent Builder MCP",
+          "description": "Limit API key or OAuth access to the specified Space, indexes, and read-only tools. Write operations require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "roblox-studio-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "83f5178b2cd4c02c9388926ca01c1d5817c1ef2504ace2f903c30e48fd95e365",
+      "localized": {
+        "en": {
+          "name": "Roblox Studio MCP Server",
+          "description": "Connect only trusted clients. Writing scripts, executing Luau, uploading assets, simulating input, and playtesting require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "penpot-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "e46af1af92e74e8d11c5e20e3e16e1ba6f194355fdb66cf7717d8c59654b69a7",
+      "localized": {
+        "en": {
+          "name": "Penpot MCP Server",
+          "description": "Connection URLs containing userToken must not enter logs. Changes to pages, layers, styles, and local file imports require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "webflow-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "5434800452926d2cc4bd0523715a843e0a170ddec020d8a77a8fc4f77ea6618b",
+      "localized": {
+        "en": {
+          "name": "Webflow MCP Server",
+          "description": "Inherits the user's Webflow role. Publishing, deleting pages or CMS content, changing domains, and bulk changes require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "miro-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "312acd1dbaa560dc383d2d5d2ac8e4b9b873251105b97a40d623bc79f24082ae",
+      "localized": {
+        "en": {
+          "name": "Miro MCP Server",
+          "description": "Read only authorized teams and boards. Writing or deleting objects and sending board content to a model require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "matlab-mcp-core-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "312db8e2ad69a35bcb50e7f8d87ec9c681fd98940edae67bbc3bebf1b30283a3",
+      "localized": {
+        "en": {
+          "name": "MATLAB MCP Core Server",
+          "description": "Code inspection may be read-only. Code execution, file writes, tests, and starting or exiting MATLAB require confirmation and must stay within the user's project."
+        }
+      }
+    },
+    {
+      "resourceId": "matlab-agentic-toolkit",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "c45210c4dfc242c034b314c1e9caf10dcdd78c9096827c24bcda590f8bcd1e99",
+      "localized": {
+        "en": {
+          "name": "MATLAB Agentic Toolkit",
+          "description": "The initial official Toolkit entry provides documentation only. Enabling code execution, file writes, or extension installation requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "simulink-agentic-toolkit",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "15ebd35e24cce7eb65a402a5f045cf4079a5560fffcb7023d6f3493a04392725",
+      "localized": {
+        "en": {
+          "name": "Simulink Agentic Toolkit",
+          "description": "Depends on MATLAB, Simulink, and MATLAB MCP. Model editing, simulation, and testing must show the affected scope and require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "nvidia-omniverse-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "0c9f99295db276b899552ed9c1d57aa4d9382aec0310d7b3170c70d3c2e10ba2",
+      "localized": {
+        "en": {
+          "name": "NVIDIA Omniverse MCP",
+          "description": "The initial entry provides official documentation only. USD changes, code execution, rendering, physics simulation, and cloud API calls require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "nvidia-omniverse-agent-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "83b72e62e1b337e357c8ff2f9b3f9effadea0485880d314df12b3f99863a7175",
+      "localized": {
+        "en": {
+          "name": "NVIDIA Omniverse Agent Skills",
+          "description": "The initial official Skills entry provides a resource link only. Review the fixed version, tool scope, and local write permissions before enabling it."
+        }
+      }
+    },
+    {
+      "resourceId": "gitlab-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "7f9d99cd5a4577e086da4e421348975cd97304e29571a614a827a19c9951ba81",
+      "localized": {
+        "en": {
+          "name": "GitLab MCP Server",
+          "description": "OAuth inherits only the current GitLab user's permissions. Code, issue, and merge request access and all writes remain constrained by project permissions; writes require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "salesforce-hosted-mcp-servers",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "a4e412f19f13a93d1c92e4920354297a29fd8a00d73116caa04a06710ce91452",
+      "localized": {
+        "en": {
+          "name": "Salesforce Hosted MCP Servers",
+          "description": "Inherits the current Salesforce user's object, field, and sharing permissions. Record writes, Flow, Apex, and automation calls require confirmation each time."
+        }
+      }
+    },
+    {
+      "resourceId": "servicenow-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "4e5553811ca81c366e2d7f35af2c715979b5a9d1875415d6568dce8574bbb416",
+      "localized": {
+        "en": {
+          "name": "ServiceNow MCP Server",
+          "description": "Connect only administrator-approved instances and tools. Creating, changing, deleting, or executing ITSM, CMDB, HR, and workflow records requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "microsoft-azure-devops-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "bc3a366dff089f885fd0f332d7a49c11f8043f0d6057fa9644db4ae80af9cc9d",
+      "localized": {
+        "en": {
+          "name": "Azure DevOps MCP Server",
+          "description": "Authorize only the specified Azure DevOps organization and tool domains. Creating branches, pull requests, work items, or wiki content and running pipelines require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "terraform-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "1ead2a19302e352e46326a872f1c4b14900304d795c45fdbbaf7fce021847a5d",
+      "localized": {
+        "en": {
+          "name": "Terraform MCP Server",
+          "description": "The initial entry provides official documentation only. Private Registry and HCP Terraform tokens need minimum privilege, and generated infrastructure changes require human review."
+        }
+      }
+    },
+    {
+      "resourceId": "pulumi-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "d94a61fb874ba593e25e52790e3a6d07b42c8df97e1fe032f724b420e0dffd41",
+      "localized": {
+        "en": {
+          "name": "Pulumi MCP Server",
+          "description": "Stack and Registry queries may be read-only. Deployments, Pulumi Neo tasks, and organization membership changes affect cloud resources or permissions and require explicit confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "browserstack-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "608358c150f5194526daf8864895069eeb56dee4df1f4c75fc1d453cec58cd20",
+      "localized": {
+        "en": {
+          "name": "BrowserStack MCP Server",
+          "description": "Inherits the current BrowserStack user's permissions. Starting real-device tests, changing test cases, or consuming plan quota requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "circleci-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "e1e1f42b8cc8e6b50940022f6b173be9a2f6230af3f3b6e248e045eda95bb542",
+      "localized": {
+        "en": {
+          "name": "CircleCI MCP",
+          "description": "The hosted MCP can read build logs and rerun or cancel workflows. Execution and cancellation require confirmation, and log output must be treated as sensitive data."
+        }
+      }
+    },
+    {
+      "resourceId": "clickup-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "dc224c01066e89507bf340633038f2884740f1bc367f0b9393ad1e3a7f056f58",
+      "localized": {
+        "en": {
+          "name": "ClickUp MCP Server",
+          "description": "Uses OAuth 2.1 and the current user's permissions. Creating or changing tasks, comments, chat messages, and time entries requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "box-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "a6e25dde221a0f9c7ec55e7bedbb9459decb953c0984d80374094087a7e215bc",
+      "localized": {
+        "en": {
+          "name": "Box MCP Server",
+          "description": "Use only administrator-approved OAuth scopes. Search, reading, and Box AI may expose enterprise files; content writes require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "pipedream-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "4c58f019b1c6e69efd07290a1668f7e33341bbcd3ed6013c8a241ff9cd41be00",
+      "localized": {
+        "en": {
+          "name": "Pipedream MCP",
+          "description": "Expose only apps and tools explicitly selected by the user. Cross-app writes, sends, deployments, deletions, and paid actions require confirmation each time."
+        }
+      }
+    },
+    {
+      "resourceId": "make-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "c43cfe8752ffde5505bca192da983d57f110a8d7733400797628d55a934fc246",
+      "localized": {
+        "en": {
+          "name": "Make MCP Server",
+          "description": "Use a restricted Toolbox or Scenario Run scope by default. Running scenarios or changing teams, connections, webhooks, or data stores requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "google-gmail-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "78e12f81de32349c5499fe1d84d6f5743b5c28ae6f0078a51c96784f4705a115",
+      "localized": {
+        "en": {
+          "name": "Gmail MCP",
+          "description": "Mail search, reading, labels, and draft creation are constrained by OAuth scopes. Message bodies may contain indirect prompt injection, and writes require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "google-drive-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "ac28a62d1992060ec9afa43e71140c424d90ebc510621aadd349959bad493026",
+      "localized": {
+        "en": {
+          "name": "Google Drive MCP",
+          "description": "Honor Drive permissions and DLP. Show the target before reading, downloading, copying, or creating files; writes require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "google-docs-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "be84f8b2398c55d044f7d9749f89764b4adb038081d775025be6f672f6f5a18d",
+      "localized": {
+        "en": {
+          "name": "Google Docs MCP",
+          "description": "Documents may contain indirect prompt injection. Show the target document and change scope before editing and require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "google-sheets-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "e140dc3b6af4292a629889fa29616680993ee7dcc894f652fca7c4d0aebac758",
+      "localized": {
+        "en": {
+          "name": "Google Sheets MCP",
+          "description": "Reading and editing spreadsheets are constrained by OAuth scopes. Bulk writes may damage business data, so confirm the scope before writing."
+        }
+      }
+    },
+    {
+      "resourceId": "google-slides-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "36ff23ac81f686d43acc67d35e5fa481c6570e2af35b2ffbf00c9fd0cbda0c9a",
+      "localized": {
+        "en": {
+          "name": "Google Slides MCP",
+          "description": "Reading and editing presentations are constrained by OAuth scopes. Confirm the target before generating, deleting, or overwriting content."
+        }
+      }
+    },
+    {
+      "resourceId": "google-calendar-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "3162f1394d52b750607848e10bb796b18e436f69fd98daebba32d1cfaac145c0",
+      "localized": {
+        "en": {
+          "name": "Google Calendar MCP",
+          "description": "Creating, updating, deleting, or responding to events affects participants. Show the calendar, time, and people and require confirmation before acting."
+        }
+      }
+    },
+    {
+      "resourceId": "google-chat-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "c7125f1c9d61cd7b166350f19cd60f18ae4b3d7dbd82d695b00cbdd8e2c58047",
+      "localized": {
+        "en": {
+          "name": "Google Chat MCP",
+          "description": "Chat messages may contain indirect prompt injection. Sending a message is an external action; show the space and message body and require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "google-people-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "0a8229fe1f0a6ff403f156b1a97edcbe031a11eadf31bb677527e4937d6050ce",
+      "localized": {
+        "en": {
+          "name": "Google People MCP",
+          "description": "Read only profiles, contacts, and directory information allowed by the current OAuth scope. Treat output as personal information."
+        }
+      }
+    },
+    {
+      "resourceId": "zoom-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "3d131cdad9baf5da9397d2ce3b41b7deb78fee5bbda7614393a4ce25df3f6370",
+      "localized": {
+        "en": {
+          "name": "Zoom MCP Server",
+          "description": "Request minimum OAuth scopes separately for each Zoom product. Writes to meetings, chat, mail, calendar, and whiteboards require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "shopify-storefront-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "73a91d2b73d4bdfd6b8eee23494accec2d7c29847f8359ef99b36bfc9ebd5d8a",
+      "localized": {
+        "en": {
+          "name": "Shopify Storefront MCP",
+          "description": "Accept only validated Shopify store domains. Product queries may be read-only; cart changes and proceeding to checkout require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "wolfram-local-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "04c0bd40daae5686849e4d06039b5182244952f5129292b76ae7866c47416cd1",
+      "localized": {
+        "en": {
+          "name": "Wolfram MCP Local",
+          "description": "Provides official configuration guidance only. The local service can execute Wolfram Language and read or write notebooks and files; code runs, overwrites, and external data access require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "wolfram-cloud-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "5347642230c133c5921520c4b44e2be022ef5d95b164824de10a9bd8ce465955",
+      "localized": {
+        "en": {
+          "name": "Wolfram MCP Cloud",
+          "description": "Provides official remote endpoint guidance only. Specific computation queries are sent to Wolfram cloud services; sensitive data and paid computations require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "ansys-pylumerical-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "fa40454ebfba88579ef18146a195076feac608a85f3dd95d9d9b49f44238b988",
+      "localized": {
+        "en": {
+          "name": "PyLumerical MCP",
+          "description": "An official open-source reference project with documentation only in this release. It can persistently execute arbitrary Python or PyLumerical and modify simulations; code, file writes, solving, and license use require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "cesium-ai-integrations-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "1d01a0c3dc93e983d0e11f9b4e6dffe8efc6b576f79b8cd36dfdd0997e57c059",
+      "localized": {
+        "en": {
+          "name": "Cesium AI Integrations MCP",
+          "description": "An official experimental reference implementation with documentation only. It can change scenes, cameras, entities, imagery, terrain, and 3D Tiles and may send location queries to Nominatim, Overpass, or OSRM."
+        }
+      }
+    },
+    {
+      "resourceId": "cesium-agent-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "45721dc84cc948d8d93b772577bc4714f942f3acf29b2dc44103abc692d70505",
+      "localized": {
+        "en": {
+          "name": "Cesium Agent Skills",
+          "description": "Official experimental Skills provided as resource links only. Review instructions, fixed versions, and code-generation scope before use; generating or overwriting CesiumJS project files requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "siemens-xcelerator-developer-portal-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "7434407ffa5d6f7364d36b55cd54d00682ca270f1025ae4d9358d68f3fe34dbc",
+      "localized": {
+        "en": {
+          "name": "Siemens Xcelerator Developer Portal MCP",
+          "description": "The official remote MCP currently provides only the askDeveloperPortal documentation tool. It does not control industrial equipment and must not be described as an industrial automation execution endpoint."
+        }
+      }
+    },
+    {
+      "resourceId": "esri-arcgis-location-platform-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "92635c1b308fdca564b1e3310291780ca667da0f8e1cd9cdcce8d87adc500c65",
+      "localized": {
+        "en": {
+          "name": "ArcGIS Location Platform MCP",
+          "description": "A beta or Early Adopter capability with an official documentation link only. Location queries leave the device and may incur ArcGIS usage charges; dynamic tools and data writes require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "synopsys-verdi-assistant-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "fd4723ee11e0ce55b884c27f637c62c8c21d74044d2c00c1c48725ed1e38f57b",
+      "localized": {
+        "en": {
+          "name": "Synopsys Verdi Assistant MCP",
+          "description": "Only a capability description is public; no installation or configuration entry point is available. It can read chip source, logs, waveforms, and debug databases and perform debugging actions, so this entry shows documentation only."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-managed-mcp-directory",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "5abc2c0eddbda83cc1a7ed62a1bb40b36e909cd16b8c2c4f316e5c2b6606d9d9",
+      "localized": {
+        "en": {
+          "name": "Databricks Managed MCP Servers",
+          "description": "Individual servers may still be in preview or beta. Databricks SQL can read or write data, and Unity Catalog functions can execute business logic; grant minimum access by workspace, scope, and object permissions."
+        }
+      }
+    },
+    {
+      "resourceId": "snowflake-managed-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "542f89ca00eadda4a94d2705e0ef55134b1e6b2bb3e41e9ea4b1c0413d4b74af",
+      "localized": {
+        "en": {
+          "name": "Snowflake-managed MCP Server",
+          "description": "Authorize only the specified role, database, schema, and tools. SQL, UDFs, stored procedures, and Cortex Agents may read or change data and incur compute charges, so execution requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "redis-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "36b1a980ce051c2a8b6db06207cf5d835c1bd29723c6fc3b5f8ef5b426a18564",
+      "localized": {
+        "en": {
+          "name": "Redis MCP Server",
+          "description": "Use a read-only, least-privilege Redis ACL and encrypted connection by default. Writes, deletion, index changes, server administration, and production-data queries require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "neo4j-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "8c8a2701392ab64361c3474999b897e135c0a77871fb504cefb0286d1cb8e1f9",
+      "localized": {
+        "en": {
+          "name": "Neo4j MCP Server",
+          "description": "The official default permits writes. For production databases, enable read-only mode and use a restricted account. Write Cypher, APOC, GDS, and broad queries require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "confluent-cloud-global-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "7cb0202b7666f0d546f767165c5696eacec67eea52a3d84a6c0de1327e90095c",
+      "localized": {
+        "en": {
+          "name": "Confluent Cloud Global MCP",
+          "description": "The official Global endpoint is currently read-only but can enumerate environments, clusters, connectors, and metrics. Organization API keys and metadata must not enter the catalog or ordinary logs."
+        }
+      }
+    },
+    {
+      "resourceId": "confluent-cloud-regional-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "43e40be58536e009a9c21e6d349a5343e436c93d04997364866553a574b29596",
+      "localized": {
+        "en": {
+          "name": "Confluent Cloud Regional MCP",
+          "description": "The official Regional endpoint is currently read-only but can read topic samples, schemas, and regional resources. Region, cloud, organization ID, and dedicated keys must be constrained and kept out of logs."
+        }
+      }
+    },
+    {
+      "resourceId": "paypal-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "d7769df520ef24288788ece8baa1af7c760a3a4bb394be26703e41eb99e83ac4",
+      "localized": {
+        "en": {
+          "name": "PayPal MCP Server",
+          "description": "Prefer the Sandbox. Creating orders, sending or canceling invoices, payments, refunds, and dispute handling affect real merchants and funds; every production action requires confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "wix-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "0350770025470b2ea61843800c71121c7b2648ee1e6f2f3024508fbd60117a99",
+      "localized": {
+        "en": {
+          "name": "Wix MCP",
+          "description": "In addition to documentation search, it can call site APIs and create or manage sites. All tools are enabled by default; publishing, deletion, app installation, and bulk site changes require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "wordpress-com-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "441727ddd868434cad48a3cdb6f452f3f1c84a9f7ec3bc1be0af840638164588",
+      "localized": {
+        "en": {
+          "name": "WordPress.com MCP",
+          "description": "Applies only to WordPress.com sites enabled by the user. Publishing, updating, or deleting content and changing themes, plugins, settings, or DNS must show the target and require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "semrush-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "37e82bda886dc490456a8d19865f68db24eaa173132c7ebc8e54b563a5990326",
+      "localized": {
+        "en": {
+          "name": "Semrush MCP",
+          "description": "Currently read-only, but it accesses customer domains, keywords, competitive intelligence, projects, and traffic data and consumes subscription or API units. OAuth credentials and API keys must not enter the catalog."
+        }
+      }
+    },
+    {
+      "resourceId": "intercom-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "e738bf01ae8430c22642463e03cfa24eee887cb9f6aa6095acc0d68251046bcb",
+      "localized": {
+        "en": {
+          "name": "Intercom MCP Server",
+          "description": "Currently supports US-region workspaces only. Contacts, companies, conversations, and help-center content contain customer personal data; reading, article updates, and outbound actions require confirmation."
+        }
+      }
+    },
+    {
+      "resourceId": "intercom-fin-agent-api-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "44f0bb4df4a852c29568e4352bdd7a44cc4df222c1142d6d86f31a1aba3372f3",
+      "localized": {
+        "en": {
+          "name": "Fin Agent API MCP Server",
+          "description": "A beta capability that can query knowledge, start conversations, and run procedures such as refunds, upgrades, or cancellations. Production procedures require confirmation each time, and the Messenger Secret must never enter the client."
+        }
+      }
+    },
+    {
+      "resourceId": "meshy-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "5ab9386c589a2d85f7601cac08eaa38fe7f09ff7a9b53b5242a81864cf6ae5cc",
+      "localized": {
+        "en": {
+          "name": "Meshy MCP Server",
+          "description": "Meshy's official MCP integration for creating and managing 3D generation tasks from compatible AI tools."
+        }
+      }
+    },
+    {
+      "resourceId": "meshy-3d-skill",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "0b9bf85e896a7e2b66f8f487599019faacc9ff25b998e3f95e3f4aaee57a6251",
+      "localized": {
+        "en": {
+          "name": "Meshy 3D Skill",
+          "description": "Meshy's official 3D Skill integration for using 3D creation capabilities from compatible coding agents."
+        }
+      }
+    },
+    {
+      "resourceId": "krea-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "16bdcbcaf45e26c74b927712c57656db1e2b07ff5de4fbaf719b7ca74a4375e2",
+      "localized": {
+        "en": {
+          "name": "Krea MCP Server",
+          "description": "Krea's official remote MCP for generating images and videos and running enhancement workflows from compatible agents."
+        }
+      }
+    },
+    {
+      "resourceId": "krea-agent-skills",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "4edb13e788c242ead47dbfa4d3d7fe963370a1c2bfbd934a7f9a509d9e0bad10",
+      "localized": {
+        "en": {
+          "name": "Krea Agent Skills",
+          "description": "Krea's official Skill package for image, video, and enhancement workflows in compatible coding agents."
+        }
+      }
+    },
+    {
+      "resourceId": "pixverse-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "f6aa840810772f191aeaf794d3f98e16d7f3da8d567b286ad098d68b032616a4",
+      "localized": {
+        "en": {
+          "name": "PixVerse MCP Server",
+          "description": "PixVerse's official MCP Server for video generation, extension, transitions, and sound from compatible AI tools."
+        }
+      }
+    },
+    {
+      "resourceId": "playcanvas-editor-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "52e7665d9f85e836341c0bbaf5c753ade755796596ae330a337ec038c7633883",
+      "localized": {
+        "en": {
+          "name": "PlayCanvas Editor MCP",
+          "description": "PlayCanvas's official local Editor MCP lets compatible AI tools read and modify the current editor project. Create a project checkpoint before execution."
+        }
+      }
+    },
+    {
+      "resourceId": "vimeo-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "bba6a2fa8b9a66709491728996434b8773a2789c28bcfd6d036c900dc2293d88",
+      "localized": {
+        "en": {
+          "name": "Vimeo MCP Server",
+          "description": "Vimeo's official remote MCP in public beta for searching, managing, and analyzing video content the user can access."
+        }
+      }
+    },
+    {
+      "resourceId": "cloudinary-mcp-servers",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "626c6c53c5ab994d3010cf62b51721bc47189a2fab7dfe373a0b35dc39413fdf",
+      "localized": {
+        "en": {
+          "name": "Cloudinary MCP Servers",
+          "description": "Cloudinary's official MCP entry points for media assets, configuration, metadata, analytics, and MediaFlows."
+        }
+      }
+    },
+    {
+      "resourceId": "onlyoffice-docspace-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "7ec5a3e03149fb6e83990bfe5a0b527e583497ff71fa4c7837af7d8e523654af",
+      "localized": {
+        "en": {
+          "name": "ONLYOFFICE DocSpace MCP",
+          "description": "ONLYOFFICE's official DocSpace MCP for rooms, files, members, and permission workflows."
+        }
+      }
+    },
+    {
+      "resourceId": "airtable-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "43d54b8ac10636888f175add741cb53e24a8819615ceda58d7e4d4eecfc4e403",
+      "localized": {
+        "en": {
+          "name": "Airtable MCP Server",
+          "description": "Airtable's official remote MCP, connecting workspaces, bases, schemas, and records through OAuth under the user's existing role."
+        }
+      }
+    },
+    {
+      "resourceId": "pandadoc-mcp-server",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "05582d6c37bf0ff52a97844a081d2856fc990897ca864ee9f3ba91e4a5786764",
+      "localized": {
+        "en": {
+          "name": "PandaDoc MCP Server",
+          "description": "PandaDoc's official remote MCP for searching, creating, updating, sending, and analyzing document workflows."
+        }
+      }
+    },
+    {
+      "resourceId": "assemblyai-docs-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "f8ff3fc7889f1fe3e9d9056cd9eb88fd7d1b2e3161d0762b74f0b950e8ad8047",
+      "localized": {
+        "en": {
+          "name": "AssemblyAI Docs MCP",
+          "description": "AssemblyAI's official documentation MCP. It searches product documentation and examples only and does not submit transcription jobs or operate user accounts."
+        }
+      }
+    },
+    {
+      "resourceId": "livekit-docs-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "88075a67bffc2a81fff13f401e43e52d10225a54fc70804d0d9f557e012a0213",
+      "localized": {
+        "en": {
+          "name": "LiveKit Docs MCP",
+          "description": "LiveKit's official documentation MCP. It searches documentation, examples, and release notes only and does not control rooms, media, or agent deployments."
+        }
+      }
+    },
+    {
+      "resourceId": "docling-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "e2af05027557086fb737e9abe16942bedb97b5252fb80c3fa2cb252020a0e0f5",
+      "localized": {
+        "en": {
+          "name": "Docling MCP",
+          "description": "The Docling project's official open-source MCP, connecting to Docling Serve or parsing and converting documents locally."
+        }
+      }
+    },
+    {
+      "resourceId": "tailscale-aperture-mcp-proxy",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "8bb0bd35a0a43fa4420983b8fb74a3668ba9eff442d17b1e4da3c61a39b8646f",
+      "localized": {
+        "en": {
+          "name": "Tailscale Aperture MCP Proxy",
+          "description": "Tailscale's official MCP Server Proxy in alpha for aggregating, discovering, and authorizing remote MCP servers inside the user's tailnet."
+        }
+      }
+    },
+    {
+      "resourceId": "composio-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "18f635380086c185e6ba42a1602a59e014e323268131e9e669808a8ce41fbf32",
+      "localized": {
+        "en": {
+          "name": "Composio MCP",
+          "description": "Composio's official MCP entry point for discovering, authenticating, and invoking third-party tools per user session."
+        }
+      }
+    },
+    {
+      "resourceId": "arcade-mcp-gateway",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "ad0664130da7bb980fb01319619eef74758dd3c4bdbcb7e4155f837d32b3d9ae",
+      "localized": {
+        "en": {
+          "name": "Arcade MCP Gateway",
+          "description": "Arcade's official MCP Gateway for aggregating and filtering multiple MCP servers and tools."
+        }
+      }
+    },
+    {
+      "resourceId": "mem0-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "37a8a784e81821678e868d458555ae68c84d46560c9f56eb282ef04a721d50c4",
+      "localized": {
+        "en": {
+          "name": "Mem0 MCP",
+          "description": "Mem0's official MCP for adding, searching, updating, and deleting agent memories."
+        }
+      }
+    },
+    {
+      "resourceId": "zep-docs-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "6ebd4c3abd44f5a1771be51253d92270f061409408af516d36436e0f958e92b6",
+      "localized": {
+        "en": {
+          "name": "Zep Documentation MCP",
+          "description": "Zep's official public documentation-search MCP, explicitly separate from the enterprise user-memory MCP."
+        }
+      }
+    },
+    {
+      "resourceId": "browserbase-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "88733c0b725237d7ea565e9a9103928855c70a2dcb39312a512af2986c0edb4e",
+      "localized": {
+        "en": {
+          "name": "Browserbase MCP Server",
+          "description": "Browserbase's official MCP for controlling cloud browsers and interacting with web pages."
+        }
+      }
+    },
+    {
+      "resourceId": "firecrawl-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "0ba35df504464506567febb2db055abf89873ffda9f2dc549af7b90d24c858d6",
+      "localized": {
+        "en": {
+          "name": "Firecrawl MCP Server",
+          "description": "Firecrawl's official MCP for web scraping, crawling, search, and batch extraction."
+        }
+      }
+    },
+    {
+      "resourceId": "tavily-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "93c452f5a1444eb2950646030f42183fbbb681d8758c5ab3735f688f64932b9e",
+      "localized": {
+        "en": {
+          "name": "Tavily MCP Server",
+          "description": "Tavily's official MCP for real-time search and web extraction in AI clients."
+        }
+      }
+    },
+    {
+      "resourceId": "apify-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "2b1011d11090e56913059b9c743f3d632d3eee2faa840c9a81fdbb71bb27fb89",
+      "localized": {
+        "en": {
+          "name": "Apify MCP Server",
+          "description": "Apify's official MCP for discovering and running Actors and reading their storage and results."
+        }
+      }
+    },
+    {
+      "resourceId": "pinecone-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "a4d04afe04cfef1cbf8b8cbe4e91f9930092147b5567222ea25d8eca4c4056b1",
+      "localized": {
+        "en": {
+          "name": "Pinecone MCP Server",
+          "description": "Pinecone's official MCP for managing indexes and writing, searching, and reranking data."
+        }
+      }
+    },
+    {
+      "resourceId": "qdrant-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "caaee36cf2c6b3961a581f68395eb02d80f636d357e032ec8ec9d031c74413aa",
+      "localized": {
+        "en": {
+          "name": "Qdrant MCP Server",
+          "description": "Qdrant's official MCP for storing and retrieving vector memory for agents."
+        }
+      }
+    },
+    {
+      "resourceId": "weaviate-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "2435f7f690c00cd620f137dcca23cf9608701d88d1ffe5153a43025b0604cd07",
+      "localized": {
+        "en": {
+          "name": "Weaviate MCP Server",
+          "description": "Weaviate's built-in official MCP supporting schema operations, queries, and optional writes."
+        }
+      }
+    },
+    {
+      "resourceId": "neon-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "91e0f9e966ab6d41efcc9d657513a33f6760fd46995ccc49be4b7abc26c58fed",
+      "localized": {
+        "en": {
+          "name": "Neon MCP Server",
+          "description": "Neon's official MCP for managing projects, branches, databases, SQL, and migrations."
+        }
+      }
+    },
+    {
+      "resourceId": "gitbook-published-docs-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "dd8f1499abd7444f67a394ad4acdcb4ed2ba5d7ade2ad7990d8e429eae2f87da",
+      "localized": {
+        "en": {
+          "name": "GitBook Published Docs MCP",
+          "description": "The read-only HTTP MCP that GitBook provides for every published site."
+        }
+      }
+    },
+    {
+      "resourceId": "new-relic-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "b70be9fa1aec113116fa85a181373af4393647f81e2fdc00e2d12492b4607883",
+      "localized": {
+        "en": {
+          "name": "New Relic MCP Server",
+          "description": "New Relic's official MCP in preview for querying observability data and performing selected operations."
+        }
+      }
+    },
+    {
+      "resourceId": "anytype-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "00a6a3e7bc53c696635dfa72503887e80b1866df013892c13b5dc561c8aaa0ce",
+      "localized": {
+        "en": {
+          "name": "Anytype MCP",
+          "description": "Anytype's official MCP integration for accessing a local-first workspace within the user's authorization."
+        }
+      }
+    },
+    {
+      "resourceId": "benchling-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "d8a2c471ae1921b20faaeda793569237c7ab6865046929864b99ae4e7f9d52c3",
+      "localized": {
+        "en": {
+          "name": "Benchling MCP",
+          "description": "Benchling's official enterprise-tenant MCP for connecting governed research and development data to compatible AI clients."
+        }
+      }
+    },
+    {
+      "resourceId": "zep-memory-mcp",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "7da8eee3395a13ca14fb12cb91ec07808a33384bfad2eeefca0a0d94a0524cbc",
+      "localized": {
+        "en": {
+          "name": "Zep Memory MCP (Enterprise, enablement required)",
+          "description": "A memory MCP available only to Zep Enterprise accounts after vendor enablement; it is not a general one-click installation item."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-commit-commands-plugin",
+      "sourceKind": "official",
+      "sourceClass": "official-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "567be9edc4a84e2fe6d4d964be60bc58fe723f77a942e933faece293c65876dd",
+      "localized": {
+        "en": {
+          "name": "Claude Code Commit Commands",
+          "description": "Anthropic's official Git workflow plugin with explicit commands for committing, pushing, and creating pull requests. Installation and lifecycle are managed by official Claude Code plugin commands."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-brainstorming",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "855f519702a65860f95ca0d7ad3e8875c32c9b4088511106418f5268b83cebae",
+      "localized": {
+        "en": {
+          "name": "Brainstorming",
+          "description": "Clarifies requirements, constraints, and design tradeoffs before coding."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-writing-plans",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "f61df015ff00a504ee704086affc37342a314a627a75c073b2f168ef6414aee1",
+      "localized": {
+        "en": {
+          "name": "Writing Plans",
+          "description": "Breaks an approved design into verifiable implementation steps."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-executing-plans",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "1f8ddaae70350dce064c54df29fbe7cf25a8d6805a6cc153cd23258a8ec57187",
+      "localized": {
+        "en": {
+          "name": "Executing Plans",
+          "description": "Executes a plan in batches with review checkpoints."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-dispatching-parallel-agents",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "fbce0995832f4f4b0b6a700bb1090fdacd74aedbb02bb808fbc383142cc0bb36",
+      "localized": {
+        "en": {
+          "name": "Dispatching Parallel Agents",
+          "description": "Organizes parallel agent collaboration for independent problems."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-requesting-code-review",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "298d3d57a96ccf3f62c116a4a1f915a9d6fb9d08b3658269e05db3fa1e35847d",
+      "localized": {
+        "en": {
+          "name": "Requesting Code Review",
+          "description": "Prepares and requests code review after completing a task."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-receiving-code-review",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "2fe142a734327f8798b3a9b517532bb30d8a759b79d80b9e3d7af32926113b01",
+      "localized": {
+        "en": {
+          "name": "Receiving Code Review",
+          "description": "Verifies and addresses code review feedback."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-using-git-worktrees",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "e99d38e8f3dfd69211e0ad029445c0d2f3a9317f50b0254f6f66da34ba5ac688",
+      "localized": {
+        "en": {
+          "name": "Using Git Worktrees",
+          "description": "Uses isolated worktrees to organize parallel development."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-finishing-development-branch",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "ce1104a20b72afd03a493835fd0e200343efb984556ae3d7d2476954958978c8",
+      "localized": {
+        "en": {
+          "name": "Finishing a Development Branch",
+          "description": "Closes a development branch after verification and selects a delivery path."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-subagent-driven-development",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "c3b6c3f73f000f4e66b3a9d652f45910bb3ee4ddc397c5a78ef99ed517b7befc",
+      "localized": {
+        "en": {
+          "name": "Subagent Driven Development",
+          "description": "Organizes subagent development through staged reviews."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-test-driven-development",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "78833e50afb521c3f5aa45f087a6e6021e9bca2e2946453a5e3ac64dc577a141",
+      "localized": {
+        "en": {
+          "name": "Test Driven Development",
+          "description": "Advances implementation through the red, green, and refactor cycle."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-systematic-debugging",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "a80d2554fc36e514de7a1fc53b5db7e2972d5eb93a925f9e1cf2255ecef00b09",
+      "localized": {
+        "en": {
+          "name": "Systematic Debugging",
+          "description": "Troubleshoots systematically through root-cause analysis and verification."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-verification-before-completion",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "4e69934e72ea985cc470fa3f286eb9c1ceafcc4cf22e534a201e79eb3ad50957",
+      "localized": {
+        "en": {
+          "name": "Verification Before Completion",
+          "description": "Collects and checks verification evidence before declaring completion."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-writing-skills",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "6630ced61fbdd174b262c02bb784d1d9f7e6cc2902c4a5cb60025d8b8946a8ba",
+      "localized": {
+        "en": {
+          "name": "Writing Skills",
+          "description": "Writes, validates, and improves Agent Skills."
+        }
+      }
+    },
+    {
+      "resourceId": "obra-superpowers-using-superpowers",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "manual-translation",
+      "translationSha256": "79a53b83e46a56e1e185f1d0ea4b11d3a5445e9264e8d024b07a2cca30ce1ab7",
+      "localized": {
+        "en": {
+          "name": "Using Superpowers",
+          "description": "Explains invocation and usage constraints for the Superpowers Skill collection."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-algorithmic-art",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "3bc4092c09804853186524c826bc0621b940bb6122c05b84496dff95388e6eef",
+        "supportedKeywords": [
+          "p5.js",
+          "seeded randomness",
+          "flow fields",
+          "particle systems",
+          "generative art"
+        ]
+      },
+      "translationSha256": "216c425ea7050618f8195d8a182b3a17228b2d9c705c7bd6a981293beb7fd15f",
+      "localized": {
+        "en": {
+          "name": "algorithmic-art",
+          "description": "Creates original generative art with p5.js, seeded randomness, flow fields, particle systems, and interactive parameter exploration."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-brand-guidelines",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "1120b3769e2985cefb3d25be981b1f914abeba57ae079b83c20c666c164fa9fe",
+        "supportedKeywords": [
+          "brand colors",
+          "typography",
+          "visual styling",
+          "artifacts"
+        ]
+      },
+      "translationSha256": "682d03bc2a2d0cc0199ccef814877c1a7557b6c980663e4d21e88a5d91c5b1a0",
+      "localized": {
+        "en": {
+          "name": "brand-guidelines",
+          "description": "Applies Anthropic's official colors, typography, and visual styling to artifacts that need the company's look and feel."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-canvas-design",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "a1f288079624402f30682753c1d43920b6664785698d21d3e7aa197450a6448b",
+        "supportedKeywords": [
+          "PNG",
+          "PDF",
+          "static design",
+          "composition",
+          "design philosophy"
+        ]
+      },
+      "translationSha256": "0f0f72caa585e1d6848aeb175c6b3e5beb7636a541b38b3941b9449737a1f2f3",
+      "localized": {
+        "en": {
+          "name": "canvas-design",
+          "description": "Creates original static visual designs for PNG and PDF outputs using an explicit design philosophy and composition process."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-doc-coauthoring",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "2e47d78846faeea4a56e9809c52700087a15a2155a3f293a3efbaded81398ef4",
+        "supportedKeywords": [
+          "documentation",
+          "proposals",
+          "technical specs",
+          "refinement",
+          "reader verification"
+        ]
+      },
+      "translationSha256": "399ce231bbe3c74a50428389c6ef8da2152605505ebd84ab41ba02d9aaee8901",
+      "localized": {
+        "en": {
+          "name": "doc-coauthoring",
+          "description": "Guides structured co-authoring of documentation, proposals, technical specifications, and decision documents through context, refinement, and reader verification."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-frontend-design",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "1608ea77fbb6fc30d13a97d12cfa8ebf31358d40f0dd97beed24829d6b3f45dd",
+        "supportedKeywords": [
+          "frontend",
+          "aesthetic direction",
+          "typography",
+          "restraint",
+          "critique"
+        ]
+      },
+      "translationSha256": "6f2e673af2154410b05f99d30b38c7f5e7431ce973caf0df9ec540682a491be7",
+      "localized": {
+        "en": {
+          "name": "frontend-design",
+          "description": "Helps create distinctive frontend interfaces through intentional aesthetic direction, typography, subject grounding, restraint, and iterative critique."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-internal-comms",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "067b7587a344a928fc6534ef66b1bcd591fc7c26d207ea7ca3334aeb678d6475",
+        "supportedKeywords": [
+          "status reports",
+          "leadership updates",
+          "newsletters",
+          "FAQs",
+          "incident reports"
+        ]
+      },
+      "translationSha256": "b565f3d4bad972a9f952106c29fd8f56cd21b07d771bc136108156fa28effa96",
+      "localized": {
+        "en": {
+          "name": "internal-comms",
+          "description": "Supports status reports, leadership updates, newsletters, FAQs, incident reports, and project updates using company-preferred communication formats."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-skill-creator",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "dcd4803e61e913e6fc27294184cd3a71f09f5e924ff20c8a9a20173e7b3c2bcf",
+        "supportedKeywords": [
+          "Agent Skills",
+          "SKILL.md",
+          "evaluations",
+          "benchmarks",
+          "triggering"
+        ]
+      },
+      "translationSha256": "02867b4492f5d075bad82747a27f5aa800d10ae8f65b9be73357204756f80be6",
+      "localized": {
+        "en": {
+          "name": "skill-creator",
+          "description": "Creates and improves Agent Skills, including intent capture, SKILL.md authoring, evaluations, benchmarks, and trigger-description optimization."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-slack-gif-creator",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "2efca615ce55a3edd8fc05c779068a8085816617991987e446606403cd3abb22",
+        "supportedKeywords": [
+          "Slack",
+          "animated GIF",
+          "frames",
+          "optimization",
+          "validation"
+        ]
+      },
+      "translationSha256": "19f0da9ecde3df641fdf39920bfe49a07c2ec53594a93d94bc21ede8ac4e7522",
+      "localized": {
+        "en": {
+          "name": "slack-gif-creator",
+          "description": "Creates animated GIFs optimized for Slack using documented size, frame, validation, and animation constraints."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-theme-factory",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "c35893e221e28895c52143cc11bf30e41a44817796b39d4b15727dadc9796552",
+        "supportedKeywords": [
+          "themes",
+          "colors",
+          "fonts",
+          "slides",
+          "landing pages"
+        ]
+      },
+      "translationSha256": "7220d22538c2e2fda70d524d6b18bbc43130521774b24955b47af1a650e36be2",
+      "localized": {
+        "en": {
+          "name": "theme-factory",
+          "description": "Styles slides, documents, reports, and HTML landing pages with preset color and font themes or a newly generated theme."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-web-artifacts-builder",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "81c5002c6643b0de7b8710b00e7a9038daa6fb9b68d59870ee6adb12da8d10f8",
+        "supportedKeywords": [
+          "React",
+          "Tailwind CSS",
+          "shadcn/ui",
+          "state management",
+          "routing"
+        ]
+      },
+      "translationSha256": "08947a5fc3012e28004d5cf822e02c2d2976c2753ecb48d4b7c23021db67d755",
+      "localized": {
+        "en": {
+          "name": "web-artifacts-builder",
+          "description": "Builds complex single-page HTML artifacts with React, Tailwind CSS, shadcn/ui, state management, routing, and component bundling."
+        }
+      }
+    },
+    {
+      "resourceId": "anthropic-skills-webapp-testing",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2",
+        "supportedKeywords": [
+          "Playwright",
+          "local web apps",
+          "screenshots",
+          "browser logs",
+          "UI behavior"
+        ]
+      },
+      "translationSha256": "a73590c3cadac803dbecf97ce0cefcd7fa73da12a96eccd828d0428ceac84913",
+      "localized": {
+        "en": {
+          "name": "webapp-testing",
+          "description": "Tests local web applications with Playwright by inspecting UI behavior, browser logs, screenshots, and frontend functionality."
+        }
+      }
+    },
+    {
+      "resourceId": "sentry-skills-agents-md",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "8a91ada35068f43ef7ee03e38937863bac4f407878b06f0a4f1ddb4af24bec7e",
+        "supportedKeywords": [
+          "AGENTS.md",
+          "CLAUDE.md",
+          "repository conventions",
+          "package manager"
+        ]
+      },
+      "translationSha256": "ccc0c6708efbd545b554b3ec77f7d30664962de591211e30379f933918eea4e8",
+      "localized": {
+        "en": {
+          "name": "agents-md",
+          "description": "Creates and maintains concise AGENTS.md and CLAUDE.md files for repository conventions, package-manager rules, and coding-agent instructions."
+        }
+      }
+    },
+    {
+      "resourceId": "sentry-skills-blog-writing-guide",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "8aba654d1af0820ee83370ddcbe51c24fb1c624c169931bd87f36247d181caa4",
+        "supportedKeywords": [
+          "Sentry blog",
+          "voice",
+          "structure",
+          "banned language",
+          "technical writing"
+        ]
+      },
+      "translationSha256": "40211db3394979e18f2ab5276cdce0f924ed96f18275612bc2d0ee4c9861e049",
+      "localized": {
+        "en": {
+          "name": "blog-writing-guide",
+          "description": "Writes and reviews Sentry engineering blog posts using Sentry's voice, structure, banned-language rules, and technical quality bar."
+        }
+      }
+    },
+    {
+      "resourceId": "sentry-skills-brand-guidelines",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "59c75b089fc355f34862172222344801d267ea8158d1bcddb9d1338ba8e9bc39",
+        "supportedKeywords": [
+          "Plain Speech",
+          "Sentry Voice",
+          "UI text",
+          "error messages",
+          "onboarding"
+        ]
+      },
+      "translationSha256": "f563f77e114b0a36decd17979e8cf227c0a04870fb5ad2c22b756fe88aaf6b88",
+      "localized": {
+        "en": {
+          "name": "brand-guidelines",
+          "description": "Writes Sentry user-facing copy in Plain Speech or Sentry Voice for UI text, errors, onboarding, documentation, and marketing."
+        }
+      }
+    },
+    {
+      "resourceId": "sentry-skills-code-review",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "ec5fc8855cb4648b4f2c79b608f8c8824a2da6a683330524c4d6283e4a3954c4",
+        "supportedKeywords": [
+          "security",
+          "performance",
+          "testing",
+          "design",
+          "maintainability"
+        ]
+      },
+      "translationSha256": "bfaab5f384062bdfbdb58045299334683fac44c60d6f4664206f18b5716ffc1b",
+      "localized": {
+        "en": {
+          "name": "code-review",
+          "description": "Reviews code using Sentry engineering practices across security, performance, testing, design, and long-term maintainability."
+        }
+      }
+    },
+    {
+      "resourceId": "sentry-skills-code-simplifier",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "ad4ce00d2759e0773bee88f267f4ae0f52684979d7fbceb14dffd5efefbce141",
+        "supportedKeywords": [
+          "clarity",
+          "consistency",
+          "maintainability",
+          "behavior preservation",
+          "project standards"
+        ]
+      },
+      "translationSha256": "8735ef1d8008c3d54ad7ba6edb7e9dbb4497130d5aac30b027533477622066bc",
+      "localized": {
+        "en": {
+          "name": "code-simplifier",
+          "description": "Refines code for clarity, consistency, and maintainability while preserving functionality and applying project-specific standards."
+        }
+      }
+    },
+    {
+      "resourceId": "sentry-skills-django-access-review",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "75a58e3cf7bd7f3b65402c36424623e3f43ea1e8905b07494eaaae0d97a85dd9",
+        "supportedKeywords": [
+          "Django",
+          "DRF",
+          "IDOR",
+          "object permissions",
+          "tenant isolation"
+        ]
+      },
+      "translationSha256": "f0bd67dc2764ea0300416e67261d80af2f8ef16976f970ac4679397aa5fcfbd5",
+      "localized": {
+        "en": {
+          "name": "django-access-review",
+          "description": "Reviews Django and DRF authorization for IDOR, object-permission, tenant-isolation, and broken-access-control risks."
+        }
+      }
+    },
+    {
+      "resourceId": "sentry-skills-django-perf-review",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "d45298cb3c2b06777a28a2cadbcbb4eacc1e987ade230f4f94947ad927c92033",
+        "supportedKeywords": [
+          "Django ORM",
+          "N+1 queries",
+          "querysets",
+          "database performance"
+        ]
+      },
+      "translationSha256": "1989bd2c1bd8d68bf7bc9e36e59038e5326bc8852adf0e6bd2d73c91467c62d1",
+      "localized": {
+        "en": {
+          "name": "django-perf-review",
+          "description": "Reviews Django ORM performance for N+1 queries, queryset inefficiencies, database load, and related optimization opportunities."
+        }
+      }
+    },
+    {
+      "resourceId": "sentry-skills-doc-coauthoring",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "819ad219b7e3f3fd8bc4b0a224dce9cf3b177df6f311b640831b87fb3b5d7730",
+        "supportedKeywords": [
+          "documentation",
+          "proposals",
+          "technical specs",
+          "refinement",
+          "reader verification"
+        ]
+      },
+      "translationSha256": "9743ac8c3b7610197dae2e3ab6d455ce8a4b815c322fa6ad36fa8382127459a6",
+      "localized": {
+        "en": {
+          "name": "doc-coauthoring",
+          "description": "Guides structured co-authoring of documentation, proposals, technical specifications, and decision documents through iterative refinement and reader verification."
+        }
+      }
+    },
+    {
+      "resourceId": "supabase-agent-skills-supabase-postgres-best-practices",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "pinned-identity-conservative-summary",
+      "translationSha256": "3a0154314f289081498bbc013939294b3c26ca30c84fcec6572e2780e04949a9",
+      "localized": {
+        "en": {
+          "name": "Supabase Postgres Best Practices",
+          "description": "Supabase's pinned Skill provides best-practice guidance for PostgreSQL work in Supabase projects."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-ads-explorer",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "0b2d1e2477dd8dbd36fab1a241f96d2652e9f32aff1ced70bacb531e0f849781",
+        "supportedKeywords": [
+          "ad creative",
+          "hypotheses",
+          "messaging angles",
+          "formats",
+          "visual prompts"
+        ]
+      },
+      "translationSha256": "a91957af07ec620375757a5d30d214c708dc03aa3e138b4d1732f74420adcea3",
+      "localized": {
+        "en": {
+          "name": "Creative Ads Explorer",
+          "description": "Generates ad-creative hypotheses across messaging angles and visual formats, with headlines, visual prompts, rationales, and testable variations."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-explore",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "fbef3f6610cb7659dca04a94a0c1fc8e5025113f9351aea72062b1d3478ba663",
+        "supportedKeywords": [
+          "visual directions",
+          "rationale",
+          "sample prompts",
+          "reference images"
+        ]
+      },
+      "translationSha256": "4dacba95d7f78dce28b526dea364cad24a633c1a7456b9036e64b9dbf0be0ef7",
+      "localized": {
+        "en": {
+          "name": "Creative Explore",
+          "description": "Explores several named visual directions with rationales, sample prompts, and reference images before a production style is selected."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-moodboard",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "ff74c4ae05a8350528dea0e8b92220d19f0c7393d4fe2b4d6392526086d8431e",
+        "supportedKeywords": [
+          "mood boards",
+          "visual territories",
+          "palette",
+          "texture",
+          "typography"
+        ]
+      },
+      "translationSha256": "f1be05af101c65fc7a02b2fdc7d557317753756d08eedf183d71508f030fe604",
+      "localized": {
+        "en": {
+          "name": "Creative Moodboard",
+          "description": "Builds team-alignment mood boards as named visual territories with palettes, textures, typography, and generated sample tiles."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-offer",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "3e4a1c6d4aa786d4496dc284016efc6cacd66b9c36a257ab9c497b9ff4949eda",
+        "supportedKeywords": [
+          "offer",
+          "price",
+          "bundle",
+          "guarantee",
+          "hero visuals"
+        ]
+      },
+      "translationSha256": "cf989d7efd3f4decabe5366f1b1d1e547f62382099bd6e80827f60468ad26780",
+      "localized": {
+        "en": {
+          "name": "Creative Offer",
+          "description": "Translates a concrete offer, including price, bundle, guarantee, bonus, or deadline, into legible promotional hero visuals."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-polish",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "da85e4e9a2a71577165a8b9d5007ac9dac729106206e851b5f6d25bf5590758f",
+        "supportedKeywords": [
+          "artifacts",
+          "composition",
+          "color grade",
+          "text",
+          "aspect ratio"
+        ]
+      },
+      "translationSha256": "7c5fdb33b911ff6a10760f0d8c4c54b837ea3197eacfc0b7fa7c05d595ef2be8",
+      "localized": {
+        "en": {
+          "name": "Creative Polish",
+          "description": "Refines selected visuals for production by correcting artifacts, composition, color, text, aspect ratio, and output specifications."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-positioning",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "2a9fd155d61913f617b1814454ec170aab93fd5724cc88eeda207e0d618ec3fe",
+        "supportedKeywords": [
+          "positioning",
+          "differentiation",
+          "palette",
+          "typography",
+          "imagery"
+        ]
+      },
+      "translationSha256": "ca85da129f29999ebc21b163ca68ae8ac65fa8a9606148f6e34277080cb8d764",
+      "localized": {
+        "en": {
+          "name": "Creative Positioning",
+          "description": "Maps category, differentiation, audience, and competitive positioning into palette, typography, imagery, and tone decisions."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-production",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "c69883c5b7fd5a857cb266919d11017fabec430188e850dcadaf6f5611935b65",
+        "supportedKeywords": [
+          "creative brief",
+          "moodboard",
+          "positioning",
+          "ads",
+          "polish"
+        ]
+      },
+      "translationSha256": "7642638f51da9adac1726ab110f23149f80020fcfa17106a71f636eb223cba91",
+      "localized": {
+        "en": {
+          "name": "Creative Production",
+          "description": "Routes a creative brief through exploration, moodboarding, positioning, offers, ads, scenes, shots, and final polish."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-scene",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "bda188a4b22204a59ffe4e91f8e47802b430b089c9faf4ed6d138c8bdc11eb96",
+        "supportedKeywords": [
+          "product in use",
+          "lifestyle scenes",
+          "environment",
+          "natural lighting",
+          "texture"
+        ]
+      },
+      "translationSha256": "1f9f4e2b5d61e723953f7db5b27c8d3fdca31b687c465ec6ead7bf181e67e944",
+      "localized": {
+        "en": {
+          "name": "Creative Scene",
+          "description": "Creates realistic product-in-use lifestyle scenes with believable people, environments, natural lighting, and texture."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-creative-shot",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "ac6dcd70a4df126d0fef65fc1efee487bbb3ff51ce24698aa885a5fe8ddfd015",
+        "supportedKeywords": [
+          "ecommerce",
+          "product shots",
+          "hero view",
+          "detail",
+          "packaging"
+        ]
+      },
+      "translationSha256": "bf752969881ad37a574940f2b673b799a8b6edd7bb4dfacec320652dfd90a25f",
+      "localized": {
+        "en": {
+          "name": "Creative Shot",
+          "description": "Creates coherent ecommerce product-image sets across hero, front, side, back, detail, scale, packaging, and in-hand views."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-audit",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "94bd341237a753756aa11a0eeb2649c8f7a09cff0683ae0b4911e8a31736028a",
+        "supportedKeywords": [
+          "usability",
+          "hierarchy",
+          "accessibility",
+          "conversion",
+          "prioritized fixes"
+        ]
+      },
+      "translationSha256": "c7fe4b078a34c1ed6322c97efffaea6c7cd8822670ed3c0143d6c096b8be8f9a",
+      "localized": {
+        "en": {
+          "name": "Design Audit",
+          "description": "Audits an existing interface for usability, hierarchy, accessibility, and conversion issues, then prioritizes concrete fixes."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-get-context",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "c639ddbe98d4b71d8cd839132d936da34bb4b06bbe0cda0f04b60f4393cf1cce",
+        "supportedKeywords": [
+          "goals",
+          "users",
+          "constraints",
+          "success criteria",
+          "scope"
+        ]
+      },
+      "translationSha256": "8622442a49336bdedfeee047e2424927c3da5b64c37b16e7cba7c0858ff872ed",
+      "localized": {
+        "en": {
+          "name": "Design Get Context",
+          "description": "Clarifies design goals, users, constraints, success criteria, and scope before implementation, producing shared context for later design work."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-ideate",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "667fa9ac4f1d195b783fdcc1785bce55af2923370832859df1d403e6b3419d54",
+        "supportedKeywords": [
+          "interface directions",
+          "layout",
+          "components",
+          "tradeoffs",
+          "mockups"
+        ]
+      },
+      "translationSha256": "39c87ca57aeb7a76f1ffc20f892b381a60716e16def57c363340a341a4a309b0",
+      "localized": {
+        "en": {
+          "name": "Design Ideate",
+          "description": "Produces multiple named interface directions with layout logic, component choices, tradeoffs, and optional mockup images."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-image-to-code",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "ec1ce132464c79c1d161267eb67f37517a8444ff50e81a0bd82d752b24700b6c",
+        "supportedKeywords": [
+          "reference image",
+          "frontend",
+          "design system",
+          "screenshot comparison"
+        ]
+      },
+      "translationSha256": "38b5153584421db1cf6e3f923da30d0b9b11253cfc0072ccd8ef6df2977dd30c",
+      "localized": {
+        "en": {
+          "name": "Design Image To Code",
+          "description": "Implements a local frontend from a reference image by extracting its design system and iterating through screenshot comparison."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-prototype",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "d847cfa2fd47ce51d3cfc56a5453fe296fc67c1e403770faafc62936b16b19b0",
+        "supportedKeywords": [
+          "prototype",
+          "navigation",
+          "state",
+          "interactions",
+          "browser verification"
+        ]
+      },
+      "translationSha256": "b61511bcb25afcfa085d49b47e6cd7615bda0d583e923b9188b104535e3be8d1",
+      "localized": {
+        "en": {
+          "name": "Design Prototype",
+          "description": "Turns static screens and components into a runnable prototype with navigation, state, interactions, and browser-verified behavior."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-qa",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "2490e044d13dcf18d9f3c3137c237e6d3660f1f86ddae9d14f5153ae9197124a",
+        "supportedKeywords": [
+          "design QA",
+          "layout",
+          "spacing",
+          "states",
+          "behavior"
+        ]
+      },
+      "translationSha256": "4c68caf8fb3f57266b9e6004f439ddeb81dfdab48b6f625a3a21a7ba453521f9",
+      "localized": {
+        "en": {
+          "name": "Design QA",
+          "description": "Compares a prototype with its design and requirements, reporting drift in layout, spacing, type, color, states, and behavior."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-research",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "03a25ee6adaef9e85b8a260cb1070cf1c649537095613c9852570688abbdfbc8",
+        "supportedKeywords": [
+          "UX patterns",
+          "competitors",
+          "failure modes",
+          "conventions",
+          "opportunities"
+        ]
+      },
+      "translationSha256": "91695e907d1406b8dd9d3f17ecd5651ae6c6c44df5078a93bff260d3e451cd3b",
+      "localized": {
+        "en": {
+          "name": "Design Research",
+          "description": "Researches UX patterns, competitors, common failures, and user conventions to identify product-design opportunities before ideation."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-share",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "8a70ec0039f779df753ada270b4dcfa65cba4734ce8e109da95c7a2464b5bde4",
+        "supportedKeywords": [
+          "prototype",
+          "publish",
+          "review link",
+          "run instructions",
+          "feedback"
+        ]
+      },
+      "translationSha256": "cdb98a590639987b005be88f4358489fa25c2cbc1ffe4069faf65d6d8ac9edc6",
+      "localized": {
+        "en": {
+          "name": "Design Share",
+          "description": "Prepares and publishes a runnable prototype, returning a review link and run instructions for team feedback."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-design-url-to-code",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "1e335ff2e8ee91b67cab946b8bb15b2dffdca869a544bcd5aadf0ea62b2c79db",
+        "supportedKeywords": [
+          "website",
+          "local frontend",
+          "structure",
+          "design system",
+          "screenshot comparison"
+        ]
+      },
+      "translationSha256": "e449f10c408bb7dfe5579b37e4c0959d397f8cb8333297bd2ec0f0159cc3e710",
+      "localized": {
+        "en": {
+          "name": "Design Url To Code",
+          "description": "Rebuilds a referenced website as an editable local frontend by extracting its structure and design system and comparing screenshots."
+        }
+      }
+    },
+    {
+      "resourceId": "dkeken-codex-skills-alternative-product-design",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "ba831df3114d679761e8549170782907c38902b4b45bd192f7367e8037ec2729",
+        "supportedKeywords": [
+          "product design",
+          "research",
+          "ideation",
+          "prototype",
+          "QA"
+        ]
+      },
+      "translationSha256": "499f1a96e0b038676304795d2de993c9b287ad5a86eb44626322e99e38a4ecd4",
+      "localized": {
+        "en": {
+          "name": "Product Design",
+          "description": "Routes product-design work through context, research, audit, ideation, implementation, prototyping, QA, and sharing."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-architecture-impact",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "06ee32b9f75cfb13673534e6854d40c8668bfee7649eaa2fc8d86ca1bb68ad10",
+        "supportedKeywords": [
+          "architecture",
+          "structural change",
+          "capabilities",
+          "risks",
+          "before and after"
+        ]
+      },
+      "translationSha256": "4bf8f27287f7a1370d0a7c44d10ee3138b8b22ba846a4aee484706db018cfcb3",
+      "localized": {
+        "en": {
+          "name": "Architecture Impact",
+          "description": "Explains a change's before-and-after architecture, structural effects, newly enabled capabilities, and introduced risks."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-blog-post",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "cb27a40305ed4529fec2c258f60c7378f776c0e5a9860c3b700bc482db7bf012",
+        "supportedKeywords": [
+          "blog post",
+          "feature",
+          "pull request",
+          "git diff",
+          "marketing brief"
+        ]
+      },
+      "translationSha256": "fd93a07a431f7820fa84ce1a207dd4f6dfb9e40378b3ab5123857ddad7f70abc",
+      "localized": {
+        "en": {
+          "name": "Blog Post",
+          "description": "Drafts technical blog posts from features, product changes, pull requests, git differences, codebase paths, or marketing briefs."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-changelog",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "dabc1cc6a3ef787cd01bf45cb55a2953b55f02bf346bfdd984c76d93ca796673",
+        "supportedKeywords": [
+          "changelog",
+          "release notes",
+          "versions",
+          "tags",
+          "pull requests"
+        ]
+      },
+      "translationSha256": "d70220149e236f8120537f3be5f1ab31bf3cc24ffb2839f5587b2c71991d2309",
+      "localized": {
+        "en": {
+          "name": "Changelog",
+          "description": "Generates changelogs and release notes that document changes between versions, tags, or pull requests."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-docs",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "459d64add9dc56349e4df9e70a7ca9c41a3e7fa3a5957aa4c9ed165c7a3b1794",
+        "supportedKeywords": [
+          "documentation",
+          "feature planning",
+          "guides",
+          "code changes",
+          "organization"
+        ]
+      },
+      "translationSha256": "258aa6b9d14b88bcf0074861a8816ab2a8c8865d08a0b89525db13552e7778a5",
+      "localized": {
+        "en": {
+          "name": "Docs",
+          "description": "Plans, writes, edits, and organizes documentation alongside feature implementation so documentation ships with code changes."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-epic-workshop",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "a089b3b0eeef09af7e1344f9ade461c85c8bc789cb3b1447bc4c59df844abc2b",
+        "supportedKeywords": [
+          "Epic Web",
+          "workshop",
+          "exercise",
+          "instructor",
+          "video"
+        ]
+      },
+      "translationSha256": "5617971555d0667f534f90f5e8acc04b71e1ebab65f22fefb6d87536f9b99707",
+      "localized": {
+        "en": {
+          "name": "Epic Workshop",
+          "description": "Designs Epic Web-style workshops, exercises, tips, and videos using documented instructor principles and exercise conventions."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-marketing-brief",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "6eef4d4948dd2804f6343514a7a9fd8fbfc5548cdbc4dda44a30d1f02517978c",
+        "supportedKeywords": [
+          "marketing brief",
+          "pull request",
+          "git comparison",
+          "feature",
+          "product change"
+        ]
+      },
+      "translationSha256": "5cd5b091148e9894795b3a2ef91c0056acf75b4eb27eb8564677479af4382c20",
+      "localized": {
+        "en": {
+          "name": "Marketing Brief",
+          "description": "Creates marketing briefs from pull requests, git comparisons, codebase features, or freeform product-change descriptions."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-newsletter",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "9e5e6fba1671dca29d4770f3df63b2f6d65e41ce0fa88dff238fc9a804b1b16b",
+        "supportedKeywords": [
+          "product update",
+          "feature announcement",
+          "newsletter",
+          "digest email",
+          "subscribers"
+        ]
+      },
+      "translationSha256": "a65188163894928055a9408e768521b541360fcb2cf2fc8ac13e13a1b3184e6d",
+      "localized": {
+        "en": {
+          "name": "Newsletter",
+          "description": "Writes product-update emails, feature-announcement newsletters, and digest emails for users or subscribers."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-rfc",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "d57e121c019d85ed0021e5dbaf3bc6d31082e57e96f3ad5b81af91c3ac211617",
+        "supportedKeywords": [
+          "RFC",
+          "technical design",
+          "interview",
+          "codebase",
+          "API alternatives"
+        ]
+      },
+      "translationSha256": "eecf0a934dcb6b42329a5da960e06c858b5bfea166ab533b25214c2ef10c8ddf",
+      "localized": {
+        "en": {
+          "name": "RFC",
+          "description": "Builds review-ready RFCs through user interviews, codebase grounding, alternative API approaches, and concrete design choices."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-social-copy",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "9a23bcca0273c1a6d390cf820bd3acb523ffd53127429f434fd78ffd1033fbeb",
+        "supportedKeywords": [
+          "social media",
+          "launch copy",
+          "feature",
+          "product change",
+          "announcement"
+        ]
+      },
+      "translationSha256": "0317819b6fc5ba661a3bae33bcec9e7eebbb20599234e11c172d35048b9253b0",
+      "localized": {
+        "en": {
+          "name": "Social Copy",
+          "description": "Creates platform-specific social posts and launch copy for features, product changes, pull requests, and announcements."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-video-script",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "529085ac1f9bf592bf652d44a86b176f011cfec8038c1481989647a2563de921",
+        "supportedKeywords": [
+          "video script",
+          "product demo",
+          "walkthrough",
+          "launch video",
+          "social media"
+        ]
+      },
+      "translationSha256": "5fdc7ad2897caf79186731e4ccc1a695413f7b991fe9cec5194cc1a1c0579943",
+      "localized": {
+        "en": {
+          "name": "Video Script",
+          "description": "Writes video scripts for product demos, feature walkthroughs, launch videos, and social-media videos."
+        }
+      }
+    },
+    {
+      "resourceId": "alemtuzlak-skills-youtube-copy",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "f4e733487dcc0f509d3ba39be6d5e80f48e2e846f387ac825bec91ee900125e8",
+        "supportedKeywords": [
+          "YouTube",
+          "title",
+          "description",
+          "tags",
+          "timestamped chapters"
+        ]
+      },
+      "translationSha256": "2626508892dcbc317415e21480722aaf4b0ca4b55f4954c40d21e52f162baef0",
+      "localized": {
+        "en": {
+          "name": "Youtube Copy",
+          "description": "Produces YouTube titles, descriptions, tags, and timestamped chapters from transcripts, topics, pull requests, or freeform briefs."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-antislop-codebase",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "41a69409407c8913ad938aaafe3d567728246356c98e18a7bd977d04436bf26f",
+        "supportedKeywords": [
+          "maintainability",
+          "refactor",
+          "repository structure",
+          "behavior preservation",
+          "migration audit"
+        ]
+      },
+      "translationSha256": "4e16644f8a0c6019884449699863d1b8c8d32354ba1d3bafccea0fae0f6bbdfe",
+      "localized": {
+        "en": {
+          "name": "Antislop Codebase",
+          "description": "Restructures messy or overgrown repositories into maintainable product-shaped codebases while preserving existing behavior."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-app-ux-paradigms",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "87e0b40445d0bd1854c1643ad5a79a3a3418119e289fe50777dac6c81c1d82c1",
+        "supportedKeywords": [
+          "keyboard shortcuts",
+          "modals",
+          "overlays",
+          "forms",
+          "accessibility"
+        ]
+      },
+      "translationSha256": "38c5dcc5873bfe2fc3c2b12ea68182ad503b1b2e953d1dbebf10613db77fd64a",
+      "localized": {
+        "en": {
+          "name": "App Ux Paradigms",
+          "description": "Applies conventional keyboard shortcuts, modals, overlays, forms, accessibility, and desktop-like interaction patterns to web applications."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-autoreview",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "44ed8107977ad22e7eadbab3ba2b6df7c03cb8f448db6cc926dcc8227e45cb95",
+        "supportedKeywords": [
+          "closeout review",
+          "code edits",
+          "branch",
+          "pull request",
+          "release"
+        ]
+      },
+      "translationSha256": "c923b3f88b68ae349d090c71cc9b0f62328c431be6a2050a8803f7e1b004a5bb",
+      "localized": {
+        "en": {
+          "name": "Autoreview",
+          "description": "Runs structured closeout review after substantial edits, branch work, pull requests, or commits before merge or release."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-blog-system-design",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "efbdd7dc8c5cd25bb073ee688bc95276d43c8c85f39805b50d5d0154f43302d2",
+        "supportedKeywords": [
+          "technical blog",
+          "search",
+          "navigation",
+          "typography",
+          "accessibility"
+        ]
+      },
+      "translationSha256": "1a0526c68ecefe2877444382fab74843db43f0a2c007b6a2cef6b2e37ab7df11",
+      "localized": {
+        "en": {
+          "name": "Blog System Design",
+          "description": "Designs technical blogs as product systems, covering information architecture, search, navigation, typography, responsive behavior, and accessibility."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-cli-ux",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "e94f7c6fc1a5b8dd6527509803150603ec7428d7ba05ef5f9f2b675f598f9c92",
+        "supportedKeywords": [
+          "CLI",
+          "arguments",
+          "prompts",
+          "typed schemas",
+          "mutation safety"
+        ]
+      },
+      "translationSha256": "a2b4ee6006ac643d2b4cad07c54c18d1b887c4e1fdab8e63622dcfd84417e010",
+      "localized": {
+        "en": {
+          "name": "Cli Ux",
+          "description": "Designs predictable human- and agent-friendly CLIs, including arguments, prompts, authentication, typed schemas, structured output, and mutation safety."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-codebase-maintainability-guardrails",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "0784849671b9558a561d85063360b94f9bb32009011094c46781822aa82aceca",
+        "supportedKeywords": [
+          "typed files",
+          "thin entrypoints",
+          "centralized contracts",
+          "focused tests",
+          "refactors"
+        ]
+      },
+      "translationSha256": "20cad08f02aaf066ae6d85dedd3def9cf83a3a27ea649110d96b738f4a055e03",
+      "localized": {
+        "en": {
+          "name": "Codebase Maintainability Guardrails",
+          "description": "Provides maintainability guardrails for substantial coding work through small typed files, thin entrypoints, centralized contracts, focused tests, and behavior-preserving refactors."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-future-only",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "pinned-identity-conservative-summary",
+      "translationSha256": "2a4113059d65f812530c678e61b2156537ecc6893d7656f8ff6447fdb1159f2c",
+      "localized": {
+        "en": {
+          "name": "Future Only",
+          "description": "Swyx's pinned guidance is named Future Only; this catalog does not assert a narrower function without further source review."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-jfdi",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "pinned-identity-conservative-summary",
+      "translationSha256": "2245c1941fae2f9b3a08075c9422a6aa14b77276bb393d318044b27460e5b743",
+      "localized": {
+        "en": {
+          "name": "Jfdi",
+          "description": "Swyx's pinned guidance is named JFDI; this catalog does not assert a narrower function without further source review."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-observability-hardening",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "0f6f021f3c8997a3c946d0884a55ced23ec6d8f0b7c0091a34467ffe2c7102e3",
+        "supportedKeywords": [
+          "structured logs",
+          "request IDs",
+          "traces",
+          "metrics",
+          "alerts"
+        ]
+      },
+      "translationSha256": "e77ccf296063153967df938ed9139d0a8eac6f7e47efbf0f09c5dcb5f2ef744f",
+      "localized": {
+        "en": {
+          "name": "Observability Hardening",
+          "description": "Adds privacy-safe structured logs, error classes, request IDs, traces, metrics, dashboards, alerts, and user-visible operation status."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-release-readiness-hardening",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "c1801ae671ce895ef4af07a054e8703f1f38bc73f24bfaf95f8451d5f381eb49",
+        "supportedKeywords": [
+          "release",
+          "environment validation",
+          "smoke tests",
+          "rollback",
+          "monitoring"
+        ]
+      },
+      "translationSha256": "4074717117ca0dd8302a5ac3fe1a62162d210e8cdd7006d17e7fe89c4cceca46",
+      "localized": {
+        "en": {
+          "name": "Release Readiness Hardening",
+          "description": "Prepares repositories for release with environment validation, smoke tests, rollback plans, feature flags, migration checks, and post-deploy monitoring."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-schedule-design",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "d962df761fab9f97e0c06da0db84b22ecfdb68955133ca03ea89bb625dc3bb18",
+        "supportedKeywords": [
+          "React",
+          "conference schedule",
+          "grid",
+          "filters",
+          "favorites"
+        ]
+      },
+      "translationSha256": "552f3cfed0b0274b57036645c14f0b094fc4623e326d78a25285aea7cec7e9ad",
+      "localized": {
+        "en": {
+          "name": "Schedule Design",
+          "description": "Builds React conference schedules with theme systems, two-dimensional grids, filters, sticky layouts, modals, favorites, and normalized data."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-security-hardening",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "d174e4ca99ca346cd13475f4d6052b1760719baaa4602a126efa10307ae9877e",
+        "supportedKeywords": [
+          "authentication",
+          "secrets",
+          "SSRF",
+          "CORS",
+          "rate limits"
+        ]
+      },
+      "translationSha256": "5e337609b3391bfe5556a4212e860a8202fb0a18ce4aeb61bdb7bdc7cc35a2a9",
+      "localized": {
+        "en": {
+          "name": "Security Hardening",
+          "description": "Reviews application security across authentication, sessions, secrets, dependencies, SSRF, uploads, CORS, CSRF, rate limits, and unsafe logging."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-smart-entity-resolution",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "c6d12b1a214784475c6f2ac2c59f39675b1d723a82643fdda595a5a317752f03",
+        "supportedKeywords": [
+          "entity resolution",
+          "aliases",
+          "duplicates",
+          "sparse records",
+          "reranking"
+        ]
+      },
+      "translationSha256": "d02cc56be9f627768e61c3e2ba7cfaa73934b7020da645a1a52b2684deec0ff4",
+      "localized": {
+        "en": {
+          "name": "Smart Entity Resolution",
+          "description": "Designs and reviews entity search for people or organizations across aliases, duplicates, sparse records, common names, and candidate reranking."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-test-strategy-hardening",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "bc0d8dd4cac448c6aa9f340d5dc6f9b348cc703166f3101bedcdf6d6dd2c4b13",
+        "supportedKeywords": [
+          "flaky tests",
+          "over-mocking",
+          "snapshots",
+          "timing",
+          "CI selection"
+        ]
+      },
+      "translationSha256": "77403afd6b8b09e2754040ab5acdf442f34ad0ef7e5216fdfbd3584fbeeb0155",
+      "localized": {
+        "en": {
+          "name": "Test Strategy Hardening",
+          "description": "Improves test strategy and infrastructure by addressing flaky tests, over-mocking, duplicated cases, broad snapshots, timing dependence, and inefficient CI selection."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-web-animation-perf",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "9d4a5cefda3041fbd334d2ad9dbdd6419c5e245d2c72fa3e10733889db6e1f40",
+        "supportedKeywords": [
+          "layout thrash",
+          "reflow",
+          "CSS animation",
+          "scroll-linked",
+          "jank"
+        ]
+      },
+      "translationSha256": "51adff9fde38cdc929cfb585e618b661d0102b6b059091837bdc7ce1280cb91d",
+      "localized": {
+        "en": {
+          "name": "Web Animation Perf",
+          "description": "Diagnoses and prevents layout, transition, and reflow thrashing in JavaScript-driven CSS motion and scroll-linked animation."
+        }
+      }
+    },
+    {
+      "resourceId": "swyxio-skills-web-perf",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "94c5cb37766676a8321a82861d2ac1072d3dd0ef612f0c946792014ad48fb0c2",
+        "supportedKeywords": [
+          "Core Web Vitals",
+          "render blocking",
+          "layout shifts",
+          "caching",
+          "Chrome DevTools"
+        ]
+      },
+      "translationSha256": "408d85f473c220f560a1e230051ccfb9a49fe9fde8f5a1d8fe79112c0d9668f8",
+      "localized": {
+        "en": {
+          "name": "Web Perf",
+          "description": "Measures Core Web Vitals and identifies render blocking, dependency chains, layout shifts, cache problems, and accessibility gaps with Chrome DevTools."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-a2ui-renderer",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "1da2a46b3e24ec6c2e29ea71a3e6acc4fbb5d0eeb6ed73053ee086ab859c784e",
+        "supportedKeywords": [
+          "A2UI",
+          "CopilotKit v2",
+          "themes",
+          "createSurface",
+          "action bridge"
+        ]
+      },
+      "translationSha256": "db9b7e8ccc01084e5a00307b360a031a30a4836401620d1dbb5103978ce55e33",
+      "localized": {
+        "en": {
+          "name": "A2ui Renderer",
+          "description": "Renders A2UI declarative surfaces in CopilotKit v2, including runtime and provider setup, themes, catalogs, action bridges, and surface updates."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-channels-setup",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "67308d7bfb1a3f42480f2a24a29e54413e881f415fa3342bdfa5b4f660df45a1",
+        "supportedKeywords": [
+          "CopilotKit Channels",
+          "Slack",
+          "Microsoft Teams",
+          "scaffolding",
+          "provider reply"
+        ]
+      },
+      "translationSha256": "efbdbe9485f31c3b9581e7fc64bd8953095e0ba1a0dfbb7126b625abe4f9c7d1",
+      "localized": {
+        "en": {
+          "name": "Channels Setup",
+          "description": "Sets up an initial CopilotKit Channels agent for Slack or Microsoft Teams, from project scaffolding through a verified provider reply."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-agui",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "896f97b98d8576a8abda099aacddb9d38d84e23d9061965174568d25f9d8f3a8",
+        "supportedKeywords": [
+          "AG-UI",
+          "SSE",
+          "state synchronization",
+          "tool calls",
+          "human in the loop"
+        ]
+      },
+      "translationSha256": "b5c0edcd30397f6c26e4c8a0dc6bc678aca97a87e5ca8e0c94f824d507c1960d",
+      "localized": {
+        "en": {
+          "name": "Copilotkit Agui",
+          "description": "Builds custom agent backends with the AG-UI protocol, SSE transport, state synchronization, tool calls, and human-in-the-loop flows."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-channels",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "6be3f4d21de719ef813dff43ede78dc6aea85952fca86ebbcf7f7e5e734188af",
+        "supportedKeywords": [
+          "managed Channels",
+          "Slack",
+          "Microsoft Teams",
+          "host",
+          "activation"
+        ]
+      },
+      "translationSha256": "9d6a60928dbca7e7e93b8db2a55be658f9da8912796fe49380661a874bbe23cb",
+      "localized": {
+        "en": {
+          "name": "Copilotkit Channels",
+          "description": "Implements the code side of managed Slack or Microsoft Teams Channels through declarations, long-running hosts, and awaited activation."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-contribute",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "fd249671a43d2c00ac5ba3f8d2c93f8a89fc0d8e16434056a2631451698bc0be",
+        "supportedKeywords": [
+          "CopilotKit",
+          "monorepo",
+          "branches",
+          "tests",
+          "pull requests"
+        ]
+      },
+      "translationSha256": "99e5d874e080e5cabcc51b11a016d2668dabed2bd7893d72dbd5da3dc28c6065",
+      "localized": {
+        "en": {
+          "name": "Copilotkit Contribute",
+          "description": "Covers contributing to CopilotKit's open-source monorepo, including setup, branches, tests, and pull-request submission."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-debug",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "de39d951c48b74dc03a24c0c0ea691d8c7dde7a07de3cf3147910b5a00562ee9",
+        "supportedKeywords": [
+          "connectivity",
+          "streaming",
+          "tool execution",
+          "transcription",
+          "AG-UI tracing"
+        ]
+      },
+      "translationSha256": "77f8a058a72a25a3366160ecfa2156de0ff004210b6170f2b742fb1de57eaf6c",
+      "localized": {
+        "en": {
+          "name": "Copilotkit Debug",
+          "description": "Diagnoses CopilotKit runtime connectivity, agent responses, streaming, tool execution, transcription, version mismatches, and AG-UI event traces."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-develop",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "7c2c8a2c52b22e441fd76967f6af7eda5da03c74a91788bee72645e6f6a008fa",
+        "supportedKeywords": [
+          "CopilotKit v2",
+          "chat",
+          "frontend tools",
+          "context",
+          "interrupts"
+        ]
+      },
+      "translationSha256": "4c99961c8bb1eedf1670593312bcfaa6b7305dcc2587e1a92df1f52d7cabbbf6",
+      "localized": {
+        "en": {
+          "name": "Copilotkit Develop",
+          "description": "Builds CopilotKit v2 chat features, frontend tools, shared application context, agent interrupts, and runtime integrations."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-copilotkit-integrations",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "e846af694f675f9f16e811f2ddca28cbcfa5e6c1e12b5f36f23c1ab065000589",
+        "supportedKeywords": [
+          "agent frameworks",
+          "CopilotKit",
+          "AG-UI",
+          "integration"
+        ]
+      },
+      "translationSha256": "129a1ef4b6fbd0bbd3991db3a574569f5c4a95ecd64e78e4c3740269b5fc0605",
+      "localized": {
+        "en": {
+          "name": "Copilotkit Integrations",
+          "description": "Connects external agent frameworks to CopilotKit applications through the AG-UI protocol."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-react-core",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "07b031aa0a8b51a6895cef338805ccd9d39222c7eb98e0aa15ad212054e8b90b",
+        "supportedKeywords": [
+          "React",
+          "providers",
+          "chat components",
+          "durable threads",
+          "frontend tools"
+        ]
+      },
+      "translationSha256": "972bc6b301024eb66122fd819e7dd3ca0f1c97e6354de38b793c99275dcae498",
+      "localized": {
+        "en": {
+          "name": "React Core",
+          "description": "Configures CopilotKit React providers, chat components, agents, durable threads, frontend tools, renderers, human approval, and attachments."
+        }
+      }
+    },
+    {
+      "resourceId": "copilotkit-skills-runtime",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "eaac0e789da14e8cded663f066477a427beaa022b00cfa446aa2d634afc919a6",
+        "supportedKeywords": [
+          "JavaScript server",
+          "fetch handler",
+          "agent runner",
+          "WebSocket",
+          "voice transcription"
+        ]
+      },
+      "translationSha256": "0ae63d2d770dbd9f81d6609f98866832ed75075ec9dac7a86538881dea86a856",
+      "localized": {
+        "en": {
+          "name": "Runtime",
+          "description": "Runs CopilotKit on JavaScript servers with fetch-native handlers, agent runners, server tools, durable threads, WebSockets, and voice transcription."
+        }
+      }
+    },
+    {
+      "resourceId": "denis-agents-best-practices-agents-best-practices",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "pinned-identity-honest-fallback",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "unreadable",
+        "contentSha256": "unavailable",
+        "supportedKeywords": [
+          "insufficient evidence"
+        ]
+      },
+      "translationSha256": "222467b5c782e3ea049a85c69495b2f73490b3ec26a6baf1c4cb9c74767ccb23",
+      "localized": {
+        "en": {
+          "name": "Agents Best Practices",
+          "description": "Pinned first-party guidance is listed for this resource, but the approved source document was not readable during this review."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-app-design",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "c41195b58a80939770fd289fb4b054283ae22af25d3984d504dea55c9b962f49",
+        "supportedKeywords": [
+          "Databricks Apps",
+          "AppKit",
+          "React",
+          "KPIs",
+          "AI-result trust"
+        ]
+      },
+      "translationSha256": "2027afdc9580a0d5aa5b7e919455f914f96a854e9a8d02a69b37109c7590a2e6",
+      "localized": {
+        "en": {
+          "name": "Databricks App Design",
+          "description": "Designs data-oriented Databricks Apps with AppKit and React, including KPIs, reports, charts, tables, required states, and AI-result trust cues."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-dabs",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "3ae2cf35e8c8840f888c9e95553e20bd270ab234129fc531fc164e58c1608722",
+        "supportedKeywords": [
+          "Declarative Automation Bundles",
+          "dashboards",
+          "jobs",
+          "pipelines",
+          "apps"
+        ]
+      },
+      "translationSha256": "5d1c3b9228f8ffeac1bb9fa4ee7bf8ef93ae474ad2009b37c5aec07c6b913e7d",
+      "localized": {
+        "en": {
+          "name": "Databricks Dabs",
+          "description": "Creates, validates, deploys, runs, and manages Declarative Automation Bundles for dashboards, jobs, pipelines, alerts, volumes, and apps."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-jobs",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "5293473c510665bf7393ea1d0a8d1d9297ed06bf94bb56ce6f4488bfd1e2cd32",
+        "supportedKeywords": [
+          "Lakeflow Jobs",
+          "bundles",
+          "Python SDK",
+          "SQL",
+          "pipelines"
+        ]
+      },
+      "translationSha256": "5f620c0c3150506ee6cf1fb18439a54c4c93869941e5753aac89f351ca579a90",
+      "localized": {
+        "en": {
+          "name": "Databricks Jobs",
+          "description": "Develops and deploys Lakeflow Jobs through bundles, the Python SDK, or CLI for notebooks, wheels, SQL, dbt, and pipelines."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-lakebase",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "07caf3b39b3fc2cad11ec1ada1b844b65ccf73af0c223c38ee0698f6c8c96633",
+        "supportedKeywords": [
+          "Lakebase",
+          "Postgres",
+          "scaling",
+          "synced tables",
+          "Data API"
+        ]
+      },
+      "translationSha256": "31217d44aa5c6fd962a26b253c0976e12ea3a1af01fb334c16fabe0e14822242",
+      "localized": {
+        "en": {
+          "name": "Databricks Lakebase",
+          "description": "Covers Lakebase Postgres projects, scaling, connectivity, synced tables, Data API access, and application database integration."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-serverless-migration",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "9aab226188bfe673b49cbe42b351be8343628fad8018deb804180b55f104de98",
+        "supportedKeywords": [
+          "serverless",
+          "Spark Connect",
+          "notebooks",
+          "jobs",
+          "Scala JAR"
+        ]
+      },
+      "translationSha256": "ad4318d7e33efd4d6c1df944aa9726e23d5574614a7a012204a9564414dde791",
+      "localized": {
+        "en": {
+          "name": "Databricks Serverless Migration",
+          "description": "Migrates Databricks notebooks, jobs, pipelines, and Scala JAR tasks from classic compute to serverless Spark Connect."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-ai-functions",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "2fe0da915d9dd1b0281352175c652de55f2778bfefa0f0708f47c517f019959c",
+        "supportedKeywords": [
+          "AI Functions",
+          "SQL",
+          "PySpark",
+          "document parsing",
+          "RAG"
+        ]
+      },
+      "translationSha256": "74aaf826ac2b19237072b07b4cef036e9e8fbf9bdf196fd71c30024b877a0b86",
+      "localized": {
+        "en": {
+          "name": "Databricks Ai Functions",
+          "description": "Uses Databricks AI Functions in SQL and PySpark for classification, extraction, summarization, masking, translation, document parsing, and RAG pipelines."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-aibi-dashboards",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "34eb195cca354229620293c870fa493a621f24f547fc1f825fa01a4d681d6d90",
+        "supportedKeywords": [
+          "AI/BI dashboards",
+          "Lakeview",
+          "JSON",
+          "SQL validation",
+          "deployment"
+        ]
+      },
+      "translationSha256": "e8e4a352546c272f7dc72307dcdb1f7b9833948008127f4bf6410765450a403b",
+      "localized": {
+        "en": {
+          "name": "Databricks Aibi Dashboards",
+          "description": "Creates, updates, and deploys Databricks AI/BI Lakeview dashboards, including their JSON structure and pre-deployment SQL validation."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-dbsql",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "7d58a08aac3ec601478332de9eb2d3146ab64ac0e1007b97cacaf29229ac4c6a",
+        "supportedKeywords": [
+          "Databricks SQL",
+          "SQL warehouse",
+          "procedures",
+          "materialized views",
+          "federation"
+        ]
+      },
+      "translationSha256": "d4b45ac457c196851642f2df526a986b771a96bb0cad3b5bf9bf220adc58cf8a",
+      "localized": {
+        "en": {
+          "name": "Databricks Dbsql",
+          "description": "Covers advanced Databricks SQL and SQL warehouse features, including scripting, procedures, materialized views, geospatial SQL, federation, and transactions."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-docs",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "0040fae239c29888e71cacf6751cee6a8bc834337d24af3814feeca84a0cac08",
+        "supportedKeywords": [
+          "documentation index",
+          "APIs",
+          "configurations",
+          "platform capabilities"
+        ]
+      },
+      "translationSha256": "8bb7a0d0fc5528a2246c13d84bb9fb6633f76479c800c5e1bfee08ab2716f34e",
+      "localized": {
+        "en": {
+          "name": "Databricks Docs",
+          "description": "Uses the Databricks documentation index to find authoritative material on APIs, configurations, unfamiliar features, and platform capabilities."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-iceberg",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "b76fb8d5c8aaef34ba954d32ebfb83e8bb77a72586a7b7853fc6c8618baf9fbc",
+        "supportedKeywords": [
+          "Apache Iceberg",
+          "managed tables",
+          "compatibility mode",
+          "REST catalog",
+          "interoperability"
+        ]
+      },
+      "translationSha256": "911dccb0f622d9a37786c15fe3655b16b5c490a803b944f3cae887e4871a90c8",
+      "localized": {
+        "en": {
+          "name": "Databricks Iceberg",
+          "description": "Covers Apache Iceberg on Databricks, including managed tables, external reads, compatibility mode, REST catalog access, and external-engine interoperability."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-metric-views",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "ccd05af40ff0c4c24f59e1285c37620a10d459c2e5aabf2f95fbedeb0139e0cc",
+        "supportedKeywords": [
+          "Unity Catalog",
+          "metric views",
+          "business metrics",
+          "YAML",
+          "KPIs"
+        ]
+      },
+      "translationSha256": "c78565ce48b0ad09782efe7c69c47e95e3fcc0171df83be9559e4433a1a88703",
+      "localized": {
+        "en": {
+          "name": "Databricks Metric Views",
+          "description": "Defines, creates, queries, and manages Unity Catalog metric views for reusable governed business metrics and consistent KPIs."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-synthetic-data-gen",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "d15491624bdc0be2069c31352bcf571d9b9f15355ba3fc4e315cfde2b54abd3e",
+        "supportedKeywords": [
+          "synthetic data",
+          "Spark",
+          "Faker",
+          "Parquet",
+          "Delta"
+        ]
+      },
+      "translationSha256": "51871b3aa7d14c09c9b77caa4e795236b86280f54ca2b7cbd664e1dabe43c435",
+      "localized": {
+        "en": {
+          "name": "Databricks Synthetic Data Gen",
+          "description": "Generates scalable synthetic datasets with Spark and Faker in Parquet, JSON, CSV, or Delta formats for testing and demos."
+        }
+      }
+    },
+    {
+      "resourceId": "databricks-agent-skills-databricks-unstructured-pdf-generation",
+      "sourceKind": "reviewed-community",
+      "sourceClass": "reviewed-community-pinned-primary",
+      "reviewClass": "source-body-conservative-summary",
+      "sourceEvidence": {
+        "finalHostClass": "github-raw-pinned",
+        "documentClass": "skill-md",
+        "contentSha256": "57391a0fa20359b56b7050e9e62a022b671e5fdfc67348d275d30fd9531215ce",
+        "supportedKeywords": [
+          "synthetic PDF",
+          "questions",
+          "unstructured documents",
+          "retrieval evaluation",
+          "Databricks"
+        ]
+      },
+      "translationSha256": "735d392f3345a441c73b4f21932ac93044a1a4309cba6e3edaf8a417ddda67e8",
+      "localized": {
+        "en": {
+          "name": "Databricks Unstructured Pdf Generation",
+          "description": "Builds synthetic PDF and question datasets for Databricks unstructured-document and retrieval evaluation workflows."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "sourceDraftRevision": 84,
+  "channel": "v2",
+  "catalogReleasePath": "/channels/v2/catalog-release.json",
+  "localReleaseUrl": "https://localhost:4443/channels/v2/catalog-release.json",
+  "status": "candidate-only",
+  "preconditions": {
+    "v1ActiveCatalogVersion": 72,
+    "v2ActiveCatalogVersion": 0,
+    "expectedProducts": 615,
+    "expectedResources": 146,
+    "expectedHomeCarouselSlides": 3
+  },
+  "constraints": [
+    "publish only through channel v2 with expected draft revision and v2 active version",
+    "v1 catalog-release.json remains the v1 active release and rejects homeCarousel publication",
+    "v2 history and rollback never accept v1 release identifiers",
+    "candidate only: no publish, signing artifact, package, upload, or client channel rewrite performed"
+  ]
+}

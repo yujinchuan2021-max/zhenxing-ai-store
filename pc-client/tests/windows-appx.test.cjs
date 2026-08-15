@@ -60,7 +60,10 @@ test("rejects a lookalike package, unexpected publisher, and ambiguity", () => {
 
 test("creates only a fixed PowerShell removal action for the trusted package", () => {
   const action = createAppxUninstallAction(packageEntry(), openAiPolicy);
-  assert.equal(action.executable, "powershell.exe");
+  assert.equal(
+    action.executable.toLowerCase(),
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe".toLowerCase()
+  );
   assert.deepEqual(action.args.slice(0, 3), [
     "-NoProfile",
     "-NonInteractive",

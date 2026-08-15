@@ -1,6 +1,5 @@
 "use strict";
 
-const crypto = require("node:crypto");
 const path = require("node:path");
 
 const PRODUCT_ID = /^[a-z0-9][a-z0-9-]{0,79}$/;
@@ -11,9 +10,12 @@ const SAFE_ARGUMENT = /^(?:--?[A-Za-z0-9][A-Za-z0-9-]*|[A-Za-z0-9][A-Za-z0-9._+@
 const MANAGED_PREFIX = /^\$HOME\/\.[a-z0-9][a-z0-9._-]{0,63}$/i;
 const NPM_PACKAGE = /^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*$/i;
 const SCRIPT_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,95}\.sh$/;
+const PACKAGED_SCRIPT = /^managed-wsl-scripts\/[A-Za-z0-9][A-Za-z0-9._-]{0,95}\.sh$/;
 const SHA256 = /^[a-f0-9]{64}$/;
 const MANAGEMENT_ID = /^[a-f0-9]{48}$/;
-const BOOTSTRAP_PACKAGES = new Set(["ca-certificates", "curl", "git"]);
+const OWNERSHIP_MARKER = ".aihub-owner";
+const REBUILD_OWNED_PREFIX = "rebuild-owned-prefix";
+const BOOTSTRAP_PACKAGES = new Set(["ca-certificates", "curl", "git", "xz-utils"]);
 
 function localWindowsExecutable(value, expectedName) {
   if (typeof value !== "string" || !path.win32.isAbsolute(value) || value.startsWith("\\\\")) return "";
@@ -62,7 +64,26 @@ function managedWslArtifactUnchecked(plan) {
     !SHA256.test(String(artifact.sha256 || "")) ||
     !Number.isSafeInteger(artifact.maximumBytes) ||
     artifact.maximumBytes < 1024 ||
-    artifact.maximumBytes > 4 * 1024 * 1024 ||
+    artifact.maximumBytes > 4 * 1024 * 1024
+  ) return null;
+  if (artifact.source === "packaged") {
+    if (
+      typeof artifact.relativePath !== "string" ||
+      !PACKAGED_SCRIPT.test(artifact.relativePath) ||
+      path.posix.basename(artifact.relativePath) !== artifact.fileName ||
+      artifact.url !== undefined ||
+      artifact.allowedHosts !== undefined
+    ) return null;
+    return {
+      source: "packaged",
+      relativePath: artifact.relativePath,
+      fileName: artifact.fileName,
+      sha256: artifact.sha256,
+      maximumBytes: artifact.maximumBytes
+    };
+  }
+  if (
+    (artifact.source !== undefined && artifact.source !== "remote") ||
     !Array.isArray(artifact.allowedHosts) ||
     !artifact.allowedHosts.length ||
     artifact.allowedHosts.some((host) => typeof host !== "string" || host !== host.toLowerCase())
@@ -114,10 +135,6 @@ function windowsPathToWslMount(value) {
   return `/mnt/${match[1].toLowerCase()}/${match[2].replaceAll("\\", "/")}`;
 }
 
-function shellPath(plan, suffix) {
-  return `"${plan.managedPrefix}/${suffix}"`;
-}
-
 function shellArguments(values) {
   return values.map((value) => String(value)).join(" ");
 }
@@ -159,36 +176,142 @@ function createManagedWslBootstrapAction({ plan, wslExecutable }) {
   };
 }
 
-function createManagedWslDeployAction({ productId, plan, wslExecutable, scriptWindowsPath }) {
+function createManagedWslInstallPreflightAction({ plan, wslExecutable }) {
   const executable = localWindowsExecutable(wslExecutable, "wsl.exe");
-  const script = windowsPathToWslMount(scriptWindowsPath);
-  if (!PRODUCT_ID.test(String(productId || "")) || !validPlan(plan) || !executable || !script) return null;
+  if (!validPlan(plan) || !executable) return null;
   return {
     executable,
     args: [
-      "--distribution", plan.distribution, "--exec", "bash", script,
-      ...plan.installArguments
+      "--distribution", plan.distribution, "--exec", "bash", "-lc",
+      `prefix="${plan.managedPrefix}" && [ ! -e "$prefix" ] && [ ! -L "$prefix" ]`
     ],
     options: { windowsHide: true, shell: false }
   };
 }
 
-function createManagedWslProbeAction({ plan, wslExecutable }) {
+function createManagedWslDeployAction({ productId, plan, wslExecutable, scriptWindowsPath, managementId }) {
   const executable = localWindowsExecutable(wslExecutable, "wsl.exe");
-  if (!validPlan(plan) || !executable) return null;
-  const command = `${shellPath(plan, `bin/${plan.commandName}`)} --version`;
+  const script = windowsPathToWslMount(scriptWindowsPath);
+  if (
+    !PRODUCT_ID.test(String(productId || "")) ||
+    !validPlan(plan) ||
+    !executable ||
+    !script ||
+    !MANAGEMENT_ID.test(String(managementId || ""))
+  ) return null;
   return {
     executable,
-    args: ["--distribution", plan.distribution, "--exec", "bash", "-lc", command],
+    args: [
+      "--distribution", plan.distribution, "--exec", "bash", script,
+      ...plan.installArguments,
+      "--management-id", managementId
+    ],
     options: { windowsHide: true, shell: false }
   };
 }
 
-function createManagedWslOpenAction({ plan, status, wslExecutable, commandExecutable }) {
+function createManagedWslUpdateAction({ productId, plan, receipt, wslExecutable, scriptWindowsPath }) {
+  const executable = localWindowsExecutable(wslExecutable, "wsl.exe");
+  const script = windowsPathToWslMount(scriptWindowsPath);
+  if (!validPlan(plan) || !executable || !script || !managedWslReceiptOwnsPrefix(receipt, productId, plan)) return null;
+  return {
+    executable,
+    args: [
+      "--distribution", plan.distribution, "--exec", "bash", script,
+      ...plan.installArguments,
+      "--update", "--management-id", receipt.managementId
+    ],
+    options: { windowsHide: true, shell: false }
+  };
+}
+
+function createManagedWslRepairAction({ productId, plan, receipt, wslExecutable, scriptWindowsPath }) {
+  const executable = localWindowsExecutable(wslExecutable, "wsl.exe");
+  const script = windowsPathToWslMount(scriptWindowsPath);
+  if (
+    !validPlan(plan) ||
+    plan.repairStrategy !== REBUILD_OWNED_PREFIX ||
+    !executable ||
+    !script ||
+    !receiptMatches(receipt, productId, plan)
+  ) return null;
+  return {
+    executable,
+    args: [
+      "--distribution", plan.distribution, "--exec", "bash", script,
+      ...plan.installArguments,
+      "--repair", "--management-id", receipt.managementId
+    ],
+    options: { windowsHide: true, shell: false }
+  };
+}
+
+function managedOwnershipGuard(productId, plan, receipt, requireCommand = true) {
+  if (!managedWslReceiptOwnsPrefix(receipt, productId, plan)) return "";
+  const suffix = plan.managedPrefix.slice("$HOME/".length);
+  const checks = [
+    "set -eu",
+    `prefix="${plan.managedPrefix}"`,
+    `marker="$prefix/${OWNERSHIP_MARKER}"`,
+    `command="$prefix/bin/${plan.commandName}"`,
+    'home_real="$(realpath -e -- "$HOME")"',
+    '[ -d "$prefix" ]',
+    '[ ! -L "$prefix" ]',
+    'prefix_real="$(realpath -e -- "$prefix")"',
+    `[ "$prefix_real" = "$home_real/${suffix}" ]`,
+    '[ -f "$marker" ]',
+    '[ ! -L "$marker" ]',
+    'marker_real="$(realpath -e -- "$marker")"',
+    `[ "$marker_real" = "$prefix_real/${OWNERSHIP_MARKER}" ]`,
+    `[ "$(cat -- "$marker")" = "${receipt.managementId}" ]`
+  ];
+  if (requireCommand) checks.push(
+    '[ -f "$command" ]',
+    '[ -x "$command" ]',
+    '[ ! -L "$command" ]',
+    'command_real="$(realpath -e -- "$command")"',
+    `[ "$command_real" = "$prefix_real/bin/${plan.commandName}" ]`
+  );
+  return checks.join(" && ");
+}
+
+function createManagedWslProbeAction({ productId, plan, receipt, wslExecutable }) {
+  const executable = localWindowsExecutable(wslExecutable, "wsl.exe");
+  const guard = managedOwnershipGuard(productId, plan, receipt);
+  if (!validPlan(plan) || !executable || !guard) return null;
+  return {
+    executable,
+    args: [
+      "--distribution", plan.distribution, "--exec", "bash", "-lc",
+      `${guard} && "$command" --version`
+    ],
+    options: { windowsHide: true, shell: false }
+  };
+}
+
+function createManagedWslRepairProbeAction({ productId, plan, receipt, wslExecutable }) {
+  const executable = localWindowsExecutable(wslExecutable, "wsl.exe");
+  const guard = managedOwnershipGuard(productId, plan, receipt, false);
+  if (
+    !validPlan(plan) ||
+    plan.repairStrategy !== REBUILD_OWNED_PREFIX ||
+    !executable ||
+    !guard ||
+    !receiptMatches(receipt, productId, plan)
+  ) return null;
+  return {
+    executable,
+    args: ["--distribution", plan.distribution, "--exec", "bash", "-lc", guard],
+    options: { windowsHide: true, shell: false }
+  };
+}
+
+function createManagedWslOpenAction({ productId, plan, receipt, status, wslExecutable, commandExecutable }) {
   const wsl = localWindowsExecutable(wslExecutable, "wsl.exe");
   const command = localWindowsExecutable(commandExecutable, "cmd.exe");
-  if (!validPlan(plan) || !status?.installed || !status?.managed || !wsl || !command) return null;
-  const launch = `exec ${shellPath(plan, `bin/${plan.commandName}`)}${plan.launchArguments.length ? ` ${shellArguments(plan.launchArguments)}` : ""}`;
+  const guard = managedOwnershipGuard(productId, plan, receipt);
+  if (!validPlan(plan) || !status?.installed || !status?.managed || !wsl || !command || !guard) return null;
+  const launch = `${guard} && exec "$command"${plan.launchArguments.length ? ` ${shellArguments(plan.launchArguments)}` : ""}`;
   return {
     executable: command,
     args: ["/d", "/k", wsl, "--distribution", plan.distribution, "--exec", "bash", "-lc", launch],
@@ -196,10 +319,9 @@ function createManagedWslOpenAction({ plan, status, wslExecutable, commandExecut
   };
 }
 
-function createManagedWslReceipt({ productId, plan, distributionIdentity, now = () => new Date().toISOString(), randomBytes = crypto.randomBytes }) {
+function createManagedWslReceipt({ productId, plan, distributionIdentity, managementId, now = () => new Date().toISOString() }) {
   if (!PRODUCT_ID.test(String(productId || "")) || !validPlan(plan) || distributionIdentity !== plan.distribution) return null;
   const installedAt = now();
-  const managementId = randomBytes(24).toString("hex");
   if (!Number.isFinite(Date.parse(installedAt)) || !MANAGEMENT_ID.test(managementId)) return null;
   return {
     driver: "wsl-managed",
@@ -224,6 +346,19 @@ function receiptMatches(receipt, productId, plan) {
   );
 }
 
+function managedWslReceiptOwnsPrefix(receipt, productId, plan) {
+  return Boolean(
+    receipt && receipt.driver === "wsl-managed" && receipt.productId === productId &&
+    receipt.distribution === plan?.distribution && receipt.managedPrefix === plan?.managedPrefix &&
+    MANAGEMENT_ID.test(String(receipt.managementId || "")) &&
+    Number.isFinite(Date.parse(receipt.installedAt))
+  );
+}
+
+function managedWslReceiptMatchesPlan(receipt, productId, plan) {
+  return receiptMatches(receipt, productId, plan);
+}
+
 function inspectManagedWslCli({ productId, plan, receipt, probe }) {
   if (!validPlan(plan) || !PRODUCT_ID.test(String(productId || "")) || !probe || probe.unknown) {
     return { installed: false, version: "", directory: plan?.managedPrefix || "", detection: "unknown", managed: false, canUninstall: false, ownership: "unknown" };
@@ -246,12 +381,16 @@ function inspectManagedWslCli({ productId, plan, receipt, probe }) {
 
 function createManagedWslUninstallActions({ productId, plan, receipt, wslExecutable }) {
   const executable = localWindowsExecutable(wslExecutable, "wsl.exe");
-  if (!validPlan(plan) || !executable || !receiptMatches(receipt, productId, plan)) return null;
+  const guard = managedOwnershipGuard(productId, plan, receipt);
+  if (!validPlan(plan) || !executable || !guard) return null;
   const actions = [];
   if (plan.serviceUninstallArguments.length) {
     actions.push({
       executable,
-      args: ["--distribution", plan.distribution, "--exec", "bash", "-lc", `${shellPath(plan, `bin/${plan.commandName}`)} ${shellArguments(plan.serviceUninstallArguments)}`],
+      args: [
+        "--distribution", plan.distribution, "--exec", "bash", "-lc",
+        `${guard} && "$command" ${shellArguments(plan.serviceUninstallArguments)}`
+      ],
       options: { windowsHide: true, shell: false }
     });
   }
@@ -259,7 +398,7 @@ function createManagedWslUninstallActions({ productId, plan, receipt, wslExecuta
     executable,
     args: [
       "--distribution", plan.distribution, "--exec", "bash", "-lc",
-      `${shellPath(plan, "tools/node/bin/npm")} uninstall --global --prefix ${shellPath(plan, `tools/node-v${plan.nodeVersion}`)} --ignore-scripts ${plan.packageName} && rm -f ${shellPath(plan, `bin/${plan.commandName}`)}`
+      `${guard} && rm -rf -- "$prefix"`
     ],
     options: { windowsHide: true, shell: false }
   });
@@ -269,12 +408,18 @@ function createManagedWslUninstallActions({ productId, plan, receipt, wslExecuta
 module.exports = {
   createManagedWslBootstrapAction,
   createManagedWslDeployAction,
+  createManagedWslRepairAction,
+  createManagedWslRepairProbeAction,
+  createManagedWslUpdateAction,
   createManagedWslDistributionAction,
+  createManagedWslInstallPreflightAction,
   createManagedWslOpenAction,
   createManagedWslProbeAction,
   createManagedWslReceipt,
   createManagedWslUninstallActions,
   inspectManagedWslCli,
+  managedWslReceiptOwnsPrefix,
+  managedWslReceiptMatchesPlan,
   managedWslArtifact,
   windowsPathToWslMount
 };

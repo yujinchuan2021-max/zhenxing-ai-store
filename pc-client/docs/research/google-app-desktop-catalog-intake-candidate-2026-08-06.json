@@ -1,0 +1,81 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "expectedSource": {
+    "draftRevision": 89,
+    "v2ActiveCatalogVersion": 6,
+    "v2ActiveReleaseId": "catalog-v00000006-567e671621f1-3dcee587"
+  },
+  "operation": "append-product-to-existing-vendor",
+  "vendorId": "google",
+  "productId": "google-app-desktop",
+  "evidence": {
+    "productPage": "https://search.google/google-app/desktop/",
+    "windowsRequirement": "Windows 10+ desktop device",
+    "officialArtifactUrl": "https://dl.google.com/windows-google-app/GoogleAppInstaller.exe",
+    "officialHost": "dl.google.com",
+    "head": {
+      "status": 200,
+      "contentType": "application/x-msdos-program",
+      "contentLength": 12411832,
+      "contentDisposition": "attachment"
+    },
+    "range": {
+      "status": 206,
+      "contentRange": "bytes 0-1023/12411832",
+      "receivedBytes": 1024
+    },
+    "fullArtifactDownloaded": false
+  },
+  "proposedProduct": {
+    "id": "google-app-desktop",
+    "name": "Google app for desktop",
+    "kind": "桌面端",
+    "category": "浏览器与搜索",
+    "description": "Google 的 Windows 桌面搜索应用，提供 AI 回答、Lens、跨电脑与 Google Drive 搜索。",
+    "website": "https://search.google/google-app/desktop/",
+    "tutorial": "https://search.google/google-app/desktop/",
+    "productType": "desktop-download-only",
+    "moduleId": "desktop-download-only.signed-catalog",
+    "installProfileId": "desktop-download-only.signed-catalog",
+    "installPolicy": "client-managed-download",
+    "downloadPolicy": "desktop-download-only",
+    "signaturePolicy": "vendor-controlled",
+    "uninstallPolicy": "not-managed",
+    "requirements": [],
+    "capabilities": ["website", "tutorial", "install"],
+    "entryPoints": [
+      {
+        "type": "website",
+        "label": "工具官网",
+        "url": "https://search.google/google-app/desktop/"
+      },
+      {
+        "type": "tutorial",
+        "label": "使用教程",
+        "url": "https://search.google/google-app/desktop/"
+      },
+      {
+        "type": "desktop",
+        "label": "一键下载"
+      }
+    ],
+    "enabled": true,
+    "order": 16,
+    "directoryKind": "ai-tool",
+    "download": {
+      "url": "https://dl.google.com/windows-google-app/GoogleAppInstaller.exe",
+      "fileName": "GoogleAppInstaller.exe",
+      "artifactKind": "exe",
+      "mirrors": []
+    }
+  },
+  "contract": {
+    "localProfile": "desktop-download-only.signed-catalog",
+    "allowedArtifactFields": ["url", "fileName", "artifactKind", "mirrors"],
+    "forbiddenFields": ["command", "args", "env", "script", "headers", "credentials"],
+    "executionBoundary": "AI Hub downloads the approved EXE only. The user explicitly opens it and completes the Google installer; no automatic installation, installed-product detection, open-product, uninstall, update or AI Hub ownership receipt is claimed.",
+    "hostDerivation": "The canonical plan derives its single allowed host from the signed HTTPS artifact URL; this candidate therefore does not add an allowedHosts field."
+  },
+  "backendNextStep": "After revision and active-release preconditions are rechecked, import this one product through the existing canonical signed-catalog module; no client code or profile change is required."
+}

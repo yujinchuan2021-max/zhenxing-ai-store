@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "discoveryOnly": true,
+  "publishable": false,
+  "resumeAuthorized": false,
+  "status": "stopped",
+  "phase": "cocoloop-phase2-stop-4069",
+  "observedAt": "2026-08-14T13:08:48.193Z",
+  "artifacts": {
+    "phase1Snapshot": {
+      "path": "docs/research/cocoloop-skill-discovery-index-phase1-2026-08-14.json",
+      "bytes": 2701,
+      "lines": 72,
+      "sha256": "2b7aad5471d53b6eec84d548a070a19fd2a073bf07e7199ac6de84e4523097bd"
+    },
+    "phase1Index": {
+      "path": "output/research/cocoloop-skill-intake/candidate-index.ndjson",
+      "bytes": 12242811,
+      "lines": 72051,
+      "sha256": "19ca436a08f0747ff07b90baf95efa5a7bdad300c836086098e0bee19c91c171"
+    },
+    "checkpoint": {
+      "path": "output/research/cocoloop-skill-intake/phase2-first1000/checkpoint.json",
+      "bytes": 1296,
+      "lines": 41,
+      "sha256": "f79c7a3a4e814a4faba7bd84de10e4838d8bc44a84c1e3e744b824241f06d364"
+    },
+    "metadata": {
+      "path": "output/research/cocoloop-skill-intake/phase2-first1000/metadata.ndjson",
+      "bytes": 2430752,
+      "lines": 4018,
+      "sha256": "008d84da043a44c4da42d406d508838d9a85aca7f2015a1fb3b3c418e200c28e"
+    },
+    "failures": {
+      "path": "output/research/cocoloop-skill-intake/phase2-first1000/failures.ndjson",
+      "bytes": 7136,
+      "lines": 51,
+      "sha256": "ee12017131ebbb05754e6d4aea96ec0bd9d9ebbd765147f37ce4ee56f361b7cc"
+    },
+    "stopped": {
+      "path": "output/research/cocoloop-skill-intake/phase2-first1000/stopped.json",
+      "bytes": 84,
+      "lines": 5,
+      "sha256": "e9eb99d0eb7dcd0a4af95d1ea17d8a94f471999098d756d47e17a133b90b643d"
+    },
+    "summary": {
+      "path": "output/research/cocoloop-skill-intake/phase2-first1000/summary.json",
+      "bytes": 1207,
+      "lines": 37,
+      "sha256": "06960defc1f7927b7df521dff7e682baf6550945cc6a2715abaf0d004a572584",
+      "role": "completed-first1000-baseline-only"
+    },
+    "parser": {
+      "path": "shared/cocoloop-skill-metadata-parser.cjs",
+      "bytes": 4305,
+      "lines": 58,
+      "sha256": "0182e734cfe891f340e7c630b99f5c321dcdd916b1cca83bf5fd515b143919b8"
+    },
+    "resumeStdout": {
+      "path": "output/research/cocoloop-skill-intake/phase2-first1000/resume-4013.stdout.log",
+      "bytes": 0,
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "resumeStderr": {
+      "path": "output/research/cocoloop-skill-intake/phase2-first1000/resume-4013.stderr.log",
+      "bytes": 1045,
+      "lines": 11,
+      "sha256": "b1534359af4f84287e6f44d0770539160657cf9dbe1fd010ef08cabe605277ac"
+    }
+  },
+  "bindings": {
+    "phase1IndexSha256": "19ca436a08f0747ff07b90baf95efa5a7bdad300c836086098e0bee19c91c171",
+    "first1000InputManifestSha256": "3d869029a73286bf7867d5ef6438a004ea5b17273440b036d5601fbebf343db9",
+    "target5000InputManifestSha256": "a4c0f207d0f6ff7ca41b5f5fb80e4c970a3657d3b8366ef581e44cdcafc73fff",
+    "parserArtifactSha256": "0182e734cfe891f340e7c630b99f5c321dcdd916b1cca83bf5fd515b143919b8",
+    "summarySha256": "06960defc1f7927b7df521dff7e682baf6550945cc6a2715abaf0d004a572584"
+  },
+  "progress": {
+    "targetCount": 5000,
+    "nextIndex": 4069,
+    "remaining": 931,
+    "metadata": 4018,
+    "failures": 51,
+    "outcomes": 4069,
+    "http2xx": 4042,
+    "parsed": 4018,
+    "parseFailure": 24,
+    "fetchFailure": 27,
+    "exactPhase1Prefix": {
+      "length": 4069,
+      "orderedIdentitySha256": "ddf5dc7b62fc1fe1fe4b8d1a1cb6cefd0459eb809e30ac9a7c40d282c67c5de2",
+      "missing": 0,
+      "extra": 0,
+      "idConflicts": 0,
+      "pageUrlMismatches": 0
+    }
+  },
+  "batch": {
+    "startIndex": 1000,
+    "completed": 3069,
+    "fetchFailure": 22,
+    "parseFailure": 23,
+    "otherFailure": 0,
+    "consecutiveFailures": 10,
+    "trailingFailureStreak": {
+      "length": 10,
+      "statusClass": "fetch-failure",
+      "firstInputIndex": 4059,
+      "lastInputIndex": 4068,
+      "externalIds": [
+        "13503",
+        "13501",
+        "6564",
+        "5661",
+        "5294",
+        "19013",
+        "15046",
+        "6977",
+        "19031",
+        "19023"
+      ]
+    }
+  },
+  "stop": {
+    "statusClass": "consecutive-failures",
+    "completed": 3069,
+    "decision": "hold",
+    "manualAcknowledgementRequired": true,
+    "resetImplemented": false,
+    "clearMarkerAuthorized": false
+  },
+  "filesystemAudit": {
+    "scope": "output/research/cocoloop-skill-intake",
+    "entries": 733,
+    "files": 731,
+    "directories": 2,
+    "reparsePoints": 0,
+    "ownerLocks": 0,
+    "temporaryOrPartialTails": 0,
+    "relatedProcesses": 0
+  },
+  "resumeLogAudit": {
+    "rawContentIncluded": false,
+    "rawPublicationAuthorized": false,
+    "stdout": {
+      "lineBreaks": 0,
+      "nonEmptyLines": 0
+    },
+    "stderr": {
+      "lineBreaks": 13,
+      "nonEmptyLines": 11,
+      "httpUrlMatches": 0,
+      "authorizationOrTokenMatches": 0,
+      "rawPayloadMatches": 0,
+      "stackFrameLines": 4,
+      "localAbsolutePathMatches": 1,
+      "safetyStopMentions": 2,
+      "consecutiveFailureMentions": 1
+    }
+  },
+  "boundaries": [
+    "The snapshot contains aggregate discovery evidence only and copies no metadata row, page URL, title, tag, log body, or credential material.",
+    "The bound summary is the completed first-1000 baseline and is not the current 4069 progress authority; checkpoint and stopped are authoritative.",
+    "No reset, stop-marker removal, network resume, publication, active catalog, state, channel, release, App, server, or package action is authorized."
+  ]
+}

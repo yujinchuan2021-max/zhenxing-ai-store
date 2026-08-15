@@ -157,21 +157,39 @@ test("fails closed when partial evidence is unsafe or inspection throws", () => 
   assert.equal(result.changed, false);
 });
 
-test("does not expire non-paused phases or timestamps beyond the local clock", () => {
+test("recovers interrupted download work without restoring a ghost running task", () => {
   const downloading = task("downloading", {
     phase: "downloading",
+    updatedAt: "2026-06-01T00:00:00.000Z"
+  });
+  const canceling = task("canceling", {
+    phase: "canceling",
+    resumable: false,
     updatedAt: "2026-06-01T00:00:00.000Z"
   });
   const clockRollback = task("clock-rollback", {
     updatedAt: "2026-07-31T00:00:00.000Z"
   });
-  const result = plan({ downloading, "clock-rollback": clockRollback });
+  const result = plan(
+    { downloading, canceling, "clock-rollback": clockRollback },
+    {
+      inspectPartial: (productId) =>
+        productId === "downloading" || productId === "canceling"
+          ? {
+              kind: "validated",
+              productId,
+              updatedAt: "2026-06-01T00:00:00.000Z"
+            }
+          : null
+    }
+  );
 
-  assert.deepEqual(result.records, {
-    downloading,
-    "clock-rollback": clockRollback
-  });
-  assert.deepEqual(result.expiredProductIds, []);
+  assert.equal(result.records.downloading.phase, "paused");
+  assert.equal(result.records.downloading.resumable, true);
+  assert.equal(result.records.canceling.phase, "failed");
+  assert.equal(result.records.canceling.errorCode, "CANCEL_CLEANUP_FAILED");
+  assert.deepEqual(result.discardPartialProductIds, ["canceling"]);
+  assert.deepEqual(result.records["clock-rollback"], clockRollback);
 });
 
 test("treats the retention boundary as expired", () => {

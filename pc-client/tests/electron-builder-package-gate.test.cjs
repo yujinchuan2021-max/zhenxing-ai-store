@@ -31,3 +31,21 @@ test("direct local electron-builder calls accept the signed Docker channels", as
     assertElectronBuilderPackageChannels(context(localReleaseConfig))
   );
 });
+
+test("direct Electron Builder calls cannot bypass the fixed service gate", async () => {
+  await assert.rejects(
+    assertElectronBuilderPackageChannels(
+      context({
+        ...localReleaseConfig,
+        extraMetadata: {
+          ...localReleaseConfig.extraMetadata,
+          clientServices: {
+            ...localReleaseConfig.extraMetadata.clientServices,
+            identityOrigin: "https://identity.example.com"
+          }
+        }
+      })
+    ),
+    /本地 Docker 客户端服务地址无效/
+  );
+});

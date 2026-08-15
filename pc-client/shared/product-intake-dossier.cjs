@@ -67,6 +67,42 @@ function validApproval(approval, contractSha256) {
   );
 }
 
+function validManagedDesktopContract(productId, registration, download) {
+  if (registration.mode !== "managed-installer") return true;
+  const lifecycle = registration.desktopLifecycle;
+  return Boolean(
+    registration.desktopAdapter &&
+      typeof registration.desktopAdapter === "object" &&
+      lifecycle &&
+      typeof lifecycle === "object" &&
+      lifecycle.productId === productId &&
+      typeof lifecycle.updateOwner === "string" &&
+      lifecycle.updateOwner.length > 0 &&
+      typeof lifecycle.updateStrategy === "string" &&
+      lifecycle.updateStrategy.length > 0 &&
+      typeof lifecycle.latestSource === "string" &&
+      lifecycle.latestSource.startsWith("https://") &&
+      lifecycle.dataRetention &&
+      typeof lifecycle.dataRetention === "object" &&
+      typeof lifecycle.dataRetention.mode === "string" &&
+      Array.isArray(lifecycle.dataRetention.retainedPaths) &&
+      typeof lifecycle.dataRetention.userChoiceRequired === "boolean" &&
+      lifecycle.installerIdentity &&
+      typeof lifecycle.installerIdentity === "object" &&
+      typeof lifecycle.installerIdentity.installerKind === "string" &&
+      lifecycle.installerIdentity.downloadedFile &&
+      typeof lifecycle.installerIdentity.downloadedFile === "object" &&
+      typeof lifecycle.installerIdentity.downloadedFile.architecture === "string" &&
+      lifecycle.installerIdentity.downloadedFile.architecture.length > 0 &&
+      ((lifecycle.installerIdentity.downloadedFile.versionInfo &&
+        typeof lifecycle.installerIdentity.downloadedFile.versionInfo === "object" &&
+        Object.keys(lifecycle.installerIdentity.downloadedFile.versionInfo).length > 0) ||
+        (typeof lifecycle.installerIdentity.downloadedFile.versionInfoUnavailable === "string" &&
+          lifecycle.installerIdentity.downloadedFile.versionInfoUnavailable.length > 0 &&
+          /^[a-f0-9]{64}$/.test(download?.expectedSha256 || "")))
+  );
+}
+
 function buildProductIntakeDossier(
   productId,
   registration,
@@ -74,6 +110,7 @@ function buildProductIntakeDossier(
   approval = null
 ) {
   if (!registration || typeof registration !== "object") return null;
+  if (!validManagedDesktopContract(productId, registration, download)) return null;
   const contractSha256 = executionContractSha256(
     productId,
     registration,
@@ -83,7 +120,9 @@ function buildProductIntakeDossier(
   const cli = registration.cli || null;
   const driver = cli?.driver || (registration.mode === "managed-cli" ? "npm" : "");
   const architecture =
-    registration.mode === "managed-installer"
+    registration.mode === "managed-package-manager"
+      ? "windows-package-manager"
+      : registration.mode === "managed-installer"
       ? "windows-desktop"
       : driver === "companion-runtime"
         ? "desktop-companion-runtime"
@@ -100,11 +139,17 @@ function buildProductIntakeDossier(
       : []),
     ...Object.values(cli?.artifacts || {}).map((artifact) => artifact?.url),
     packageSource(cli?.packageName),
-    ...(Array.isArray(cli?.officialSources) ? cli.officialSources : [])
+    ...(Array.isArray(cli?.officialSources) ? cli.officialSources : []),
+    registration.packageManager?.sourceUrl,
+    ...(Array.isArray(registration.packageManager?.officialSources)
+      ? registration.packageManager.officialSources
+      : [])
   ]);
   const components =
     driver === "companion-runtime"
       ? ["windows-hub", "dedicated-wsl-distribution", "gateway-service", "pairing"]
+      : registration.mode === "managed-package-manager"
+        ? ["windows-package-manager", "vendor-installer"]
       : registration.mode === "managed-installer"
         ? ["windows-desktop"]
         : driver === "wsl-managed"
@@ -119,6 +164,8 @@ function buildProductIntakeDossier(
           "gateway-rpc-ready",
           "hub-paired"
         ]
+      : registration.mode === "managed-package-manager"
+        ? ["exact-package-id", "package-manager-install-evidence"]
       : registration.mode === "managed-installer"
         ? ["trusted-install-identity", "signed-main-executable"]
         : ["exact-version", "owned-install-location", "executable-integrity"];
@@ -160,6 +207,7 @@ function validateProductIntakeDossier(dossier) {
     !/^[a-z0-9][a-z0-9-]{0,99}$/.test(dossier.productId) ||
     ![
       "windows-desktop",
+      "windows-package-manager",
       "desktop-companion-runtime",
       "wsl-cli-runtime",
       "windows-cli"

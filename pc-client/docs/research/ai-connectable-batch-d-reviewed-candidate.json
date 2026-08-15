@@ -1,0 +1,16 @@
+{
+  "notice":"candidate-only; no saveDraft or publish",
+  "sourceRevision":84,
+  "sourceProductCount":615,
+  "batch":"D",
+  "summary":{"accepted":3,"rejected":1,"needsMoreEvidence":1},
+  "accepted":[
+    {"vendorId":"airtable","productId":"airtable-platform","officialEvidenceUrl":"https://support.airtable.com/docs/using-the-airtable-mcp-server","directoryKind":"ai-connectable","category":"办公自动化","fieldCheck":"correct-no-op"},
+    {"vendorId":"ptc","productId":"ptc-creo","officialEvidenceUrl":"https://www.ptc.com/en/products/creo/capabilities","directoryKind":"ai-connectable","category":"3D 与工业仿真","fieldCheck":"correct-no-op","capabilityBoundary":"Advise is current formal capability; Assist is Beta and Automate is Alpha."},
+    {"vendorId":"anytype","productId":"anytype-desktop","officialEvidenceUrl":"https://developers.anytype.io/docs/examples/featured/mcp/","directoryKind":"ai-connectable","category":"文档与知识库","fieldCheck":"correct-no-op"}
+  ],
+  "rejectedProductIds":["anydesk-windows"],
+  "needsMoreEvidenceProductIds":["allplan"],
+  "coverage":{"historicalQueueSize":65,"aToDUniqueProductIds":65,"duplicateProductIds":[],"missingProductIds":[],"currentDraft84DesktopReviewedOrOfficialAiConnectableCount":63,"typeDriftProductIds":["docker-desktop","audacity-desktop"]},
+  "minimalCatalogPatch":{"operation":"no-op","patches":[]}
+}

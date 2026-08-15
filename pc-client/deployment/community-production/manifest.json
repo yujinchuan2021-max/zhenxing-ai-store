@@ -1,0 +1,326 @@
+{
+  "format": "aihub-deployment-source-manifest-v1",
+  "root": "pc-client",
+  "excluded": [
+    "deployment/community-production/manifest.json"
+  ],
+  "digest": {
+    "algorithm": "sha256",
+    "encoding": "utf8",
+    "ordering": "path ascending by UTF-16 code units",
+    "record": "<path>\\t<bytes>\\t<sha256>\\n",
+    "sha256": "36016f835e36c91023ed518bb18011e9690784ee8a3a5edd2aaea50a06ab2fc1"
+  },
+  "files": [
+    {
+      "path": "deployment/community-production/Caddyfile",
+      "bytes": 2133,
+      "sha256": "dc49124efe5d2d35ec148bb825cd06ad08474c92ea4e72fd7938491689aad940"
+    },
+    {
+      "path": "deployment/community-production/README.md",
+      "bytes": 61353,
+      "sha256": "e2ad16c326f8fe650c3c4c62bfbd418fc96b633f76ceb19d5816d1abf49bde2f"
+    },
+    {
+      "path": "deployment/community-production/backup.sh",
+      "bytes": 3582,
+      "sha256": "44828bdef7de2ccbd060c7ebb13f29c53f8fe891f06508da9d31e61dd3afd6f3"
+    },
+    {
+      "path": "deployment/community-production/caddy-entrypoint.sh",
+      "bytes": 1238,
+      "sha256": "1fb8f5a8fdd76cc29929ea4d84801dbdf277dbc793a1fd1c78785034b90c76fa"
+    },
+    {
+      "path": "deployment/community-production/caddy-secret-probe-mock.cjs",
+      "bytes": 998,
+      "sha256": "154e962ad3cee7bce0ee1555abca3a8d88b8f6dc840cf420d67fbd7a32166dc3"
+    },
+    {
+      "path": "deployment/community-production/caddy-secret-seed.sh",
+      "bytes": 809,
+      "sha256": "db7995bf475088fc18f0b951c3695177cedbc3514e01a33f2c37f97d2f25e174"
+    },
+    {
+      "path": "deployment/community-production/catalog-active7-fresh-install.cjs",
+      "bytes": 10537,
+      "sha256": "fad8ee00d93e7db6d810ba1308023c5aa84be1ce972e7933f4ebe62b94cd096f"
+    },
+    {
+      "path": "deployment/community-production/catalog-active7-state-activation-manifest.json",
+      "bytes": 1119,
+      "sha256": "6e8310ba99201468d232c1e64ad9e806ec6297f2ed9b8f11f4d7e3b99f750d13"
+    },
+    {
+      "path": "deployment/community-production/catalog-active7-state-activation.cjs",
+      "bytes": 10647,
+      "sha256": "521a88bc6dd3b0f915ba322757b15ceef633460c6de2189c88a76252e72daef6"
+    },
+    {
+      "path": "deployment/community-production/community-files-backup-contract.json",
+      "bytes": 205,
+      "sha256": "9a531c6eddbf010d37b108bd2333f42029ec2bec2a062f96216be61477af8628"
+    },
+    {
+      "path": "deployment/community-production/compose.server.yaml",
+      "bytes": 11758,
+      "sha256": "4faf5ca4ce6f968b161ed774fea152b4ae0ddc4f548184d4ea8642a9afbb4270"
+    },
+    {
+      "path": "deployment/community-production/compose.windows-acceptance.yaml",
+      "bytes": 415,
+      "sha256": "a5d626a0b986e401c44cff1b495d33f65f9a903cdf8bf71739196811e5c6a5bb"
+    },
+    {
+      "path": "deployment/community-production/compose.workflow-acceptance.yaml",
+      "bytes": 714,
+      "sha256": "8f790a5319261dc3631abe6233a3e57eb7bf45c40ff2dec7fd2a9ff1d331cb24"
+    },
+    {
+      "path": "deployment/community-production/compose.workflow-production-r12-disabled.yaml",
+      "bytes": 96,
+      "sha256": "5729973ce9fe6a1ec01b760805722a3ac25cc7866f9793692724ca5d991408a3"
+    },
+    {
+      "path": "deployment/community-production/compose.workflow-production.yaml",
+      "bytes": 2310,
+      "sha256": "d773a25d53edb080f92d35dc40059deb94cfd95c591ab64b97352457adac4db1"
+    },
+    {
+      "path": "deployment/community-production/host-secret-authority.sh",
+      "bytes": 4708,
+      "sha256": "8170e2ba31c04ee73ff6e7a6da95f3896e607a95db341bcc7c7e60e84718997e"
+    },
+    {
+      "path": "deployment/community-production/identity-entrypoint.sh",
+      "bytes": 1736,
+      "sha256": "260d9f9643cd9fe198e512eee4d044a911b5d24b056e81432cfa067a442240d0"
+    },
+    {
+      "path": "deployment/community-production/identity-source-manifest.cjs",
+      "bytes": 2781,
+      "sha256": "32f8c4748611ae48afad27df42a6f1bc6301c57af145933ba57bd500ca21c3fb"
+    },
+    {
+      "path": "deployment/community-production/identity.Dockerfile",
+      "bytes": 3000,
+      "sha256": "c7ac0b596f24ea2b250e3499f2f26ebf2b0c3716cc11087aa55c529a87b80049"
+    },
+    {
+      "path": "deployment/community-production/issue-caddy-gateway-secret.sh",
+      "bytes": 237,
+      "sha256": "a29602eb1024dc39e470e897c882b4f4f76f49155767a6f65361053e09010fb5"
+    },
+    {
+      "path": "deployment/community-production/prepare-workflow-production-release.sh",
+      "bytes": 9835,
+      "sha256": "a64e10b8ee94a7c9003f97770b35be1ec8478b2c82bad6335d084cc7e3e2aede"
+    },
+    {
+      "path": "deployment/community-production/probe-caddy-secret-volume.sh",
+      "bytes": 5843,
+      "sha256": "ac97d1c82d3177763e94151a8c578587db15132654c9ee1f96f50bf72f4e4d5e"
+    },
+    {
+      "path": "deployment/community-production/restore-drill.sh",
+      "bytes": 4416,
+      "sha256": "f4a435fc17c92ae403c5c325a0bad5ad7367a432b2780f8174751d95fd6bf98e"
+    },
+    {
+      "path": "deployment/community-production/run-migrations.sh",
+      "bytes": 639,
+      "sha256": "3516e6b430d5c79db5818332dfedeaf1e91374eef82b6a2616a94c7db577fab7"
+    },
+    {
+      "path": "deployment/community-production/run-workflow-migration.sh",
+      "bytes": 1466,
+      "sha256": "81946408a4fd8ea28d2eb9dec60ad7a6713021f5697be278a64e575ea515be77"
+    },
+    {
+      "path": "deployment/community-production/run-workflow-production-migration.sh",
+      "bytes": 2048,
+      "sha256": "d2c7853740748960ef2c1202b1ca9b5294acbe812692be81992efb5af01c31ad"
+    },
+    {
+      "path": "deployment/community-production/runtime/SHASUMS256.txt",
+      "bytes": 2967,
+      "sha256": "963b6fefe0c1b0f0d731da926ae12d4c552c3898090e94f3db1549b62e7bbb93"
+    },
+    {
+      "path": "deployment/community-production/runtime/node-v24.18.1-linux-x64.json",
+      "bytes": 722,
+      "sha256": "56fe50d6cff580c6b6f51f06a2b31759a9a0d32734f5f26ed8708f3ed4667174"
+    },
+    {
+      "path": "deployment/community-production/runtime/node-v24.18.1-linux-x64.tar.gz",
+      "bytes": 57254099,
+      "sha256": "9f5eb6ac21845a66c493c91a253b1da32fd684e89e9b7202d4936982336be4ca"
+    },
+    {
+      "path": "deployment/community-production/seed-caddy-secret-volume.sh",
+      "bytes": 2732,
+      "sha256": "a6744b1883b8f6c393b4a0f507ab3b5cd58a07bb08cd6f17d4843530ef143661"
+    },
+    {
+      "path": "deployment/community-production/verify-manifest.cjs",
+      "bytes": 2223,
+      "sha256": "1361a04b2d20674987688b7c09b9c12792560e4275e5ac2714c7876ddbb5ce2f"
+    },
+    {
+      "path": "deployment/community-production/workflow-cutover-admin-origin.sh",
+      "bytes": 1370,
+      "sha256": "b682d4e561ae0dd10c8afe21ed27b2a35e2b6efda6c1acd39c0e9ab2d95caf32"
+    },
+    {
+      "path": "deployment/community-production/workflow-cutover-compose-files.sh",
+      "bytes": 5507,
+      "sha256": "eeeec04bcfe1ccac208639e5d1e7b600cac7687d5a89022cb51e0215230e18a2"
+    },
+    {
+      "path": "deployment/community-production/workflow-cutover-reviewer-origin.sh",
+      "bytes": 1406,
+      "sha256": "a01b88e5b6c64d2328a6f2f7612cdd4e75da5692fe245bbdc35750b1606d1132"
+    },
+    {
+      "path": "deployment/community-production/workflow-image-archive.cjs",
+      "bytes": 13805,
+      "sha256": "775d46e837f4d18c8878c83ee74f16748f47b79f2ba2d0ca9495526f580b3367"
+    },
+    {
+      "path": "deployment/community-production/workflow-migrate.cjs",
+      "bytes": 2261,
+      "sha256": "7424559e45062e261603e5f700c443d9eec9ee7d26eafc7954902b942b7f8932"
+    },
+    {
+      "path": "deployment/community-production/workflow-node-runtime.sh",
+      "bytes": 12486,
+      "sha256": "e7c45eb59ea6bff36d42a976df77a144627592ec6d8f5a4751f06c816994100b"
+    },
+    {
+      "path": "deployment/community-production/workflow-official-bootstrap-production-wrapper.cjs",
+      "bytes": 15888,
+      "sha256": "0229ed953ed8bf0cd37650deeba3edd655b105800f2adc9d9214fa3c5ca8a693"
+    },
+    {
+      "path": "deployment/community-production/workflow-official-bootstrap-temporary-acceptance.cjs",
+      "bytes": 21328,
+      "sha256": "36f806386ae717f8bf430ac78bdf54e08ccc2b3782c8fb94ee9f3ea0c023da24"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-cutover-launcher.sh",
+      "bytes": 14084,
+      "sha256": "77cf9c73ac26e49f42b26b512b40b39007899255fd0fcc321265d8a9ce8149e5"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-cutover.sh",
+      "bytes": 25835,
+      "sha256": "be5d58cb6413b1bc4d2dedbbd920bebb91389f84ed2fc0cc555ac9cb7a43dd3f"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-emergency-disable.sh",
+      "bytes": 1913,
+      "sha256": "042379a0e232f8e439b502ad9da8b8845f69ed282ef3b320cbbd78f6e3d3fe24"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-existing-state.cjs",
+      "bytes": 15065,
+      "sha256": "fd9c5a83e9dda4ddc83ec387a864f98f4ec65a86b3e81fd3ce4cdf75bf73320d"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-fresh-host-contract.cjs",
+      "bytes": 8555,
+      "sha256": "d96624e7b93f9ac66aaa2be5d40f96ddeaa44454f09313432b54dc29eef65675"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-fresh-host-launcher.sh",
+      "bytes": 11668,
+      "sha256": "23cf41af95bc9b5ea36a58fb89cd55081c31f9f54cfd99c7cbe865f579a1fb08"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-fresh-host-preflight.cjs",
+      "bytes": 10764,
+      "sha256": "54a44b1c33f42ccad104c8faceb552eea1933f4c423a3b0637299628d6497c68"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-fresh-host-runner.sh",
+      "bytes": 9634,
+      "sha256": "3b930e7c93de061fbcadd27bc3edfa78d939dc6921f9db57d17f2a6f364d885d"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-fresh-host-stage0.sh",
+      "bytes": 7620,
+      "sha256": "030b0f28ccb239ab282f748ae5f31736bd43e1ecd5805135fe3607cb7f876e42"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-fresh-host-terminal.cjs",
+      "bytes": 3058,
+      "sha256": "d285451de17532b25fec2274afb37955b19e7e35ec11c1b07496c60e3b8123e0"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-fresh-host.env.template",
+      "bytes": 1514,
+      "sha256": "b348fdd678ffb429e620f37cd480ed0388ba340636d47e5b29cdd477f19e67ac"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-fresh-secret-authority.sh",
+      "bytes": 2802,
+      "sha256": "24e79840cea067e76c73327e488b40519496d41f67e8ff3e9a13e353bfd2ae52"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-r12-executor.sh",
+      "bytes": 6949,
+      "sha256": "885cfb2f0e16189ef5e8a6b0b20621650c38c1064059220a8c9c2398e6036cd1"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-r12-fixed-collector.cjs",
+      "bytes": 31539,
+      "sha256": "fb10550756034d9fb989b38335cf676c0c26f7632af188c6e84274e17c70b904"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-r12-fixed-runner.cjs",
+      "bytes": 2930,
+      "sha256": "4795efb52096a568730ce59b4f249251ea17e45dffe195b0540989f86cc8388d"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-r12-in-place.cjs",
+      "bytes": 6775,
+      "sha256": "20432a0a76ae7d84f225f02ba03cf41a4928e9c07129200a0ff2cefa5c84e34e"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-r12-launcher.sh",
+      "bytes": 14282,
+      "sha256": "52fa7afae3beab69a8dc05b365198f1b01cedc5f9935871b989867ce87d858d9"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-r12-prepared-coordinator.cjs",
+      "bytes": 12529,
+      "sha256": "b19d330aa56c844017973b469c59d70f9a90060a2449d9e7aa3a413a82a38c52"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-release-bundle.cjs",
+      "bytes": 31726,
+      "sha256": "0fe3c074095abc1f12aa5405b4a0a8a60cc54b0fa6e599803d8d064b00f73488"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-secret-authority-contract.cjs",
+      "bytes": 6037,
+      "sha256": "c602323819b61fd9fa4e74c433e276127e3228c45b694807ac40eb16b7f33457"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-service-contract.cjs",
+      "bytes": 9793,
+      "sha256": "a6b00bdcee048abeff0df41802d73205580e21c4773094810845e93108033e90"
+    },
+    {
+      "path": "deployment/community-production/workflow-production-temporary-acceptance.cjs",
+      "bytes": 48583,
+      "sha256": "efe61ab7d63486b75e1c2a45df06e1cc4dac9e6cfce4c8fcdc300d0e0b843f2c"
+    },
+    {
+      "path": "deployment/community-production/workflow-review-secret.sh",
+      "bytes": 260,
+      "sha256": "7b2d613f247188cd27e4f536b4770de4c95cfd9cb81acbef1fe7416886a4c9b2"
+    }
+  ]
+}

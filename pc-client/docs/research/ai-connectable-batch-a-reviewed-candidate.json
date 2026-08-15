@@ -1,0 +1,45 @@
+{
+  "notice": "reviewed no-op; do not saveDraft or publish",
+  "sourceRevision": 84,
+  "sourceProductCount": 615,
+  "batch": "A",
+  "summary": {
+    "accepted": 4,
+    "rejected": 13,
+    "needsMoreEvidence": 3
+  },
+  "catalogDecision": {
+    "existingProductField": "category",
+    "note": "category is the existing backend tool-feature field and already drives catalog filters. First-party evidence remains in this research record and intake materials, not in the published catalog schema."
+  },
+  "acceptedProductReviews": [
+    {
+      "vendorId": "google",
+      "productId": "google-android-studio",
+      "directoryKind": "ai-connectable",
+      "reviewEvidence": {"kind": "official-documentation", "url": "https://developer.android.com/studio/gemini/get-started", "claim": "Gemini Agent and Gemini API key integration in Android Studio", "verifiedAt": "2026-08-05"}
+    },
+    {
+      "vendorId": "microsoft",
+      "productId": "microsoft-edge-ai",
+      "directoryKind": "ai-connectable",
+      "reviewEvidence": {"kind": "official-documentation", "url": "https://learn.microsoft.com/en-us/microsoft-edge/web-platform/devtools-mcp-server", "claim": "Edge DevTools MCP provides compatible AI coding assistants access to Edge/WebView2", "verifiedAt": "2026-08-05"}
+    },
+    {
+      "vendorId": "docker",
+      "productId": "docker-desktop",
+      "directoryKind": "ai-connectable",
+      "reviewEvidence": {"kind": "official-documentation", "url": "https://docs.docker.com/ai/mcp-catalog-and-toolkit/toolkit/", "claim": "Docker Desktop MCP Toolkit connects MCP clients such as Claude Desktop to MCP servers", "verifiedAt": "2026-08-05"}
+    },
+    {
+      "vendorId": "linear",
+      "productId": "linear-workspace",
+      "directoryKind": "ai-connectable",
+      "reviewEvidence": {"kind": "official-documentation", "url": "https://linear.app/docs/mcp", "claim": "Linear MCP enables compatible AI models and agents to access Linear data", "verifiedAt": "2026-08-05"}
+    }
+  ],
+  "reviewResults": {
+    "rejectedProductIds": ["google-chrome-devtools", "microsoft-visual-studio", "affinity", "unity-editor", "figma-design", "slack-workspace", "jetbrains-intellij-idea", "postman-api-platform", "asana-work-graph", "blender", "godot-engine", "unreal-engine", "obs-studio"],
+    "needsMoreEvidenceProductIds": ["laiye-rpa", "sunlogin-windows", "ableton-live"]
+  }
+}

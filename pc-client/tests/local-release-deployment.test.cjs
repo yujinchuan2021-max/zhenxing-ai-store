@@ -22,7 +22,7 @@ const {
   prepareReleaseBundle
 } = require("../admin/release-bundle.cjs");
 const {
-  verifyReleaseBundle
+  verifyReleaseBundle: verifyStrictReleaseBundle
 } = require("../admin/release-bundle-verifier.cjs");
 const {
   catalogReleaseSha256
@@ -31,6 +31,10 @@ const {
   createArtifactBuildMetadata
 } = require("../shared/release-provenance.cjs");
 const { rootTrust } = require("./local-release-certificates.cjs");
+
+function verifyReleaseBundle(options) {
+  return verifyStrictReleaseBundle({ ...options, allowLocalhost: true });
+}
 
 function signingKey() {
   const { privateKey } = crypto.generateKeyPairSync("ed25519");
@@ -104,7 +108,8 @@ function createBundle(
       update: signingKey()
     },
     attestedArtifactPaths: artifactPaths,
-    publishedAt: "2026-07-30T01:00:00.000Z"
+    publishedAt: "2026-07-30T01:00:00.000Z",
+    allowLocalhost: true
   });
   return outputDirectory;
 }

@@ -1,0 +1,95 @@
+{
+	email admin@zhenxingai.com
+	acme_ca https://acme.zerossl.com/v2/DV90
+}
+
+{$AIHUB_PUBLIC_HOST} {
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+		Referrer-Policy no-referrer
+	}
+
+	@identityInternal path /v1/internal/*
+	handle @identityInternal {
+		respond "not found" 404
+	}
+
+	@workflowReviewer path /v1/community/workflow-store/reviewer/*
+	handle @workflowReviewer {
+		respond "not found" 404
+	}
+
+	@identity path /v1/*
+	handle @identity {
+		reverse_proxy identity:4180
+	}
+
+	@health path /health
+	handle @health {
+		rewrite * /ready
+		reverse_proxy admin:4173
+	}
+
+	@catalog path /catalog-release.json /channels/v2/catalog-release.json /software-update-release.json
+	handle @catalog {
+		reverse_proxy admin:4173
+	}
+
+	@vendorIcons path /vendor-icons/*
+	handle @vendorIcons {
+		reverse_proxy admin:4173
+	}
+
+	handle {
+		respond "not found" 404
+	}
+}
+
+{$AIHUB_COMMUNITY_PUBLIC_HOST} {
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'"
+	}
+
+	@private path /admin /admin/* /aihub-personal-center.php /aihub-community-management.php
+	handle @private {
+		respond "not found" 404
+	}
+
+	handle {
+		reverse_proxy community:80
+	}
+}
+
+http://:4174 {
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+		Referrer-Policy no-referrer
+		Content-Security-Policy "default-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'"
+	}
+	@cmsManagement path /api/community-management /api/community-management/actions
+	handle @cmsManagement {
+		reverse_proxy admin:4173 {
+			header_up X-AIHub-CMS-Secret {$AIHUB_COMMUNITY_CMS_SECRET}
+		}
+	}
+
+	handle {
+		reverse_proxy admin:4173
+	}
+}
+
+http://:2015 {
+	bind 127.0.0.1
+	@health path /health
+	handle @health {
+		respond `{"status":"ok"}` 200
+	}
+	handle {
+		respond "not found" 404
+	}
+}

@@ -4,6 +4,10 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 
 const catalog = require("../admin/data/catalog-v1.json");
+const {
+  INSTALL_MODES,
+  getInstallRegistration
+} = require("../shared/install-registry.cjs");
 
 const REVIEWED_PRODUCTS = Object.freeze([
   "servicenow-build-agent",
@@ -40,7 +44,12 @@ test("reviewed discovery products exist once and stay on fixed modules", () => {
   for (const productId of REVIEWED_PRODUCTS) {
     const matches = products.filter((product) => product.id === productId);
     assert.equal(matches.length, 1, productId);
-    assert.equal(matches[0].installProfileId, "", productId);
+    const registration = getInstallRegistration(productId);
+    assert.equal(
+      matches[0].installProfileId,
+      registration?.profileId || "",
+      productId
+    );
     assert.equal(Object.hasOwn(matches[0], "download"), false, productId);
   }
 });
@@ -54,11 +63,28 @@ test("Web and Windows surfaces share one product card while CLIs stay separate",
     "lovable-ai-app-builder"
   ]) {
     const product = byId.get(productId);
-    assert.equal(product.productType, "desktop-official", productId);
-    assert.equal(product.moduleId, "desktop-official", productId);
+    const registration = getInstallRegistration(productId);
+    const packageManaged =
+      registration?.mode === INSTALL_MODES.MANAGED_PACKAGE_MANAGER;
+    assert.equal(
+      product.productType,
+      packageManaged ? "desktop-reviewed" : "desktop-official",
+      productId
+    );
+    assert.equal(
+      product.moduleId,
+      packageManaged ? "desktop-managed" : "desktop-official",
+      productId
+    );
+    if (packageManaged) {
+      assert.equal(product.installProfileId, registration.profileId, productId);
+      assert.equal(product.downloadPolicy, "package-manager", productId);
+    }
     assert.deepEqual(
       product.entryPoints.map((entry) => entry.type),
-      ["website", "web", "desktop", "tutorial"],
+      packageManaged
+        ? ["website", "web", "tutorial", "desktop"]
+        : ["website", "web", "desktop", "tutorial"],
       productId
     );
   }
@@ -66,7 +92,11 @@ test("Web and Windows surfaces share one product card while CLIs stay separate",
   for (const productId of ["tabnine-cli", "deepgram-cli", "factory-cli"]) {
     const product = byId.get(productId);
     assert.equal(product.kind, "CLI", productId);
-    assert.equal(product.productType, "cli-official", productId);
+    assert.equal(
+      product.productType,
+      productId === "tabnine-cli" ? "cli-official" : "cli",
+      productId
+    );
     assert.equal(
       product.entryPoints?.some((entry) => entry.type === "desktop") || false,
       false,

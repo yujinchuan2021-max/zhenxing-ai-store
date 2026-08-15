@@ -1,0 +1,31 @@
+{
+  "batch": "A",
+  "date": "2026-08-05",
+  "scope": "first 20 desktop ai-connectable queue items",
+  "writeCatalog": false,
+  "saveDraft": false,
+  "published": false,
+  "summary": {"confirmed": 17, "blocked": 3},
+  "items": [
+    {"index":1,"vendorId":"google","productId":"google-chrome-devtools","status":"confirmed","integrationTypes":["CDP","Chrome debugger API"],"industryTraits":["浏览器与搜索","网页调试与自动化"],"officialUrls":["https://developer.chrome.com/docs/devtools/protocol-monitor","https://developer.chrome.com/docs/extensions/reference/api/debugger"]},
+    {"index":2,"vendorId":"google","productId":"google-android-studio","status":"confirmed","integrationTypes":["Gemini in Android Studio","Gemini API key"],"industryTraits":["移动开发","代码与项目上下文"],"officialUrls":["https://developer.android.com/studio/gemini/get-started"]},
+    {"index":3,"vendorId":"microsoft","productId":"microsoft-visual-studio","status":"confirmed","integrationTypes":["VisualStudio.Extensibility SDK","plugin API"],"industryTraits":["编程开发","编辑器与调试扩展"],"officialUrls":["https://learn.microsoft.com/en-us/visualstudio/extensibility/visualstudio.extensibility/"]},
+    {"index":4,"vendorId":"microsoft","productId":"microsoft-edge-ai","status":"confirmed","integrationTypes":["DevTools Protocol","WebDriver","MCP documentation"],"industryTraits":["浏览器","网页调试与测试自动化"],"officialUrls":["https://learn.microsoft.com/en-us/microsoft-edge/devtools/protocol/","https://learn.microsoft.com/en-us/microsoft-edge/web-platform/devtools-mcp-server"]},
+    {"index":5,"vendorId":"canva","productId":"affinity","status":"confirmed","integrationTypes":["Canva Apps SDK","Connect REST API","OAuth/app permissions"],"industryTraits":["图像与设计","内容发布"],"officialUrls":["https://www.canva.dev/docs/apps/","https://www.canva.dev/docs/connect/"],"note":"证据属于 Canva 平台，Affinity 产品关系需复核"},
+    {"index":6,"vendorId":"laiye","productId":"laiye-rpa","status":"blocked","integrationTypes":[],"industryTraits":["工作流自动化"],"officialUrls":[]},
+    {"index":7,"vendorId":"unity-technologies","productId":"unity-editor","status":"confirmed","integrationTypes":["Scripting API","Editor API"],"industryTraits":["游戏开发","3D互动内容"],"officialUrls":["https://docs.unity3d.com/6000.0/Documentation/ScriptReference/index.html"]},
+    {"index":8,"vendorId":"oray","productId":"sunlogin-windows","status":"blocked","integrationTypes":[],"industryTraits":["远程控制","远程运维"],"officialUrls":[]},
+    {"index":9,"vendorId":"figma","productId":"figma-design","status":"confirmed","integrationTypes":["REST API","OAuth2","Webhooks","Plugin API"],"industryTraits":["图像与设计","协作"],"officialUrls":["https://developers.figma.com/docs/rest-api/","https://developers.figma.com/docs/rest-api/authentication/"]},
+    {"index":10,"vendorId":"docker","productId":"docker-desktop","status":"confirmed","integrationTypes":["MCP Catalog","MCP Toolkit","MCP Gateway","OAuth remote services"],"industryTraits":["云服务与运维","容器化AI工具接入"],"officialUrls":["https://docs.docker.com/ai/mcp-catalog-and-toolkit/catalog/","https://docs.docker.com/ai/mcp-catalog-and-toolkit/toolkit/"]},
+    {"index":11,"vendorId":"linear","productId":"linear-workspace","status":"confirmed","integrationTypes":["MCP","GraphQL API"],"industryTraits":["项目与协作","研发管理"],"officialUrls":["https://linear.app/docs/mcp","https://linear.app/developers/graphql"]},
+    {"index":12,"vendorId":"slack","productId":"slack-workspace","status":"confirmed","integrationTypes":["Web API","Events API","Incoming Webhooks","OAuth","Bolt SDK"],"industryTraits":["项目与协作","消息与工作流自动化"],"officialUrls":["https://api.slack.com/web","https://api.slack.com/docs"]},
+    {"index":13,"vendorId":"jetbrains","productId":"jetbrains-intellij-idea","status":"confirmed","integrationTypes":["Plugin SDK","extension points"],"industryTraits":["编程开发","代码分析与IDE扩展"],"officialUrls":["https://plugins.jetbrains.com/docs/intellij/documentation.html","https://plugins.jetbrains.com/docs/intellij/idea.html"]},
+    {"index":14,"vendorId":"postman","productId":"postman-api-platform","status":"confirmed","integrationTypes":["Postman API","CLI","Collection SDK"],"industryTraits":["API开发与调试","测试与CI/CD"],"officialUrls":["https://learning.postman.com/docs/reference/overview","https://learning.postman.com/docs/reference/postman-api/intro-api"]},
+    {"index":15,"vendorId":"asana","productId":"asana-work-graph","status":"confirmed","integrationTypes":["REST API","OAuth2","Webhooks","App Components"],"industryTraits":["项目与协作","任务自动化"],"officialUrls":["https://developers.asana.com/docs/api-features","https://developers.asana.com/docs/oauth","https://developers.asana.com/reference/webhooks"]},
+    {"index":16,"vendorId":"blender-foundation","productId":"blender","status":"confirmed","integrationTypes":["Blender Python API","scripts/plugins"],"industryTraits":["3D创作","建模动画渲染自动化"],"officialUrls":["https://docs.blender.org/api/current/"]},
+    {"index":17,"vendorId":"godot-engine","productId":"godot-engine","status":"confirmed","integrationTypes":["GDScript/C# API","Editor/Plugin API"],"industryTraits":["游戏开发","实时互动与编辑器工具"],"officialUrls":["https://docs.godotengine.org/en/stable/classes/","https://docs.godotengine.org/en/stable/tutorials/scripting/how_to_read_the_godot_api.html"]},
+    {"index":18,"vendorId":"epic-games","productId":"unreal-engine","status":"confirmed","integrationTypes":["Unreal Python API","Editor scripting"],"industryTraits":["游戏开发","3D与资产自动化"],"officialUrls":["https://dev.epicgames.com/documentation/en-us/unreal-engine/PythonAPI","https://dev.epicgames.com/documentation/unreal-engine/scripting-the-unreal-editor-using-python"]},
+    {"index":19,"vendorId":"ableton","productId":"ableton-live","status":"blocked","integrationTypes":[],"industryTraits":["音频制作","音乐创作"],"officialUrls":[]},
+    {"index":20,"vendorId":"obs-project","productId":"obs-studio","status":"confirmed","integrationTypes":["obs-websocket protocol"],"industryTraits":["直播与录制","视频制作自动化"],"officialUrls":["https://github.com/obsproject/obs-websocket"]}
+  ]
+}

@@ -65,8 +65,11 @@ services:
       AIHUB_IDENTITY_DATABASE_URL: postgres://aihub:${AIHUB_IDENTITY_DB_PASSWORD:-aihub-local-only}@identity-database:5432/aihub
       AIHUB_SMTP_HOST: mailpit
       AIHUB_SMTP_PORT: 1025
+      AIHUB_REGISTRATION_ENABLED: "true"
+      AIHUB_SMTP_REQUIRE_TLS: "false"
       AIHUB_LOCAL_MAIL_VIEWER_URL: http://127.0.0.1:8025
-      AIHUB_CATALOG_URL: http://admin:4173/catalog-v1.json
+      AIHUB_CATALOG_URL: http://admin:4173/catalog-release.json
+      AIHUB_CATALOG_SOURCE_MODE: signed-internal-admin
       AIHUB_CATALOG_FILE: /app/catalog/catalog-v1.json
       AIHUB_COMMUNITY_PUBLIC_ORIGIN: http://127.0.0.1:8088
       AIHUB_FORUM_INTERNAL_URL: http://community
@@ -88,7 +91,7 @@ services:
           "CMD",
           "node",
           "-e",
-          "fetch('http://127.0.0.1:4180/ready').then(r=>{if(!r.ok)process.exit(1)})"
+          "const req=require('http').get({host:'127.0.0.1',port:4180,path:'/health',agent:false},r=>{r.resume();process.exit(r.statusCode===200?0:1)});req.setTimeout(2000,()=>{req.destroy();process.exit(1)});req.on('error',()=>process.exit(1))"
         ]
       interval: 3s
       timeout: 2s
@@ -209,7 +212,7 @@ services:
           "CMD",
           "node",
           "-e",
-          "fetch('http://127.0.0.1:4173/ready').then(r=>{if(!r.ok)process.exit(1)})"
+          "const req=require('http').get({host:'127.0.0.1',port:4173,path:'/health',agent:false},r=>{r.resume();process.exit(r.statusCode===200?0:1)});req.setTimeout(2000,()=>{req.destroy();process.exit(1)});req.on('error',()=>process.exit(1))"
         ]
       interval: 3s
       timeout: 2s

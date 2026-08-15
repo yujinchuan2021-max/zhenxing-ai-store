@@ -128,14 +128,17 @@ function inspectOpenClawCompanionRuntime({
     version: gatewayCliInstalled ? String(versionProbe.version || "") : "",
     directory: `WSL:${OPENCLAW_GATEWAY_DISTRIBUTION}`,
     detection,
-    managed: hubInstalled && gatewayDistributionInstalled,
+    // The Hub owns its WSL distribution, service, pairing and state.  AI Hub
+    // has no receipt for those vendor-managed resources.
+    managed: false,
+    canOpen: hubInstalled && gatewayCliInstalled,
     canUninstall:
       hubInstalled &&
       gatewayDistributionInstalled &&
       cleanupScriptTrusted === true,
     ownership:
       hubInstalled && gatewayDistributionInstalled
-        ? "adopted"
+        ? "vendor-managed"
         : gatewayDistributionInstalled
           ? "external"
           : "none",

@@ -8,14 +8,19 @@ const path = require("node:path");
 const test = require("node:test");
 
 const {
-  loadSigningKey
+  loadSigningKey,
+  publicKeyRecord
 } = require("../admin/signing-key.cjs");
 
 test("creates and reuses one local Ed25519 development key", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-signing-"));
   try {
     const first = loadSigningKey({ dataDirectory: root, env: {} });
-    const second = loadSigningKey({ dataDirectory: root, env: {} });
+    const second = loadSigningKey({
+      dataDirectory: root,
+      env: {},
+      keyMetadata: { keyId: first.keyId, publicKey: first.publicKey }
+    });
     assert.equal(first.keyId, second.keyId);
     assert.equal(first.publicKey, second.publicKey);
     assert.equal(first.source, "local-development");
@@ -36,7 +41,8 @@ test("uses an environment key without writing it to disk", () => {
     const pem = privateKey.export({ format: "pem", type: "pkcs8" });
     const result = loadSigningKey({
       dataDirectory: root,
-      env: { AIHUB_CATALOG_SIGNING_PRIVATE_KEY: pem }
+      env: { AIHUB_CATALOG_SIGNING_PRIVATE_KEY: pem },
+      keyMetadata: publicKeyRecord(privateKey)
     });
     assert.equal(result.source, "environment");
     assert.equal(

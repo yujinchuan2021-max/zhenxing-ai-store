@@ -7,6 +7,15 @@ const {
 } = require("./install-registry.cjs");
 const { getManagedDownload } = require("./managed-downloads.cjs");
 const { getProductModule } = require("./product-modules.cjs");
+const {
+  getDesktopDownloadOnlyProfile,
+  LEGACY_DESKTOP_DOWNLOAD_MODULE_ID,
+  SIGNED_CATALOG_MODULE_ID,
+  SIGNED_CATALOG_PROFILE_ID,
+  validateDesktopDownloadOnlyArtifact,
+  validateSignedDesktopDownloadArtifact
+} = require("./desktop-download-only.cjs");
+const { getCliDeployOnlyProfile } = require("./cli-deploy-only.cjs");
 
 const INSTALLED_INSTANCE_RECOVERY_CAPABILITIES = Object.freeze([
   "open",
@@ -49,7 +58,10 @@ function matchingLocalProfile(localInventory, productId, registration) {
   ) {
     return null;
   }
-  const download = getManagedDownload(productId);
+  const download =
+    registration.mode === INSTALL_MODES.MANAGED_INSTALLER
+      ? getManagedDownload(productId)
+      : null;
   if (registration.mode === INSTALL_MODES.MANAGED_INSTALLER) {
     if (
       !download ||
@@ -58,6 +70,12 @@ function matchingLocalProfile(localInventory, productId, registration) {
     ) {
       return null;
     }
+  }
+  if (
+    registration.mode === INSTALL_MODES.MANAGED_PACKAGE_MANAGER &&
+    profile.downloadPolicy !== registration.downloadPolicy
+  ) {
+    return null;
   }
   return profile;
 }
@@ -83,6 +101,8 @@ function matchingCatalogProduct(
         product.moduleId !== registration.moduleId) ||
       (product.installProfileId !== undefined &&
         product.installProfileId !== registration.profileId) ||
+      (registration.mode === INSTALL_MODES.MANAGED_PACKAGE_MANAGER &&
+        product.downloadPolicy !== registration.downloadPolicy) ||
       !sameStringSet(product.requirements, registration.requirements)
     ) {
       return null;
@@ -102,6 +122,55 @@ function resolveManagedProductActionContext({
   localInventory = [],
   requireCatalogEnabled = false
 }) {
+  const directProduct = (Array.isArray(vendors) ? vendors : [])
+    .filter((vendor) => !requireCatalogEnabled || vendor?.enabled !== false)
+    .flatMap((vendor) => (vendor?.products || []).map((product) => ({ product, vendor })))
+    .find(({ product }) => product?.id === productId && (!requireCatalogEnabled || product.enabled !== false));
+  const desktopDownloadModule = getProductModule(directProduct?.product?.moduleId);
+  if (desktopDownloadModule?.id === SIGNED_CATALOG_MODULE_ID) {
+    const profile = getDesktopDownloadOnlyProfile(productId);
+    const artifact = profile
+      ? validateDesktopDownloadOnlyArtifact(productId, directProduct.product.download)
+      : validateSignedDesktopDownloadArtifact(directProduct.product.download);
+    if (
+      !artifact.ok ||
+      directProduct.product.productType !== "desktop-download-only" ||
+      (profile
+        ? ![LEGACY_DESKTOP_DOWNLOAD_MODULE_ID, SIGNED_CATALOG_MODULE_ID].includes(directProduct.product.moduleId) ||
+          directProduct.product.installProfileId !== profile.profileId ||
+          profile.vendorId !== directProduct.vendor.id
+        : directProduct.product.moduleId !== SIGNED_CATALOG_MODULE_ID ||
+          directProduct.product.installProfileId !== SIGNED_CATALOG_PROFILE_ID)
+    ) return null;
+    return Object.freeze({
+      ...directProduct.product,
+      moduleId: directProduct.product.moduleId,
+      installProfileId: profile ? profile.profileId : SIGNED_CATALOG_PROFILE_ID,
+      capabilities: Object.freeze(["website", "tutorial", "install"]),
+      requirements: Object.freeze([]),
+      installPolicy: "client-managed-download",
+      downloadPolicy: "desktop-download-only",
+      signaturePolicy: "vendor-controlled",
+      uninstallPolicy: "not-managed",
+      download: artifact.artifact
+    });
+  }
+  if (directProduct?.product?.moduleId === "cli-deploy-only") {
+    const profile = getCliDeployOnlyProfile(productId);
+    if (!profile || profile.vendorId !== directProduct.vendor.id ||
+        directProduct.product.installProfileId !== profile.profileId) return null;
+    return Object.freeze({
+      ...directProduct.product,
+      moduleId: "cli-deploy-only",
+      installProfileId: profile.profileId,
+      capabilities: Object.freeze((directProduct.product.capabilities || profile.capabilities).filter((capability) => profile.capabilities.includes(capability))),
+      requirements: profile.requirements,
+      installPolicy: "client-managed-cli-deploy-only",
+      downloadPolicy: "none",
+      signaturePolicy: "client-reviewed",
+      uninstallPolicy: "not-managed"
+    });
+  }
   const registration = getInstallRegistration(productId);
   const dossier = getProductIntakeDossier(productId);
   if (!registration || !dossier) return null;
@@ -137,7 +206,10 @@ function resolveManagedProductActionContext({
   const capabilities = requestedCapabilities.filter((capability) =>
     registration.capabilities.includes(capability)
   );
-  const download = getManagedDownload(productId);
+  const download =
+    registration.mode === INSTALL_MODES.MANAGED_INSTALLER
+      ? getManagedDownload(productId)
+      : null;
   if (registration.mode === INSTALL_MODES.MANAGED_INSTALLER && !download) {
     return null;
   }
@@ -158,7 +230,7 @@ function resolveManagedProductActionContext({
     installProfileId: registration.profileId,
     requirements: Object.freeze([...registration.requirements]),
     installPolicy: module.installPolicy,
-    downloadPolicy: module.downloadPolicy,
+    downloadPolicy: registration.downloadPolicy || module.downloadPolicy,
     signaturePolicy: module.signaturePolicy,
     uninstallPolicy: module.uninstallPolicy,
     capabilities: Object.freeze(capabilities),
@@ -203,7 +275,46 @@ function resolveManagedProductActionContexts({
   );
 }
 
+function isSignedCatalogDesktopDownloadOnlyProduct({
+  productId,
+  vendors = []
+} = {}) {
+  const context = resolveManagedProductActionContext({
+    productId,
+    vendors,
+    requireCatalogEnabled: true
+  });
+  return Boolean(
+    context &&
+      context.productType === "desktop-download-only" &&
+      context.moduleId === SIGNED_CATALOG_MODULE_ID &&
+      context.installProfileId === SIGNED_CATALOG_PROFILE_ID &&
+      context.downloadPolicy === "desktop-download-only"
+  );
+}
+
+function isFixedCatalogDesktopDownloadOnlyProduct({
+  productId,
+  vendors = []
+} = {}) {
+  const profile = getDesktopDownloadOnlyProfile(productId);
+  const context = resolveManagedProductActionContext({
+    productId,
+    vendors,
+    requireCatalogEnabled: true
+  });
+  return Boolean(
+    profile &&
+      context?.productType === "desktop-download-only" &&
+      context.moduleId === LEGACY_DESKTOP_DOWNLOAD_MODULE_ID &&
+      context.installProfileId === profile.profileId &&
+      context.downloadPolicy === "desktop-download-only"
+  );
+}
+
 module.exports = {
   resolveManagedProductActionContext,
-  resolveManagedProductActionContexts
+  resolveManagedProductActionContexts,
+  isFixedCatalogDesktopDownloadOnlyProduct,
+  isSignedCatalogDesktopDownloadOnlyProduct
 };

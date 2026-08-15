@@ -1,0 +1,20 @@
+{
+  "sourceRevision": 89,
+  "sourceProductCount": 615,
+  "candidateOnly": true,
+  "candidates": [
+    {
+      "vendorId": "augment",
+      "productId": "augment-auggie-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.augment-auggie",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    }
+  ],
+  "blockers": [
+    "draft89 does not yet bind the existing fixed update or the new exact-receipt repair capability",
+    "candidate-only: real Ubuntu WSL update/repair, cancellation, proxy, login, and user-data-preservation acceptance remain required",
+    "do not publish or save this candidate as an active catalog revision without backend validation"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "notice":"candidate-only; do not saveDraft or publish",
+  "sourceDraftRevision":84,
+  "sourceDraftProductCount":615,
+  "activeCatalogSchemaVersion":2,
+  "activeV2CatalogVersion":1,
+  "activeV2ReleaseId":"catalog-v00000001-d20c8aa29d87-96030cc9",
+  "activeCatalogProductCount":615,
+  "officialPageOnlyCount":214,
+  "immediatelyMigratableCount":1,
+  "candidates":[
+    {
+      "vendorId":"tana",
+      "productId":"tana-outliner",
+      "productName":"Tana Outliner",
+      "currentProductType":"desktop-official",
+      "currentDownloadPolicy":"official-page",
+      "proposedModuleId":"desktop-download-only.signed-catalog",
+      "proposedInstallProfileId":"desktop-download-only.signed-catalog",
+      "proposedProductType":"desktop-download-only",
+      "proposedInstallPolicy":"client-managed-download",
+      "proposedDownloadPolicy":"desktop-download-only",
+      "officialEvidenceUrl":"https://tana.inc/download",
+      "finalArtifactUrl":"https://assets.tana.inc/desktop/Tana-Setup-windows.exe",
+      "fileName":"Tana-Setup-2026.29.20+c0082d7-windows.exe",
+      "artifactKind":"exe",
+      "mirrors":[],
+      "evidenceSource":"windows-desktop-download-deep-research-rev83.json",
+      "needsReview":true
+    }
+  ],
+  "blocked":[
+    {
+      "productId":"coreldraw-graphics-suite",
+      "reason":"Existing deep-research finalArtifactUrl is the Corel product page, not an HTTPS EXE/MSI/MSIX/ZIP file URL; excluded rather than guessed."
+    }
+  ],
+  "sourceDrift":{
+    "draft84OnlyProductIds":[],
+    "activeV2OnlyProductIds":[],
+    "note":"Raw revision-store draft84 and the immutable signed v2 active1 release each contain 615 products, including agenticseek-cli. The earlier 614/draft-only claim was stale. Tana remains desktop-official/official-page in both and is candidate-only."
+  }
+}

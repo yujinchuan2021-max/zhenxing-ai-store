@@ -1,0 +1,151 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "source": {
+    "activeReleaseId": "catalog-v00000005-9654219dbedb-3f44cffa",
+    "sourceRevision": 88,
+    "sourceProductCount": 615,
+    "checkedAt": "2026-08-06"
+  },
+  "candidate": {
+    "vendorId": "alibaba",
+    "productId": "alibaba-quark-ai-browser",
+    "name": "夸克 AI 浏览器",
+    "current": {
+      "evidenceUrl": "https://www.quark.cn/",
+      "sourceField": "payload.catalog.vendors[alibaba].products[alibaba-quark-ai-browser].download",
+      "url": "https://umcdn.quark.cn/download/37212/quarkpc/pcquark@store_guanwang/QuarkPC_V1.2.5.25_pc_pf30002_(zh-cn)_release_(Build1707620-240313220512-x64).exe",
+      "fileName": "QuarkPC_V1.2.5.25_pc_pf30002_(zh-cn)_release_(Build1707620-240313220512-x64).exe",
+      "artifactKind": "exe",
+      "head": {
+        "status": 404,
+        "contentType": "application/xml",
+        "contentLength": 491
+      },
+      "rangeProbe": {
+        "status": 404,
+        "contentType": "application/xml",
+        "contentLength": 491,
+        "downloadedFullArtifact": false
+      }
+    },
+    "recommendedStrategy": "stable-redirect",
+    "officialDownload": {
+      "url": "https://download.quark.cn/download/quarkpc?ch=pcquark@default",
+      "kind": "stable-redirect",
+      "note": "Official HTTPS redirect; observed target is a versioned Windows x64 EXE. Do not hard-code the observed CDN target as a direct artifact."
+    },
+    "evidenceUrl": "https://www.quark.cn/",
+    "evidenceTitle": "夸克_AI旗舰应用官网",
+    "downloadUrl": "https://download.quark.cn/download/quarkpc?ch=pcquark@default",
+    "finalArtifactUrl": "https://umcdn.quark.cn/download/37212/quarkpc/pcquark@default/QuarkPC_V7.0.5.931_pc_pf30002_(zh-cn)_releasemini_(Build3017926-1001-x64).exe",
+    "fileName": "QuarkPC_V7.0.5.931_pc_pf30002_(zh-cn)_releasemini_(Build3017926-1001-x64).exe",
+    "artifactKind": "exe",
+    "officialHost": "download.quark.cn",
+    "finalArtifactHost": "umcdn.quark.cn",
+    "versionOrStable": "stable-redirect-to-versioned-artifact",
+    "redirectProbe": {
+      "status": 302,
+      "location": "https://umcdn.quark.cn/download/37212/quarkpc/pcquark@default/QuarkPC_V7.0.5.931_pc_pf30002_(zh-cn)_releasemini_(Build3017926-1001-x64).exe"
+    },
+    "artifactHead": {
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentLength": 3316024
+    },
+    "artifactRangeProbe": {
+      "status": 206,
+      "contentType": "application/octet-stream",
+      "contentRange": "bytes 0-1023/3316024",
+      "receivedBytes": 1024,
+      "downloadedFullArtifact": false
+    },
+    "notes": [
+      "The first-party homepage identifies the PC/Windows product and still embeds an older V1.2.5.25 umcdn URL; that embedded URL is stale and is not reused.",
+      "The tested download.quark.cn endpoint is first-party HTTPS and returned a current Windows x64 EXE redirect.",
+      "Only HEAD and a 1 KiB Range probe were made; no full installer was downloaded."
+    ]
+  },
+  "directUrlShapeScan": {
+    "canonicalDirectCount": 67,
+    "scanMethod": "Local URL-shape scan only; no network validation of the other 66 products.",
+    "quarkLikeConfirmed": [
+      "alibaba-quark-ai-browser"
+    ],
+    "flagCounts": {
+      "latestMarker": 9,
+      "githubVersionedRelease": 13,
+      "versionOrBuildOrTemporalMarker": 22,
+      "queryParameter": 2
+    },
+    "flaggedProductIds": {
+      "latestMarker": [
+        "msty-studio",
+        "msty-nexus",
+        "read-desktop",
+        "laiye-worker",
+        "asana-work-graph",
+        "upscayl-desktop",
+        "evernote-desktop",
+        "aftershoot",
+        "audiate"
+      ],
+      "githubVersionedRelease": [
+        "open-webui",
+        "lobehub-desktop",
+        "pinokio-ai-browser",
+        "amd-gaia",
+        "deepchat-desktop",
+        "fiveire-desktop",
+        "obsidian-desktop",
+        "upscayl-desktop",
+        "heptabase-desktop",
+        "motion-desktop",
+        "qupath-desktop",
+        "audacity-desktop",
+        "affine-desktop"
+      ],
+      "versionOrBuildOrTemporalMarker": [
+        "alibaba-quark-ai-browser",
+        "alibaba-dingtalk-ai",
+        "nvidia-broadcast",
+        "nous-hermes-desktop",
+        "open-webui",
+        "lobehub-desktop",
+        "pinokio-ai-browser",
+        "amd-gaia",
+        "deepchat-desktop",
+        "fiveire-desktop",
+        "canva-windows",
+        "xmind-ai",
+        "asana-work-graph",
+        "blender",
+        "obsidian-desktop",
+        "heptabase-desktop",
+        "evoto-desktop",
+        "motion-desktop",
+        "qupath-desktop",
+        "affine-desktop",
+        "spark-mail-windows",
+        "movavi-video-editor"
+      ],
+      "queryParameter": [
+        "nous-hermes-desktop",
+        "movavi-video-editor"
+      ]
+    },
+    "interpretation": "Versioned or latest paths are review flags, not proof of failure. Only Quark was revalidated here and its old artifact returned 404."
+  },
+  "validation": {
+    "uniqueProductIds": true,
+    "forbiddenFieldViolations": [],
+    "forbiddenFieldNamesChecked": [
+      "command",
+      "args",
+      "env",
+      "script",
+      "headers",
+      "credentials"
+    ]
+  }
+}

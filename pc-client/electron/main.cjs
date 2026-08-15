@@ -36,6 +36,7 @@ const {
   isAllowedUrl
 } = require("../shared/catalog.cjs");
 const {
+  CATALOG_RELEASE_MAX_BYTES,
   verifyCatalogRelease,
   verifyCatalogReleaseCache
 } = require("../shared/catalog-release.cjs");
@@ -43,10 +44,17 @@ const {
   resolvePackagedCatalogFallback
 } = require("../shared/catalog-runtime-policy.cjs");
 const {
+  catalogChannelStorage,
+  normalizeCatalogHighWater,
+  readCatalogClientChannel,
+  recordCatalogHighWater
+} = require("../shared/catalog-client-channel.cjs");
+const {
   resolveCatalogIconUrls
 } = require("../shared/catalog-icon-runtime.cjs");
 const {
   authorizeFreshCatalogProduct,
+  authorizeFreshDesktopDownloadOnlyProduct,
   runFreshCatalogAuthorizedOperation
 } = require("../shared/managed-catalog-install-authorization.cjs");
 const {
@@ -55,8 +63,16 @@ const {
 } = require("../shared/client-identity.cjs");
 const {
   cliInstallPlans,
+  INSTALL_REGISTRY,
+  getInstallRegistration,
+  getProductIntakeDossier,
   publicInstallProfiles
 } = require("../shared/install-registry.cjs");
+const {
+  cliDeployOnlyPlans,
+  createCliDeployOnlyReceipt,
+  publicCliDeployOnlyProfiles
+} = require("../shared/cli-deploy-only.cjs");
 const {
   desktopProbes,
   getDesktopAdapterForProduct
@@ -80,21 +96,67 @@ const {
   getDesktopUninstallPresentation
 } = require("../shared/uninstall-presentation.cjs");
 const {
+  buildDesktopInstallConfirmation,
+  getDesktopInstallConfirmationAction
+} = require("../shared/product-install-presentation.cjs");
+const {
+  MICROSOFT_STORE_SUPPORT_URL,
+  MICROSOFT_STORE_WEB_URL,
+  analyzeMicrosoftStoreHealth,
+  buildMicrosoftStoreRepairDialog,
+  microsoftStoreRepairSettingsUri
+} = require("../shared/microsoft-store-repair.cjs");
+const {
   getManagedDownload: getStaticManagedDownload,
   isAllowedManagedDownloadUrl
 } = require("../shared/managed-downloads.cjs");
 const {
+  buildDesktopDownloadOnlyPlan,
+  desktopDownloadOnlyArtifactFromReceipt,
+  signedDesktopDownloadArtifactFromReceipt,
+  buildSignedDesktopDownloadPlan,
+  getDesktopDownloadOnlyProfile,
+  SIGNED_CATALOG_PROFILE_ID
+} = require("../shared/desktop-download-only.cjs");
+const {
+  createPortableDesktopLayout,
+  createPortableDesktopUninstallAction,
+  inspectPortableDesktop,
+  portableDesktopPlan,
+  portableDesktopTrustForReceipt
+} = require("../shared/managed-portable-desktop.cjs");
+const {
+  cleanupInterruptedPortableFiles,
+  uninstallManagedPortableDirectory,
+  uninstallManagedPortableFiles
+} = require("../shared/managed-portable-files.cjs");
+const {
+  createPendingBaseline: createManagedRegistryPendingBaseline,
+  createReceiptFromTransition: createManagedRegistryReceiptFromTransition,
+  inspectReceipt: inspectManagedRegistryReceipt,
+  parseManagedRegistryPendingJson,
+  parseManagedRegistryReceiptJson
+} = require("../shared/managed-registry-desktop.cjs");
+const {
   applyDownloadTaskEvent,
-  restoreDownloadTask
+  restoreDownloadTask,
+  projectManagedDownloadTask,
+  authorizeManagedDownloadCancellation,
+  validateManagedDownloadCancelRequest
 } = require("../shared/download-task.cjs");
 const {
   planManagedDownloadTaskRecovery
 } = require("../shared/download-task-recovery.cjs");
 const {
   createManagedDownloadTransport,
+  isManagedDownloadSourceFallbackError,
   managedDownloadFailure,
   refreshManagedDownloadSession
 } = require("../shared/managed-download-network.cjs");
+const {
+  DEFAULT_CONCURRENCY: MANAGED_DOWNLOAD_CONCURRENCY,
+  createManagedDownloadQueue
+} = require("../shared/managed-download-queue.cjs");
 const {
   runWhenManagedDownloadSlotAvailable
 } = require("../shared/managed-download-refresh.cjs");
@@ -126,11 +188,11 @@ const {
   validateWindowsInstallerIdentity
 } = require("../shared/windows-installer-identity.cjs");
 const {
-  prepareInstallerLaunchArtifact
-} = require("../shared/installer-launch-path.cjs");
+  windowsPowerShellEnvironment,
+  windowsPowerShellPath
+} = require("../shared/windows-system-paths.cjs");
 const {
-  resolveDesktopInstallerLaunchPolicy,
-  resolveTrustedDesktopInstallerLaunchPolicy
+  resolveDesktopInstallerLaunchPolicy
 } = require("../shared/desktop-installer-launch-policy.cjs");
 const {
   applicationCrashMessage,
@@ -148,6 +210,14 @@ const {
   createEnvironmentOperationController
 } = require("../shared/environment-operation.cjs");
 const {
+  isMissingExactRegistryValueQuery
+} = require("../shared/environment-registry-query.cjs");
+const {
+  createEnvironmentUpdatePlan,
+  environmentUpdateMemberIds,
+  projectEnvironmentFamilyChecks
+} = require("../shared/environment-update.cjs");
+const {
   createResumeHeaders,
   resolveResumeResponse
 } = require("../shared/download-resume.cjs");
@@ -155,6 +225,12 @@ const { assessDownloadSpace } = require("../shared/download-space.cjs");
 const {
   verifyAndEvaluateUpdateRelease
 } = require("../shared/update-release.cjs");
+const {
+  isSoftwareUpdatePublished,
+  normalizeSoftwareUpdateHighWater,
+  recordSoftwareUpdateHighWater,
+  verifySoftwareUpdateRelease
+} = require("../shared/software-update-release.cjs");
 const {
   planUpdateInstallerDownload,
   verifyUpdateInstallerDownload
@@ -177,6 +253,7 @@ const {
 const {
   resolveEnvironmentEvidence,
   resolveEnvironmentOperationStatus,
+  resolveEnvironmentUpdateOffer,
   resolveRegisteredEnvironmentExecutable,
   resolveTrustedEnvironmentExecutableProbe
 } = require("../shared/environment-detection.cjs");
@@ -219,6 +296,20 @@ const {
   inspectManagedBinaryCli
 } = require("../shared/managed-binary-cli.cjs");
 const {
+  createManagedCliLifecycleCandidate,
+  createPortableBinaryLifecycleExecutor,
+  receiptOwnsPortableBinaryPlan
+} = require("../shared/managed-cli-lifecycle-candidate.cjs");
+const {
+  FIXED_PORTABLE_BINARY_PRODUCT_IDS,
+  createManagedCliLifecycleIpcFacade,
+  registerManagedCliLifecycleIpc
+} = require("./managed-cli-lifecycle-ipc.cjs");
+const {
+  inspectExtractedTree,
+  validateZipEntries
+} = require("../shared/safe-zip-extraction.cjs");
+const {
   createManagedPythonLayout,
   createManagedPythonReceipt,
   createManagedPythonTerminalAction,
@@ -232,17 +323,24 @@ const {
   createManagedMsiCliReceipt,
   createManagedMsiTerminalAction,
   createManagedMsiUninstallAction,
-  inspectManagedMsiCli
+  inspectManagedMsiCli,
+  matchesManagedMsiReceipt
 } = require("../shared/managed-msi-cli.cjs");
 const {
   createManagedWslBootstrapAction,
   createManagedWslDeployAction,
   createManagedWslDistributionAction,
+  createManagedWslInstallPreflightAction,
   createManagedWslOpenAction,
   createManagedWslProbeAction,
+  createManagedWslRepairAction,
+  createManagedWslRepairProbeAction,
   createManagedWslReceipt,
+  createManagedWslUpdateAction,
   createManagedWslUninstallActions,
   inspectManagedWslCli,
+  managedWslReceiptMatchesPlan,
+  managedWslReceiptOwnsPrefix,
   managedWslArtifact
 } = require("../shared/managed-wsl-cli.cjs");
 const {
@@ -263,6 +361,22 @@ const {
   scanManagedDesktopInventory
 } = require("../shared/managed-product-inventory.cjs");
 const {
+  resolveManagedProductActionContext,
+  isFixedCatalogDesktopDownloadOnlyProduct,
+  isSignedCatalogDesktopDownloadOnlyProduct
+} = require("../shared/managed-product-action-context.cjs");
+const {
+  getWindowsPackageManagerProduct
+} = require("../shared/windows-package-manager-catalog.cjs");
+const {
+  createWindowsPackageManagerReceipt,
+  findWingetListEntry,
+  parseWindowsPackageManagerReceiptJson,
+  windowsPackageManagerReceiptMatches,
+  wingetArgsFor,
+  wingetListAllArgs
+} = require("../shared/windows-package-manager.cjs");
+const {
   normalizeCliTrayTask,
   normalizeCliTaskNotification,
   rememberNotificationKey
@@ -273,12 +387,31 @@ const {
 } = require("../shared/tray-lifecycle.cjs");
 const {
   approvedCommunityOrigin,
+  communityEmbedSessionFailure,
   isApprovedCommunityNavigation,
   validateCommunityLaunchUrl
 } = require("../shared/community-embed.cjs");
 const {
+  resolveClientServices
+} = require("../shared/client-services.cjs");
+const {
   createIdentityClient
 } = require("./identity-client.cjs");
+const {
+  registerIdentityLoginIpc
+} = require("./identity-login-ipc.cjs");
+const {
+  registerResourceSubmissionIpc
+} = require("./resource-submission-ipc.cjs");
+const {
+  registerWorkflowStoreIpc
+} = require("./workflow-store-ipc.cjs");
+const {
+  registerLocalAgentBridgeIpc
+} = require("./local-agent-bridge-ipc.cjs");
+const {
+  clearCommunitySessionCookies
+} = require("./community-session.cjs");
 const {
   resolveCertificateVerificationCode,
   readLocalReleaseTrust,
@@ -291,6 +424,12 @@ const {
   createCodexMcpRuntime
 } = require("../shared/extension-mcp-runtime.cjs");
 const {
+  createClaudeCodeMcpRuntime
+} = require("../shared/extension-claude-mcp-runtime.cjs");
+const {
+  createCursorMcpRuntime
+} = require("../shared/extension-cursor-mcp-runtime.cjs");
+const {
   createClaudePluginRuntime
 } = require("../shared/extension-plugin-runtime.cjs");
 const {
@@ -301,8 +440,12 @@ const {
 } = require("../shared/extension-ipc.cjs");
 const {
   resolveCodexConfigPath,
-  resolveCodexSkillsRoot
+  resolveCodexSkillsRoot,
+  resolveCursorMcpConfigPath
 } = require("../shared/extension-host-targets.cjs");
+const {
+  findTrustedExternalExtensionCliHost
+} = require("../shared/extension-host-discovery.cjs");
 const {
   getExtensionRuntimeProfile,
   publicExtensionInstallProfiles
@@ -311,17 +454,24 @@ const {
   authorizeFreshCatalogResource
 } = require("../shared/managed-catalog-resource-authorization.cjs");
 
+const PACKAGE_METADATA = require("../package.json");
 const LOCAL_RELEASE_ACCEPTANCE =
-  require("../package.json").localReleaseAcceptance === true;
+  PACKAGE_METADATA.localReleaseAcceptance === true;
+const UPGRADE_FIXTURE = PACKAGE_METADATA.upgradeFixture === true;
 
 const execFileAsync = promisify(execFile);
+const POWERSHELL_UTF8_OUTPUT =
+  "[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new($false)";
 const activeCliProducts = new Set();
 const activeCliPrefixes = new Set();
 const discoveredCliPrefixes = new Map();
 const managedWslStatusCache = new Map();
 const activeDownloads = new Map();
+let managedDownloadQueue = null;
+const signedDesktopDownloadPlans = new Map();
 let managedDownloadRefreshPending = false;
 const activeDesktopOperationEntries = new Set();
+let windowsPackageManagerExecutablePromise = null;
 let desktopOperationController = null;
 let environmentOperationController = null;
 const managedDownloadTasks = new Map();
@@ -336,9 +486,12 @@ const trayTaskStates = new Map();
 let tray = null;
 let isQuitting = false;
 let lastVerifiedUpdateOffer = null;
+let lastVerifiedSoftwareUpdateRelease = null;
 let identityClientInstance = null;
+let clientServicesInstance = null;
 let extensionIpcFacade = createExtensionIpcFacade(null);
 let updateCheckGeneration = 0;
+let softwareUpdateCheckGeneration = 0;
 let activeEnvironmentSourcePreferences;
 let managedDownloadTransportInstance = null;
 const DOWNLOAD_USER_AGENT =
@@ -364,13 +517,24 @@ const ENVIRONMENT_PLANS = Object.freeze({
     installedSigner: /^CN=Johannes Schindelin(?:,|$)/i
   },
   python: {
-    name: "Python",
+    name: "Python 3.13",
     command: "python.exe",
     officialUrl: "https://www.python.org/downloads/windows/",
-    displayName: /^Python 3\.\d+(?:\.\d+)? \((?:32|64)-bit\)$/i,
+    displayName: /^Python 3\.13(?:\.\d+)? \(64-bit\)$/i,
     registryPublisher: /^Python Software Foundation$/i,
     openMode: "terminal",
-    installedSigner: /^CN=Python Software Foundation(?:,|$)/i
+    installedSigner: /^CN=Python Software Foundation(?:,|$)/i,
+    pythonMinor: 13
+  },
+  python312: {
+    name: "Python 3.12",
+    command: "python.exe",
+    officialUrl: "https://www.python.org/downloads/windows/",
+    displayName: /^Python 3\.12(?:\.\d+)? \(64-bit\)$/i,
+    registryPublisher: /^Python Software Foundation$/i,
+    openMode: "terminal",
+    installedSigner: /^CN=Python Software Foundation(?:,|$)/i,
+    pythonMinor: 12
   },
   docker: {
     name: "Docker",
@@ -417,6 +581,15 @@ const ENVIRONMENT_UNINSTALL_POLICIES = Object.freeze({
     allowMsi: false,
     signer: ENVIRONMENT_PLANS.python.installedSigner
   },
+  python312: {
+    displayName: ENVIRONMENT_PLANS.python312.displayName,
+    publisher: ENVIRONMENT_PLANS.python312.registryPublisher,
+    executableName:
+      /^python-3\.12(?:\.\d+)?-(?:amd64|arm64|win32)\.exe$/i,
+    allowedArguments: [["/uninstall"]],
+    allowMsi: false,
+    signer: ENVIRONMENT_PLANS.python312.installedSigner
+  },
   docker: {
     displayName: ENVIRONMENT_PLANS.docker.displayName,
     publisher: ENVIRONMENT_PLANS.docker.registryPublisher,
@@ -439,17 +612,75 @@ function getEnvironmentPlan(environmentId) {
     : null;
 }
 
-function resolveManagedDownloadPlan(productId, preferredSourceUrl = "") {
+function resolveManagedDownloadPlan(productId, preferredSourceUrl = "", artifact = null) {
+  const signedPlan = signedDesktopDownloadPlans.get(productId);
+  if (signedPlan) {
+    const sources = Array.isArray(signedPlan.sources) ? signedPlan.sources : [];
+    const source = sources.find((candidate) =>
+      candidate.url === (preferredSourceUrl || signedPlan.url)
+    );
+    return source ? {
+      ...signedPlan,
+      url: source.url,
+      allowedHosts: [...source.allowedHosts],
+      sourceLabel: source.label || "official"
+    } : null;
+  }
   const staticPlan = getStaticManagedDownload(productId);
   if (staticPlan) {
+    const partialRecord = readPartialDownloadRecords()[productId];
+    const completedRecord = readDownloadRecords()[productId];
+    const persistedSourceUrl =
+      typeof partialRecord?.url === "string" && partialRecord.url
+        ? partialRecord.url
+        : typeof completedRecord?.url === "string"
+          ? completedRecord.url
+          : "";
+    const sources = [
+      {
+        url: staticPlan.url,
+        allowedHosts: staticPlan.allowedHosts,
+        label: "官方源"
+      },
+      ...(Array.isArray(staticPlan.mirrors) ? staticPlan.mirrors : [])
+    ];
+    const requestedSourceUrl =
+      preferredSourceUrl ||
+      (sources.some((source) => source.url === persistedSourceUrl)
+        ? persistedSourceUrl
+        : staticPlan.url);
+    const source = sources.find(
+      (candidate) => candidate.url === requestedSourceUrl
+    );
+    if (!source) return null;
     return {
       ...staticPlan,
+      url: source.url,
+      allowedHosts: [...source.allowedHosts],
       productId,
       environmentId: "",
-      sourceLabel: "",
-      managedProductId: productId
+      sourceLabel: source.label || "镜像源",
+      managedProductId: productId,
+      sources
     };
   }
+  if (getDesktopDownloadOnlyProfile(productId)) {
+    const persisted =
+      desktopDownloadOnlyArtifactFromReceipt(
+        productId,
+        readPartialDownloadRecords()[productId]
+      ) ||
+      desktopDownloadOnlyArtifactFromReceipt(
+        productId,
+        readDownloadRecords()[productId]
+      );
+    const plan = buildDesktopDownloadOnlyPlan(productId, artifact || persisted);
+    return plan ? { ...plan, managedProductId: productId, sources: [{ url: plan.url, allowedHosts: plan.allowedHosts, label: "official" }] } : null;
+  }
+  const signedArtifact =
+    signedDesktopDownloadArtifactFromReceipt(readPartialDownloadRecords()[productId]) ||
+    signedDesktopDownloadArtifactFromReceipt(readDownloadRecords()[productId]);
+  if (signedArtifact) return buildSignedDesktopDownloadPlan(productId, signedArtifact);
   if (!environmentIdFromManagedDownload(productId)) return null;
   const partialRecord = readPartialDownloadRecords()[productId];
   const completedRecord = readDownloadRecords()[productId];
@@ -466,8 +697,24 @@ function resolveManagedDownloadPlan(productId, preferredSourceUrl = "") {
   });
 }
 
-function nextEnvironmentDownloadPlan(plan) {
-  if (!plan?.environmentId) return null;
+function nextManagedDownloadPlan(plan) {
+  if (!plan) return null;
+  if (!plan.environmentId) {
+    const sources = Array.isArray(plan.sources) ? plan.sources : [];
+    const currentIndex = sources.findIndex((source) => source.url === plan.url);
+    const nextSource = sources[currentIndex + 1];
+    if (plan.downloadPolicy === "desktop-download-only" && nextSource) {
+      return {
+        ...plan,
+        url: nextSource.url,
+        allowedHosts: [...nextSource.allowedHosts],
+        sourceLabel: nextSource.label || "mirror"
+      };
+    }
+    return nextSource
+      ? resolveManagedDownloadPlan(plan.productId, nextSource.url)
+      : null;
+  }
   const downloadPlan = getEnvironmentDownloadPlan(
     plan.environmentId,
     activeEnvironmentSourcePreferences
@@ -484,9 +731,37 @@ function nextEnvironmentDownloadPlan(plan) {
     : null;
 }
 
-const CLI_INSTALL_PLANS = cliInstallPlans();
-const CLIENT_INSTALL_PROFILES = publicInstallProfiles();
+const CLI_INSTALL_PLANS = Object.freeze({ ...cliInstallPlans(), ...cliDeployOnlyPlans() });
+const CLIENT_INSTALL_PROFILES = Object.freeze([
+  ...publicInstallProfiles(),
+  ...publicCliDeployOnlyProfiles()
+]);
+
+function createPortableBinaryReceipt(options) {
+  return options.plan?.deployOnlyProfileId
+    ? createCliDeployOnlyReceipt(options)
+    : createManagedBinaryReceipt(options);
+}
 const DESKTOP_PROBES = desktopProbes();
+
+function managedRegistryDesktopContext(productId) {
+  const registration = getInstallRegistration(productId);
+  const adapter = getDesktopAdapterForProduct(productId);
+  const dossier = getProductIntakeDossier(productId);
+  if (
+    adapter?.ownershipPolicy !== "post-install-registry-receipt" ||
+    !registration?.desktopAdapterId ||
+    !dossier?.executionContractSha256
+  ) {
+    return null;
+  }
+  return {
+    productId,
+    adapterId: registration.desktopAdapterId,
+    executionContractSha256: dossier.executionContractSha256,
+    adapter
+  };
+}
 
 function configPath() {
   return path.join(app.getPath("userData"), "pc-settings.json");
@@ -534,6 +809,159 @@ function environmentOperationRecordsPath() {
 
 function managedCliRecordsPath() {
   return path.join(app.getPath("userData"), "cli-install-records.json");
+}
+
+function portableDesktopRecordsDirectory() {
+  return path.join(
+    app.getPath("userData"),
+    "portable-desktop-install-records"
+  );
+}
+
+function managedRegistryDesktopRecordsDirectory() {
+  return path.join(
+    app.getPath("userData"),
+    "registry-desktop-install-records"
+  );
+}
+
+function managedRegistryDesktopPendingDirectory() {
+  return path.join(
+    app.getPath("userData"),
+    "registry-desktop-install-pending"
+  );
+}
+
+function windowsPackageManagerRecordsDirectory() {
+  return path.join(
+    app.getPath("userData"),
+    "windows-package-manager-install-records"
+  );
+}
+
+function windowsPackageManagerRecordPath(productId) {
+  if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(String(productId || ""))) {
+    throw new Error("软件包产品 ID 无效");
+  }
+  return path.join(windowsPackageManagerRecordsDirectory(), `${productId}.json`);
+}
+
+function readWindowsPackageManagerRecord(productId) {
+  try {
+    return parseWindowsPackageManagerReceiptJson(
+      fs.readFileSync(windowsPackageManagerRecordPath(productId), "utf8")
+    );
+  } catch {
+    return null;
+  }
+}
+
+function setWindowsPackageManagerRecord(productId, receipt) {
+  writeJsonAtomically(windowsPackageManagerRecordPath(productId), receipt);
+}
+
+function removeWindowsPackageManagerRecordStrict(productId) {
+  const recordPath = windowsPackageManagerRecordPath(productId);
+  if (fs.existsSync(recordPath)) fs.unlinkSync(recordPath);
+}
+
+function managedRegistryDesktopStatePath(directory, productId) {
+  if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(String(productId || ""))) {
+    throw new Error("桌面程序产品 ID 无效");
+  }
+  return path.join(directory, `${productId}.json`);
+}
+
+function managedRegistryDesktopReceiptPath(productId) {
+  return managedRegistryDesktopStatePath(
+    managedRegistryDesktopRecordsDirectory(),
+    productId
+  );
+}
+
+function managedRegistryDesktopPendingPath(productId) {
+  return managedRegistryDesktopStatePath(
+    managedRegistryDesktopPendingDirectory(),
+    productId
+  );
+}
+
+function readManagedRegistryDesktopReceipt(productId) {
+  try {
+    return parseManagedRegistryReceiptJson(
+      fs.readFileSync(managedRegistryDesktopReceiptPath(productId), "utf8")
+    );
+  } catch {
+    return null;
+  }
+}
+
+function readManagedRegistryDesktopPending(productId) {
+  try {
+    return parseManagedRegistryPendingJson(
+      fs.readFileSync(managedRegistryDesktopPendingPath(productId), "utf8")
+    );
+  } catch {
+    return null;
+  }
+}
+
+function setManagedRegistryDesktopReceipt(productId, receipt) {
+  writeJsonAtomically(managedRegistryDesktopReceiptPath(productId), receipt);
+}
+
+function setManagedRegistryDesktopPending(productId, pending) {
+  writeJsonAtomically(managedRegistryDesktopPendingPath(productId), pending);
+}
+
+function removeManagedRegistryDesktopStateStrict(filePath) {
+  if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+}
+
+function removeManagedRegistryDesktopReceiptStrict(productId) {
+  removeManagedRegistryDesktopStateStrict(
+    managedRegistryDesktopReceiptPath(productId)
+  );
+}
+
+function removeManagedRegistryDesktopPendingStrict(productId) {
+  removeManagedRegistryDesktopStateStrict(
+    managedRegistryDesktopPendingPath(productId)
+  );
+}
+
+function portableDesktopRecordPath(productId) {
+  if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(String(productId || ""))) {
+    throw new Error("便携程序产品 ID 无效");
+  }
+  return path.join(portableDesktopRecordsDirectory(), `${productId}.json`);
+}
+
+function readPortableDesktopRecord(productId) {
+  try {
+    return parsePlainObjectJson(
+      fs.readFileSync(portableDesktopRecordPath(productId), "utf8")
+    );
+  } catch {
+    return null;
+  }
+}
+
+function setPortableDesktopRecord(productId, receipt) {
+  writeJsonAtomically(portableDesktopRecordPath(productId), receipt);
+}
+
+function removePortableDesktopRecord(productId) {
+  try {
+    fs.rmSync(portableDesktopRecordPath(productId), { force: true });
+  } catch {
+    // The exact per-product receipt is the only removal target.
+  }
+}
+
+function removePortableDesktopRecordStrict(productId) {
+  const recordPath = portableDesktopRecordPath(productId);
+  if (fs.existsSync(recordPath)) fs.unlinkSync(recordPath);
 }
 
 function readManagedCliRecords() {
@@ -686,6 +1114,8 @@ function taskNotificationProductName(productId) {
   if (DESKTOP_PROBES[productId]?.names?.[0]) {
     return DESKTOP_PROBES[productId].names[0];
   }
+  const packageManagerProduct = getWindowsPackageManagerProduct(productId);
+  if (packageManagerProduct?.label) return packageManagerProduct.label;
   return `${BRAND.name} 任务`;
 }
 
@@ -890,11 +1320,12 @@ function getDesktopOperationController() {
   desktopOperationController = createDesktopOperationController({
     loadRecords: readDesktopOperationRecords,
     saveRecords: writeDesktopOperationRecords,
-    checkProduct: detectDesktopProduct,
+    checkProduct: detectDesktopProductForOperation,
     isSupported: (productId) =>
-      Boolean(DESKTOP_PROBES[productId]) &&
-      (Boolean(resolveManagedDownloadPlan(productId)) ||
-        Boolean(DESKTOP_PROBES[productId]?.uninstall)),
+      Boolean(windowsPackageManagerPlan(productId)) ||
+      (Boolean(DESKTOP_PROBES[productId]) &&
+        (Boolean(resolveManagedDownloadPlan(productId)) ||
+          Boolean(DESKTOP_PROBES[productId]?.uninstall))),
     createId: () => crypto.randomUUID(),
     onChange: emitDesktopOperationTask,
     intervalMs: 5_000,
@@ -903,9 +1334,49 @@ function getDesktopOperationController() {
   return desktopOperationController;
 }
 
+function cleanupLegacyPortableInstallArtifacts(productId) {
+  const managedDownload = getStaticManagedDownload(productId);
+  const portable = portableDesktopPlan(managedDownload);
+  const layout = portable
+    ? createPortableDesktopLayout({
+        productId,
+        download: managedDownload,
+        localAppData: process.env.LOCALAPPDATA || ""
+      })
+    : null;
+  if (
+    !portable ||
+    portable.kind === "zip-directory" ||
+    !layout ||
+    !fs.existsSync(layout.directory) ||
+    fs.existsSync(layout.executable) ||
+    fs.existsSync(layout.marker)
+  ) {
+    return;
+  }
+  cleanupInterruptedPortableFiles({
+    directory: layout.directory,
+    executableFileName: portable.executableRelativePath
+  });
+}
+
 async function desktopOperationForRenderer(productId) {
   const controller = getDesktopOperationController();
   let task = controller.get(productId);
+  if (task?.operation === "install") {
+    try {
+      cleanupLegacyPortableInstallArtifacts(productId);
+    } catch (error) {
+      console.error("Unable to clean legacy portable staging files", error);
+    }
+    await controller.finishProcess(
+      productId,
+      task.generation,
+      task.operationId,
+      { exitCode: 0, signal: null }
+    );
+    return controller.get(productId);
+  }
   const adapter = getDesktopAdapterForProduct(productId);
   const foregroundLifecycle =
     (task?.operation === "install" &&
@@ -1070,8 +1541,8 @@ function loadManagedDownloadTasks() {
     const cleanup = plan
       ? discardManagedPartialDownload(productId, plan)
       : { ok: false };
-    if (!cleanup.ok) {
-      recovery.records[productId] = records[productId];
+    if (cleanup.ok) {
+      delete recovery.records[productId];
     }
   }
   for (const [productId, task] of Object.entries(recovery.records)) {
@@ -1085,6 +1556,52 @@ function loadManagedDownloadTasks() {
 function writeManagedDownloadTasks() {
   const records = Object.fromEntries(managedDownloadTasks.entries());
   writeJsonAtomically(managedDownloadTasksPath(), records);
+}
+
+function removeManagedDownloadState(productId, options) {
+  const {
+    expectedAttemptId = "",
+    clearCompletedRecord = false
+  } = options || {};
+  loadManagedDownloadTasks();
+  const previousTask = managedDownloadTasks.get(productId) || null;
+  if (
+    expectedAttemptId &&
+    previousTask?.attemptId !== expectedAttemptId
+  ) {
+    return false;
+  }
+  const records = readDownloadRecords();
+  const previousRecord = records[productId] || null;
+  managedDownloadTasks.delete(productId);
+  if (clearCompletedRecord) delete records[productId];
+  try {
+    writeManagedDownloadTasks();
+    if (clearCompletedRecord) writeDownloadRecords(records);
+  } catch (error) {
+    if (previousTask) managedDownloadTasks.set(productId, previousTask);
+    if (clearCompletedRecord && previousRecord) {
+      records[productId] = previousRecord;
+    }
+    try {
+      writeManagedDownloadTasks();
+      if (clearCompletedRecord) writeDownloadRecords(records);
+    } catch {
+      // Preserve the original persistence failure.
+    }
+    throw error;
+  }
+  downloadTaskLastPersistedAt.delete(productId);
+  downloadTaskLastEmittedAt.delete(productId);
+  setTrayTaskState(`download:${productId}`, "", false);
+  return true;
+}
+
+function isMissingDownloadedFileTask(task) {
+  return (
+    task?.phase === "failed" &&
+    task.errorCode === "DOWNLOADED_FILE_MISSING"
+  );
 }
 
 function emitManagedDownloadTask(task) {
@@ -1140,9 +1657,13 @@ function advanceManagedDownloadTask(
 
 function recordManagedDownloadProgress(productId, attemptId, progress) {
   const now = Date.now();
+  const publicPhase = projectManagedDownloadTask(
+    currentManagedDownloadTask(productId)
+  )?.phase;
   const persist =
     now - (downloadTaskLastPersistedAt.get(productId) || 0) >= 1000;
   const broadcast =
+    publicPhase !== "downloading" ||
     now - (downloadTaskLastEmittedAt.get(productId) || 0) >= 100;
   return advanceManagedDownloadTask(
     productId,
@@ -1210,13 +1731,14 @@ function updateHashFromFile(hash, filePath) {
 
 async function inspectSignature(filePath) {
   const script = [
+    POWERSHELL_UTF8_OUTPUT,
     "$s=Get-AuthenticodeSignature -LiteralPath $env:AIHUB_SIGNATURE_PATH",
     "$v=[pscustomobject]@{Status=[string]$s.Status;Signer=if($s.SignerCertificate){$s.SignerCertificate.Subject}else{''}}",
     "$v|ConvertTo-Json -Compress"
   ].join(";");
   try {
     const { stdout } = await execFileAsync(
-      "powershell.exe",
+      windowsPowerShellPath(),
       ["-NoProfile", "-NonInteractive", "-Command", script],
       {
         windowsHide: true,
@@ -1267,6 +1789,7 @@ async function inspectWindowsInstallerIdentity(filePath, expected) {
   }
 
   const script = [
+    POWERSHELL_UTF8_OUTPUT,
     "$v=(Get-Item -LiteralPath $env:AIHUB_INSTALLER_IDENTITY_PATH).VersionInfo",
     "$o=[pscustomobject]@{ProductName=[string]$v.ProductName;FileDescription=[string]$v.FileDescription;OriginalFilename=[string]$v.OriginalFilename;CompanyName=[string]$v.CompanyName}",
     "$o|ConvertTo-Json -Compress"
@@ -1274,7 +1797,7 @@ async function inspectWindowsInstallerIdentity(filePath, expected) {
   let versionInfo;
   try {
     const { stdout } = await execFileAsync(
-      "powershell.exe",
+      windowsPowerShellPath(),
       ["-NoProfile", "-NonInteractive", "-Command", script],
       {
         windowsHide: true,
@@ -1312,13 +1835,14 @@ async function inspectRecentWindowsApplicationCrash(filePath, startedAtMs) {
     return null;
   }
   const script = [
+    POWERSHELL_UTF8_OUTPUT,
     "$start=[DateTimeOffset]::FromUnixTimeMilliseconds([long]$env:AIHUB_LAUNCH_STARTED_MS).LocalDateTime.AddSeconds(-1)",
     "$event=Get-WinEvent -FilterHashtable @{LogName='Application';Id=1000;StartTime=$start} -ErrorAction SilentlyContinue|Where-Object{$_.Properties.Count -gt 10 -and [string]$_.Properties[10].Value -ieq $env:AIHUB_LAUNCH_PATH}|Sort-Object TimeCreated -Descending|Select-Object -First 1",
     "if($event){[pscustomobject]@{occurredAt=$event.TimeCreated.ToUniversalTime().ToString('o');applicationName=[string]$event.Properties[0].Value;moduleName=[string]$event.Properties[3].Value;exceptionCode=[string]$event.Properties[6].Value;applicationPath=[string]$event.Properties[10].Value}|ConvertTo-Json -Compress}"
   ].join(";");
   try {
     const { stdout } = await execFileAsync(
-      "powershell.exe",
+      windowsPowerShellPath(),
       ["-NoProfile", "-NonInteractive", "-Command", script],
       {
         windowsHide: true,
@@ -1401,6 +1925,21 @@ function parseRegistryOutput(raw) {
   return entries.filter((entry) => entry.displayname);
 }
 
+function parseRegistryKeys(raw) {
+  return [
+    ...new Set(
+      String(raw || "")
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(
+          (line) =>
+            /^HKEY_/i.test(line) &&
+            /\\CURRENTVERSION\\UNINSTALL\\[^\\]+$/i.test(line)
+        )
+    )
+  ];
+}
+
 function isMissingRegistryQuery(error) {
   const message = `${error?.stdout || ""}\n${error?.stderr || ""}\n${error?.message || ""}`;
   return (
@@ -1424,17 +1963,22 @@ async function scanRegistryAppsWithStatus() {
           timeout: 15000,
           maxBuffer: 8 * 1024 * 1024
         });
-        return { ok: true, entries: parseRegistryOutput(stdout) };
+        return {
+          ok: true,
+          entries: parseRegistryOutput(stdout),
+          keys: parseRegistryKeys(stdout)
+        };
       } catch (error) {
         return isMissingRegistryQuery(error)
-          ? { ok: true, entries: [] }
-          : { ok: false, entries: [] };
+          ? { ok: true, entries: [], keys: [] }
+          : { ok: false, entries: [], keys: [] };
       }
     })
   );
   return {
     ok: results.every((result) => result.ok),
-    entries: results.flatMap((result) => result.entries)
+    entries: results.flatMap((result) => result.entries),
+    keys: [...new Set(results.flatMap((result) => result.keys))]
   };
 }
 
@@ -1442,12 +1986,16 @@ async function scanRegistryApps() {
   return (await scanRegistryAppsWithStatus()).entries;
 }
 
-async function locateRegisteredPythonWithStatus() {
+async function locateRegisteredPythonWithStatus(pythonMinor) {
   const roots = [
     "HKCU\\SOFTWARE\\Python\\PythonCore",
     "HKLM\\SOFTWARE\\Python\\PythonCore",
     "HKLM\\SOFTWARE\\WOW6432Node\\Python\\PythonCore"
-  ];
+  ].map((root) =>
+    Number.isInteger(pythonMinor)
+      ? `${root}\\3.${pythonMinor}\\InstallPath`
+      : root
+  );
   const results = await Promise.all(
     roots.map(async (root) => {
       try {
@@ -1469,7 +2017,7 @@ async function locateRegisteredPythonWithStatus() {
           ].map((match) => match[1].trim())
         };
       } catch (error) {
-        return isMissingRegistryQuery(error)
+        return isMissingExactRegistryValueQuery(error)
           ? { ok: true, candidates: [] }
           : { ok: false, candidates: [] };
       }
@@ -1513,6 +2061,14 @@ function fixedEnvironmentExecutableCandidates(environmentId) {
   }
   if (localPrograms && environmentId === "git") {
     candidates.push(path.join(localPrograms, "Git", "cmd", "git.exe"));
+  } else if (localPrograms && environmentId === "python") {
+    candidates.push(
+      path.join(localPrograms, "Python", "Python313", "python.exe")
+    );
+  } else if (localPrograms && environmentId === "python312") {
+    candidates.push(
+      path.join(localPrograms, "Python", "Python312", "python.exe")
+    );
   }
   return [...new Set(candidates.map((candidate) => path.resolve(candidate)))];
 }
@@ -1569,9 +2125,11 @@ async function locateEnvironment(environmentId, plan) {
     }
   }
   const [rawPathProbe, rawRegisteredProbe, fixedProbe] = await Promise.all([
-    locateWithStatus(plan.command),
-    environmentId === "python"
-      ? locateRegisteredPythonWithStatus()
+    Number.isInteger(plan.pythonMinor)
+      ? Promise.resolve({ ok: true, location: "" })
+      : locateWithStatus(plan.command),
+    Number.isInteger(plan.pythonMinor)
+      ? locateRegisteredPythonWithStatus(plan.pythonMinor)
       : Promise.resolve({ ok: true, location: "" }),
     trustedFixedEnvironmentExecutable(environmentId, plan)
   ]);
@@ -1800,10 +2358,23 @@ async function detectEnvironmentOperationStatus(environmentId) {
   );
 }
 
+async function detectEnvironmentUpdateStatuses(environmentId) {
+  return Object.fromEntries(
+    await Promise.all(
+      environmentUpdateMemberIds(environmentId).map(async (memberId) => [
+        memberId,
+        await detectEnvironmentOperationStatus(memberId)
+      ])
+    )
+  );
+}
+
 function isolatedThirdPartyEnvironment() {
   const blocked = /^(PORTABLE_EXECUTABLE_|ELECTRON_|NODE_OPTIONS$|NODE_PATH$|npm_config_node_options$|__COMPAT_LAYER$)/i;
-  return Object.fromEntries(
-    Object.entries(process.env).filter(([name]) => !blocked.test(name))
+  return windowsPowerShellEnvironment(
+    Object.fromEntries(
+      Object.entries(process.env).filter(([name]) => !blocked.test(name))
+    )
   );
 }
 
@@ -1818,7 +2389,7 @@ async function scanEnvironment() {
     ),
     scanWslDistributionEnvironments()
   ]);
-  const checks = await Promise.all(
+  const scanned = await Promise.all(
     locations.map(async ({ id, evidence }) => {
       const plan = getEnvironmentPlan(id);
       const status = await environmentStatusFromScan(
@@ -1826,36 +2397,276 @@ async function scanEnvironment() {
         evidence,
         registryScan
       );
+      const recommendedVersion = plan.nativeWindowsFeature
+        ? ""
+        : getEnvironmentDownloadPlan(id, activeEnvironmentSourcePreferences)
+            .recommendedVersion;
+      const publishedRecommendedVersion =
+        recommendedVersion &&
+        isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, {
+          kind: "environment",
+          subjectId: id,
+          mode: "environment-download",
+          version: recommendedVersion
+        })
+          ? recommendedVersion
+          : "";
+      const updateOffer = resolveEnvironmentUpdateOffer({
+        detection: status.detection,
+        installedVersion: status.version,
+        recommendedVersion: publishedRecommendedVersion
+      });
       return {
-        id,
-        name: plan.name,
-        installed: status.installed,
-        version: status.version,
-        location: status.location,
-        canOpen: status.canOpen,
-        canUninstall: status.canUninstall,
-        detection: status.detection
+        status,
+        check: {
+          id,
+          name: plan.name,
+          installed: status.installed,
+          version: status.version,
+          location: status.location,
+          canOpen: status.canOpen,
+          canUninstall: status.canUninstall,
+          detection: status.detection,
+          ...updateOffer
+        }
       };
     })
   );
+  const operationController = getEnvironmentOperationController();
+  for (const { check, status } of scanned) {
+    const operation = operationController.get(check.id);
+    const terminalScan =
+      operation?.phase === "timed-out" &&
+      ((operation.operation === "install" && status.detection === "installed") ||
+        (operation.operation === "uninstall" && status.detection === "absent"));
+    if (terminalScan) {
+      await operationController.reconcileScan(
+        check.id,
+        operation.generation,
+        operation.operationId,
+        status
+      );
+    }
+  }
+  const checks = scanned.map(({ check }) => check);
   return {
     platform: process.platform,
     architecture: process.arch,
     checkedAt: new Date().toISOString(),
     checks,
+    displayChecks: projectEnvironmentFamilyChecks(checks),
     wslDistributions
+  };
+}
+
+function windowsPackageManagerPlan(productId) {
+  return getWindowsPackageManagerProduct(productId)?.packageManager || null;
+}
+
+async function resolveWindowsPackageManagerExecutable() {
+  if (process.platform !== "win32") return "";
+  if (windowsPackageManagerExecutablePromise) {
+    const cached = await windowsPackageManagerExecutablePromise;
+    if (cached && fs.existsSync(cached)) return cached;
+    windowsPackageManagerExecutablePromise = null;
+  }
+  windowsPackageManagerExecutablePromise = (async () => {
+    const script = [
+      POWERSHELL_UTF8_OUTPUT,
+      "$package=Get-AppxPackage -Name Microsoft.DesktopAppInstaller -ErrorAction SilentlyContinue|Sort-Object Version -Descending|Select-Object -First 1",
+      "if($null -eq $package){exit 1}",
+      "$candidate=Join-Path $package.InstallLocation 'winget.exe'",
+      "if(-not(Test-Path -LiteralPath $candidate -PathType Leaf)){exit 1}",
+      "[IO.Path]::GetFullPath($candidate)"
+    ].join(";");
+    const { stdout } = await execFileAsync(
+      windowsPowerShellPath(),
+      ["-NoProfile", "-NonInteractive", "-Command", script],
+      {
+        windowsHide: true,
+        shell: false,
+        timeout: 15_000,
+        maxBuffer: 64 * 1024
+      }
+    );
+    const candidate = String(stdout || "").trim();
+    if (
+      !candidate ||
+      !path.isAbsolute(candidate) ||
+      path.basename(candidate).toLowerCase() !== "winget.exe" ||
+      !fs.existsSync(candidate)
+    ) {
+      return "";
+    }
+    return fs.realpathSync.native(candidate);
+  })().catch(() => "");
+  const executable = await windowsPackageManagerExecutablePromise;
+  if (!executable) windowsPackageManagerExecutablePromise = null;
+  return executable;
+}
+
+function windowsPackageManagerFailure(error, fallback) {
+  const detail = String(error?.stderr || error?.stdout || "")
+    .replace(/\u001B\[[0-?]*[ -/]*[@-~]/g, "")
+    .replace(/[\r\n]+/g, " ")
+    .trim();
+  if (detail) return `${fallback}: ${detail.slice(-1200)}`;
+  return error instanceof Error && error.message
+    ? `${fallback}: ${error.message}`
+    : fallback;
+}
+
+function windowsPackageManagerText(code, parameters = {}) {
+  return runtimeText(code, readSettings().language, parameters);
+}
+
+async function runWindowsPackageManager(operation, plan, timeout) {
+  const executable = await resolveWindowsPackageManagerExecutable();
+  if (!executable) {
+    throw new Error(windowsPackageManagerText("WPM_UNAVAILABLE"));
+  }
+  const args =
+    operation === "list-all"
+      ? wingetListAllArgs()
+      : wingetArgsFor(operation, plan);
+  return await execFileAsync(executable, args, {
+    windowsHide: true,
+    shell: false,
+    timeout,
+    maxBuffer: 16 * 1024 * 1024,
+    env: isolatedThirdPartyEnvironment()
+  });
+}
+
+async function scanWindowsPackageManager() {
+  try {
+    const { stdout } = await runWindowsPackageManager(
+      "list-all",
+      null,
+      120_000
+    );
+    return { ok: true, output: String(stdout || ""), error: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      output: "",
+      error: windowsPackageManagerFailure(
+        error,
+        windowsPackageManagerText("WPM_INVENTORY_FAILED")
+      )
+    };
+  }
+}
+
+async function detectWindowsPackageManagerProduct(
+  productId,
+  product,
+  scanSnapshot = null
+) {
+  const [packageSnapshot, windowsApps, registryScan] = await Promise.all([
+    scanSnapshot?.windowsPackageManager || scanWindowsPackageManager(),
+    scanSnapshot?.windowsApps || scanWindowsApps(),
+    scanSnapshot?.registryScan || scanRegistryAppsWithStatus()
+  ]);
+  if (!packageSnapshot.ok) {
+    return {
+      installed: false,
+      version: "",
+      location: "",
+      executable: "",
+      appId: "",
+      canOpen: false,
+      canUninstall: false,
+      uninstallMode: "interactive",
+      availableVersion: "",
+      detection: "unknown"
+    };
+  }
+  const entry = findWingetListEntry(
+    packageSnapshot.output,
+    product.packageManager.packageId
+  );
+  const managed = Boolean(
+    entry &&
+      windowsPackageManagerReceiptMatches(
+        readWindowsPackageManagerRecord(productId),
+        productId,
+        product.packageManager
+      )
+  );
+  const expectedNames = product.packageManager.expectedNames || [];
+  const startMatch = entry
+    ? windowsApps.starts.find((candidate) =>
+        matchesDesktopIdentity(expectedNames, candidate.Name)
+      )
+    : null;
+  let location = "";
+  if (entry && registryScan.ok) {
+    for (const candidate of registryScan.entries) {
+      if (
+        !matchesDesktopIdentity(expectedNames, candidate.displayname) ||
+        typeof candidate.installlocation !== "string"
+      ) {
+        continue;
+      }
+      const proposed = candidate.installlocation.trim().replace(/^"|"$/g, "");
+      try {
+        if (!path.isAbsolute(proposed) || !fs.existsSync(proposed)) continue;
+        const resolved = fs.realpathSync.native(proposed);
+        if (fs.statSync(resolved).isDirectory()) {
+          location = resolved;
+          break;
+        }
+      } catch {
+        // Registry location is auxiliary only; exact winget ID owns presence.
+      }
+    }
+  }
+  return {
+    installed: Boolean(entry),
+    version: String(entry?.version || ""),
+    availableVersion: String(entry?.availableVersion || ""),
+    location,
+    executable: "",
+    appId: entry ? String(startMatch?.AppID || "") : "",
+    canOpen: Boolean(entry && startMatch?.AppID),
+    canUninstall: Boolean(entry),
+    uninstallMode: managed ? "interactive" : "system-panel",
+    managed,
+    ownership: managed ? "managed" : entry ? "external" : "absent",
+    detection: entry ? "installed" : "absent"
+  };
+}
+
+function claimWindowsPackageManagerInstallation(productId, product, status) {
+  if (!status?.installed || status.ownership === "managed") return status;
+  setWindowsPackageManagerRecord(
+    productId,
+    createWindowsPackageManagerReceipt({
+      productId,
+      plan: product.packageManager,
+      installedVersion: status.version
+    })
+  );
+  return {
+    ...status,
+    canUninstall: true,
+    uninstallMode: "interactive",
+    managed: true,
+    ownership: "managed"
   };
 }
 
 async function scanWindowsApps() {
   const script = [
+    POWERSHELL_UTF8_OUTPUT,
     "$packages=Get-AppxPackage|Select-Object Name,PackageFullName,PackageFamilyName,Publisher,Architecture,InstallLocation,Version",
     "$starts=Get-StartApps|Select-Object Name,AppID",
     "[pscustomobject]@{packages=$packages;starts=$starts}|ConvertTo-Json -Depth 4 -Compress"
   ].join(";");
   try {
     const { stdout } = await execFileAsync(
-      "powershell.exe",
+      windowsPowerShellPath(),
       ["-NoProfile", "-NonInteractive", "-Command", script],
       {
         windowsHide: true,
@@ -1882,12 +2693,17 @@ async function scanWindowsApps() {
   }
 }
 
-async function createDesktopProductScanSnapshot() {
-  const [registryScan, windowsApps] = await Promise.all([
+async function createDesktopProductScanSnapshot({
+  includeWindowsPackageManager = false
+} = {}) {
+  const [registryScan, windowsApps, windowsPackageManager] = await Promise.all([
     scanRegistryAppsWithStatus(),
-    scanWindowsApps()
+    scanWindowsApps(),
+    includeWindowsPackageManager
+      ? scanWindowsPackageManager()
+      : Promise.resolve(null)
   ]);
-  return { registryScan, windowsApps };
+  return { registryScan, windowsApps, windowsPackageManager };
 }
 
 function normalizedIconPath(value) {
@@ -1952,7 +2768,266 @@ async function verifyTrustedDesktopUninstaller(record, probe) {
   }
 }
 
-async function detectDesktopProduct(productId, scanSnapshot = null) {
+function managedRegistryDesktopUnknownStatus(ownership = "mismatch") {
+  return {
+    installed: false,
+    version: "",
+    location: "",
+    executable: "",
+    appId: "",
+    canOpen: false,
+    canUninstall: false,
+    uninstallMode: "interactive",
+    detection: "unknown",
+    managed: false,
+    ownership
+  };
+}
+
+function publicManagedRegistryDesktopStatus(status) {
+  if (!status || typeof status !== "object") {
+    return managedRegistryDesktopUnknownStatus();
+  }
+  const { uninstallAction: _uninstallAction, ...publicStatus } = status;
+  return publicStatus;
+}
+
+async function inspectManagedRegistryDesktopInstance(
+  productId,
+  registryScan = null
+) {
+  const context = managedRegistryDesktopContext(productId);
+  const receipt = context
+    ? readManagedRegistryDesktopReceipt(productId)
+    : null;
+  if (!context) return null;
+  if (!receipt) {
+    return fs.existsSync(managedRegistryDesktopReceiptPath(productId))
+      ? {
+          context,
+          receipt: null,
+          registryScan,
+          status: managedRegistryDesktopUnknownStatus("mismatch")
+        }
+      : null;
+  }
+  const scan = registryScan || (await scanRegistryAppsWithStatus());
+  if (!scan.ok) {
+    return {
+      context,
+      receipt,
+      registryScan: scan,
+      status: managedRegistryDesktopUnknownStatus("scan-unknown")
+    };
+  }
+  const status = await inspectManagedRegistryReceipt({
+    receipt,
+    ...context,
+    registry: scan.entries,
+    exists: fs.existsSync,
+    realpath: fs.realpathSync.native,
+    verifySignature: (filePath, signer) =>
+      verifyExpectedSignature(filePath, signer, true)
+  });
+  return { context, receipt, registryScan: scan, status };
+}
+
+async function prepareManagedRegistryDesktopPending(productId, operationTask) {
+  const context = managedRegistryDesktopContext(productId);
+  if (!context) return null;
+  if (
+    operationTask?.operation !== "install" ||
+    typeof operationTask.operationId !== "string"
+  ) {
+    throw new Error("桌面安装所有权操作无效");
+  }
+  const registryScan = await scanRegistryAppsWithStatus();
+  if (!registryScan.ok) {
+    throw new Error("Windows 卸载项扫描不完整，无法建立安装基线");
+  }
+  const pending = createManagedRegistryPendingBaseline({
+    ...context,
+    operationId: operationTask.operationId,
+    startedAt: operationTask.startedAt,
+    deadlineAt: operationTask.deadlineAt,
+    registry: registryScan.keys.map((key) => ({ key }))
+  });
+  if (!pending) throw new Error("无法建立桌面安装注册表基线");
+  if (readManagedRegistryDesktopReceipt(productId)) {
+    removeManagedRegistryDesktopReceiptStrict(productId);
+  }
+  setManagedRegistryDesktopPending(productId, pending);
+  return pending;
+}
+
+async function detectDesktopProductForOperation(productId) {
+  const operationTask = desktopOperationController?.get(productId) || null;
+  const packageManagerProduct = getWindowsPackageManagerProduct(productId);
+  if (packageManagerProduct && operationTask?.operation === "install") {
+    const status = await detectWindowsPackageManagerProduct(
+      productId,
+      packageManagerProduct
+    );
+    return status.installed
+      ? claimWindowsPackageManagerInstallation(
+          productId,
+          packageManagerProduct,
+          status
+        )
+      : status;
+  }
+  const context = managedRegistryDesktopContext(productId);
+  if (!context || !operationTask) return detectDesktopProduct(productId);
+
+  const registryScan = await scanRegistryAppsWithStatus();
+  if (!registryScan.ok) {
+    return managedRegistryDesktopUnknownStatus("scan-unknown");
+  }
+
+  if (operationTask.operation === "install") {
+    const existingReceipt = readManagedRegistryDesktopReceipt(productId);
+    if (existingReceipt) {
+      const inspected = await inspectManagedRegistryDesktopInstance(
+        productId,
+        registryScan
+      );
+      return publicManagedRegistryDesktopStatus(inspected?.status);
+    }
+    const pending = readManagedRegistryDesktopPending(productId);
+    if (pending) {
+      const receipt = await createManagedRegistryReceiptFromTransition({
+        pending,
+        ...context,
+        operationId: operationTask.operationId,
+        registry: registryScan.entries,
+        exists: fs.existsSync,
+        realpath: fs.realpathSync.native,
+        verifySignature: (filePath, signer) =>
+          verifyExpectedSignature(filePath, signer, true)
+      });
+      if (receipt) {
+        setManagedRegistryDesktopReceipt(productId, receipt);
+        try {
+          removeManagedRegistryDesktopPendingStrict(productId);
+        } catch (error) {
+          try {
+            removeManagedRegistryDesktopReceiptStrict(productId);
+          } catch {
+            throw new Error("桌面安装收据提交失败且无法安全回滚");
+          }
+          throw error;
+        }
+        const inspected = await inspectManagedRegistryDesktopInstance(
+          productId,
+          registryScan
+        );
+        return publicManagedRegistryDesktopStatus(inspected?.status);
+      }
+    }
+    const externalStatus = await detectDesktopProduct(productId, {
+      registryScan,
+      windowsApps: { ok: true, packages: [], starts: [] }
+    });
+    return externalStatus.detection === "installed"
+      ? managedRegistryDesktopUnknownStatus("receipt-pending")
+      : externalStatus;
+  }
+
+  const hadReceipt = Boolean(readManagedRegistryDesktopReceipt(productId));
+  const status = await detectDesktopProduct(productId, {
+    registryScan,
+    windowsApps: { ok: true, packages: [], starts: [] }
+  });
+  if (hadReceipt && status.detection === "absent") {
+    removeManagedRegistryDesktopReceiptStrict(productId);
+    removeManagedRegistryDesktopPendingStrict(productId);
+  }
+  return status;
+}
+
+function signedCatalogDesktopDownloadOnlyAbsentStatus() {
+  return {
+    installed: false,
+    version: "",
+    location: "",
+    executable: "",
+    appId: "",
+    canOpen: false,
+    canUninstall: false,
+    uninstallMode: "interactive",
+    detection: "absent"
+  };
+}
+
+async function detectDesktopProduct(productId, scanSnapshot = null, catalogResult = null) {
+  const packageManagerProduct = getWindowsPackageManagerProduct(productId);
+  if (packageManagerProduct) {
+    const currentCatalog = catalogResult || (await resolveCatalog());
+    if (
+      isSignedCatalogDesktopDownloadOnlyProduct({
+        productId,
+        vendors: currentCatalog?.catalog?.vendors
+      })
+    ) {
+      return signedCatalogDesktopDownloadOnlyAbsentStatus();
+    }
+    const status = await detectWindowsPackageManagerProduct(
+      productId,
+      packageManagerProduct,
+      scanSnapshot
+    );
+    return status.detection === "unknown" &&
+      isFixedCatalogDesktopDownloadOnlyProduct({
+        productId,
+        vendors: currentCatalog?.catalog?.vendors
+      })
+      ? signedCatalogDesktopDownloadOnlyAbsentStatus()
+      : status;
+  }
+  const managedDownload = getStaticManagedDownload(productId);
+  const portablePlan = portableDesktopPlan(managedDownload);
+  if (portablePlan) {
+    const receipt = readPortableDesktopRecord(productId);
+    const status = inspectPortableDesktop({
+      productId,
+      download: managedDownload,
+      receipt,
+      localAppData: process.env.LOCALAPPDATA || ""
+    });
+    if (!status.installed || !status.executable) return status;
+    const trust = portableDesktopTrustForReceipt(
+      managedDownload,
+      receipt
+    );
+    if (!trust) {
+      return {
+        ...status,
+        installed: false,
+        version: "",
+        executable: "",
+        canOpen: false,
+        canUninstall: false,
+        detection: "unknown",
+        ownership: "mismatch"
+      };
+    }
+    const signature = await verifyPortableExecutableTrust(
+      status.executable,
+      trust
+    );
+    return signature.ok
+      ? status
+      : {
+          ...status,
+          installed: false,
+          version: "",
+          executable: "",
+          canOpen: false,
+          canUninstall: false,
+          detection: "unknown",
+          ownership: "mismatch"
+        };
+  }
   const probe = DESKTOP_PROBES[productId];
   if (!probe) {
     return {
@@ -1970,6 +3045,16 @@ async function detectDesktopProduct(productId, scanSnapshot = null) {
   const matches = (value) => matchesDesktopIdentity(probe.names, value);
   const { registryScan, windowsApps } =
     scanSnapshot || (await createDesktopProductScanSnapshot());
+  if (
+    managedRegistryDesktopContext(productId) &&
+    fs.existsSync(managedRegistryDesktopReceiptPath(productId))
+  ) {
+    const managedInstance = await inspectManagedRegistryDesktopInstance(
+      productId,
+      registryScan
+    );
+    return publicManagedRegistryDesktopStatus(managedInstance?.status);
+  }
   const registry = registryScan.entries;
   const uninstallRecord = registryScan.ok
     ? trustedDesktopUninstallRecord(productId, registry)
@@ -2075,15 +3160,37 @@ async function detectDesktopProduct(productId, scanSnapshot = null) {
       ),
     uninstallMode: probe.uninstallMode,
     detection: presence.detection,
+    ...(managedRegistryDesktopContext(productId)
+      ? { managed: false, ownership: "external" }
+      : {}),
     ...(legacyInstall ? { legacyInstall } : {})
   };
 }
 
 async function detectDesktopProducts(productIds) {
+  const supportedProductIds = productIds.filter(
+    (productId) =>
+      DESKTOP_PROBES[productId] || windowsPackageManagerPlan(productId)
+  );
+  const catalogResult = supportedProductIds.some((productId) =>
+    Boolean(windowsPackageManagerPlan(productId))
+  )
+    ? await resolveCatalog()
+    : null;
+  const includeWindowsPackageManager = supportedProductIds.some(
+    (productId) =>
+      Boolean(windowsPackageManagerPlan(productId)) &&
+      !isSignedCatalogDesktopDownloadOnlyProduct({
+        productId,
+        vendors: catalogResult?.catalog?.vendors
+      })
+  );
   return await scanManagedDesktopInventory({
-    productIds: productIds.filter((productId) => DESKTOP_PROBES[productId]),
-    createSnapshot: createDesktopProductScanSnapshot,
-    detectProduct: detectDesktopProduct
+    productIds: supportedProductIds,
+    createSnapshot: () =>
+      createDesktopProductScanSnapshot({ includeWindowsPackageManager }),
+    detectProduct: (productId, snapshot) =>
+      detectDesktopProduct(productId, snapshot, catalogResult)
   });
 }
 
@@ -2229,8 +3336,40 @@ async function uninstallTrustedAppxProduct(
   }
 }
 
-function catalogCachePath() {
-  return path.join(app.getPath("userData"), "catalog-cache.json");
+function catalogCachePath(catalogChannel) {
+  return path.join(
+    app.getPath("userData"),
+    catalogChannelStorage(catalogChannel).cacheFileName
+  );
+}
+
+function catalogHighWaterPath(catalogChannel) {
+  return path.join(
+    app.getPath("userData"),
+    catalogChannelStorage(catalogChannel).highWaterFileName
+  );
+}
+
+function readCatalogHighWater(catalogChannel) {
+  try {
+    return normalizeCatalogHighWater(
+      JSON.parse(fs.readFileSync(catalogHighWaterPath(catalogChannel), "utf8"))
+    );
+  } catch {
+    return normalizeCatalogHighWater();
+  }
+}
+
+function writeCatalogHighWater(catalogChannel, release) {
+  const highWater = recordCatalogHighWater(
+    readCatalogHighWater(catalogChannel),
+    release
+  );
+  writeJsonAtomically(catalogHighWaterPath(catalogChannel), {
+    schemaVersion: 1,
+    ...highWater
+  });
+  return highWater;
 }
 
 function releaseClientIdPath() {
@@ -2249,9 +3388,12 @@ function channelPath() {
 
 function readChannel() {
   try {
-    return readReleaseChannel(
+    return readCatalogClientChannel(
       JSON.parse(fs.readFileSync(channelPath(), "utf8")),
-      { kind: "catalog", allowLocalhost: !app.isPackaged }
+      {
+        kind: "catalog",
+        allowLocalhost: !app.isPackaged || LOCAL_RELEASE_ACCEPTANCE
+      }
     );
   } catch (error) {
     return {
@@ -2260,6 +3402,7 @@ function readChannel() {
       releaseUrl: "",
       allowedReleaseOrigins: [],
       trustedKeys: [],
+      catalogChannel: "v1",
       error:
         error instanceof Error ? error.message : "目录发布通道配置无效"
     };
@@ -2282,7 +3425,10 @@ async function fetchRemoteCatalogRelease(channel, clientId, highest = null) {
     if (!channel.allowedReleaseOrigins.includes(finalUrl.origin)) {
       throw new Error("远程目录重定向到了未固定的来源");
     }
-    const raw = await readResponseTextWithLimit(response, 1024 * 1024);
+    const raw = await readResponseTextWithLimit(
+      response,
+      CATALOG_RELEASE_MAX_BYTES
+    );
     return {
       envelope: JSON.parse(raw),
       release: verifyCatalogRelease(JSON.parse(raw), {
@@ -2297,14 +3443,16 @@ async function fetchRemoteCatalogRelease(channel, clientId, highest = null) {
   }
 }
 
-function readCachedCatalogRelease(channel, clientId) {
+function readCachedCatalogRelease(channel, clientId, highest) {
   const release = verifyCatalogReleaseCache(
-    JSON.parse(fs.readFileSync(catalogCachePath(), "utf8")),
+    JSON.parse(fs.readFileSync(catalogCachePath(channel.catalogChannel), "utf8")),
     {
       expectedSourceUrl: channel.releaseUrl,
       trustedKeys: channel.trustedKeys,
       clientId,
-      allowLocalhost: !app.isPackaged
+      highestCatalogVersion: highest.catalogVersion,
+      highestCatalogSha256: highest.catalogSha256,
+      allowLocalhost: !app.isPackaged || LOCAL_RELEASE_ACCEPTANCE
     }
   );
   return {
@@ -2313,7 +3461,7 @@ function readCachedCatalogRelease(channel, clientId) {
   };
 }
 
-async function resolveCatalog() {
+async function loadCatalogUnshared() {
   const channel = readChannel();
   if (channel.error) {
     return resolvePackagedCatalogFallback({
@@ -2328,22 +3476,24 @@ async function resolveCatalog() {
     });
   }
   const clientId = releaseClientId();
+  const highest = readCatalogHighWater(channel.catalogChannel);
   let remoteError = "";
   let cached = null;
   try {
-    cached = readCachedCatalogRelease(channel, clientId);
+    cached = readCachedCatalogRelease(channel, clientId, highest);
   } catch {
     cached = null;
   }
   try {
-    const result = await fetchRemoteCatalogRelease(channel, clientId, cached);
+    const result = await fetchRemoteCatalogRelease(channel, clientId, highest);
     if (!result.release.eligible) {
       return resolvePackagedCatalogFallback({
         cached,
         error: "当前客户端不在目录发布范围内"
       });
     }
-    writeJsonAtomically(catalogCachePath(), {
+    writeCatalogHighWater(channel.catalogChannel, result.release);
+    writeJsonAtomically(catalogCachePath(channel.catalogChannel), {
       schemaVersion: 1,
       sourceUrl: channel.releaseUrl,
       cachedAt: new Date().toISOString(),
@@ -2365,10 +3515,28 @@ async function resolveCatalog() {
   return resolvePackagedCatalogFallback({ cached, error: remoteError });
 }
 
+let catalogResolveInFlight = null;
+
+function resolveCatalog() {
+  if (catalogResolveInFlight) return catalogResolveInFlight;
+  catalogResolveInFlight = loadCatalogUnshared();
+  return catalogResolveInFlight.finally(() => {
+    catalogResolveInFlight = null;
+  });
+}
+
 function authorizeCurrentCatalogProduct(productId, requiredCapability = "install") {
   return authorizeFreshCatalogProduct({
     productId,
     requiredCapability,
+    loadCatalog: resolveCatalog
+  });
+}
+
+function authorizeCurrentDesktopDownloadOnlyProduct(productId, artifact) {
+  return authorizeFreshDesktopDownloadOnlyProduct({
+    productId,
+    artifact,
     loadCatalog: resolveCatalog
   });
 }
@@ -2383,7 +3551,10 @@ function readUpdateChannel() {
   try {
     return readReleaseChannel(
       JSON.parse(fs.readFileSync(updateChannelPath(), "utf8")),
-      { kind: "update", allowLocalhost: !app.isPackaged }
+      {
+        kind: "update",
+        allowLocalhost: !app.isPackaged || LOCAL_RELEASE_ACCEPTANCE
+      }
     );
   } catch (error) {
     return {
@@ -2505,6 +3676,175 @@ async function checkForUpdate() {
   }
 }
 
+function softwareUpdateHighWaterPath() {
+  return path.join(app.getPath("userData"), "software-update-high-water.json");
+}
+
+function readSoftwareUpdateHighWater() {
+  try {
+    return normalizeSoftwareUpdateHighWater(
+      JSON.parse(fs.readFileSync(softwareUpdateHighWaterPath(), "utf8"))
+    );
+  } catch {
+    return normalizeSoftwareUpdateHighWater();
+  }
+}
+
+function softwareUpdateReleaseUrl(channel) {
+  if (!channel?.releaseUrl) return "";
+  const releaseUrl = new URL("/software-update-release.json", channel.releaseUrl);
+  if (
+    !channel.allowedReleaseOrigins.includes(releaseUrl.origin) ||
+    releaseUrl.username ||
+    releaseUrl.password ||
+    releaseUrl.search ||
+    releaseUrl.hash
+  ) {
+    throw new Error("软件更新发布地址不属于客户端固定来源");
+  }
+  return releaseUrl.toString();
+}
+
+async function fetchSoftwareUpdateRelease(channel, clientId, highWater) {
+  const releaseUrl = softwareUpdateReleaseUrl(channel);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await net.fetch(releaseUrl, {
+      method: "GET",
+      cache: "no-store",
+      redirect: "manual",
+      signal: controller.signal
+    });
+    if (!response.ok) {
+      throw new Error(`软件更新服务器返回 ${response.status}`);
+    }
+    const finalUrl = resolveReleaseResponseUrl(response, releaseUrl);
+    if (
+      finalUrl.toString() !== releaseUrl ||
+      !channel.allowedReleaseOrigins.includes(finalUrl.origin)
+    ) {
+      throw new Error("软件更新清单重定向到了未固定的来源");
+    }
+    const contentType = String(response.headers.get("content-type") || "")
+      .split(";", 1)[0]
+      .trim()
+      .toLowerCase();
+    if (contentType !== "application/json") {
+      throw new Error("软件更新服务器返回了非 JSON 内容");
+    }
+    const raw = await readResponseTextWithLimit(response, 64 * 1024);
+    return verifySoftwareUpdateRelease(JSON.parse(raw), {
+      trustedKeys: channel.trustedKeys,
+      clientId,
+      highWater
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function checkSoftwareUpdates() {
+  const generation = ++softwareUpdateCheckGeneration;
+  const channel = readChannel();
+  lastVerifiedSoftwareUpdateRelease = null;
+  if (channel.error) {
+    return { status: "error", message: channel.error, publishedEntries: 0 };
+  }
+  if (!channel.releaseUrl) {
+    return {
+      status: "disabled",
+      message: "尚未配置软件更新发布通道",
+      publishedEntries: 0
+    };
+  }
+  try {
+    const release = await fetchSoftwareUpdateRelease(
+      channel,
+      releaseClientId(),
+      readSoftwareUpdateHighWater()
+    );
+    if (generation !== softwareUpdateCheckGeneration) {
+      return {
+        status: "error",
+        message: "软件更新检查已被更新的请求替代",
+        publishedEntries: 0
+      };
+    }
+    if (!release.eligible) {
+      return {
+        status: "current",
+        releaseVersion: release.releaseVersion,
+        publishedAt: release.publishedAt,
+        message: "当前灰度批次暂无软件更新",
+        publishedEntries: 0
+      };
+    }
+    writeJsonAtomically(
+      softwareUpdateHighWaterPath(),
+      recordSoftwareUpdateHighWater(readSoftwareUpdateHighWater(), release)
+    );
+    lastVerifiedSoftwareUpdateRelease = release;
+    return {
+      status: release.entries.length ? "available" : "current",
+      releaseVersion: release.releaseVersion,
+      publishedAt: release.publishedAt,
+      message: release.entries.length
+        ? `后台已发布 ${release.entries.length} 项软件更新`
+        : "当前软件均为最新版本",
+      publishedEntries: release.entries.length
+    };
+  } catch (error) {
+    if (generation === softwareUpdateCheckGeneration) {
+      lastVerifiedSoftwareUpdateRelease = null;
+    }
+    return {
+      status: "error",
+      message: error instanceof Error ? error.message : "检查软件更新失败",
+      publishedEntries: 0
+    };
+  }
+}
+
+function assertSoftwareUpdatePublished(input) {
+  if (!isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, input)) {
+    const error = new Error("该更新尚未由管理员发布，请重新打开软件后再试");
+    error.code = "SOFTWARE_UPDATE_NOT_PUBLISHED";
+    throw error;
+  }
+}
+
+function cliPlanVersion(plan) {
+  return String(plan?.expectedVersion || plan?.version || "").trim();
+}
+
+function extensionProfileVersion(profile) {
+  return String(
+    profile?.versionRef || profile?.sourceManifest?.versionRef || ""
+  ).trim();
+}
+
+function filterPublishedExtensionUpdates(profileId, status) {
+  if (!status || !Array.isArray(status.allowedActions)) return status;
+  const profile = getExtensionRuntimeProfile(profileId);
+  const version = extensionProfileVersion(profile);
+  if (
+    !status.allowedActions.includes("update") ||
+    (version && isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, {
+      kind: "extension",
+      subjectId: profileId,
+      mode: "extension",
+      version
+    }))
+  ) {
+    return status;
+  }
+  return {
+    ...status,
+    allowedActions: status.allowedActions.filter((action) => action !== "update")
+  };
+}
+
 function readSettings() {
   try {
     const value = JSON.parse(fs.readFileSync(configPath(), "utf8"));
@@ -2547,6 +3887,98 @@ function showDesktopUninstallConfirmation(options) {
   // opaque Windows metadata (for example a product name or path) contains Han
   // characters, discarding the reviewed version, signer and retention facts.
   return dialog.showMessageBox(buildDesktopUninstallConfirmation(options));
+}
+
+function showDesktopInstallConfirmation(options) {
+  return dialog.showMessageBox(buildDesktopInstallConfirmation(options));
+}
+
+async function probeMicrosoftStoreEndpoint() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10_000);
+  try {
+    await refreshManagedDownloadSession({
+      networkSession: session.defaultSession
+    });
+    const response = await session.defaultSession.fetch(
+      MICROSOFT_STORE_WEB_URL,
+      {
+        method: "GET",
+        cache: "no-store",
+        redirect: "follow",
+        signal: controller.signal
+      }
+    );
+    await response.body?.cancel().catch(() => {});
+    return true;
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function inspectMicrosoftStoreHealth() {
+  const [windowsApps, endpointReachable] = await Promise.all([
+    scanWindowsApps(),
+    probeMicrosoftStoreEndpoint()
+  ]);
+  return analyzeMicrosoftStoreHealth({
+    scanOk: windowsApps.ok,
+    packages: windowsApps.packages,
+    endpointReachable
+  });
+}
+
+async function runMicrosoftStoreRepairTool() {
+  const language = readSettings().language;
+  const health = await inspectMicrosoftStoreHealth();
+  const presentation = buildMicrosoftStoreRepairDialog({ language, health });
+  const choice = await dialog.showMessageBox(presentation.options);
+  const action = presentation.actions[choice.response] || "close";
+
+  if (action === "open-proxy-settings") {
+    await shell.openExternal("ms-settings:network-proxy");
+    return { opened: true, action, health };
+  }
+  if (action === "open-repair-settings") {
+    await shell.openExternal(microsoftStoreRepairSettingsUri(health));
+    return { opened: true, action, health };
+  }
+  if (action === "open-windows-update") {
+    await shell.openExternal("ms-settings:windowsupdate");
+    return { opened: true, action, health };
+  }
+  if (action === "open-official-help") {
+    await shell.openExternal(MICROSOFT_STORE_SUPPORT_URL);
+    return { opened: true, action, health };
+  }
+  if (action === "reset-cache") {
+    const wsreset = path.join(
+      process.env.SystemRoot || "C:\\Windows",
+      "System32",
+      "wsreset.exe"
+    );
+    if (!fs.existsSync(wsreset)) {
+      return {
+        opened: false,
+        action,
+        health,
+        error:
+          language === "en"
+            ? "Windows wsreset.exe was not found."
+            : "Windows 未找到 wsreset.exe。"
+      };
+    }
+    const launch = await launchProcessWithGrace({
+      command: wsreset,
+      graceMs: 2_000,
+      processLabel:
+        language === "en" ? "Microsoft Store cache reset" : "商店缓存重置"
+    });
+    return { opened: launch.launched, action, health, ...launch };
+  }
+  return { opened: false, action: "close", health, canceled: true };
 }
 
 function showLocalizedOpenDialog(options) {
@@ -2948,19 +4380,25 @@ async function scanWslDistributionEnvironments() {
 async function inspectManagedWslStatus(productId, plan) {
   const wslExecutable = systemCommandPath("wsl.exe");
   const distributions = await listWslDistributions(wslExecutable);
+  const receipt = readManagedCliRecords()[productId] || null;
   if (!distributions.some((name) => name.toLowerCase() === plan.distribution.toLowerCase())) {
     const status = inspectManagedWslCli({
       productId,
       plan,
-      receipt: readManagedCliRecords()[productId] || null,
+      receipt,
       probe: { ok: false }
     });
     managedWslStatusCache.set(productId, status);
     return status;
   }
-  const action = createManagedWslProbeAction({ plan, wslExecutable });
+  const action = createManagedWslProbeAction({
+    productId,
+    plan,
+    receipt,
+    wslExecutable
+  });
   if (!action) {
-    const status = inspectManagedWslCli({ productId, plan, receipt: null, probe: { unknown: true } });
+    const status = inspectManagedWslCli({ productId, plan, receipt, probe: { unknown: true } });
     managedWslStatusCache.set(productId, status);
     return status;
   }
@@ -2975,7 +4413,7 @@ async function inspectManagedWslStatus(productId, plan) {
     const status = inspectManagedWslCli({
       productId,
       plan,
-      receipt: readManagedCliRecords()[productId] || null,
+      receipt,
       probe: { ok: Boolean(version), version }
     });
     managedWslStatusCache.set(productId, status);
@@ -2985,7 +4423,7 @@ async function inspectManagedWslStatus(productId, plan) {
     const status = inspectManagedWslCli({
       productId,
       plan,
-      receipt: readManagedCliRecords()[productId] || null,
+      receipt,
       probe: /not found|No such file|command not found/i.test(output)
         ? { ok: false }
         : { unknown: true }
@@ -3197,6 +4635,7 @@ function getManagedMsiCliStatus({ productId, plan }) {
     plan,
     receipt: records[productId] || null,
     localAppData: process.env.LOCALAPPDATA || "",
+    programFiles: process.env.ProgramFiles || "",
     hashFile: (filePath) => fileIntegritySync(filePath, "sha256")
   });
 }
@@ -3236,7 +4675,7 @@ async function discoverWslManagedCliStatus({ productId, plan }) {
 async function discoverPortableBinaryCliStatus({ productId, plan }) {
   const current = getPortableBinaryCliStatus({ productId, plan });
   if (current.ownership !== "untracked") return current;
-  const receipt = createManagedBinaryReceipt({
+  const receipt = createPortableBinaryReceipt({
     productId,
     plan,
     prefix: readSettings().cliInstallDirectory || "",
@@ -3309,17 +4748,14 @@ async function discoverManagedMsiCliStatus({ productId, plan }) {
   const layout = createManagedMsiCliLayout({
     productId,
     plan,
-    localAppData: process.env.LOCALAPPDATA || ""
+    localAppData: process.env.LOCALAPPDATA || "",
+    programFiles: process.env.ProgramFiles || ""
   });
   try {
     if (layout) {
-      const signature = await verifyExpectedSignature(
+      const signature = await verifyPortableExecutableTrust(
         layout.executable,
-        new RegExp(
-          plan.artifact.expectedSigner.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-          "i"
-        ),
-        true
+        managedMsiTrust(plan)
       );
       const version = await execFileAsync(layout.executable, ["--version"], {
         cwd: layout.directory,
@@ -3336,6 +4772,7 @@ async function discoverManagedMsiCliStatus({ productId, plan }) {
           productId,
           plan,
           localAppData: process.env.LOCALAPPDATA || "",
+          programFiles: process.env.ProgramFiles || "",
           hashFile: (filePath) => fileIntegritySync(filePath, "sha256")
         });
         if (receipt) {
@@ -3389,9 +4826,11 @@ async function openCompanionRuntimeCli({ plan }) {
   return action;
 }
 
-function openWslManagedCli({ plan, status }) {
+function openWslManagedCli({ productId, plan, status }) {
   return createManagedWslOpenAction({
+    productId,
     plan,
+    receipt: productId ? readManagedCliRecords()[productId] || null : null,
     status,
     wslExecutable: systemCommandPath("wsl.exe"),
     commandExecutable: systemCommandPath("cmd.exe")
@@ -3645,13 +5084,7 @@ async function uninstallOpenClawCompanionRuntime(productId, plan) {
   } catch {
     return { ok: false, error: "无法读取官方网关清理组件" };
   }
-  const powershell = path.join(
-    process.env.SystemRoot || "C:\\Windows",
-    "System32",
-    "WindowsPowerShell",
-    "v1.0",
-    "powershell.exe"
-  );
+  const powershell = windowsPowerShellPath();
   try {
     await execFileAsync(
       powershell,
@@ -4013,6 +5446,7 @@ function runCliUninstall(sender, action, executionContext) {
 }
 
 function emitCliLog(sender, productId, stream, line) {
+  if (!sender?.send) return;
   sender.send("cli:log", {
     productId,
     stream,
@@ -4059,6 +5493,24 @@ async function downloadManagedWslScript(sender, productId, plan) {
     `aihub-${productId}-${crypto.randomBytes(8).toString("hex")}-${artifact.fileName}`
   );
   try {
+    if (artifact.source === "packaged") {
+      emitCliLog(sender, productId, "stdout", "正在校验客户端内置的 WSL 安装脚本…");
+      const source = path.join(
+        __dirname,
+        "..",
+        "shared",
+        ...artifact.relativePath.split("/")
+      );
+      const script = fs.readFileSync(source);
+      if (!script.length || script.length > artifact.maximumBytes) {
+        throw new Error("内置 WSL 安装脚本大小超过客户端白名单限制");
+      }
+      if (crypto.createHash("sha256").update(script).digest("hex") !== artifact.sha256) {
+        throw new Error("内置 WSL 安装脚本 SHA-256 与客户端白名单不一致");
+      }
+      fs.writeFileSync(target, script, { flag: "wx", mode: 0o600 });
+      return target;
+    }
     emitCliLog(sender, productId, "stdout", "正在下载已审核的官方 WSL 安装脚本…");
     const { response } = await fetchReviewedDownload({
       url: artifact.url,
@@ -4130,6 +5582,48 @@ async function deployManagedWslCli(sender, productId, plan) {
   if (before.installed) {
     return { ok: false, error: before.managed ? `该 WSL 产品已由${BRAND.name}部署` : `检测到同路径的非受管安装，${BRAND.name}不会覆盖` };
   }
+  const preflightAction = createManagedWslInstallPreflightAction({
+    plan,
+    wslExecutable
+  });
+  if (!preflightAction) {
+    return { ok: false, error: "无法建立 WSL 产品目录所有权检查" };
+  }
+  const preflightResult = await runManagedWslAction(
+    sender,
+    productId,
+    preflightAction
+  );
+  if (!preflightResult.ok) {
+    return {
+      ok: false,
+      error: `${plan.managedPrefix} 已存在；为避免覆盖非受管文件，已停止安装`
+    };
+  }
+  const receipt = createManagedWslReceipt({
+    productId,
+    plan,
+    distributionIdentity: plan.distribution,
+    managementId: crypto.randomBytes(24).toString("hex")
+  });
+  if (!receipt) return { ok: false, error: "无法建立 WSL 产品管理身份" };
+  const environmentConfirmation = await showLocalizedMessageBox({
+    type: "warning",
+    title: `准备 ${plan.distribution} 共享环境`,
+    message: `允许在 ${plan.distribution} 中安装固定环境依赖？`,
+    detail: [
+      `将以 root 安装：${plan.bootstrapPackages.join(", ")}`,
+      `这些依赖属于共享 WSL 环境，不在 ${plan.managedPrefix} 产品目录内。`,
+      `以后卸载 ${plan.name} 时不会删除这些共享环境依赖，也不会注销 WSL 发行版。`
+    ].join("\n"),
+    buttons: ["取消", "继续"],
+    defaultId: 0,
+    cancelId: 0,
+    noLink: true
+  });
+  if (environmentConfirmation.response !== 1) {
+    return { ok: false, canceled: true };
+  }
   const bootstrapAction = createManagedWslBootstrapAction({
     plan,
     wslExecutable
@@ -4156,7 +5650,8 @@ async function deployManagedWslCli(sender, productId, plan) {
       productId,
       plan,
       wslExecutable,
-      scriptWindowsPath: scriptPath
+      scriptWindowsPath: scriptPath,
+      managementId: receipt.managementId
     });
     if (!action) return { ok: false, error: "无法建立受审核的 WSL 产品部署动作" };
     const result = await runManagedWslAction(sender, productId, action);
@@ -4167,17 +5662,12 @@ async function deployManagedWslCli(sender, productId, plan) {
     }
   }
 
+  setManagedCliRecord(productId, receipt);
+  managedWslStatusCache.delete(productId);
   const probed = await inspectManagedWslStatus(productId, plan);
   if (!probed.installed || probed.version !== plan.version) {
-    return { ok: false, error: "WSL 安装已结束，但固定版本校验未通过" };
+    return { ok: false, error: "WSL 安装已结束，但所有权或固定版本校验未通过；管理收据已保留，可安全卸载" };
   }
-  const receipt = createManagedWslReceipt({
-    productId,
-    plan,
-    distributionIdentity: plan.distribution
-  });
-  if (!receipt) return { ok: false, error: "WSL 产品已安装，但无法建立安全管理收据" };
-  setManagedCliRecord(productId, receipt);
   managedWslStatusCache.delete(productId);
   const status = await inspectManagedWslStatus(productId, plan);
   const terminal = await openManagedCliTerminal(productId);
@@ -4191,6 +5681,106 @@ async function deployManagedWslCli(sender, productId, plan) {
   };
 }
 
+async function updateManagedWslCli(sender, productId, plan) {
+  const receipt = readManagedCliRecords()[productId] || null;
+  const before = await inspectManagedWslStatus(productId, plan);
+  if (!before.installed || !managedWslReceiptOwnsPrefix(receipt, productId, plan)) {
+    return { ok: false, error: "WSL 产品不是由 AI Hub 精确收据管理，已拒绝更新" };
+  }
+  const confirmation = await showLocalizedMessageBox({
+    type: "question",
+    title: `更新 ${plan.name}`,
+    message: `确认更新 ${plan.name}？`,
+    detail: `仅替换 ${plan.managedPrefix} 内由 AI Hub 管理的固定 Node 与 CLI 制品；失败将恢复原受管前缀，不会修改 WSL 发行版或 ~/.augment 数据。`,
+    buttons: ["取消", "确认更新"], defaultId: 0, cancelId: 0, noLink: true
+  });
+  if (confirmation.response !== 1) return { ok: false, canceled: true };
+  const confirmedReceipt = readManagedCliRecords()[productId] || null;
+  if (!managedWslReceiptOwnsPrefix(confirmedReceipt, productId, plan) || confirmedReceipt.managementId !== receipt.managementId) {
+    return { ok: false, error: "确认期间 WSL 管理收据发生变化，已拒绝更新" };
+  }
+  let scriptPath = "";
+  try {
+    scriptPath = await downloadManagedWslScript(sender, productId, plan);
+    const action = createManagedWslUpdateAction({
+      productId, plan, receipt, wslExecutable: systemCommandPath("wsl.exe"), scriptWindowsPath: scriptPath
+    });
+    if (!action) return { ok: false, error: "无法建立受审核的 WSL 更新动作" };
+    const result = await runManagedWslAction(sender, productId, action);
+    if (!result.ok) return result;
+  } finally {
+    if (scriptPath) {
+      try { fs.rmSync(scriptPath, { force: true }); } catch {}
+    }
+  }
+  const nextReceipt = createManagedWslReceipt({
+    productId, plan, distributionIdentity: plan.distribution, managementId: receipt.managementId
+  });
+  if (!nextReceipt) return { ok: false, error: "无法更新 WSL 管理收据" };
+  setManagedCliRecord(productId, nextReceipt);
+  managedWslStatusCache.delete(productId);
+  const status = await inspectManagedWslStatus(productId, plan);
+  if (!status.installed || !status.managed || status.version !== plan.version) {
+    setManagedCliRecord(productId, receipt);
+    managedWslStatusCache.delete(productId);
+    return { ok: false, error: "WSL 更新结束，但固定版本或所有权复核未通过；原收据已保留" };
+  }
+  const terminal = await openManagedCliTerminal(productId);
+  return { ok: true, version: status.version, directory: status.directory, managed: true, terminalOpened: terminal.ok, warning: terminal.ok ? undefined : terminal.error };
+}
+
+async function repairManagedWslCli(sender, productId, plan) {
+  const receipt = readManagedCliRecords()[productId] || null;
+  if (!managedWslReceiptMatchesPlan(receipt, productId, plan) || plan.repairStrategy !== "rebuild-owned-prefix") {
+    return { ok: false, error: "WSL 修复仅适用于版本和脚本均匹配的 AI Hub 受管收据" };
+  }
+  const healthy = await inspectManagedWslStatus(productId, plan);
+  if (healthy.installed && healthy.managed && healthy.version === plan.version) {
+    return { ok: true, version: healthy.version, directory: healthy.directory, managed: true, warning: "完整性检查已通过，无需修复" };
+  }
+  const ownershipAction = createManagedWslRepairProbeAction({
+    productId, plan, receipt, wslExecutable: systemCommandPath("wsl.exe")
+  });
+  if (!ownershipAction) return { ok: false, error: "无法建立受审核的 WSL 所有权检查" };
+  const ownership = await runManagedWslAction(sender, productId, ownershipAction);
+  if (!ownership.ok) return { ok: false, error: "受管 WSL 前缀或所有权标记不完整，已拒绝修复" };
+  const confirmation = await showLocalizedMessageBox({
+    type: "question",
+    title: `修复 ${plan.name}`,
+    message: `确认修复 ${plan.name}？`,
+    detail: `仅重建 ${plan.managedPrefix} 内与当前收据完全匹配的固定 Node 与 CLI 制品；将备份并在失败时恢复该专属前缀，不会修改 WSL 发行版或 ~/.augment 数据。`,
+    buttons: ["取消", "确认修复"], defaultId: 0, cancelId: 0, noLink: true
+  });
+  if (confirmation.response !== 1) return { ok: false, canceled: true };
+  const confirmedReceipt = readManagedCliRecords()[productId] || null;
+  if (!managedWslReceiptMatchesPlan(confirmedReceipt, productId, plan) || confirmedReceipt.managementId !== receipt.managementId) {
+    return { ok: false, error: "确认期间 WSL 管理收据发生变化，已拒绝修复" };
+  }
+  const confirmedOwnership = await runManagedWslAction(sender, productId, ownershipAction);
+  if (!confirmedOwnership.ok) return { ok: false, error: "确认后受管 WSL 前缀或所有权标记已变化，已拒绝修复" };
+  let scriptPath = "";
+  try {
+    scriptPath = await downloadManagedWslScript(sender, productId, plan);
+    const action = createManagedWslRepairAction({
+      productId, plan, receipt, wslExecutable: systemCommandPath("wsl.exe"), scriptWindowsPath: scriptPath
+    });
+    if (!action) return { ok: false, error: "无法建立受审核的 WSL 修复动作" };
+    const result = await runManagedWslAction(sender, productId, action);
+    if (!result.ok) return result;
+  } finally {
+    if (scriptPath) {
+      try { fs.rmSync(scriptPath, { force: true }); } catch {}
+    }
+  }
+  managedWslStatusCache.delete(productId);
+  const status = await inspectManagedWslStatus(productId, plan);
+  if (!status.installed || !status.managed || status.version !== plan.version) {
+    return { ok: false, error: "WSL 修复结束，但固定版本或所有权复核未通过；原受管前缀已由修复脚本回滚" };
+  }
+  const terminal = await openManagedCliTerminal(productId);
+  return { ok: true, version: status.version, directory: status.directory, managed: true, terminalOpened: terminal.ok, warning: terminal.ok ? undefined : terminal.error };
+}
+
 async function uninstallManagedWslCli(sender, productId, plan) {
   const status = await inspectManagedWslStatus(productId, plan);
   if (!status.canUninstall) {
@@ -4200,7 +5790,7 @@ async function uninstallManagedWslCli(sender, productId, plan) {
     type: "warning",
     title: `卸载 ${plan.name}`,
     message: `确认卸载 ${plan.name}？`,
-    detail: `仅移除 ${plan.distribution} 中由${BRAND.name}管理的 ${plan.packageName} 和 Gateway 服务；不会注销 WSL 发行版，也不会删除用户配置。`,
+    detail: `仅移除 ${plan.distribution} 中由${BRAND.name}完整拥有的 ${plan.managedPrefix} 专属目录；不会注销 WSL 发行版，也不会删除目录外的用户配置。`,
     buttons: ["取消", "确认卸载"],
     defaultId: 0,
     cancelId: 0,
@@ -4252,6 +5842,77 @@ function binaryCliLayoutAtConfiguredPrefix(productId, plan) {
   return layout;
 }
 
+function rollbackManagedBinaryLayout(layout) {
+  if (layout.artifact.kind === "standalone-executable") {
+    fs.rmSync(layout.marker, { force: true });
+    fs.rmSync(layout.executable, { force: true });
+    return;
+  }
+  fs.rmSync(layout.directory, { recursive: true, force: true });
+}
+
+function createManagedCliReconcileStagingPrefix(prefix) {
+  const root = path.join(prefix, ".aihub-reconcile");
+  fs.mkdirSync(root, { recursive: true });
+  const stagingPrefix = fs.mkdtempSync(path.join(root, "stage-"));
+  const canonicalPrefix = fs.realpathSync.native(stagingPrefix);
+  if (!pathIsInside(canonicalPrefix, prefix)) {
+    fs.rmSync(stagingPrefix, { recursive: true, force: true });
+    throw new Error("CLI 更新临时目录不在受管前缀内");
+  }
+  return canonicalPrefix;
+}
+
+function receiptOwnsManagedCliLayout(receipt, driver, productId, layout) {
+  if (!receipt || typeof receipt.prefix !== "string" || typeof receipt.directory !== "string" || typeof receipt.executable !== "string") {
+    return false;
+  }
+  const executable = layout.executable || layout.commandExecutable;
+  return Boolean(
+    receipt && receipt.driver === driver && receipt.productId === productId &&
+    receipt.version === layout.version && receipt.prefix &&
+    path.normalize(receipt.prefix).toLowerCase() === path.normalize(layout.prefix).toLowerCase() &&
+    path.normalize(receipt.directory).toLowerCase() === path.normalize(layout.directory).toLowerCase() &&
+    executable && path.normalize(receipt.executable).toLowerCase() === path.normalize(executable).toLowerCase()
+  );
+}
+
+function replaceManagedCliDirectory({ currentDirectory, stagingDirectory, backupDirectory, createReceipt, inspectReceipt, commitReceipt }) {
+  let previousMoved = false;
+  let stagingMoved = false;
+  try {
+    if (fs.existsSync(currentDirectory)) {
+      fs.renameSync(currentDirectory, backupDirectory);
+      previousMoved = true;
+    }
+    fs.renameSync(stagingDirectory, currentDirectory);
+    stagingMoved = true;
+    const receipt = createReceipt();
+    if (!receipt || !inspectReceipt(receipt).managed) {
+      throw new Error("更新后的 CLI 管理收据复核失败");
+    }
+    commitReceipt(receipt);
+    try {
+      if (previousMoved) fs.rmSync(backupDirectory, { recursive: true, force: true });
+    } catch {
+      // A verified replacement is active; retain only the exact managed backup for later cleanup.
+    }
+    return receipt;
+  } catch (error) {
+    try {
+      if (stagingMoved && fs.existsSync(currentDirectory)) {
+        fs.rmSync(currentDirectory, { recursive: true, force: true });
+      }
+      if (previousMoved && fs.existsSync(backupDirectory)) {
+        fs.renameSync(backupDirectory, currentDirectory);
+      }
+    } catch (rollbackError) {
+      throw new Error(`CLI 更新失败且无法恢复旧受管目录：${rollbackError.message}`);
+    }
+    throw error;
+  }
+}
+
 async function downloadManagedBinaryCli(sender, productId, plan, layout) {
   const artifact = artifactFor(plan, process.arch);
   if (!artifact) throw new Error("当前架构的二进制白名单无效");
@@ -4264,13 +5925,13 @@ async function downloadManagedBinaryCli(sender, productId, plan, layout) {
   ) {
     throw new Error("受管 CLI 目录包含路径跳转");
   }
-  if (fs.existsSync(layout.executable) || fs.existsSync(layout.marker)) {
+  if (fs.readdirSync(canonicalDirectory).length) {
     throw new Error("受管 CLI 目录已有未登记文件，客户端不会覆盖");
   }
 
   const temporaryPath = path.join(
     canonicalDirectory,
-    `.aihub-${productId}-${crypto.randomBytes(8).toString("hex")}.download`
+    `.aihub-${productId}-${crypto.randomBytes(8).toString("hex")}${path.extname(artifact.fileName)}`
   );
   let executableCreated = false;
   try {
@@ -4279,11 +5940,20 @@ async function downloadManagedBinaryCli(sender, productId, plan, layout) {
       url: artifact.url,
       options: {
         method: "GET",
-        redirect: "error",
+        redirect: "follow",
         cache: "no-store",
         headers: { "User-Agent": DOWNLOAD_USER_AGENT }
       },
-      isAllowedFinalUrl: (url) => url === artifact.url
+      isAllowedFinalUrl: (candidate) => {
+        try {
+          const url = new URL(candidate);
+          return url.protocol === "https:" &&
+            !url.username && !url.password &&
+            artifact.allowedHosts.includes(url.hostname.toLowerCase());
+        } catch {
+          return false;
+        }
+      }
     });
     if (!response.ok || !response.body) {
       throw new Error(`官方下载失败（HTTP ${response.status}）`);
@@ -4314,16 +5984,57 @@ async function downloadManagedBinaryCli(sender, productId, plan, layout) {
     if (!receivedBytes || (contentLength && receivedBytes !== contentLength)) {
       throw new Error("官方下载内容不完整");
     }
-    const integrityLabel = artifact.integrityAlgorithm.toUpperCase();
+    const integrityLabel = artifact.downloadIntegrityAlgorithm.toUpperCase();
     emitCliLog(sender, productId, "stdout", `正在校验 ${integrityLabel}…`);
     if (
-      fileIntegritySync(temporaryPath, artifact.integrityAlgorithm) !==
-      artifact.integrity
+      fileIntegritySync(temporaryPath, artifact.downloadIntegrityAlgorithm) !==
+      artifact.downloadIntegrity
     ) {
       throw new Error(`官方文件 ${integrityLabel} 与客户端白名单不一致`);
     }
-    fs.renameSync(temporaryPath, layout.executable);
-    executableCreated = true;
+    if (artifact.kind !== "standalone-executable") {
+      const tar = systemCommandPath("tar.exe");
+      if (!fs.existsSync(tar)) throw new Error("Windows 解压工具不可用");
+      const listing = await execFileAsync(tar, ["-tf", temporaryPath], {
+        windowsHide: true,
+        shell: false,
+        timeout: 30_000,
+        maxBuffer: 64 * 1024
+      });
+      const entries = String(listing.stdout || "").split(/\r?\n/).filter(Boolean);
+      const maximumEntries = artifact.kind === "zip-directory"
+        ? artifact.maximumArchiveEntries
+        : 1;
+      const reviewedEntries = validateZipEntries(entries, maximumEntries);
+      const reviewedExecutable = artifact.executableFileName.replace(/\\/g, "/");
+      if (!reviewedEntries || !reviewedEntries.includes(reviewedExecutable) ||
+        (artifact.kind === "zip-single-executable" && reviewedEntries.length !== 1)) {
+        throw new Error("官方归档内容与客户端白名单不一致");
+      }
+      await execFileAsync(
+        tar,
+        ["-xf", temporaryPath, "-C", canonicalDirectory, ...(artifact.kind === "zip-single-executable" ? [artifact.executableFileName] : [])],
+        { windowsHide: true, shell: false, timeout: 5 * 60_000, maxBuffer: 64 * 1024 }
+      );
+      executableCreated = fs.existsSync(layout.executable);
+      const extractedTree = inspectExtractedTree(canonicalDirectory, {
+        maximumEntries,
+        maximumBytes: artifact.maximumExtractedBytes
+      });
+      const extracted = fs.lstatSync(layout.executable);
+      if (!extractedTree || !extracted.isFile() || extracted.isSymbolicLink()) {
+        throw new Error("官方归档解压结果与客户端白名单不一致");
+      }
+    } else {
+      fs.renameSync(temporaryPath, layout.executable);
+      executableCreated = true;
+    }
+    if (
+      fileIntegritySync(layout.executable, artifact.integrityAlgorithm) !==
+      artifact.integrity
+    ) {
+      throw new Error("官方程序摘要与客户端白名单不一致");
+    }
     const versionCheck = await execFileAsync(layout.executable, ["--version"], {
       cwd: layout.directory,
       windowsHide: true,
@@ -4344,12 +6055,12 @@ async function downloadManagedBinaryCli(sender, productId, plan, layout) {
     );
     return { ok: true, versionOutput };
   } catch (error) {
-    if (executableCreated) {
-      try {
-        fs.rmSync(layout.executable, { force: true });
-      } catch {
-        // Never broaden rollback beyond the exact executable created above.
+    try {
+      if (executableCreated || artifact.kind !== "standalone-executable") {
+        rollbackManagedBinaryLayout(layout);
       }
+    } catch {
+      // Never broaden rollback beyond the exact version directory created above.
     }
     throw error;
   } finally {
@@ -4431,14 +6142,14 @@ async function deployManagedBinaryCli(sender, productId, plan) {
       });
       if (!settingsResult.ok) {
         try {
-          fs.rmSync(layout.executable, { force: true });
+          rollbackManagedBinaryLayout(layout);
         } catch {
-          // Keep rollback scoped to the exact downloaded executable.
+          // Keep rollback scoped to the exact managed version directory.
         }
         return { ok: false, error: settingsResult.error };
       }
     }
-    const receipt = createManagedBinaryReceipt({
+    const receipt = createPortableBinaryReceipt({
       productId,
       plan,
       prefix: layout.prefix,
@@ -4447,9 +6158,9 @@ async function deployManagedBinaryCli(sender, productId, plan) {
     });
     if (!receipt) {
       try {
-        fs.rmSync(layout.executable, { force: true });
+        rollbackManagedBinaryLayout(layout);
       } catch {
-        // Keep rollback scoped to the exact downloaded executable.
+        // Keep rollback scoped to the exact managed version directory.
       }
       return { ok: false, error: "安装已停止：无法建立二进制管理收据" };
     }
@@ -4464,8 +6175,7 @@ async function deployManagedBinaryCli(sender, productId, plan) {
     });
     if (!committedStatus.managed) {
       try {
-        fs.rmSync(layout.marker, { force: true });
-        fs.rmSync(layout.executable, { force: true });
+        rollbackManagedBinaryLayout(layout);
       } catch {
         // Keep rollback scoped to the exact module-owned files.
       }
@@ -4475,8 +6185,7 @@ async function deployManagedBinaryCli(sender, productId, plan) {
       setManagedCliRecord(productId, receipt);
     } catch (error) {
       try {
-        fs.rmSync(layout.marker, { force: true });
-        fs.rmSync(layout.executable, { force: true });
+        rollbackManagedBinaryLayout(layout);
       } catch {
         // Keep rollback scoped to the exact module-owned files.
       }
@@ -4498,6 +6207,62 @@ async function deployManagedBinaryCli(sender, productId, plan) {
       warning: terminal.ok ? undefined : terminal.error
     };
   } finally {
+    activeCliPrefixes.delete(prefixKey);
+  }
+}
+
+async function reconcileManagedBinaryCli(sender, productId, plan, intent) {
+  if (intent === "install") return await deployManagedBinaryCli(sender, productId, plan);
+  const checks = await Promise.all(plan.requirements.map(async (requirement) => ({
+    requirement,
+    location: await locate(requirement === "node" ? "node.exe" : requirement === "git" ? "git.exe" : `${requirement}.exe`)
+  })));
+  const missing = checks.filter((check) => !check.location).map((check) => check.requirement);
+  if (missing.length) return { ok: false, error: `缺少运行环境：${missing.join("、")}` };
+  let layout;
+  try { layout = binaryCliLayoutAtConfiguredPrefix(productId, plan); } catch (error) { return { ok: false, error: error.message }; }
+  if (!receiptOwnsManagedCliLayout(readManagedCliRecords()[productId], "portable-binary", productId, layout)) {
+    return { ok: false, error: "仅可更新或修复 AI Hub 收据拥有的二进制 CLI" };
+  }
+  const prefixKey = layout.directory.toLowerCase();
+  if (activeCliPrefixes.has(prefixKey)) return { ok: false, error: "该 CLI 安装位置正在执行其他操作" };
+  activeCliPrefixes.add(prefixKey);
+  let stagingPrefix = "";
+  try {
+    const confirmation = await showLocalizedMessageBox({
+      type: "question", title: `${intent === "update" ? "更新" : "修复"} ${plan.name}`,
+      message: `确认${intent === "update" ? "更新" : "修复"} ${plan.name} ${plan.version}？`,
+      detail: "仅重新部署客户端已批准的固定官方制品；失败会保留原受管版本。",
+      buttons: ["取消", "确认"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (confirmation.response !== 1) return { ok: false, canceled: true };
+    if (!receiptOwnsManagedCliLayout(readManagedCliRecords()[productId], "portable-binary", productId, layout)) {
+      return { ok: false, error: "确认期间 CLI 收据发生变化，已拒绝操作" };
+    }
+    stagingPrefix = createManagedCliReconcileStagingPrefix(layout.prefix);
+    const stagingLayout = createManagedBinaryLayout({ productId, plan, prefix: stagingPrefix, architecture: process.arch });
+    if (!stagingLayout) return { ok: false, error: "无法建立受管二进制更新目录" };
+    await downloadManagedBinaryCli(sender, productId, plan, stagingLayout);
+    if (plan.managedSettings) {
+      const settingsResult = applyManagedCliSettings({ homeDirectory: app.getPath("home"), policy: plan.managedSettings });
+      if (!settingsResult.ok) return { ok: false, error: settingsResult.error };
+    }
+    const receipt = replaceManagedCliDirectory({
+      currentDirectory: layout.directory,
+      stagingDirectory: stagingLayout.directory,
+      backupDirectory: `${layout.directory}.backup-${crypto.randomBytes(8).toString("hex")}`,
+      createReceipt: () => createPortableBinaryReceipt({ productId, plan, prefix: layout.prefix, architecture: process.arch, hashFile: fileIntegritySync }),
+      inspectReceipt: (candidate) => inspectManagedBinaryCli({ productId, plan, receipt: candidate, configuredPrefix: layout.prefix, architecture: process.arch, verifyIntegrity: true, hashFile: fileIntegritySync }),
+      commitReceipt: (candidate) => setManagedCliRecord(productId, candidate)
+    });
+    const terminal = await openManagedCliTerminal(productId);
+    return { ok: true, version: receipt.version, directory: receipt.directory, managed: true, terminalOpened: terminal.ok, warning: terminal.ok ? undefined : terminal.error };
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : "二进制 CLI 更新失败" };
+  } finally {
+    if (stagingPrefix) {
+      try { fs.rmSync(stagingPrefix, { recursive: true, force: true }); } catch {}
+    }
     activeCliPrefixes.delete(prefixKey);
   }
 }
@@ -4590,7 +6355,10 @@ async function uninstallManagedBinaryCli(productId, plan) {
 }
 
 async function locatePythonRuntime(plan) {
-  const located = await locateEnvironment("python", ENVIRONMENT_PLANS.python);
+  const environmentId = plan.pythonEnvironmentId || "python";
+  const environmentPlan = ENVIRONMENT_PLANS[environmentId];
+  if (!environmentPlan) throw new Error("Python 环境白名单无效");
+  const located = await locateEnvironment(environmentId, environmentPlan);
   if (!located.installed || !located.location || !located.probeOk) {
     throw new Error("未检测到可信的 Python 环境");
   }
@@ -4750,6 +6518,68 @@ async function deployManagedPythonCli(sender, productId, plan) {
   }
 }
 
+async function reconcileManagedPythonCli(sender, productId, plan, intent) {
+  if (intent === "install") return await deployManagedPythonCli(sender, productId, plan);
+  if (process.arch !== plan.architecture) return { ok: false, error: "当前 Python CLI 依赖锁仅支持 Windows x64" };
+  let runtime;
+  let layout;
+  try {
+    runtime = await locatePythonRuntime(plan);
+    layout = pythonCliLayoutAtConfiguredPrefix(productId, plan);
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : "Python 环境不可用" };
+  }
+  if (!receiptOwnsManagedCliLayout(readManagedCliRecords()[productId], "python-venv", productId, layout)) {
+    return { ok: false, error: "仅可更新或修复 AI Hub 收据拥有的 Python CLI" };
+  }
+  const prefixKey = layout.directory.toLowerCase();
+  if (activeCliPrefixes.has(prefixKey)) return { ok: false, error: "该 CLI 安装位置正在执行其他操作" };
+  activeCliPrefixes.add(prefixKey);
+  let stagingPrefix = "";
+  try {
+    const confirmation = await showLocalizedMessageBox({
+      type: "question", title: `${intent === "update" ? "更新" : "修复"} ${plan.name}`,
+      message: `确认${intent === "update" ? "更新" : "修复"} ${plan.name} ${plan.version}？`,
+      detail: "将建立新的隔离虚拟环境并安装固定哈希依赖；失败会保留原受管环境。",
+      buttons: ["取消", "确认"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (confirmation.response !== 1) return { ok: false, canceled: true };
+    if (!receiptOwnsManagedCliLayout(readManagedCliRecords()[productId], "python-venv", productId, layout)) {
+      return { ok: false, error: "确认期间 CLI 收据发生变化，已拒绝操作" };
+    }
+    stagingPrefix = createManagedCliReconcileStagingPrefix(layout.prefix);
+    const stagingLayout = createManagedPythonLayout({ productId, plan, prefix: stagingPrefix });
+    const venvAction = createPythonVenvAction({ productId, plan, prefix: stagingPrefix, pythonExecutable: runtime.executable, pythonMinor: runtime.minor });
+    const installAction = createPythonPipInstallAction({ productId, plan, prefix: stagingPrefix });
+    if (!stagingLayout || !venvAction || !installAction) return { ok: false, error: "无法建立受管 Python 更新计划" };
+    fs.mkdirSync(stagingLayout.productRoot, { recursive: true });
+    await execFileAsync(venvAction.executable, venvAction.args, { ...venvAction.options, env: safePythonEnvironment(plan), timeout: 120_000, maxBuffer: 4 * 1024 * 1024 });
+    fs.writeFileSync(installAction.layout.requirementsLock, installAction.requirementsText, { encoding: "utf8", flag: "wx" });
+    const result = await execFileAsync(installAction.executable, installAction.args, { ...installAction.options, env: safePythonEnvironment(plan), timeout: 10 * 60_000, maxBuffer: 16 * 1024 * 1024 });
+    if (result.stdout?.trim()) emitCliLog(sender, productId, "stdout", result.stdout.trim());
+    if (result.stderr?.trim()) emitCliLog(sender, productId, "stderr", result.stderr.trim());
+    const verification = await execFileAsync(stagingLayout.pythonExecutable, ["-I", "-c", "import importlib.metadata as m,sys;print(m.version(sys.argv[1]))", plan.distributionName], { cwd: stagingLayout.directory, windowsHide: true, shell: false, env: safePythonEnvironment(plan), timeout: 30_000, maxBuffer: 64 * 1024 });
+    if (String(verification.stdout || "").trim() !== plan.version || !fs.existsSync(stagingLayout.commandExecutable)) throw new Error("更新后的 Python 包版本或命令入口与客户端白名单不一致");
+    const receipt = replaceManagedCliDirectory({
+      currentDirectory: layout.directory,
+      stagingDirectory: stagingLayout.directory,
+      backupDirectory: `${layout.directory}.backup-${crypto.randomBytes(8).toString("hex")}`,
+      createReceipt: () => createManagedPythonReceipt({ productId, plan, prefix: layout.prefix, hashFile: (filePath) => fileIntegritySync(filePath, "sha256") }),
+      inspectReceipt: (candidate) => inspectManagedPythonCli({ productId, plan, receipt: candidate, configuredPrefix: layout.prefix, hashFile: (filePath) => fileIntegritySync(filePath, "sha256") }),
+      commitReceipt: (candidate) => setManagedCliRecord(productId, candidate)
+    });
+    const terminal = await openManagedCliTerminal(productId);
+    return { ok: true, version: receipt.version, directory: receipt.directory, managed: true, terminalOpened: terminal.ok, warning: terminal.ok ? undefined : terminal.error };
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : "Python CLI 更新失败" };
+  } finally {
+    if (stagingPrefix) {
+      try { fs.rmSync(stagingPrefix, { recursive: true, force: true }); } catch {}
+    }
+    activeCliPrefixes.delete(prefixKey);
+  }
+}
+
 async function uninstallManagedPythonCli(productId, plan) {
   const records = readManagedCliRecords();
   const receipt = records[productId] || null;
@@ -4802,14 +6632,14 @@ async function uninstallManagedPythonCli(productId, plan) {
   }
 }
 
-async function runMsiProcess(executable, args) {
+async function runMsiProcess(executable, args, options = {}) {
   return await new Promise((resolve, reject) => {
     try {
-      const child = spawn(executable, args, { windowsHide: true, shell: false, stdio: "ignore" });
+      const child = spawn(executable, args, { windowsHide: options.windowsHide !== false, shell: false, stdio: "ignore" });
       child.once("error", reject);
       child.once("exit", (code) => {
         if (code === 0 || code === 3010) resolve(code);
-        else reject(new Error(`Windows Installer 退出，代码 ${code}`));
+        else reject(Object.assign(new Error(`Windows Installer 退出，代码 ${code}`), { msiExitCode: code }));
       });
     } catch (error) {
       reject(error);
@@ -4817,16 +6647,40 @@ async function runMsiProcess(executable, args) {
   });
 }
 
+function managedMsiTrust(plan) {
+  const signaturePolicy = plan.artifact.signaturePolicy || "signed";
+  return {
+    signaturePolicy,
+    ...(signaturePolicy === "signed"
+      ? {
+          expectedExecutableSigner: new RegExp(
+            plan.artifact.expectedSigner.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+            "i"
+          )
+        }
+      : {})
+  };
+}
+
 async function downloadFixedMsi(sender, productId, plan, target) {
   const { response } = await fetchReviewedDownload({
     url: plan.artifact.url,
     options: {
       method: "GET",
-      redirect: "error",
+      redirect: "follow",
       cache: "no-store",
       headers: { "User-Agent": DOWNLOAD_USER_AGENT }
     },
-    isAllowedFinalUrl: (url) => url === plan.artifact.url
+    isAllowedFinalUrl: (candidate) => {
+      try {
+        const url = new URL(candidate);
+        return url.protocol === "https:" &&
+          !url.username && !url.password &&
+          plan.artifact.allowedHosts.includes(url.hostname.toLowerCase());
+      } catch {
+        return false;
+      }
+    }
   });
   if (!response.ok || !response.body) {
     throw new Error(`官方下载失败（HTTP ${response.status}）`);
@@ -4847,73 +6701,106 @@ async function downloadFixedMsi(sender, productId, plan, target) {
   await pipeline(Readable.fromWeb(response.body), limiter, fs.createWriteStream(target, { flags: "wx" }));
   if (!receivedBytes || (contentLength && receivedBytes !== contentLength)) throw new Error("官方 MSI 下载不完整");
   if (fileIntegritySync(target, "sha256") !== plan.artifact.sha256) throw new Error("官方 MSI 的 SHA-256 与客户端白名单不一致");
-  const signature = await verifyExpectedSignature(target, new RegExp(plan.artifact.expectedSigner.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), true);
-  if (!signature.ok) throw new Error("官方 MSI 数字签名与客户端白名单不一致");
+  const signature = await verifyPortableExecutableTrust(target, managedMsiTrust(plan));
+  if (!signature.ok) throw new Error("官方 MSI 信任策略校验未通过");
 }
 
-async function deployManagedMsiCli(sender, productId, plan) {
-  if (process.arch !== plan.architecture) return { ok: false, error: "Kiro CLI 当前只提供已审核的 Windows x64 安装包" };
-  const layout = createManagedMsiCliLayout({ productId, plan, localAppData: process.env.LOCALAPPDATA || "" });
-  if (!layout) return { ok: false, error: "Kiro CLI 安装白名单无效" };
+async function deployManagedMsiCli(sender, productId, plan, intent = "install") {
+  if (process.arch !== plan.architecture) return { ok: false, error: `${plan.name} 当前没有适用于本机架构的已审核安装包` };
+  const layout = createManagedMsiCliLayout({
+    productId,
+    plan,
+    localAppData: process.env.LOCALAPPDATA || "",
+    programFiles: process.env.ProgramFiles || ""
+  });
+  if (!layout) return { ok: false, error: `${plan.name} 安装白名单无效` };
+  const currentReceipt = readManagedCliRecords()[productId] || null;
   const status = getCliStatus(productId);
-  if (status.detection === "unknown") return { ok: false, error: "检测到未登记的 Kiro CLI，客户端不会覆盖或接管" };
-  if (status.installed) return { ok: false, error: `Kiro CLI 已由${BRAND.name}部署` };
+  if (intent === "install") {
+    if (status.detection === "unknown") return { ok: false, error: `检测到未登记的 ${plan.name}，客户端不会覆盖或接管` };
+    if (status.installed) return { ok: false, error: `${plan.name} 已由${BRAND.name}部署` };
+  } else if (!matchesManagedMsiReceipt({ productId, plan, receipt: currentReceipt, localAppData: process.env.LOCALAPPDATA || "", programFiles: process.env.ProgramFiles || "" })) {
+    return { ok: false, error: `${plan.name} 的管理收据不匹配，拒绝更新或修复` };
+  }
   const prefixKey = layout.directory.toLowerCase();
-  if (activeCliPrefixes.has(prefixKey)) return { ok: false, error: "Kiro CLI 正在执行其他操作" };
+  if (activeCliPrefixes.has(prefixKey)) return { ok: false, error: `${plan.name} 正在执行其他操作` };
   activeCliPrefixes.add(prefixKey);
   let temporaryDirectory = "";
   let msiInstalled = false;
   let receiptRecorded = false;
   try {
+    const operation = intent === "update" ? "更新" : intent === "repair" ? "修复" : "部署";
     const confirmation = await showLocalizedMessageBox({
-      type: "question", title: `部署 ${plan.name}`, message: `确认安装 ${plan.name} ${plan.version}？`,
-      detail: ["客户端直接下载固定官方 MSI，并校验 SHA-256 与 AWS 数字签名。", `安装位置：${layout.directory}`, "安装完成后会关闭产品自身的自动更新。"].join("\n"),
-      buttons: ["取消", "确认部署"], defaultId: 0, cancelId: 0, noLink: true
+      type: "question", title: `${operation} ${plan.name}`, message: `确认${operation} ${plan.name} ${plan.version}？`,
+      detail: [intent === "repair" ? "Windows Installer 将使用固定产品代码修复本地受管安装。" : plan.artifact.signaturePolicy === "pinned-unsigned" ? "客户端下载固定官方 MSI，并核对官方文件摘要；该厂商当前未签名此安装包。" : "客户端下载固定官方 MSI，并核对文件摘要与厂商数字签名。", `安装位置：${layout.directory}`, ...(plan.installUi === "interactive" ? ["Windows Installer 可能请求 UAC，并由你确认许可或安装选项。"] : []), ...(plan.postInstallArgs?.length ? ["完成后会应用客户端已审核的产品设置。"] : [])].join("\n"),
+      buttons: ["取消", `确认${operation}`], defaultId: 0, cancelId: 0, noLink: true
     });
     if (confirmation.response !== 1) return { ok: false, canceled: true };
-    const temporaryRoot = fs.realpathSync.native(app.getPath("temp"));
-    temporaryDirectory = fs.mkdtempSync(path.join(temporaryRoot, "aihub-kiro-msi-"));
-    const msiPath = path.join(temporaryDirectory, plan.artifact.fileName);
-    await downloadFixedMsi(sender, productId, plan, msiPath);
+    if (intent !== "install" && !matchesManagedMsiReceipt({ productId, plan, receipt: readManagedCliRecords()[productId] || null, localAppData: process.env.LOCALAPPDATA || "", programFiles: process.env.ProgramFiles || "" })) {
+      return { ok: false, error: `确认期间 ${plan.name} 的管理收据发生变化，已拒绝操作` };
+    }
     const msiexec = systemCommandPath("msiexec.exe");
     if (!fs.existsSync(msiexec)) throw new Error("无法定位 Windows Installer");
-    emitCliLog(sender, productId, "stdout", "正在安装 Kiro CLI…");
-    await runMsiProcess(msiexec, ["/i", msiPath, "/quiet", "/norestart"]);
+    if (intent === "repair") {
+      emitCliLog(sender, productId, "stdout", `正在修复 ${plan.name}…`);
+      await runMsiProcess(msiexec, ["/f", plan.productCode, ...(plan.installUi === "interactive" ? [] : ["/quiet"]), "/norestart"], { windowsHide: plan.installUi !== "interactive" });
+    } else {
+      const temporaryRoot = fs.realpathSync.native(app.getPath("temp"));
+      const temporaryPrefix = `zhenxing-cli-msi-${productId}-`;
+      temporaryDirectory = fs.mkdtempSync(path.join(temporaryRoot, temporaryPrefix));
+      const msiPath = path.join(temporaryDirectory, plan.artifact.fileName);
+      await downloadFixedMsi(sender, productId, plan, msiPath);
+      emitCliLog(sender, productId, "stdout", `正在${intent === "update" ? "更新" : "安装"} ${plan.name}…`);
+      await runMsiProcess(msiexec, ["/i", msiPath, ...(plan.installUi === "interactive" ? [] : ["/quiet"]), "/norestart"], { windowsHide: plan.installUi !== "interactive" });
+    }
     msiInstalled = true;
     let executable;
     try {
       executable = fs.realpathSync.native(layout.executable);
     } catch {
-      throw new Error("MSI 已退出，但未找到 Kiro CLI 程序");
+      throw new Error(`MSI 已退出，但未找到 ${plan.name} 程序`);
     }
-    if (path.normalize(executable).toLowerCase() !== path.normalize(layout.executable).toLowerCase()) throw new Error("Kiro CLI 安装路径发生跳转");
-    const executableSignature = await verifyExpectedSignature(executable, /Amazon Web Services, Inc\./i, true);
-    if (!executableSignature.ok) throw new Error("Kiro CLI 程序数字签名不匹配");
-    const versionCheck = await execFileAsync(executable, ["--version"], { cwd: layout.directory, windowsHide: true, shell: false, timeout: 30_000, maxBuffer: 64 * 1024 });
+    if (path.normalize(executable).toLowerCase() !== path.normalize(layout.executable).toLowerCase()) throw new Error(`${plan.name} 安装路径发生跳转`);
+    const executableSignature = await verifyPortableExecutableTrust(
+      executable,
+      managedMsiTrust(plan)
+    );
+    if (!executableSignature.ok) throw new Error(`${plan.name} 程序信任策略校验未通过`);
+    const versionCheck = await execFileAsync(executable, plan.versionArgs || ["--version"], { cwd: layout.directory, windowsHide: true, shell: false, timeout: 30_000, maxBuffer: 64 * 1024 });
     const versionOutput = `${versionCheck.stdout || ""}\n${versionCheck.stderr || ""}`.trim();
-    if (!versionOutput.includes(plan.version)) throw new Error("Kiro CLI 程序版本与客户端白名单不一致");
-    await execFileAsync(executable, plan.postInstallArgs, { cwd: layout.directory, windowsHide: true, shell: false, timeout: 30_000, maxBuffer: 1024 * 1024 });
-    const receipt = createManagedMsiCliReceipt({ productId, plan, localAppData: process.env.LOCALAPPDATA || "", hashFile: (filePath) => fileIntegritySync(filePath, "sha256") });
-    if (!receipt) throw new Error("无法建立 Kiro CLI 管理收据");
+    if (!versionOutput.includes(plan.version)) throw new Error(`${plan.name} 程序版本与客户端白名单不一致`);
+    if (plan.postInstallArgs?.length) {
+      await execFileAsync(executable, plan.postInstallArgs, { cwd: layout.directory, windowsHide: true, shell: false, timeout: 30_000, maxBuffer: 1024 * 1024 });
+    }
+    const receipt = createManagedMsiCliReceipt({
+      productId,
+      plan,
+      localAppData: process.env.LOCALAPPDATA || "",
+      programFiles: process.env.ProgramFiles || "",
+      hashFile: (filePath) => fileIntegritySync(filePath, "sha256")
+    });
+    if (!receipt) throw new Error(`无法建立 ${plan.name} 管理收据`);
     setManagedCliRecord(productId, receipt);
     receiptRecorded = true;
     const terminal = await openManagedCliTerminal(productId);
     return { ok: true, version: receipt.version, directory: receipt.directory, managed: true, terminalOpened: terminal.ok, warning: terminal.ok ? undefined : terminal.error };
   } catch (error) {
-    if (msiInstalled && !receiptRecorded) {
+    if (intent === "install" && msiInstalled && !receiptRecorded) {
       try {
-        await runMsiProcess(systemCommandPath("msiexec.exe"), ["/x", plan.productCode, "/quiet", "/norestart"]);
+        await runMsiProcess(systemCommandPath("msiexec.exe"), ["/x", plan.productCode, ...(plan.uninstallUi === "interactive" ? [] : ["/quiet"]), "/norestart"], { windowsHide: plan.uninstallUi !== "interactive" });
       } catch {
         // Report the original failure; the next status check will show the untracked install.
       }
     }
-    return { ok: false, error: error instanceof Error ? error.message : "Kiro CLI 安装失败" };
+    return error?.msiExitCode === 1602 || error?.msiExitCode === 1223
+      ? { ok: false, canceled: true }
+      : { ok: false, error: error instanceof Error ? error.message : `${plan.name} 安装失败` };
   } finally {
     if (temporaryDirectory) {
       try {
         const resolvedTemp = fs.realpathSync.native(app.getPath("temp"));
         const resolvedDirectory = fs.realpathSync.native(temporaryDirectory);
-        if (path.dirname(resolvedDirectory).toLowerCase() === resolvedTemp.toLowerCase() && path.basename(resolvedDirectory).startsWith("aihub-kiro-msi-")) fs.rmSync(resolvedDirectory, { recursive: true, force: true });
+        if (path.dirname(resolvedDirectory).toLowerCase() === resolvedTemp.toLowerCase() && path.basename(resolvedDirectory).startsWith(`zhenxing-cli-msi-${productId}-`)) fs.rmSync(resolvedDirectory, { recursive: true, force: true });
       } catch {
         // Never broaden cleanup beyond the exact temporary directory.
       }
@@ -4927,12 +6814,13 @@ async function uninstallManagedMsiCli(productId, plan) {
   const action = createManagedMsiUninstallAction({
     productId, plan, receipt: records[productId] || null,
     localAppData: process.env.LOCALAPPDATA || "",
+    programFiles: process.env.ProgramFiles || "",
     msiexecExecutable: systemCommandPath("msiexec.exe"),
     hashFile: (filePath) => fileIntegritySync(filePath, "sha256")
   });
-  if (!action) return { ok: false, error: "Kiro CLI 文件或管理收据不一致，已拒绝卸载" };
+  if (!action) return { ok: false, error: `${plan.name} 文件或管理收据不一致，已拒绝卸载` };
   const prefixKey = action.directory.toLowerCase();
-  if (activeCliPrefixes.has(prefixKey)) return { ok: false, error: "Kiro CLI 正在执行其他操作" };
+  if (activeCliPrefixes.has(prefixKey)) return { ok: false, error: `${plan.name} 正在执行其他操作` };
   activeCliPrefixes.add(prefixKey);
   try {
     const confirmation = await showLocalizedMessageBox({
@@ -4942,14 +6830,16 @@ async function uninstallManagedMsiCli(productId, plan) {
     });
     if (confirmation.response !== 1) return { ok: false, canceled: true };
     const latest = readManagedCliRecords();
-    const confirmed = createManagedMsiUninstallAction({ productId, plan, receipt: latest[productId] || null, localAppData: process.env.LOCALAPPDATA || "", msiexecExecutable: systemCommandPath("msiexec.exe"), hashFile: (filePath) => fileIntegritySync(filePath, "sha256") });
-    if (!confirmed || confirmed.managementId !== action.managementId) return { ok: false, error: "确认期间 Kiro CLI 状态发生变化，已拒绝卸载" };
-    await runMsiProcess(confirmed.executable, confirmed.args);
-    if (fs.existsSync(action.productExecutable)) return { ok: false, error: "Windows Installer 已退出，但 Kiro CLI 仍存在；管理收据已保留" };
+    const confirmed = createManagedMsiUninstallAction({ productId, plan, receipt: latest[productId] || null, localAppData: process.env.LOCALAPPDATA || "", programFiles: process.env.ProgramFiles || "", msiexecExecutable: systemCommandPath("msiexec.exe"), hashFile: (filePath) => fileIntegritySync(filePath, "sha256") });
+    if (!confirmed || confirmed.managementId !== action.managementId) return { ok: false, error: `确认期间 ${plan.name} 状态发生变化，已拒绝卸载` };
+    await runMsiProcess(confirmed.executable, confirmed.args, confirmed.options);
+    if (fs.existsSync(action.productExecutable)) return { ok: false, error: `Windows Installer 已退出，但 ${plan.name} 仍存在；管理收据已保留` };
     removeManagedCliRecord(productId);
     return { ok: true, status: getCliStatus(productId) };
   } catch (error) {
-    return { ok: false, error: error instanceof Error ? error.message : "Kiro CLI 卸载失败" };
+    return error?.msiExitCode === 1602 || error?.msiExitCode === 1223
+      ? { ok: false, canceled: true }
+      : { ok: false, error: error instanceof Error ? error.message : `${plan.name} 卸载失败` };
   } finally {
     activeCliPrefixes.delete(prefixKey);
   }
@@ -5001,6 +6891,21 @@ function availableDiskBytes(targetPath) {
 
 function gigabytesForMessage(bytes) {
   return `${Math.ceil((bytes / 1024 ** 3) * 10) / 10} GB`;
+}
+
+function insufficientDownloadSpaceError(space, target) {
+  const error = new Error(
+    `下载位置空间不足：需要 ${gigabytesForMessage(space.requiredBytes)}，` +
+      `当前可用 ${gigabytesForMessage(space.availableBytes)}，请更换下载位置`
+  );
+  error.code = "INSUFFICIENT_DISK_SPACE";
+  error.availableBytes = space.availableBytes;
+  error.requiredBytes = space.requiredBytes;
+  error.remainingBytes = space.remainingBytes;
+  error.reserveBytes = space.reserveBytes;
+  error.shortfallBytes = space.shortfallBytes;
+  error.downloadDirectory = path.dirname(target);
+  return error;
 }
 
 function canonicalDownloadRoot(targetPath) {
@@ -5337,6 +7242,17 @@ async function downloadPackage(sender, input, target, options = {}) {
   let output = null;
   let outputError = null;
   let reader = null;
+  const canceledDownloadError = () =>
+    Object.assign(new Error("Download canceled"), {
+      name: "AbortError",
+      code: "ABORT_ERR"
+    });
+  const abortActiveIo = () => {
+    const error = canceledDownloadError();
+    reader?.cancel(error).catch(() => {});
+    if (output && !output.closed) output.destroy(error);
+  };
+  controller.signal.addEventListener("abort", abortActiveIo, { once: true });
   try {
     if (Number.isSafeInteger(options.completePartialBytes)) {
       assertDownloadCanFinalize({
@@ -5420,10 +7336,18 @@ async function downloadPackage(sender, input, target, options = {}) {
         return true;
       }
     });
-    if (!response.ok || !response.body) {
-      throw new Error(`下载服务器返回 ${response.status}`);
+    if (!response.ok) {
+      const error = new Error("下载服务器未返回可用安装包");
+      error.code = "DOWNLOAD_HTTP_FAILED";
+      throw error;
+    }
+    if (!response.body) {
+      const error = new Error("下载服务器未返回安装包内容");
+      error.code = "DOWNLOAD_HTTP_BODY_MISSING";
+      throw error;
     }
 
+    if (controller.signal.aborted) throw canceledDownloadError();
     const resume = resolveResumeResponse({
       requestedBytes,
       status: response.status,
@@ -5470,18 +7394,7 @@ async function downloadPackage(sender, input, target, options = {}) {
         spaceOk: space.ok
       });
       if (!space.ok) {
-        const error = new Error(
-          `下载位置空间不足：需要 ${gigabytesForMessage(space.requiredBytes)}，` +
-            `当前可用 ${gigabytesForMessage(space.availableBytes)}，请更换下载位置`
-        );
-        error.code = "INSUFFICIENT_DISK_SPACE";
-        error.availableBytes = space.availableBytes;
-        error.requiredBytes = space.requiredBytes;
-        error.remainingBytes = space.remainingBytes;
-        error.reserveBytes = space.reserveBytes;
-        error.shortfallBytes = space.shortfallBytes;
-        error.downloadDirectory = path.dirname(target);
-        throw error;
+        throw insufficientDownloadSpaceError(space, target);
       }
     }
     const startedAt = Date.now();
@@ -5496,30 +7409,46 @@ async function downloadPackage(sender, input, target, options = {}) {
       reader?.cancel().catch(() => {});
     });
     reader = response.body.getReader();
+    let receivedNetworkData = false;
 
     while (true) {
-      let timeout = null;
-      const chunk = await Promise.race([
-        reader.read().finally(() => clearTimeout(timeout)),
-        new Promise((_, reject) => {
-          timeout = setTimeout(
-            () => reject(new Error("下载长时间没有进度")),
-            12000
-          );
-        })
-      ]);
+      let chunk;
+      if (receivedNetworkData) {
+        chunk = await reader.read();
+      } else {
+        let timeout = null;
+        chunk = await Promise.race([
+          reader.read().finally(() => clearTimeout(timeout)),
+          new Promise((_, reject) => {
+            timeout = setTimeout(() => {
+              const error = new Error("官方下载连接后始终没有数据");
+              error.code = "DOWNLOAD_SOURCE_NO_DATA";
+              reject(error);
+            }, 15_000);
+          })
+        ]);
+      }
+      if (controller.signal.aborted) throw canceledDownloadError();
       if (chunk.done) break;
       if (outputError) throw outputError;
       const buffer = Buffer.from(chunk.value);
+      if (buffer.length > 0) receivedNetworkData = true;
+      let liveSpace = null;
+      if (Number.isSafeInteger(options.safetyReserveBytes)) {
+        liveSpace = assessDownloadSpace({
+          availableBytes: availableDiskBytes(target),
+          totalBytes,
+          receivedBytes,
+          safetyReserveBytes: options.safetyReserveBytes,
+          nextWriteBytes: buffer.length
+        });
+        if (!liveSpace.ok) {
+          throw insufficientDownloadSpaceError(liveSpace, target);
+        }
+      }
       receivedBytes += buffer.length;
       hash.update(buffer);
       if (!output.write(buffer)) await once(output, "drain");
-      if (
-        Date.now() - startedAt >= 15000 &&
-        receivedBytes < 1024 * 1024
-      ) {
-        throw new Error("下载速度过慢，正在尝试备用源");
-      }
       sender.send("download:progress", {
         productId: input.productId,
         receivedBytes,
@@ -5546,7 +7475,16 @@ async function downloadPackage(sender, input, target, options = {}) {
             : null,
         percent: totalBytes
           ? Math.min(100, Math.round((receivedBytes / totalBytes) * 100))
-          : null
+          : null,
+        ...(liveSpace
+          ? {
+              availableBytes: liveSpace.availableBytes,
+              requiredBytes: liveSpace.requiredBytes,
+              remainingBytes: liveSpace.remainingBytes,
+              reserveBytes: liveSpace.reserveBytes,
+              spaceOk: liveSpace.ok
+            }
+          : {})
       });
     }
 
@@ -5587,6 +7525,8 @@ async function downloadPackage(sender, input, target, options = {}) {
       error.downloadCanceled = canceledByUser;
     }
     throw error;
+  } finally {
+    controller.signal.removeEventListener("abort", abortActiveIo);
   }
 }
 
@@ -5731,10 +7671,16 @@ function createTaskFromEvidence(productId, evidence) {
 }
 
 function reconcileManagedDownloadTask(productId) {
-  const plan = resolveManagedDownloadPlan(productId);
-  if (!plan) return null;
   loadManagedDownloadTasks();
   let task = managedDownloadTasks.get(productId) || null;
+  const scheduled = managedDownloadQueue?.status(productId);
+  if (
+    task &&
+    (scheduled?.phase === "queued" || scheduled?.phase === "downloading") &&
+    ["queued", "starting", "downloading", "canceling"].includes(task.phase)
+  ) return task;
+  const plan = resolveManagedDownloadPlan(productId);
+  if (!plan) return null;
   const record = trustedCompletedDownloadRecord(productId);
   const partial = managedPartialDownload(productId, plan);
 
@@ -5797,21 +7743,15 @@ function reconcileManagedDownloadTask(productId) {
     return completed.accepted ? completed.task : task;
   }
 
-  if (task.phase === "completed") {
-    const retried = advanceManagedDownloadTask(productId, {
-      type: "retry",
-      attemptId: crypto.randomUUID()
+  if (
+    !partial &&
+    (task.phase === "completed" || isMissingDownloadedFileTask(task))
+  ) {
+    removeManagedDownloadState(productId, {
+      expectedAttemptId: task.attemptId,
+      clearCompletedRecord: true
     });
-    if (!retried.accepted) return task;
-    const failed = advanceManagedDownloadTask(productId, {
-      type: "failed",
-      attemptId: retried.task.attemptId,
-      resumable: isReusablePartialEvidence(partial),
-      errorCode: "DOWNLOADED_FILE_MISSING",
-      errorMessage: "已下载的安装包不存在或记录不可信，请重新下载",
-      progress: taskProgressForPartial(retried.task, partial)
-    });
-    return failed.accepted ? failed.task : retried.task;
+    return null;
   }
 
   if (task.phase === "canceling") {
@@ -5846,12 +7786,18 @@ function beginManagedDownloadAttempt(
   options = {}
 ) {
   let task = reconcileManagedDownloadTask(productId);
-  const attemptId = crypto.randomUUID();
+  const desktopDownloadOnly = plan.downloadPolicy === "desktop-download-only";
+  const attemptId = options.attemptId || crypto.randomUUID();
   const partialStartMode = classifyPartialForStart(reusable);
   const downloadRoot =
     reusable?.downloadRoot || canonicalDownloadRoot(target);
   const canonicalTarget = path.join(downloadRoot, path.basename(target));
-  const transition = task
+  const transition = options.queuedAttempt
+    ? advanceManagedDownloadTask(productId, {
+        type: "begin",
+        attemptId
+      })
+    : task
     ? advanceManagedDownloadTask(productId, {
         type: "retry",
         attemptId
@@ -5874,6 +7820,12 @@ function beginManagedDownloadAttempt(
     attemptId,
     url: plan.url,
     fileName: plan.fileName,
+    artifactKind: plan.artifactKind,
+    downloadPolicy: plan.downloadPolicy || "",
+    signedCatalogDownload: plan.signedCatalogDownload === true,
+    mirrors: plan.signedCatalogDownload
+      ? plan.sources.slice(1).map((source) => source.url)
+      : undefined,
     downloadRoot,
     targetPath: canonicalTarget,
     totalBytes: reusable?.totalBytes || 0,
@@ -5881,7 +7833,7 @@ function beginManagedDownloadAttempt(
   };
   writePartialDownloadRecords(partialRecords);
 
-  const controller = new AbortController();
+  const controller = options.controller || new AbortController();
   const entry = {
     attemptId,
     controller,
@@ -5908,8 +7860,10 @@ function beginManagedDownloadAttempt(
         {
           productId,
           url: plan.url,
-          managedProductId: plan.managedProductId || undefined,
-          allowedFinalHosts: plan.environmentId
+          managedProductId: desktopDownloadOnly
+            ? undefined
+            : plan.managedProductId || undefined,
+          allowedFinalHosts: desktopDownloadOnly || plan.environmentId
             ? plan.allowedHosts
             : undefined
         },
@@ -5993,21 +7947,15 @@ function beginManagedDownloadAttempt(
         resumedFrom: result.resumedFrom,
         downloadedAt: new Date().toISOString(),
         url: plan.url,
+        fileName: plan.fileName,
+        artifactKind: plan.artifactKind,
+        downloadPolicy: plan.downloadPolicy || "",
+        signedCatalogDownload: plan.signedCatalogDownload === true,
+        mirrors: plan.signedCatalogDownload
+          ? plan.sources.slice(1).map((source) => source.url)
+          : undefined,
         source: plan.sourceLabel || ""
       };
-      if (!plan.environmentId) {
-        const verified = await inspectManagedDesktopDownloadRecord(
-          productId,
-          record
-        );
-        if (!verified.ok) {
-          const error = new Error(
-            verified.error || "Downloaded installer verification failed"
-          );
-          error.code = "DOWNLOADED_INSTALLER_INVALID";
-          throw error;
-        }
-      }
       if (entry.replacement) {
         const replacement = await commitManagedDownloadReplacement({
           productId,
@@ -6134,12 +8082,8 @@ function beginManagedDownloadAttempt(
       });
       const fallbackPlan =
         !partial &&
-        ![
-          "ENVIRONMENT_SIGNATURE_INVALID",
-          "INSUFFICIENT_DISK_SPACE",
-          "ENOSPC"
-        ].includes(String(error?.code || ""))
-          ? nextEnvironmentDownloadPlan(plan)
+        isManagedDownloadSourceFallbackError(error)
+          ? nextManagedDownloadPlan(plan)
           : null;
       if (fallbackPlan && failed.accepted && failed.task) {
         const failedAttemptId = attemptId;
@@ -6202,7 +8146,96 @@ function beginManagedDownloadAttempt(
     return current;
   });
 
-  return { ok: true, task };
+  return { ok: true, task, completion: entry.completion };
+}
+
+function getManagedDownloadQueue() {
+  if (managedDownloadQueue) return managedDownloadQueue;
+  managedDownloadQueue = createManagedDownloadQueue({
+    concurrency: MANAGED_DOWNLOAD_CONCURRENCY,
+    async start(job) {
+      const started = beginManagedDownloadAttempt(
+        job.productId,
+        job.plan,
+        job.target,
+        job.reusable,
+        {
+          ...job.options,
+          attemptId: job.attemptId,
+          queuedAttempt: true,
+          controller: job.controller
+        }
+      );
+      if (!started.ok || !started.completion) {
+        const error = new Error(started.error || "DOWNLOAD_START_FAILED");
+        error.code = "DOWNLOAD_START_FAILED";
+        throw error;
+      }
+      return started.completion;
+    }
+  });
+  return managedDownloadQueue;
+}
+
+function hasManagedDownloadWork() {
+  return activeDownloads.size > 0 || getManagedDownloadQueue().list().some((task) =>
+    task.phase === "queued" || task.phase === "downloading"
+  );
+}
+
+function discardManagedDownloadQueueOnExit() {
+  const queuedIds = getManagedDownloadQueue().list().map((task) => task.id);
+  const productIds = new Set([...queuedIds, ...activeDownloads.keys()]);
+  getManagedDownloadQueue().dispose();
+  for (const [productId, entry] of activeDownloads) {
+    entry.intent = raiseDownloadIntent(entry.intent, "cancel");
+    entry.controller.abort();
+  }
+  for (const productId of productIds) {
+    const plan = resolveManagedDownloadPlan(productId);
+    if (plan) discardManagedPartialDownload(productId, plan);
+  }
+}
+
+function enqueueManagedDownloadAttempt(productId, plan, target, reusable, options = {}) {
+  let task = reconcileManagedDownloadTask(productId);
+  const attemptId = crypto.randomUUID();
+  const transition = task
+    ? advanceManagedDownloadTask(productId, {
+        type: "queue",
+        attemptId,
+        resumable: Boolean(reusable),
+        progress: reusable ? taskProgressForPartial(task, reusable) : undefined
+      })
+    : advanceManagedDownloadTask(productId, {
+        type: "queue",
+        attemptId,
+        progress: reusable ? taskProgressForPartial(null, reusable) : undefined
+      });
+  if (!transition.accepted || !transition.task) {
+    return { ok: false, error: "当前下载任务状态不允许加入队列", task };
+  }
+  task = transition.task;
+  const queued = getManagedDownloadQueue().enqueue({
+    id: productId,
+    productId,
+    attemptId,
+    plan,
+    target,
+    reusable,
+    options
+  });
+  if (!queued.accepted) {
+    const failed = advanceManagedDownloadTask(productId, {
+      type: "failed",
+      attemptId,
+      resumable: false,
+      errorCode: queued.errorCode || "DOWNLOAD_QUEUE_REJECTED",
+      errorMessage: "下载队列无法接收任务"
+    });
+    return { ok: false, error: failed.task?.errorMessage || "下载队列无法接收任务", task: failed.task || task };
+  }
+  return { ok: true, queued: queued.reused === true, task: reconcileManagedDownloadTask(productId) || task };
 }
 
 function startManagedDownload(productId, overridePlan = null, options = {}) {
@@ -6220,25 +8253,22 @@ function startManagedDownload(productId, overridePlan = null, options = {}) {
   if (!plan) {
     return { ok: false, error: "该产品不在客户端安装包白名单中" };
   }
-  if (activeDownloads.has(productId)) {
-    return {
-      ok: false,
-      error: "该产品正在下载中",
-      task: currentManagedDownloadTask(productId)
-    };
+  if (plan.downloadPolicy === "desktop-download-only" && !getDesktopDownloadOnlyProfile(productId)) {
+    signedDesktopDownloadPlans.set(productId, plan);
   }
-  if (activeDownloads.size > 0) {
+  const scheduled = getManagedDownloadQueue().status(productId);
+  if (scheduled && (scheduled.phase === "queued" || scheduled.phase === "downloading")) {
     return {
-      ok: false,
-      error: "已有安装包正在下载，请暂停或完成后再开始新的下载",
-      task: reconcileManagedDownloadTask(productId)
+      ok: true,
+      reused: true,
+      task: currentManagedDownloadTask(productId)
     };
   }
   ensureEnvironmentDownloadDirectory();
   const partial = managedPartialDownload(productId, plan);
   const partialStartMode = classifyPartialForStart(partial);
   if (partialStartMode === "resume" || partialStartMode === "promote") {
-    return beginManagedDownloadAttempt(
+    return enqueueManagedDownloadAttempt(
       productId,
       plan,
       partial.targetPath,
@@ -6258,7 +8288,7 @@ function startManagedDownload(productId, overridePlan = null, options = {}) {
     }
   }
   const target = safeDownloadTarget(plan.fileName);
-  return beginManagedDownloadAttempt(productId, plan, target, null, options);
+  return enqueueManagedDownloadAttempt(productId, plan, target, null, options);
 }
 
 async function pauseManagedDownload(productId) {
@@ -6287,38 +8317,34 @@ async function pauseManagedDownload(productId) {
   return { ok: task?.phase === "paused", task };
 }
 
-async function discardManagedDownload(productId) {
-  const plan = resolveManagedDownloadPlan(productId);
-  if (!plan) {
-    return { ok: false, error: "该产品不在客户端安装包白名单中" };
+async function discardManagedDownload(request) {
+  const confirmed = validateManagedDownloadCancelRequest(request);
+  if (!confirmed) {
+    return { ok: false, error: "下载取消请求无效" };
   }
+  const productId = confirmed.productId;
+  const plan = resolveManagedDownloadPlan(productId);
   const task = reconcileManagedDownloadTask(productId);
-  if (!task || task.phase === "completed") {
+  const authorization = authorizeManagedDownloadCancellation({
+    request: confirmed,
+    task,
+    plan
+  });
+  if (!authorization.ok) {
     return {
       ok: false,
-      error: task ? "已完成的安装包不能通过取消任务删除" : "没有可取消的下载任务",
+      error:
+        authorization.errorCode === "DOWNLOAD_ALREADY_COMPLETED"
+          ? "下载已经完成，不能取消或删除完成文件"
+          : "下载任务已变化，请刷新后重试",
       task
     };
   }
-  const partial = managedPartialDownload(productId, plan);
-  const confirmation = await showLocalizedMessageBox({
-    type: "warning",
-    title: "取消下载任务",
-    message: "确认取消该下载任务并清除已保留的断点？",
-    detail: partial?.receivedBytes
-      ? `将删除已下载的 ${gigabytesForMessage(partial.receivedBytes)} 断点数据。`
-      : "任务日志会保留，但下次下载将从头开始。",
-    buttons: ["保留任务", "取消并清除断点"],
-    defaultId: 0,
-    cancelId: 0,
-    noLink: true
-  });
-  if (confirmation.response !== 1) {
-    return { ok: false, canceled: true, task };
-  }
-
   const entry = activeDownloads.get(productId);
-  const attemptId = entry?.attemptId || task.attemptId;
+  const attemptId = authorization.attemptId;
+  if (entry && entry.attemptId !== attemptId) {
+    return { ok: false, error: "下载任务已变化，请刷新后重试", task };
+  }
   const requested = advanceManagedDownloadTask(productId, {
     type: "cancel-requested",
     attemptId
@@ -6331,21 +8357,53 @@ async function discardManagedDownload(productId) {
       task: requested.task
     };
   }
+  const queued = getManagedDownloadQueue().status(productId);
+  if (queued?.phase === "queued") {
+    getManagedDownloadQueue().cancel(productId);
+    const canceled = advanceManagedDownloadTask(productId, {
+      type: "cancel",
+      attemptId
+    });
+    if (!canceled.accepted) return { ok: false, task: canceled.task };
+    try {
+      removeManagedDownloadState(productId, { expectedAttemptId: attemptId });
+      return { ok: true, task: null, cleared: true };
+    } catch (error) {
+      return {
+        ok: false,
+        error: error instanceof Error ? error.message : "下载任务删除失败",
+        task: canceled.task
+      };
+    }
+  }
   if (entry) {
     entry.intent = raiseDownloadIntent(entry.intent, "cancel");
     entry.controller.abort();
     const canceled = await entry.completion;
     const ok = canceled?.phase === "canceled";
-    return {
-      ok,
-      error: ok
-        ? undefined
-        : canceled?.phase === "completed"
-          ? "\u4e0b\u8f7d\u5df2\u5b8c\u6210\uff0c\u53d6\u6d88\u672a\u751f\u6548"
-          : canceled?.errorMessage ||
-          "\u53d6\u6d88\u6e05\u7406\u5931\u8d25",
-      task: canceled
-    };
+    if (!ok) {
+      return {
+        ok: false,
+        error:
+          canceled?.phase === "completed"
+            ? "\u4e0b\u8f7d\u5df2\u5b8c\u6210\uff0c\u53d6\u6d88\u672a\u751f\u6548"
+            : canceled?.errorMessage || "\u53d6\u6d88\u6e05\u7406\u5931\u8d25",
+        task: canceled
+      };
+    }
+    try {
+      removeManagedDownloadState(productId, {
+        expectedAttemptId: attemptId
+      });
+      return { ok: true, task: null, cleared: true };
+    } catch (error) {
+      return {
+        ok: false,
+        error:
+          error instanceof Error ? error.message : "下载任务删除失败",
+        task: canceled
+      };
+    }
   }
   const cleanup = discardManagedPartialDownload(productId, plan);
   if (!cleanup.ok) {
@@ -6360,7 +8418,17 @@ async function discardManagedDownload(productId) {
     type: "cancel",
     attemptId
   });
-  return { ok: canceled.accepted, task: canceled.task };
+  if (!canceled.accepted) return { ok: false, task: canceled.task };
+  try {
+    removeManagedDownloadState(productId, { expectedAttemptId: attemptId });
+    return { ok: true, task: null, cleared: true };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "下载任务删除失败",
+      task: canceled.task
+    };
+  }
 }
 
 function ensureEnvironmentDownloadDirectory() {
@@ -6448,68 +8516,121 @@ async function verifiedEnvironmentRecord(environmentId) {
   return { ...record, signature };
 }
 
-async function inspectManagedDesktopDownloadRecord(productId, record) {
-  const digest = await fileSha256(record.filePath);
-  if (digest !== record.sha256) {
-    return { ok: false, error: "安装包已被修改，请重新下载" };
+async function prepareEnvironmentPackageDownload(environmentId, intent) {
+  const environmentPlan = getEnvironmentPlan(environmentId);
+  if (!environmentPlan || environmentPlan.nativeWindowsFeature) {
+    return { downloaded: false, error: "该环境不使用受管安装包" };
   }
-  const managedDownload = getStaticManagedDownload(productId);
-  if (
-    managedDownload?.expectedSha256 &&
-    digest.toLowerCase() !== managedDownload.expectedSha256.toLowerCase()
-  ) {
-    return { ok: false, error: "安装包版本哈希与客户端白名单不匹配，请重新下载" };
-  }
-  const signature = await inspectSignature(record.filePath);
-  const expectedSigner = managedDownload?.expectedSigner;
-  if (!(expectedSigner instanceof RegExp)) {
+  const operationTask = getEnvironmentOperationController().get(environmentId);
+  if (operationTask) {
     return {
-      ok: false,
-      record,
-      sha256: digest,
-      signature,
-      error: "该安装包缺少客户端签发者安全契约"
+      downloaded: false,
+      busy: true,
+      operationTask,
+      error: "该环境仍有待确认的安装或卸载操作"
     };
   }
-  expectedSigner.lastIndex = 0;
-  const signerAccepted =
-    signature.status === "Valid" &&
-    expectedSigner.test(signature.signer);
-  if (!signerAccepted) {
+  const entryKey = `environment:${environmentId}`;
+  if (
+    activeEnvironmentDownloads.has(environmentId) ||
+    activeDesktopOperationEntries.has(entryKey)
+  ) {
+    return { downloaded: false, busy: true, error: "该环境操作正在进行" };
+  }
+  activeEnvironmentDownloads.add(environmentId);
+  activeDesktopOperationEntries.add(entryKey);
+  try {
+    const downloadPlan = getEnvironmentDownloadPlan(
+      environmentId,
+      activeEnvironmentSourcePreferences
+    );
+    if (intent === "update") {
+      assertSoftwareUpdatePublished({
+        kind: "environment",
+        subjectId: environmentId,
+        mode: "environment-download",
+        version: downloadPlan.recommendedVersion
+      });
+    }
+    const updatePlan =
+      intent === "update"
+        ? createEnvironmentUpdatePlan({
+            environmentId,
+            statuses: await detectEnvironmentUpdateStatuses(environmentId),
+            downloadPlan
+          })
+        : null;
+    if (intent === "update" && !updatePlan) {
+      return {
+        downloaded: false,
+        error: "仅可信旧版本可以下载审核推荐版本的更新包"
+      };
+    }
+    const existing = await verifiedEnvironmentRecord(environmentId);
+    if (existing) {
+      return {
+        downloaded: true,
+        intent,
+        recommendedVersion: downloadPlan.recommendedVersion,
+        filePath: existing.filePath,
+        source: existing.source,
+        message:
+          intent === "update"
+            ? `${environmentPlan.name} 更新包已验证，可以点击“打开更新安装包”`
+            : `${environmentPlan.name} 安装包已下载，可以点击“打开安装包”`
+      };
+    }
+
+    const currentTask = reconcileManagedDownloadTask(entryKey);
+    const persistedPlan = resolveManagedDownloadPlan(entryKey);
+    const partial = persistedPlan
+      ? managedPartialDownload(entryKey, persistedPlan)
+      : null;
+    let selectedPlan = persistedPlan;
+    if (!partial && !activeDownloads.has(entryKey)) {
+      const source = await selectReachableSource(
+        downloadPlan,
+        probeEnvironmentSource
+      );
+      selectedPlan = resolveManagedDownloadPlan(entryKey, source.url);
+    }
+    if (!selectedPlan) {
+      throw new Error("环境安装包下载源记录无效，无法安全继续");
+    }
+    const started = startManagedDownload(entryKey, selectedPlan);
+    if (!started.ok) {
+      return {
+        downloaded: false,
+        intent,
+        busy: activeDownloads.has(entryKey),
+        task: started.task || currentTask,
+        error: started.error
+      };
+    }
     return {
-        ok: false,
-        record,
-        sha256: digest,
-        signature,
-        error:
-          signature.status === "Valid"
-            ? "安装包签发者与产品安全契约不匹配"
-            : "安装包数字签名无效或无法验证"
-      };
+      downloaded: false,
+      intent,
+      recommendedVersion: downloadPlan.recommendedVersion,
+      task: started.task,
+      source: selectedPlan.sourceLabel,
+      message:
+        partial?.receivedBytes > 0
+          ? `正在从断点继续下载 ${environmentPlan.name}`
+          : `已选择${selectedPlan.sourceLabel}，正在下载 ${environmentPlan.name}`
+    };
+  } catch (error) {
+    return {
+      downloaded: false,
+      intent,
+      error:
+        error instanceof Error
+          ? error.message
+          : `无法下载 ${environmentPlan.name} 安装包`
+    };
+  } finally {
+    activeEnvironmentDownloads.delete(environmentId);
+    activeDesktopOperationEntries.delete(entryKey);
   }
-  if (!managedDownload?.expectedInstallerIdentity) {
-    return { ok: true, record, sha256: digest, signature };
-  }
-  const installerIdentity = await inspectWindowsInstallerIdentity(
-    record.filePath,
-    managedDownload.expectedInstallerIdentity
-  );
-  return installerIdentity.ok
-    ? {
-        ok: true,
-        record,
-        sha256: digest,
-        signature,
-        identity: installerIdentity.identity
-      }
-    : {
-        ok: false,
-        record,
-        sha256: digest,
-        signature,
-        error: installerIdentity.error,
-        identityError: installerIdentity.identityError
-      };
 }
 
 async function inspectCompletedDownloadRecord(productId) {
@@ -6531,8 +8652,264 @@ async function inspectCompletedDownloadRecord(productId) {
 
   const record = trustedCompletedDownloadRecord(productId);
   return record
-    ? inspectManagedDesktopDownloadRecord(productId, record)
+    ? { ok: true, record }
     : { ok: false, error: "未找到已下载的安装包" };
+}
+
+function ensureOwnedPortableDirectory(directory, parent = "") {
+  const resolved = path.resolve(directory);
+  const resolvedParent = parent ? path.resolve(parent) : "";
+  if (resolvedParent) {
+    const relative = path.relative(resolvedParent, resolved);
+    if (relative.startsWith("..") || path.isAbsolute(relative)) {
+      throw new Error("便携程序目录越过客户端管理范围");
+    }
+  }
+
+  const root = path.parse(resolved).root;
+  let current = root;
+  for (const segment of resolved.slice(root.length).split(path.sep).filter(Boolean)) {
+    current = path.join(current, segment);
+    if (!fs.existsSync(current)) {
+      fs.mkdirSync(current, { recursive: false });
+    }
+    const stat = fs.lstatSync(current);
+    const canonical = fs.realpathSync.native(current);
+    if (
+      !stat.isDirectory() ||
+      stat.isSymbolicLink() ||
+      path.resolve(canonical).toLowerCase() !== path.resolve(current).toLowerCase()
+    ) {
+      throw new Error("便携程序目录不可信");
+    }
+  }
+  return fs.realpathSync.native(resolved);
+}
+
+async function closeManagedPortableExecutable(executable) {
+  let canonical;
+  try {
+    canonical = fs.realpathSync.native(executable);
+    const stat = fs.lstatSync(canonical);
+    if (
+      !path.isAbsolute(canonical) ||
+      !stat.isFile() ||
+      stat.isSymbolicLink()
+    ) {
+      return { ok: false, error: "便携程序路径不可信" };
+    }
+  } catch {
+    return { ok: false, error: "便携程序文件不存在" };
+  }
+  const script = [
+    POWERSHELL_UTF8_OUTPUT,
+    "$target=[IO.Path]::GetFullPath($env:AIHUB_PORTABLE_PROCESS_PATH)",
+    "$name=[IO.Path]::GetFileName($target)",
+    "$matched=@()",
+    "$unknown=0",
+    "$rows=@(Get-CimInstance Win32_Process -ErrorAction Stop|Where-Object{$_.Name -ieq $name})",
+    "foreach($row in $rows){$candidate=[string]$row.ExecutablePath;if(-not $candidate){$unknown++;continue};if([IO.Path]::GetFullPath($candidate) -ieq $target){$matched+=[int]$row.ProcessId}}",
+    "if($unknown -gt 0){throw 'PROCESS_PATH_UNAVAILABLE'}",
+    "foreach($pidValue in $matched){Stop-Process -Id $pidValue -Force -ErrorAction Stop}",
+    "[pscustomobject]@{closed=$matched.Count}|ConvertTo-Json -Compress"
+  ].join(";");
+  try {
+    const { stdout } = await execFileAsync(
+      windowsPowerShellPath(),
+      ["-NoProfile", "-NonInteractive", "-Command", script],
+      {
+        windowsHide: true,
+        timeout: 15_000,
+        env: {
+          ...isolatedThirdPartyEnvironment(),
+          AIHUB_PORTABLE_PROCESS_PATH: canonical
+        }
+      }
+    );
+    const result = JSON.parse(stdout.trim() || "{}");
+    return {
+      ok: true,
+      closed: Number.isSafeInteger(result.closed) ? result.closed : 0
+    };
+  } catch {
+    return {
+      ok: false,
+      error: "无法确认同名进程的实际路径，已停止操作"
+    };
+  }
+}
+
+async function verifyPortableExecutableTrust(executable, trust) {
+  if (trust?.signaturePolicy === "signed") {
+    return verifyExpectedSignature(
+      executable,
+      trust.expectedExecutableSigner,
+      true
+    );
+  }
+  if (trust?.signaturePolicy !== "pinned-unsigned") {
+    return { ok: false, signer: "", status: "PolicyInvalid" };
+  }
+  const signature = await inspectSignature(executable);
+  return signature.status === "NotSigned"
+    ? {
+        ok: true,
+        signer: "官方未签名文件（客户端已固定 SHA-256）",
+        status: signature.status
+      }
+    : { ok: false, signer: signature.signer || "", status: signature.status };
+}
+
+async function uninstallPortableDesktopProduct(productId) {
+  const download = getStaticManagedDownload(productId);
+  const portable = portableDesktopPlan(download);
+  if (!portable) {
+    return { launched: false, error: "该产品不是客户端管理的便携程序" };
+  }
+  const localAppData = process.env.LOCALAPPDATA || "";
+  const receipt = readPortableDesktopRecord(productId);
+  const action = createPortableDesktopUninstallAction({
+    productId,
+    download,
+    receipt,
+    localAppData,
+    hashFile: fileIntegritySync
+  });
+  if (!action) {
+    return {
+      launched: false,
+      error: "未找到与枕星 AI 安装收据一致的便携程序"
+    };
+  }
+  const trust = portableDesktopTrustForReceipt(download, receipt);
+  if (!trust) {
+    return { launched: false, error: "便携程序版本不在客户端批准的卸载范围内" };
+  }
+  const signature = await verifyPortableExecutableTrust(
+    action.executable,
+    trust
+  );
+  if (!signature.ok) {
+    return { launched: false, error: "便携程序签名发生变化，已拒绝卸载" };
+  }
+
+  const adapter = getDesktopAdapterForProduct(productId);
+  const confirmation = await showDesktopUninstallConfirmation({
+    productId,
+    mode: "automatic",
+    language: readSettings().language,
+    surface: "managed-portable-runtime",
+    productName: adapter?.names?.[0] || productId,
+    version: action.version,
+    publisher: signature.signer,
+    installLocation: action.directory,
+    executableName: path.basename(action.executable),
+    signer: signature.signer
+  });
+  if (confirmation.response !== 1) {
+    return { launched: false, canceled: true };
+  }
+
+  const latestReceipt = readPortableDesktopRecord(productId);
+  const confirmed = createPortableDesktopUninstallAction({
+    productId,
+    download,
+    receipt: latestReceipt,
+    localAppData,
+    hashFile: fileIntegritySync
+  });
+  if (!confirmed || confirmed.managementId !== action.managementId) {
+    return {
+      launched: false,
+      error: "确认期间便携程序状态发生变化，已拒绝卸载"
+    };
+  }
+  const finalTrust = portableDesktopTrustForReceipt(
+    download,
+    latestReceipt
+  );
+  if (!finalTrust) {
+    return { launched: false, error: "确认期间便携程序版本发生变化" };
+  }
+  const finalSignature = await verifyPortableExecutableTrust(
+    confirmed.executable,
+    finalTrust
+  );
+  if (!finalSignature.ok) {
+    return { launched: false, error: "确认期间便携程序签名发生变化" };
+  }
+
+  const closeResult = await closeManagedPortableExecutable(
+    confirmed.executable
+  );
+  if (!closeResult.ok) {
+    return { launched: false, error: closeResult.error || "无法关闭便携程序" };
+  }
+
+  const operationController = getDesktopOperationController();
+  let operationTask = operationController.begin(productId, "uninstall");
+  try {
+    let cleanupWarning = "";
+    try {
+      const transaction = {
+        removeReceipt: () => removePortableDesktopRecordStrict(productId),
+        restoreReceipt: () => setPortableDesktopRecord(productId, latestReceipt)
+      };
+      if (portable.kind === "zip-directory") {
+        await uninstallManagedPortableDirectory({
+          runtimeRoot: confirmed.runtimeRoot,
+          ...transaction
+        });
+      } else {
+        await uninstallManagedPortableFiles({
+          directory: confirmed.directory,
+          executableFileName: portable.executableRelativePath,
+          ...transaction
+        });
+      }
+    } catch (error) {
+      if (!error?.committed) throw error;
+      cleanupWarning =
+        "程序已经卸载，但临时删除文件将在下次维护时继续清理";
+    }
+    operationTask = operationController.finishLaunch(
+      productId,
+      operationTask.generation,
+      operationTask.operationId,
+      true
+    );
+    operationTask = await operationController.checkNow(
+      productId,
+      operationTask.generation,
+      operationTask.operationId
+    );
+    return {
+      launched: true,
+      operationTask,
+      uninstallMode: "automatic",
+      message: "正在自动卸载",
+      ...(cleanupWarning ? { warning: cleanupWarning } : {})
+    };
+  } catch (error) {
+    try {
+      operationController.finishLaunch(
+        productId,
+        operationTask.generation,
+        operationTask.operationId,
+        false
+      );
+    } catch {
+      // Preserve the exact managed runtime failure below.
+    }
+    return {
+      launched: false,
+      operationTask: operationController.get(productId),
+      error:
+        error instanceof Error
+          ? `便携程序卸载失败：${error.message}`
+          : "便携程序卸载失败"
+    };
+  }
 }
 
 function removeTrustedCompletedPackage(productId, record) {
@@ -6540,6 +8917,17 @@ function removeTrustedCompletedPackage(productId, record) {
     return { ok: false, error: "安装包记录无效，已拒绝删除" };
   }
   try {
+    const task = reconcileManagedDownloadTask(productId);
+    if (
+      !task ||
+      task.phase !== "completed" ||
+      task.productId !== productId ||
+      task.filePath !== record.filePath ||
+      task.sha256 !== record.sha256 ||
+      task.fileSize !== record.fileSize
+    ) {
+      return { ok: false, error: "安装包任务与记录不一致，已拒绝删除" };
+    }
     const stat = fs.lstatSync(record.filePath);
     if (!stat.isFile() || stat.isSymbolicLink()) {
       return { ok: false, error: "安装包文件类型发生变化，已拒绝删除" };
@@ -6790,7 +9178,7 @@ async function startFreshManagedDownload(productId) {
         };
       }
     }
-    if (activeDownloads.size > 0) {
+    if (hasManagedDownloadWork()) {
       return {
         ok: false,
         error: "已有安装包正在下载，请完成后再获取最新版",
@@ -6814,6 +9202,110 @@ async function startFreshManagedDownload(productId) {
   } finally {
     managedDownloadRefreshPending = false;
   }
+}
+
+function validManagedDownloadQueueArtifact(artifact) {
+  if (artifact === undefined) return true;
+  if (!artifact || typeof artifact !== "object" || Array.isArray(artifact)) return false;
+  const prototype = Object.getPrototypeOf(artifact);
+  if (prototype !== null && prototype !== Object.prototype) return false;
+  const fields = Object.keys(artifact);
+  if (!fields.every((field) => ["url", "fileName", "artifactKind", "mirrors"].includes(field))) return false;
+  if (typeof artifact.url !== "string" || typeof artifact.fileName !== "string" ||
+      artifact.url.length > 2048 || artifact.fileName.length > 256 ||
+      /[\\\\/]/.test(artifact.fileName)) return false;
+  try {
+    const parsed = new URL(artifact.url);
+    if (parsed.protocol !== "https:" || parsed.username || parsed.password || parsed.hash) return false;
+  } catch {
+    return false;
+  }
+  if (artifact.artifactKind !== undefined && !["exe", "msi", "msix", "zip"].includes(artifact.artifactKind)) return false;
+  return artifact.mirrors === undefined ||
+    (Array.isArray(artifact.mirrors) && artifact.mirrors.length <= 4 && artifact.mirrors.every((value) => {
+      try {
+        const parsed = new URL(value);
+        return typeof value === "string" && value.length <= 2048 &&
+          parsed.protocol === "https:" && !parsed.username && !parsed.password && !parsed.hash;
+      } catch {
+        return false;
+      }
+    }));
+}
+
+function validManagedDownloadQueueRequest(request, allowArtifact = true) {
+  if (!request || typeof request !== "object" || Array.isArray(request)) return false;
+  const prototype = Object.getPrototypeOf(request);
+  if (prototype !== null && prototype !== Object.prototype) return false;
+  const allowed = allowArtifact ? ["productId", "artifact"] : ["productId"];
+  const fields = Object.keys(request);
+  return fields.length >= 1 && fields.every((field) => allowed.includes(field)) &&
+    Object.hasOwn(request, "productId") && typeof request.productId === "string" &&
+    request.productId.length > 0 && request.productId.length <= 160 &&
+    (!Object.hasOwn(request, "artifact") || validManagedDownloadQueueArtifact(request.artifact));
+}
+
+function managedDownloadTaskProfileId(task) {
+  if (!task || typeof task !== "object") return "";
+  const profile = getDesktopDownloadOnlyProfile(task.productId) || getInstallRegistration(task.productId);
+  const plan = resolveManagedDownloadPlan(task.productId);
+  return typeof profile?.profileId === "string"
+    ? profile.profileId
+    : plan?.downloadPolicy === "desktop-download-only"
+      ? SIGNED_CATALOG_PROFILE_ID
+      : "";
+}
+
+function listManagedDownloadQueueTasks() {
+  loadManagedDownloadTasks();
+  return [...managedDownloadTasks.values()]
+    .map((task) => projectManagedDownloadTask(task, {
+      profileId: managedDownloadTaskProfileId(task)
+    }))
+    .filter(Boolean);
+}
+
+function publicManagedDownloadQueueResult(result, productId = "") {
+  const task = result?.task && projectManagedDownloadTask(result.task, {
+    profileId: managedDownloadTaskProfileId(result.task)
+  });
+  const current = !task && result?.ok !== true && productId
+    ? reconcileManagedDownloadTask(productId)
+    : null;
+  return {
+    ok: result?.ok === true,
+    ...(result?.reused === true || result?.queued === true ? { reused: true } : {}),
+    ...(task
+      ? { task }
+      : current
+        ? { task: projectManagedDownloadTask(current, {
+          profileId: managedDownloadTaskProfileId(current)
+        }) }
+        : {}),
+    ...(result?.ok === true ? {} : { errorCode: "DOWNLOAD_QUEUE_REJECTED" })
+  };
+}
+
+async function startManagedDownloadFromRequest(productId, artifact) {
+  if (typeof productId !== "string" || !validManagedDownloadQueueArtifact(artifact)) {
+    return { ok: false, error: "下载请求无效" };
+  }
+  let plan = resolveManagedDownloadPlan(productId, "", artifact);
+  let catalogAuthorization = null;
+  if (!plan) {
+    catalogAuthorization = await authorizeCurrentDesktopDownloadOnlyProduct(productId, artifact);
+    if (!catalogAuthorization.ok) return catalogAuthorization;
+    plan = catalogAuthorization.plan;
+  }
+  if (!plan) return { ok: false, error: "该产品不支持官方安装包下载" };
+  if (!plan.environmentId) {
+    catalogAuthorization ||= plan.downloadPolicy === "desktop-download-only"
+      ? await authorizeCurrentDesktopDownloadOnlyProduct(productId, artifact)
+      : await authorizeCurrentCatalogProduct(productId);
+    if (!catalogAuthorization.ok) return catalogAuthorization;
+    if (plan.downloadPolicy === "desktop-download-only") plan = catalogAuthorization.plan;
+  }
+  return startManagedDownload(productId, plan);
 }
 
 async function clearCompletedDownloadHistory(productId, confirm = true) {
@@ -7041,6 +9533,9 @@ async function identityRequest(url, options = {}) {
         ...(options.body ? { "Content-Type": "application/json" } : {}),
         ...(options.accessToken
           ? { Authorization: `Bearer ${options.accessToken}` }
+          : {}),
+        ...(options.idempotencyKey
+          ? { "Idempotency-Key": String(options.idempotencyKey) }
           : {})
       },
       body: options.body ? JSON.stringify(options.body) : undefined,
@@ -7067,11 +9562,22 @@ async function identityRequest(url, options = {}) {
   }
 }
 
+function getClientServices() {
+  if (clientServicesInstance) return clientServicesInstance;
+  clientServicesInstance = resolveClientServices({
+    isPackaged: app.isPackaged,
+    localReleaseAcceptance: LOCAL_RELEASE_ACCEPTANCE,
+    upgradeFixture: UPGRADE_FIXTURE,
+    packagedConfig: PACKAGE_METADATA.clientServices,
+    env: process.env
+  });
+  return clientServicesInstance;
+}
+
 function getIdentityClient() {
   if (identityClientInstance) return identityClientInstance;
   identityClientInstance = createIdentityClient({
-    origin:
-      process.env.AIHUB_IDENTITY_ORIGIN || "http://127.0.0.1:4180",
+    origin: getClientServices().identityOrigin,
     request: identityRequest,
     vault: identityVault(),
     deviceId: clientIdToDeviceId(releaseClientId()),
@@ -7086,25 +9592,53 @@ function extensionResourcesRoot() {
     : path.join(__dirname, "..", "extension-resources");
 }
 
-function localExtensionReceiptProfiles(receiptsRoot) {
-  return publicExtensionInstallProfiles().filter((profile) => {
-    try {
-      fs.lstatSync(path.join(receiptsRoot, `${profile.id}.json`));
-      return true;
-    } catch {
-      return false;
-    }
-  });
+async function inspectExtensionHost(productId) {
+  if (productId === "cursor-desktop") {
+    const status = (await detectDesktopProducts([productId]))[productId];
+    return {
+      installed: status?.installed === true,
+      detection: ["installed", "absent", "unknown"].includes(status?.detection)
+        ? status.detection
+        : "unknown"
+    };
+  }
+  const status = getCliStatus(productId);
+  if (status.installed === true && status.managed === true) {
+    return { installed: true, detection: "installed" };
+  }
+  if (productId === "cursor-desktop") {
+    const desktop = await detectDesktopProduct(productId);
+    return {
+      installed: desktop.detection === "installed",
+      detection: ["installed", "absent", "unknown"].includes(
+        desktop.detection
+      )
+        ? desktop.detection
+        : "unknown"
+    };
+  }
+  const external = await discoverTrustedExternalExtensionCliHost(productId);
+  if (external.installed) {
+    return { installed: true, detection: "installed" };
+  }
+  return {
+    installed: false,
+    detection:
+      status.detection === "unknown" || external.detection === "unknown"
+        ? "unknown"
+        : "absent"
+  };
 }
 
-async function inspectExtensionHost(productId) {
-  const status = getCliStatus(productId);
-  return {
-    installed: status.installed === true && status.managed === true,
-    detection: ["installed", "absent", "unknown"].includes(status.detection)
-      ? status.detection
-      : "unknown"
-  };
+async function discoverTrustedExternalExtensionCliHost(productId) {
+  return findTrustedExternalExtensionCliHost(productId, {
+    architecture: process.arch,
+    locateAll: locateAllWithStatus,
+    exists: fs.existsSync,
+    realpath: fs.realpathSync.native,
+    verifySignature: (filePath, expectedSigner) =>
+      verifyExpectedSignature(filePath, expectedSigner)
+  });
 }
 
 async function resolveManagedExtensionHostExecutable(productId) {
@@ -7141,6 +9675,13 @@ async function resolveManagedExtensionHostExecutable(productId) {
   } catch {
     return "";
   }
+}
+
+async function resolveExtensionHostExecutable(productId) {
+  const managed = await resolveManagedExtensionHostExecutable(productId);
+  if (managed) return managed;
+  const external = await discoverTrustedExternalExtensionCliHost(productId);
+  return external.executable;
 }
 
 function runExtensionHostCommand({ executable, args }) {
@@ -7190,11 +9731,10 @@ function runExtensionHostCommand({ executable, args }) {
 }
 
 function initializeExtensionRuntime() {
-  let listProfiles = () => [];
+  let listProfiles = () => publicExtensionInstallProfiles();
   try {
     const userDataRoot = app.getPath("userData");
     const receiptsRoot = path.join(userDataRoot, "extension-receipts");
-    listProfiles = () => localExtensionReceiptProfiles(receiptsRoot);
     const directoryRuntime = createExtensionRuntime({
       resourcesRoot: extensionResourcesRoot(),
       userDataRoot,
@@ -7208,6 +9748,17 @@ function initializeExtensionRuntime() {
       receiptsRoot,
       profileLookup: getExtensionRuntimeProfile
     });
+    const claudeMcpRuntime = createClaudeCodeMcpRuntime({
+      receiptsRoot,
+      profileLookup: getExtensionRuntimeProfile,
+      resolveHostExecutable: resolveManagedExtensionHostExecutable,
+      runHostCommand: runExtensionHostCommand
+    });
+    const cursorMcpRuntime = createCursorMcpRuntime({
+      configPath: resolveCursorMcpConfigPath(),
+      receiptsRoot,
+      profileLookup: getExtensionRuntimeProfile
+    });
     const pluginRuntime = createClaudePluginRuntime({
       receiptsRoot,
       ownershipRoot: path.join(os.homedir(), ".claude", "plugins", "data"),
@@ -7218,7 +9769,7 @@ function initializeExtensionRuntime() {
         "installed_plugins.json"
       ),
       profileLookup: getExtensionRuntimeProfile,
-      resolveHostExecutable: resolveManagedExtensionHostExecutable,
+      resolveHostExecutable: resolveExtensionHostExecutable,
       runHostCommand: runExtensionHostCommand
     });
     const manager = createExtensionResourceManager({
@@ -7226,6 +9777,8 @@ function initializeExtensionRuntime() {
       adapters: {
         "directory-snapshot": directoryRuntime,
         "codex-mcp-toml": mcpRuntime,
+        "claude-code-mcp-cli": claudeMcpRuntime,
+        "cursor-mcp-json": cursorMcpRuntime,
         "claude-plugin-cli": pluginRuntime
       },
       inspectHost: inspectExtensionHost,
@@ -7237,9 +9790,15 @@ function initializeExtensionRuntime() {
           requiredCapability: action
         })
     });
-    extensionIpcFacade = createExtensionIpcFacade(manager, { listProfiles });
+    extensionIpcFacade = createExtensionIpcFacade(manager, {
+      listProfiles,
+      statusFilter: filterPublishedExtensionUpdates
+    });
   } catch (error) {
-    extensionIpcFacade = createExtensionIpcFacade(null, { listProfiles });
+    extensionIpcFacade = createExtensionIpcFacade(null, {
+      listProfiles,
+      statusFilter: filterPublishedExtensionUpdates
+    });
     console.warn(
       "Extension resources are unavailable; managed extensions are disabled",
       error?.code || "EXTENSION_RUNTIME_UNAVAILABLE"
@@ -7665,7 +10224,9 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     reconcile: ({ sender, productId, plan, intent }) =>
       intent === "install"
         ? deployManagedWslCli(sender, productId, plan)
-        : { ok: false, error: "该 WSL 工具暂不支持更新或修复" },
+        : intent === "update"
+          ? updateManagedWslCli(sender, productId, plan)
+          : repairManagedWslCli(sender, productId, plan),
     uninstall: ({ sender, productId, plan }) =>
       uninstallManagedWslCli(sender, productId, plan)
   },
@@ -7674,9 +10235,7 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     discover: discoverPortableBinaryCliStatus,
     open: openPortableBinaryCli,
     reconcile: ({ sender, productId, plan, intent }) =>
-      intent === "install"
-        ? deployManagedBinaryCli(sender, productId, plan)
-        : { ok: false, error: "该二进制工具暂不支持更新或修复" },
+      reconcileManagedBinaryCli(sender, productId, plan, intent),
     uninstall: ({ productId, plan }) =>
       uninstallManagedBinaryCli(productId, plan)
   },
@@ -7685,9 +10244,7 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     discover: discoverPythonVenvCliStatus,
     open: openPythonVenvCli,
     reconcile: ({ sender, productId, plan, intent }) =>
-      intent === "install"
-        ? deployManagedPythonCli(sender, productId, plan)
-        : { ok: false, error: "该 Python 工具暂不支持更新或修复" },
+      reconcileManagedPythonCli(sender, productId, plan, intent),
     uninstall: ({ productId, plan }) =>
       uninstallManagedPythonCli(productId, plan)
   },
@@ -7696,9 +10253,7 @@ const CLI_DRIVER_REGISTRY = createCliDriverRegistry({
     discover: discoverManagedMsiCliStatus,
     open: openManagedMsiCli,
     reconcile: ({ sender, productId, plan, intent }) =>
-      intent === "install"
-        ? deployManagedMsiCli(sender, productId, plan)
-        : { ok: false, error: "该 MSI 工具暂不支持更新或修复" },
+      deployManagedMsiCli(sender, productId, plan, intent),
     uninstall: ({ productId, plan }) =>
       uninstallManagedMsiCli(productId, plan)
   }
@@ -7736,14 +10291,505 @@ async function reconcileManagedCli(event, productId, intent) {
   }
 }
 
+function cleanupFixedCliArtifactDirectories(directories) {
+  const temporaryRoot = fs.realpathSync.native(app.getPath("temp"));
+  for (const directory of directories) {
+    try {
+      const resolved = fs.realpathSync.native(directory);
+      if (pathIsInside(resolved, temporaryRoot)) {
+        fs.rmSync(resolved, { recursive: true, force: true });
+      }
+    } catch {
+      // Best-effort cleanup of only the exact temporary artifact directory.
+    }
+  }
+}
+
+function createFixedCliLifecycleFacade() {
+  const transientArtifactDirectories = new Set();
+  const receiptStore = {
+    read(productId) {
+      return readManagedCliRecords()[productId] || null;
+    },
+    write(productId, receipt) {
+      setManagedCliRecord(productId, receipt);
+    },
+    remove(productId) {
+      removeManagedCliRecord(productId);
+    }
+  };
+  const artifactProvider = async ({ productId, artifact }) => {
+    const plan = CLI_INSTALL_PLANS[productId];
+    const expected = artifactFor(plan, process.arch);
+    if (!expected || JSON.stringify(expected) !== JSON.stringify(artifact)) {
+      throw new Error("fixed CLI artifact is not approved by the client profile");
+    }
+    const temporaryRoot = fs.realpathSync.native(app.getPath("temp"));
+    const temporaryPrefix = fs.mkdtempSync(
+      path.join(temporaryRoot, `aihub-fixed-cli-${productId}-`)
+    );
+    transientArtifactDirectories.add(temporaryPrefix);
+    const layout = createManagedBinaryLayout({
+      productId,
+      plan,
+      prefix: temporaryPrefix,
+      architecture: process.arch
+    });
+    if (!layout) throw new Error("fixed CLI artifact layout is unavailable");
+    await downloadManagedBinaryCli(null, productId, plan, layout);
+    return { filePath: layout.executable };
+  };
+  const executor = {
+    applyFixedPlan(input) {
+      return createPortableBinaryLifecycleExecutor({
+        installRoot: readSettings().cliInstallDirectory || "",
+        artifactProvider,
+        receiptStore,
+        architecture: process.arch,
+        fileSystem: fs,
+        hashFile: fileIntegritySync
+      }).applyFixedPlan(input);
+    }
+  };
+  const lifecycle = createManagedCliLifecycleCandidate({
+    registrations: INSTALL_REGISTRY,
+    plans: CLI_INSTALL_PLANS,
+    readReceipt: async ({ productId }) => readManagedCliRecords()[productId] || null,
+    receiptOwnsPlan: ({ productId, plan, receipt }) =>
+      receiptOwnsPortableBinaryPlan({
+        productId,
+        plan,
+        receipt,
+        installRoot: readSettings().cliInstallDirectory || "",
+        architecture: process.arch,
+        fileSystem: fs,
+        hashFile: fileIntegritySync
+      }),
+    verifyUserConfirmation: async ({ useId, confirmationId }) =>
+      typeof useId === "string" && typeof confirmationId === "string" &&
+      useId.length > 0 && confirmationId.length > 0,
+    executor: {
+      async applyFixedPlan(input) {
+        try {
+          return await executor.applyFixedPlan(input);
+        } finally {
+          const directories = [...transientArtifactDirectories];
+          transientArtifactDirectories.clear();
+          cleanupFixedCliArtifactDirectories(directories);
+        }
+      }
+    }
+  });
+  return createManagedCliLifecycleIpcFacade({
+    registrations: INSTALL_REGISTRY,
+    lifecycle,
+    loadCatalog: resolveCatalog,
+    readStatus: async (productId) => getCliStatus(productId),
+    recheckStatus: async (productId) => discoverCliStatus(productId)
+  });
+}
+
+const WINDOWS_PACKAGE_MANAGER_RECONCILE_INTENTS = Object.freeze([
+  "install",
+  "reinstall",
+  "refresh",
+  "update"
+]);
+
+async function confirmWindowsPackageManagerInstall(product, status, intent) {
+  const reinstalling = intent === "reinstall";
+  const updating = status.installed && !reinstalling;
+  const action = windowsPackageManagerText(
+    reinstalling ? "WPM_REINSTALL" : updating ? "WPM_UPDATE" : "WPM_INSTALL"
+  );
+  const storeSource = product.packageManager.source === "msstore";
+  const confirmation = await dialog.showMessageBox({
+    type: "question",
+    title: `${action} ${product.label}`,
+    message: windowsPackageManagerText(
+      storeSource ? "WPM_STORE_CONFIRM" : "WPM_CONFIRM",
+      { action, name: product.label }
+    ),
+    detail: [
+      `Package: ${product.packageManager.packageId}`,
+      `Source: ${product.packageManager.source}`,
+      windowsPackageManagerText(
+        storeSource ? "WPM_STORE_CONFIRM_DETAIL" : "WPM_CONFIRM_DETAIL"
+      )
+    ].join("\n"),
+    buttons: storeSource
+      ? [
+          windowsPackageManagerText("WPM_CANCEL"),
+          windowsPackageManagerText("WPM_STORE_REPAIR"),
+          windowsPackageManagerText("WPM_STORE_CONTINUE")
+        ]
+      : [windowsPackageManagerText("WPM_CANCEL"), action],
+    defaultId: 0,
+    cancelId: 0,
+    noLink: true
+  });
+  if (storeSource && confirmation.response === 1) {
+    await runMicrosoftStoreRepairTool();
+    return "repair";
+  }
+  if (confirmation.response === (storeSource ? 2 : 1)) return "continue";
+  return "cancel";
+}
+
+async function authorizeCurrentWindowsPackageManagerProduct(productId) {
+  let catalogResult = null;
+  const authorization = await authorizeFreshCatalogProduct({
+    productId,
+    requiredCapability: "install",
+    loadCatalog: async () => {
+      catalogResult = await resolveCatalog();
+      return catalogResult;
+    }
+  });
+  if (!authorization.ok) return authorization;
+  const context = resolveManagedProductActionContext({
+    productId,
+    vendors: catalogResult?.catalog?.vendors,
+    localInventory: CLIENT_INSTALL_PROFILES,
+    requireCatalogEnabled: true
+  });
+  const product = getWindowsPackageManagerProduct(productId);
+  if (
+    !context ||
+    !product ||
+    context.downloadPolicy !== "package-manager" ||
+    context.installProfileId !== product.profileId ||
+    !context.capabilities.includes("install")
+  ) {
+    return {
+      ok: false,
+      error: windowsPackageManagerText("WPM_CATALOG_MISMATCH"),
+      errorCode: "CATALOG_PACKAGE_MANAGER_POLICY_INVALID"
+    };
+  }
+  return authorization;
+}
+
+async function reconcileWindowsPackageManagerProduct(productId, intent) {
+  const product = getWindowsPackageManagerProduct(productId);
+  if (!product) {
+    return {
+      ok: false,
+      error: windowsPackageManagerText("WPM_NOT_APPROVED")
+    };
+  }
+  if (!WINDOWS_PACKAGE_MANAGER_RECONCILE_INTENTS.includes(intent)) {
+    return { ok: false, error: windowsPackageManagerText("WPM_ACTION_DENIED") };
+  }
+  if (activeDesktopOperationEntries.has(productId)) {
+    return {
+      ok: false,
+      busy: true,
+      error: windowsPackageManagerText("WPM_BUSY")
+    };
+  }
+  const catalogAuthorization =
+    await authorizeCurrentWindowsPackageManagerProduct(productId);
+  if (!catalogAuthorization.ok) return catalogAuthorization;
+  if (activeDesktopOperationEntries.has(productId)) {
+    return {
+      ok: false,
+      busy: true,
+      error: windowsPackageManagerText("WPM_BUSY")
+    };
+  }
+  activeDesktopOperationEntries.add(productId);
+  try {
+    const executable = await resolveWindowsPackageManagerExecutable();
+    if (!executable) {
+      return {
+        ok: false,
+        error: windowsPackageManagerText("WPM_UNAVAILABLE")
+      };
+    }
+    const operationController = getDesktopOperationController();
+    const existingOperation = operationController.get(productId);
+    if (existingOperation) {
+      return {
+        ok: false,
+        busy: true,
+        operationTask: existingOperation,
+        error: windowsPackageManagerText("WPM_BUSY")
+      };
+    }
+    const before = await detectDesktopProduct(productId);
+    if (before.detection === "unknown") {
+      return {
+        ok: false,
+        status: before,
+        error: windowsPackageManagerText("WPM_STATE_UNKNOWN")
+      };
+    }
+    if (
+      before.installed &&
+      !before.availableVersion &&
+      intent !== "reinstall"
+    ) {
+      return { ok: true, status: before };
+    }
+    const confirmation = await confirmWindowsPackageManagerInstall(
+      product,
+      before,
+      intent
+    );
+    if (confirmation !== "continue") {
+      return { ok: false, canceled: true, status: before };
+    }
+    const operation =
+      before.installed && intent === "reinstall"
+        ? "reinstall"
+        : before.installed
+          ? "upgrade"
+          : "install";
+    const shouldOwnAfter = !before.installed || before.ownership === "managed";
+    if (!before.installed) {
+      let operationTask = operationController.begin(productId, "install");
+      const identity = {
+        generation: operationTask.generation,
+        operationId: operationTask.operationId
+      };
+      let processSpawned = false;
+      const launchResult = await launchProcessWithGrace({
+        command: executable,
+        args: wingetArgsFor(operation, product.packageManager),
+        graceMs: 2_000,
+        env: isolatedThirdPartyEnvironment(),
+        processLabel: product.label || "Windows 软件包安装",
+        onSpawn: () => {
+          processSpawned = true;
+          operationTask = operationController.finishLaunch(
+            productId,
+            identity.generation,
+            identity.operationId,
+            true
+          );
+        },
+        onProcessExit: (exit) =>
+          operationController
+            .finishProcess(
+              productId,
+              identity.generation,
+              identity.operationId,
+              exit
+            )
+            .then((task) => {
+              operationTask = task;
+            })
+      });
+      if (!launchResult.launched) {
+        if (!processSpawned || operationTask?.phase === "launching") {
+          operationTask = operationController.finishLaunch(
+            productId,
+            identity.generation,
+            identity.operationId,
+            false
+          );
+        }
+        if (product.packageManager.source === "msstore") {
+          await runMicrosoftStoreRepairTool();
+        }
+        return {
+          ok: false,
+          launched: false,
+          operationTask,
+          error:
+            launchResult.error ||
+            windowsPackageManagerText("WPM_OPERATION_FAILED")
+        };
+      }
+      return {
+        ok: true,
+        launched: true,
+        operationTask:
+          operationController.get(productId) || operationTask,
+        warning: launchResult.warning
+      };
+    }
+    await runWindowsPackageManager(
+      operation,
+      product.packageManager,
+      45 * 60 * 1_000
+    );
+    let status = await detectDesktopProduct(productId);
+    if (status.installed && shouldOwnAfter) {
+      status = claimWindowsPackageManagerInstallation(
+        productId,
+        product,
+        status
+      );
+    }
+    return status.installed
+      ? { ok: true, status }
+      : {
+          ok: false,
+          status,
+          error:
+            status.detection === "unknown"
+              ? windowsPackageManagerText("WPM_INSTALL_NOT_VERIFIED")
+              : windowsPackageManagerText("WPM_INSTALL_NO_RECORD")
+        };
+  } catch (error) {
+    if (product.packageManager.source === "msstore") {
+      await runMicrosoftStoreRepairTool();
+    }
+    return {
+      ok: false,
+      error: windowsPackageManagerFailure(
+        error,
+        windowsPackageManagerText("WPM_OPERATION_FAILED")
+      )
+    };
+  } finally {
+    activeDesktopOperationEntries.delete(productId);
+  }
+}
+
+async function uninstallWindowsPackageManagerProduct(productId) {
+  const product = getWindowsPackageManagerProduct(productId);
+  if (!product) {
+    return {
+      launched: false,
+      error: windowsPackageManagerText("WPM_NOT_APPROVED")
+    };
+  }
+  if (activeDesktopOperationEntries.has(productId)) {
+    return {
+      launched: false,
+      busy: true,
+      error: windowsPackageManagerText("WPM_BUSY")
+    };
+  }
+  activeDesktopOperationEntries.add(productId);
+  try {
+    const before = await detectDesktopProduct(productId);
+    if (!before.installed) {
+      return {
+        launched: false,
+        error:
+          before.detection === "unknown"
+            ? windowsPackageManagerText("WPM_STATE_UNKNOWN")
+            : windowsPackageManagerText("WPM_NOT_INSTALLED")
+      };
+    }
+    const receipt = readWindowsPackageManagerRecord(productId);
+    if (
+      !windowsPackageManagerReceiptMatches(
+        receipt,
+        productId,
+        product.packageManager
+      )
+    ) {
+      await shell.openExternal("ms-settings:appsfeatures");
+      return {
+        launched: true,
+        operationTask: null,
+        uninstallMode: "system-panel",
+        message: windowsPackageManagerText("WPM_SYSTEM_PANEL_OPENED")
+      };
+    }
+    const confirmation = await showDesktopUninstallConfirmation({
+      productId,
+      mode: "interactive",
+      language: readSettings().language,
+      surface: "vendor-uninstaller",
+      productName: product.label,
+      version: before.version,
+      publisher: `Windows Package Manager (${product.packageManager.packageId})`
+    });
+    if (confirmation.response !== 1) {
+      return { launched: false, canceled: true };
+    }
+    if (
+      !windowsPackageManagerReceiptMatches(
+        readWindowsPackageManagerRecord(productId),
+        productId,
+        product.packageManager
+      )
+    ) {
+      return {
+        launched: false,
+        error: windowsPackageManagerText("WPM_RECEIPT_CHANGED")
+      };
+    }
+    await runWindowsPackageManager(
+      "uninstall",
+      product.packageManager,
+      45 * 60 * 1_000
+    );
+    const status = await detectDesktopProduct(productId);
+    if (!status.installed && status.detection === "absent") {
+      removeWindowsPackageManagerRecordStrict(productId);
+    }
+    return {
+      launched: true,
+      operationTask: null,
+      uninstallMode: "interactive",
+      message: windowsPackageManagerText("WPM_UNINSTALL_FINISHED"),
+      warning: status.installed
+        ? windowsPackageManagerText("WPM_STILL_INSTALLED")
+        : undefined
+    };
+  } catch (error) {
+    return {
+      launched: false,
+      error: windowsPackageManagerFailure(
+        error,
+        windowsPackageManagerText("WPM_UNINSTALL_FAILED")
+      )
+    };
+  } finally {
+    activeDesktopOperationEntries.delete(productId);
+  }
+}
+
+function publishedDesktopStatus(productId, status) {
+  const registration = getInstallRegistration(productId);
+  const availableVersion = String(status?.availableVersion || "").trim();
+  const published =
+    registration?.mode === "managed-package-manager" &&
+    Boolean(availableVersion) &&
+    isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, {
+      kind: "product",
+      subjectId: productId,
+      mode: "package-manager",
+      version: availableVersion
+    });
+  return published ? status : { ...status, availableVersion: "" };
+}
+
+function publishedCliStatus(productId, status) {
+  const version = cliPlanVersion(CLI_INSTALL_PLANS[productId]);
+  const published =
+    status?.canUpdate === true &&
+    Boolean(version) &&
+    isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, {
+      kind: "product",
+      subjectId: productId,
+      mode: "managed-cli",
+      version
+    });
+  return {
+    ...status,
+    canUpdate: Boolean(published),
+    availableVersion: published ? version : ""
+  };
+}
+
 async function scanApprovedProductInventory() {
   const desktopProfiles = CLIENT_INSTALL_PROFILES.filter(
-    (profile) => profile.mode === "managed-installer"
+    (profile) =>
+      profile.mode === "managed-installer" ||
+      profile.mode === "managed-package-manager"
   );
   const cliProfiles = CLIENT_INSTALL_PROFILES.filter(
     (profile) => profile.mode === "managed-cli"
   );
-  const [desktopStatuses, cliStatusEntries] = await Promise.all([
+  const [detectedDesktopStatuses, detectedCliStatusEntries] = await Promise.all([
     detectDesktopProducts(desktopProfiles.map((profile) => profile.productId)),
     Promise.all(
       cliProfiles.map(async (profile) => [
@@ -7751,6 +10797,16 @@ async function scanApprovedProductInventory() {
         await discoverCliStatus(profile.productId)
       ])
     )
+  ]);
+  const desktopStatuses = Object.fromEntries(
+    Object.entries(detectedDesktopStatuses).map(([productId, status]) => [
+      productId,
+      publishedDesktopStatus(productId, status)
+    ])
+  );
+  const cliStatusEntries = detectedCliStatusEntries.map(([productId, status]) => [
+    productId,
+    publishedCliStatus(productId, status)
   ]);
   return {
     checkedAt: new Date().toISOString(),
@@ -7768,14 +10824,26 @@ function registerIpc() {
     return result;
   });
   ipcMain.handle("update:check", () => checkForUpdate());
+  ipcMain.handle("software-updates:check", () => checkSoftwareUpdates());
   ipcMain.handle("inventory:scan", () => scanApprovedProductInventory());
   ipcMain.handle("extension:list", () => extensionIpcFacade.list());
   ipcMain.handle("extension:inspect", (_event, profileId) =>
     extensionIpcFacade.inspect(profileId)
   );
-  ipcMain.handle("extension:execute", (_event, profileId, action) =>
-    extensionIpcFacade.execute(profileId, action)
-  );
+  ipcMain.handle("extension:execute", (_event, profileId, action) => {
+    if (action === "update") {
+      const version = extensionProfileVersion(
+        getExtensionRuntimeProfile(profileId)
+      );
+      assertSoftwareUpdatePublished({
+        kind: "extension",
+        subjectId: profileId,
+        mode: "extension",
+        version
+      });
+    }
+    return extensionIpcFacade.execute(profileId, action);
+  });
   ipcMain.handle("extension:status", (_event, profileId) =>
     extensionIpcFacade.inspect(profileId)
   );
@@ -7792,16 +10860,27 @@ function registerIpc() {
   ipcMain.handle("identity:register", (_event, input) =>
     getIdentityClient().register(input)
   );
-  ipcMain.handle("identity:login", (_event, input) =>
-    getIdentityClient().login(input)
-  );
-  ipcMain.handle("identity:logout", () => getIdentityClient().logout());
+  registerIdentityLoginIpc(ipcMain, {
+    getIdentityClient,
+    logError: console.error
+  });
+  ipcMain.handle("identity:logout", async () => {
+    try {
+      return await getIdentityClient().logout();
+    } finally {
+      await clearCommunitySessionCookies(session);
+    }
+  });
   ipcMain.handle("identity:list-sessions", () =>
     getIdentityClient().listSessions()
   );
-  ipcMain.handle("identity:revoke-session", (_event, sessionId) =>
-    getIdentityClient().revokeSession(sessionId)
-  );
+  ipcMain.handle("identity:revoke-session", async (_event, sessionId) => {
+    const result = await getIdentityClient().revokeSession(sessionId);
+    if (result.revokedCurrent) {
+      await clearCommunitySessionCookies(session);
+    }
+    return result;
+  });
   ipcMain.handle("identity:update-profile", (_event, input) =>
     getIdentityClient().updateProfile(input)
   );
@@ -7822,6 +10901,52 @@ function registerIpc() {
   );
   ipcMain.handle("identity:get-personal-center", () =>
     getIdentityClient().getPersonalCenter()
+  );
+  registerResourceSubmissionIpc(ipcMain, {
+    getIdentityClient,
+    logError: console.error
+  });
+  registerWorkflowStoreIpc(ipcMain, {
+    getIdentityClient,
+    logError: console.error
+  });
+  // Candidate-only: no immutable Workflow release resolver or session-bound
+  // receipt snapshot is connected here, so the fixed facade stays disabled.
+  registerLocalAgentBridgeIpc(ipcMain, { logError: console.error });
+  registerManagedCliLifecycleIpc(ipcMain, createFixedCliLifecycleFacade());
+  ipcMain.handle("identity:get-user-by-username", (_event, username) =>
+    getIdentityClient().getIdentityUserByUsername(username)
+  );
+  ipcMain.handle("identity:list-followers", (_event, options) =>
+    getIdentityClient().listIdentityFollowers(options)
+  );
+  ipcMain.handle("identity:list-following", (_event, options) =>
+    getIdentityClient().listIdentityFollowing(options)
+  );
+  ipcMain.handle("identity:follow-user", (_event, userId) =>
+    getIdentityClient().followIdentityUser(userId)
+  );
+  ipcMain.handle("identity:unfollow-user", (_event, userId) =>
+    getIdentityClient().unfollowIdentityUser(userId)
+  );
+  ipcMain.handle("identity:list-direct-conversations", (_event, options) =>
+    getIdentityClient().listDirectConversations(options)
+  );
+  ipcMain.handle("identity:list-direct-messages", (_event, peerUserId, options) =>
+    getIdentityClient().listDirectMessages(peerUserId, options)
+  );
+  ipcMain.handle(
+    "identity:send-direct-message",
+    (_event, peerUserId, input) =>
+      getIdentityClient().sendDirectMessage(peerUserId, input)
+  );
+  ipcMain.handle(
+    "identity:mark-direct-messages-read",
+    (_event, peerUserId, throughMessageId) =>
+      getIdentityClient().markDirectMessagesRead(
+        peerUserId,
+        throughMessageId
+      )
   );
   ipcMain.handle(
     "identity:mark-personal-center-notification-read",
@@ -7846,18 +10971,23 @@ function registerIpc() {
       getIdentityClient().setCommunityInteraction(discussionId, input)
   );
   ipcMain.handle("community:create-embed-session", async () => {
-    const handoff = await getIdentityClient().createCommunityHandoff();
-    const approvedOrigin =
-      process.env.AIHUB_COMMUNITY_PUBLIC_ORIGIN ||
-      "http://127.0.0.1:8088";
-    return {
-      launchUrl: validateCommunityLaunchUrl(
-        handoff.launchUrl,
-        approvedOrigin
-      ),
-      origin: approvedCommunityOrigin(approvedOrigin),
-      expiresAt: handoff.expiresAt
-    };
+    try {
+      const handoff = await getIdentityClient().createCommunityHandoff();
+      const approvedOrigin = getClientServices().communityOrigin;
+      return {
+        ok: true,
+        value: {
+          launchUrl: validateCommunityLaunchUrl(
+            handoff.launchUrl,
+            approvedOrigin
+          ),
+          origin: approvedCommunityOrigin(approvedOrigin),
+          expiresAt: handoff.expiresAt
+        }
+      };
+    } catch (error) {
+      return communityEmbedSessionFailure(error);
+    }
   });
   ipcMain.handle("update:open-download", async (event) => {
     const offer = lastVerifiedUpdateOffer;
@@ -8113,13 +11243,7 @@ function registerIpc() {
           "System32",
           "wsl.exe"
         );
-        const powershellExecutable = path.join(
-          process.env.SystemRoot || "C:\\Windows",
-          "System32",
-          "WindowsPowerShell",
-          "v1.0",
-          "powershell.exe"
-        );
+        const powershellExecutable = windowsPowerShellPath();
         const elevationScript = [
           "$ErrorActionPreference='Stop'",
           `$p=Start-Process -FilePath '${wslExecutable.replaceAll("'", "''")}' -ArgumentList @('--install','--no-distribution') -Verb RunAs -PassThru`,
@@ -8179,70 +11303,12 @@ function registerIpc() {
         activeDesktopOperationEntries.delete(entryKey);
       }
     }
-    activeEnvironmentDownloads.add(environmentId);
-    activeDesktopOperationEntries.add(entryKey);
-    try {
-      const existing = await verifiedEnvironmentRecord(environmentId);
-      if (existing) {
-        return {
-          downloaded: true,
-          filePath: existing.filePath,
-          source: existing.source,
-          message: `${environmentPlan.name} 安装包已下载，可以点击“打开安装包”`
-        };
-      }
-
-      const currentTask = reconcileManagedDownloadTask(entryKey);
-      const persistedPlan = resolveManagedDownloadPlan(entryKey);
-      const partial = persistedPlan
-        ? managedPartialDownload(entryKey, persistedPlan)
-        : null;
-      let selectedPlan = persistedPlan;
-      if (!partial && !activeDownloads.has(entryKey)) {
-        const downloadPlan = getEnvironmentDownloadPlan(
-          environmentId,
-          activeEnvironmentSourcePreferences
-        );
-        const source = await selectReachableSource(
-          downloadPlan,
-          probeEnvironmentSource
-        );
-        selectedPlan = resolveManagedDownloadPlan(entryKey, source.url);
-      }
-      if (!selectedPlan) {
-        throw new Error("环境安装包下载源记录无效，无法安全继续");
-      }
-      const started = startManagedDownload(entryKey, selectedPlan);
-      if (!started.ok) {
-        return {
-          downloaded: false,
-          busy: activeDownloads.has(entryKey),
-          task: started.task || currentTask,
-          error: started.error
-        };
-      }
-      return {
-        downloaded: false,
-        task: started.task,
-        source: selectedPlan.sourceLabel,
-        message:
-          partial?.receivedBytes > 0
-            ? `正在从断点继续下载 ${environmentPlan.name}`
-            : `已选择${selectedPlan.sourceLabel}，正在下载 ${environmentPlan.name}`
-      };
-    } catch (error) {
-      return {
-        downloaded: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : `无法下载 ${environmentPlan.name} 安装包`
-      };
-    } finally {
-      activeEnvironmentDownloads.delete(environmentId);
-      activeDesktopOperationEntries.delete(entryKey);
-    }
+    return await prepareEnvironmentPackageDownload(environmentId, "install");
   });
+
+  ipcMain.handle("environment:update", (_event, environmentId) =>
+    prepareEnvironmentPackageDownload(environmentId, "update")
+  );
 
   ipcMain.handle("environment:package-get", async (_event, environmentId) => {
     const plan = getEnvironmentPlan(environmentId);
@@ -8285,6 +11351,93 @@ function registerIpc() {
             operationId
           )
         : null
+  );
+
+  ipcMain.handle(
+    "environment:open-updater",
+    async (_event, environmentId) => {
+      const plan = getEnvironmentPlan(environmentId);
+      if (!plan || plan.nativeWindowsFeature) {
+        return { launched: false, error: "该环境没有固定更新安装包" };
+      }
+      const operationTask = getEnvironmentOperationController().get(environmentId);
+      const entryKey = `environment:${environmentId}`;
+      if (operationTask || activeDesktopOperationEntries.has(entryKey)) {
+        return {
+          launched: false,
+          busy: true,
+          operationTask,
+          error: "该环境仍有其他操作正在进行"
+        };
+      }
+      activeDesktopOperationEntries.add(entryKey);
+      try {
+        const downloadPlan = getEnvironmentDownloadPlan(
+          environmentId,
+          activeEnvironmentSourcePreferences
+        );
+        const baseline = createEnvironmentUpdatePlan({
+          environmentId,
+          statuses: await detectEnvironmentUpdateStatuses(environmentId),
+          downloadPlan
+        });
+        if (!baseline) {
+          return { launched: false, error: "当前状态不再满足安全更新条件" };
+        }
+        const record = await verifiedEnvironmentRecord(environmentId);
+        if (!record) {
+          return { launched: false, error: "更新包不存在、已被修改或签名无效" };
+        }
+        const confirmed = createEnvironmentUpdatePlan({
+          environmentId,
+          statuses: await detectEnvironmentUpdateStatuses(environmentId),
+          downloadPlan
+        });
+        if (
+          !confirmed ||
+          confirmed.installedEnvironmentId !== baseline.installedEnvironmentId ||
+          confirmed.installedVersion !== baseline.installedVersion ||
+          confirmed.recommendedVersion !== baseline.recommendedVersion
+        ) {
+          return { launched: false, error: "确认期间环境版本发生变化，已拒绝更新" };
+        }
+        const isMsi = /\.msi$/i.test(record.filePath);
+        const command = isMsi
+          ? path.join(
+              process.env.SystemRoot || "C:\\Windows",
+              "System32",
+              "msiexec.exe"
+            )
+          : record.filePath;
+        const args = isMsi ? ["/i", record.filePath] : [];
+        if (!fs.existsSync(command)) {
+          return { launched: false, error: `${plan.name} 更新程序启动路径不存在` };
+        }
+        const result = await launchProcessWithGrace({
+          command,
+          args,
+          graceMs: 2_000,
+          env: isolatedThirdPartyEnvironment(),
+          processLabel: `${plan.name} 更新安装程序`
+        });
+        return result.launched
+          ? {
+              ...result,
+              intent: "update",
+              recommendedVersion: confirmed.recommendedVersion,
+              requiresRecheck: true,
+              message: `已打开 ${plan.name} 更新安装程序；完成或取消后请重新检测版本`
+            }
+          : result;
+      } catch (error) {
+        return {
+          launched: false,
+          error: error instanceof Error ? error.message : "无法打开环境更新安装包"
+        };
+      } finally {
+        activeDesktopOperationEntries.delete(entryKey);
+      }
+    }
   );
 
   ipcMain.handle(
@@ -8513,13 +11666,7 @@ function registerIpc() {
           generation: operationTask.generation,
           operationId: operationTask.operationId
         };
-        const powershellExecutable = path.join(
-          process.env.SystemRoot || "C:\\Windows",
-          "System32",
-          "WindowsPowerShell",
-          "v1.0",
-          "powershell.exe"
-        );
+        const powershellExecutable = windowsPowerShellPath();
         const elevationScript = [
           "$ErrorActionPreference='Stop'",
           `$p=Start-Process -FilePath '${action.executable.replaceAll("'", "''")}' -ArgumentList @('--uninstall') -Verb RunAs -PassThru`,
@@ -8745,21 +11892,13 @@ function registerIpc() {
     }
   });
 
-  ipcMain.handle("download:start", async (_event, productId) => {
+  ipcMain.handle("download:start", async (_event, productId, artifact) => {
     try {
-      if (typeof productId !== "string") {
-        return { ok: false, error: "下载产品 ID 无效" };
-      }
-      const plan = resolveManagedDownloadPlan(productId);
-      if (!plan) {
-        return { ok: false, error: "该产品不在客户端安装包白名单中" };
-      }
-      if (!plan.environmentId) {
-        const catalogAuthorization =
-          await authorizeCurrentCatalogProduct(productId);
+      if (artifact === undefined) {
+        const catalogAuthorization = await authorizeCurrentCatalogProduct(productId);
         if (!catalogAuthorization.ok) return catalogAuthorization;
       }
-      return startManagedDownload(productId, plan);
+      return await startManagedDownloadFromRequest(productId, artifact);
     } catch (error) {
       return {
         ok: false,
@@ -8771,11 +11910,59 @@ function registerIpc() {
       };
     }
   });
-  ipcMain.handle("download:refresh", (_event, productId) => {
+  ipcMain.handle("download:enqueue", async (_event, request) => {
+    if (!validManagedDownloadQueueRequest(request) || !request || typeof request !== "object" || Array.isArray(request) ||
+        !["productId", "artifact"].includes(Object.keys(request)[0]) ||
+        !Object.keys(request).every((field) => ["productId", "artifact"].includes(field))) {
+      return { ok: false, error: "下载队列请求无效" };
+    }
     try {
-      return typeof productId === "string"
-        ? startFreshManagedDownload(productId)
-        : { ok: false, error: "下载产品 ID 无效" };
+      return publicManagedDownloadQueueResult(
+        await startManagedDownloadFromRequest(request.productId, request.artifact),
+        request.productId
+      );
+    } catch {
+      return { ok: false, error: "无法加入下载队列" };
+    }
+  });
+  ipcMain.handle("download:list", () => listManagedDownloadQueueTasks());
+  ipcMain.handle("download:status", (_event, request) => {
+    if (!validManagedDownloadQueueRequest(request, false) || !request || typeof request !== "object" || Array.isArray(request) ||
+        Object.keys(request).length !== 1 || typeof request.productId !== "string") {
+      return publicManagedDownloadQueueResult({ ok: false });
+    }
+    const task = reconcileManagedDownloadTask(request.productId);
+    return publicManagedDownloadQueueResult(task ? { ok: true, task } : { ok: false });
+  });
+  ipcMain.handle("download:cancel", async (_event, request) => {
+    return publicManagedDownloadQueueResult(await discardManagedDownload(request));
+  });
+  ipcMain.handle("download:retry", async (_event, request) => {
+    if (!validManagedDownloadQueueRequest(request) || !request || typeof request !== "object" || Array.isArray(request) ||
+        !Object.keys(request).every((field) => ["productId", "artifact"].includes(field))) {
+      return { ok: false, error: "下载队列请求无效" };
+    }
+    try {
+      return publicManagedDownloadQueueResult(
+        await startManagedDownloadFromRequest(request.productId, request.artifact),
+        request.productId
+      );
+    } catch {
+      return { ok: false, error: "无法重试下载" };
+    }
+  });
+  ipcMain.handle("download:refresh", async (_event, productId, artifact) => {
+    try {
+      if (typeof productId !== "string") {
+        return { ok: false, error: "下载产品 ID 无效" };
+      }
+      if (getDesktopDownloadOnlyProfile(productId) || artifact !== undefined) {
+        const catalogAuthorization =
+          await authorizeCurrentDesktopDownloadOnlyProduct(productId, artifact);
+        if (catalogAuthorization.ok) return startManagedDownload(productId, catalogAuthorization.plan);
+        if (getDesktopDownloadOnlyProfile(productId)) return catalogAuthorization;
+      }
+      return startFreshManagedDownload(productId);
     } catch (error) {
       return {
         ok: false,
@@ -8791,11 +11978,7 @@ function registerIpc() {
       : { ok: false, error: "下载产品 ID 无效" }
   );
 
-  ipcMain.handle("download:discard", (_event, productId) =>
-    typeof productId === "string"
-      ? discardManagedDownload(productId)
-      : { ok: false, error: "下载产品 ID 无效" }
-  );
+  ipcMain.handle("download:discard", (_event, request) => discardManagedDownload(request));
 
   ipcMain.handle("download:get-task", (_event, productId) =>
     typeof productId === "string"
@@ -8839,7 +12022,7 @@ function registerIpc() {
     if (typeof productId !== "string") {
       return { ok: false, error: "下载产品 ID 无效" };
     }
-    if (managedDownloadRefreshPending || activeDownloads.size > 0) {
+    if (managedDownloadRefreshPending || hasManagedDownloadWork()) {
       return { ok: false, error: "安装包任务正在处理，请稍后重试" };
     }
     managedDownloadRefreshPending = true;
@@ -8850,7 +12033,7 @@ function registerIpc() {
     }
   });
   ipcMain.handle("download:clear-completed", async () => {
-    if (managedDownloadRefreshPending || activeDownloads.size > 0) {
+    if (managedDownloadRefreshPending || hasManagedDownloadWork()) {
       return { ok: false, error: "安装包任务正在处理，请稍后重试" };
     }
     managedDownloadRefreshPending = true;
@@ -8864,7 +12047,7 @@ function registerIpc() {
     if (typeof productId !== "string") {
       return { ok: false, error: "安装包产品 ID 无效" };
     }
-    if (managedDownloadRefreshPending || activeDownloads.size > 0) {
+    if (managedDownloadRefreshPending || hasManagedDownloadWork()) {
       return { ok: false, error: "安装包任务正在处理，不能删除安装包" };
     }
     managedDownloadRefreshPending = true;
@@ -8896,37 +12079,30 @@ function registerIpc() {
     }
   });
 
-  ipcMain.handle("installer:inspect", async (_event, productId) => {
-    if (typeof productId !== "string") {
-      return { ok: false, error: "安装产品 ID 无效" };
-    }
-    const inspected = await inspectCompletedDownloadRecord(productId);
-    const signature = inspected.signature || { status: "", signer: "" };
-    return {
-      ok: inspected.ok,
-      sha256: inspected.sha256,
-      signatureStatus: signature.status,
-      signer: signature.signer,
-      architecture: inspected.identity?.architecture || "",
-      productName: inspected.identity?.versionInfo?.ProductName || "",
-      filePath: inspected.record?.filePath,
-      error: inspected.error || ""
-    };
-  });
-
   ipcMain.handle("installer:launch", async (_event, productId, intent) => {
     if (typeof productId !== "string") {
       return { launched: false, error: "安装产品 ID 无效" };
     }
-    const requestedLaunchPolicy = resolveDesktopInstallerLaunchPolicy(intent);
-    if (!requestedLaunchPolicy) {
+    if (!resolveDesktopInstallerLaunchPolicy(intent)) {
       return { launched: false, error: "安装操作类型无效" };
     }
+    const launchPlan = resolveManagedDownloadPlan(productId);
+    const launchRecord = readDownloadRecords()[productId];
     const catalogAuthorization =
-      await authorizeCurrentCatalogProduct(productId);
+      launchPlan?.downloadPolicy === "desktop-download-only"
+        ? await authorizeCurrentDesktopDownloadOnlyProduct(productId, {
+            url: launchRecord?.url,
+            fileName: launchRecord?.fileName,
+            artifactKind: launchRecord?.artifactKind,
+            ...(Array.isArray(launchRecord?.mirrors)
+              ? { mirrors: launchRecord.mirrors }
+              : {})
+          })
+        : await authorizeCurrentCatalogProduct(productId);
     if (!catalogAuthorization.ok) {
       return { launched: false, ...catalogAuthorization };
     }
+
     const downloadTask = currentManagedDownloadTask(productId);
     const retainedCompletedRecord = trustedCompletedDownloadRecord(productId);
     if (
@@ -8937,44 +12113,31 @@ function registerIpc() {
       return {
         launched: false,
         busy: true,
-        error: "该产品的安装包任务尚未完成，不能同时启动安装程序"
+        error: "安装包尚未下载完成"
       };
     }
+
     const operationController = getDesktopOperationController();
-    let existingOperation = null;
-    try {
-      existingOperation = operationController.get(productId);
-      if (
-        existingOperation?.operation === "install" &&
-        existingOperation.phase === "timed-out"
-      ) {
-        await operationController.checkNow(
-          productId,
-          existingOperation.generation,
-          existingOperation.operationId
-        );
-        existingOperation = operationController.get(productId);
-        if (existingOperation?.phase === "timed-out") {
-          operationController.finishLaunch(
-            productId,
-            existingOperation.generation,
-            existingOperation.operationId,
-            false
-          );
-          existingOperation = null;
-        }
+    let existingOperation = operationController.get(productId);
+    if (existingOperation?.operation === "install") {
+      try {
+        cleanupLegacyPortableInstallArtifacts(productId);
+      } catch (error) {
+        console.error("Unable to clean legacy portable staging files", error);
       }
-    } catch (error) {
-      console.error("Unable to restore desktop operation", error);
+      await operationController.finishProcess(
+        productId,
+        existingOperation.generation,
+        existingOperation.operationId,
+        { exitCode: 0, signal: null }
+      );
+      existingOperation = operationController.get(productId);
     }
     if (existingOperation) {
       return {
         launched: false,
         busy: true,
-        error:
-          existingOperation.operation === "uninstall"
-            ? "该产品仍在自动确认卸载结果，不能同时启动安装程序"
-            : "该产品仍在自动检测安装结果，无需重复启动安装程序",
+        error: "该产品正在卸载，请稍后再试",
         operationTask: existingOperation
       };
     }
@@ -8982,250 +12145,77 @@ function registerIpc() {
       return {
         launched: false,
         busy: true,
-        error: "该产品的桌面操作正在准备，请勿重复点击"
+        error: "正在打开安装包，请勿重复点击"
       };
     }
+
     activeDesktopOperationEntries.add(productId);
-    let operationTask = null;
-    let processSpawned = false;
     try {
       const inspected = await inspectCompletedDownloadRecord(productId);
       if (!inspected.ok || !inspected.record) {
         return {
           launched: false,
-          error: inspected.error || "安装包安全校验未通过"
+          error: inspected.error || "未找到已下载的安装包"
         };
       }
-      const record = inspected.record;
-      const filePath = record.filePath;
-      const resolvedFile = path.resolve(filePath);
+      const resolvedFile = path.resolve(inspected.record.filePath);
+      let stat;
+      try {
+        stat = fs.lstatSync(resolvedFile);
+      } catch {
+        stat = null;
+      }
       if (
-        !path.isAbsolute(filePath) ||
-        !/\.(exe|msi|msix)$/i.test(resolvedFile) ||
-        !fs.existsSync(resolvedFile)
+        !path.isAbsolute(resolvedFile) ||
+        !/\.(exe|msi|msix|zip)$/i.test(resolvedFile) ||
+        !stat?.isFile() ||
+        stat.isSymbolicLink()
       ) {
-        return { launched: false, error: "安装包路径验证失败" };
+        return { launched: false, error: "本地安装包不存在，请重新下载" };
       }
 
       const managedDownload = getStaticManagedDownload(productId);
-      const digest = inspected.sha256;
-      const signature = inspected.signature;
-
-      const confirmation = await showLocalizedMessageBox({
-        type: "warning",
-        title: "运行安装程序",
-        message: `即将运行 ${path.basename(resolvedFile)}`,
-        detail: [
-          managedDownload?.installerKind === "store-bootstrapper"
-            ? "类型：Microsoft Store 官方安装引导器（不是完整产品安装包）"
-            : "类型：厂商官方安装程序",
-          `架构：${inspected.identity?.architecture || "Windows 未提供"}`,
-          `签发者：${signature.signer || "未知"}`,
-          `SHA-256：${digest}`,
-          "Windows 接收打开请求不代表软件已经安装成功。"
-        ].join("\n"),
-        buttons: ["取消", "运行安装程序"],
-        defaultId: 0,
-        cancelId: 0,
-        noLink: true
-      });
-      if (confirmation.response !== 1) {
-        return { launched: false, canceled: true };
-      }
-
-      const downloadPolicy = getStaticManagedDownload(productId);
-      const launchArtifact = await prepareInstallerLaunchArtifact({
-        sourcePath: resolvedFile,
-        stagingRoot: path.join(
-          process.env.LOCALAPPDATA || app.getPath("temp"),
-          "AIHub",
-          "InstallerLaunch"
-        ),
-        stagedFileName: `${productId}-${downloadPolicy.fileName}`,
-        expectedSha256: digest,
-        hashFile: fileSha256,
-        verifySignature: async (candidate) =>
-          (
-            await verifyExpectedSignature(
-              candidate,
-              downloadPolicy.expectedSigner,
-              true
-            )
-          ).ok
-      });
-      const launchFilePath = launchArtifact.filePath;
-
-      const trustedPresence = await detectDesktopProduct(productId);
-      const trustedLaunchPolicy =
-        resolveTrustedDesktopInstallerLaunchPolicy(intent, trustedPresence);
-      if (!trustedLaunchPolicy.ok) {
-        return {
-          launched: false,
-          error:
-            trustedLaunchPolicy.errorCode === "PRODUCT_ALREADY_INSTALLED"
-              ? "已检测到该产品，请使用重新安装或获取最新版"
-              : "无法确认产品当前安装状态，已停止运行安装程序"
-        };
-      }
-
-      const authorizedLaunch = await runFreshCatalogAuthorizedOperation({
-        productId,
-        authorize: authorizeCurrentCatalogProduct,
-        operation: async () => {
-      if (trustedLaunchPolicy.trackPresenceTransition) {
-        operationTask = operationController.begin(productId, "install");
-      }
-      const identity = operationTask
-        ? {
-            generation: operationTask.generation,
-            operationId: operationTask.operationId
-          }
-        : null;
-      const finishLaunch = (launched) => {
-        if (!identity) return operationTask;
-        const nextTask = operationController.finishLaunch(
-          productId,
-          identity.generation,
-          identity.operationId,
-          launched
-        );
-        operationTask = nextTask;
-        return nextTask;
-      };
-
-      let launchResult;
-      if (/\.exe$/i.test(launchFilePath)) {
-        const installerLifecycle =
-          getDesktopAdapterForProduct(productId)?.installerLifecycle ||
-          "detached";
-        let foregroundExitPromise = null;
-        launchResult = await launchProcessWithGrace({
-          command: launchFilePath,
-          graceMs: 3_000,
-          env: isolatedThirdPartyEnvironment(),
-          processLabel: "安装程序",
-          verifyLaunch: async ({ startedAtMs }) => {
-            const crash = await inspectRecentWindowsApplicationCrash(
-              launchFilePath,
-              startedAtMs
-            );
-            return crash
-              ? {
-                  ok: false,
-                  error: applicationCrashMessage(crash, "安装程序")
-                }
-              : { ok: true };
-          },
-          onSpawn: () => {
-            processSpawned = true;
-            if (identity) finishLaunch(true);
-          },
-          onProcessExit:
-            identity && installerLifecycle === "foreground"
-              ? (exit) => {
-                  foregroundExitPromise = operationController.finishProcess(
-                    productId,
-                    identity.generation,
-                    identity.operationId,
-                    exit
-                  );
-                  return foregroundExitPromise.then((task) => {
-                    operationTask = task;
-                  });
-                }
-              : null
+      if (managedDownload?.installerKind === "store-bootstrapper") {
+        const confirmation = await showDesktopInstallConfirmation({
+          language: readSettings().language,
+          fileName: path.basename(resolvedFile),
+          installerKind: managedDownload.installerKind
         });
-        if (foregroundExitPromise) {
-          operationTask = await foregroundExitPromise;
+        const confirmationAction = getDesktopInstallConfirmationAction(
+          managedDownload.installerKind,
+          confirmation.response
+        );
+        if (confirmationAction === "repair-store") {
+          return {
+            launched: false,
+            canceled: true,
+            storeRepair: await runMicrosoftStoreRepairTool()
+          };
         }
-      } else {
-        const openError = await shell.openPath(launchFilePath);
-        processSpawned = !openError;
-        launchResult = openError
-          ? { launched: false, error: openError }
-          : { launched: true, exitCode: null, error: "" };
+        if (confirmationAction !== "launch") {
+          return { launched: false, canceled: true };
+        }
       }
 
-      if (!launchResult.launched) {
-        let cleanupWarning = "";
-        if (identity) {
-          try {
-            finishLaunch(false);
-          } catch (cleanupError) {
-            operationTask = operationController.get(productId);
-            cleanupWarning =
-              cleanupError instanceof Error
-                ? `；且无法清理操作记录：${cleanupError.message}`
-                : "；且无法清理操作记录";
-          }
-        }
-        return {
-          ...launchResult,
-          operationTask,
-          error: `${launchResult.error || "安装程序未能保持运行"}${cleanupWarning}`
-        };
-      }
-
-      let persistenceWarning = launchResult.warning || "";
-      if (identity) {
-        try {
-          if (operationTask?.phase === "launching") {
-            finishLaunch(true);
-          }
-        } catch (verificationError) {
-          operationTask = operationController.get(productId);
-          const message =
-            verificationError instanceof Error
-              ? `自动检测任务暂时无法更新：${verificationError.message}`
-              : "自动检测任务暂时无法更新";
-          persistenceWarning = persistenceWarning
-            ? `${persistenceWarning}；${message}`
-            : message;
-        }
-      }
-      return {
-        ...launchResult,
-        operationTask: identity
-          ? operationController.get(productId) || operationTask
-          : null,
-        verificationMode: trustedLaunchPolicy.verificationMode,
-        warning: persistenceWarning || undefined
-      };
-        }
-      });
-      if (!authorizedLaunch.authorized) {
-        return {
-          launched: false,
-          ...authorizedLaunch.authorization
-        };
-      }
-      return authorizedLaunch.value;
+      const openError = await shell.openPath(resolvedFile);
+      return openError
+        ? { launched: false, error: `无法打开安装包：${openError}` }
+        : {
+            launched: true,
+            verificationMode: "manual-installer"
+          };
     } catch (error) {
-      if (operationTask && !processSpawned) {
-        try {
-          operationTask = operationController.finishLaunch(
-            productId,
-            operationTask.generation,
-            operationTask.operationId,
-            false
-          );
-        } catch {
-          operationTask = operationController.get(productId);
-        }
-      }
       return {
         launched: false,
-        operationTask,
         error:
           error instanceof Error && error.message
-            ? `无法打开安装程序：${error.message}`
-            : "无法打开安装程序"
+            ? `无法打开安装包：${error.message}`
+            : "无法打开安装包"
       };
     } finally {
       activeDesktopOperationEntries.delete(productId);
     }
   });
-
   ipcMain.handle("desktop:operation-get", (_event, productId) =>
     typeof productId === "string"
       ? desktopOperationForRenderer(productId)
@@ -9249,11 +12239,57 @@ function registerIpc() {
         : null
   );
 
-  ipcMain.handle("desktop:status", (_event, productId) =>
-    detectDesktopProduct(productId)
+  ipcMain.handle("desktop:status", async (_event, productId) =>
+    publishedDesktopStatus(productId, await detectDesktopProduct(productId))
   );
 
+  ipcMain.handle("desktop:update", async (_event, productId) => {
+    const status = await detectDesktopProduct(productId);
+    const version = String(status.availableVersion || "").trim();
+    assertSoftwareUpdatePublished({
+      kind: "product",
+      subjectId: productId,
+      mode: "package-manager",
+      version
+    });
+    return reconcileWindowsPackageManagerProduct(productId, "update");
+  });
+
   ipcMain.handle("desktop:uninstall", async (_event, productId) => {
+    if (portableDesktopPlan(getStaticManagedDownload(productId))) {
+      const operationController = getDesktopOperationController();
+      const existingOperation = operationController.get(productId);
+      if (existingOperation) {
+        return {
+          launched: false,
+          busy: true,
+          error:
+            existingOperation.operation === "install"
+              ? "该产品仍在确认安装结果，不能同时卸载"
+              : "该产品正在卸载，无需重复点击",
+          operationTask: existingOperation
+        };
+      }
+      if (activeDesktopOperationEntries.has(productId)) {
+        return { launched: false, busy: true, error: "该产品正在处理" };
+      }
+      activeDesktopOperationEntries.add(productId);
+      try {
+        const authorized = await runFreshCatalogAuthorizedOperation({
+          productId,
+          authorize: authorizeCurrentCatalogProduct,
+          operation: () => uninstallPortableDesktopProduct(productId)
+        });
+        return authorized.authorized
+          ? authorized.value
+          : { launched: false, ...authorized.authorization };
+      } finally {
+        activeDesktopOperationEntries.delete(productId);
+      }
+    }
+    if (windowsPackageManagerPlan(productId)) {
+      return await uninstallWindowsPackageManagerProduct(productId);
+    }
     const probe = DESKTOP_PROBES[productId];
     if (!probe?.uninstall && !probe?.appx) {
       return {
@@ -9299,11 +12335,37 @@ function registerIpc() {
           error: "Windows 卸载项扫描不完整，请稍后重新检测"
         };
       }
-      const record = trustedDesktopUninstallRecord(
-        productId,
-        registryScan.entries
+      const managedContext = managedRegistryDesktopContext(productId);
+      const managedReceiptPresent = Boolean(
+        managedContext &&
+          fs.existsSync(managedRegistryDesktopReceiptPath(productId))
       );
+      let managedInstance = managedReceiptPresent
+        ? await inspectManagedRegistryDesktopInstance(productId, registryScan)
+        : null;
+      let record = managedReceiptPresent
+        ? managedInstance?.status?.installed &&
+          managedInstance.status.uninstallAction
+          ? {
+              action: managedInstance.status.uninstallAction,
+              entry: {
+                key: managedInstance.receipt.registryKey,
+                displayname: managedInstance.receipt.displayName,
+                displayversion: managedInstance.receipt.displayVersion,
+                publisher: managedInstance.receipt.publisher,
+                installlocation: managedInstance.receipt.installLocation
+              },
+              location: managedInstance.receipt.installLocation
+            }
+          : null
+        : trustedDesktopUninstallRecord(productId, registryScan.entries);
       if (!record) {
+        if (managedReceiptPresent) {
+          return {
+            launched: false,
+            error: "枕星 AI 安装收据与当前软件实例不一致，已停止卸载"
+          };
+        }
         if (probe.appx) {
           return await uninstallTrustedAppxProduct(
             productId,
@@ -9317,7 +12379,7 @@ function registerIpc() {
         };
       }
 
-      const { action, entry, location } = record;
+      const { entry, location } = record;
       const productName = String(entry.displayname || probe.names[0]);
       const signature = await verifyTrustedDesktopUninstaller(record, probe);
       if (!signature.ok) {
@@ -9340,11 +12402,45 @@ function registerIpc() {
         version: entry.displayversion,
         publisher: entry.publisher,
         installLocation: location,
-        executableName: path.basename(action.executable),
+        executableName: path.basename(record.action.executable),
         signer: signature.signer
       });
       if (confirmation.response !== 1) {
         return { launched: false, canceled: true };
+      }
+
+      if (managedReceiptPresent) {
+        const finalRegistryScan = await scanRegistryAppsWithStatus();
+        if (!finalRegistryScan.ok) {
+          return {
+            launched: false,
+            error: "Windows 卸载项扫描不完整，已停止卸载"
+          };
+        }
+        managedInstance = await inspectManagedRegistryDesktopInstance(
+          productId,
+          finalRegistryScan
+        );
+        if (
+          !managedInstance?.status?.installed ||
+          !managedInstance.status.uninstallAction
+        ) {
+          return {
+            launched: false,
+            error: "枕星 AI 安装收据在确认期间发生变化，已停止卸载"
+          };
+        }
+        record = {
+          action: managedInstance.status.uninstallAction,
+          entry: {
+            key: managedInstance.receipt.registryKey,
+            displayname: managedInstance.receipt.displayName,
+            displayversion: managedInstance.receipt.displayVersion,
+            publisher: managedInstance.receipt.publisher,
+            installlocation: managedInstance.receipt.installLocation
+          },
+          location: managedInstance.receipt.installLocation
+        };
       }
 
       const finalSignature = await verifyTrustedDesktopUninstaller(record, probe);
@@ -9382,11 +12478,11 @@ function registerIpc() {
         return operationTask;
       };
       const launchResult = await launchProcessWithGrace({
-        command: action.executable,
+        command: record.action.executable,
         args:
           adapter?.uninstall?.launchArguments?.length > 0
             ? [...adapter.uninstall.launchArguments]
-            : action.args,
+            : record.action.args,
         graceMs: 2_000,
         env: isolatedThirdPartyEnvironment(),
         processLabel: "卸载程序",
@@ -9486,6 +12582,23 @@ function registerIpc() {
   });
 
   ipcMain.handle("desktop:close", async (_event, productId) => {
+    if (portableDesktopPlan(getStaticManagedDownload(productId))) {
+      const status = await detectDesktopProduct(productId);
+      return status.installed && status.executable
+        ? closeManagedPortableExecutable(status.executable)
+        : {
+            ok: false,
+            closed: false,
+            error: "未找到由枕星 AI 管理的便携程序"
+          };
+    }
+    if (windowsPackageManagerPlan(productId)) {
+      return {
+        ok: false,
+        closed: false,
+        error: "This package has no client-reviewed process close rule"
+      };
+    }
     const adapter = getDesktopAdapterForProduct(productId);
     return await closeReviewedProcesses(
       adapter?.closeProcessNames,
@@ -9523,6 +12636,46 @@ function registerIpc() {
     const probe = DESKTOP_PROBES[productId];
     const status = await detectDesktopProduct(productId);
     if (!status.installed) return false;
+    const portable = portableDesktopPlan(getStaticManagedDownload(productId));
+    if (portable) {
+      const receipt = readPortableDesktopRecord(productId);
+      const trustedStatus = inspectPortableDesktop({
+        productId,
+        download: getStaticManagedDownload(productId),
+        receipt,
+        localAppData: process.env.LOCALAPPDATA || "",
+        verifyIntegrity: true,
+        hashFile: fileIntegritySync
+      });
+      if (!trustedStatus.installed || !trustedStatus.executable) return false;
+      const signature = await verifyPortableExecutableTrust(
+        trustedStatus.executable,
+        portableDesktopTrustForReceipt(
+          getStaticManagedDownload(productId),
+          receipt
+        )
+      );
+      if (!signature.ok) return false;
+      try {
+        const dataDirectory = trustedStatus.dataDirectory;
+        ensureOwnedPortableDirectory(
+          dataDirectory,
+          path.dirname(dataDirectory)
+        );
+        const child = spawn(trustedStatus.executable, [], {
+          cwd: path.dirname(trustedStatus.executable),
+          detached: true,
+          shell: false,
+          stdio: "ignore",
+          windowsHide: false,
+          env: isolatedThirdPartyEnvironment()
+        });
+        child.unref();
+        return true;
+      } catch {
+        return false;
+      }
+    }
     if (status.executable) {
       if (probe?.uninstall) {
         const signature = await verifyExpectedSignature(
@@ -9555,8 +12708,8 @@ function registerIpc() {
     return false;
   });
 
-  ipcMain.handle("cli:status", (_event, productId) =>
-    discoverCliStatus(productId)
+  ipcMain.handle("cli:status", async (_event, productId) =>
+    publishedCliStatus(productId, await discoverCliStatus(productId))
   );
   ipcMain.handle("cli:open", (_event, productId) =>
     openManagedCliTerminal(productId)
@@ -9616,9 +12769,17 @@ function registerIpc() {
     return true;
   });
 
-  ipcMain.handle("cli:reconcile", (event, productId, intent) =>
-    reconcileManagedCli(event, productId, intent)
-  );
+  ipcMain.handle("cli:reconcile", (event, productId, intent) => {
+    if (intent === "update") {
+      assertSoftwareUpdatePublished({
+        kind: "product",
+        subjectId: productId,
+        mode: "managed-cli",
+        version: cliPlanVersion(CLI_INSTALL_PLANS[productId])
+      });
+    }
+    return reconcileManagedCli(event, productId, intent);
+  });
   ipcMain.handle("cli:deploy", (event, productId) =>
     reconcileManagedCli(event, productId, "install")
   );
@@ -9669,8 +12830,7 @@ function createWindow() {
   window.removeMenu();
   const appPage = path.join(__dirname, "..", "dist", "index.html");
   const communityOrigin = approvedCommunityOrigin(
-    process.env.AIHUB_COMMUNITY_PUBLIC_ORIGIN ||
-      "http://127.0.0.1:8088"
+    getClientServices().communityOrigin
   );
   window.webContents.on(
     "will-attach-webview",
@@ -9901,6 +13061,7 @@ if (!hasSingleInstanceLock) {
 
   app.on("before-quit", () => {
     isQuitting = true;
+    discardManagedDownloadQueueOnExit();
     if (tray && !tray.isDestroyed()) tray.destroy();
     tray = null;
     desktopOperationController?.dispose();

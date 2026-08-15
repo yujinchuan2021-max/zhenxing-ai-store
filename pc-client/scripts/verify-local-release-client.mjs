@@ -64,6 +64,7 @@ const portableBuild = readArtifactBuildMetadata({
 });
 const verifiedRuntime = verifyReleaseBundle({
   bundleDirectory: runtimeBundleDirectory,
+  allowLocalhost: true,
   allowLocalRuntimeTrust: true
 });
 if (

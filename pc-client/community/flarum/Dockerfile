@@ -60,8 +60,11 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 COPY --from=source --chown=www-data:www-data /app /var/www/html
 COPY apache.conf /etc/apache2/conf-available/flarum.conf
 COPY docker-entrypoint.sh /usr/local/bin/aihub-flarum-entrypoint
+COPY migration-entrypoint.sh /usr/local/bin/aihub-flarum-migration-entrypoint
 COPY --chown=www-data:www-data aihub-sso.php /var/www/html/public/aihub-sso.php
 COPY --chown=www-data:www-data aihub-personal-center.php /var/www/html/public/aihub-personal-center.php
+COPY --chown=www-data:www-data aihub-community-management.php /var/www/html/public/aihub-community-management.php
+COPY production-entrypoint.sh /usr/local/bin/aihub-community-production-entrypoint
 COPY dependency-lock.json /usr/local/share/aihub/community-dependency-lock.json
 
 RUN sed -ri \
@@ -70,7 +73,7 @@ RUN sed -ri \
       /etc/apache2/apache2.conf \
       /etc/apache2/conf-available/*.conf \
     && a2enconf flarum \
-    && chmod 0755 /usr/local/bin/aihub-flarum-entrypoint \
+    && chmod 0755 /usr/local/bin/aihub-flarum-entrypoint /usr/local/bin/aihub-flarum-migration-entrypoint /usr/local/bin/aihub-community-production-entrypoint \
     && mkdir -p /var/lib/flarum \
     && chown -R www-data:www-data /var/lib/flarum \
     && sed -ri \
@@ -78,5 +81,5 @@ RUN sed -ri \
       /etc/apache2/sites-available/*.conf
 
 WORKDIR /var/www/html
-ENTRYPOINT ["aihub-flarum-entrypoint"]
+ENTRYPOINT ["aihub-community-production-entrypoint"]
 CMD ["apache2-foreground"]

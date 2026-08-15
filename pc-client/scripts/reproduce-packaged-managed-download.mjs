@@ -1,12 +1,21 @@
 import fs from "node:fs";
 import path from "node:path";
+import { execFile } from "node:child_process";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 import {
   createIsolatedAcceptanceProfile,
   launchPackagedClientCdp,
   removeIsolatedAcceptanceProfile,
   verifyManagedDownloadPause
 } from "./lib/packaged-client-cdp.mjs";
+
+const require = createRequire(import.meta.url);
+const execFileAsync = promisify(execFile);
+const {
+  parsePeMachineArchitecture
+} = require("../shared/windows-installer-identity.cjs");
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packageJson = JSON.parse(
@@ -16,16 +25,23 @@ const productId = process.argv[2] || "openclaw-windows-hub";
 const useDevelopmentClient = process.argv.includes("--development");
 const useInstalledClient = process.argv.includes("--installed");
 const completeDownload = process.argv.includes("--complete");
+const reportIdentity = process.argv.includes("--report-identity");
+const completeTimeoutMs = Math.max(
+  180_000,
+  Number(process.env.AIHUB_DOWNLOAD_REPRO_TIMEOUT_MS) || 20 * 60_000
+);
 if (process.argv.includes("--live-profile")) {
   throw new Error(
     "Live-profile CDP acceptance is disabled; use the isolated profile and complete manual acceptance separately"
   );
 }
-const portablePath = path.join(
-  root,
-  "release-local-server-client",
-  `ZhenXing-AI-Local-${packageJson.version}-Windows-x64-Portable.exe`
-);
+const portablePath = process.env.AIHUB_LOCAL_RELEASE_CLIENT
+  ? path.resolve(process.env.AIHUB_LOCAL_RELEASE_CLIENT)
+  : path.join(
+      root,
+      "release-local-server-client",
+      `ZhenXing-AI-Local-${packageJson.version}-Windows-x64-Portable.exe`
+    );
 const installedPath =
   process.env.AIHUB_INSTALLED_CLIENT || "C:\\Program Files\\枕星 AI\\枕星 AI.exe";
 const clientExecutable = useDevelopmentClient
@@ -40,6 +56,43 @@ if (!fs.existsSync(clientExecutable)) {
 const profile = createIsolatedAcceptanceProfile(
   "aihub-packaged-download-repro-"
 );
+
+async function inspectDownloadedInstaller(filePath) {
+  const descriptor = fs.openSync(filePath, "r");
+  let buffer;
+  try {
+    const size = fs.fstatSync(descriptor).size;
+    buffer = Buffer.alloc(Math.min(size, 1024 * 1024));
+    buffer = buffer.subarray(
+      0,
+      fs.readSync(descriptor, buffer, 0, buffer.length, 0)
+    );
+  } finally {
+    fs.closeSync(descriptor);
+  }
+  const script = [
+    "$f=Get-Item -LiteralPath $env:AIHUB_INSPECT_PATH",
+    "$s=Get-AuthenticodeSignature -LiteralPath $env:AIHUB_INSPECT_PATH",
+    "$v=$f.VersionInfo",
+    "$o=[pscustomobject]@{SignatureStatus=[string]$s.Status;Signer=if($s.SignerCertificate){$s.SignerCertificate.Subject}else{''};ProductName=[string]$v.ProductName;FileDescription=[string]$v.FileDescription;OriginalFilename=[string]$v.OriginalFilename;CompanyName=[string]$v.CompanyName;ProductVersion=[string]$v.ProductVersion;FileVersion=[string]$v.FileVersion}",
+    "$o|ConvertTo-Json -Compress"
+  ].join(";");
+  const { stdout } = await execFileAsync(
+    "powershell.exe",
+    ["-NoProfile", "-NonInteractive", "-Command", script],
+    {
+      encoding: "utf8",
+      timeout: 30_000,
+      windowsHide: true,
+      env: { ...process.env, AIHUB_INSPECT_PATH: filePath }
+    }
+  );
+  return {
+    pe: parsePeMachineArchitecture(buffer),
+    ...JSON.parse(stdout.trim())
+  };
+}
+
 let client;
 try {
   client = await launchPackagedClientCdp({
@@ -66,7 +119,7 @@ try {
     if (!started?.ok) {
       throw new Error(`Packaged download did not start: ${JSON.stringify(started)}`);
     }
-    const deadline = Date.now() + 180_000;
+    const deadline = Date.now() + completeTimeoutMs;
     let task;
     while (Date.now() < deadline) {
       task = await evaluate(`window.aihubPC.getDownloadTask(${encodedProductId})`);
@@ -79,7 +132,12 @@ try {
     if (task?.phase !== "completed") {
       throw new Error(`Packaged download did not complete: ${JSON.stringify(task)}`);
     }
-    process.stdout.write(`${JSON.stringify({ ok: true, productId, task }, null, 2)}\n`);
+    const identity = reportIdentity
+      ? await inspectDownloadedInstaller(task.filePath)
+      : undefined;
+    process.stdout.write(
+      `${JSON.stringify({ ok: true, productId, task, ...(identity ? { identity } : {}) }, null, 2)}\n`
+    );
   } else {
     const task = await verifyManagedDownloadPause({
       evaluate,

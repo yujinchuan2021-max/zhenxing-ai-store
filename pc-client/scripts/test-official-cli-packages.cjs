@@ -28,6 +28,51 @@ const PRODUCTS = Object.freeze([
     productId: "gemini-cli",
     commandName: "gemini",
     versionArgs: Object.freeze(["--version"])
+  }),
+  Object.freeze({
+    productId: "promptfoo-cli",
+    commandName: "promptfoo",
+    versionArgs: Object.freeze(["--version"])
+  }),
+  Object.freeze({
+    productId: "continue-cli",
+    commandName: "cn",
+    versionArgs: Object.freeze(["--version"])
+  }),
+  Object.freeze({
+    productId: "ruflo-cli",
+    commandName: "ruflo",
+    versionArgs: Object.freeze(["--version"])
+  }),
+  Object.freeze({
+    productId: "bytedance-agent-tars-cli",
+    commandName: "agent-tars",
+    versionArgs: Object.freeze(["--version"])
+  }),
+  Object.freeze({
+    productId: "factory-cli",
+    commandName: "droid",
+    versionArgs: Object.freeze(["--version"])
+  }),
+  Object.freeze({
+    productId: "kilo-code-cli",
+    commandName: "kilo",
+    versionArgs: Object.freeze(["--version"])
+  }),
+  Object.freeze({
+    productId: "letta-code-cli",
+    commandName: "letta",
+    versionArgs: Object.freeze(["--version"])
+  }),
+  Object.freeze({
+    productId: "pixverse-cli",
+    commandName: "pixverse",
+    versionArgs: Object.freeze(["--version"])
+  }),
+  Object.freeze({
+    productId: "alibaba-qoder-cn-cli",
+    commandName: "qoderclicn",
+    versionArgs: Object.freeze(["--version"])
   })
 ]);
 
@@ -67,6 +112,7 @@ function describeRuntime() {
   assert.match(npmTreeSha256, /^[a-f0-9]{64}$/);
   return {
     nodeExecutable,
+    nodeVersion: process.version,
     npmCli,
     nodeSha256: fileSha256(nodeExecutable),
     npmCliSha256: fileSha256(npmCli),
@@ -209,7 +255,7 @@ function verifyProduct(definition, runtime, plans) {
       install.args[install.args.indexOf("--registry") + 1],
       OFFICIAL_NPM_REGISTRY
     );
-    assert.equal(install.args.at(-1), plan.packageName);
+    assert.equal(install.args.at(-1), plan.installSpec || plan.packageName);
     run(install.executable, install.args, {
       ...install.options,
       env: environment,
@@ -266,6 +312,10 @@ function verifyProduct(definition, runtime, plans) {
     const versionOutput =
       `${versionResult.stdout || ""}\n${versionResult.stderr || ""}`.trim();
     assert.ok(versionOutput, `${definition.commandName} 没有返回版本`);
+    assert.ok(
+      versionOutput.includes(plan.expectedVersion),
+      `${definition.commandName} 返回了非固定版本：${versionOutput}`
+    );
 
     const sentinel = path.join(
       prefix,
@@ -325,7 +375,16 @@ function main() {
   assert.equal(process.platform, "win32", "官方 CLI 验收必须在 Windows 运行");
   const runtime = describeRuntime();
   const plans = cliInstallPlans();
-  const results = PRODUCTS.map((product) =>
+  const requested = new Set(process.argv.slice(2));
+  const products = requested.size
+    ? PRODUCTS.filter((product) => requested.has(product.productId))
+    : PRODUCTS;
+  assert.equal(
+    products.length,
+    requested.size || PRODUCTS.length,
+    "requested product is missing from the official npm acceptance matrix"
+  );
+  const results = products.map((product) =>
     verifyProduct(product, runtime, plans)
   );
   process.stdout.write(

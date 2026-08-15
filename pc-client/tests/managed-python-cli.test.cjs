@@ -62,6 +62,45 @@ test("builds an isolated fixed-wheel Python install plan", () => {
   assert.ok(install.args.includes("--no-index"));
   assert.match(install.requirementsText, /example-cli @ https:\/\/files\.pythonhosted\.org/);
   assert.equal(createManagedPythonLayout({ productId: "example-cli", plan: { ...plan, wheel: { ...plan.wheel, url: "https://evil.example/x.whl" } }, prefix }), null);
+  assert.ok(createManagedPythonLayout({
+    productId: "example-cli",
+    plan: {
+      ...plan,
+      lockedRequirements: [
+        ...plan.lockedRequirements,
+        {
+          name: "PyYAML",
+          version: "6.0.3",
+          url: "https://files.pythonhosted.org/packages/example/pyyaml-6.0.3-py3-none-any.whl",
+          sha256: "b".repeat(64)
+        }
+      ]
+    },
+    prefix
+  }));
+});
+
+test("binds Python 3.12-only products to the dedicated environment", () => {
+  assert.ok(createManagedPythonLayout({
+    productId: "aider-cli",
+    plan: {
+      ...plan,
+      minimumPythonMinor: 12,
+      maximumPythonMinor: 12,
+      pythonEnvironmentId: "python312"
+    },
+    prefix: "C:\\AIHub\\CLI"
+  }));
+  assert.equal(createManagedPythonLayout({
+    productId: "aider-cli",
+    plan: {
+      ...plan,
+      minimumPythonMinor: 12,
+      maximumPythonMinor: 13,
+      pythonEnvironmentId: "python312"
+    },
+    prefix: "C:\\AIHub\\CLI"
+  }), null);
 });
 
 test("receipts own one venv and enable terminal launch and scoped uninstall", () => {

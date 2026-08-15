@@ -1,0 +1,51 @@
+{
+  "sourceFile": "pc-client/admin/published/catalog-store/state.json",
+  "sourceRevision": 89,
+  "activeChannel": "v2",
+  "activeCatalogVersion": 6,
+  "catalogCounts": {
+    "resources": 146,
+    "skillResources": 16,
+    "skillTargets": 34,
+    "managedSkillTargets": 1,
+    "resourceLinkSkillTargets": 33
+  },
+  "fixedProfiles": [
+    {
+      "profileId": "skill.codex.chatgpt-apps",
+      "resourceId": "openai-chatgpt-apps-skill",
+      "productId": "codex-cli",
+      "moduleId": "skill-managed",
+      "adapter": "directory-snapshot",
+      "immutableSource": "49f948faa9258a0c61caceaf225e179651397431",
+      "capabilities": ["website", "install", "update", "repair", "uninstall"],
+      "ownership": "receipt-and-hash-matched-content-only"
+    }
+  ],
+  "resources": [
+    {"id":"openai-codex-skills-catalog","publisher":"OpenAI","versionRef":"rolling-directory","targetCount":1,"managedTargets":0,"classification":"official-link-only"},
+    {"id":"openai-chatgpt-apps-skill","publisher":"OpenAI","versionRef":"49f948faa9258a0c61caceaf225e179651397431","targetCount":1,"managedTargets":1,"classification":"managed-ready"},
+    {"id":"anythingllm-agent-skills","publisher":"Mintplex Labs","versionRef":"rolling-directory","targetCount":1,"managedTargets":0,"classification":"official-link-only-blocked"},
+    {"id":"minimax-official-skills","publisher":"MiniMax","versionRef":"rolling-directory","targetCount":1,"managedTargets":0,"classification":"official-link-only"},
+    {"id":"pika-mcp-skills","publisher":"Pika","versionRef":"rolling-directory","targetCount":1,"managedTargets":0,"classification":"official-link-only-blocked"},
+    {"id":"hf-agent-skills","publisher":"Hugging Face","versionRef":"rolling-directory","targetCount":1,"managedTargets":0,"classification":"official-link-only"},
+    {"id":"openclaw-clawhub-skills","publisher":"OpenClaw","versionRef":"rolling-directory","targetCount":1,"managedTargets":0,"classification":"official-link-only"},
+    {"id":"hermes-agent-skills","publisher":"Nous Research","versionRef":"rolling-directory","targetCount":1,"managedTargets":0,"classification":"official-link-only"},
+    {"id":"cline-official-skills-plugins","publisher":"Cline","versionRef":"rolling-directory","targetCount":1,"managedTargets":0,"classification":"official-link-only-blocked"},
+    {"id":"opencode-agent-skills","publisher":"Anomaly","versionRef":"rolling-directory","targetCount":1,"managedTargets":0,"classification":"official-link-only"},
+    {"id":"matlab-agentic-toolkit","publisher":"MathWorks","versionRef":"rolling-official-service","targetCount":3,"managedTargets":0,"classification":"official-link-only-blocked"},
+    {"id":"simulink-agentic-toolkit","publisher":"MathWorks","versionRef":"rolling-official-service","targetCount":4,"managedTargets":0,"classification":"official-link-only-blocked"},
+    {"id":"nvidia-omniverse-agent-skills","publisher":"NVIDIA","versionRef":"rolling-official-service","targetCount":3,"managedTargets":0,"classification":"official-link-only-blocked"},
+    {"id":"cesium-agent-skills","publisher":"Cesium","versionRef":"rolling-official-service","targetCount":4,"managedTargets":0,"classification":"official-link-only"},
+    {"id":"meshy-3d-skill","publisher":"Meshy","versionRef":"rolling-official-docs","targetCount":4,"managedTargets":0,"classification":"official-link-only-blocked"},
+    {"id":"krea-agent-skills","publisher":"Krea","versionRef":"rolling-official-repository","targetCount":6,"managedTargets":0,"classification":"official-link-only-blocked"}
+  ],
+  "candidateQueue": [],
+  "forbiddenFieldCheck": "no command/args/env/headers/script/credentials fields present",
+  "writeActions": [],
+  "notes": [
+    "Windows support is not inferred from repository presence.",
+    "resource-link targets expose website only; no install, enable, update, repair, or uninstall action.",
+    "No new fixed-profile implementation owner is assigned because the candidate queue is empty."
+  ]
+}

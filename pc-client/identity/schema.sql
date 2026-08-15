@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
   normalized_phone text UNIQUE,
   username text NOT NULL,
   normalized_username text NOT NULL UNIQUE,
+  community_username text NOT NULL
+    CHECK (community_username ~ '^zx_[0-9a-f]{27}$'),
   password_hash text NOT NULL,
   status text NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'disabled')),
   created_at timestamptz NOT NULL DEFAULT now(),
@@ -14,6 +16,24 @@ CREATE TABLE IF NOT EXISTS users (
 
 ALTER TABLE users ADD COLUMN IF NOT EXISTS phone text;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS normalized_phone text;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS community_username text;
+UPDATE users
+SET community_username = 'zx_' || substr(replace(id::text, '-', ''), 1, 27)
+WHERE community_username IS NULL;
+ALTER TABLE users ALTER COLUMN community_username SET NOT NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS users_community_username_unique
+  ON users(community_username);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'users_community_username_format'
+      AND conrelid = 'users'::regclass
+  ) THEN
+    ALTER TABLE users ADD CONSTRAINT users_community_username_format
+      CHECK (community_username ~ '^zx_[0-9a-f]{27}$');
+  END IF;
+END $$;
 CREATE UNIQUE INDEX IF NOT EXISTS users_normalized_phone_unique
   ON users(normalized_phone) WHERE normalized_phone IS NOT NULL;
 
@@ -195,6 +215,43 @@ CREATE TABLE IF NOT EXISTS site_messages (
 
 CREATE INDEX IF NOT EXISTS site_messages_user_created
   ON site_messages(user_id, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS user_follows (
+  follower_user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  followed_user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (follower_user_id, followed_user_id),
+  CHECK (follower_user_id <> followed_user_id)
+);
+
+CREATE INDEX IF NOT EXISTS user_follows_followed_created
+  ON user_follows(followed_user_id, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS user_follow_notifications (
+  follower_user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  followed_user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  notified_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (follower_user_id, followed_user_id),
+  CHECK (follower_user_id <> followed_user_id)
+);
+
+CREATE TABLE IF NOT EXISTS direct_messages (
+  id uuid PRIMARY KEY,
+  sender_user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  recipient_user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  body text NOT NULL CHECK (char_length(btrim(body)) BETWEEN 1 AND 4000),
+  read_at timestamptz,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  CHECK (sender_user_id <> recipient_user_id)
+);
+
+CREATE INDEX IF NOT EXISTS direct_messages_sender_peer_created
+  ON direct_messages(sender_user_id, recipient_user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS direct_messages_recipient_peer_created
+  ON direct_messages(recipient_user_id, sender_user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS direct_messages_recipient_unread
+  ON direct_messages(recipient_user_id, created_at DESC)
+  WHERE read_at IS NULL;
 
 CREATE TABLE IF NOT EXISTS community_interactions (
   user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,

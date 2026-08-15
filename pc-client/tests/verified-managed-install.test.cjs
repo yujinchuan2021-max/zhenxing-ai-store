@@ -97,28 +97,25 @@ test("every renderer install boundary re-resolves an enabled catalog action cont
   );
 });
 
-test("download completion and task recovery fail closed after backend disablement", () => {
+test("download completion waits for the user while task recovery still fails closed", () => {
   const source = fs.readFileSync(
     path.resolve(__dirname, "../src/App.tsx"),
     "utf8"
   );
-  const automaticLaunch = source.match(
-    /useEffect\(\(\) => \{\s*for \(const task of Object\.values\(downloadTasks\)\)[\s\S]*?const recheckDesktopInstall/
+  const taskApplication = source.match(
+    /const applyManagedDownloadTask =[\s\S]*?const applyDesktopOperationTask/
   )?.[0];
   const taskRecovery = source.match(
     /const resumeDownloadTask = async[\s\S]*?const pauseDownloadTask/
   )?.[0];
 
-  assert.ok(automaticLaunch, "download completion source was not found");
+  assert.ok(taskApplication, "download task application source was not found");
   assert.ok(taskRecovery, "download recovery source was not found");
   assert.match(
-    automaticLaunch,
-    /resolveProductActionContext\(task\.productId, true\)/
+    taskApplication,
+    /task\.phase === "completed"[\s\S]*?"downloaded"/
   );
-  assert.match(
-    automaticLaunch,
-    /installProduct\(product, intent\)/
-  );
+  assert.doesNotMatch(taskApplication, /installProduct\(|launchInstaller\(/);
   assert.match(taskRecovery, /productId\.startsWith\("environment:"\)/);
   assert.match(
     taskRecovery,

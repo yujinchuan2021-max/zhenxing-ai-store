@@ -1,7 +1,7 @@
 :root {
   font-family: Inter, "Microsoft YaHei", Arial, sans-serif;
-  color: #18211f;
-  background: #f3f7f4;
+  color: #13213a;
+  background: #f5f7fb;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -48,14 +48,23 @@ button:not(:disabled):active {
 }
 
 .pcApp {
-  --ink: #18211f;
-  --muted: #6d7874;
-  --line: #dce5e0;
-  --surface: #ffffff;
-  --paper: #f3f7f4;
-  --accent: #a8ff56;
-  --accent-ink: #17362d;
-  --deep: #143c32;
+  --zx-surface-canvas: #f5f7fb;
+  --zx-surface-raised: #ffffff;
+  --zx-surface-hero: #e9eef8;
+  --zx-text-primary: #13213a;
+  --zx-text-secondary: #52627a;
+  --zx-accent: #087e8b;
+  --zx-accent-strong: #065c68;
+  --zx-atmosphere: #5b4b9a;
+  --zx-line: #d6deeb;
+  --ink: var(--zx-text-primary);
+  --muted: var(--zx-text-secondary);
+  --line: var(--zx-line);
+  --surface: var(--zx-surface-raised);
+  --paper: var(--zx-surface-canvas);
+  --accent: var(--zx-accent);
+  --accent-ink: #ffffff;
+  --deep: var(--zx-accent-strong);
   --font-caption: 12px;
   --font-small: 13px;
   --font-control: 14px;
@@ -66,17 +75,60 @@ button:not(:disabled):active {
   font-size: var(--font-body);
   line-height: 1.5;
   background:
-    radial-gradient(circle at 90% 10%, rgba(168, 255, 86, 0.18), transparent 28rem),
+    radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--zx-atmosphere) 20%, transparent), transparent 28rem),
     var(--paper);
 }
 
 .pcApp[data-theme="dark"] {
-  --ink: #eef6f2;
-  --muted: #9fafaa;
-  --line: #30433c;
-  --surface: #182823;
-  --paper: #0e1916;
-  --deep: #9df04f;
+  --zx-surface-canvas: #08111f;
+  --zx-surface-raised: #101c2e;
+  --zx-surface-hero: #0c1930;
+  --zx-text-primary: #f3f7ff;
+  --zx-text-secondary: #b2c0d8;
+  --zx-accent: #49d6dd;
+  --zx-accent-strong: #8ae8ea;
+  --zx-atmosphere: #8774d8;
+  --zx-line: #253550;
+  --accent-ink: #08111f;
+  --deep: var(--zx-accent);
+}
+
+.startupScreen {
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  padding: 32px;
+}
+
+.startupBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+}
+
+.startupSpinner {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: startupSpin 800ms linear infinite;
+}
+
+.startupScreen p {
+  margin: 0;
+  color: var(--muted);
+}
+
+@keyframes startupSpin {
+  to { transform: rotate(1turn); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .startupSpinner { animation: none; }
 }
 
 .topbar {
@@ -110,7 +162,7 @@ button:not(:disabled):active {
   display: grid;
   place-items: center;
   border-radius: 11px 11px 11px 4px;
-  color: #17362d;
+  color: var(--accent-ink);
   background: var(--accent);
   font-weight: 900;
 }
@@ -167,6 +219,12 @@ button:not(:disabled):active {
   cursor: pointer;
 }
 
+.carouselActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .search button {
   height: 36px;
   padding: 0 13px;
@@ -196,6 +254,7 @@ button:not(:disabled):active {
 }
 
 .notificationButton,
+.downloadMenu > summary,
 .accountButton {
   min-height: 40px;
   border: 1px solid var(--line);
@@ -212,6 +271,108 @@ button:not(:disabled):active {
   place-items: center;
   padding: 0;
   font-size: 20px;
+}
+
+.downloadMenu {
+  position: relative;
+}
+
+.downloadMenu > summary {
+  position: relative;
+  width: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 21px;
+  list-style: none;
+}
+
+.downloadMenu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.downloadMenu > summary b {
+  position: absolute;
+  top: -6px;
+  right: -5px;
+  min-width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+  border: 2px solid var(--paper);
+  border-radius: 999px;
+  color: var(--accent-ink);
+  background: var(--accent);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.downloadPopover {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(360px, calc(100vw - 24px));
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
+}
+
+.downloadPopover header,
+.downloadPopover article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.downloadPopover header small,
+.downloadPopover article small,
+.downloadPopover p {
+  color: var(--muted);
+}
+
+.downloadPopover p {
+  margin: 8px 0;
+}
+
+.downloadPopoverList {
+  display: grid;
+  gap: 4px;
+}
+
+.downloadPopover article {
+  min-width: 0;
+  padding: 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--deep) 4%, var(--surface));
+}
+
+.downloadPopover article > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.downloadPopover article b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.downloadPopover > button {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--paper);
+  font-weight: 800;
+  cursor: pointer;
 }
 
 .notificationButton b {
@@ -291,6 +452,12 @@ button:not(:disabled):active {
   gap: 6px;
 }
 
+.sidebarContribution {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
 .navItem {
   min-height: 44px;
   display: grid;
@@ -341,8 +508,22 @@ button:not(:disabled):active {
   grid-template-columns: 1fr 0.82fr;
   border: 1px solid var(--line);
   border-radius: 24px;
-  background: var(--surface);
+  background: var(--zx-surface-hero);
   overflow: hidden;
+}
+
+.carouselHero {
+  position: relative;
+  min-height: 500px;
+  grid-template-columns: 46fr 54fr;
+}
+
+.carouselHero.imageFailed {
+  min-height: 460px;
+  grid-template-columns: minmax(0, 720px);
+  background:
+    radial-gradient(circle at 80% 30%, color-mix(in srgb, var(--zx-atmosphere) 42%, transparent), transparent 42%),
+    var(--zx-surface-hero);
 }
 
 .heroCopy {
@@ -358,7 +539,7 @@ button:not(:disabled):active {
 .authModal header p,
 .settingsPanel header p {
   margin: 0 0 9px;
-  color: #6da23f;
+  color: var(--accent);
   font-size: var(--font-caption);
   font-weight: 900;
   letter-spacing: 0.14em;
@@ -370,6 +551,20 @@ button:not(:disabled):active {
   font-size: clamp(36px, 4vw, 58px);
   line-height: 1.08;
   letter-spacing: -0.055em;
+}
+
+.carouselHero .heroCopy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 56px 64px;
+}
+
+.carouselHero .heroCopy h1 {
+  max-inline-size: 11.5em;
+  font-size: clamp(44px, 4.2vw, 58px);
+  text-wrap: balance;
 }
 
 .heroCopy > span {
@@ -386,6 +581,11 @@ button:not(:disabled):active {
   padding: 0 17px;
   color: var(--surface);
   background: var(--deep);
+}
+
+.carouselActions .primaryAction,
+.carouselActions .quietButton {
+  min-height: 44px;
 }
 
 .bannerControls {
@@ -408,14 +608,99 @@ button:not(:disabled):active {
   background: var(--accent);
 }
 
+.carouselHero .heroVisual {
+  background: var(--zx-surface-hero);
+}
+
+.carouselImage {
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+  object-fit: cover;
+  object-position: 62% 50%;
+}
+
+.carouselControls {
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.carouselControls button {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 24px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.carouselControls button::before {
+  width: 18px;
+  height: 5px;
+  border-radius: 99px;
+  background: var(--line);
+  content: "";
+}
+
+.carouselEdge {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  transform: translateY(-50%);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--deep) 16%, transparent);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.carouselEdge:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.carouselEdge:focus-visible,
+.carouselControls button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  outline-offset: 3px;
+}
+
+.carouselEdgePrevious {
+  left: 12px;
+}
+
+.carouselEdgeNext {
+  right: 12px;
+}
+
+.carouselControls button.active {
+  width: 28px;
+  height: 24px;
+  flex-basis: 28px;
+  background: transparent;
+}
+
+.carouselControls button.active::before {
+  width: 28px;
+  height: 8px;
+  background: var(--accent);
+}
+
 .heroVisual {
   position: relative;
   display: grid;
   place-items: center;
   overflow: hidden;
   background:
-    radial-gradient(circle, rgba(168, 255, 86, 0.38), transparent 42%),
-    color-mix(in srgb, var(--deep) 16%, var(--surface));
+    radial-gradient(circle, color-mix(in srgb, var(--zx-atmosphere) 42%, transparent), transparent 48%),
+    linear-gradient(135deg, var(--zx-surface-hero), color-mix(in srgb, var(--zx-atmosphere) 38%, var(--paper)));
 }
 
 .orbit {
@@ -626,6 +911,15 @@ button:not(:disabled):active {
   color: var(--muted);
 }
 
+.resourceSourceContext {
+  color: var(--muted);
+  font-size: var(--font-caption);
+}
+
+.resourceSourceEmpty .accentButton {
+  justify-self: start;
+}
+
 .vendorCard {
   min-width: 0;
   min-height: 285px;
@@ -656,7 +950,7 @@ button:not(:disabled):active {
   width: 54px;
   height: 54px;
   border-radius: 15px 15px 15px 5px;
-  color: #17362d;
+  color: var(--accent-ink);
   font-size: 17px;
 }
 
@@ -710,13 +1004,28 @@ button:not(:disabled):active {
 }
 
 .backButton {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
   margin-bottom: 16px;
-  padding: 0;
-  border: 0;
-  color: var(--muted);
-  background: transparent;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+  background: var(--surface);
   font-size: var(--font-small);
+  font-weight: 700;
   cursor: pointer;
+}
+
+.backButton:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.backButton:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 36%, transparent);
+  outline-offset: 2px;
 }
 
 .vendorHero {
@@ -734,7 +1043,7 @@ button:not(:disabled):active {
   width: 76px;
   height: 76px;
   border-radius: 21px 21px 21px 7px;
-  color: #17362d;
+  color: var(--accent-ink);
   font-size: 25px;
 }
 
@@ -824,6 +1133,23 @@ button:not(:disabled):active {
   gap: 7px;
 }
 
+.managedDownloadQueueProduct {
+  display: grid;
+  gap: 7px;
+  min-width: min(260px, 100%);
+}
+
+.managedDownloadQueueProduct > small,
+.queueTaskError {
+  color: var(--muted);
+  font-size: var(--font-caption);
+  line-height: 1.5;
+}
+
+.queueTaskError {
+  color: var(--danger, #b45309);
+}
+
 .productInfo > span {
   color: #6da23f;
   font-size: var(--font-caption);
@@ -842,11 +1168,31 @@ button:not(:disabled):active {
   line-height: 1.55;
 }
 
+.acquisitionHint {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: var(--font-caption);
+}
+
 .resourceToolGrid,
 .resourceCardGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 12px;
+}
+
+.resourceStoreFilters {
+  gap: 10px;
+}
+
+.resourceStoreFilters .filterRow > div {
+  flex-wrap: wrap;
+}
+
+.resourceFilterUnavailable > span {
+  color: var(--muted);
+  font-size: var(--font-small);
 }
 
 .resourceToolCard,
@@ -938,6 +1284,31 @@ button:not(:disabled):active {
   margin: 0;
 }
 
+.resourceRelationFacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.resourceRelationFact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.resourceRelationFact span {
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--font-caption);
+}
+
 .resourceRow {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -972,6 +1343,522 @@ button:not(:disabled):active {
   display: flex;
   flex-wrap: wrap;
   gap: 3px 12px;
+}
+
+.resourceGovernance {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 5px 9px !important;
+}
+
+.resourceGovernance span {
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--font-caption);
+}
+
+.resourceWarning {
+  color: #bd5e4c !important;
+  font-weight: 700;
+}
+
+.resourceGuarded {
+  color: var(--accent) !important;
+  font-weight: 700;
+}
+
+.resourceSourceDetails {
+  display: grid;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.resourceSourceDetails summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: var(--font-caption);
+  font-weight: 700;
+}
+
+.resourceSourceDetails button {
+  justify-self: start;
+}
+
+.submissionCallout {
+  display: grid;
+  gap: 7px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.submissionCallout > small {
+  color: var(--muted);
+}
+
+.submissionCallout > button {
+  justify-self: start;
+}
+
+.submissionIdentityFields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 6px 12px;
+  margin: 0;
+}
+
+.submissionIdentityFields div {
+  min-width: 0;
+}
+
+.submissionIdentityFields dt,
+.submissionIdentityFields dd {
+  margin: 0;
+  font-size: var(--font-caption);
+}
+
+.submissionIdentityFields dt {
+  color: var(--muted);
+}
+
+.submissionTextLink {
+  min-height: 44px;
+  width: min(100%, 520px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, var(--line));
+  border-radius: 11px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  font-size: var(--font-small);
+  font-weight: 700;
+  text-align: left;
+}
+
+.submissionTextLink:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 13%, var(--surface));
+}
+
+.submissionTextLink:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 36%, transparent);
+  outline-offset: 2px;
+}
+
+.contributionPage {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.submissionWorkspace,
+.workflowOwnerPage,
+.submissionForm,
+.workflowOwnerForm,
+.submissionList,
+.workflowOwnerList,
+.submissionLayout,
+.workflowOwnerLayout,
+.submissionFields,
+.submissionTagGrid,
+.submissionActions {
+  display: grid;
+  gap: 10px;
+}
+
+.submissionWorkspace {
+  max-width: 980px;
+}
+
+.workflowOwnerPage {
+  display: grid;
+  gap: 12px;
+  max-width: 980px;
+}
+
+.submissionWorkspace > header,
+.workflowOwnerPage > header,
+.submissionActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.submissionWorkspace > header {
+  justify-content: space-between;
+}
+
+.workflowOwnerPage > header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: start;
+}
+
+.submissionWorkspace > header > div {
+  display: grid;
+  gap: 3px;
+}
+
+.submissionLayout {
+  grid-template-columns: minmax(180px, 0.28fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.workflowOwnerLayout {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.28fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.submissionList {
+  position: sticky;
+  top: 12px;
+}
+
+.workflowOwnerList {
+  position: sticky;
+  top: 12px;
+}
+
+.submissionList > button {
+  display: grid;
+  gap: 3px;
+  text-align: left;
+}
+
+.workflowOwnerList > button {
+  display: grid;
+  gap: 3px;
+  text-align: left;
+}
+
+.submissionList > button.selected {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 13%, var(--surface));
+}
+
+.workflowOwnerList > button.selected {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 13%, var(--surface));
+}
+
+.submissionForm {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.workflowOwnerForm {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.submissionForm label,
+.submissionForm fieldset,
+.workflowOwnerForm label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.submissionForm input,
+.submissionForm select,
+.submissionForm textarea,
+.workflowOwnerForm input,
+.workflowOwnerForm textarea {
+  min-width: 0;
+  width: 100%;
+}
+
+.submissionForm textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
+.workflowOwnerForm textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
+.submissionFields {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.submissionTagGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.submissionTagGrid label {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+.submissionNotice {
+  margin: 0;
+  color: var(--muted);
+}
+
+.submissionNotice-success {
+  color: var(--accent);
+}
+
+.submissionNotice-info {
+  color: var(--muted);
+}
+
+.submissionNotice-error {
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, #b42318 42%, var(--line));
+  border-radius: 8px;
+  color: #b42318;
+  background: color-mix(in srgb, #b42318 8%, var(--surface));
+}
+
+.pcApp[data-theme="dark"] .submissionNotice-error {
+  color: #ffb4ab;
+  background: color-mix(in srgb, #ffb4ab 10%, var(--surface));
+}
+
+.submissionCandidateBoundary,
+.submissionSupplemental > small {
+  color: var(--muted);
+}
+
+.submissionSupplemental {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.submissionSupplemental > summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.workflowSupplemental {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.workflowSupplemental > summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.workflowPublicStore,
+.workflowPublicLayout,
+.workflowPublicList,
+.workflowPublicDetail,
+.workflowPublicHeader,
+.workflowReferenceCard,
+.workflowPublicDetails,
+.workflowPublicFacts,
+.workflowPublicBadges {
+  display: grid;
+  gap: 12px;
+}
+
+.workflowPublicStore,
+.workflowPublicDetail {
+  max-width: 980px;
+}
+
+.workflowPublicHeader p,
+.workflowPublicList small,
+.workflowPublicPopularity,
+.workflowReferenceCard small {
+  margin: 0;
+  color: var(--muted);
+}
+
+.workflowPublicBreadcrumb {
+  margin: 0 0 4px;
+}
+
+.workflowPublicBreadcrumb button {
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  font-size: var(--font-small);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.workflowPublicBreadcrumb button:hover,
+.workflowPublicBreadcrumb button:focus-visible {
+  color: var(--accent);
+}
+
+.workflowPublicList article {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: start;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.workflowPublicList article > div {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+}
+
+.workflowPublicList article small,
+.workflowPublicFacts dd,
+.workflowPublicDetails li {
+  overflow-wrap: anywhere;
+}
+
+.workflowPublicList article span,
+.workflowPublicBadges span {
+  width: fit-content;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--font-caption);
+}
+
+.workflowPublicBadges {
+  grid-template-columns: repeat(2, max-content);
+}
+
+.workflowPublicGuarded,
+.workflowPublicUnavailable {
+  margin: 0;
+  padding: 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-radius: 8px;
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+
+.workflowPublicFacts {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.workflowPublicFacts div {
+  min-width: 0;
+}
+
+.workflowPublicFacts dt {
+  color: var(--muted);
+  font-size: var(--font-caption);
+}
+
+.workflowPublicFacts dd {
+  margin: 3px 0 0;
+}
+
+.workflowReferenceCard,
+.workflowPublicDetails {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.workflowPublicDetails summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.workflowPublicDetails section {
+  margin-top: 12px;
+}
+
+.workflowPublicDetails h3,
+.workflowPublicDetails p {
+  margin: 0 0 6px;
+}
+
+.workflowComposer {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 92%, var(--accent));
+}
+
+.workflowComposer h3,
+.workflowComposer h4,
+.workflowComposer p {
+  margin: 0;
+}
+
+.workflowComposer label,
+.workflowComposerSteps,
+.workflowComposerSteps ol,
+.workflowComposerSteps li,
+.workflowComposerNotice {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.workflowComposer select {
+  width: 100%;
+  min-height: 40px;
+}
+
+.workflowComposerNotice {
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+  border-radius: 10px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+
+.workflowComposerSteps ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.workflowComposerSteps li > span,
+.workflowComposerSteps li > small {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .workflowPublicList article { display: grid; }
+  .workflowPublicList article > button { width: 100%; }
+  .workflowPublicBadges,
+  .workflowPublicFacts { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .submissionLayout { grid-template-columns: 1fr; }
+  .workflowOwnerLayout { grid-template-columns: 1fr; }
+  .submissionList { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .workflowOwnerList { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .submissionFields { grid-template-columns: 1fr; }
+  .submissionTagGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .resourceActions {
@@ -1025,6 +1912,54 @@ button:not(:disabled):active {
   align-items: center;
   justify-content: flex-end;
   gap: 7px;
+}
+
+.fixedCliLifecycle,
+.fixedCliLifecycleConfirm {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.fixedCliLifecycleConfirm {
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+
+.fixedCliLifecycleConfirm h4 {
+  margin: 0;
+}
+
+.fixedCliLifecycleSource {
+  overflow-wrap: anywhere;
+}
+
+.fixedCliLifecycleActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fixedCliLifecycleConfirm .dangerButton {
+  color: #fff;
+  border-color: #a63c3c;
+  background: #b42318;
+}
+
+.fixedCliLifecycleConfirm .fixedCliCancel {
+  color: var(--ink);
+  border-color: var(--line);
+  background: var(--surface);
+}
+
+.fixedCliLifecycleNotice.error {
+  color: #b42318;
+}
+
+.pcApp[data-theme="dark"] .fixedCliLifecycleNotice.error {
+  color: #ffb4ab;
 }
 
 .blockedState {
@@ -1186,6 +2121,7 @@ button:not(:disabled):active {
 }
 
 .managementHeader > button,
+.managementHeaderActions button,
 .managementActions button {
   min-height: 40px;
   padding: 0 13px;
@@ -1198,9 +2134,28 @@ button:not(:disabled):active {
   cursor: pointer;
 }
 
-.managementHeader > button:disabled {
+.managementHeader > button:disabled,
+.managementHeaderActions button:disabled {
   color: var(--muted);
   cursor: default;
+}
+
+.managementHeaderActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.managementHeaderActions small {
+  color: var(--muted);
+}
+
+.managementHeaderActions .accentButton {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  background: var(--accent);
 }
 
 .managementList {
@@ -1666,6 +2621,22 @@ button:disabled {
   gap: 7px;
 }
 
+.managedQueueSection {
+  display: grid;
+  gap: 7px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+}
+
+.managedQueueSection h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--font-caption);
+  line-height: 1.45;
+}
+
 .taskCenterToolbar {
   display: grid;
   gap: 8px;
@@ -1705,7 +2676,8 @@ button:disabled {
   font-size: var(--font-small);
 }
 
-.managedDownloadList > div {
+.managedDownloadList > div,
+.managedQueueSection > .managedQueueTask {
   display: grid;
   grid-template-columns: minmax(0, 1fr) repeat(3, auto);
   align-items: center;
@@ -1715,14 +2687,16 @@ button:disabled {
   background: var(--paper);
 }
 
-.managedDownloadList > div > div:first-child {
+.managedDownloadList > div > div:first-child,
+.managedQueueSection > .managedQueueTask > div:first-child {
   grid-column: 1 / -1;
   min-width: 0;
   display: grid;
   gap: 2px;
 }
 
-.managedDownloadList > div > button:first-of-type {
+.managedDownloadList > div > button:first-of-type,
+.managedQueueSection > .managedQueueTask > button:first-of-type {
   grid-column: 2;
 }
 
@@ -1768,7 +2742,8 @@ button:disabled {
   background: var(--accent);
 }
 
-.managedDownloadList > div > em {
+.managedDownloadList > div > em,
+.managedQueueSection > .managedQueueTask > em {
   grid-column: 1 / -1;
   color: #b45309;
   font-size: var(--font-caption);
@@ -1880,6 +2855,87 @@ button:disabled {
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
 }
 
+.managedDownloadCancelModal {
+  width: min(520px, 96vw);
+  max-height: min(90vh, 620px);
+  overflow-y: auto;
+  display: grid;
+  gap: 16px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
+}
+
+.managedDownloadCancelModal header,
+.managedDownloadCancelActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.managedDownloadCancelModal header p,
+.managedDownloadCancelModal header h2,
+.managedDownloadCancelModal > p {
+  margin: 0;
+}
+
+.managedDownloadCancelModal header p,
+.managedDownloadCancelModal > small,
+.managedDownloadCancelModal #managed-download-cancel-description {
+  color: var(--muted);
+}
+
+.managedDownloadCancelProduct {
+  overflow-wrap: anywhere;
+  font-size: var(--font-section-title);
+  font-weight: 900;
+}
+
+.managedDownloadCancelActions {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.managedDownloadCancelActions .dangerButton {
+  color: #fff;
+  border-color: #a63c3c;
+  background: #b42318;
+}
+
+.managedDownloadCancelActions .dangerButton:not(:disabled):hover {
+  border-color: #8f2f2f;
+  background: #8f1f17;
+}
+
+.managedDownloadCancelActions .dangerButton:focus,
+.managedDownloadCancelActions .dangerButton:focus-visible {
+  outline: 3px solid color-mix(in srgb, #b42318 58%, #fff);
+  outline-offset: 2px;
+}
+
+.managedDownloadCancelActions .dangerButton:disabled {
+  opacity: 0.55;
+}
+
+@media (max-width: 740px) {
+  .managedDownloadCancelBackdrop {
+    padding: 14px;
+  }
+
+  .managedDownloadCancelModal {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .managedDownloadCancelActions > button {
+    flex: 1 1 180px;
+  }
+}
+
 .authForm,
 .accountPanel {
   display: grid;
@@ -1920,7 +2976,23 @@ button:disabled {
 
 .authMessage {
   margin: 14px 0 0;
-  color: var(--accent-ink);
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--surface);
+  font-weight: 700;
+}
+
+.authMessage-error {
+  border-color: color-mix(in srgb, #b42318 42%, var(--line));
+  color: #b42318;
+  background: color-mix(in srgb, #b42318 8%, var(--surface));
+}
+
+.pcApp[data-theme="dark"] .authMessage-error {
+  color: #ffb4ab;
+  background: color-mix(in srgb, #ffb4ab 10%, var(--surface));
 }
 
 .accountIdentity {
@@ -2133,7 +3205,7 @@ button:disabled {
 }
 
 .personalIdentity p {
-  color: var(--accent-ink);
+  color: var(--accent);
   font-size: var(--font-caption);
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -2154,6 +3226,8 @@ button:disabled {
 }
 
 .personalTabs {
+  min-width: 0;
+  max-width: 100%;
   gap: 6px;
   padding: 5px;
   border: 1px solid var(--line);
@@ -2413,6 +3487,177 @@ button:disabled {
   color: var(--muted);
 }
 
+.socialCenter,
+.directThread,
+.directMessageList {
+  min-width: 0;
+}
+
+.socialCenter {
+  display: grid;
+  gap: 14px;
+}
+
+.socialSearch > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.socialSearchControls,
+.personalList article > .rowActions,
+.directThread > header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.socialSearchControls input {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.socialUserIdentity {
+  min-width: 0;
+  display: flex !important;
+  align-items: center;
+  gap: 12px !important;
+}
+
+.socialUserIdentity > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.socialAvatar {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--accent-ink);
+  background: var(--accent);
+  font-weight: 900;
+}
+
+.socialAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.directMessageLayout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(360px, 1.2fr);
+  align-items: start;
+  gap: 14px;
+}
+
+.conversationList {
+  max-height: 620px;
+  overflow-y: auto;
+}
+
+.listToolbar,
+.paginationActions,
+.historyCapNotice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.paginationActions {
+  justify-content: center;
+  padding: 6px;
+}
+
+.historyCapNotice {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.conversationList article > div:first-child {
+  min-width: 0;
+}
+
+.conversationList p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.directThread > header {
+  justify-content: space-between;
+}
+
+.directThread > header h2 {
+  margin: 0;
+}
+
+.directMessageList {
+  display: grid;
+  gap: 8px;
+  max-height: 420px;
+  padding: 4px;
+  overflow-y: auto;
+}
+
+.directMessageList article {
+  width: min(82%, 620px);
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--paper);
+}
+
+.directMessageList article.sent {
+  justify-self: end;
+  background: color-mix(in srgb, var(--accent) 28%, var(--surface));
+}
+
+.directMessageList article.received {
+  justify-self: start;
+}
+
+.directMessageList p {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.directComposer {
+  display: grid;
+  gap: 10px;
+}
+
+.directComposer label {
+  display: grid;
+  gap: 6px;
+}
+
+.directMessagePrompt {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+}
+
+@media (max-width: 900px) {
+  .directMessageLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .socialSearchControls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 .personalNotice {
   position: sticky;
   bottom: 14px;
@@ -2427,6 +3672,7 @@ button:disabled {
 }
 
 .embeddedCommunity {
+  position: relative;
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -2436,11 +3682,27 @@ button:disabled {
   background: var(--paper);
 }
 
+.communityBackControl {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  left: 16px;
+}
+
+.communityBackControl .backButton {
+  margin-bottom: 0;
+}
+
 .communityViewport,
+.communityWebviewMount,
 .communityWebview {
   width: 100%;
   height: 100%;
   min-height: 0;
+}
+
+.communityWebviewMount {
+  display: flex;
 }
 
 .communityViewport {
@@ -2487,6 +3749,14 @@ button:disabled {
 }
 
 @media (max-width: 1180px) {
+  .carouselHero {
+    min-height: 480px;
+    grid-template-columns: 48fr 52fr;
+  }
+
+  .carouselHero .heroCopy {
+    padding: 40px;
+  }
   .topbar {
     grid-template-columns: 180px minmax(280px, 1fr) auto;
   }
@@ -2521,5 +3791,54 @@ button:disabled {
 
   .managementActions {
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    grid-template-columns: 180px minmax(0, 1fr) auto;
+    gap: 8px;
+    padding-inline: 12px;
+  }
+
+  .topActions {
+    gap: 4px;
+  }
+
+  .topActions > button {
+    flex: 0 0 auto;
+    padding-inline: 9px;
+    white-space: nowrap;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .heroCopy {
+    padding: 32px 26px;
+  }
+
+  .carouselImage {
+    min-height: 240px;
+    max-height: 300px;
+  }
+
+  .carouselHero {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .carouselHero .heroCopy {
+    padding: 26px 32px;
+  }
+
+  .carouselHero.imageFailed {
+    min-height: 460px;
+  }
+
+  .carouselHero .heroVisual {
+    min-height: 240px;
+    max-height: 280px;
   }
 }

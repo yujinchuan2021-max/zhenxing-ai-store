@@ -6,12 +6,17 @@ output/
 *.tsbuildinfo
 environment-download-resume-ui.png
 (await(eval(Buffer.from*
+/--json
+/--verify
+/verify
 community/flarum/.env
 admin/data/catalog-signing-private.pem
 admin/data/discovery-review.json
 admin/data/product-acceptance.local.json
 admin/published/catalog-v1.json
 admin/published/catalog-store/
+admin/published/software-update-release.json
+admin/published/software-update-store/
 catalog/channel.json
 updates/channel.json
 deployment/local/public/

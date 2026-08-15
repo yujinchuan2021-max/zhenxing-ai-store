@@ -85,6 +85,15 @@ async function main() {
     [path.join(root, "scripts", "verify-local-service-topology.cjs")],
     { cwd: root, stdio: "inherit", windowsHide: true }
   );
+  execFileSync(
+    process.execPath,
+    [
+      path.join(root, "scripts", "verify-live-local-service-source.cjs"),
+      "--service",
+      "admin"
+    ],
+    { cwd: root, stdio: "inherit", windowsHide: true }
+  );
   const desired = validateCatalog(structuredClone(readJson(catalogPath)));
   const state = readJson(statePath);
   const expectedRevision = state?.draft?.revision || 0;

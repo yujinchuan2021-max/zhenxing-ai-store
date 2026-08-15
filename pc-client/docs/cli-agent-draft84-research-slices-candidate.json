@@ -1,0 +1,87 @@
+{
+  "source": "authoritative revision store",
+  "sourceRevision": 84,
+  "sourceProductCount": 615,
+  "status": "temporary-research-slices-only",
+  "selection": {
+    "productTypes": ["cli", "cli-official", "cli-deploy-only"],
+    "note": "No catalog, active release, history, profile or binding write is implied by this file."
+  },
+  "slices": [
+    {
+      "id": "slice-a",
+      "products": [
+        ["openai", "codex-cli", "managed-ready"],
+        ["anthropic", "claude-code", "managed-ready"],
+        ["bytedance", "bytedance-agent-tars-cli", "managed-ready"],
+        ["comfy", "comfy-cli", "managed-ready"],
+        ["google", "gemini-cli", "managed-ready"],
+        ["google", "google-antigravity-cli", "managed-ready"],
+        ["github", "github-copilot-cli", "managed-ready"],
+        ["anysphere", "cursor-cli", "research-pending"],
+        ["moonshot", "moonshot-kimi-code-cli", "managed-ready"],
+        ["alibaba", "alibaba-qwen-code", "managed-ready"],
+        ["alibaba", "alibaba-qoder-cn-cli", "managed-ready"],
+        ["amazon", "amazon-kiro-cli", "managed-ready"],
+        ["mistral", "mistral-vibe-code-cli", "managed-ready"],
+        ["minimax", "minimax-cli", "managed-ready"],
+        ["huggingface", "hf-cli", "managed-ready"],
+        ["nvidia", "nvidia-nemoclaw-cli", "research-pending"]
+      ]
+    },
+    {
+      "id": "slice-b",
+      "products": [
+        ["openclaw", "openclaw-agent", "managed-ready"],
+        ["openclaw", "openclaw-wsl-gateway", "managed-partial"],
+        ["nousresearch", "nous-hermes-agent", "research-pending"],
+        ["tabnine", "tabnine-cli", "research-pending"],
+        ["deepgram", "deepgram-cli", "managed-ready"],
+        ["pixverse", "pixverse-cli", "managed-ready"],
+        ["browser-use", "browser-use-cli", "research-pending"],
+        ["foundation-agents", "openmanus-cli", "research-pending"],
+        ["foundation-agents", "metagpt-framework", "research-pending"],
+        ["rightnow-ai", "openfang-cli", "managed-ready"],
+        ["zeroclaw-labs", "zeroclaw-cli", "managed-ready"],
+        ["near-ai", "ironclaw-cli", "managed-ready"],
+        ["hkuds", "hkuds-nanobot-cli", "managed-ready"],
+        ["nanoco", "nanoclaw-cli", "research-pending"],
+        ["open-interpreter", "open-interpreter-cli", "managed-ready"],
+        ["factory-ai", "factory-cli", "managed-ready"]
+      ]
+    },
+    {
+      "id": "slice-c",
+      "products": [
+        ["kortix", "kortix-cli", "research-pending"],
+        ["aider", "aider-cli", "managed-ready"],
+        ["continue", "continue-cli", "managed-ready"],
+        ["kilo", "kilo-code-cli", "managed-ready"],
+        ["swe-agent", "mini-swe-agent-cli", "research-pending"],
+        ["letta", "letta-code-cli", "managed-ready"],
+        ["plandex", "plandex-cli", "research-pending"],
+        ["simular-ai", "simular-agent-s-cli", "research-pending"],
+        ["praisonai", "praisonai-cli", "managed-ready"],
+        ["agenticseek", "agenticseek-cli", "research-pending"],
+        ["ruvnet", "ruflo-cli", "managed-ready"],
+        ["amp", "amp-cli", "managed-ready"],
+        ["augment", "augment-auggie-cli", "managed-partial"],
+        ["promptfoo", "promptfoo-cli", "managed-ready"],
+        ["daytona", "daytona-cli", "managed-ready"],
+        ["anytype", "anytype-cli", "deploy-only"]
+      ]
+    }
+  ],
+  "counts": {
+    "uniqueCliOrAgentCommandLineProducts": 48,
+    "managedReady": 32,
+    "managedPartial": 2,
+    "deployOnly": 1,
+    "researchPending": 13
+  },
+  "researchRules": [
+    "Only research-pending entries require new official-source review; do not repeat managed-ready validation.",
+    "A future binding may select only a fixed local module and install profile.",
+    "Backend records must not contain command, args, env, headers, url or script fields."
+  ]
+}

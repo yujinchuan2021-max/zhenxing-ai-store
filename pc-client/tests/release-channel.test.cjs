@@ -55,6 +55,27 @@ test("allows loopback HTTP only for local development", () => {
   );
 });
 
+test("rejects loopback HTTPS outside the local channel", () => {
+  const value = {
+    schemaVersion: 2,
+    kind: "catalog",
+    releaseUrl: "https://localhost:4443/catalog-release.json",
+    allowedReleaseOrigins: ["https://localhost:4443"],
+    trustedKeys: trustedKeys()
+  };
+  assert.throws(
+    () => readReleaseChannel(value, { kind: "catalog" }),
+    /HTTPS/
+  );
+  assert.equal(
+    readReleaseChannel(value, {
+      kind: "catalog",
+      allowLocalhost: true
+    }).releaseUrl,
+    value.releaseUrl
+  );
+});
+
 test("rejects cross-origin releases, credentials, and unknown fields", () => {
   const base = {
     schemaVersion: 2,

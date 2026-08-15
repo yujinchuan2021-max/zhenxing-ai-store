@@ -466,7 +466,7 @@ const newVendors = Object.freeze([
     description: "提供集成 Magic Studio 的视觉设计与内容创作平台。",
     website: "https://www.canva.com/",
     tutorial: "https://www.canva.com/help/",
-    products: [desktopProduct({ id: "canva-windows", name: "Canva", category: "图像创作", description: "集成 Magic Studio AI 创作能力的 Canva Windows 应用。", website: "https://www.canva.com/en_in/download/windows/", home: "https://www.canva.com/", web: "https://www.canva.com/", tutorial: "https://www.canva.com/en_in/newsroom/news/magic-studio/" })]
+    products: [desktopProduct({ id: "canva-windows", name: "Canva for Windows", category: "图像创作", description: "集成 Magic Studio AI 创作能力的 Canva Windows 应用。", website: "https://www.canva.com/en_in/download/windows/", home: "https://www.canva.com/", web: "https://www.canva.com/", tutorial: "https://www.canva.com/en_in/newsroom/news/magic-studio/" })]
   }),
   vendor({
     id: "wondershare",
@@ -601,7 +601,7 @@ const newVendors = Object.freeze([
     description: "提供跨应用的 AI 语音输入和文字整理。",
     website: "https://wisprflow.ai/",
     tutorial: "https://docs.wisprflow.ai/",
-    products: [desktopProduct({ id: "wispr-flow-desktop", name: "Wispr Flow", category: "音频创作", description: "在 Windows 各类应用中提供 AI 语音输入和文字整理。", website: "https://dl.wisprflow.ai/windows/latest", home: "https://wisprflow.ai/", tutorial: "https://docs.wisprflow.ai/articles/2772472373-what-is-flow" })]
+    products: [desktopProduct({ id: "wispr-flow-desktop", name: "Wispr Flow", category: "音频创作", description: "在 Windows 各类应用中提供 AI 语音输入和文字整理。", website: "https://wisprflow.ai/", tutorial: "https://docs.wisprflow.ai/articles/2772472373-what-is-flow" })]
   }),
   vendor({
     id: "qihoo360",

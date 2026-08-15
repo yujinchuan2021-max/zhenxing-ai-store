@@ -3,6 +3,11 @@
 const { restoreDownloadTask } = require("./download-task.cjs");
 
 const EXPIRABLE_PHASES = new Set(["paused", "failed"]);
+const INTERRUPTED_ACTIVE_PHASES = new Set([
+  "starting",
+  "downloading",
+  "pausing"
+]);
 
 function isPlainObject(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
@@ -44,6 +49,30 @@ function inspectValidatedPartial(value, productId) {
   const updatedAtMs = timestampMs(value.updatedAt);
   if (updatedAtMs === null) return { kind: "unsafe" };
   return { kind: "validated", updatedAtMs };
+}
+
+function recoveredPausedTask(task) {
+  return {
+    ...task,
+    phase: "paused",
+    resumable: true,
+    revision: task.revision + 1,
+    errorCode: null,
+    errorMessage: null,
+    logs: [...task.logs, "下载进程已结束，可继续下载"].slice(-40)
+  };
+}
+
+function recoveredCanceledTask(task) {
+  return {
+    ...task,
+    phase: "failed",
+    resumable: false,
+    revision: task.revision + 1,
+    errorCode: "CANCEL_CLEANUP_FAILED",
+    errorMessage: "取消下载后的清理尚未完成，请删除任务后重试",
+    logs: [...task.logs, "取消下载清理待完成"].slice(-40)
+  };
 }
 
 /**
@@ -97,6 +126,35 @@ function planManagedDownloadTaskRecovery({
       continue;
     }
 
+    if (task.phase === "queued") {
+      expiredProductIds.push(productId);
+      changed = true;
+      continue;
+    }
+
+    let partial;
+    if (INTERRUPTED_ACTIVE_PHASES.has(task.phase) || task.phase === "canceling") {
+      try {
+        partial = inspectValidatedPartial(inspectPartial(productId), productId);
+      } catch {
+        partial = { kind: "unsafe" };
+      }
+      if (task.phase === "canceling") {
+        sanitizedRecords[productId] = recoveredCanceledTask(task);
+        if (partial.kind === "validated") {
+          discardPartialProductIds.push(productId);
+        }
+      } else if (partial.kind === "validated") {
+        sanitizedRecords[productId] = recoveredPausedTask(task);
+      } else if (partial.kind === "unsafe") {
+        sanitizedRecords[productId] = recoveredCanceledTask(task);
+      } else {
+        expiredProductIds.push(productId);
+      }
+      changed = true;
+      continue;
+    }
+
     if (!EXPIRABLE_PHASES.has(task.phase)) {
       sanitizedRecords[productId] = task;
       continue;
@@ -112,7 +170,6 @@ function planManagedDownloadTaskRecovery({
       continue;
     }
 
-    let partial;
     try {
       partial = inspectValidatedPartial(inspectPartial(productId), productId);
     } catch {

@@ -28,6 +28,36 @@ test("product entry points preserve the backend-defined button order", () => {
   assert.deepEqual(resolveProductEntryPoints(value), entryPoints);
 });
 
+test("desktop action copy follows the client-owned download contract", () => {
+  const entryPoints = [
+    { type: "website", label: "Official site", url: "https://example.com" },
+    { type: "desktop", label: "Legacy one-click install" }
+  ];
+
+  assert.deepEqual(
+    resolveProductEntryPoints(
+      product({
+        name: "Example",
+        productType: "desktop-official",
+        downloadPolicy: "official-page",
+        entryPoints
+      })
+    ),
+    [entryPoints[0], { type: "desktop", label: "\u524d\u5f80\u5b98\u7f51\u4e0b\u8f7d" }]
+  );
+  assert.deepEqual(
+    resolveProductEntryPoints(
+      product({
+        name: "Example",
+        productType: "desktop-download-only",
+        downloadPolicy: "desktop-download-only",
+        entryPoints
+      })
+    ),
+    [entryPoints[0], { type: "desktop", label: "\u4e00\u952e\u4e0b\u8f7d" }]
+  );
+});
+
 test("product action entries cannot carry backend commands or paths", () => {
   for (const extra of [
     { command: "powershell" },
@@ -95,6 +125,18 @@ test("CLI lifecycle entries remain on independent CLI products", () => {
       product({ entryPoints: [{ type: "cli", label: "CLI 一键安装" }] })
     ),
     /独立 CLI/
+  );
+});
+
+test("legacy deploy-only CLI products retain their deploy action", () => {
+  assert.deepEqual(
+    resolveProductEntryPoints(
+      product({
+        kind: "CLI",
+        productType: "cli-deploy-only"
+      })
+    ).map((entry) => entry.type),
+    ["website", "tutorial", "cli"]
   );
 });
 

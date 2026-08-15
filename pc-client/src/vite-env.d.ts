@@ -15,6 +15,9 @@ type EnvironmentCheck = {
   canUninstall?: boolean;
   canOpen?: boolean;
   version?: string;
+  recommendedVersion?: string;
+  canUpdate?: boolean;
+  updateEnvironmentId?: string;
   detection?: "installed" | "absent" | "unknown";
 };
 
@@ -23,6 +26,7 @@ type EnvironmentReport = {
   architecture: string;
   checkedAt: string;
   checks: EnvironmentCheck[];
+  displayChecks?: EnvironmentCheck[];
   wslDistributions?: Array<{
     name: string;
     environments: Array<{
@@ -41,6 +45,8 @@ type EnvironmentReport = {
 
 type EnvironmentInstallResult = {
   downloaded: boolean;
+  intent?: "install" | "update";
+  recommendedVersion?: string;
   busy?: boolean;
   filePath?: string;
   source?: string;
@@ -59,6 +65,9 @@ type EnvironmentPackageSnapshot = {
 
 type EnvironmentInstallerOpenResult = {
   launched: boolean;
+  intent?: "update";
+  recommendedVersion?: string;
+  requiresRecheck?: boolean;
   canceled?: boolean;
   busy?: boolean;
   exitCode?: number | null;
@@ -205,6 +214,32 @@ type ManagedDownloadTask = {
   logs: string[];
 };
 
+type ManagedDownloadQueueTask = {
+  taskId: string;
+  productId: string;
+  profileId: string;
+  phase: "queued" | "downloading" | "downloaded" | "failed" | "cancelled";
+  progress: {
+    receivedBytes: number;
+    totalBytes: number;
+    bytesPerSecond: number;
+    percent: number | null;
+  };
+  errorCode?: string;
+  presentation: {
+    state: "active" | "failed" | "completed";
+    canCancel: boolean;
+    canRetry: boolean;
+  };
+};
+
+type ManagedDownloadQueueCommandResult = {
+  ok: boolean;
+  reused?: boolean;
+  task?: ManagedDownloadQueueTask;
+  errorCode?: string;
+};
+
 type DownloadTaskCommandResult = {
   ok: boolean;
   canceled?: boolean;
@@ -218,17 +253,6 @@ type ClearCompletedDownloadsResult = {
   canceled?: boolean;
   clearedProductIds: string[];
   errors: Array<{ productId: string; error: string }>;
-};
-
-type InstallerInspection = {
-  ok: boolean;
-  sha256?: string;
-  signatureStatus?: string;
-  signer?: string;
-  architecture?: string;
-  productName?: string;
-  filePath?: string;
-  error?: string;
 };
 
 type DesktopOperationTask = {
@@ -265,7 +289,8 @@ type InstallerLaunchResult = {
   operationTask?: DesktopOperationTask | null;
   verificationMode?:
     | "presence-transition"
-    | "installer-owned-maintenance";
+    | "installer-owned-maintenance"
+    | "manual-installer";
   warning?: string;
   error?: string;
 };
@@ -273,6 +298,7 @@ type InstallerLaunchResult = {
 type DesktopStatus = {
   installed: boolean;
   version: string;
+  availableVersion?: string;
   location: string;
   executable: string;
   appId: string;
@@ -300,17 +326,46 @@ type CatalogBanner = {
   title: string;
   description: string;
   action: string;
+  localized?: {
+    en: { eyebrow: string; title: string; description: string; action: string };
+  };
+};
+
+type CatalogHomeCarouselAction = {
+  label: string;
+  href: string;
+  localized?: { en: { label: string } };
+};
+
+type CatalogHomeSlide = {
+  id: string;
+  imageUrl: string;
+  imageAlt: string;
+  title: string;
+  description: string;
+  localized?: { en: { imageAlt: string; title: string; description: string } };
+  primaryAction: CatalogHomeCarouselAction;
+  secondaryAction?: CatalogHomeCarouselAction;
+  sort: number;
+  enabled: boolean;
+};
+
+type CatalogHomeCarousel = {
+  autoplayMs: number;
+  slides: CatalogHomeSlide[];
 };
 
 type CatalogBrand = {
   name: string;
   mark: string;
   slogan: string;
+  localized?: { en: { slogan: string } };
 };
 
 type CatalogExtraSection = {
   id: string;
   title: string;
+  localized?: { en: { title: string } };
   description: string;
   url: string;
   enabled: boolean;
@@ -319,13 +374,13 @@ type CatalogExtraSection = {
 type CatalogCommunity = {
   title: string;
   description: string;
+  localized?: { en: { title: string; description: string } };
   provider: string;
   url: string;
   enabled: boolean;
 };
 
 type RemoteCatalog = {
-  schemaVersion: 1 | 2;
   updatedAt?: string;
   categories?: import("./data").ProductCategory[];
   brand?: CatalogBrand;
@@ -335,10 +390,14 @@ type RemoteCatalog = {
     banners: CatalogBanner[];
     featuredVendorIds: string[];
   };
+  homeCarousel?: CatalogHomeCarousel;
   vendors: import("./data").Vendor[];
   resourceStores?: import("./data").ResourceStore[];
   resources?: import("./data").EcosystemResource[];
-};
+} & (
+  | { schemaVersion: 1 | 2; resourceConnections?: never }
+  | { schemaVersion: 3; resourceConnections: import("./data").ResourceConnection[] }
+);
 
 type ClientInstallProfile = {
   id: string;
@@ -348,7 +407,8 @@ type ClientInstallProfile = {
   vendorId: string;
   productType: string;
   kind: string;
-  mode: "managed-installer" | "managed-cli";
+  mode: "managed-installer" | "managed-package-manager" | "managed-cli";
+  downloadPolicy?: "package-manager";
   requirements: string[];
   capabilities: string[];
   download?: { url: string; fileName: string };
@@ -391,6 +451,14 @@ type UpdateCheckResult = {
   message: string;
 };
 
+type SoftwareUpdateCheckResult = {
+  status: "disabled" | "current" | "available" | "error";
+  releaseVersion?: number;
+  publishedAt?: string;
+  publishedEntries: number;
+  message: string;
+};
+
 type UpdateInstallResult = {
   ok: boolean;
   stage: "offer" | "download" | "confirmation" | "launch" | "launched";
@@ -420,6 +488,72 @@ type IdentitySnapshot =
       user: IdentityUser;
       sessionId: string;
     };
+
+type IdentityLoginResult =
+  | { ok: true; value: Extract<IdentitySnapshot, { status: "authenticated" }> }
+  | {
+      ok: false;
+      error: {
+        code: string;
+        status: number;
+        messageKey:
+          | "identity.login.failed"
+          | "identity.login.invalid"
+          | "identity.login.invalidCredentials"
+          | "identity.login.rateLimited"
+          | "identity.login.serviceUnavailable";
+      };
+    };
+
+type PublicIdentityUser = {
+  id: string;
+  username: string;
+  profile: {
+    nickname: string;
+    avatarUrl: string;
+    bio: string;
+  };
+  social: {
+    followers: number;
+    following: number;
+    isFollowing: boolean;
+    isMe: boolean;
+  };
+};
+
+type DirectMessage = {
+  id: string;
+  senderUserId: string;
+  recipientUserId: string;
+  body: string;
+  readAt: string | null;
+  createdAt: string;
+};
+
+type DirectConversation = {
+  peer: PublicIdentityUser;
+  lastMessage: DirectMessage;
+  unreadCount: number;
+};
+
+type IdentityUserPage = {
+  users: PublicIdentityUser[];
+  hasMore: boolean;
+  nextOffset: number | null;
+};
+
+type DirectConversationPage = {
+  conversations: DirectConversation[];
+  hasMore: boolean;
+  nextOffset: number | null;
+};
+
+type DirectMessagePage = {
+  peer: PublicIdentityUser;
+  messages: DirectMessage[];
+  hasMore: boolean;
+  nextBefore: string | null;
+};
 
 type RegistrationChallenge = {
   challengeId: string;
@@ -462,8 +596,20 @@ type PersonalCenterSnapshot = {
   sessions: IdentityDeviceSession[];
   notifications: PersonalCenterNotification[];
   interactions: CommunityInteraction[];
+  social: {
+    followers: number;
+    following: number;
+  };
+  readingHistory: Array<{
+    discussionId: string;
+    title: string;
+    path: string;
+    viewedAt: string;
+  }>;
+  readingHistoryCapped: boolean;
   summary: {
     unreadNotifications: number;
+    unreadDirectMessages: number;
     favorites: number;
     likes: number;
   };
@@ -479,6 +625,20 @@ type CommunityEmbedSession = {
   origin: string;
   expiresAt: string;
 };
+
+type CommunityEmbedSessionResult =
+  | { ok: true; value: CommunityEmbedSession }
+  | {
+      ok: false;
+      error: {
+        code: "SESSION_REVOKED" | "TEMPORARILY_UNAVAILABLE" | "INVALID_IDENTITY_RESPONSE";
+        status: 401 | 502 | 503;
+        messageKey:
+          | "community.sessionExpired"
+          | "community.serviceUnavailable"
+          | "community.invalidResponse";
+      };
+    };
 
 type IdentityDeviceSession = {
   id: string;
@@ -533,6 +693,7 @@ type CliDeployResult = {
 type CliStatus = {
   installed: boolean;
   version: string;
+  availableVersion?: string;
   directory: string;
   detection: "installed" | "absent" | "unknown";
   managed: boolean;
@@ -612,6 +773,307 @@ type ExtensionRuntimeAction =
   | "disable"
   | "uninstall";
 
+type ResourceSubmissionKind =
+  | "vendor"
+  | "agent"
+  | "skill"
+  | "mcp"
+  | "plugin"
+  | "connector"
+  | "workflow";
+
+type ResourceSubmissionProposal = {
+  submissionKind: ResourceSubmissionKind;
+  title: string;
+  summary: string;
+  canonicalSource: string;
+  originalAuthorIdentityId?: string | null;
+  originalAuthor?: string | null;
+  organization?: string | null;
+  ownershipClaim?: {
+    kind: "author" | "organization";
+    evidenceRefs: string[];
+  } | null;
+  licenseId?: string | null;
+  sourceRevision?: string | null;
+  catalogReferences?: Array<{
+    kind: "product" | "resource";
+    canonicalId: string;
+    hostProductId?: string | null;
+  }>;
+  hostTuples?: Array<{
+    kind: "resource";
+    canonicalId: string;
+    hostProductId: string;
+    bindingKind:
+      | "skill-context"
+      | "mcp-tool"
+      | "mcp-resource"
+      | "mcp-prompt"
+      | "plugin-host-extension"
+      | "connector-authorized-connection";
+  }>;
+  platforms?: string[];
+  scenarioTags?: string[];
+  rawTags?: string[];
+  agentCompatibility?: string[];
+  evidenceRefs?: string[];
+  discoveredVia?: string | null;
+  workflowRef?: { workflowId: string; version: string } | null;
+};
+
+type OwnerSubmission = {
+  submissionId: string;
+  expectedRevision: number;
+  status:
+    | "draft"
+    | "submitted"
+    | "triaged"
+    | "needs-evidence"
+    | "accepted"
+    | "rejected"
+    | "withdrawn"
+    | "merged";
+  proposal: ResourceSubmissionProposal;
+  allowedActions: Array<"update" | "submit" | "evidence" | "withdraw">;
+  evidenceRequired: boolean;
+};
+
+type ResourceSubmissionCapability = {
+  enabled: boolean;
+  supportedKinds: ResourceSubmissionKind[];
+  temporarilyUnavailableKinds?: ResourceSubmissionKind[];
+  authenticationRequired: true;
+  proposalSchemaVersion: 1;
+};
+
+type OwnerSubmissionPage = {
+  items: OwnerSubmission[];
+  page: { offset: number; limit: number; nextOffset: number | null };
+};
+
+type SubmissionMessageKey =
+  | "resources.submit.loginRequired"
+  | "resources.submit.conflict"
+  | "resources.submit.rateLimited"
+  | "resources.submit.serviceUnavailable"
+  | "resources.submit.unavailable"
+  | "resources.submit.invalid"
+  | "resources.submit.failed";
+
+type SubmissionIpcResult<T> =
+  | { ok: true; value: T }
+  | { ok: false; error: { code: string; status: number; messageKey: SubmissionMessageKey } };
+
+type WorkflowStoreMessageKey =
+  | "workflow.store.loginRequired"
+  | "workflow.store.accessDenied"
+  | "workflow.store.notFound"
+  | "workflow.store.conflict"
+  | "workflow.store.rateLimited"
+  | "workflow.store.unavailable"
+  | "workflow.store.invalid"
+  | "workflow.store.serviceUnavailable"
+  | "workflow.store.failed";
+
+type WorkflowIpcResult<T> =
+  | { ok: true; value: T }
+  | { ok: false; error: { code: string; status: number; messageKey: WorkflowStoreMessageKey } };
+
+type WorkflowStoreCapability = {
+  enabled: boolean;
+  schemaVersion: number;
+  execution: boolean;
+  workflowSubmissionLookup: boolean;
+};
+
+type OwnerWorkflowDependency =
+  | { kind: "product"; canonicalId: string; permissions: string[] }
+  | {
+      kind: "resource";
+      canonicalId: string;
+      hostProductId: string;
+      bindingKind: string;
+      permissions: string[];
+    };
+
+type OwnerWorkflowContent = {
+  title: string;
+  summary: string;
+  inputs: Array<{ name: string; type: string; required: boolean; description: string }>;
+  outputs: Array<{ name: string; type: string; description: string }>;
+  instructions: string[];
+  dependencies: OwnerWorkflowDependency[];
+  secretPlaceholders: Array<{ name: string; description: string }>;
+};
+
+type OwnerWorkflowDraft = {
+  sourceCommunityPostId: string;
+  provenance: {
+    licenseId: string;
+    derivedFrom: Array<{ workflowId: string; version: string }>;
+    discoveredVia: Array<{ kind: string; canonicalId: string }>;
+  };
+  content: OwnerWorkflowContent;
+};
+
+type OwnerWorkflow = OwnerWorkflowDraft & {
+  workflowId: string;
+  expectedRevision: number;
+  status: string;
+  latestReleaseVersion: number | null;
+  rejectionReason: string | null;
+  postReferences: Array<{
+    communityPostId: string;
+    card: { workflowId: string; version: number };
+    attachedAt: string;
+  }>;
+  allowedActions: string[];
+};
+
+type OwnerWorkflowPage = { items: OwnerWorkflow[]; next: string | null };
+
+type WorkflowPublicMessageKey = WorkflowStoreMessageKey | "workflow.public.unavailable";
+
+type WorkflowPublicIpcResult<T> =
+  | { ok: true; value: T }
+  | { ok: false; error: { code: string; status: number; messageKey: WorkflowPublicMessageKey } };
+
+type WorkflowPublicCapability = {
+  enabled: boolean;
+  schemaVersion: number;
+  execution: false;
+};
+
+type PublicWorkflow = {
+  workflowId: string;
+  version: number;
+  author: { displayName: string };
+  originalAuthorDisplayName?: string;
+  sourceCommunityPostId: string;
+  provenance: {
+    canonicalSource: { kind: "community-post"; canonicalId: string };
+    licenseId: string;
+    derivedFrom: Array<{ workflowId: string; version: number }>;
+  };
+  content: {
+    title: string;
+    summary: string;
+    inputs: Array<{ name: string; type: string; required: boolean; description: string }>;
+    outputs: Array<{ name: string; type: string; description: string }>;
+    instructions: string[];
+    dependencies: OwnerWorkflowDependency[];
+  };
+  reviewStatus: "automated-reviewed" | "manually-reviewed";
+  riskLevel: "low" | "guarded";
+  requiresPerUseConfirmation: boolean;
+  releasedAt: string;
+};
+
+type PublicWorkflowPage = { items: PublicWorkflow[]; next: string | null };
+
+type LocalAgentBridgeMessageKey =
+  | "agent.bridge.disabled"
+  | "agent.bridge.invalid"
+  | "agent.bridge.notFound"
+  | "agent.bridge.unavailable";
+
+type LocalAgentBridgeIpcResult<T> =
+  | { ok: true; value: T }
+  | { ok: false; error: { code: string; status: number; messageKey: LocalAgentBridgeMessageKey } };
+
+type LocalAgentBridgeCapability = {
+  schemaVersion: 1;
+  enabled: boolean;
+  execution: false;
+  operations: Array<"search" | "get" | "plan" | "request">;
+};
+
+type LocalAgentBridgeItemKind = "product" | "resource" | "workflow";
+
+type LocalAgentBridgeSearchItem = {
+  kind: LocalAgentBridgeItemKind;
+  id: string;
+  version?: number;
+  title: string;
+  summary?: string;
+  source: "signed-catalog" | "workflow-release";
+};
+
+type LocalAgentBridgeSearchResult = {
+  items: LocalAgentBridgeSearchItem[];
+};
+
+type LocalAgentBridgeGetResult = LocalAgentBridgeSearchItem;
+
+type LocalAgentBridgePlanResult = {
+  planId: string;
+  status: "ready" | "confirmation-required" | "blocked";
+  reason?: string;
+  workflow: { workflowId: string; version: number; title: string };
+  capabilities: Array<{
+    capabilityKey: string;
+    label: string;
+    status: "ready" | "confirmation-required" | "blocked";
+    reason?: string;
+  }>;
+};
+
+type LocalAgentBridgeRequestResult = {
+  requestId: string;
+  planId: string;
+  capabilityKey: string;
+  status: "pending-user-confirmation";
+  expiresAt: string;
+};
+
+type FixedCliLifecycleMessageKey =
+  | "cli.lifecycle.invalidInput"
+  | "cli.lifecycle.inputTooLarge"
+  | "cli.lifecycle.unavailable"
+  | "cli.lifecycle.catalogUnavailable"
+  | "cli.lifecycle.catalogMismatch"
+  | "cli.lifecycle.capabilityDisabled";
+
+type FixedCliLifecycleResult<T> =
+  | { ok: true; value: T }
+  | { ok: false; error: { code: string; status: number; messageKey: FixedCliLifecycleMessageKey } };
+
+type FixedCliLifecycleStatus = {
+  productId?: string;
+  installed: boolean;
+  managed: boolean;
+  detection: string;
+  version?: string;
+};
+
+type FixedCliLifecyclePlan = {
+  planId: string;
+  productId: string;
+  profileId: string;
+  moduleId: string;
+  operation: "install" | "update" | "repair" | "uninstall";
+  driver: string;
+  requirements: string[];
+  receiptRequired: boolean;
+  rollbackRequired: boolean;
+  state: "confirmation-required";
+};
+
+type FixedCliLifecycleConfirmation = {
+  planId: string;
+  confirmationId: string;
+  state: "confirmed";
+};
+
+type FixedCliLifecycleApplyResult = {
+  planId: string;
+  state: string;
+  receipt: { ownership: "aihub" | "none"; action: string; persisted: boolean; version: string } | null;
+  status?: FixedCliLifecycleStatus;
+  rollback: { required: boolean; executed: boolean };
+};
+
 type ExtensionInventoryEntry = ExtensionRuntimeResult & {
   profileId: string;
   label: string;
@@ -624,6 +1086,7 @@ interface Window {
     getCatalog(): Promise<CatalogResult>;
     scanManagedInventory(): Promise<ManagedProductInventorySnapshot>;
     checkForUpdate(): Promise<UpdateCheckResult>;
+    checkSoftwareUpdates(): Promise<SoftwareUpdateCheckResult>;
     openUpdateDownload(): Promise<UpdateInstallResult>;
     listExtensions(): Promise<ExtensionInventoryEntry[]>;
     getExtensionStatus(profileId: string): Promise<ExtensionRuntimeResult>;
@@ -647,7 +1110,7 @@ interface Window {
     login(input: {
       identifier: string;
       password: string;
-    }): Promise<IdentitySnapshot>;
+    }): Promise<IdentityLoginResult>;
     logout(): Promise<IdentitySnapshot>;
     listIdentitySessions(): Promise<IdentityDeviceSession[]>;
     revokeIdentitySession(
@@ -655,7 +1118,6 @@ interface Window {
     ): Promise<{ ok: boolean; revokedCurrent: boolean }>;
     updateIdentityProfile(input: {
       nickname: string;
-      avatarUrl?: string;
       bio?: string;
     }): Promise<IdentitySnapshot>;
     updateIdentityAvatar(input: {
@@ -678,6 +1140,177 @@ interface Window {
       newPassword: string;
     }): Promise<{ ok: boolean }>;
     getPersonalCenter(): Promise<PersonalCenterSnapshot>;
+    getSubmissionCapability(): Promise<SubmissionIpcResult<ResourceSubmissionCapability>>;
+    createSubmission(input: {
+      idempotencyKey: string;
+      submission: ResourceSubmissionProposal;
+    }): Promise<SubmissionIpcResult<OwnerSubmission>>;
+    listOwnSubmissions(input?: {
+      offset?: number;
+      limit?: number;
+    }): Promise<SubmissionIpcResult<OwnerSubmissionPage>>;
+    getOwnSubmission(input: {
+      submissionId: string;
+    }): Promise<SubmissionIpcResult<OwnerSubmission>>;
+    updateSubmissionDraft(input: {
+      submissionId: string;
+      expectedRevision: number;
+      submission: ResourceSubmissionProposal;
+    }): Promise<SubmissionIpcResult<OwnerSubmission>>;
+    submitSubmission(input: {
+      submissionId: string;
+      expectedRevision: number;
+    }): Promise<SubmissionIpcResult<OwnerSubmission>>;
+    addSubmissionEvidence(input: {
+      submissionId: string;
+      expectedRevision: number;
+      evidenceRefs: string[];
+    }): Promise<SubmissionIpcResult<OwnerSubmission>>;
+    withdrawSubmission(input: {
+      submissionId: string;
+      expectedRevision: number;
+    }): Promise<SubmissionIpcResult<OwnerSubmission>>;
+    getWorkflowStoreCapability(): Promise<WorkflowIpcResult<WorkflowStoreCapability>>;
+    createWorkflowDraft(input: {
+      idempotencyKey: string;
+      draft: OwnerWorkflowDraft;
+    }): Promise<WorkflowIpcResult<OwnerWorkflow>>;
+    listOwnWorkflowDrafts(input?: {
+      limit?: number;
+      after?: string;
+    }): Promise<WorkflowIpcResult<OwnerWorkflowPage>>;
+    getOwnWorkflowDraft(input: { workflowId: string }): Promise<WorkflowIpcResult<OwnerWorkflow>>;
+    updateWorkflowDraft(input: {
+      idempotencyKey: string;
+      workflowId: string;
+      expectedRevision: number;
+      content: OwnerWorkflowContent;
+    }): Promise<WorkflowIpcResult<OwnerWorkflow>>;
+    submitWorkflowDraft(input: {
+      idempotencyKey: string;
+      workflowId: string;
+      expectedRevision: number;
+    }): Promise<WorkflowIpcResult<OwnerWorkflow>>;
+    withdrawWorkflowDraft(input: {
+      idempotencyKey: string;
+      workflowId: string;
+      expectedRevision: number;
+    }): Promise<WorkflowIpcResult<OwnerWorkflow>>;
+    attachWorkflowPost(input: {
+      idempotencyKey: string;
+      workflowId: string;
+      expectedRevision: number;
+      version: number;
+      communityPostId: string;
+    }): Promise<WorkflowIpcResult<{ draft: OwnerWorkflow; postReference: OwnerWorkflow["postReferences"][number] | null }>>;
+    detachWorkflowPost(input: {
+      idempotencyKey: string;
+      workflowId: string;
+      expectedRevision: number;
+      version: number;
+      communityPostId: string;
+    }): Promise<WorkflowIpcResult<{ draft: OwnerWorkflow; postReference: OwnerWorkflow["postReferences"][number] | null }>>;
+    reportWorkflowRelease(input: {
+      idempotencyKey: string;
+      workflowId: string;
+      version: number;
+      reason: string;
+    }): Promise<WorkflowIpcResult<{ reportId: string; workflowId: string; version: number; status: string; createdAt: string }>>;
+    getWorkflowPublicCapability(): Promise<WorkflowPublicIpcResult<WorkflowPublicCapability>>;
+    listPublicWorkflows(input?: {
+      limit?: number;
+      after?: string;
+      riskLevel?: "low" | "guarded";
+    }): Promise<WorkflowPublicIpcResult<PublicWorkflowPage>>;
+    getPublicWorkflow(input: {
+      workflowId: string;
+      version: number;
+    }): Promise<WorkflowPublicIpcResult<PublicWorkflow>>;
+    resolvePublicWorkflow(input: {
+      workflowId: string;
+      version: number;
+    }): Promise<WorkflowPublicIpcResult<PublicWorkflow>>;
+    getLocalAgentBridgeCapability(): Promise<LocalAgentBridgeIpcResult<LocalAgentBridgeCapability>>;
+    searchLocalAgentBridge(input: {
+      kind: LocalAgentBridgeItemKind;
+      query: string;
+      limit: number;
+      visibility?: "public" | "private";
+      agentId?: string;
+      sessionId?: string;
+    }): Promise<LocalAgentBridgeIpcResult<LocalAgentBridgeSearchResult>>;
+    getLocalAgentBridge(input: {
+      kind: LocalAgentBridgeItemKind;
+      id: string;
+      version?: number;
+      visibility?: "public" | "private";
+      agentId?: string;
+      sessionId?: string;
+    }): Promise<LocalAgentBridgeIpcResult<LocalAgentBridgeGetResult>>;
+    planLocalAgentBridge(input: {
+      agentId: string;
+      sessionId: string;
+      agentProductId: string;
+      workflowId: string;
+      version: number;
+      useId: string;
+    }): Promise<LocalAgentBridgeIpcResult<LocalAgentBridgePlanResult>>;
+    requestLocalAgentBridge(input: {
+      agentId: string;
+      sessionId: string;
+      planId: string;
+      capabilityKey: string;
+      useId: string;
+    }): Promise<LocalAgentBridgeIpcResult<LocalAgentBridgeRequestResult>>;
+    planFixedCliLifecycle(input: {
+      productId: string;
+      operation: "install" | "update" | "repair" | "uninstall";
+      useId: string;
+    }): Promise<FixedCliLifecycleResult<FixedCliLifecyclePlan>>;
+    confirmFixedCliLifecycle(input: {
+      planId: string;
+      useId: string;
+      confirmationId: string;
+    }): Promise<FixedCliLifecycleResult<FixedCliLifecycleConfirmation>>;
+    applyFixedCliLifecycle(input: {
+      planId: string;
+      useId: string;
+      confirmationId: string;
+      dryRun: boolean;
+    }): Promise<FixedCliLifecycleResult<FixedCliLifecycleApplyResult>>;
+    getFixedCliLifecycleStatus(input: {
+      productId: string;
+    }): Promise<FixedCliLifecycleResult<FixedCliLifecycleStatus>>;
+    recheckFixedCliLifecycle(input: {
+      productId: string;
+    }): Promise<FixedCliLifecycleResult<FixedCliLifecycleStatus>>;
+    getIdentityUserByUsername(username: string): Promise<PublicIdentityUser>;
+    listIdentityFollowers(options?: {
+      limit?: number;
+      offset?: number;
+    }): Promise<IdentityUserPage>;
+    listIdentityFollowing(options?: {
+      limit?: number;
+      offset?: number;
+    }): Promise<IdentityUserPage>;
+    followIdentityUser(userId: string): Promise<{ ok: boolean }>;
+    unfollowIdentityUser(userId: string): Promise<{ ok: boolean }>;
+    listDirectConversations(options?: {
+      limit?: number;
+      offset?: number;
+    }): Promise<DirectConversationPage>;
+    listDirectMessages(
+      peerUserId: string,
+      options?: { limit?: number; before?: string }
+    ): Promise<DirectMessagePage>;
+    sendDirectMessage(
+      peerUserId: string,
+      input: { body: string }
+    ): Promise<DirectMessage>;
+    markDirectMessagesRead(
+      peerUserId: string,
+      throughMessageId: string
+    ): Promise<{ ok: boolean }>;
     markPersonalCenterNotificationRead(
       source: "account" | "community",
       notificationId: string
@@ -696,7 +1329,7 @@ interface Window {
         liked: boolean;
       }
     ): Promise<CommunityInteraction>;
-    createCommunityEmbedSession(): Promise<CommunityEmbedSession>;
+    createCommunityEmbedSession(): Promise<CommunityEmbedSessionResult>;
     getSettings(): Promise<PCSettings>;
     setLanguage(language: "zh" | "en"): Promise<PCSettings>;
     chooseDownloadDirectory(): Promise<PCSettings>;
@@ -708,10 +1341,14 @@ interface Window {
     scanEnvironment(): Promise<EnvironmentReport>;
     openEnvironmentLocation(environmentId: string): Promise<boolean>;
     installEnvironment(environmentId: string): Promise<EnvironmentInstallResult>;
+    updateEnvironment(environmentId: string): Promise<EnvironmentInstallResult>;
     getEnvironmentPackage(
       environmentId: string
     ): Promise<EnvironmentPackageSnapshot | null>;
     openEnvironmentInstaller(
+      environmentId: string
+    ): Promise<EnvironmentInstallerOpenResult>;
+    openEnvironmentUpdater(
       environmentId: string
     ): Promise<EnvironmentInstallerOpenResult>;
     getEnvironmentOperation(
@@ -725,10 +1362,21 @@ interface Window {
     uninstallEnvironment(
       environmentId: string
     ): Promise<EnvironmentUninstallResult>;
-    startDownload(productId: string): Promise<DownloadTaskCommandResult>;
-    refreshDownload(productId: string): Promise<DownloadTaskCommandResult>;
+    startDownload(productId: string, artifact?: { url: string; fileName: string; artifactKind?: "exe" | "msi" | "msix" | "zip"; mirrors?: string[] }): Promise<DownloadTaskCommandResult>;
+    refreshDownload(productId: string, artifact?: { url: string; fileName: string; artifactKind?: "exe" | "msi" | "msix" | "zip"; mirrors?: string[] }): Promise<DownloadTaskCommandResult>;
     pauseDownload(productId: string): Promise<DownloadTaskCommandResult>;
-    cancelDownload(productId: string): Promise<DownloadTaskCommandResult>;
+    cancelDownload(input: { productId: string; taskId: string; confirmed: true }): Promise<DownloadTaskCommandResult>;
+    enqueueManagedDownload(input: {
+      productId: string;
+      artifact?: { url: string; fileName: string; artifactKind?: "exe" | "msi" | "msix" | "zip"; mirrors?: string[] };
+    }): Promise<ManagedDownloadQueueCommandResult>;
+    listManagedDownloadTasks(): Promise<ManagedDownloadQueueTask[]>;
+    getManagedDownloadTaskStatus(input: { productId: string }): Promise<ManagedDownloadQueueCommandResult>;
+    cancelManagedDownload(input: { productId: string; taskId: string; confirmed: true }): Promise<ManagedDownloadQueueCommandResult>;
+    retryManagedDownload(input: {
+      productId: string;
+      artifact?: { url: string; fileName: string; artifactKind?: "exe" | "msi" | "msix" | "zip"; mirrors?: string[] };
+    }): Promise<ManagedDownloadQueueCommandResult>;
     getDownloadTask(productId: string): Promise<ManagedDownloadTask | null>;
     getPartialDownload(
       productId: string
@@ -744,7 +1392,6 @@ interface Window {
     deleteDownloadedPackage(
       productId: string
     ): Promise<DownloadTaskCommandResult>;
-    inspectInstaller(productId: string): Promise<InstallerInspection>;
     launchInstaller(
       productId: string,
       intent: "install" | "reinstall" | "refresh"
@@ -758,6 +1405,16 @@ interface Window {
       operationId: string
     ): Promise<DesktopOperationTask | null>;
     getDesktopStatus(productId: string): Promise<DesktopStatus>;
+    updateDesktopProduct(productId: string): Promise<{
+      ok: boolean;
+      canceled?: boolean;
+      launched?: boolean;
+      busy?: boolean;
+      status?: DesktopStatus;
+      operationTask?: DesktopOperationTask | null;
+      warning?: string;
+      error?: string;
+    }>;
     uninstallDesktopProduct(
       productId: string
     ): Promise<DesktopUninstallResult>;

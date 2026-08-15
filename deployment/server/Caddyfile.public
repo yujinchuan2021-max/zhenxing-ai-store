@@ -1,0 +1,29 @@
+{
+	admin off
+}
+
+(public_headers) {
+	header {
+		-Server
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+	}
+}
+
+http://{$AIHUB_SERVER_IP} {
+	import public_headers
+	encode zstd gzip
+
+	@health path /health
+  handle @health {
+    header Content-Type application/json
+    header Cache-Control no-store
+    respond `{"status":"ok","mode":"public-ip"}` 200
+  }
+
+	handle {
+		header X-Frame-Options "DENY"
+    reverse_proxy website:3000
+  }
+}

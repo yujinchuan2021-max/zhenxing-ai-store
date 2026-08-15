@@ -1,5 +1,9 @@
 "use strict";
 
+const {
+  windowsPowerShellPath
+} = require("./windows-system-paths.cjs");
+
 const SAFE_PACKAGE_FULL_NAME = /^[A-Za-z0-9._-]{1,300}$/;
 const SAFE_IDENTITY_NAME = /^[A-Za-z0-9.]{1,120}$/;
 
@@ -43,7 +47,7 @@ function createAppxUninstallAction(entry, policy) {
     `Remove-AppxPackage -Package '${packageFullName}' -ErrorAction Stop`
   ].join(";");
   return {
-    executable: "powershell.exe",
+    executable: windowsPowerShellPath(),
     args: ["-NoProfile", "-NonInteractive", "-Command", script],
     packageFullName
   };

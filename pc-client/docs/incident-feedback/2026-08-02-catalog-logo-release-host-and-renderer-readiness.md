@@ -19,6 +19,7 @@
 2. 浏览器开发预览保留了签名目录中的绝对 HTTPS 图片地址，绕过了已有的 Vite 同源后台代理。
 3. 旧客户端验收只等待 preload API 可用，没有等待渲染器真正应用远程目录。
 4. 后台在 `AIHUB_CATALOG_ASSET_ORIGIN` 缺失时跳过发布转换，可能把仅新客户端认识的 `iconAsset` 直接签入活动目录，而不是明确拒绝发布。
+5. 2026-08-04 再次出现时，宿主机通过 `node admin/server.cjs` 启动后台，绕过了 Docker Compose 中固定的 `AIHUB_CATALOG_ASSET_ORIGIN=https://localhost:4443`；草稿保存与校验成功，但签名发布被安全门禁拒绝为“目录 Logo 发布来源无效”。
 
 ## 被排除的错误猜测
 
@@ -32,6 +33,7 @@
 - 本地发布资产源统一为 `https://localhost:4443`，并发布新的不可变目录 v43；不修改已经发布的 v42。
 - 后台草稿继续保存 `iconAsset`，发布时为旧客户端转换为受控主机下的内容寻址 `iconUrl`。
 - 后台发布现在始终经过同一兼容转换；目录含有 `iconAsset` 但未配置有效资产 origin 时直接失败，完全没有 `iconAsset` 的历史兼容目录仍可正常发布。
+- `npm run admin` 改为统一入口 `scripts/start-local-admin.cjs`；宿主后台默认补齐与本地 HTTPS 发布服务一致的资产源，直接运行底层 `admin/server.cjs` 不再作为受支持的启动方式。
 - 新客户端只接受 `localhost`、回环地址或 `zhenxingai.com` 体系下的 `vendor-icons/<sha>.<ext>`，拒绝任意图片热链。
 - 开发预览把已验证的绝对 Logo URL 改写到 `/__aihub-local-catalog/vendor-icons/...`，由 Vite 同源代理读取。
 - 打包客户端验收不再把可能与内置目录相同的品牌文案当作就绪标记；它直接导航远程目录中的已知资源，并兼容旧版平铺资源 DOM 与新版三级资源 DOM。只有真实资源进入 DOM 后才继续 Skill 和下载动作。
@@ -45,11 +47,13 @@
 - 第三批扩充后，0.1.27 Portable 再次接受目录 v44（158 个厂商），实际解码 200×200 Logo，并通过新版资源就绪门禁完成 Skill 安装/卸载及 OpenClaw 1 MiB 以上下载/暂停。
 - 全量发布测试、生产构建和本地 HTTPS 发布服务器测试通过。
 - 聚焦测试覆盖“有 Logo 资产但缺 origin 必须拒绝”和“无 Logo 资产时不被无关 origin 配置阻塞”。
+- 宿主后台统一入口启动后，保存过的 revision 74 草稿可以继续完成签名发布，不需要删除草稿或绕过 Logo 来源门禁。
 
 ## 防复发门禁
 
 - 发布测试必须断言 Logo URL 的主机与实际发布证书入口一致。
 - 发布服务不得在缺少资产 origin 时原样签出 `iconAsset`；只有不需要资产物化的目录可以省略该配置。
+- 本地后台只能通过 `npm run admin` 或带等价环境的 Docker Compose 启动；封包前先检查 `/ready` 并执行一次后台发布，禁止直接运行 `node admin/server.cjs`。
 - 开发预览测试必须覆盖旧客户端形式的绝对 `iconUrl` 到同源代理的改写。
 - 打包客户端测试必须验证图片 `onload` 和非零尺寸，不能只验证目录 JSON。
 - UI 自动化必须等待远程目录中的具体资源进入 DOM，不能把 preload API 返回或共享品牌文案当作渲染完成。

@@ -3,6 +3,11 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 
+const {
+  INSTALL_MODES,
+  getInstallRegistration
+} = require("../shared/install-registry.cjs");
+
 const catalog = require("../admin/data/catalog-v1.json");
 const fallbacks = require("../admin/data/vendor-icon-fallbacks.json");
 const {
@@ -54,7 +59,16 @@ test("the final research closure is exactly 19 products and three link-only MCP 
   for (const productId of PRODUCT_IDS) {
     const matches = products.filter((product) => product.id === productId);
     assert.equal(matches.length, 1, productId);
-    assert.equal(matches[0].installProfileId, "", productId);
+    const registration = getInstallRegistration(productId);
+    assert.equal(
+      matches[0].installProfileId,
+      registration?.mode === INSTALL_MODES.MANAGED_PACKAGE_MANAGER
+        ? registration.profileId
+        : productId === "pixverse-cli"
+          ? "cli.pixverse"
+          : "",
+      productId
+    );
     assert.equal("download" in matches[0], false, productId);
   }
   for (const resource of resourceDefinitions) {
@@ -98,7 +112,7 @@ test("Adobe and Superhuman Docs update existing identities instead of duplicatin
   assert.equal(adobe[0].website, "https://www.adobe.com/download/creative-cloud");
   assert.deepEqual(
     adobe[0].entryPoints.map((entry) => entry.type),
-    ["website", "desktop", "tutorial"]
+    ["website", "tutorial", "desktop"]
   );
 
   const docsVendor = catalog.vendors.filter((vendor) => vendor.id === "coda");
@@ -124,7 +138,11 @@ test("new CLIs are separate command-line products, not desktop buttons", () => {
   for (const productId of ["pixverse-cli", "anytype-cli"]) {
     const product = byId.get(productId);
     assert.equal(product.kind, "CLI", productId);
-    assert.equal(product.productType, "cli-official", productId);
+    assert.equal(
+      product.productType,
+      productId === "pixverse-cli" ? "cli" : "cli-official",
+      productId
+    );
     assert.match(product.description, /命令行/, productId);
     assert.equal(
       product.entryPoints.some((entry) => entry.type === "desktop"),

@@ -5,7 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const PRODUCT_ID = /^[a-z0-9][a-z0-9-]{0,79}$/;
-const DISTRIBUTION = /^[a-z0-9][a-z0-9._-]{0,127}$/;
+const DISTRIBUTION = /^[a-z0-9][a-z0-9._-]{0,127}$/i;
 const VERSION = /^[0-9A-Za-z][0-9A-Za-z._+-]{0,127}$/;
 const COMMAND = /^[a-z0-9][a-z0-9-]{0,63}$/i;
 const SHA256 = /^[a-f0-9]{64}$/;
@@ -41,6 +41,10 @@ function validPlan(productId, plan) {
       (!Number.isInteger(plan.maximumPythonMinor) ||
         plan.maximumPythonMinor < plan.minimumPythonMinor ||
         plan.maximumPythonMinor > 99)) ||
+    (plan.pythonEnvironmentId !== undefined &&
+      !["python", "python312"].includes(plan.pythonEnvironmentId)) ||
+    (plan.pythonEnvironmentId === "python312" &&
+      (plan.minimumPythonMinor !== 12 || plan.maximumPythonMinor !== 12)) ||
     plan.architecture !== "x64" ||
     !SHA256.test(String(plan.wheel?.sha256 || "")) ||
     !Array.isArray(plan.lockedRequirements) ||

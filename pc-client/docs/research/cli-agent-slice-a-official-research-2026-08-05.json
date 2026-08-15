@@ -1,0 +1,35 @@
+{
+  "researchDate": "2026-08-05",
+  "sourceRevision": 84,
+  "slice": "slice-a",
+  "scope": [
+    {
+      "vendor": "anysphere",
+      "productId": "cursor-cli",
+      "previousStatus": "research-pending",
+      "status": "blocked",
+      "windowsForm": "WSL only; no native Windows package verified",
+      "versionPolicy": "auto-updating; no fixed official Windows release artifact verified",
+      "artifactUrl": null,
+      "allowedDomains": ["cursor.com", "docs.cursor.com"],
+      "dependencies": ["WSL", "bash-compatible environment"],
+      "terminalEntry": "cursor-agent",
+      "hash": null,
+      "blockingReasons": ["dynamic curl-piped installer", "WSL-only Windows support", "no fixed package or official hash"]
+    },
+    {
+      "vendor": "nvidia",
+      "productId": "nvidia-nemoclaw-cli",
+      "previousStatus": "research-pending",
+      "status": "blocked",
+      "windowsForm": "WSL2 with Docker Desktop WSL backend; no native Windows package verified",
+      "versionPolicy": "maintained last-known-good by default; no fixed official Windows package artifact verified",
+      "artifactUrl": "https://www.nvidia.com/nemoclaw.sh",
+      "allowedDomains": ["nvidia.com", "docs.nvidia.com", "github.com"],
+      "dependencies": ["WSL2", "Docker Desktop WSL backend", "Docker running", "Node.js", "OpenShell runtime"],
+      "terminalEntry": "nemoclaw <sandbox-name> connect; openclaw tui",
+      "hash": null,
+      "blockingReasons": ["dynamic hosted shell installer", "WSL2 and Docker dependency", "no fixed Windows package or official hash"]
+    }
+  ]
+}

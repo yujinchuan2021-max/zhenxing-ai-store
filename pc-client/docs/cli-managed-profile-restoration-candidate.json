@@ -1,0 +1,25 @@
+{
+  "notice": "仅候选、不可发布",
+  "source": "authoritative revision store and client local registry",
+  "sourceRevision": 77,
+  "sourceProductCount": 615,
+  "candidates": [
+    {"productId":"openfang-cli","moduleId":"cli-managed","installProfileId":"cli.openfang","capabilities":["website","tutorial","install","open","uninstall"],"requirements":[],"driver":"portable-binary"},
+    {"productId":"zeroclaw-cli","moduleId":"cli-managed","installProfileId":"cli.zeroclaw","capabilities":["website","tutorial","install","open","uninstall"],"requirements":[],"driver":"portable-binary"},
+    {"productId":"ironclaw-cli","moduleId":"cli-managed","installProfileId":"cli.ironclaw","capabilities":["website","tutorial","install","open","uninstall"],"requirements":[],"driver":"managed-msi"},
+    {"productId":"open-interpreter-cli","moduleId":"cli-managed","installProfileId":"cli.open-interpreter","capabilities":["website","tutorial","install","open","uninstall"],"requirements":[],"driver":"portable-binary"},
+    {"productId":"aider-cli","moduleId":"cli-managed","installProfileId":"cli.aider","capabilities":["website","tutorial","install","open","uninstall"],"requirements":["python312","git"],"driver":"python-venv"},
+    {"productId":"augment-auggie-cli","moduleId":"cli-managed","installProfileId":"cli.augment-auggie","capabilities":["website","tutorial","install","open","uninstall"],"requirements":["wsl"],"driver":"wsl-managed"}
+  ],
+  "blockers": [
+    {"productId":"openfang-cli","observed":["draft77 productType=cli-official","local profile lacks update","local profile lacks repair"]},
+    {"productId":"zeroclaw-cli","observed":["draft77 productType=cli-official","local profile lacks update","local profile lacks repair"]},
+    {"productId":"ironclaw-cli","observed":["draft77 productType=cli-official","local profile lacks update","local profile lacks repair"]},
+    {"productId":"open-interpreter-cli","observed":["draft77 productType=cli-official","local profile lacks update","local profile lacks repair"]},
+    {"productId":"aider-cli","observed":["draft77 productType=cli-official","local profile lacks update","local profile lacks repair"]},
+    {"productId":"augment-auggie-cli","observed":["draft77 productType=cli-official","local profile lacks update","local profile lacks repair"]}
+  ],
+  "appliedDraftRevision": 78,
+  "status": "applied-draft",
+  "appliedAt": "2026-08-04T17:11:52.472Z"
+}

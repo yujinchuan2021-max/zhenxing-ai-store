@@ -223,6 +223,13 @@ try {
   assert.ok(Array.isArray(unifiedCenter.notifications));
   assert.ok(Array.isArray(unifiedCenter.interactions));
   assert.ok(Array.isArray(unifiedCenter.sessions));
+  assert.ok(Array.isArray(unifiedCenter.readingHistory));
+  assert.equal(typeof unifiedCenter.social.followers, "number");
+  assert.equal(typeof unifiedCenter.social.following, "number");
+  assert.equal(
+    typeof unifiedCenter.summary.unreadDirectMessages,
+    "number"
+  );
   const topRight = await evaluate(`(() => {
     const notification = document.querySelector('.topActions .notificationButton');
     const account = document.querySelector('.topActions .accountButton');
@@ -233,10 +240,23 @@ try {
   })()`);
   assert.match(topRight.notificationLabel, /^提醒/);
   assert.equal(topRight.accountText.includes(nickname), true);
+  const expectedBellTab = unifiedCenter.notifications.some(
+    (item) => item.source === "community" && !item.read
+  )
+    ? "提醒"
+    : unifiedCenter.notifications.some(
+          (item) => item.source === "account" && !item.read
+        )
+      ? "站内信"
+      : unifiedCenter.summary.unreadDirectMessages
+        ? "私信"
+        : "提醒";
   await evaluate("document.querySelector('.topActions .notificationButton').click()");
   await waitFor(
-    "document.querySelector('.personalTabs button.active')?.textContent.includes('提醒')",
-    "top-right reminder control did not open unified notifications"
+    `document.querySelector('.personalTabs button.active')?.textContent.includes(${JSON.stringify(
+      expectedBellTab
+    )})`,
+    "top-right reminder control did not open the first unread personal-center section"
   );
 
   await evaluate(
@@ -267,7 +287,18 @@ try {
   })()`);
   assert.deepEqual(
     personalCenter.tabs.map((item) => item.replace(/\s*·\s*\d+$/, "")),
-    ["资料", "账号安全", "提醒", "收藏", "喜欢"]
+    [
+      "资料",
+      "账号安全",
+      "提醒",
+      "站内信",
+      "关注",
+      "粉丝",
+      "私信",
+      "阅读记录",
+      "收藏",
+      "喜欢"
+    ]
   );
   assert.equal(personalCenter.hasProfile, true);
   assert.equal(personalCenter.hasEmail, true);
@@ -357,11 +388,32 @@ try {
     "security tab did not render"
   );
   await evaluate(
-    "[...document.querySelectorAll('.personalTabs button')].find((button) => button.textContent.includes('提醒')).click()"
+    "[...document.querySelectorAll('.personalTabs button')].find((button) => button.textContent.includes('站内信')).click()"
   );
   await waitFor(
     "Boolean(document.querySelector('.personalList article'))",
-    "unified notifications did not render"
+    "system inbox did not render"
+  );
+  await evaluate(
+    "[...document.querySelectorAll('.personalTabs button')].find((button) => button.textContent.includes('关注')).click()"
+  );
+  await waitFor(
+    "Boolean(document.querySelector('.socialCenter .socialSearch'))",
+    "following section did not render"
+  );
+  await evaluate(
+    "[...document.querySelectorAll('.personalTabs button')].find((button) => button.textContent.includes('私信')).click()"
+  );
+  await waitFor(
+    "Boolean(document.querySelector('.directMessageLayout'))",
+    "direct-message section did not render"
+  );
+  await evaluate(
+    "[...document.querySelectorAll('.personalTabs button')].find((button) => button.textContent.includes('阅读记录')).click()"
+  );
+  await waitFor(
+    "Boolean(document.querySelector('.personalCenter > .personalList'))",
+    "reading-history section did not render"
   );
 
   await evaluate(
@@ -496,6 +548,9 @@ try {
         const rootStyle = getComputedStyle(document.documentElement);
         const refreshStyle = button ? getComputedStyle(button) : null;
         const hero = document.querySelector(".DiscussionHero");
+        const postBody = document.querySelector(".Post-body");
+        const replyPlaceholder = document.querySelector(".ReplyPlaceholder");
+        const avatar = document.querySelector(".Avatar");
         const visibleSecondaryItems = [
           ...document.querySelectorAll("#header-secondary > ul > li")
         ].filter((element) => getComputedStyle(element).display !== "none");
@@ -521,6 +576,13 @@ try {
           theme: document.documentElement.getAttribute("data-aihub-theme"),
           bodyBackground: rootStyle.getPropertyValue("--body-bg").trim(),
           primaryColor: rootStyle.getPropertyValue("--primary-color").trim(),
+          textColor: rootStyle.getPropertyValue("--text-color").trim(),
+          replyColor: rootStyle.getPropertyValue("--muted-color-light").trim(),
+          postTextColor: postBody ? getComputedStyle(postBody).color : "",
+          replyPromptColor: replyPlaceholder
+            ? getComputedStyle(replyPlaceholder).color
+            : "",
+          avatarOutlineColor: avatar ? getComputedStyle(avatar).outlineColor : "",
           refreshBackground: refreshStyle?.backgroundColor || "",
           heroBackground: hero ? getComputedStyle(hero).backgroundColor : "",
           visibleSecondaryItems: visibleSecondaryItems.map(
@@ -613,11 +675,16 @@ try {
   });
   assert.equal(community.refreshPlacement.hasNativePostActions, true);
   assert.equal(community.refreshPlacement.theme, "light");
-  assert.equal(community.refreshPlacement.bodyBackground, "#f3f7f4");
-  assert.equal(community.refreshPlacement.primaryColor, "#a8ff56");
+  assert.equal(community.refreshPlacement.bodyBackground, "#F5F7FB");
+  assert.equal(community.refreshPlacement.primaryColor, "#087E8B");
+  assert.equal(community.refreshPlacement.textColor, "#13213A");
+  assert.equal(community.refreshPlacement.replyColor, "#71819A");
+  assert.equal(community.refreshPlacement.postTextColor, "rgb(19, 33, 58)");
+  assert.equal(community.refreshPlacement.replyPromptColor, "rgb(113, 129, 154)");
+  assert.equal(community.refreshPlacement.avatarOutlineColor, "rgb(214, 222, 235)");
   assert.equal(
     community.refreshPlacement.heroBackground,
-    "rgb(231, 251, 215)"
+    "rgb(233, 238, 248)"
   );
   const discussionHintBehavior = await evaluate(
     `document.querySelector('webview.communityWebview').executeJavaScript(${JSON.stringify(`
@@ -690,6 +757,89 @@ try {
   };
   const communityLayout = await evaluate(communityLayoutExpression);
   assertCommunityFill(communityLayout, "desktop");
+  const exactViewportEvidence = {};
+  for (const width of [1365, 740]) {
+    await send("Emulation.setDeviceMetricsOverride", {
+      width,
+      height: 768,
+      deviceScaleFactor: 1,
+      mobile: false
+    });
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    const layout = await evaluate(communityLayoutExpression);
+    assertCommunityFill(layout, `${width}px`);
+    const controls = await evaluate(`(async () => {
+      const back = document.querySelector('.communityBackControl .backButton');
+      const view = document.querySelector('webview.communityWebview');
+      back.focus();
+      const inner = await view.executeJavaScript(${JSON.stringify(`(() => {
+        const refresh = document.getElementById("aihub-community-refresh");
+        const search = document.querySelector("#header-secondary .Search, .Header-secondary .Search, .Search");
+        const rect = (element) => element ? element.getBoundingClientRect().toJSON() : null;
+        return { refresh: rect(refresh), search: rect(search) };
+      })()`)});
+      const rect = (element) => element.getBoundingClientRect().toJSON();
+      return {
+        focused: document.activeElement === back,
+        disabled: back.disabled,
+        overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+        overflowElements: [...document.querySelectorAll('*')]
+          .map((element) => ({
+            element,
+            rect: element.getBoundingClientRect()
+          }))
+          .filter(({ element, rect }) =>
+            rect.width > 0 &&
+            (rect.left < -1 || rect.right > window.innerWidth + 1) &&
+            element.tagName !== 'WEBVIEW'
+          )
+          .slice(0, 8)
+          .map(({ element, rect }) => ({
+            tag: element.tagName,
+            className: element.className,
+            left: rect.left,
+            right: rect.right,
+            width: rect.width
+          })),
+        back: rect(back),
+        view: rect(view),
+        actions: [...document.querySelectorAll('.topActions > button')].map((button) => ({
+          rect: rect(button),
+          whiteSpace: getComputedStyle(button).whiteSpace
+        })),
+        inner
+      };
+    })()`);
+    const screenshot = await send("Page.captureScreenshot", {
+      format: "png",
+      captureBeyondViewport: false
+    });
+    const screenshotPath = path.join(output, `p1-header-${width}.png`);
+    fs.writeFileSync(screenshotPath, Buffer.from(screenshot.data, "base64"));
+    assert.equal(controls.focused, true, `${width}px community back button is not focusable`);
+    assert.equal(controls.disabled, false, `${width}px community back button is disabled`);
+    assert.equal(
+      controls.overflow,
+      false,
+      `${width}px app has horizontal overflow: ${JSON.stringify(controls.overflowElements)}`
+    );
+    assert.ok(
+      width <= 760
+        ? controls.actions.every((action) => action.whiteSpace === "nowrap")
+        : controls.actions.every((action) => action.rect.height <= 48),
+      `${width}px top action wraps`
+    );
+    const overlaps = (inner) => inner &&
+      controls.back.left < controls.view.left + inner.right &&
+      controls.back.right > controls.view.left + inner.left &&
+      controls.back.top < controls.view.top + inner.bottom &&
+      controls.back.bottom > controls.view.top + inner.top;
+    assert.equal(overlaps(controls.inner.refresh), false, `${width}px back button covers community refresh`);
+    assert.equal(overlaps(controls.inner.search), false, `${width}px back button covers community search`);
+    exactViewportEvidence[width] = { layout, controls, screenshotPath };
+  }
+  await send("Emulation.clearDeviceMetricsOverride");
+  await new Promise((resolve) => setTimeout(resolve, 250));
   await send("Emulation.setDeviceMetricsOverride", {
     width: 1024,
     height: 720,
@@ -744,10 +894,20 @@ try {
         const rootStyle = getComputedStyle(document.documentElement);
         const refresh = document.getElementById("aihub-community-refresh");
         const hero = document.querySelector(".DiscussionHero");
+        const postBody = document.querySelector(".Post-body");
+        const replyPlaceholder = document.querySelector(".ReplyPlaceholder");
+        const avatar = document.querySelector(".Avatar");
         return {
           theme: document.documentElement.getAttribute("data-aihub-theme"),
           bodyBackground: rootStyle.getPropertyValue("--body-bg").trim(),
           primaryColor: rootStyle.getPropertyValue("--primary-color").trim(),
+          textColor: rootStyle.getPropertyValue("--text-color").trim(),
+          replyColor: rootStyle.getPropertyValue("--muted-color-light").trim(),
+          postTextColor: postBody ? getComputedStyle(postBody).color : "",
+          replyPromptColor: replyPlaceholder
+            ? getComputedStyle(replyPlaceholder).color
+            : "",
+          avatarOutlineColor: avatar ? getComputedStyle(avatar).outlineColor : "",
           refreshBackground: refresh
             ? getComputedStyle(refresh).backgroundColor
             : "",
@@ -757,9 +917,14 @@ try {
     `)})`
   );
   assert.equal(darkCommunityTheme.theme, "dark");
-  assert.equal(darkCommunityTheme.bodyBackground, "#0e1916");
-  assert.equal(darkCommunityTheme.primaryColor, "#a8ff56");
-  assert.equal(darkCommunityTheme.heroBackground, "rgb(20, 60, 50)");
+  assert.equal(darkCommunityTheme.bodyBackground, "#08111F");
+  assert.equal(darkCommunityTheme.primaryColor, "#49D6DD");
+  assert.equal(darkCommunityTheme.textColor, "#F3F7FF");
+  assert.equal(darkCommunityTheme.replyColor, "#CCD7EA");
+  assert.equal(darkCommunityTheme.postTextColor, "rgb(243, 247, 255)");
+  assert.equal(darkCommunityTheme.replyPromptColor, "rgb(204, 215, 234)");
+  assert.equal(darkCommunityTheme.avatarOutlineColor, "rgb(37, 53, 80)");
+  assert.equal(darkCommunityTheme.heroBackground, "rgb(12, 25, 48)");
 
   const darkScreenshot = await send("Page.captureScreenshot", {
     format: "png",
@@ -837,6 +1002,7 @@ try {
         englishLanguage,
         communityLayout,
         compactCommunityLayout,
+        exactViewportEvidence,
         screenshots: {
           personalCenter: personalScreenshotPath,
           embeddedCommunity: screenshotPath,

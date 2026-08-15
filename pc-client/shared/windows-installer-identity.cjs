@@ -99,6 +99,8 @@ function parsePeMachineArchitecture(buffer) {
 }
 
 function validateExpectedPolicy(expected) {
+  // Architecture is the PE Machine of the downloaded executable that AI Hub
+  // launches, not the architecture advertised for its eventual app payload.
   const issues = [];
   if (!plainObject(expected)) {
     issues.push({
@@ -119,12 +121,27 @@ function validateExpectedPolicy(expected) {
     });
   }
 
-  if (!plainObject(expected.versionInfo)) {
+  const versionInfoUnavailable =
+    typeof expected.versionInfoUnavailable === "string" &&
+    expected.versionInfoUnavailable.length > 0;
+
+  if (!plainObject(expected.versionInfo) && !versionInfoUnavailable) {
     issues.push({
       code: "VERSION_INFO_EXPECTATIONS_REQUIRED",
       field: "versionInfo",
       message: "At least one Windows VersionInfo expectation is required"
     });
+    return issues;
+  }
+
+  if (versionInfoUnavailable) {
+    if (expected.versionInfo !== undefined) {
+      issues.push({
+        code: "VERSION_INFO_POLICY_CONFLICT",
+        field: "versionInfo",
+        message: "Unavailable VersionInfo cannot also define field expectations"
+      });
+    }
     return issues;
   }
 
@@ -209,27 +226,29 @@ function validateWindowsInstallerIdentity({ buffer, versionInfo, expected } = {}
     });
   }
 
-  for (const field of VERSION_INFO_FIELDS) {
-    if (!Object.hasOwn(expected.versionInfo, field)) continue;
-    const actual = actualVersionInfo[field];
-    if (typeof actual !== "string" || actual.trim().length === 0) {
-      issues.push({
-        code: "VERSION_INFO_MISSING",
-        field,
-        expected: String(expected.versionInfo[field]),
-        actual: actual ?? null,
-        message: "Required Windows VersionInfo field is missing"
-      });
-      continue;
-    }
-    if (!patternMatches(expected.versionInfo[field], actual)) {
-      issues.push({
-        code: "VERSION_INFO_MISMATCH",
-        field,
-        expected: String(expected.versionInfo[field]),
-        actual,
-        message: "Windows VersionInfo field does not match the approved pattern"
-      });
+  if (!expected.versionInfoUnavailable) {
+    for (const field of VERSION_INFO_FIELDS) {
+      if (!Object.hasOwn(expected.versionInfo, field)) continue;
+      const actual = actualVersionInfo[field];
+      if (typeof actual !== "string" || actual.trim().length === 0) {
+        issues.push({
+          code: "VERSION_INFO_MISSING",
+          field,
+          expected: String(expected.versionInfo[field]),
+          actual: actual ?? null,
+          message: "Required Windows VersionInfo field is missing"
+        });
+        continue;
+      }
+      if (!patternMatches(expected.versionInfo[field], actual)) {
+        issues.push({
+          code: "VERSION_INFO_MISMATCH",
+          field,
+          expected: String(expected.versionInfo[field]),
+          actual,
+          message: "Windows VersionInfo field does not match the approved pattern"
+        });
+      }
     }
   }
 

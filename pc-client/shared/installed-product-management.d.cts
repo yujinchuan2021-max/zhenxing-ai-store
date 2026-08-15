@@ -10,8 +10,11 @@ export type InstalledProductManagementEntry = {
   canManageFiles: boolean;
   canReinstall: boolean;
   canGetLatest: boolean;
+  managedByPackageManager: boolean;
   updateOwner: string;
   updateStrategy: string;
+  availableVersion?: string;
+  canUpdate?: boolean;
   canUninstall: boolean;
   children?: Array<{
     id: string;
@@ -69,6 +72,8 @@ export function buildInstalledProductManagement(input: {
   environmentChecks?: unknown[];
   wslDistributions?: unknown[];
   downloadTasks?: Record<string, unknown>;
+  managedDownloadQueueTasks?: Record<string, unknown>;
+  verifiedDownloadTasks?: Record<string, unknown>;
 }): {
   products: InstalledProductManagementEntry[];
   reinstallableEnvironments: ReinstallableEnvironmentEntry[];

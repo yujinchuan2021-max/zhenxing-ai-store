@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "phase": "public-page-metadata-first1000",
+  "runId": "phase2-first1000-2026-08-14",
+  "input": {
+    "phase1IndexPath": "output/research/cocoloop-skill-intake/candidate-index.ndjson",
+    "phase1IndexSha256": "19ca436a08f0747ff07b90baf95efa5a7bdad300c836086098e0bee19c91c171",
+    "selection": "first 1000 records in frozen Phase1 order",
+    "orderedInputManifestSha256": "3d869029a73286bf7867d5ef6438a004ea5b17273440b036d5601fbebf343db9"
+  },
+  "contract": {
+    "host": "hub.cocoloop.cn",
+    "configuredConcurrency": 1,
+    "observedMaximumConcurrency": 2,
+    "concurrencyNote": "Two executor timeouts briefly left the prior process alive while the next checkpoint-resume process started. This remained within the hard maximum of 2 but did not maintain the intended process-level concurrency of 1. Duplicate output lines were compacted locally to exactly one outcome per input.",
+    "minimumDelayMsPerProcess": 1500,
+    "requestTimeoutMs": 20000,
+    "maxResponseBytes": 2000000,
+    "redirectPolicy": "manual; every 3xx is redirect-boundary and is never followed",
+    "singleInstancePolicy": "O_EXCL owner lock; an existing lock requires manual review; only the matching run token releases",
+    "status": "metadata-observed-unreviewed",
+    "rawHtmlPersisted": false,
+    "scriptJsonPersisted": false,
+    "cookiesHeadersOrTokensPersisted": false,
+    "foreignSourceLinksCollected": false
+  },
+  "results": {
+    "inputs": 1000,
+    "uniqueOutcomes": 1000,
+    "http2xx": 995,
+    "parsed": 994,
+    "metadataDeferred": 6,
+    "parseFailure": 1,
+    "http404": 0,
+    "fetchFailure": 5,
+    "http429": 0,
+    "http403": 0,
+    "acceptedResponseBytes": 848448331,
+    "networkBytesCaveat": "Accepted-response bytes come from checkpointed logical outcomes. Actual transferred bytes are not claimed because executor overlap caused some duplicate requests."
+  },
+  "fieldQuality": {
+    "maxTitleCharacters": 85,
+    "maxPageTitleCharacters": 173,
+    "maxSummaryCharacters": 200,
+    "maxTagsPerRecord": 11,
+    "summaryEmailHits": 0,
+    "authorFieldCollected": false,
+    "sourceLinkCollected": false
+  },
+  "artifacts": {
+    "metadata": { "path": "output/research/cocoloop-skill-intake/phase2-first1000/metadata.ndjson", "lines": 994, "sha256": "bcbc7f4dd689a3ddfe3baffec1e17744db1c4e387fe30f9d8060b8795ed61d9f" },
+    "failures": { "path": "output/research/cocoloop-skill-intake/phase2-first1000/failures.ndjson", "lines": 6, "sha256": "3f988fd88601880a2141406740cebc1a297d0825f58233e8d57342745b8e9410" },
+    "checkpoint": { "path": "output/research/cocoloop-skill-intake/phase2-first1000/checkpoint.json", "sha256": "bbaaeaa4ebaa7faa6fd0517f47335f08be903b80db91ff5e0c02bba14fbe0c74" },
+    "summary": { "path": "output/research/cocoloop-skill-intake/phase2-first1000/summary.json", "sha256": "8cb094a721004fd90b656f07cb9368edefb5ae83a51f575baabfd5929860a3e8" }
+  },
+  "implementation": {
+    "scriptSha256": "71700623fe87d192952c520e5b378e2c33156f7005e61d5e0d04e07a35a2844d",
+    "sharedSha256": "a02189a2be0a88e653d6cf09f3baf8b81119d02af979309e87ab26676f00fad3",
+    "parserArtifactSha256": "a02189a2be0a88e653d6cf09f3baf8b81119d02af979309e87ab26676f00fad3",
+    "parserSchema": "phase2-minimal-v2",
+    "testSha256": "d7032c0a1d723f21cd8a4d82325dc207189978ac639e9f8126db3ef72cbaffe5",
+    "focusedGreen": "17 passed, 0 failed",
+    "redReplayEvidence": "unavailable; no RED/TDD sequence claim is made",
+    "completedRerun": "verified input/parser/output/summary hashes and preserved all four Phase2 artifact SHA and mtime"
+  },
+  "scope": "No active catalog, state, channel, release, save, sign, publish, package, App, schema, or server path was written. This is unreviewed discovery metadata, not ready, official, safe, installed, or published evidence."
+}

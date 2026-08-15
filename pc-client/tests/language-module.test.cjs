@@ -47,7 +47,6 @@ test("does not scatter user-facing Chinese copy back into the PC page", () => {
     .split(/\r?\n/)
     .map((line, index) => ({ line: index + 1, text: line }))
     .filter(({ text }) => /\p{Script=Han}/u.test(text))
-    .filter(({ text }) => !/builtInBanners|builtInBrand/.test(text))
     .filter(({ line }) => line < 302 || line > 319)
     .filter(({ text }) =>
       !/["'](全部|桌面端|其他产品|、)["']/.test(text)
@@ -63,7 +62,8 @@ test("persists one PC language and applies it to the embedded community", () => 
   const dependencyLock = JSON.parse(
     read("community/flarum/dependency-lock.json")
   );
-  const entrypoint = read("community/flarum/docker-entrypoint.sh");
+  const runtimeEntrypoint = read("community/flarum/docker-entrypoint.sh");
+  const migrationEntrypoint = read("community/flarum/migration-entrypoint.sh");
   assert.match(main, /settings:set-language/);
   assert.match(preload, /setLanguage/);
   assert.match(app, /buildCommunityLanguageScript\(language\)/);
@@ -77,7 +77,18 @@ test("persists one PC language and applies it to the embedded community", () => 
     dependencyLock.chineseSimplified,
     /^2\.x-dev#[a-f0-9]{40}$/
   );
-  assert.match(entrypoint, /flarum-lang-chinese-simplified/);
+  assert.match(migrationEntrypoint, /extension:enable flarum-lang-chinese-simplified/);
+  assert.doesNotMatch(
+    runtimeEntrypoint,
+    /php\s+flarum\s+(?:install|migrate|extension:enable)\b/
+  );
+});
+
+test("localizes built-in home and brand fallback copy with the selected PC language", () => {
+  const app = read("src/App.tsx");
+  assert.match(app, /function builtInBanners\(language: Language\)/);
+  assert.match(app, /function builtInBrand\(language: Language\)/);
+  assert.doesNotMatch(app, /createLanguage\("zh"\)\.text\("(?:home|brand)\./);
 });
 
 test("gives every enabled PC button one shared pressed state", () => {

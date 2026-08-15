@@ -1,0 +1,32 @@
+{
+  "batch":"C",
+  "date":"2026-08-05",
+  "queueRange":"41-60",
+  "policy":"Only explicit AI integration, AI host compatibility, official MCP, AI API, or AI-specific capability is confirmed.",
+  "writeCatalog":false,
+  "saveDraft":false,
+  "published":false,
+  "summary":{"confirmed":7,"blocked":13},
+  "items":[
+    {"index":41,"vendorId":"siemens","productId":"siemens-designcenter-nx","status":"blocked","integrationTypes":[],"firstPartyProduct":"Designcenter NX","category":"3D 与工业仿真","categoryAccurate":true,"officialUrls":[]},
+    {"index":42,"vendorId":"siemens","productId":"siemens-eigen-engineering-agent","status":"confirmed","integrationTypes":["generative AI assistant","TIA Portal host","AI engineering agent"],"firstPartyProduct":"Eigen Engineering Agent/TIA Portal","category":"工程计算与仿真","categoryAccurate":false,"officialUrls":["https://www.siemens.com/de-ch/products/tia-portal/eigen-engineering-agent/","https://press.siemens.com/global/en/pressrelease/siemens-launches-eigen-engineering-agent-bringing-purpose-built-ai-industrial"]},
+    {"index":43,"vendorId":"synopsys","productId":"synopsys-verdi","status":"blocked","integrationTypes":[],"firstPartyProduct":"Synopsys Verdi","category":"工程计算与仿真","categoryAccurate":true,"officialUrls":[]},
+    {"index":44,"vendorId":"redis","productId":"redis-insight","status":"confirmed","integrationTypes":["official MCP","AI client access","agentic natural-language interface"],"firstPartyProduct":"Redis/Redis Insight ecosystem","category":"数据库与数据","categoryAccurate":true,"officialUrls":["https://redis.io/docs/latest/integrate/redis-mcp/","https://github.com/redis/mcp-redis"]},
+    {"index":45,"vendorId":"neo4j","productId":"neo4j-desktop","status":"confirmed","integrationTypes":["official MCP","AI assistant/agent compatibility","graph knowledge access"],"firstPartyProduct":"Neo4j/Neo4j MCP","category":"数据库与数据","categoryAccurate":true,"officialUrls":["https://neo4j.com/docs/mcp/current/"]},
+    {"index":46,"vendorId":"neo4j","productId":"neo4j-enterprise-studio","status":"confirmed","integrationTypes":["official MCP","AI assistant/agent compatibility"],"firstPartyProduct":"Neo4j/Neo4j MCP","category":"数据库与数据","categoryAccurate":true,"officialUrls":["https://neo4j.com/docs/mcp/current/"],"note":"relationship should point to Neo4j service/MCP, not duplicate an MCP product"},
+    {"index":47,"vendorId":"obsidian","productId":"obsidian-desktop","status":"blocked","integrationTypes":[],"firstPartyProduct":"Obsidian","category":"文档与知识库","categoryAccurate":true,"officialUrls":[]},
+    {"index":48,"vendorId":"discord","productId":"discord-desktop","status":"blocked","integrationTypes":[],"firstPartyProduct":"Discord","category":"项目与协作","categoryAccurate":true,"officialUrls":[]},
+    {"index":49,"vendorId":"opera","productId":"opera-one","status":"blocked","integrationTypes":[],"firstPartyProduct":"Opera","category":"浏览器与搜索","categoryAccurate":true,"officialUrls":[]},
+    {"index":50,"vendorId":"mozilla","productId":"mozilla-firefox","status":"blocked","integrationTypes":[],"firstPartyProduct":"Firefox","category":"浏览器与搜索","categoryAccurate":true,"officialUrls":[]},
+    {"index":51,"vendorId":"graphisoft","productId":"graphisoft-archicad","status":"blocked","integrationTypes":[],"firstPartyProduct":"Archicad","category":"3D 与工业仿真","categoryAccurate":true,"officialUrls":[]},
+    {"index":52,"vendorId":"vectorworks","productId":"vectorworks-design-suite","status":"blocked","integrationTypes":[],"firstPartyProduct":"Vectorworks Design Suite","category":"3D 与工业仿真","categoryAccurate":true,"officialUrls":[]},
+    {"index":53,"vendorId":"dassault-systemes","productId":"dassault-solidworks-design","status":"blocked","integrationTypes":[],"firstPartyProduct":"SOLIDWORKS","category":"3D 与工业仿真","categoryAccurate":true,"officialUrls":[]},
+    {"index":54,"vendorId":"genesys","productId":"genesys-cloud-cx","status":"confirmed","integrationTypes":["embedded AI host","Genesys Cloud AI","virtual agent/predictive AI"],"firstPartyProduct":"Genesys Cloud CX","category":"客户服务","categoryAccurate":true,"officialUrls":["https://www.genesys.com/capabilities/artificial-intelligence","https://developer.genesys.cloud/"]},
+    {"index":55,"vendorId":"dialpad","productId":"dialpad-desktop","status":"confirmed","integrationTypes":["embedded Dialpad AI","AI assistant","transcription/summarization"],"firstPartyProduct":"Dialpad Ai/Dialpad cloud communications","category":"客户服务","categoryAccurate":true,"officialUrls":["https://www.dialpad.com/features/ai/"]},
+    {"index":56,"vendorId":"audacity","productId":"audacity-desktop","status":"blocked","integrationTypes":[],"firstPartyProduct":"Audacity","category":"音频制作","categoryAccurate":true,"officialUrls":[]},
+    {"index":57,"vendorId":"streamlabs","productId":"streamlabs-desktop","status":"blocked","integrationTypes":[],"firstPartyProduct":"Streamlabs Desktop","category":"直播与录制","categoryAccurate":true,"officialUrls":[]},
+    {"index":58,"vendorId":"navicat","productId":"navicat-premium","status":"blocked","integrationTypes":[],"firstPartyProduct":"Navicat Premium","category":"数据库与数据","categoryAccurate":true,"officialUrls":[]},
+    {"index":59,"vendorId":"octave","productId":"octave-bricscad","status":"blocked","integrationTypes":[],"firstPartyProduct":"BricsCAD","category":"3D 与工业仿真","categoryAccurate":false,"officialUrls":[]},
+    {"index":60,"vendorId":"cisco","productId":"cisco-webex-ai-assistant","status":"confirmed","integrationTypes":["embedded AI host","Webex AI Assistant"],"firstPartyProduct":"Webex","category":"办公自动化","categoryAccurate":true,"officialUrls":["https://www.webex.com/ai-assistant.html","https://developer.webex.com/"]}
+  ]
+}

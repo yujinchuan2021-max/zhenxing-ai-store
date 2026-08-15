@@ -60,3 +60,23 @@
 - 发布测试必须覆盖同根 CA 叶证书轮换，并拒绝其他根 CA。
 - 安装入口的异步请求必须在同一卡片展示忙碌状态和错误。
 - 发布验收不得假设设备未安装目标产品，必须从真实检测状态选择对应入口。
+
+## 2026-08-05：0.1.41 v2 目录恢复场景的假 TLS 失败
+
+### 用户可见问题
+
+- `scenario-b-cdp` 记录到同一 0.1.41 Portable 首次从 v2 远程目录读取 375 个厂商、615 个产品；上游 4173 停止时 4443 实际返回 502，客户端安全保留 `source=cache`。
+- 上游恢复为 200 后，测试立即以同一隔离 profile 重启 Portable，报告却仍为 `source=cache` 并显示 `net::ERR_CERT_AUTHORITY_INVALID`，没有回到 `remote`。
+
+### 证据与根因
+
+- 该 Portable 的本地证书回调实际收到 `net::ERR_CERT_AUTHORITY_INVALID` 后，对 `localhost` 的固定 Caddy 根链均记录 `accepted:true`；当前 4443 根指纹也与包的 `local-release-trust.json` 一致。因此不是缺少 `--ignore-certificate-errors`、不是根证书轮换，也不应以放宽 Chromium 证书校验修复。
+- `scripts/lib/packaged-client-cdp.mjs` 的 `close()` 在按隔离 `--user-data-dir` 停止进程后只固定等待 250ms，未等待 Portable 子进程和该 profile 的网络会话完全退出。立即重启可稳定复现上述缓存/TLS 表象；相同包、相同 profile 仅将退出后等待改为 5 秒，两次启动均为 `remote`、v2=1、375/615。
+- 这不是旧 HTTP 连接的持久复用：客户端每次 `catalog:get` 都以 `cache: "no-store"` 请求远程目录，启动时还关闭默认 session 的连接；失败由未完成的前次 Portable 生命周期与同 profile 的过早重启触发。
+- 缓存策略按预期工作：`resolveCatalog()` 先读取已验签同频道缓存、仍尝试远程；只有远程请求抛错才返回 `cache`。它保留目录是安全回退，不是 TLS 或恢复失败的原因。
+
+### 修复与验收门禁
+
+- CDP/Portable 验收 harness 必须在同 profile 重启前轮询确认所有带该 `--user-data-dir` 的进程已退出，并确认该 profile 不再被占用；不得以固定 250ms 延迟替代退出屏障。
+- 场景报告必须保留 `local-release-certificate.log`，同时断言固定链回调为 `accepted:true` 与恢复后的 `catalog:get` 为 `source=remote`。只断言渲染错误文案不能区分 TLS 信任失败和测试生命周期竞态。
+- 回归顺序：远程预热为 `remote` → 停 4173 后确认 4443=502 且客户端为 `cache` → 恢复 4173/4443=200 → 等待旧 Portable 完全退出后同 profile 重启，必须恢复 `remote`。不得把 `--ignore-certificate-errors` 加入验收命令。

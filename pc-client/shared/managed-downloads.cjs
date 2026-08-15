@@ -73,8 +73,18 @@ function getManagedDownload(productId) {
     expectedSigner: plan.expectedSigner,
     expectedSha256: plan.expectedSha256 || "",
     ...(plan.installerKind ? { installerKind: plan.installerKind } : {}),
+    ...(plan.portable ? { portable: plan.portable } : {}),
     ...(plan.expectedInstallerIdentity
       ? { expectedInstallerIdentity: plan.expectedInstallerIdentity }
+      : {}),
+    ...(Array.isArray(plan.mirrors)
+      ? {
+          mirrors: plan.mirrors.map((mirror) => ({
+            url: mirror.url,
+            allowedHosts: [...mirror.allowedHosts],
+            label: mirror.label || "镜像源"
+          }))
+        }
       : {}),
     safetyReserveBytes: plan.safetyReserveBytes,
     installDiskBytes: plan.installDiskBytes

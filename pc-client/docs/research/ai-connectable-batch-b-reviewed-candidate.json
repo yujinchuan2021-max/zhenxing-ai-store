@@ -1,0 +1,17 @@
+{
+  "notice": "candidate-only; no saveDraft or publish",
+  "sourceRevision": 84,
+  "sourceProductCount": 615,
+  "batch": "B",
+  "summary": {"accepted": 5, "rejected": 4, "needsMoreEvidence": 11},
+  "accepted": [
+    {"vendorId":"uipath","productId":"uipath-studio","officialEvidenceUrl":"https://docs.uipath.com/studio-web/automation-cloud/latest/user-guide/autopilot-and-api-workflows","integrationType":"AI-assisted workflow host","directoryKind":"ai-connectable","category":"工作流自动化","fieldCheck":"correct-no-op"},
+    {"vendorId":"monday","productId":"monday-work-management","officialEvidenceUrl":"https://developer.monday.com/api-reference/docs/build-on-monday-with-ai","integrationType":"MCP and AI-agent platform","directoryKind":"ai-connectable","category":"项目与协作","fieldCheck":"correct-no-op"},
+    {"vendorId":"miro","productId":"miro-workspace","officialEvidenceUrl":"https://developers.miro.com/docs/miro-mcp","integrationType":"AI-agent-compatible MCP","directoryKind":"ai-connectable","category":"项目与协作","fieldCheck":"correct-no-op"},
+    {"vendorId":"mathworks","productId":"matlab","officialEvidenceUrl":"https://www.mathworks.com/help/matlab-copilot/","integrationType":"built-in generative AI host","directoryKind":"ai-connectable","category":"工程计算与仿真","fieldCheck":"correct-no-op"},
+    {"vendorId":"mathworks","productId":"simulink","officialEvidenceUrl":"https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/company/events/conferences/matlab-expo-india/2026/in-expo-2026-mathworks-whats-new-matlab-simulink.pdf","integrationType":"Simulink Copilot, Agentic Toolkit, and MCP/external AI-agent connectivity","directoryKind":"ai-connectable","category":"工程计算与仿真","fieldCheck":"correct-no-op"}
+  ],
+  "rejectedProductIds":["adobe-acrobat-reader-ai","autodesk-fusion","autodesk-autocad","autodesk-revit"],
+  "needsMoreEvidenceProductIds":["adobe-creative-cloud","mongodb-compass","roblox-studio","sketchup","trimble-tekla-structures","davinci-resolve","clickup-workspace","box-content-cloud","zoom-workplace","wolfram-mathematica","ansys-lumerical"],
+  "minimalCatalogPatch":{"operation":"no-op","patches":[],"reason":"All accepted products already have correct directoryKind and category in draft84."}
+}

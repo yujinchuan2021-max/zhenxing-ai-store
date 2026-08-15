@@ -6,8 +6,8 @@ This addendum supersedes the older numeric snapshots in `development-status.md` 
 
 - 375 vendors
 - 615 top-level products
-- 145 ecosystem resources
-- Product modules: 246 `web`, 239 `desktop-official`, 34 `cli-official`, 26 `desktop-reviewed`, 14 managed `cli`, 1 `local-model`, 55 `tutorial`
+- 146 ecosystem resources
+- Product modules: 246 `web`, 236 `desktop-official`, 20 `cli-official`, 29 `desktop-reviewed`, 28 managed `cli`, 1 `local-model`, 55 `tutorial`
 - Vendor logos: 204 reviewed graphic assets and 171 reviewed letter fallbacks
 
 ## Added in this pass
@@ -67,15 +67,14 @@ Superhuman Go remains excluded because its official marketing page still says th
 - The production Vite build passes; its only warning is the existing large JavaScript chunk warning.
 - The published Ed25519 envelope verifies with the backend's trusted public key, and its signed payload is canonically identical to `/catalog-v1.json`.
 - The actual client at `http://127.0.0.1:5174/` was reloaded and checked through rendered UI: Skales, Open Interpreter Desktop, Superhuman Docs, and Coda AI exact search work; Factory, Airtable, and Lovable expose the intended combined visual-product entry points; Mastra, Zendesk, OpenHands, and AnyDesk logos load with valid dimensions; the browser console has no errors.
-- No Windows client package was rebuilt for this backend-only catalog change.
+- The `0.1.36` unsigned local review Setup and Portable packages were built. Portable accepted signed catalog v70, completed a 252,233,192-byte QoderWork download and a 124,337,464-byte OpenCode download with hash, Authenticode, PE and VersionInfo validation. Third-party installers were not executed; the prior `0.1.35` Setup isolation result is not claimed as acceptance of this package.
 
 ## Local publication
 
-- Backend draft revision: 63
-- Active catalog version: 60
-- Release ID: `catalog-v00000060-511047eb0ca6-7ed548b9`
-- Catalog payload SHA-256: `511047eb0ca6a86ead7e8ee87b52167287b41d803cdea248cef0791b785549ab`
-- Signed release file SHA-256: `c02a84011865280a06b535fab1aa3e2c1dabb4a8f1c023c15da142cdecda9401`
+- Backend draft revision: 73
+- Active catalog version: 70
+- Release ID: `catalog-v00000070-617bd9835384-c2210651`
+- Signed release file SHA-256: `5b494c809054b9f245ddf6f5126ee9ce46eede6e9d73b8b873a10b0c04ca054a`
 - Signing key ID: `catalog-4aa4d9e6b67e0791`
 - Local backend health: `http://127.0.0.1:4173/health` → `{"status":"ok"}`
-- Publish warnings are expected: client auto-update is disabled, 171 vendors use reviewed letter fallbacks, and 27 managed desktop products still await physical acceptance.
+- Publish warnings are expected: client auto-update is disabled, 171 vendors use reviewed letter fallbacks, and 30 managed desktop products still await physical acceptance.

@@ -1,0 +1,37 @@
+{
+  "notice":"candidate-only; do not saveDraft or publish",
+  "contract":{
+    "productType":"desktop-download-only",
+    "moduleId":"desktop-download-only.signed-catalog",
+    "installProfileId":"desktop-download-only.signed-catalog",
+    "allowedArtifactKinds":["exe","msi","msix","zip"],
+    "mirrorsMax":4,
+    "forbiddenFields":["allowedHosts","command","args","env","script","headers","credentials"]
+  },
+  "sourceDraftRevision":84,
+  "sourceDraftProductCount":615,
+  "sourceOfficialPageCount":214,
+  "alreadyBoundDesktopDownloadOnlyCount":14,
+  "candidateCount":1,
+  "candidates":[
+    {
+      "vendorId":"tana",
+      "productId":"tana-outliner",
+      "productName":"Tana Outliner",
+      "evidenceUrl":"https://tana.inc/download",
+      "productType":"desktop-download-only",
+      "moduleId":"desktop-download-only.signed-catalog",
+      "installProfileId":"desktop-download-only.signed-catalog",
+      "download":{
+        "url":"https://assets.tana.inc/desktop/Tana-Setup-windows.exe",
+        "fileName":"Tana-Setup-2026.29.20+c0082d7-windows.exe",
+        "artifactKind":"exe",
+        "mirrors":[]
+      },
+      "evidenceSource":"windows-desktop-download-deep-research-rev83.json",
+      "needsReview":true
+    }
+  ],
+  "blockedCount":213,
+  "blockedReasons":["download page only","dynamic or login-gated button","template/version URL not fixed","existing research record lacks a final file URL","CorelDRAW record has a product page in finalArtifactUrl"]
+}

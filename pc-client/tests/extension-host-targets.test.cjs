@@ -6,6 +6,7 @@ const test = require("node:test");
 
 const {
   resolveCodexSkillsRoot,
+  resolveCursorMcpConfigPath,
   resolveLegacyCodexSkillsRoot
 } = require("../shared/extension-host-targets.cjs");
 
@@ -55,6 +56,18 @@ test("relative legacy CODEX_HOME is rejected", () => {
 test("relative user home is rejected by the shared Codex root", () => {
   assert.throws(
     () => resolveCodexSkillsRoot({ homedir: () => "relative/home" }),
+    (error) => error.code === "EXTENSION_USER_HOME_INVALID"
+  );
+});
+
+test("Cursor MCP config uses only the current user's global config", () => {
+  const home = path.resolve("C:\\temp", "isolated-cursor-home");
+  assert.equal(
+    resolveCursorMcpConfigPath({ homedir: () => home }),
+    path.join(home, ".cursor", "mcp.json")
+  );
+  assert.throws(
+    () => resolveCursorMcpConfigPath({ homedir: () => "relative/home" }),
     (error) => error.code === "EXTENSION_USER_HOME_INVALID"
   );
 });

@@ -67,7 +67,9 @@ function channelFromResources(destination) {
 assertReleasePackageReady({
   variant: "local",
   catalogChannel: channelFromResources("catalog/channel.json"),
-  updateChannel: channelFromResources("updates/channel.json")
+  updateChannel: channelFromResources("updates/channel.json"),
+  clientServices: localReleaseConfig.extraMetadata.clientServices,
+  catalogReleaseStoreDirectory: path.join(root, "admin", "published", "catalog-store")
 });
 validateLocalReleaseTrust(channelFromResources("local-release-trust.json"));
 

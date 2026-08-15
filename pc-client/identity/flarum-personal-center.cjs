@@ -26,8 +26,8 @@ function discussionPath(value, postNumber = null) {
     : base;
 }
 
-function notificationTitle(type, actorUsername) {
-  const actor = actorUsername || "社区用户";
+function notificationTitle(type, actorDisplayName) {
+  const actor = actorDisplayName || "社区用户";
   const titles = {
     postLiked: `${actor} 喜欢了你的回复`,
     newPost: `${actor} 回复了你关注的讨论`,
@@ -92,20 +92,24 @@ function createFlarumPersonalCenterClient({
 
   return {
     async list(username) {
-      const result = await call({ action: "list", username, limit: 50 });
+      const result = await call({ action: "list", username, limit: 100 });
       const notifications = Array.isArray(result?.notifications)
         ? result.notifications
         : [];
       const interactions = Array.isArray(result?.interactions)
         ? result.interactions
         : [];
+      const history = Array.isArray(result?.history) ? result.history : [];
       return {
         notifications: notifications
           .filter((item) => /^[1-9][0-9]{0,19}$/.test(String(item?.id || "")))
           .map((item) => ({
             id: String(item.id),
             source: "community",
-            title: notificationTitle(item.type, item.actorUsername),
+            title: notificationTitle(
+              item.type,
+              item.actorDisplayName || item.actorUsername
+            ),
             body: String(item.discussionTitle || "打开社区查看详情").slice(
               0,
               300
@@ -131,7 +135,24 @@ function createFlarumPersonalCenterClient({
             liked: Boolean(item.liked),
             updatedAt: normalizedTimestamp(item.updatedAt)
           }))
-          .filter((item) => item.path && (item.favorited || item.liked))
+          .filter((item) => item.path && (item.favorited || item.liked)),
+        history: history
+          .filter((item) => {
+            const discussionId = String(item?.discussionId || "");
+            const path = String(item?.path || "");
+            return (
+              item?.visibleToActor === true &&
+              /^[1-9][0-9]{0,19}$/.test(discussionId) &&
+              new RegExp(`^/d/${discussionId}-[a-z0-9-]{1,255}$`, "i").test(path)
+            );
+          })
+          .map((item) => ({
+            discussionId: String(item.discussionId),
+            title: String(item.title || "社区讨论").slice(0, 160),
+            path: String(item.path),
+            viewedAt: normalizedTimestamp(item.viewedAt)
+          })),
+        historyCapped: history.length >= 100
       };
     },
     async markRead(username, notificationId) {

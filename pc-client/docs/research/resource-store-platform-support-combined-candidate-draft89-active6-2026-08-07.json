@@ -1,0 +1,80 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "recommendedConsumption": true,
+  "kind": "resource-store-platform-support-combined-candidate",
+  "generatedFromCheckedAt": "2026-08-07T00:00:00.000Z",
+  "source": {
+    "statePath": "admin/published/catalog-store/state.json",
+    "stateSha256": "abffc088a113160ee85fb0efaead8ddff0230021992c9252df82453e396490a9",
+    "draftRevision": 89,
+    "v2ActiveCatalogVersion": 6,
+    "v2ActiveReleaseId": "catalog-v00000006-567e671621f1-3dcee587",
+    "productCount": 615,
+    "resourceCount": 146,
+    "targetCount": 513,
+    "resourceStoreCount": 4,
+    "evidenceInputs": [
+      { "id": "skill", "resourceType": "skill", "path": "docs/research/skill-platform-support-candidate-draft89-active6-2026-08-07.json", "sha256": "96ecdb21583343b42f69121227a5a12a3edf6ec6f164b8f328daf30c5849212a", "resourceContributions": 16, "targetReferences": 34 },
+      { "id": "mcp-batch1", "resourceType": "mcp", "path": "docs/research/mcp-platform-support-batch1-candidate-draft89-active6-2026-08-07.json", "sha256": "a1132b14d3a5830de4bfca2c8f044d542d574539c7b6d81b733988bd502629fd", "resourceContributions": 20, "targetReferences": 97 },
+      { "id": "mcp-batch2", "resourceType": "mcp", "path": "docs/research/mcp-platform-support-batch2-candidate-draft89-active6-2026-08-07.json", "sha256": "1861364669f67af51e96cbc3795234ff7ba2fa124919f49ec45c17df83e8b2da", "resourceContributions": 40, "targetReferences": 200 },
+      { "id": "mcp-batch3", "resourceType": "mcp", "path": "docs/research/mcp-platform-support-batch3-candidate-draft89-active6-2026-08-07.json", "sha256": "9e0ee688785d676e5138bfa2710418840334a609d8152710ea485a796ebebe9d", "resourceContributions": 40, "targetReferences": 126 },
+      { "id": "mcp-batch4", "resourceType": "mcp", "path": "docs/research/mcp-platform-support-batch4-candidate-draft89-active6-2026-08-07.json", "sha256": "cf21f258ad1c3e1b9c8de07a34fde85a42de81f8dca589531c667334f51d1bfb", "resourceContributions": 23, "targetReferences": 49 },
+      { "id": "plugin", "resourceType": "plugin", "path": "docs/research/plugin-platform-support-evidence-draft89-active6-2026-08-07.json", "sha256": "8bd567d642ef4186bb4efd06a134f764a39faf6c3bea0ef148269c1b336fe94c", "resourceContributions": 8, "targetReferences": 8 },
+      { "id": "connector", "resourceType": "connector", "path": "docs/research/connector-platform-support-evidence-draft89-active6-2026-08-07.json", "sha256": "1c6f1f732702862083f75e50255a38815571a6c889c305da0f6ed828b5402251", "resourceContributions": 3, "targetReferences": 3 }
+    ]
+  },
+  "normalization": {
+    "resourceIdentity": "single canonical resourceId; resourceTypes remain on the existing resource and are not copied",
+    "claims": "Use the shared validatePlatformSupportClaims adapter. MCP template evidence urlField is resolved to the record canonicalSource and removed before validation; no other field is synthesized.",
+    "evidence": "Preserve every recorded first-party HTTPS evidence URL. The authoritative existing resource website remains its canonicalSource; source-specific evidence remains attributable to its input.",
+    "targetFields": "No platform field is added to a target. Existing productId, compatibility, moduleId, installProfileId, capabilities, enabled, host and profile fields are baseline-only.",
+    "forbiddenFields": ["command", "args", "env", "headers", "credentials", "script", "secret", "endpoint", "path", "targetOverride"]
+  },
+  "summary": {
+    "resourceContributions": 150,
+    "uniqueResources": 146,
+    "multiTypeCanonicalResourceCount": 3,
+    "multiTypeCanonicalResourceIds": ["anythingllm-agent-skills", "pika-mcp-skills", "cline-official-skills-plugins"],
+    "duplicateContributionAliasCount": 4,
+    "targetReferences": 517,
+    "uniqueTargetTuples": 513,
+    "duplicateTargetReferenceAliasCount": 4,
+    "resourcePlatformClaims": 438,
+    "resourceHostPlatformPreviews": 1539,
+    "profilePlatformClaims": 0,
+    "available": 0,
+    "managedEligible": 0,
+    "byPlatformStatus": {
+      "windows": { "supported": 1, "unknown": 145, "unsupported": 0, "blocked": 0 },
+      "macos": { "supported": 1, "unknown": 145, "unsupported": 0, "blocked": 0 },
+      "linux": { "supported": 0, "unknown": 146, "unsupported": 0, "blocked": 0 }
+    },
+    "byRuntime": { "native": 169, "remote": 264, "wsl": 2, "container": 3, "browser": 0 },
+    "byStatus": { "supported": 2, "unknown": 436, "unsupported": 0, "blocked": 0 }
+  },
+  "provenancePreservation": {
+    "sourceKind": "Retain the authoritative resource sourceKind and each input's source attribution.",
+    "communityReviews": [
+      { "resourceId": "blender-mcp", "originalSource": "https://github.com/ahujasid/blender-mcp", "authorIdentity": "ahujasid", "licenseStatus": "MIT", "classification": "blocked-reviewed-community" },
+      { "resourceId": "godot-mcp", "originalSource": "https://github.com/tomyud1/godot-mcp", "authorIdentity": "tomyud1", "licenseStatus": "MIT", "classification": "blocked-reviewed-community" },
+      { "resourceId": "unreal-mcp", "originalSource": "https://github.com/GenOrca/unreal-mcp", "authorIdentity": "GenOrca", "licenseStatus": "Apache-2.0", "classification": "blocked-reviewed-community" },
+      { "resourceId": "ableton-mcp-extended", "originalSource": "https://github.com/uisato/ableton-mcp-extended", "authorIdentity": "uisato", "licenseStatus": "not-confirmed-in-current-first-party-pass", "classification": "blocked-reviewed-community", "blocked": true },
+      { "resourceId": "obs-mcp", "originalSource": "https://github.com/sbroenne/mcp-server-obs", "authorIdentity": "sbroenne", "licenseStatus": "MIT", "classification": "blocked-community" },
+      { "resourceId": "davinci-resolve-mcp", "originalSource": "https://github.com/samuelgursky/davinci-resolve-mcp", "authorIdentity": "samuelgursky", "licenseStatus": "MIT (existing repository evidence)", "classification": "blocked-reviewed-community" }
+    ]
+  },
+  "consumptionPreconditions": [
+    "Re-read state and every evidence input; require all recorded hashes, revision, active release identity, 615 products, 146 resources, 513 targets, and four stores to match.",
+    "Recompute the resourceId and resourceId|productId sets. Require 146 and 513 unique entries with no missing, excess, duplicate, or mismatched target tuple.",
+    "Resolve only the documented MCP urlField placeholder to its existing canonicalSource, drop the placeholder key, and validate every normalized claim with the shared adapter.",
+    "Require the existing fixed profile set to have zero platformSupport claims and require available=0 and managedEligible=0; otherwise stop for separate profile review.",
+    "Deep-compare all 615 products, all target fields, and all four stores before any separate save authorization."
+  ],
+  "activationGates": [
+    "The active schema remains unbound. This candidate grants no install, lifecycle, receipt, action, Agent binding, or execution capability.",
+    "Unknown and unsupported claims never become supported from host-product claims, network reachability, or browser access.",
+    "Ableton's unresolved license remains blocked; it is not made managed, installable, or Agent-bindable by this candidate."
+  ],
+  "rollback": "No state was changed. Discard this candidate. A future authorized schema-bound consumption must remove only resource platformSupport evidence after rechecking all seven input hashes and the authoritative baseline."
+}

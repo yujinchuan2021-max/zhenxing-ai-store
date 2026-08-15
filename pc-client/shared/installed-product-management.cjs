@@ -3,6 +3,39 @@
 const {
   resolvedProductCapabilities
 } = require("./product-policy.cjs");
+const {
+  SIGNED_CATALOG_MODULE_ID,
+  validateSignedDesktopDownloadArtifact
+} = require("./desktop-download-only.cjs");
+
+function isSignedCatalogDesktopDownload(product) {
+  return (
+    product?.productType === "desktop-download-only" &&
+    product.moduleId === SIGNED_CATALOG_MODULE_ID &&
+    product.installProfileId === SIGNED_CATALOG_MODULE_ID &&
+    resolvedProductCapabilities(product).includes("install") &&
+    validateSignedDesktopDownloadArtifact(product.download).ok
+  );
+}
+
+function localProfileMatchesCatalogProduct(product, entry) {
+  if (!entry) return false;
+  if (
+    product.productType &&
+    entry.productType &&
+    product.productType !== entry.productType
+  ) {
+    return false;
+  }
+  if (product.moduleId && entry.moduleId && product.moduleId !== entry.moduleId) {
+    return false;
+  }
+  if (Object.hasOwn(product, "installProfileId")) {
+    const entryProfileId = String(entry.profileId || entry.installProfileId || "");
+    if (String(product.installProfileId || "") !== entryProfileId) return false;
+  }
+  return true;
+}
 
 function buildInstalledProductManagement({
   vendors = [],
@@ -11,7 +44,9 @@ function buildInstalledProductManagement({
   cliStatuses = {},
   environmentChecks = [],
   wslDistributions = [],
-  downloadTasks = {}
+  downloadTasks = {},
+  managedDownloadQueueTasks = {},
+  verifiedDownloadTasks = {}
 }) {
   const products = [];
   const reinstallableEnvironments = [];
@@ -72,6 +107,14 @@ function buildInstalledProductManagement({
     if (product.productType === "cli") {
       const status = cliStatuses[product.id];
       if (!status?.installed) continue;
+      const availableVersion = String(status.availableVersion || "").trim();
+      const canUpdate =
+        catalogAllowsFullManagement &&
+        localProfilesByProductId.get(product.id)?.mode === "managed-cli" &&
+        allowed.has("update") &&
+        status.canUpdate === true &&
+        Boolean(availableVersion) &&
+        availableVersion !== String(status.version || "");
       products.push({
         id: product.id,
         name: product.name,
@@ -79,12 +122,19 @@ function buildInstalledProductManagement({
         type: "cli",
         version: String(status.version || ""),
         location: String(status.directory || ""),
-        canOpen: allowed.has("open") && status.managed === true,
+        canOpen:
+          allowed.has("open") &&
+          (status.managed === true || status.canOpen === true),
         canClose: false,
         canManageFiles:
-          catalogAllowsFullManagement && Boolean(status.directory),
+          catalogAllowsFullManagement &&
+          status.managed === true &&
+          Boolean(status.directory),
         canReinstall: false,
         canGetLatest: false,
+        canUpdate,
+        availableVersion,
+        managedByPackageManager: false,
         updateOwner: "",
         updateStrategy: "",
         canUninstall:
@@ -94,7 +144,20 @@ function buildInstalledProductManagement({
     }
     const status = desktopStatuses[product.id];
     if (!status?.installed) continue;
-    const localProfile = localProfilesByProductId.get(product.id);
+    const candidateLocalProfile = localProfilesByProductId.get(product.id);
+    const localProfile = localProfileMatchesCatalogProduct(
+      product,
+      candidateLocalProfile
+    )
+      ? candidateLocalProfile
+      : null;
+    const availableVersion = String(status.availableVersion || "").trim();
+    const canUpdate =
+      catalogAllowsFullManagement &&
+      localProfile?.mode === "managed-package-manager" &&
+      allowed.has("install") &&
+      Boolean(availableVersion) &&
+      availableVersion !== String(status.version || "");
     products.push({
       id: product.id,
       name: product.name,
@@ -106,20 +169,27 @@ function buildInstalledProductManagement({
       canClose:
         catalogAllowsFullManagement &&
         allowed.has("open") &&
+        localProfile?.mode !== "managed-package-manager" &&
         status.canOpen === true,
       canManageFiles:
         catalogAllowsFullManagement && Boolean(status.location),
       canReinstall:
         catalogAllowsFullManagement &&
-        localProfile?.mode === "managed-installer" &&
         allowed.has("install") &&
-        downloadTasks[product.id]?.phase === "completed",
+        (localProfile?.mode === "managed-package-manager" ||
+          (localProfile?.mode === "managed-installer" &&
+            downloadTasks[product.id]?.phase === "completed")),
       canGetLatest:
         catalogAllowsFullManagement &&
-        localProfile?.mode === "managed-installer" &&
+        ["managed-installer", "managed-package-manager"].includes(
+          localProfile?.mode
+        ) &&
         allowed.has("install"),
+      managedByPackageManager:
+        localProfile?.mode === "managed-package-manager",
       updateOwner: String(localProfile?.lifecycle?.updateOwner || ""),
       updateStrategy: String(localProfile?.lifecycle?.updateStrategy || ""),
+      ...(canUpdate ? { availableVersion, canUpdate: true } : {}),
       canUninstall:
         allowed.has("uninstall") && status.canUninstall === true
     });
@@ -127,17 +197,6 @@ function buildInstalledProductManagement({
 
   for (const check of environmentChecks) {
     if (!check?.installed) {
-      if (check?.detection === "absent") {
-        reinstallableEnvironments.push({
-          id: `environment:${check.id}`,
-          environmentId: String(check.id),
-          name: String(check.name || check.id),
-          vendorName: "运行环境",
-          type: "environment",
-          packageReady:
-            downloadTasks[`environment:${check.id}`]?.phase === "completed"
-        });
-      }
       continue;
     }
     const isDesktopEnvironment = check.id === "docker";
@@ -169,6 +228,7 @@ function buildInstalledProductManagement({
       canReinstall:
         downloadTasks[`environment:${check.id}`]?.phase === "completed",
       canGetLatest: false,
+      managedByPackageManager: false,
       updateOwner: "",
       updateStrategy: "",
       canUninstall: check.canUninstall === true,
@@ -182,25 +242,47 @@ function buildInstalledProductManagement({
       String(check.name || check.id)
     ])
   );
-  const packages = Object.values(downloadTasks)
-    .filter(
-      (task) =>
-        task?.phase === "completed" &&
+  const completedPackageTasks = new Map(
+    Object.entries(downloadTasks).filter(
+      ([productId, task]) =>
+        task?.productId === productId &&
+        task.phase === "completed" &&
         typeof task.filePath === "string" &&
-        task.filePath
+        task.filePath.trim()
     )
-    .map((task) => ({
-      id: task.productId,
-      name:
-        catalogProducts.get(task.productId)?.product?.name ||
-        environmentNames.get(task.productId) ||
-        task.productId,
-      filePath: task.filePath,
-      canInstall:
-        task.productId.startsWith("environment:") ||
-        (activeCatalogProductIds.has(task.productId) &&
-          localProfilesByProductId.has(task.productId))
-    }));
+  );
+  for (const [productId, queueTask] of Object.entries(
+    managedDownloadQueueTasks
+  )) {
+    const verifiedTask = verifiedDownloadTasks[productId];
+    if (
+      queueTask?.productId === productId &&
+      queueTask.phase === "downloaded" &&
+      verifiedTask?.productId === productId &&
+      verifiedTask.phase === "completed" &&
+      typeof verifiedTask.filePath === "string" &&
+      verifiedTask.filePath.trim()
+    ) {
+      completedPackageTasks.set(productId, verifiedTask);
+    }
+  }
+  const packages = [...completedPackageTasks.values()]
+    .map((task) => {
+      const catalogProduct = catalogProducts.get(task.productId)?.product;
+      return {
+        id: task.productId,
+        name:
+          catalogProduct?.name ||
+          environmentNames.get(task.productId) ||
+          task.productId,
+        filePath: task.filePath,
+        canInstall:
+          task.productId.startsWith("environment:") ||
+          (activeCatalogProductIds.has(task.productId) &&
+            (localProfilesByProductId.has(task.productId) ||
+              isSignedCatalogDesktopDownload(catalogProduct)))
+      };
+    });
 
   return { products, reinstallableEnvironments, packages };
 }

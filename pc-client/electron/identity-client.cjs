@@ -1,5 +1,16 @@
 "use strict";
 
+function queryPath(pathname, values = {}) {
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(values)) {
+    if (value !== undefined && value !== null && value !== "") {
+      query.set(key, String(value));
+    }
+  }
+  const suffix = query.toString();
+  return suffix ? `${pathname}?${suffix}` : pathname;
+}
+
 function createIdentityClient({
   origin,
   request,
@@ -91,6 +102,44 @@ function createIdentityClient({
       if (!accessToken) throw error;
       return call(pathname, { ...options, accessToken });
     }
+  }
+
+  async function requireResourceSubmissionCapability() {
+    const capability = await call("/v1/resource-submissions/capability");
+    if (capability?.enabled !== true) {
+      const error = new Error("resource submission is unavailable");
+      error.code = "FEATURE_DISABLED";
+      error.status = 503;
+      throw error;
+    }
+    return capability;
+  }
+
+  async function requireWorkflowStoreCapability() {
+    const capability = await call("/v1/community/workflow-store/capability");
+    if (capability?.enabled !== true) {
+      const error = new Error("workflow store is unavailable");
+      error.code = "FEATURE_DISABLED";
+      error.status = 503;
+      throw error;
+    }
+    return capability;
+  }
+
+  async function requireWorkflowPublicCapability() {
+    const capability = await call("/v1/community/workflow-store/public/capability");
+    if (capability?.enabled !== true) {
+      const error = new Error("workflow public store is unavailable");
+      error.code = "FEATURE_DISABLED";
+      error.status = 503;
+      throw error;
+    }
+    return capability;
+  }
+
+  async function workflowMutation(pathname, idempotencyKey, body) {
+    await requireWorkflowStoreCapability();
+    return bearerCall(pathname, { method: "POST", idempotencyKey, body });
   }
 
   return {
@@ -207,6 +256,155 @@ function createIdentityClient({
     },
     async getPersonalCenter() {
       return bearerCall("/v1/me/personal-center");
+    },
+    async getResourceSubmissionCapability() {
+      return call("/v1/resource-submissions/capability");
+    },
+    async listMyResourceSubmissions(options = {}) {
+      await requireResourceSubmissionCapability();
+      return bearerCall(queryPath("/v1/me/resource-submissions", options));
+    },
+    async getMyResourceSubmission(submissionId) {
+      await requireResourceSubmissionCapability();
+      return bearerCall(
+        `/v1/me/resource-submissions/${encodeURIComponent(submissionId)}`
+      );
+    },
+    async createMyResourceSubmission(idempotencyKey, submission) {
+      await requireResourceSubmissionCapability();
+      return bearerCall("/v1/me/resource-submissions", {
+        method: "POST",
+        idempotencyKey,
+        body: submission
+      });
+    },
+    async mutateMyResourceSubmission(submissionId, input) {
+      await requireResourceSubmissionCapability();
+      return bearerCall(
+        `/v1/me/resource-submissions/${encodeURIComponent(submissionId)}/actions`,
+        { method: "POST", body: input }
+      );
+    },
+    async getWorkflowStoreCapability() {
+      return call("/v1/community/workflow-store/capability");
+    },
+    async getWorkflowPublicCapability() {
+      return call("/v1/community/workflow-store/public/capability");
+    },
+    async listPublicWorkflows(options = {}) {
+      await requireWorkflowPublicCapability();
+      return call(queryPath("/v1/community/workflow-store/public/list", options));
+    },
+    async getPublicWorkflow(reference) {
+      await requireWorkflowPublicCapability();
+      return call(queryPath("/v1/community/workflow-store/public/release", reference));
+    },
+    async resolvePublicWorkflow(reference) {
+      await requireWorkflowPublicCapability();
+      return call(queryPath("/v1/community/workflow-store/public/release", reference));
+    },
+    async createMyWorkflowDraft(idempotencyKey, draft) {
+      return workflowMutation(
+        "/v1/community/workflow-store/owner/drafts",
+        idempotencyKey,
+        draft
+      );
+    },
+    async listMyWorkflowDrafts(options = {}) {
+      await requireWorkflowStoreCapability();
+      return bearerCall(queryPath("/v1/community/workflow-store/owner/drafts", options));
+    },
+    async getMyWorkflowDraft(workflowId) {
+      await requireWorkflowStoreCapability();
+      return bearerCall(queryPath("/v1/community/workflow-store/owner/draft", { workflowId }));
+    },
+    async updateMyWorkflowDraft(idempotencyKey, input) {
+      return workflowMutation(
+        "/v1/community/workflow-store/owner/drafts/update",
+        idempotencyKey,
+        input
+      );
+    },
+    async submitMyWorkflowDraft(idempotencyKey, input) {
+      return workflowMutation(
+        "/v1/community/workflow-store/owner/drafts/submit",
+        idempotencyKey,
+        input
+      );
+    },
+    async withdrawMyWorkflowDraft(idempotencyKey, input) {
+      return workflowMutation(
+        "/v1/community/workflow-store/owner/drafts/withdraw",
+        idempotencyKey,
+        input
+      );
+    },
+    async attachMyWorkflowPost(idempotencyKey, input) {
+      return workflowMutation(
+        "/v1/community/workflow-store/owner/posts/attach",
+        idempotencyKey,
+        input
+      );
+    },
+    async detachMyWorkflowPost(idempotencyKey, input) {
+      return workflowMutation(
+        "/v1/community/workflow-store/owner/posts/detach",
+        idempotencyKey,
+        input
+      );
+    },
+    async reportWorkflowRelease(idempotencyKey, input) {
+      return workflowMutation(
+        "/v1/community/workflow-store/owner/reports",
+        idempotencyKey,
+        input
+      );
+    },
+    async getIdentityUserByUsername(username) {
+      return bearerCall(
+        `/v1/users/by-username/${encodeURIComponent(username)}`
+      );
+    },
+    async listIdentityFollowers(options = {}) {
+      return bearerCall(queryPath("/v1/me/followers", options));
+    },
+    async listIdentityFollowing(options = {}) {
+      return bearerCall(queryPath("/v1/me/following", options));
+    },
+    async followIdentityUser(userId) {
+      return bearerCall(
+        `/v1/me/following/${encodeURIComponent(userId)}`,
+        { method: "PUT", body: {} }
+      );
+    },
+    async unfollowIdentityUser(userId) {
+      return bearerCall(
+        `/v1/me/following/${encodeURIComponent(userId)}`,
+        { method: "DELETE" }
+      );
+    },
+    async listDirectConversations(options = {}) {
+      return bearerCall(queryPath("/v1/me/direct-messages", options));
+    },
+    async listDirectMessages(peerUserId, options = {}) {
+      return bearerCall(
+        queryPath(
+          `/v1/me/direct-messages/${encodeURIComponent(peerUserId)}`,
+          options
+        )
+      );
+    },
+    async sendDirectMessage(peerUserId, input) {
+      return bearerCall(
+        `/v1/me/direct-messages/${encodeURIComponent(peerUserId)}`,
+        { method: "POST", body: input }
+      );
+    },
+    async markDirectMessagesRead(peerUserId, throughMessageId) {
+      return bearerCall(
+        `/v1/me/direct-messages/${encodeURIComponent(peerUserId)}/read`,
+        { method: "PUT", body: { throughMessageId } }
+      );
     },
     async markPersonalCenterNotificationRead(source, notificationId) {
       return bearerCall(

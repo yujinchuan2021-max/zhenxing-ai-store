@@ -47,7 +47,44 @@ test("extension facade returns only safe renderer fields", async () => {
   assert.equal(JSON.stringify(await facade.inspect("skill.example")).includes("private"), false);
 });
 
-test("extension list exposes only fixed local receipt profiles that are managed or anomalous", async () => {
+test("extension facade applies the caller status filter to inspect, execute, and list", async () => {
+  const facade = createExtensionIpcFacade(
+    {
+      inspect() {
+        return {
+          state: "outdated",
+          managed: true,
+          allowedActions: ["update", "uninstall"]
+        };
+      },
+      execute() {
+        return this.inspect();
+      }
+    },
+    {
+      listProfiles: () => [
+        {
+          id: "skill.example",
+          label: "Example",
+          moduleId: "skill-managed",
+          hostProductId: "codex-cli"
+        }
+      ],
+      statusFilter: (_profileId, status) => ({
+        ...status,
+        allowedActions: status.allowedActions.filter((action) => action !== "update")
+      })
+    }
+  );
+
+  assert.deepEqual((await facade.inspect("skill.example")).allowedActions, ["uninstall"]);
+  assert.deepEqual((await facade.execute("skill.example", "update")).allowedActions, [
+    "uninstall"
+  ]);
+  assert.deepEqual((await facade.list())[0].allowedActions, ["uninstall"]);
+});
+
+test("extension list exposes managed marker-only profiles and safe anomalies", async () => {
   const statuses = {
     "skill.managed": {
       state: "installed",
@@ -64,6 +101,12 @@ test("extension list exposes only fixed local receipt profiles that are managed 
       state: "external",
       managed: false,
       allowedActions: []
+    },
+    "plugin.marker-only": {
+      state: "installed",
+      managed: true,
+      enabled: true,
+      allowedActions: ["disable", "uninstall"]
     },
     "skill.host-missing": {
       state: "host-missing",
@@ -96,6 +139,12 @@ test("extension list exposes only fixed local receipt profiles that are managed 
         {
           id: "plugin.external",
           label: "External Plugin",
+          moduleId: "plugin-managed",
+          hostProductId: "claude-code"
+        },
+        {
+          id: "plugin.marker-only",
+          label: "Marker-only Plugin",
           moduleId: "plugin-managed",
           hostProductId: "claude-code"
         },
@@ -135,6 +184,17 @@ test("extension list exposes only fixed local receipt profiles that are managed 
       state: "invalid-receipt",
       managed: false,
       allowedActions: []
+    },
+    {
+      profileId: "plugin.marker-only",
+      label: "Marker-only Plugin",
+      resourceType: "plugin",
+      hostProductId: "claude-code",
+      ok: true,
+      state: "installed",
+      managed: true,
+      enabled: true,
+      allowedActions: ["disable", "uninstall"]
     }
   ]);
   assert.equal(JSON.stringify(await facade.list()).includes("private"), false);
@@ -182,9 +242,13 @@ test("Electron exposes extension list/inspect/execute IPC interfaces", () => {
   assert.match(main, /ipcMain\.handle\("extension:inspect", \(_event, profileId\)/);
   assert.match(main, /ipcMain\.handle\("extension:execute", \(_event, profileId, action\)/);
   assert.match(main, /ipcMain\.handle\("extension:list", \(\) => extensionIpcFacade\.list\(\)\)/);
-  assert.match(main, /localExtensionReceiptProfiles\(receiptsRoot\)/);
-  assert.match(main, /publicExtensionInstallProfiles\(\)\.filter/);
-  assert.match(main, /fs\.lstatSync\(path\.join\(receiptsRoot, `\$\{profile\.id\}\.json`\)\)/);
+  assert.match(main, /listProfiles = \(\) => publicExtensionInstallProfiles\(\)/);
+  assert.doesNotMatch(main, /localExtensionReceiptProfiles/);
+  assert.match(main, /createClaudeCodeMcpRuntime\(\{/);
+  assert.match(main, /createCursorMcpRuntime\(\{/);
+  assert.match(main, /"claude-code-mcp-cli": claudeMcpRuntime/);
+  assert.match(main, /"cursor-mcp-json": cursorMcpRuntime/);
+  assert.match(main, /shell: false/);
   assert.match(preload, /ipcRenderer\.invoke\("extension:inspect", profileId\)/);
   assert.match(preload, /ipcRenderer\.invoke\("extension:execute", profileId, action\)/);
   assert.match(preload, /ipcRenderer\.invoke\("extension:list"\)/);
@@ -225,7 +289,10 @@ test("managed resource UI probes only after an explicit action", () => {
     /result\.ok\s*\? \{ \.\.\.item, \.\.\.result, error: undefined \}\s*: \{\s*\.\.\.item,\s*ok: false,\s*error:/
   );
   assert.match(app, /disabled=\{busyAction !== null\}/);
-  assert.match(app, /target\.capabilities\.includes\("website"\)/);
+  assert.match(app, /resourceTargetPresentation\(resource, target\)/);
+  assert.match(app, /const managed = presentation\.managed/);
+  assert.match(app, /managed && !status/);
+  assert.match(app, /onClick=\{\(\) => void runAction\("inspect"\)\}/);
   for (const key of [
     "extensions.checking",
     "extensions.installing",

@@ -3,6 +3,7 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const {
+  INSTALL_REGISTRY,
   cliInstallPlans,
   getInstallRegistration,
   publicInstallProfiles
@@ -10,6 +11,7 @@ const {
 const {
   PRODUCT_MODULES,
   applyProductModule,
+  getProductModule,
   moduleIdForProductType,
   publicProductModules
 } = require("../shared/product-modules.cjs");
@@ -22,10 +24,19 @@ test("each product type resolves to one reusable product module", () => {
   assert.equal(moduleIdForProductType("desktop-reviewed"), "desktop-managed");
   assert.equal(moduleIdForProductType("cli-official"), "cli-official");
   assert.equal(moduleIdForProductType("cli"), "cli-managed");
-  assert.equal(publicProductModules().length, 7);
+  assert.equal(moduleIdForProductType("cli-deploy-only"), "cli-deploy-only");
+  assert.equal(
+    moduleIdForProductType("desktop-download-only"),
+    "desktop-download-only.signed-catalog"
+  );
+  assert.equal(
+    getProductModule("desktop-download-only").id,
+    "desktop-download-only.signed-catalog"
+  );
+  assert.equal(publicProductModules().length, 9);
   assert.equal(
     new Set(publicProductModules().map((module) => module.productType)).size,
-    7
+    9
   );
 });
 
@@ -71,7 +82,7 @@ test("a module derives every low-level product policy", () => {
 
 test("approved profiles expose identity but no executable command", () => {
   const profiles = publicInstallProfiles();
-  assert.equal(profiles.length, 41);
+  assert.equal(profiles.length, Object.keys(INSTALL_REGISTRY).length);
   assert.deepEqual(
     profiles.find((profile) => profile.id === "cli.codex"),
     {
@@ -140,7 +151,9 @@ test("approved profiles expose identity but no executable command", () => {
       kind: "CLI",
       mode: "managed-cli",
       requirements: [],
-      capabilities: ["website", "tutorial", "install", "open", "uninstall"]
+      capabilities: [
+        "website", "tutorial", "install", "update", "repair", "open", "uninstall"
+      ]
     }
   );
   assert.equal(
@@ -208,28 +221,18 @@ test("managed desktop profiles resolve every advertised native capability", () =
 });
 
 test("every managed CLI declares one fixed local terminal command", () => {
-  assert.deepEqual(
-    Object.fromEntries(
-      Object.entries(cliInstallPlans()).map(([productId, plan]) => [
-        productId,
-        plan.commandName
-      ])
-    ),
-    {
-      "codex-cli": "codex",
-      "claude-code": "claude",
-      "gemini-cli": "gemini",
-      "google-antigravity-cli": "agy",
-      "moonshot-kimi-code-cli": "kimi",
-      "openclaw-agent": "openclaw",
-      "openclaw-wsl-gateway": "openclaw",
-      "alibaba-qwen-code": "qwen",
-      "amazon-kiro-cli": "kiro-cli",
-      "github-copilot-cli": "copilot",
-      "minimax-cli": "mmx",
-      "comfy-cli": "comfy",
-      "hf-cli": "hf",
-      "mistral-vibe-code-cli": "vibe"
-    }
-  );
+  const plans = cliInstallPlans();
+  const managedProductIds = Object.entries(INSTALL_REGISTRY)
+    .filter(([, registration]) => registration.mode === "managed-cli")
+    .map(([productId]) => productId)
+    .sort();
+  assert.deepEqual(Object.keys(plans).sort(), managedProductIds);
+  for (const [productId, plan] of Object.entries(plans)) {
+    assert.match(plan.commandName, /^[A-Za-z0-9][A-Za-z0-9-]{0,63}$/, productId);
+    assert.equal(
+      plan.commandName,
+      INSTALL_REGISTRY[productId].cli.commandName,
+      productId
+    );
+  }
 });

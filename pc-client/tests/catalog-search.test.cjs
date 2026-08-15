@@ -14,12 +14,13 @@ const catalog = JSON.parse(
   )
 );
 
-function search(query, source = catalog) {
+function search(query, source = catalog, resourceSourceChannel = "all") {
   return searchCatalog({
     vendors: source.vendors,
     resources: source.resources || [],
     resourceStores: source.resourceStores || [],
-    query
+    query,
+    resourceSourceChannel
   });
 }
 
@@ -225,6 +226,19 @@ test("catalog search projects resources into every enabled current or future sto
     results.resources.map(({ store }) => store.id),
     ["skill", "workflow"]
   );
+});
+
+test("catalog search keeps source channels separate while retaining reviewed-community detail", () => {
+  const source = {
+    vendors: [{ id: "example", enabled: true, order: 0, name: "Example", products: [{ id: "example-cli", enabled: true, order: 0, directoryKind: "ai-tool", name: "Example CLI" }] }],
+    resourceStores: [{ id: "skill", label: "Skill", enabled: true, order: 0 }],
+    resources: [
+      { id: "official-skill", sourceKind: "official", enabled: true, order: 0, name: "Shared Skill", resourceTypes: ["skill"], targets: [{ productId: "example-cli", enabled: true }] },
+      { id: "reviewed-skill", sourceKind: "reviewed-community", enabled: true, order: 1, name: "Shared Skill", resourceTypes: ["skill"], targets: [{ productId: "example-cli", enabled: true }] }
+    ]
+  };
+  assert.deepEqual(search("Shared Skill", source, "official").resources.map((row) => row.resource.id), ["official-skill"]);
+  assert.deepEqual(search("Shared Skill", source, "community").resources.map((row) => row.resource.id), ["reviewed-skill"]);
 });
 
 test("empty catalog search has no implicit directory results", () => {

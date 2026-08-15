@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "manifestId": "zhenxing-workflow-official-source-posts-v1",
+  "posts": [
+    {
+      "key": "chatgpt-desktop-research",
+      "title": "ChatGPT Desktop：研究材料整理的边界与检查清单",
+      "content": "这篇帖子讨论如何把用户明确选择的研究材料整理成一份可复核的摘要。它对应 ChatGPT Desktop 研究摘要工作流的社区来源，但帖子本身只用于说明与讨论，不包含可执行内容。\n\n建议的人工步骤：\n\n1. 先确认材料范围、用途以及不可公开的信息。\n2. 分开记录原文明确陈述的事实、仍需核实的信息和整理者的结论。\n3. 保留来源上下文，避免把推测改写成事实。\n4. 输出前检查遗漏、相互矛盾的说法和需要补充证据的位置。\n\n这类整理适合帮助阅读和复核，不代替专业判断，也不意味着材料中的每项说法都已验证。后续结构化 WorkflowRelease 只会引用本帖及受审核的数据声明；任何导入、运行或 Agent 绑定仍由独立安全门禁决定。\n\n许可：CC BY 4.0。\n\n来源标识：workflow-official-source/chatgpt-desktop-research-v1"
+    },
+    {
+      "key": "codex-cli-code-review",
+      "title": "Codex CLI：代码审查应关注什么",
+      "content": "这篇帖子整理一份面向代码变更的审查方法，对应 Codex CLI 代码审查工作流的社区来源。讨论重点是如何阅读用户已经提供的变更证据，而不是让帖子携带或触发任何执行动作。\n\n建议按以下顺序审查：\n\n1. 先确认需求、变更范围和未授权触碰的模块。\n2. 优先检查正确性、安全边界、数据丢失风险和兼容性。\n3. 对每项发现说明可复现条件、影响范围和最小验证方法。\n4. 区分已证实缺陷、证据不足的风险以及纯风格建议。\n5. 检查测试是否覆盖公开接口，而不是只绑定实现细节。\n\n审查报告应帮助维护者作出决定，不把自动化通过冒充真实用户或生产验收。后续结构化 WorkflowRelease 仅保存人工说明、固定输入输出和受审核依赖；帖子不保存命令、脚本、凭据或路径。\n\n许可：CC BY 4.0。\n\n来源标识：workflow-official-source/codex-cli-code-review-v1"
+    },
+    {
+      "key": "claude-desktop-content",
+      "title": "Claude Desktop：长内容整理的可靠方法",
+      "content": "这篇帖子讨论如何把用户选择的长内容按主题和层级重新组织，对应 Claude Desktop 内容整理工作流的社区来源。目标是提升可读性，同时保留原意、作者归属和需要确认的歧义。\n\n建议的人工流程：\n\n1. 标出重复主题、独立信息组和前后依赖。\n2. 建立标题层级，但不要为了结构完整而补写原文没有的事实。\n3. 合并重复表达时保留关键限定条件和例外。\n4. 对无法确定的指代、时间或来源明确标注待作者确认。\n5. 输出后抽查重组内容能否追溯回原材料。\n\n内容整理不是事实审核，也不改变原作者和许可信息。后续结构化 WorkflowRelease 只声明固定的数据结构与人工说明；帖子不提供安装、执行、调用或 Agent 绑定能力。\n\n许可：CC BY 4.0。\n\n来源标识：workflow-official-source/claude-desktop-content-v1"
+    }
+  ]
+}

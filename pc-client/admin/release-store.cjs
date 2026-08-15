@@ -4,6 +4,7 @@ const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 const { validateCatalog } = require("../shared/catalog.cjs");
+const { normalizeCatalogChannel } = require("../shared/catalog-channel.cjs");
 const {
   canonicalize,
   createSignedEnvelope,
@@ -11,6 +12,7 @@ const {
   validateRollout,
   verifySignedEnvelope
 } = require("../shared/signed-release.cjs");
+const { assertCatalogSigningKeyAllowed } = require("../shared/catalog-key-retirement.cjs");
 
 const STATE_SCHEMA_VERSION = 1;
 
@@ -51,53 +53,38 @@ function initialState() {
     activeReleaseId: null,
     activeCatalogVersion: 0,
     history: [],
+    channels: { v2: { activeReleaseId: null, activeCatalogVersion: 0, history: [] } },
     trustedKeys: []
   };
 }
 
-function validateState(value) {
+function emptyChannelState() {
+  return { activeReleaseId: null, activeCatalogVersion: 0, history: [] };
+}
+
+function normalizeState(value) {
+  if (!value || typeof value !== "object") return value;
+  const channels = value.channels;
+  if (channels === undefined) return { ...value, channels: { v2: emptyChannelState() } };
+  if (!channels || typeof channels !== "object" || Array.isArray(channels) || Object.keys(channels).some((key) => key !== "v2")) return value;
+  return { ...value, channels: { v2: channels.v2 === undefined ? emptyChannelState() : channels.v2 } };
+}
+
+function channelState(state, channel) {
+  return normalizeCatalogChannel(channel) === "v1" ? state : state.channels.v2;
+}
+
+function validateChannelState(value) {
   if (
     !value ||
-    value.schemaVersion !== STATE_SCHEMA_VERSION ||
     !Number.isSafeInteger(value.activeCatalogVersion) ||
     value.activeCatalogVersion < 0 ||
     !Array.isArray(value.history) ||
-    !Array.isArray(value.trustedKeys)
-  ) {
-    throw new Error("目录发布状态无效");
-  }
-  if (value.trustedKeys.length > 0) normalizeTrustedKeys(value.trustedKeys);
-  if (
-    (value.activeReleaseId === null) !==
-    (value.activeCatalogVersion === 0)
-  ) {
-    throw new Error("目录发布状态无效");
-  }
-  if (
-    value.activeReleaseId !== null &&
-    (typeof value.activeReleaseId !== "string" ||
-      !value.history.some(
-        (entry) =>
-          entry.releaseId === value.activeReleaseId &&
-          entry.catalogVersion === value.activeCatalogVersion
-      ))
-  ) {
-    throw new Error("活动目录发布状态无效");
-  }
-  if (value.draft !== null) {
-    if (
-      !Number.isSafeInteger(value.draft.revision) ||
-      value.draft.revision < 1 ||
-      typeof value.draft.updatedAt !== "string" ||
-      Number.isNaN(Date.parse(value.draft.updatedAt))
-    ) {
-      throw new Error("目录草稿状态无效");
-    }
-    validateCatalog(clone(value.draft.catalog));
-  }
+    (value.activeReleaseId === null) !== (value.activeCatalogVersion === 0)
+  ) throw new Error("目录发布状态无效");
+  const releaseIds = new Set();
   let previousVersion = 0;
   let previousReleaseId = null;
-  const releaseIds = new Set();
   for (const entry of value.history) {
     if (
       !entry ||
@@ -114,31 +101,53 @@ function validateState(value) {
       entry.draftRevision < 1 ||
       typeof entry.keyId !== "string" ||
       entry.parentReleaseId !== previousReleaseId ||
-      (entry.sourceReleaseId !== null &&
-        !releaseIds.has(entry.sourceReleaseId))
-    ) {
-      throw new Error("目录发布历史无效");
-    }
+      (entry.sourceReleaseId !== null && !releaseIds.has(entry.sourceReleaseId))
+    ) throw new Error("目录发布历史无效");
     previousVersion = entry.catalogVersion;
     previousReleaseId = entry.releaseId;
     releaseIds.add(entry.releaseId);
   }
-  if (previousVersion !== value.activeCatalogVersion) {
-    throw new Error("目录发布版本不连续");
+  if (previousVersion !== value.activeCatalogVersion) throw new Error("目录发布版本不连续");
+}
+
+function validateState(value) {
+  value = normalizeState(value);
+  if (
+    !value ||
+    value.schemaVersion !== STATE_SCHEMA_VERSION ||
+    !Number.isSafeInteger(value.activeCatalogVersion) ||
+    value.activeCatalogVersion < 0 ||
+    !Array.isArray(value.history) ||
+    !value.channels ||
+    !Array.isArray(value.trustedKeys)
+  ) {
+    throw new Error("目录发布状态无效");
+  }
+  if (value.trustedKeys.length > 0) normalizeTrustedKeys(value.trustedKeys);
+  validateChannelState(channelState(value, "v1"));
+  validateChannelState(channelState(value, "v2"));
+  if (value.draft !== null) {
+    if (
+      !Number.isSafeInteger(value.draft.revision) ||
+      value.draft.revision < 1 ||
+      typeof value.draft.updatedAt !== "string" ||
+      Number.isNaN(Date.parse(value.draft.updatedAt))
+    ) {
+      throw new Error("目录草稿状态无效");
+    }
+    validateCatalog(clone(value.draft.catalog));
   }
   return value;
 }
 
-function publicState(state) {
-  const activeRelease =
-    state.history.find(
-      (entry) => entry.releaseId === state.activeReleaseId
-    ) || null;
+function publicChannelState(state, channel) {
+  const current = channelState(state, channel);
+  const activeRelease = current.history.find((entry) => entry.releaseId === current.activeReleaseId) || null;
   return clone({
     schemaVersion: state.schemaVersion,
     draft: state.draft,
     activeRelease,
-    activeCatalogVersion: state.activeCatalogVersion
+    activeCatalogVersion: current.activeCatalogVersion
   });
 }
 
@@ -185,6 +194,7 @@ function writeImmutable(filePath, raw) {
 }
 
 function normalizeSigningKey(value) {
+  assertCatalogSigningKeyAllowed(value?.keyId, "sign");
   if (
     !value ||
     typeof value !== "object" ||
@@ -266,12 +276,12 @@ function createReleaseStore({
   };
 
   const writeState = (state) => {
-    validateState(state);
+    state = validateState(state);
     atomicWrite(statePath, `${JSON.stringify(state, null, 2)}\n`);
   };
 
-  const releaseMetadata = (state, releaseId) =>
-    state.history.find((entry) => entry.releaseId === releaseId) || null;
+  const releaseMetadata = (state, channel, releaseId) =>
+    channelState(state, channel).history.find((entry) => entry.releaseId === releaseId) || null;
 
   const readEnvelope = (state, metadata) => {
     const filePath = path.join(releaseDirectory, metadata.fileName);
@@ -295,6 +305,7 @@ function createReleaseStore({
   };
 
   const publishCatalog = async ({
+    channel,
     catalog,
     draftRevision,
     activeCatalogVersion,
@@ -302,20 +313,26 @@ function createReleaseStore({
     rollout,
     sourceReleaseId = null
   }) => {
+    channel = normalizeCatalogChannel(channel);
     const state = readInternalState();
+    const current = channelState(state, channel);
     if (
       !state.draft ||
       state.draft.revision !== draftRevision ||
-      state.activeCatalogVersion !== activeCatalogVersion
+      current.activeCatalogVersion !== activeCatalogVersion
     ) {
       throw new Error("目录草稿或活动版本已变化，请重新读取");
     }
     const normalizedCatalog = validateCatalog(
       transformCatalogForRelease(clone(catalog))
     );
+    if (channel === "v1" && normalizedCatalog.homeCarousel !== undefined) {
+      throw new Error("v1 catalog channel does not accept homeCarousel");
+    }
     const signingKey = normalizeSigningKey(await signingKeyProvider());
+    assertCatalogSigningKeyAllowed(signingKey.keyId, "publish");
     const publishedAt = timestamp(clock);
-    const catalogVersion = state.activeCatalogVersion + 1;
+    const catalogVersion = current.activeCatalogVersion + 1;
     const releaseId = `catalog-v${String(catalogVersion).padStart(8, "0")}-${sha256(
       canonicalize(normalizedCatalog)
     ).slice(0, 12)}-${crypto.randomUUID().slice(0, 8)}`;
@@ -338,7 +355,7 @@ function createReleaseStore({
       catalogVersion,
       publishedAt,
       draftRevision,
-      parentReleaseId: state.activeReleaseId,
+      parentReleaseId: current.activeReleaseId,
       sourceReleaseId,
       notes: normalizedNotes,
       rollout: normalizedRollout,
@@ -353,6 +370,7 @@ function createReleaseStore({
     });
     const raw = `${JSON.stringify(envelope, null, 2)}\n`;
     const fileName = `${releaseId}.json`;
+    assertCatalogSigningKeyAllowed(signingKey.keyId, "state-write");
     writeImmutable(path.join(releaseDirectory, fileName), raw);
 
     const nextState = clone(state);
@@ -367,23 +385,28 @@ function createReleaseStore({
       catalogVersion,
       publishedAt,
       draftRevision,
-      parentReleaseId: state.activeReleaseId,
+      parentReleaseId: current.activeReleaseId,
       sourceReleaseId,
       notes: normalizedNotes,
       keyId: signingKey.keyId,
       sha256: sha256(raw),
       fileName
     };
-    nextState.history.push(metadata);
-    nextState.activeReleaseId = releaseId;
-    nextState.activeCatalogVersion = catalogVersion;
+    const nextCurrent = channelState(nextState, channel);
+    nextCurrent.history.push(metadata);
+    nextCurrent.activeReleaseId = releaseId;
+    nextCurrent.activeCatalogVersion = catalogVersion;
     writeState(nextState);
     return clone({ release: metadata, envelope });
   };
 
   return Object.freeze({
     readState() {
-      return enqueue(() => publicState(readInternalState()));
+      return enqueue(() => publicChannelState(readInternalState(), "v1"));
+    },
+
+    readChannel(channel) {
+      return enqueue(() => publicChannelState(readInternalState(), channel));
     },
 
     saveDraft({ catalog, expectedRevision }) {
@@ -414,6 +437,7 @@ function createReleaseStore({
     },
 
     publish({
+      channel = "v1",
       expectedDraftRevision,
       expectedActiveCatalogVersion,
       notes,
@@ -423,6 +447,7 @@ function createReleaseStore({
         const state = readInternalState();
         if (!state.draft) throw new Error("没有可发布的目录草稿");
         return publishCatalog({
+          channel,
           catalog: state.draft.catalog,
           draftRevision: expectedDraftRevision,
           activeCatalogVersion: expectedActiveCatalogVersion,
@@ -432,18 +457,18 @@ function createReleaseStore({
       });
     },
 
-    listHistory() {
+    listHistory({ channel = "v1" } = {}) {
       return enqueue(() =>
-        clone(readInternalState().history).sort(
+        clone(channelState(readInternalState(), channel).history).sort(
           (left, right) => right.catalogVersion - left.catalogVersion
         )
       );
     },
 
-    readRelease(releaseId) {
+    readRelease(releaseId, { channel = "v1" } = {}) {
       return enqueue(() => {
         const state = readInternalState();
-        const metadata = releaseMetadata(state, releaseId);
+        const metadata = releaseMetadata(state, channel, releaseId);
         if (!metadata) throw new Error("目录发布不存在");
         return clone({
           release: metadata,
@@ -453,23 +478,27 @@ function createReleaseStore({
     },
 
     rollback({
+      channel = "v1",
       releaseId,
       expectedActiveCatalogVersion,
       notes,
       rollout
     }) {
       return enqueue(async () => {
+        channel = normalizeCatalogChannel(channel);
         const state = readInternalState();
-        if (state.activeCatalogVersion !== expectedActiveCatalogVersion) {
+        const current = channelState(state, channel);
+        if (current.activeCatalogVersion !== expectedActiveCatalogVersion) {
           throw new Error("活动目录版本已变化，请重新读取");
         }
-        const target = releaseMetadata(state, releaseId);
+        const target = releaseMetadata(state, channel, releaseId);
         if (!target) throw new Error("回滚目标不存在");
-        if (target.releaseId === state.activeReleaseId) {
+        if (target.releaseId === current.activeReleaseId) {
           throw new Error("回滚目标已经是活动目录");
         }
         const envelope = readEnvelope(state, target);
         return publishCatalog({
+          channel,
           catalog: envelope.payload.catalog,
           draftRevision: state.draft?.revision || target.draftRevision,
           activeCatalogVersion: expectedActiveCatalogVersion,
@@ -483,5 +512,7 @@ function createReleaseStore({
 }
 
 module.exports = {
-  createReleaseStore
+  atomicWrite,
+  createReleaseStore,
+  writeImmutable
 };

@@ -18,6 +18,9 @@ const {
   publicInstallProfiles
 } = require("../shared/install-registry.cjs");
 const {
+  publicDesktopDownloadOnlyProfiles
+} = require("../shared/desktop-download-only.cjs");
+const {
   getProductModule,
   moduleIdForProductType,
   publicProductModules
@@ -26,8 +29,17 @@ const {
   entryPointTypeMetadata
 } = require("../shared/product-entry-points.cjs");
 const {
+  publicOfficialDownloadKinds
+} = require("../shared/official-download-page.cjs");
+const {
   publicResourceModules
 } = require("../shared/ecosystem-resources.cjs");
+const {
+  RESOURCE_SOURCE_CHANNELS,
+  RESOURCE_SOURCE_KINDS,
+  RESOURCE_REVIEW_STATUSES,
+  RESOURCE_RISK_LEVELS
+} = require("../shared/resource-store.cjs");
 const {
   publicExtensionInstallProfiles
 } = require("../shared/extension-install-registry.cjs");
@@ -40,6 +52,13 @@ const {
 const {
   loadSigningKey
 } = require("./signing-key.cjs");
+const {
+  isAdminReadOnly,
+  isAdminReadOnlyWriteBlocked
+} = require("./read-only-mode.cjs");
+const {
+  createCommunityManagement
+} = require("./community-management.cjs");
 const {
   defaultReleaseSettings,
   mergeReleaseSettings,
@@ -61,12 +80,31 @@ const {
   CATALOG_JSON_BODY_LIMIT_BYTES,
   readJson
 } = require("./request-json.cjs");
+const { shouldSyncDiskCatalogDraft } = require("./draft-sync.cjs");
+const {
+  normalizeCatalogChannel,
+  catalogReleasePath
+} = require("../shared/catalog-channel.cjs");
+const {
+  readCatalogClientChannel
+} = require("../shared/catalog-client-channel.cjs");
+const {
+  createSoftwareUpdateCenter
+} = require("./software-update-center.cjs");
 
 const host = process.env.AIHUB_ADMIN_HOST || "127.0.0.1";
 const port = Number(process.env.AIHUB_ADMIN_PORT || 4173);
+const adminReadOnly = isAdminReadOnly();
 const publicOrigin =
   process.env.AIHUB_ADMIN_PUBLIC_ORIGIN || `http://${host}:${port}`;
+const adminWriteOrigins = new Set(
+  [publicOrigin, ...(process.env.AIHUB_ADMIN_WRITE_ORIGINS || "").split(",")]
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map((value) => new URL(value).origin)
+);
 const catalogAssetOrigin = process.env.AIHUB_CATALOG_ASSET_ORIGIN || "";
+const communityManagement = createCommunityManagement();
 const root = path.resolve(__dirname, "..");
 const publicDirectory = path.join(__dirname, "public");
 const draftPath = path.join(__dirname, "data", "catalog-v1.json");
@@ -84,6 +122,15 @@ const vendorIconFallbackPath = path.join(
   "vendor-icon-fallbacks.json"
 );
 const updateReleasePath = path.join(publishedDirectory, "update-release.json");
+const softwareUpdateReleasePath = path.join(
+  publishedDirectory,
+  "software-update-release.json"
+);
+const softwareUpdateStatePath = path.join(
+  publishedDirectory,
+  "software-update-store",
+  "state.json"
+);
 const channelPath = path.join(root, "catalog", "channel.json");
 const updateChannelPath = path.join(root, "updates", "channel.json");
 const discoveryReportPath = path.join(
@@ -102,14 +149,27 @@ const productAcceptancePath = path.join(
   "data",
   "product-acceptance.local.json"
 );
-const signingKey = loadSigningKey({
-  dataDirectory: path.join(__dirname, "data")
+const signingKey = adminReadOnly ? null : loadSigningKey({
+  dataDirectory: path.join(__dirname, "data"),
+  keyMetadata: readCatalogClientChannel(
+    JSON.parse(fs.readFileSync(channelPath, "utf8")),
+    { kind: "catalog", allowLocalhost: true }
+  ).trustedKeys[0]
 });
 const releaseStore = createReleaseStore({
   rootDirectory: releaseStoreDirectory,
-  signingKeyProvider: async () => signingKey,
+  signingKeyProvider: async () => {
+    if (!signingKey) throw new Error("只读后台不能签名发布目录");
+    return signingKey;
+  },
   transformCatalogForRelease: (catalog) =>
     materializeLegacyVendorIconUrls(catalog, catalogAssetOrigin)
+});
+const softwareUpdateCenter = createSoftwareUpdateCenter({
+  statePath: softwareUpdateStatePath,
+  releasePath: softwareUpdateReleasePath,
+  keyId: signingKey?.keyId || "",
+  privateKey: signingKey?.privateKey || null
 });
 const productCertification = createProductCertification({
   filePath: productAcceptancePath
@@ -138,7 +198,10 @@ function sendJson(response, status, value) {
   response.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
-    "X-Content-Type-Options": "nosniff"
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'; base-uri 'none'"
   });
   response.end(JSON.stringify(value));
 }
@@ -218,7 +281,7 @@ const discoveryReview = createDiscoveryReview({
 const discoveryIntervalHours = Number(
   process.env.AIHUB_DISCOVERY_SCAN_INTERVAL_HOURS || 24
 );
-if (Number.isFinite(discoveryIntervalHours) && discoveryIntervalHours > 0) {
+if (!adminReadOnly && Number.isFinite(discoveryIntervalHours) && discoveryIntervalHours > 0) {
   const timer = setInterval(
     async () => {
       try {
@@ -245,6 +308,10 @@ function readReleaseSettings() {
 
 async function ensureDraft() {
   let state = await releaseStore.readState();
+  if (adminReadOnly) {
+    if (!state.draft) throw new Error("只读后台没有可读取的目录草稿");
+    return state;
+  }
   if (!state.draft) {
     const catalog = readCatalog(draftPath);
     await releaseStore.saveDraft({
@@ -255,10 +322,7 @@ async function ensureDraft() {
     state = await releaseStore.readState();
   }
   const diskInput = JSON.parse(fs.readFileSync(draftPath, "utf8"));
-  if (
-    Number.isSafeInteger(diskInput?.schemaVersion) &&
-    diskInput.schemaVersion > state.draft.catalog.schemaVersion
-  ) {
+  if (shouldSyncDiskCatalogDraft(diskInput, state.draft)) {
     const catalog = validateCatalog(normalizeCatalog(diskInput));
     await releaseStore.saveDraft({
       catalog,
@@ -348,17 +412,44 @@ function serveFile(response, filePath, contentType, cacheControl = "no-store") {
   response.writeHead(200, {
     "Content-Type": contentType,
     "Cache-Control": cacheControl,
-    "X-Content-Type-Options": "nosniff"
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; connect-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'"
   });
   fs.createReadStream(filePath).pipe(response);
 }
 
 async function handleApi(request, response, pathname) {
   if (
+    (request.method === "GET" && pathname === "/api/community-management") ||
+    (request.method === "POST" && pathname === "/api/community-management/actions")
+  ) {
+    try {
+      const write = pathname.endsWith("/actions");
+      communityManagement.authorize(request, { write });
+      const result = write
+        ? await communityManagement.execute(await readJson(request, 64 * 1024))
+        : await communityManagement.list();
+      sendJson(response, 200, result);
+    } catch (error) {
+      const status = Number.isInteger(error?.status) ? error.status : 502;
+      if (status >= 500) console.error("Community management request failed", error);
+      sendJson(response, status, {
+        error: status >= 500 ? "社区管理服务暂不可用" : error.message
+      });
+    }
+    return true;
+  }
+  if (isAdminReadOnlyWriteBlocked(adminReadOnly, request.method, pathname)) {
+    sendJson(response, 503, { error: "后台当前为只读模式" });
+    return true;
+  }
+  if (
     request.method !== "GET" &&
     (request.headers["x-aihub-admin"] !== "1" ||
       (request.headers.origin &&
-        request.headers.origin !== publicOrigin))
+        !adminWriteOrigins.has(request.headers.origin)))
   ) {
     sendJson(response, 403, { error: "后台写入请求未通过本机来源校验" });
     return true;
@@ -373,15 +464,73 @@ async function handleApi(request, response, pathname) {
     return true;
   }
 
+  if (request.method === "GET" && pathname === "/api/software-updates") {
+    sendJson(response, 200, {
+      ...softwareUpdateCenter.snapshot(),
+      published: fs.existsSync(softwareUpdateReleasePath),
+      releaseUrl: `${publicOrigin}/software-update-release.json`
+    });
+    return true;
+  }
+
+  if (
+    request.method === "POST" &&
+    pathname === "/api/software-updates/scan"
+  ) {
+    const body = await readJson(request, 16 * 1024);
+    const state = await ensureDraft();
+    sendJson(response, 200, softwareUpdateCenter.scan({
+      expectedRevision: body.expectedRevision,
+      catalog: state.draft.catalog
+    }));
+    return true;
+  }
+
+  if (request.method === "PUT" && pathname === "/api/software-updates") {
+    const body = await readJson(request, 256 * 1024);
+    sendJson(response, 200, softwareUpdateCenter.saveReview({
+      expectedRevision: body.expectedRevision,
+      selectedIds: body.selectedIds
+    }));
+    return true;
+  }
+
+  if (
+    request.method === "POST" &&
+    pathname === "/api/software-updates/publish"
+  ) {
+    const body = await readJson(request, 16 * 1024);
+    const published = softwareUpdateCenter.publish({
+      expectedRevision: body.expectedRevision,
+      rollout: {
+        percentage: 100,
+        salt: "software-updates-stable-2026"
+      }
+    });
+    sendJson(response, 200, {
+      ...published,
+      releaseUrl: `${publicOrigin}/software-update-release.json`
+    });
+    return true;
+  }
+
   if (request.method === "GET" && pathname === "/api/product-modules") {
     const resourceModules = publicResourceModules();
     sendJson(response, 200, {
       modules: publicProductModules(),
       entryPointTypes: entryPointTypeMetadata(),
-      installProfiles: publicInstallProfiles(),
+      officialDownloadKinds: publicOfficialDownloadKinds(),
+      installProfiles: [
+        ...publicInstallProfiles(),
+        ...publicDesktopDownloadOnlyProfiles()
+      ],
       resourceModules,
       extensionModules: resourceModules,
-      extensionInstallProfiles: publicExtensionInstallProfiles()
+      extensionInstallProfiles: publicExtensionInstallProfiles(),
+      resourceSourceChannels: RESOURCE_SOURCE_CHANNELS,
+      resourceSourceKinds: RESOURCE_SOURCE_KINDS,
+      resourceReviewStatuses: RESOURCE_REVIEW_STATUSES,
+      resourceRiskLevels: RESOURCE_RISK_LEVELS
     });
     return true;
   }
@@ -472,9 +621,10 @@ async function handleApi(request, response, pathname) {
     productCertification.snapshot();
     sendJson(response, 200, {
       status: "ready",
+      mode: adminReadOnly ? "read-only" : "read-write",
       draftRevision: state.draft.revision,
       activeCatalogVersion: state.activeCatalogVersion,
-      signingKeyId: signingKey.keyId
+      signingKeyId: signingKey?.keyId || null
     });
     return true;
   }
@@ -495,14 +645,19 @@ async function handleApi(request, response, pathname) {
 
   if (request.method === "GET" && pathname === "/api/release") {
     const state = await ensureDraft();
+    const v2State = await releaseStore.readChannel("v2");
     sendJson(response, 200, {
       state,
       history: await releaseStore.listHistory(),
+      channels: {
+        v1: { state, history: await releaseStore.listHistory({ channel: "v1" }) },
+        v2: { state: v2State, history: await releaseStore.listHistory({ channel: "v2" }) }
+      },
       settings: readReleaseSettings(),
       signing: {
-        keyId: signingKey.keyId,
-        publicKey: signingKey.publicKey,
-        source: signingKey.source
+        keyId: signingKey?.keyId || "",
+        publicKey: signingKey?.publicKey || "",
+        source: signingKey?.source || "read-only"
       },
       updatePublished: fs.existsSync(updateReleasePath),
       approvedDownloadSources: getApprovedEnvironmentDownloadSources()
@@ -539,32 +694,34 @@ async function handleApi(request, response, pathname) {
 
   if (request.method === "POST" && pathname === "/api/publish") {
     const body = await readJson(request);
+    if (!Object.hasOwn(body, "channel")) throw new Error("发布必须显式选择目录频道");
+    const channel = normalizeCatalogChannel(body.channel);
+    if (!Number.isSafeInteger(body.expectedDraftRevision) || !Number.isSafeInteger(body.expectedActiveCatalogVersion)) {
+      throw new Error("发布必须提供预期草稿和频道活动版本");
+    }
     const state = await ensureDraft();
     const settings = readReleaseSettings();
     vendorIconStore.verifyCatalog(state.draft.catalog);
     validateCurrentPublication(state.draft.catalog, settings);
     productCertification.validateCatalog(state.draft.catalog);
     const published = await releaseStore.publish({
-      expectedDraftRevision:
-        body.expectedDraftRevision ?? state.draft.revision,
-      expectedActiveCatalogVersion:
-        body.expectedActiveCatalogVersion ?? state.activeCatalogVersion,
+      channel,
+      expectedDraftRevision: body.expectedDraftRevision,
+      expectedActiveCatalogVersion: body.expectedActiveCatalogVersion,
       notes: settings.catalog.notes,
       rollout: {
         percentage: settings.catalog.rolloutPercentage,
         salt: settings.catalog.rolloutSalt
       }
     });
-    writeJsonAtomic(
+    if (channel === "v1") writeJsonAtomic(
       channelPath,
-      developmentChannel(
-        "catalog",
-        `${publicOrigin}/catalog-release.json`
-      )
+      developmentChannel("catalog", `${publicOrigin}${catalogReleasePath(channel)}`)
     );
     sendJson(response, 200, {
       ok: true,
-      url: `${publicOrigin}/catalog-release.json`,
+      channel,
+      url: `${publicOrigin}${catalogReleasePath(channel)}`,
       catalogVersion: published.release.catalogVersion,
       releaseId: published.release.releaseId,
       sha256: published.release.sha256,
@@ -575,11 +732,17 @@ async function handleApi(request, response, pathname) {
 
   if (request.method === "POST" && pathname === "/api/rollback") {
     const body = await readJson(request);
+    if (!Object.hasOwn(body, "channel")) throw new Error("回滚必须显式选择目录频道");
+    const channel = normalizeCatalogChannel(body.channel);
+    if (!Number.isSafeInteger(body.expectedActiveCatalogVersion)) {
+      throw new Error("回滚必须提供频道活动版本");
+    }
     const settings = readReleaseSettings();
     const state = await ensureDraft();
     validateCurrentPublication(state.draft.catalog, settings);
     productCertification.validateCatalog(state.draft.catalog);
     const result = await releaseStore.rollback({
+      channel,
       releaseId: body.releaseId,
       expectedActiveCatalogVersion: body.expectedActiveCatalogVersion,
       notes: settings.catalog.notes || `回滚到 ${body.releaseId}`,
@@ -590,6 +753,7 @@ async function handleApi(request, response, pathname) {
     });
     sendJson(response, 200, {
       ok: true,
+      channel,
       catalogVersion: result.release.catalogVersion,
       releaseId: result.release.releaseId
     });
@@ -667,18 +831,23 @@ const server = http.createServer(async (request, response) => {
       return;
     }
 
-    if (
-      request.method === "GET" &&
-      ["/catalog-release.json", "/catalog-v1.json"].includes(url.pathname)
-    ) {
-      const state = await releaseStore.readState();
+    if (request.method === "GET" && url.pathname === catalogReleasePath("v2")) {
+      const state = await releaseStore.readChannel("v2");
+      if (!state.activeRelease) {
+        sendJson(response, 404, { error: "v2 目录尚未发布" });
+        return;
+      }
+      sendJson(response, 200, (await releaseStore.readRelease(state.activeRelease.releaseId, { channel: "v2" })).envelope);
+      return;
+    }
+
+    if (request.method === "GET" && ["/catalog-release.json", "/catalog-v1.json"].includes(url.pathname)) {
+      const state = await releaseStore.readChannel("v1");
       if (!state.activeRelease) {
         sendJson(response, 404, { error: "尚未发布目录" });
         return;
       }
-      const release = await releaseStore.readRelease(
-        state.activeRelease.releaseId
-      );
+      const release = await releaseStore.readRelease(state.activeRelease.releaseId, { channel: "v1" });
       if (url.pathname === "/catalog-release.json") {
         sendJson(response, 200, release.envelope);
       } else {
@@ -691,6 +860,19 @@ const server = http.createServer(async (request, response) => {
       serveFile(
         response,
         updateReleasePath,
+        "application/json; charset=utf-8",
+        "public, max-age=0, must-revalidate"
+      );
+      return;
+    }
+
+    if (
+      request.method === "GET" &&
+      url.pathname === "/software-update-release.json"
+    ) {
+      serveFile(
+        response,
+        softwareUpdateReleasePath,
         "application/json; charset=utf-8",
         "public, max-age=0, must-revalidate"
       );

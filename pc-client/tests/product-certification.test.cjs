@@ -40,9 +40,9 @@ test("desktop certification preserves history and follows the reviewed contract"
   const initial = certification.snapshot();
   assert.equal(initial.revision, 0);
   assert.deepEqual(initial.summary, {
-    total: 27,
+    total: 38,
     pending: 0,
-    reviewed: 27,
+    reviewed: 38,
     accepted: 0
   });
 

@@ -1,0 +1,24 @@
+{
+  "schema": "aihub-workflow-production-readonly-preflight-v2",
+  "status": "pass",
+  "scope": "production-readonly-single-ssh",
+  "candidate": {
+    "deploymentSetDigest": "9cd4a545b0f5796d44317b7e2bb3484c8d7afe6feeb8c8f31038f67aa547f01e",
+    "deploymentManifestSha256": "1b74a7c85894ba5db6118198011d09d122cd830ac29e8e63252a1a300200da61",
+    "existingStateVerifierSha256": "1bf8967c2f8466970beba2dbb8549ec09e5b3f61911bb9aae85e38898cf50bda"
+  },
+  "remoteConnections": 1,
+  "remoteWrites": 0,
+  "r10Launches": 0,
+  "checks": {
+    "retainedBaseline": true,
+    "retainedEvents": 9,
+    "retainedIdempotency": 9,
+    "retainedEventHead": 9,
+    "retainedReplay": true,
+    "sourcePosts": 3,
+    "capabilityDisabledExact": true,
+    "publicFeatureDisabledExact": true,
+    "secretMetadataExact": true
+  }
+}

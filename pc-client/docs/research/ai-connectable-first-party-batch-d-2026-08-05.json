@@ -1,0 +1,18 @@
+{
+  "batch":"D",
+  "date":"2026-08-05",
+  "queueRange":"61-65",
+  "policy":"Only explicit AI integration, AI host compatibility, official MCP, AI API, or AI-specific capability is confirmed.",
+  "writeCatalog":false,
+  "saveDraft":false,
+  "published":false,
+  "summary":{"confirmed":3,"blocked":2},
+  "coverage":{"queueSize":65,"batchSizes":{"A":20,"B":20,"C":20,"D":5},"processedTotal":65,"uniqueProductIds":65,"duplicateProductIds":[],"missingProductIds":[],"unexpectedProductIds":[]},
+  "items":[
+    {"index":61,"vendorId":"airtable","productId":"airtable-platform","status":"confirmed","integrationTypes":["official MCP","AI assistant compatibility","OAuth/permission-scoped agent access"],"firstPartyProduct":"Airtable platform/Airtable MCP","category":"办公自动化","categoryAccurate":true,"officialUrls":["https://support.airtable.com/docs/using-the-airtable-mcp-server"]},
+    {"index":62,"vendorId":"anydesk","productId":"anydesk-windows","status":"blocked","integrationTypes":[],"firstPartyProduct":"AnyDesk","category":"远程控制","categoryAccurate":true,"officialUrls":["https://support.anydesk.com/docs/de/rest-api"],"note":"official REST API is generic and does not prove AI integration"},
+    {"index":63,"vendorId":"ptc","productId":"ptc-creo","status":"confirmed","integrationTypes":["embedded AI host","LLM chat assistant","model-aware AI design guidance"],"firstPartyProduct":"Creo/Creo+","category":"3D 与工业仿真","categoryAccurate":true,"officialUrls":["https://www.ptc.com/en/products/creo/capabilities","https://www.ptc.com/en/news/2026/ptc-brings-ai-powered-guidance-to-the-design-environment-with-creo-13"]},
+    {"index":64,"vendorId":"allplan","productId":"allplan","status":"blocked","integrationTypes":[],"firstPartyProduct":"ALLPLAN","category":"3D 与工业仿真","categoryAccurate":true,"officialUrls":["https://www.allplan.com/fileadmin/user_upload/countries/international/pdfs/legal/Allgemeine_Nutzungsbedingungen_ALLPLAN_Connect-Campus_EN.pdf"],"note":"legacy ALLPLAN Connect AI Assistant mention is not sufficient current product integration evidence"},
+    {"index":65,"vendorId":"anytype","productId":"anytype-desktop","status":"confirmed","integrationTypes":["official MCP","AI assistant compatibility","local API"],"firstPartyProduct":"Anytype API/Anytype MCP","category":"文档与知识库","categoryAccurate":true,"officialUrls":["https://developers.anytype.io/docs/examples/featured/mcp/","https://developers.anytype.io/docs/examples/overview/"]}
+  ]
+}

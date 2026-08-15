@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "generatedAt": "2026-08-14T00:00:00.000Z",
+  "source": {
+    "activeReleaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "activeCatalogPath": "admin/published/catalog-store/releases/catalog-v00000007-8c49e1972186-0cec5335.json",
+    "activeCatalogSha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4",
+    "deduplicatedAgainst": [
+      "docs/research/mcp-candidate-index-draft89-active6-2026-08-07.json",
+      "docs/research/mcp-needs-review-batch-2026-08-05.json",
+      "docs/connector-candidate-index-gap-report-2026-08-07.md"
+    ]
+  },
+  "summary": {
+    "readyCount": 2,
+    "readyByChannel": {
+      "mcp": 1,
+      "connector": 1,
+      "plugin": 0
+    },
+    "deferredCount": 2
+  },
+  "ready": [
+    {
+      "channel": "mcp",
+      "credentialPolicy": "never-collect",
+      "fixedRevision": "0336e6db8026b0f02cb89d1451cc48ea3f469791",
+      "license": "Apache-2.0",
+      "resource": {
+        "id": "lovable-official-mcp",
+        "enabled": true,
+        "order": 124,
+        "name": "Lovable MCP",
+        "resourceTypes": [
+          "mcp"
+        ],
+        "description": "Lovable 官方远程 MCP，让受支持的 AI 客户端在用户授权后创建、检查、迭代和部署 Lovable 项目。",
+        "website": "https://docs.lovable.dev/integrations/lovable-mcp-server",
+        "tutorial": "https://github.com/lovablelabs/mcp/tree/0336e6db8026b0f02cb89d1451cc48ea3f469791",
+        "publisherVendorId": "lovable",
+        "publisher": "Lovable",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "chatgpt-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "claude-code",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "cursor-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          },
+          {
+            "productId": "microsoft-vscode",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "server.json@0.1.3+0336e6db8026b0f02cb89d1451cc48ea3f469791",
+        "requestedPermissions": [
+          "继承用户完整 Lovable 账号权限；创建、编辑、部署、数据库写入和消耗额度前必须由目标客户端提示并取得用户确认。"
+        ],
+        "credentialRequirements": [
+          "仅由 Lovable 与目标客户端完成 OAuth；枕星 AI 不收集、保存或转发令牌。"
+        ],
+        "installScope": "仅打开固定版本的一方接入说明；不写入客户端配置，不发起 OAuth。",
+        "uninstallPlan": "由用户在目标客户端移除连接，并在 Lovable 的第三方 MCP 客户端设置中撤销访问。",
+        "provenanceEvidence": [
+          "https://docs.lovable.dev/integrations/lovable-mcp-server",
+          "https://github.com/lovablelabs/mcp/blob/0336e6db8026b0f02cb89d1451cc48ea3f469791/server.json",
+          "https://github.com/lovablelabs/mcp/blob/0336e6db8026b0f02cb89d1451cc48ea3f469791/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z"
+      }
+    },
+    {
+      "channel": "connector",
+      "credentialPolicy": "never-collect",
+      "fixedRevision": null,
+      "license": "service-terms",
+      "resource": {
+        "id": "lucid-claude-connector",
+        "enabled": true,
+        "order": 55,
+        "name": "Lucid for Claude",
+        "resourceTypes": [
+          "connector"
+        ],
+        "description": "Lucid 官方 Claude 连接入口，可在用户授权后查找、总结和分享 Lucid 文档，并从对话生成图表。",
+        "website": "https://lucid.co/mcp-server",
+        "tutorial": "https://help.lucid.co/hc/en-us/articles/47850709372180-Connect-Lucid-to-Claude",
+        "publisher": "Lucid Software",
+        "sourceKind": "official",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [
+          {
+            "productId": "claude-desktop",
+            "compatibility": "official",
+            "moduleId": "resource-link",
+            "installProfileId": "",
+            "capabilities": [
+              "website"
+            ],
+            "enabled": true
+          }
+        ],
+        "versionRef": "rolling-official-service",
+        "requestedPermissions": [
+          "用户在 Lucid 与 Claude 的官方授权界面决定文档访问；创建、编辑、分享或删除内容前必须由 Claude 显示动作并取得确认。"
+        ],
+        "credentialRequirements": [
+          "OAuth 由 Lucid 与 Claude 管理；枕星 AI 不收集账号、OAuth 令牌或 API key。"
+        ],
+        "installScope": "仅打开 Lucid 官方 Claude 连接和教程页面；不代替用户授权，不写入本地配置。",
+        "uninstallPlan": "不声明断开或撤销能力；当前 Lucid 一手帮助页只证明用户授权连接，未提供可复核的用户侧断开或撤销步骤，等待补证。",
+        "provenanceEvidence": [
+          "https://lucid.co/mcp-server",
+          "https://help.lucid.co/hc/en-us/articles/42578801807508-Integrate-Lucid-with-AI-tools-using-the-Lucid-MCP-server",
+          "https://help.lucid.co/hc/en-us/articles/47850709372180-Connect-Lucid-to-Claude"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z"
+      }
+    }
+  ],
+  "deferred": [
+    {
+      "channel": "plugin",
+      "name": "Lovable Claude plugin",
+      "reason": "与同一官方 MCP 资源共用能力面；本批不复制为第二资源，也没有独立固定插件发布与许可证证据。"
+    },
+    {
+      "channel": "connector",
+      "name": "Lucid for Codex",
+      "reason": "官方入口存在，但本批只冻结 Claude 的独立授权教程；等待 Codex 专页与断开路径形成同等证据闭环。"
+    }
+  ],
+  "safety": {
+    "candidateOnly": true,
+    "resourceLinkOnly": true,
+    "credentialPolicy": "never-collect",
+    "catalogWritten": false,
+    "stateWritten": false,
+    "signed": false,
+    "published": false
+  }
+}

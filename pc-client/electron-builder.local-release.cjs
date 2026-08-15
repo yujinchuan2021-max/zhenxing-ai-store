@@ -4,13 +4,36 @@ const path = require("node:path");
 const packageJson = require("./package.json");
 
 const root = __dirname;
+const catalogChannel = process.env.AIHUB_CATALOG_CHANNEL || "v1";
+if (!["v1", "v2"].includes(catalogChannel)) {
+  throw new Error("AIHUB_CATALOG_CHANNEL must be v1 or v2");
+}
+const catalogChannelSource =
+  catalogChannel === "v2"
+    ? path.join(root, "catalog", "channel.local-v2.json")
+    : path.join(
+        root,
+        "deployment",
+        "local",
+        "runtime",
+        "current",
+        "client-config",
+        "catalog",
+        "channel.json"
+      );
 
 module.exports = {
   ...packageJson.build,
   extraMetadata: {
+    ...packageJson.build.extraMetadata,
     version:
       process.env.AIHUB_LOCAL_RELEASE_BASE_VERSION || packageJson.version,
-    localReleaseAcceptance: true
+    localReleaseAcceptance: true,
+    clientServices: {
+      schemaVersion: 1,
+      identityOrigin: "http://127.0.0.1:4180",
+      communityOrigin: "http://127.0.0.1:8088"
+    }
   },
   directories: {
     ...packageJson.build.directories,
@@ -30,16 +53,7 @@ module.exports = {
       to: "extensions"
     },
     {
-      from: path.join(
-        root,
-        "deployment",
-        "local",
-        "runtime",
-        "current",
-        "client-config",
-        "catalog",
-        "channel.json"
-      ),
+      from: catalogChannelSource,
       to: "catalog/channel.json"
     },
     {

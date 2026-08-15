@@ -1,0 +1,18 @@
+{
+  "sourceDraftRevision": 84,
+  "status": "candidate-only",
+  "resourceStoreKinds": ["skill", "mcp", "connector", "plugin"],
+  "proposedResources": [],
+  "reason": "The 2026-08-05 audits are evidence queues, not approved catalog additions. CRUD can prepare only top-level resource records with existing targets and client-approved profiles.",
+  "constraints": [
+    "Do not create first-level products.",
+    "Do not include command, args, env, headers, script, credentials, or executable fields.",
+    "Use only registered moduleId and installProfileId references.",
+    "No draft save, signing, or publication in this change."
+  ],
+  "auditInputs": [
+    "docs/mcp-store-readonly-audit-2026-08-05.md",
+    "docs/audit/2026-08-05-plugin-store-readonly-audit.md",
+    "docs/connector-store-readonly-audit-2026-08-05.md"
+  ]
+}

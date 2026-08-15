@@ -12,6 +12,7 @@ const {
 } = require("../shared/product-policy.cjs");
 const {
   INSTALL_MODES,
+  INSTALL_REGISTRY,
   cliInstallPlans,
   getInstallRegistration
 } = require("../shared/install-registry.cjs");
@@ -168,7 +169,7 @@ test("accepts only the reviewed Comfy Desktop installer identity and policy", ()
   assert.equal(resolveProductBehavior(product).managedDownload, true);
   assert.equal(resolveProductBehavior(product).managedDesktop, true);
   assert.equal(resolveProductBehavior(product).clientManagedInstall, true);
-  assert.equal(resolveProductBehavior(product).primaryLabel, "一键安装");
+  assert.equal(resolveProductBehavior(product).primaryLabel, "一键下载");
   assert.match(
     getManagedDownload("comfy-desktop").expectedSigner.source,
     /Drip Artificial/
@@ -373,22 +374,11 @@ test("accepts only the reviewed CLI identity and exact dependencies", () => {
 
 test("one local installation registry drives every managed product adapter", () => {
   const plans = cliInstallPlans();
-  assert.deepEqual(Object.keys(plans).sort(), [
-    "alibaba-qwen-code",
-    "amazon-kiro-cli",
-    "claude-code",
-    "codex-cli",
-    "comfy-cli",
-    "gemini-cli",
-    "github-copilot-cli",
-    "google-antigravity-cli",
-    "hf-cli",
-    "minimax-cli",
-    "mistral-vibe-code-cli",
-    "moonshot-kimi-code-cli",
-    "openclaw-agent",
-    "openclaw-wsl-gateway"
-  ]);
+  const registryCliIds = Object.entries(INSTALL_REGISTRY)
+    .filter(([, registration]) => registration.mode === INSTALL_MODES.MANAGED_CLI)
+    .map(([productId]) => productId)
+    .sort();
+  assert.deepEqual(Object.keys(plans).sort(), registryCliIds);
   assert.equal(plans["codex-cli"].packageName, "@openai/codex");
   assert.equal(
     plans["claude-code"].packageName,
@@ -398,16 +388,39 @@ test("one local installation registry drives every managed product adapter", () 
   assert.equal(plans["openclaw-agent"].installSpec, "openclaw@2026.7.1-2");
   assert.equal(plans["amazon-kiro-cli"].driver, "managed-msi");
   assert.equal(plans["amazon-kiro-cli"].version, "2.16.0");
+  assert.equal(plans["ironclaw-cli"].driver, "managed-msi");
+  assert.equal(plans["ironclaw-cli"].artifact.signaturePolicy, "pinned-unsigned");
+  assert.deepEqual(plans["ironclaw-cli"].launchArgs, ["onboard"]);
   assert.equal(plans["google-antigravity-cli"].driver, "portable-binary");
   assert.equal(plans["google-antigravity-cli"].version, "1.1.9");
   assert.equal(plans["moonshot-kimi-code-cli"].driver, "portable-binary");
   assert.equal(plans["moonshot-kimi-code-cli"].version, "0.31.1");
+  assert.equal(plans["openfang-cli"].artifacts.x64.archiveEntry, "openfang.exe");
+  assert.equal(plans["zeroclaw-cli"].artifacts.x64.archiveKind, "directory");
+  assert.equal(plans["open-interpreter-cli"].artifacts.x64.archiveKind, "directory");
+  assert.equal(
+    plans["open-interpreter-cli"].artifacts.x64.executableRelativePath,
+    "bin\\interpreter.exe"
+  );
+  assert.deepEqual(plans["open-interpreter-cli"].launchArgs, [
+    "-c",
+    "check_for_update_on_startup=false"
+  ]);
+  assert.equal(plans["aider-cli"].pythonEnvironmentId, "python312");
+  assert.equal(plans["aider-cli"].lockedRequirements.length, 109);
   assert.equal(plans["alibaba-qwen-code"].installSpec, "@qwen-code/qwen-code@0.21.2");
   assert.equal(plans["github-copilot-cli"].installSpec, "@github/copilot@1.0.77");
   assert.equal(plans["minimax-cli"].installSpec, "mmx-cli@1.0.18");
+  assert.equal(plans["promptfoo-cli"].installSpec, "promptfoo@0.121.20");
+  assert.equal(plans["continue-cli"].installSpec, "@continuedev/cli@1.5.47");
+  assert.equal(plans["ruflo-cli"].installSpec, "ruflo@3.34.0");
+  assert.deepEqual(plans["ruflo-cli"].requirements, ["node", "git"]);
   assert.equal(plans["comfy-cli"].driver, "python-venv");
   assert.equal(plans["hf-cli"].version, "1.26.0");
   assert.equal(plans["mistral-vibe-code-cli"].lockedRequirements.length, 96);
+  assert.equal(plans["deepgram-cli"].lockedRequirements.length, 99);
+  assert.equal(plans["hkuds-nanobot-cli"].lockedRequirements.length, 93);
+  assert.equal(plans["praisonai-cli"].lockedRequirements.length, 90);
   assert.equal(
     getInstallRegistration("comfy-desktop").mode,
     INSTALL_MODES.MANAGED_INSTALLER

@@ -134,7 +134,7 @@ test("an exact-revision save can replace a draft rejected by a newer policy", as
   };
   fs.writeFileSync(statePath, `${JSON.stringify(state, null, 2)}\n`, "utf8");
 
-  await assert.rejects(store.readState(), /托管安装包未通过客户端策略审核/);
+  await assert.rejects(store.readState(), /托管安装包|非托管产品/);
   const repaired = await store.saveDraft({
     catalog: validCatalog("新策略草稿"),
     expectedRevision: 1
@@ -217,6 +217,41 @@ test("rollback creates a higher signed catalog version", async (t) => {
   assert.equal(rolledBack.release.parentReleaseId, second.release.releaseId);
   assert.equal(rolledBack.release.sourceReleaseId, first.release.releaseId);
   assert.equal((await store.readState()).activeCatalogVersion, 3);
+});
+
+test("v2 channel migrates legacy state and isolates signed history, pointers, and rollback", async (t) => {
+  const { rootDirectory, store, trustedKeys } = fixture(t);
+  await store.saveDraft({ catalog: validCatalog("v1"), expectedRevision: 0 });
+  const v1 = await store.publish({ channel: "v1", expectedDraftRevision: 1, expectedActiveCatalogVersion: 0 });
+  const statePath = path.join(rootDirectory, "state.json");
+  const legacy = JSON.parse(fs.readFileSync(statePath, "utf8"));
+  delete legacy.channels;
+  fs.writeFileSync(statePath, `${JSON.stringify(legacy, null, 2)}\n`, "utf8");
+  assert.equal((await store.readState()).activeRelease.releaseId, v1.release.releaseId);
+  assert.equal((await store.readChannel("v2")).activeRelease, null);
+
+  await store.saveDraft({ catalog: validCatalog("v2"), expectedRevision: 1 });
+  const v2 = await store.publish({ channel: "v2", expectedDraftRevision: 2, expectedActiveCatalogVersion: 0 });
+  assert.equal(v2.release.catalogVersion, 1);
+  assert.equal(verifySignedEnvelope(v2.envelope, { kind: "catalog", trustedKeys }).catalog.brand.slogan, "v2");
+  assert.equal((await store.readState()).activeRelease.releaseId, v1.release.releaseId);
+  assert.equal((await store.readChannel("v2")).activeRelease.releaseId, v2.release.releaseId);
+  assert.deepEqual((await store.listHistory()).map((entry) => entry.releaseId), [v1.release.releaseId]);
+  assert.deepEqual((await store.listHistory({ channel: "v2" })).map((entry) => entry.releaseId), [v2.release.releaseId]);
+  await assert.rejects(store.readRelease(v1.release.releaseId, { channel: "v2" }), /不存在/);
+  await assert.rejects(store.rollback({ channel: "v2", releaseId: v1.release.releaseId, expectedActiveCatalogVersion: 1 }), /不存在/);
+});
+
+test("v2 signs the carousel candidate while v1 refuses to overwrite compatible active semantics", async (t) => {
+  const { store, trustedKeys } = fixture(t);
+  const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../admin/data/catalog-v1.json"), "utf8"));
+  catalog.homeCarousel = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../docs/home-carousel-draft83-candidate.json"), "utf8")).homeCarousel;
+  await store.saveDraft({ catalog, expectedRevision: 0 });
+  await assert.rejects(store.publish({ channel: "v1", expectedDraftRevision: 1, expectedActiveCatalogVersion: 0 }), /v1 catalog channel/);
+  const v2 = await store.publish({ channel: "v2", expectedDraftRevision: 1, expectedActiveCatalogVersion: 0 });
+  assert.equal(verifySignedEnvelope(v2.envelope, { kind: "catalog", trustedKeys }).catalog.homeCarousel.slides.length, 3);
+  assert.equal((await store.readState()).activeCatalogVersion, 0);
+  assert.equal((await store.readChannel("v2")).activeCatalogVersion, 1);
 });
 
 test("a failed signing provider does not switch the active release", async (t) => {

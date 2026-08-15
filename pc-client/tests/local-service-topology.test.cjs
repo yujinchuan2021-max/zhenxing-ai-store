@@ -102,8 +102,14 @@ test("catalog publication and self-built image gates both verify the resolved se
     path.resolve(__dirname, "../scripts/verify-local-service-topology.cjs"),
     "utf8"
   );
+  const liveSourceVerifier = fs.readFileSync(
+    path.resolve(__dirname, "../scripts/verify-live-local-service-source.cjs"),
+    "utf8"
+  );
 
   assert.match(publishSource, /verify-local-service-topology\.cjs/);
+  assert.match(publishSource, /verify-live-local-service-source\.cjs/);
+  assert.match(publishSource, /"--service",\s*"admin"/);
   assert.doesNotMatch(publishSource, /"(?:build|up)"\s*,/);
   assert.match(imageGateSource, /local-service-release-policy\.cjs/);
   assert.match(imageGateSource, /"manifest"/);
@@ -111,4 +117,7 @@ test("catalog publication and self-built image gates both verify the resolved se
   assert.match(imageGateSource, /--network", "none"/);
   assert.match(verifierSource, /docker[\s\S]*compose[\s\S]*config[\s\S]*--format[\s\S]*json/);
   assert.match(verifierSource, /assertLocalServiceTopology/);
+  assert.match(liveSourceVerifier, /sourcePathsForService/);
+  assert.match(liveSourceVerifier, /docker[\s\S]*exec[\s\S]*sha256sum/);
+  assert.match(liveSourceVerifier, /Running local service source drift detected/);
 });

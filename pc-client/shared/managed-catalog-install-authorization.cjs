@@ -1,5 +1,19 @@
 "use strict";
 
+const {
+  resolveManagedProductActionContext
+} = require("./managed-product-action-context.cjs");
+const {
+  getDesktopDownloadOnlyProfile,
+  LEGACY_DESKTOP_DOWNLOAD_MODULE_ID,
+  SIGNED_CATALOG_MODULE_ID,
+  SIGNED_CATALOG_PROFILE_ID,
+  validateDesktopDownloadOnlyArtifact,
+  validateSignedDesktopDownloadArtifact,
+  buildDesktopDownloadOnlyPlan,
+  buildSignedDesktopDownloadPlan
+} = require("./desktop-download-only.cjs");
+
 const PRODUCT_ID = /^[a-z0-9][a-z0-9-]{0,127}$/;
 
 function authorizationFailure(error, errorCode) {
@@ -61,6 +75,49 @@ function evaluateFreshCatalogProductAuthorization({
   });
 }
 
+function evaluateFreshDesktopDownloadOnlyAuthorization({
+  catalogResult,
+  productId,
+  artifact
+}) {
+  const authorization = evaluateFreshCatalogProductAuthorization({
+    catalogResult,
+    productId
+  });
+  if (!authorization.ok) return authorization;
+  const profile = getDesktopDownloadOnlyProfile(productId);
+  const requestedArtifact = profile
+    ? validateDesktopDownloadOnlyArtifact(productId, artifact)
+    : validateSignedDesktopDownloadArtifact(artifact);
+  const context = resolveManagedProductActionContext({
+    productId,
+    vendors: catalogResult.catalog.vendors,
+    requireCatalogEnabled: true
+  });
+  if (
+    !requestedArtifact.ok ||
+    !context ||
+    (profile
+      ? ![LEGACY_DESKTOP_DOWNLOAD_MODULE_ID, SIGNED_CATALOG_MODULE_ID].includes(context.moduleId)
+      : context.moduleId !== SIGNED_CATALOG_MODULE_ID) ||
+    context.installProfileId !== (profile ? profile.profileId : SIGNED_CATALOG_PROFILE_ID) ||
+    context.downloadPolicy !== "desktop-download-only" ||
+    JSON.stringify(context.download) !== JSON.stringify(requestedArtifact.artifact)
+  ) {
+    return authorizationFailure(
+      "desktop-download-only 产品或下载工件未通过客户端固定配置校验",
+      "DESKTOP_DOWNLOAD_ONLY_NOT_APPROVED"
+    );
+  }
+  const plan = profile
+    ? buildDesktopDownloadOnlyPlan(productId, requestedArtifact.artifact)
+    : buildSignedDesktopDownloadPlan(productId, requestedArtifact.artifact);
+  return plan ? Object.freeze({ ...authorization, plan }) : authorizationFailure(
+    "desktop-download-only download plan rejected",
+    "DESKTOP_DOWNLOAD_ONLY_NOT_APPROVED"
+  );
+}
+
 async function authorizeFreshCatalogProduct({
   loadCatalog,
   productId,
@@ -74,6 +131,28 @@ async function authorizeFreshCatalogProduct({
       catalogResult: await loadCatalog(),
       productId,
       requiredCapability
+    });
+  } catch {
+    return authorizationFailure(
+      "当前无法从后台确认产品启用状态，已停止新的安装操作",
+      "ACTIVE_CATALOG_UNAVAILABLE"
+    );
+  }
+}
+
+async function authorizeFreshDesktopDownloadOnlyProduct({
+  loadCatalog,
+  productId,
+  artifact
+}) {
+  if (typeof loadCatalog !== "function") {
+    throw new TypeError("Active catalog loader is required");
+  }
+  try {
+    return evaluateFreshDesktopDownloadOnlyAuthorization({
+      catalogResult: await loadCatalog(),
+      productId,
+      artifact
     });
   } catch {
     return authorizationFailure(
@@ -121,6 +200,8 @@ async function runFreshCatalogAuthorizedOperation({
 
 module.exports = {
   authorizeFreshCatalogProduct,
+  authorizeFreshDesktopDownloadOnlyProduct,
+  evaluateFreshDesktopDownloadOnlyAuthorization,
   evaluateFreshCatalogProductAuthorization,
   runFreshCatalogAuthorizedOperation
 };

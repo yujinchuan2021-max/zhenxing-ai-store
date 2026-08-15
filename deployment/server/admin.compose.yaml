@@ -1,0 +1,47 @@
+name: zhenxing-ai
+
+services:
+  admin:
+    image: zhenxing-ai/admin:${AIHUB_DEPLOY_VERSION:-0.1.36}
+    environment:
+      AIHUB_ADMIN_HOST: 0.0.0.0
+      AIHUB_ADMIN_PORT: 4173
+      AIHUB_ADMIN_PUBLIC_ORIGIN: https://${AIHUB_DOMAIN:-zhenxingai.com}
+      AIHUB_ADMIN_WRITE_ORIGINS: http://127.0.0.1:4173,http://127.0.0.1:4174
+      AIHUB_CATALOG_ASSET_ORIGIN: https://${AIHUB_DOMAIN:-zhenxingai.com}
+      AIHUB_DISCOVERY_SCAN_INTERVAL_HOURS: 24
+    ports:
+      - "127.0.0.1:4173:4173"
+    volumes:
+      - admin_data:/app/admin/data
+      - admin_published:/app/admin/published
+      - catalog_channels:/app/catalog
+      - update_channels:/app/updates
+      - admin_output:/app/output
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4173/ready').then(r=>{if(!r.ok)process.exit(1)})"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 256
+    mem_limit: 256m
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  admin_data:
+  admin_published:
+  admin_output:
+  catalog_channels:
+  update_channels:

@@ -1,0 +1,2 @@
+"productId","productName","strategy","uiAction","initialUrl","finalUrlOrHost","networkOrFirstData","cancelOrRecovery","status","reason"
+"hitpaw-voicepea","HitPaw VoicePea","direct-artifact","一键下载","https://download.hitpaw.com/downloads/hitpaw-vikpea_4781.exe","download.hitpaw.com","Electron authorized first data 5467 bytes; total=3051576","paused then refresh/retry data 12935 bytes; native discard confirmation BLOCKED (manual dialog)","BLOCKED","native discard confirmation requires a real Windows user decision; automation did not auto-accept it"

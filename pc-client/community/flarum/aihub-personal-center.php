@@ -42,10 +42,28 @@ if (!is_array($input)) {
 }
 
 $username = trim((string) ($input['username'] ?? ''));
-if (!preg_match('/^[a-z0-9_-]{3,100}$/i', $username)) {
+if (!preg_match('/^[a-z0-9_-]{3,30}$/i', $username)) {
     respond(400, ['error' => 'INVALID_USERNAME']);
 }
 
+$site = require dirname(__DIR__).'/site.php';
+$flarum = $site->bootApp();
+$actor = $flarum
+    ->getContainer()
+    ->make(\Flarum\User\UserRepository::class)
+    ->query()
+    ->where('username', $username)
+    ->first();
+if ($actor === null) {
+    respond(200, [
+        'notifications' => [],
+        'interactions' => [],
+        'history' => [],
+        'unreadCount' => 0
+    ]);
+}
+
+$userId = (int) $actor->id;
 $config = require dirname(__DIR__).'/config.php';
 $database = $config['database'];
 $pdo = new PDO(
@@ -59,19 +77,6 @@ $pdo = new PDO(
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]
 );
-
-$userStatement = $pdo->prepare(
-    'SELECT id FROM users WHERE username = ? LIMIT 1'
-);
-$userStatement->execute([$username]);
-$userId = $userStatement->fetchColumn();
-if (!$userId) {
-    respond(200, [
-        'notifications' => [],
-        'interactions' => [],
-        'unreadCount' => 0
-    ]);
-}
 
 $action = (string) ($input['action'] ?? 'list');
 if ($action === 'mark-read') {
@@ -104,7 +109,7 @@ if ($action !== 'list') {
 $limit = min(100, max(1, (int) ($input['limit'] ?? 50)));
 $notifications = $pdo->prepare(
     'SELECT n.id, n.type, n.subject_id, n.read_at, n.created_at,
-            actor.username AS actor_username,
+            COALESCE(NULLIF(actor.nickname, ""), actor.username) AS actor_display_name,
             CASE WHEN n.type = "newDiscussionInTag"
               THEN direct_discussion.id ELSE post_discussion.id END AS discussion_id,
             CASE WHEN n.type = "newDiscussionInTag"
@@ -128,6 +133,30 @@ $notifications->bindValue(2, $limit, PDO::PARAM_INT);
 $notifications->execute();
 $notificationRows = $notifications->fetchAll();
 
+$historyRows = \Flarum\Discussion\Discussion::query()
+    ->whereVisibleTo($actor)
+    ->join('discussion_user as history_state', function ($join) use ($userId): void {
+        $join
+            ->on('discussions.id', '=', 'history_state.discussion_id')
+            ->where('history_state.user_id', '=', $userId);
+    })
+    ->whereNotNull('history_state.last_read_at')
+    ->orderByDesc('history_state.last_read_at')
+    ->limit($limit)
+    ->get([
+        'discussions.id',
+        'discussions.title',
+        'discussions.slug',
+        'history_state.last_read_at as viewed_at'
+    ])
+    ->map(static fn (\Flarum\Discussion\Discussion $discussion): array => [
+        'id' => $discussion->getAttribute('id'),
+        'title' => $discussion->getAttribute('title'),
+        'slug' => $discussion->getAttribute('slug'),
+        'viewed_at' => $discussion->getAttribute('viewed_at')
+    ])
+    ->all();
+
 $followed = $pdo->prepare(
     'SELECT d.id, d.title, d.slug,
             COALESCE(du.last_read_at, d.last_posted_at, d.created_at) AS updated_at
@@ -147,9 +176,29 @@ $liked = $pdo->prepare(
 );
 $liked->execute([$userId]);
 
+$followedRows = $followed->fetchAll();
+$likedRows = $liked->fetchAll();
+$candidateDiscussionIds = array_values(array_unique(array_merge(
+    array_column($followedRows, 'id'),
+    array_column($likedRows, 'id')
+)));
+$visibleDiscussionIds = [];
+foreach (array_chunk($candidateDiscussionIds, 500) as $discussionIdChunk) {
+    $visible = \Flarum\Discussion\Discussion::query()
+        ->whereVisibleTo($actor)
+        ->whereIn('discussions.id', $discussionIdChunk)
+        ->pluck('discussions.id');
+    foreach ($visible as $visibleDiscussionId) {
+        $visibleDiscussionIds[(string) $visibleDiscussionId] = true;
+    }
+}
+
 $interactions = [];
-foreach ($followed->fetchAll() as $row) {
+foreach ($followedRows as $row) {
     $id = (string) $row['id'];
+    if (!isset($visibleDiscussionIds[$id])) {
+        continue;
+    }
     $interactions[$id] = [
         'discussionId' => $id,
         'title' => (string) $row['title'],
@@ -159,8 +208,11 @@ foreach ($followed->fetchAll() as $row) {
         'updatedAt' => (string) $row['updated_at']
     ];
 }
-foreach ($liked->fetchAll() as $row) {
+foreach ($likedRows as $row) {
     $id = (string) $row['id'];
+    if (!isset($visibleDiscussionIds[$id])) {
+        continue;
+    }
     $existing = $interactions[$id] ?? [
         'discussionId' => $id,
         'title' => (string) $row['title'],
@@ -181,7 +233,7 @@ respond(200, [
         static fn (array $row): array => [
             'id' => (string) $row['id'],
             'type' => (string) $row['type'],
-            'actorUsername' => (string) ($row['actor_username'] ?? ''),
+            'actorDisplayName' => (string) ($row['actor_display_name'] ?? ''),
             'discussionId' => (string) ($row['discussion_id'] ?? ''),
             'discussionTitle' => (string) ($row['discussion_title'] ?? ''),
             'discussionSlug' => (string) ($row['discussion_slug'] ?? ''),
@@ -195,6 +247,16 @@ respond(200, [
         $notificationRows
     ),
     'interactions' => array_values($interactions),
+    'history' => array_map(
+        static fn (array $row): array => [
+            'discussionId' => (string) $row['id'],
+            'title' => (string) $row['title'],
+            'path' => '/d/'.(string) $row['id'].'-'.(string) $row['slug'],
+            'viewedAt' => (string) $row['viewed_at'],
+            'visibleToActor' => true
+        ],
+        $historyRows
+    ),
     'unreadCount' => count(
         array_filter(
             $notificationRows,

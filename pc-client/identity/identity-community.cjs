@@ -17,6 +17,8 @@ const ACCESS_LIFETIME_MS = 15 * 60 * 1000;
 const REFRESH_LIFETIME_MS = 30 * 24 * 60 * 60 * 1000;
 const CHALLENGE_LIFETIME_MS = 10 * 60 * 1000;
 const COMMUNITY_HANDOFF_LIFETIME_MS = 60 * 1000;
+const DIRECT_MESSAGE_RATE_LIMIT_PER_MINUTE = 30;
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 class DomainError extends Error {
   constructor(code, message, status = 400) {
@@ -39,6 +41,22 @@ function boundedText(value, field, minimum, maximum) {
     );
   }
   return text;
+}
+
+function boundedLimit(value, maximum = 100, fallback = 50) {
+  return Math.min(maximum, Math.max(1, Number(value) || fallback));
+}
+
+function boundedOffset(value) {
+  return Math.max(0, Math.floor(Number(value) || 0));
+}
+
+function uuidValue(value, field = "用户标识") {
+  const id = String(value || "").trim();
+  if (!UUID_PATTERN.test(id)) {
+    throw new DomainError("INVALID_INPUT", `${field}无效`);
+  }
+  return id;
 }
 
 function normalizedPhone(value) {
@@ -81,6 +99,40 @@ function rowUser(row, publicOrigin) {
       bio: row.bio || ""
     }
   };
+}
+
+function publicUserRow(row, publicOrigin) {
+  return {
+    id: row.id,
+    username: row.username,
+    profile: {
+      nickname: row.nickname,
+      avatarUrl: resolvedAvatarUrl(row.avatar_url, publicOrigin),
+      bio: row.bio || ""
+    },
+    social: {
+      followers: Number(row.followers_count || 0),
+      following: Number(row.following_count || 0),
+      isFollowing: Boolean(row.is_following),
+      isMe: Boolean(row.is_me)
+    }
+  };
+}
+
+function directMessageRow(row) {
+  return {
+    id: row.id,
+    senderUserId: row.sender_user_id,
+    recipientUserId: row.recipient_user_id,
+    body: row.body,
+    readAt: row.read_at || null,
+    createdAt: row.created_at
+  };
+}
+
+function communityUsername(user) {
+  const id = uuidValue(user?.id).replaceAll("-", "").toLowerCase();
+  return `zx_${id.slice(0, 27)}`;
 }
 
 function createIdentityCommunity({
@@ -177,6 +229,422 @@ function createIdentityCommunity({
       throw new DomainError("SESSION_REVOKED", "会话已失效", 401);
     }
     return rowUser(result.rows[0], publicOrigin);
+  }
+
+  async function publicUserById(viewerUserId, targetUserId, queryable = pool) {
+    const result = await queryable.query(
+      `SELECT u.id, u.username, p.nickname, p.avatar_url, p.bio,
+              (SELECT count(*)::int FROM user_follows
+               WHERE followed_user_id = u.id) AS followers_count,
+              (SELECT count(*)::int FROM user_follows
+               WHERE follower_user_id = u.id) AS following_count,
+              EXISTS (
+                SELECT 1 FROM user_follows
+                WHERE follower_user_id = $1 AND followed_user_id = u.id
+              ) AS is_following,
+              (u.id = $1) AS is_me
+       FROM users u
+       JOIN community_profiles p ON p.user_id = u.id
+       WHERE u.id = $2 AND u.status = 'active'`,
+      [viewerUserId, targetUserId]
+    );
+    if (!result.rows[0]) {
+      throw new DomainError("NOT_FOUND", "用户不存在", 404);
+    }
+    return publicUserRow(result.rows[0], publicOrigin);
+  }
+
+  async function getPublicUserByUsername(accessToken, username) {
+    const session = await authenticateAccess(accessToken);
+    let normalized;
+    try {
+      normalized = normalizeUsername(username).normalized;
+    } catch {
+      throw new DomainError("INVALID_INPUT", "用户名无效");
+    }
+    const target = await pool.query(
+      `SELECT id FROM users
+       WHERE normalized_username = $1 AND status = 'active'`,
+      [normalized]
+    );
+    if (!target.rows[0]) {
+      throw new DomainError("NOT_FOUND", "用户不存在", 404);
+    }
+    return publicUserById(session.user_id, target.rows[0].id);
+  }
+
+  async function listFollowers(accessToken, input = {}) {
+    const session = await authenticateAccess(accessToken);
+    const limit = boundedLimit(input.limit);
+    const offset = boundedOffset(input.offset);
+    const result = await pool.query(
+      `SELECT u.id, u.username, p.nickname, p.avatar_url, p.bio,
+              (SELECT count(*)::int FROM user_follows
+               WHERE followed_user_id = u.id) AS followers_count,
+              (SELECT count(*)::int FROM user_follows
+               WHERE follower_user_id = u.id) AS following_count,
+              EXISTS (
+                SELECT 1 FROM user_follows
+                WHERE follower_user_id = $1 AND followed_user_id = u.id
+              ) AS is_following,
+              (u.id = $1) AS is_me
+       FROM user_follows edge
+       JOIN users u ON u.id = edge.follower_user_id AND u.status = 'active'
+       JOIN community_profiles p ON p.user_id = u.id
+       WHERE edge.followed_user_id = $1
+       ORDER BY edge.created_at DESC, u.id
+       LIMIT $2 OFFSET $3`,
+      [session.user_id, limit + 1, offset]
+    );
+    return {
+      users: result.rows
+        .slice(0, limit)
+        .map((row) => publicUserRow(row, publicOrigin)),
+      hasMore: result.rows.length > limit,
+      nextOffset: result.rows.length > limit ? offset + limit : null
+    };
+  }
+
+  async function listFollowing(accessToken, input = {}) {
+    const session = await authenticateAccess(accessToken);
+    const limit = boundedLimit(input.limit);
+    const offset = boundedOffset(input.offset);
+    const result = await pool.query(
+      `SELECT u.id, u.username, p.nickname, p.avatar_url, p.bio,
+              (SELECT count(*)::int FROM user_follows
+               WHERE followed_user_id = u.id) AS followers_count,
+              (SELECT count(*)::int FROM user_follows
+               WHERE follower_user_id = u.id) AS following_count,
+              true AS is_following,
+              false AS is_me
+       FROM user_follows edge
+       JOIN users u ON u.id = edge.followed_user_id AND u.status = 'active'
+       JOIN community_profiles p ON p.user_id = u.id
+       WHERE edge.follower_user_id = $1
+       ORDER BY edge.created_at DESC, u.id
+       LIMIT $2 OFFSET $3`,
+      [session.user_id, limit + 1, offset]
+    );
+    return {
+      users: result.rows
+        .slice(0, limit)
+        .map((row) => publicUserRow(row, publicOrigin)),
+      hasMore: result.rows.length > limit,
+      nextOffset: result.rows.length > limit ? offset + limit : null
+    };
+  }
+
+  async function followUser(accessToken, targetUserId) {
+    const session = await authenticateAccess(accessToken);
+    const targetId = uuidValue(targetUserId);
+    if (targetId === session.user_id) {
+      throw new DomainError("INVALID_INPUT", "不能关注自己");
+    }
+    const client = await pool.connect();
+    let created = false;
+    try {
+      await client.query("BEGIN");
+      const target = await client.query(
+        `SELECT id FROM users
+         WHERE id = $1 AND status = 'active'
+         FOR SHARE`,
+        [targetId]
+      );
+      if (!target.rowCount) {
+        throw new DomainError("NOT_FOUND", "用户不存在", 404);
+      }
+      const inserted = await client.query(
+        `INSERT INTO user_follows (follower_user_id, followed_user_id)
+         VALUES ($1, $2)
+         ON CONFLICT DO NOTHING
+         RETURNING follower_user_id`,
+        [session.user_id, targetId]
+      );
+      created = inserted.rowCount === 1;
+      if (created) {
+        const firstNotification = await client.query(
+          `INSERT INTO user_follow_notifications
+            (follower_user_id, followed_user_id)
+           VALUES ($1, $2)
+           ON CONFLICT DO NOTHING
+           RETURNING follower_user_id`,
+          [session.user_id, targetId]
+        );
+        if (firstNotification.rowCount === 1) {
+          const follower = await client.query(
+            `SELECT u.username, p.nickname
+             FROM users u
+             JOIN community_profiles p ON p.user_id = u.id
+             WHERE u.id = $1`,
+            [session.user_id]
+          );
+          await addSiteMessage(
+            client,
+            targetId,
+            `${follower.rows[0].nickname} 关注了你`,
+            `@${follower.rows[0].username} 开始关注你。`
+          );
+        }
+      }
+      await client.query("COMMIT");
+    } catch (error) {
+      await client.query("ROLLBACK").catch(() => {});
+      throw error;
+    } finally {
+      client.release();
+    }
+    return {
+      ok: true,
+      user: await publicUserById(session.user_id, targetId),
+      following: true,
+      created
+    };
+  }
+
+  async function unfollowUser(accessToken, targetUserId) {
+    const session = await authenticateAccess(accessToken);
+    const targetId = uuidValue(targetUserId);
+    if (targetId === session.user_id) {
+      throw new DomainError("INVALID_INPUT", "不能取消关注自己");
+    }
+    const user = await publicUserById(session.user_id, targetId);
+    const removed = await pool.query(
+      `DELETE FROM user_follows
+       WHERE follower_user_id = $1 AND followed_user_id = $2`,
+      [session.user_id, targetId]
+    );
+    user.social.isFollowing = false;
+    if (removed.rowCount) {
+      user.social.followers = Math.max(0, user.social.followers - 1);
+    }
+    return {
+      ok: true,
+      user,
+      following: false,
+      removed: removed.rowCount === 1
+    };
+  }
+
+  async function accountSocialSummary(accessToken) {
+    const session = await authenticateAccess(accessToken);
+    const result = await pool.query(
+      `SELECT
+         (SELECT count(*)::int FROM user_follows
+          WHERE followed_user_id = $1) AS followers,
+         (SELECT count(*)::int FROM user_follows
+          WHERE follower_user_id = $1) AS following,
+         (SELECT count(*)::int FROM direct_messages
+          WHERE recipient_user_id = $1 AND read_at IS NULL) AS unread_messages`,
+      [session.user_id]
+    );
+    return {
+      followers: Number(result.rows[0].followers || 0),
+      following: Number(result.rows[0].following || 0),
+      unreadDirectMessages: Number(result.rows[0].unread_messages || 0)
+    };
+  }
+
+  async function listDirectConversations(accessToken, input = {}) {
+    const session = await authenticateAccess(accessToken);
+    const limit = boundedLimit(input.limit);
+    const offset = boundedOffset(input.offset);
+    const result = await pool.query(
+      `WITH mine AS (
+         SELECT dm.*,
+                CASE WHEN dm.sender_user_id = $1
+                  THEN dm.recipient_user_id ELSE dm.sender_user_id
+                END AS peer_user_id
+         FROM direct_messages dm
+         WHERE dm.sender_user_id = $1 OR dm.recipient_user_id = $1
+       ), ranked AS (
+         SELECT mine.*,
+                row_number() OVER (
+                  PARTITION BY peer_user_id
+                  ORDER BY created_at DESC, id DESC
+                ) AS position,
+                count(*) FILTER (
+                  WHERE recipient_user_id = $1 AND read_at IS NULL
+                ) OVER (PARTITION BY peer_user_id)::int AS unread_count
+         FROM mine
+       )
+       SELECT ranked.id, ranked.sender_user_id, ranked.recipient_user_id,
+              ranked.body, ranked.read_at, ranked.created_at,
+              ranked.unread_count,
+              u.id AS peer_id, u.username AS peer_username,
+              p.nickname AS peer_nickname, p.avatar_url AS peer_avatar_url,
+              p.bio AS peer_bio,
+              (SELECT count(*)::int FROM user_follows
+               WHERE followed_user_id = u.id) AS peer_followers_count,
+              (SELECT count(*)::int FROM user_follows
+               WHERE follower_user_id = u.id) AS peer_following_count,
+              EXISTS (
+                SELECT 1 FROM user_follows
+                WHERE follower_user_id = $1 AND followed_user_id = u.id
+              ) AS peer_is_following
+       FROM ranked
+       JOIN users u ON u.id = ranked.peer_user_id AND u.status = 'active'
+       JOIN community_profiles p ON p.user_id = u.id
+       WHERE ranked.position = 1
+       ORDER BY ranked.created_at DESC, ranked.id DESC
+       LIMIT $2 OFFSET $3`,
+      [session.user_id, limit + 1, offset]
+    );
+    const conversations = result.rows.slice(0, limit).map((row) => ({
+      peer: publicUserRow(
+        {
+          id: row.peer_id,
+          username: row.peer_username,
+          nickname: row.peer_nickname,
+          avatar_url: row.peer_avatar_url,
+          bio: row.peer_bio,
+          followers_count: row.peer_followers_count,
+          following_count: row.peer_following_count,
+          is_following: row.peer_is_following,
+          is_me: false
+        },
+        publicOrigin
+      ),
+      lastMessage: directMessageRow(row),
+      unreadCount: Number(row.unread_count || 0)
+    }));
+    return {
+      conversations,
+      hasMore: result.rows.length > limit,
+      nextOffset: result.rows.length > limit ? offset + limit : null
+    };
+  }
+
+  async function listDirectMessages(accessToken, peerUserId, input = {}) {
+    const session = await authenticateAccess(accessToken);
+    const peerId = uuidValue(peerUserId);
+    if (peerId === session.user_id) {
+      throw new DomainError("INVALID_INPUT", "不能与自己建立私信会话");
+    }
+    const peer = await publicUserById(session.user_id, peerId);
+    let beforeCreatedAt = null;
+    let beforeId = null;
+    if (input.before) {
+      beforeId = uuidValue(input.before, "分页消息标识");
+      const cursor = await pool.query(
+        `SELECT id, created_at FROM direct_messages
+         WHERE id = $1 AND (
+           (sender_user_id = $2 AND recipient_user_id = $3) OR
+           (sender_user_id = $3 AND recipient_user_id = $2)
+         )`,
+        [beforeId, session.user_id, peerId]
+      );
+      if (!cursor.rows[0]) {
+        throw new DomainError("NOT_FOUND", "分页消息不存在", 404);
+      }
+      beforeCreatedAt = cursor.rows[0].created_at;
+    }
+    const limit = boundedLimit(input.limit);
+    const result = await pool.query(
+      `SELECT id, sender_user_id, recipient_user_id, body, read_at, created_at
+       FROM direct_messages
+       WHERE (
+         (sender_user_id = $1 AND recipient_user_id = $2) OR
+         (sender_user_id = $2 AND recipient_user_id = $1)
+       )
+         AND (
+           $3::timestamptz IS NULL OR
+           (created_at, id) < ($3::timestamptz, $4::uuid)
+         )
+       ORDER BY created_at DESC, id DESC
+       LIMIT $5`,
+      [
+        session.user_id,
+        peerId,
+        beforeCreatedAt,
+        beforeId,
+        limit + 1
+      ]
+    );
+    const rows = result.rows.slice(0, limit);
+    return {
+      peer,
+      messages: rows.reverse().map(directMessageRow),
+      hasMore: result.rows.length > limit,
+      nextBefore:
+        result.rows.length > limit && rows.length ? rows[0].id : null
+    };
+  }
+
+  async function sendDirectMessage(accessToken, peerUserId, input) {
+    const session = await authenticateAccess(accessToken);
+    const peerId = uuidValue(peerUserId);
+    if (peerId === session.user_id) {
+      throw new DomainError("INVALID_INPUT", "不能给自己发送私信");
+    }
+    const body = boundedText(input?.body, "私信", 1, 4000);
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await publicUserById(session.user_id, peerId, client);
+      await client.query(
+        `SELECT pg_advisory_xact_lock(hashtextextended($1::text, 0))`,
+        [session.user_id]
+      );
+      const recent = await client.query(
+        `SELECT count(*)::int AS count FROM direct_messages
+         WHERE sender_user_id = $1
+           AND created_at > now() - interval '1 minute'`,
+        [session.user_id]
+      );
+      if (Number(recent.rows[0].count) >= DIRECT_MESSAGE_RATE_LIMIT_PER_MINUTE) {
+        throw new DomainError(
+          "RATE_LIMITED",
+          "私信发送过于频繁，请稍后再试",
+          429
+        );
+      }
+      const result = await client.query(
+        `INSERT INTO direct_messages
+          (id, sender_user_id, recipient_user_id, body)
+         VALUES ($1, $2, $3, $4)
+         RETURNING id, sender_user_id, recipient_user_id, body, read_at, created_at`,
+        [uuid(), session.user_id, peerId, body]
+      );
+      await client.query("COMMIT");
+      return directMessageRow(result.rows[0]);
+    } catch (error) {
+      await client.query("ROLLBACK").catch(() => {});
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async function markDirectMessagesRead(
+    accessToken,
+    peerUserId,
+    throughMessageId
+  ) {
+    const session = await authenticateAccess(accessToken);
+    const peerId = uuidValue(peerUserId);
+    const throughId = uuidValue(throughMessageId, "消息标识");
+    const through = await pool.query(
+      `SELECT id, created_at FROM direct_messages
+       WHERE id = $1 AND sender_user_id = $2 AND recipient_user_id = $3`,
+      [throughId, peerId, session.user_id]
+    );
+    if (!through.rows[0]) {
+      throw new DomainError("NOT_FOUND", "消息不存在", 404);
+    }
+    const result = await pool.query(
+      `UPDATE direct_messages
+       SET read_at = now()
+       WHERE sender_user_id = $1 AND recipient_user_id = $2
+         AND read_at IS NULL
+         AND (created_at, id) <= ($3::timestamptz, $4::uuid)
+       RETURNING read_at`,
+      [peerId, session.user_id, through.rows[0].created_at, throughId]
+    );
+    return {
+      ok: true,
+      readCount: result.rowCount,
+      readAt: result.rows[0]?.read_at || null
+    };
   }
 
   async function requestRegistrationCode(input, context) {
@@ -297,9 +765,17 @@ function createIdentityCommunity({
       await client.query(
         `INSERT INTO users
           (id, email, normalized_email, username, normalized_username,
-           password_hash)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
-        [userId, email, email, username, normalized, hashPassword(password)]
+            community_username, password_hash)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [
+          userId,
+          email,
+          email,
+          username,
+          normalized,
+          communityUsername({ id: userId }),
+          hashPassword(password)
+        ]
       );
       await client.query(
         `INSERT INTO community_profiles (user_id, nickname)
@@ -604,25 +1080,14 @@ function createIdentityCommunity({
       throw new DomainError("INVALID_INPUT", "简介不能超过 200 个字符");
     }
     if (Object.hasOwn(input, "avatarUrl")) {
-      const avatarUrl = String(input.avatarUrl || "").trim();
-      if (avatarUrl && !/^https:\/\//i.test(avatarUrl)) {
-        throw new DomainError("INVALID_INPUT", "头像必须使用 HTTPS 地址");
-      }
-      await pool.query(
-        `UPDATE community_profiles
-         SET nickname = $1, bio = $2, avatar_url = NULLIF($3, ''),
-             updated_at = now()
-         WHERE user_id = $4`,
-        [nickname, bio, avatarUrl, session.user_id]
-      );
-    } else {
-      await pool.query(
-        `UPDATE community_profiles
-         SET nickname = $1, bio = $2, updated_at = now()
-         WHERE user_id = $3`,
-        [nickname, bio, session.user_id]
-      );
+      throw new DomainError("INVALID_INPUT", "头像仅支持上传接口");
     }
+    await pool.query(
+      `UPDATE community_profiles
+       SET nickname = $1, bio = $2, updated_at = now()
+       WHERE user_id = $3`,
+      [nickname, bio, session.user_id]
+    );
     return { user: await userView(pool, session.user_id) };
   }
 
@@ -1004,18 +1469,32 @@ function createIdentityCommunity({
   }
 
   async function getPersonalCenter(accessToken) {
-    const [{ user }, sessions, siteMessages] = await Promise.all([
+    const [{ user }, sessions, siteMessages, accountSummary] = await Promise.all([
       me(accessToken),
       listSessions(accessToken),
-      listSiteMessages(accessToken)
+      listSiteMessages(accessToken),
+      accountSocialSummary(accessToken)
     ]);
-    let community = { notifications: [], interactions: [] };
+    let community = {
+      notifications: [],
+      interactions: [],
+      history: [],
+      historyCapped: false
+    };
     let communityStatus = "ready";
     if (!communityPersonalCenter) {
       communityStatus = "unavailable";
     } else {
       try {
-        community = await communityPersonalCenter.list(user.username);
+        const loadedCommunity = await communityPersonalCenter.list(
+          communityUsername(user)
+        );
+        community = {
+          notifications: loadedCommunity.notifications || [],
+          interactions: loadedCommunity.interactions || [],
+          history: loadedCommunity.history || [],
+          historyCapped: Boolean(loadedCommunity.historyCapped)
+        };
       } catch {
         communityStatus = "unavailable";
       }
@@ -1033,11 +1512,18 @@ function createIdentityCommunity({
     return {
       user,
       sessions,
+      social: {
+        followers: accountSummary.followers,
+        following: accountSummary.following
+      },
       notifications,
       interactions: community.interactions,
+      readingHistory: community.history,
+      readingHistoryCapped: community.historyCapped,
       summary: {
         unreadNotifications: notifications.filter((item) => !item.read)
           .length,
+        unreadDirectMessages: accountSummary.unreadDirectMessages,
         favorites: community.interactions.filter((item) => item.favorited)
           .length,
         likes: community.interactions.filter((item) => item.liked).length
@@ -1064,7 +1550,7 @@ function createIdentityCommunity({
     const { user } = await me(accessToken);
     try {
       return await communityPersonalCenter.markRead(
-        user.username,
+        communityUsername(user),
         notificationId
       );
     } catch (error) {
@@ -1236,7 +1722,7 @@ function createIdentityCommunity({
         consumed.rows[0].user_id
       );
       await client.query("COMMIT");
-      return { user };
+      return { user, communityUsername: communityUsername(user) };
     } catch (error) {
       await client.query("ROLLBACK").catch(() => {});
       throw error;
@@ -1370,16 +1856,23 @@ function createIdentityCommunity({
     completeEmailChange,
     createCommunityHandoff,
     createDiscussion,
+    followUser,
     getDiscussion,
     getAvatar,
     getPersonalCenter,
+    getPublicUserByUsername,
     listCommunityInteractions,
+    listDirectConversations,
+    listDirectMessages,
     listDiscussions,
+    listFollowers,
+    listFollowing,
     listSiteMessages,
     listSessions,
     login,
     logout,
     markPersonalCenterNotificationRead,
+    markDirectMessagesRead,
     markSiteMessageRead,
     me,
     refresh,
@@ -1389,7 +1882,9 @@ function createIdentityCommunity({
     requestEmailChange,
     requestRegistrationCode,
     revokeSession,
+    sendDirectMessage,
     setCommunityInteraction,
+    unfollowUser,
     updatePhone,
     updateAvatar,
     updateProfile
@@ -1398,5 +1893,6 @@ function createIdentityCommunity({
 
 module.exports = {
   DomainError,
+  communityUsername,
   createIdentityCommunity
 };

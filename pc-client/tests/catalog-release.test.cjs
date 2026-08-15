@@ -168,7 +168,7 @@ test("integrity-only verification can archive a signed legacy policy release", (
         trustedKeys: keyFixture.trustedKeys,
         clientId: "client-catalog-1234"
       }),
-    /目录|托管安装包/
+    /目录|托管安装包|非托管产品/
   );
   assert.equal(
     verifyCatalogReleaseIntegrity(envelope, {

@@ -1,0 +1,552 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "freezeOnly": true,
+  "generatedAt": "2026-08-14T00:00:00.000Z",
+  "title": "Official Skill seeds bounded review against active7",
+  "source": {
+    "researchPath": "docs/research/official-skill-seeds-sample-2026-08-14.md",
+    "researchSha256": "d6ec0cb0652701dc7a1ca75eea343a72025fce89c247bbacefdedd09bdf219a1",
+    "activeReleaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "activeCatalogPath": "admin/published/catalog-store/releases/catalog-v00000007-8c49e1972186-0cec5335.json",
+    "activeCatalogSha256": "facd7ae56a92de1ff1bf2834c5a41894471dd47246f83021e84885d42828b6c4",
+    "activeResources": 250,
+    "activeTargets": 777,
+    "activeSkillResources": 120
+  },
+  "summary": {
+    "observed": 20,
+    "ready": 0,
+    "duplicate": 2,
+    "deferred": 5,
+    "blocked": 13
+  },
+  "proposedResources": [],
+  "reviewLedger": [
+    {
+      "rank": 1,
+      "sourceGroup": "hermes-bundled",
+      "candidateResourceId": "hermes-apple-notes-skill",
+      "name": "apple-notes",
+      "canonicalIdentity": "github.com/NousResearch/hermes-agent@423f92e607dd51908d23b04758bc0fcd6ec5ff39:skills/apple/apple-notes/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": "nous-hermes-agent",
+        "status": "first-party-catalog",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/website/docs/reference/skills-catalog.md"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/skills/apple/apple-notes/SKILL.md"],
+        "finding": "macOS-only CLI workflow can create, edit, move, and delete Apple Notes"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The pinned Skill requires a macOS-only executable and mutates an external notes store; a passive link candidate does not close those execution and data-write boundaries."
+    },
+    {
+      "rank": 2,
+      "sourceGroup": "hermes-bundled",
+      "candidateResourceId": "hermes-codex-skill",
+      "name": "codex",
+      "canonicalIdentity": "github.com/NousResearch/hermes-agent@423f92e607dd51908d23b04758bc0fcd6ec5ff39:skills/autonomous-ai-agents/codex/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": "nous-hermes-agent",
+        "status": "first-party-catalog",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/website/docs/reference/skills-catalog.md"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/skills/autonomous-ai-agents/codex/SKILL.md"],
+        "finding": "delegates repository work to Codex CLI with authentication and high-authority execution modes"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The pinned Skill delegates repository mutations to another authenticated CLI and documents high-authority execution; this intake grants neither execution nor secret authority."
+    },
+    {
+      "rank": 3,
+      "sourceGroup": "hermes-bundled",
+      "candidateResourceId": "hermes-excalidraw-skill",
+      "name": "excalidraw",
+      "canonicalIdentity": "github.com/NousResearch/hermes-agent@423f92e607dd51908d23b04758bc0fcd6ec5ff39:skills/creative/excalidraw/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": "nous-hermes-agent",
+        "status": "first-party-catalog",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/website/docs/reference/skills-catalog.md"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/skills/creative/excalidraw/SKILL.md"],
+        "finding": "writes drawing files and optionally invokes an uploader over the network"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The pinned workflow writes local artifacts and can invoke bundled upload logic; executable and outbound-network review is outside this passive-link intake."
+    },
+    {
+      "rank": 4,
+      "sourceGroup": "hermes-optional",
+      "candidateResourceId": "hermes-solana-skill",
+      "name": "solana",
+      "canonicalIdentity": "github.com/NousResearch/hermes-agent@423f92e607dd51908d23b04758bc0fcd6ec5ff39:optional-skills/blockchain/solana/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": "nous-hermes-agent",
+        "status": "first-party-optional-catalog",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/website/docs/reference/optional-skills-catalog.md"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/optional-skills/blockchain/solana/SKILL.md"],
+        "finding": "invokes helper code and external blockchain and market-data services"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "Optional status is not a safety closure; the pinned Skill executes helper code and crosses external RPC and market-data trust boundaries."
+    },
+    {
+      "rank": 5,
+      "sourceGroup": "hermes-optional",
+      "candidateResourceId": "hermes-page-agent-skill",
+      "name": "page-agent",
+      "canonicalIdentity": "github.com/NousResearch/hermes-agent@423f92e607dd51908d23b04758bc0fcd6ec5ff39:optional-skills/web-development/page-agent/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": "nous-hermes-agent",
+        "status": "first-party-optional-catalog",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/website/docs/reference/optional-skills-catalog.md"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/NousResearch/hermes-agent/blob/423f92e607dd51908d23b04758bc0fcd6ec5ff39/optional-skills/web-development/page-agent/SKILL.md"],
+        "finding": "loads web automation code, changes page state, and requires authenticated model access"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The pinned Skill combines package acquisition, DOM mutation, and authenticated model access; none is authorized by this candidate-only review."
+    },
+    {
+      "rank": 6,
+      "sourceGroup": "anthropic",
+      "candidateResourceId": "anthropic-skills-algorithmic-art",
+      "name": "algorithmic-art",
+      "canonicalIdentity": "github.com/anthropics/skills@f6656c1256d5a8adfa37db9110046ef20bac644c:skills/algorithmic-art/SKILL.md",
+      "licenseEvidence": {
+        "id": "Apache-2.0",
+        "status": "skill-local",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/algorithmic-art/LICENSE.txt"]
+      },
+      "hostEvidence": {
+        "productId": "claude-code",
+        "status": "first-party-plugin-bundle",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/.claude-plugin/marketplace.json"]
+      },
+      "riskEvidence": {
+        "classification": "not-promoted",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/algorithmic-art/SKILL.md"],
+        "finding": "active7 identity collision ends review before runtime promotion"
+      },
+      "dedupe": {
+        "idMatches": ["anthropic-skills-algorithmic-art"],
+        "nameMatches": ["anthropic-skills-algorithmic-art"],
+        "pathMatches": ["anthropic-skills-algorithmic-art"]
+      },
+      "outcome": "duplicate",
+      "reason": "Active7 already contains the same resource ID, exact name, and normalized anthropics/skills path at another revision; this is version drift, not a new resource."
+    },
+    {
+      "rank": 7,
+      "sourceGroup": "anthropic",
+      "candidateResourceId": "anthropic-skills-claude-api",
+      "name": "claude-api",
+      "canonicalIdentity": "github.com/anthropics/skills@f6656c1256d5a8adfa37db9110046ef20bac644c:skills/claude-api/SKILL.md",
+      "licenseEvidence": {
+        "id": "Apache-2.0",
+        "status": "skill-local",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/claude-api/LICENSE.txt"]
+      },
+      "hostEvidence": {
+        "productId": "claude-code",
+        "status": "first-party-plugin-bundle",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/.claude-plugin/marketplace.json"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/claude-api/SKILL.md"],
+        "finding": "guides SDK integration, code edits, compilation, and authenticated provider calls"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The Skill directs code modification and authenticated API execution; those runtime and secret boundaries are not represented by a passive website link."
+    },
+    {
+      "rank": 8,
+      "sourceGroup": "anthropic",
+      "candidateResourceId": "anthropic-skills-skill-creator",
+      "name": "skill-creator",
+      "canonicalIdentity": "github.com/anthropics/skills@f6656c1256d5a8adfa37db9110046ef20bac644c:skills/skill-creator/SKILL.md",
+      "licenseEvidence": {
+        "id": "Apache-2.0",
+        "status": "skill-local",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/skill-creator/LICENSE.txt"]
+      },
+      "hostEvidence": {
+        "productId": "claude-code",
+        "status": "first-party-plugin-bundle",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/.claude-plugin/marketplace.json"]
+      },
+      "riskEvidence": {
+        "classification": "not-promoted",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/skill-creator/SKILL.md"],
+        "finding": "active7 identity collision ends review before runtime promotion"
+      },
+      "dedupe": {
+        "idMatches": ["anthropic-skills-skill-creator"],
+        "nameMatches": ["anthropic-skills-skill-creator"],
+        "pathMatches": ["anthropic-skills-skill-creator"]
+      },
+      "outcome": "duplicate",
+      "reason": "Active7 already contains the same resource ID, exact name, and normalized anthropics/skills path at another revision; this is version drift, not a new resource."
+    },
+    {
+      "rank": 9,
+      "sourceGroup": "anthropic",
+      "candidateResourceId": "anthropic-skills-docx",
+      "name": "docx",
+      "canonicalIdentity": "github.com/anthropics/skills@f6656c1256d5a8adfa37db9110046ef20bac644c:skills/docx/SKILL.md",
+      "licenseEvidence": {
+        "id": "LicenseRef-Anthropic-Source-Available",
+        "status": "skill-local-restricted",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/docx/LICENSE.txt"]
+      },
+      "hostEvidence": {
+        "productId": "claude-code",
+        "status": "first-party-plugin-bundle",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/.claude-plugin/marketplace.json"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/docx/SKILL.md"],
+        "finding": "restricted terms plus document-writing and local tool execution"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The same-revision Skill uses proprietary source-available terms and directs document writes plus local tooling; redistribution and execution authority are not closed."
+    },
+    {
+      "rank": 10,
+      "sourceGroup": "anthropic",
+      "candidateResourceId": "anthropic-skills-xlsx",
+      "name": "xlsx",
+      "canonicalIdentity": "github.com/anthropics/skills@f6656c1256d5a8adfa37db9110046ef20bac644c:skills/xlsx/SKILL.md",
+      "licenseEvidence": {
+        "id": "LicenseRef-Anthropic-Source-Available",
+        "status": "skill-local-restricted",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/xlsx/LICENSE.txt"]
+      },
+      "hostEvidence": {
+        "productId": "claude-code",
+        "status": "first-party-plugin-bundle",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/.claude-plugin/marketplace.json"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/anthropics/skills/blob/f6656c1256d5a8adfa37db9110046ef20bac644c/skills/xlsx/SKILL.md"],
+        "finding": "restricted terms plus spreadsheet writes and local tool execution"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The same-revision Skill uses proprietary source-available terms and directs workbook writes plus local tooling; redistribution and execution authority are not closed."
+    },
+    {
+      "rank": 11,
+      "sourceGroup": "microsoft-site",
+      "candidateResourceId": "microsoft-skills-agent-framework-azure-ai-py",
+      "name": "agent-framework-azure-ai-py",
+      "canonicalIdentity": "github.com/microsoft/skills@f9c19ba07bf9bdfca6e3edf72319878d6111f59d:.github/plugins/azure-sdk-python/skills/agent-framework-azure-ai-py/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": null,
+        "status": "deferred",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/docs-site/src/data/skills.json"]
+      },
+      "riskEvidence": {
+        "classification": "unresolved",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/.github/plugins/azure-sdk-python/skills/agent-framework-azure-ai-py/SKILL.md"],
+        "finding": "SDK code and Azure identity behavior require a separate execution and cloud-access review"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "deferred",
+      "reason": "The official site and MIT boundary are pinned, but no exact compatible active7 host was closed and the SDK/cloud runtime review remains outstanding."
+    },
+    {
+      "rank": 12,
+      "sourceGroup": "microsoft-site",
+      "candidateResourceId": "microsoft-skills-airunway-aks-setup",
+      "name": "airunway-aks-setup",
+      "canonicalIdentity": "github.com/microsoft/skills@f9c19ba07bf9bdfca6e3edf72319878d6111f59d:.github/plugins/azure-skills/skills/airunway-aks-setup/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": null,
+        "status": "deferred",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/docs-site/src/data/skills.json"]
+      },
+      "riskEvidence": {
+        "classification": "unresolved",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/.github/plugins/azure-skills/skills/airunway-aks-setup/SKILL.md"],
+        "finding": "AKS setup changes cloud infrastructure and depends on authenticated Azure tooling"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "deferred",
+      "reason": "The source and MIT boundary are pinned, but exact host compatibility and the authenticated cloud-deployment safety boundary are not closed."
+    },
+    {
+      "rank": 13,
+      "sourceGroup": "microsoft-site",
+      "candidateResourceId": "microsoft-skills-appinsights-instrumentation",
+      "name": "appinsights-instrumentation",
+      "canonicalIdentity": "github.com/microsoft/skills@f9c19ba07bf9bdfca6e3edf72319878d6111f59d:.github/plugins/azure-skills/skills/appinsights-instrumentation/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": null,
+        "status": "deferred",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/docs-site/src/data/skills.json"]
+      },
+      "riskEvidence": {
+        "classification": "unresolved",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/.github/plugins/azure-skills/skills/appinsights-instrumentation/SKILL.md"],
+        "finding": "modifies application instrumentation and can require cloud configuration"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "deferred",
+      "reason": "The source and MIT boundary are pinned, but exact host compatibility and application/cloud mutation review remain unclosed."
+    },
+    {
+      "rank": 14,
+      "sourceGroup": "microsoft-site",
+      "candidateResourceId": "microsoft-skills-applicationinsights-web-ts",
+      "name": "applicationinsights-web-ts",
+      "canonicalIdentity": "github.com/microsoft/skills@f9c19ba07bf9bdfca6e3edf72319878d6111f59d:.github/plugins/azure-sdk-typescript/skills/applicationinsights-web-ts/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": null,
+        "status": "deferred",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/docs-site/src/data/skills.json"]
+      },
+      "riskEvidence": {
+        "classification": "unresolved",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/.github/plugins/azure-sdk-typescript/skills/applicationinsights-web-ts/SKILL.md"],
+        "finding": "directs package acquisition and source-code instrumentation changes"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "deferred",
+      "reason": "The source and MIT boundary are pinned, but exact host compatibility and package/source mutation review remain unclosed."
+    },
+    {
+      "rank": 15,
+      "sourceGroup": "microsoft-site",
+      "candidateResourceId": "microsoft-skills-azure-ai",
+      "name": "azure-ai",
+      "canonicalIdentity": "github.com/microsoft/skills@f9c19ba07bf9bdfca6e3edf72319878d6111f59d:.github/plugins/azure-skills/skills/azure-ai/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "repo-boundary",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/LICENSE"]
+      },
+      "hostEvidence": {
+        "productId": null,
+        "status": "deferred",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/docs-site/src/data/skills.json"]
+      },
+      "riskEvidence": {
+        "classification": "unresolved",
+        "evidence": ["https://github.com/microsoft/skills/blob/f9c19ba07bf9bdfca6e3edf72319878d6111f59d/.github/plugins/azure-skills/skills/azure-ai/SKILL.md"],
+        "finding": "broad Azure AI guidance can cross authenticated cloud-resource and deployment boundaries"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "deferred",
+      "reason": "The source and MIT boundary are pinned, but exact host compatibility and the broad authenticated Azure runtime boundary are not closed."
+    },
+    {
+      "rank": 16,
+      "sourceGroup": "openai-plugins",
+      "candidateResourceId": "openai-plugins-linear",
+      "name": "linear",
+      "canonicalIdentity": "github.com/openai/plugins@11c74d6ba24d3a6d48f54a194cd00ef3beea18f9:plugins/linear/skills/linear/SKILL.md",
+      "licenseEvidence": {
+        "id": "Apache-2.0",
+        "status": "skill-local",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/linear/skills/linear/LICENSE.txt"]
+      },
+      "hostEvidence": {
+        "productId": "codex-cli",
+        "status": "first-party-plugin-manifest",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/linear/.codex-plugin/plugin.json"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/linear/skills/linear/SKILL.md"],
+        "finding": "requires an OAuth-connected external app and supports issue and project writes"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The Skill is inseparable from an authenticated, write-capable Linear app; a Skill-only passive link cannot grant or describe that connector authority."
+    },
+    {
+      "rank": 17,
+      "sourceGroup": "openai-plugins",
+      "candidateResourceId": "openai-plugins-capture-tasks-from-meeting-notes",
+      "name": "capture-tasks-from-meeting-notes",
+      "canonicalIdentity": "github.com/openai/plugins@11c74d6ba24d3a6d48f54a194cd00ef3beea18f9:plugins/atlassian-rovo/skills/capture-tasks-from-meeting-notes/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "plugin-manifest-declared",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/.codex-plugin/plugin.json"]
+      },
+      "hostEvidence": {
+        "productId": "codex-cli",
+        "status": "first-party-plugin-manifest",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/.codex-plugin/plugin.json"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/skills/capture-tasks-from-meeting-notes/SKILL.md"],
+        "finding": "reads Confluence content and creates Jira tasks through authenticated external services"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The Skill requires authenticated Atlassian access and creates external Jira records; connector and write authority are outside this Skill-only intake."
+    },
+    {
+      "rank": 18,
+      "sourceGroup": "openai-plugins",
+      "candidateResourceId": "openai-plugins-generate-status-report",
+      "name": "generate-status-report",
+      "canonicalIdentity": "github.com/openai/plugins@11c74d6ba24d3a6d48f54a194cd00ef3beea18f9:plugins/atlassian-rovo/skills/generate-status-report/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "plugin-manifest-declared",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/.codex-plugin/plugin.json"]
+      },
+      "hostEvidence": {
+        "productId": "codex-cli",
+        "status": "first-party-plugin-manifest",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/.codex-plugin/plugin.json"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/skills/generate-status-report/SKILL.md"],
+        "finding": "queries Jira and publishes or updates Confluence pages"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The Skill depends on authenticated Atlassian services and publishes external content; connector and write authority are outside this Skill-only intake."
+    },
+    {
+      "rank": 19,
+      "sourceGroup": "openai-plugins",
+      "candidateResourceId": "openai-plugins-search-company-knowledge",
+      "name": "search-company-knowledge",
+      "canonicalIdentity": "github.com/openai/plugins@11c74d6ba24d3a6d48f54a194cd00ef3beea18f9:plugins/atlassian-rovo/skills/search-company-knowledge/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "plugin-manifest-declared",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/.codex-plugin/plugin.json"]
+      },
+      "hostEvidence": {
+        "productId": "codex-cli",
+        "status": "first-party-plugin-manifest",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/.codex-plugin/plugin.json"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/skills/search-company-knowledge/SKILL.md"],
+        "finding": "requires authenticated access to private Jira and Confluence content"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "Even without an intended write, the Skill requires an authenticated external connector and private-company data access that a Skill-only link cannot authorize."
+    },
+    {
+      "rank": 20,
+      "sourceGroup": "openai-plugins",
+      "candidateResourceId": "openai-plugins-spec-to-backlog",
+      "name": "spec-to-backlog",
+      "canonicalIdentity": "github.com/openai/plugins@11c74d6ba24d3a6d48f54a194cd00ef3beea18f9:plugins/atlassian-rovo/skills/spec-to-backlog/SKILL.md",
+      "licenseEvidence": {
+        "id": "MIT",
+        "status": "plugin-manifest-declared",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/.codex-plugin/plugin.json"]
+      },
+      "hostEvidence": {
+        "productId": "codex-cli",
+        "status": "first-party-plugin-manifest",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/.codex-plugin/plugin.json"]
+      },
+      "riskEvidence": {
+        "classification": "blocked",
+        "evidence": ["https://github.com/openai/plugins/blob/11c74d6ba24d3a6d48f54a194cd00ef3beea18f9/plugins/atlassian-rovo/skills/spec-to-backlog/SKILL.md"],
+        "finding": "reads Confluence specifications and creates Jira epics and child tickets"
+      },
+      "dedupe": { "idMatches": [], "nameMatches": [], "pathMatches": [] },
+      "outcome": "blocked",
+      "reason": "The Skill requires authenticated Atlassian access and creates an external Jira backlog; connector and write authority are outside this Skill-only intake."
+    }
+  ],
+  "safety": {
+    "resourceLinkOnly": true,
+    "websiteCapabilityOnly": true,
+    "emptyInstallProfileOnly": true,
+    "localExecutionAuthorized": false,
+    "secretsCollected": false,
+    "activeCatalogWritten": false,
+    "stateWritten": false,
+    "channelWritten": false,
+    "releaseWritten": false,
+    "appWritten": false,
+    "schemaWritten": false,
+    "packageWritten": false,
+    "serverWritten": false
+  },
+  "rollback": "No resource is proposed and no active catalog, state, channel, release, App, schema, package, server, profile, signature, upload, or publication was written. Delete this candidate, its dedicated test, and its handoff to discard the review."
+}

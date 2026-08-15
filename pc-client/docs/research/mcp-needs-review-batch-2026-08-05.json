@@ -1,0 +1,25 @@
+{
+  "date": "2026-08-05",
+  "scope": "mcp-needs-official-review",
+  "changedCatalog": false,
+  "changedState": false,
+  "savedDraft": false,
+  "candidates": [
+    {"id":"blender-mcp","status":"blocked","reason":"community MCP; no vendor identity, fixed release, dependency lock, or safe permission contract"},
+    {"id":"godot-mcp","status":"blocked","reason":"community MCP; rolling/review-required and no vendor identity or fixed install contract"},
+    {"id":"unreal-mcp","status":"blocked","reason":"community MCP with execute_python capability; no fixed vendor package or safe code-execution profile"},
+    {"id":"ableton-mcp-extended","status":"blocked","reason":"community MCP with session-writing and local socket behavior; version/dependencies and credential boundary not locked"},
+    {"id":"obs-mcp","status":"blocked","reason":"community MCP; OBS official evidence covers WebSocket, not this package; password must remain user-managed"},
+    {"id":"davinci-resolve-mcp","status":"blocked","reason":"community MCP; review-required, no fixed release/dependency lock or verified Windows install contract"}
+  ],
+  "safeFixedProfileCandidates": [],
+  "allowedProjection": "resource-link only; no install/enable/disable/uninstall",
+  "officialSources": {
+    "blender": ["https://www.blender.org/download/","https://www.blender.org/download/requirements/","https://www.blender.org/api/pythonapi.pdf"],
+    "godot": ["https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html"],
+    "unreal": ["https://www.unrealengine.com/download"],
+    "ableton": ["https://help.ableton.com/hc/en-us/articles/209773565-Installing-Ableton-Live"],
+    "obs": ["https://obsproject.com/download","https://obsproject.com/kb/remote-control-guide"],
+    "davinci-resolve": ["https://documents.blackmagicdesign.com/UserManuals/DaVinci-Resolve-20-Editors-Guide.pdf"]
+  }
+}

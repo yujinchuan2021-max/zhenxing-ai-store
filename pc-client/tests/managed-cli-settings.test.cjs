@@ -36,6 +36,27 @@ test("merges the reviewed setting without replacing user configuration", (t) => 
   );
 });
 
+test("supports one reviewed settings file directly below the user home", (t) => {
+  const homeDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-cli-settings-"));
+  t.after(() => fs.rmSync(homeDirectory, { recursive: true, force: true }));
+  const target = path.join(homeDirectory, ".qoder-cn.json");
+  fs.writeFileSync(target, JSON.stringify({ theme: "dark" }));
+
+  const result = applyManagedCliSettings({
+    homeDirectory,
+    policy: {
+      relativePath: [".qoder-cn.json"],
+      values: { autoUpdates: false }
+    }
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(JSON.parse(fs.readFileSync(target, "utf8")), {
+    theme: "dark",
+    autoUpdates: false
+  });
+});
+
 test("refuses traversal and invalid existing JSON", (t) => {
   const homeDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-cli-settings-"));
   t.after(() => fs.rmSync(homeDirectory, { recursive: true, force: true }));

@@ -60,9 +60,65 @@ function communityDiscussionLocation(value, originValue) {
   };
 }
 
+function communityProfileSyncKey(identity) {
+  if (identity?.status !== "authenticated") return "anonymous";
+  const user = identity.user || {};
+  const profile = user.profile || {};
+  return JSON.stringify([
+    String(user.id || ""),
+    String(profile.nickname || ""),
+    String(profile.avatarUrl || ""),
+    String(profile.bio || "")
+  ]);
+}
+
+function classifyCommunityLoadFailure(errorCode, isMainFrame = true) {
+  if (isMainFrame === false || errorCode === -3) return null;
+  if (errorCode === -310) {
+    return {
+      errorClass: "redirect",
+      messageKey: "community.pageFailedRedirect"
+    };
+  }
+  if (Number.isInteger(errorCode) && errorCode <= -200 && errorCode >= -299) {
+    return { errorClass: "tls", messageKey: "community.pageFailedTls" };
+  }
+  if ([-102, -105, -106, -109, -118].includes(errorCode)) {
+    return { errorClass: "network", messageKey: "community.pageFailedNetwork" };
+  }
+  if ([-20, -27].includes(errorCode)) {
+    return { errorClass: "blocked", messageKey: "community.pageFailedBlocked" };
+  }
+  return { errorClass: "load", messageKey: "community.pageFailed" };
+}
+
+function communityEmbedSessionFailure(error) {
+  if (error?.status === 401 || error?.code === "SESSION_REVOKED") {
+    return {
+      ok: false,
+      error: {
+        code: "SESSION_REVOKED",
+        status: 401,
+        messageKey: "community.sessionExpired"
+      }
+    };
+  }
+  return {
+    ok: false,
+    error: {
+      code: "TEMPORARILY_UNAVAILABLE",
+      status: 503,
+      messageKey: "community.serviceUnavailable"
+    }
+  };
+}
+
 module.exports = {
   approvedCommunityOrigin,
+  classifyCommunityLoadFailure,
   communityDiscussionLocation,
+  communityEmbedSessionFailure,
+  communityProfileSyncKey,
   isApprovedCommunityNavigation,
   validateCommunityLaunchUrl
 };

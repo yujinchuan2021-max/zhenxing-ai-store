@@ -251,6 +251,33 @@ test("clearing a product record cancels only that product's superseded cleanup",
   assert.deepEqual(result.records[CLEANUP_QUEUE_RECORD_KEY], [otherReceipt]);
 });
 
+test("clearing a reviewed environment record keeps cleanup scoped without accepting an arbitrary namespace", () => {
+  const records = {
+    "environment:python312": { productId: "environment:python312" },
+    "environment:python": { productId: "environment:python" },
+    [CLEANUP_QUEUE_RECORD_KEY]: []
+  };
+
+  const result = cancelSupersededPackageCleanupForProduct(
+    records,
+    "environment:python312"
+  );
+
+  assert.equal(result.canceledCount, 0);
+  assert.deepEqual(result.records, {
+    "environment:python312": records["environment:python312"],
+    "environment:python": records["environment:python"]
+  });
+  assert.throws(
+    () => cancelSupersededPackageCleanupForProduct(records, "environment:unreviewed"),
+    /product is invalid/
+  );
+  assert.throws(
+    () => cancelSupersededPackageCleanupForProduct(records, "environment:python312:extra"),
+    /product is invalid/
+  );
+});
+
 test("cleanup retry never deletes an old package after its current record was cleared", async () => {
   const receipt = createSupersededPackageReceipt(
     downloadRecord("Claude-Setup-x64.exe", "a".repeat(64), 10),

@@ -41,15 +41,46 @@ test("reports the exact disk-space shortfall", () => {
   );
 });
 
-test("rejects an unknown package size before writing", () => {
-  assert.throws(
-    () =>
-      assessDownloadSpace({
-        availableBytes: 10_000,
-        totalBytes: 0,
-        receivedBytes: 0,
-        safetyReserveBytes: 1_000
-      }),
-    /无法确认安装包大小/
-  );
+test("streams a response without Content-Length while reserving disk for each write", () => {
+  const response = {
+    status: 200,
+    headers: new Headers(),
+    chunks: [Buffer.alloc(400), Buffer.alloc(600)]
+  };
+  let receivedBytes = 0;
+
+  const preflight = assessDownloadSpace({
+    availableBytes: 10_000,
+    totalBytes: Number(response.headers.get("content-length") || 0),
+    receivedBytes,
+    safetyReserveBytes: 1_000
+  });
+  assert.equal(preflight.ok, true);
+  assert.equal(preflight.sizeKnown, false);
+
+  for (const chunk of response.chunks) {
+    const live = assessDownloadSpace({
+      availableBytes: 10_000 - receivedBytes,
+      totalBytes: 0,
+      receivedBytes,
+      safetyReserveBytes: 1_000,
+      nextWriteBytes: chunk.length
+    });
+    assert.equal(live.ok, true);
+    assert.equal(live.requiredBytes, 1_000 + chunk.length);
+    receivedBytes += chunk.length;
+  }
+  assert.equal(receivedBytes, 1_000);
+});
+
+test("unknown-size streaming stops before a chunk would consume the safety reserve", () => {
+  const space = assessDownloadSpace({
+    availableBytes: 1_200,
+    totalBytes: 0,
+    receivedBytes: 4_096,
+    safetyReserveBytes: 1_000,
+    nextWriteBytes: 400
+  });
+  assert.equal(space.ok, false);
+  assert.equal(space.shortfallBytes, 200);
 });

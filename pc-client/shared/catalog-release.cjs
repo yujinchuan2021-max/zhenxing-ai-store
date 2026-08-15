@@ -1,5 +1,7 @@
 "use strict";
 
+const CATALOG_RELEASE_MAX_BYTES = 2 * 1024 * 1024;
+
 const { sha256, validateCatalog } = require("./catalog.cjs");
 const {
   canonicalize,
@@ -237,6 +239,7 @@ function verifyCatalogReleaseCache(
 }
 
 module.exports = {
+  CATALOG_RELEASE_MAX_BYTES,
   catalogReleaseSha256,
   validateCatalogReleasePayload,
   verifyCatalogReleaseIntegrity,

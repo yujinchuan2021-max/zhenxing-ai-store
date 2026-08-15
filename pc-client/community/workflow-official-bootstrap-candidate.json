@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "bootstrapId": "zhenxing-official-starter-workflows-v1",
+  "publisher": {
+    "identityId": "46564566-f5f4-599c-8ce5-0609069f5148",
+    "displayName": "枕星 AI"
+  },
+  "reviewerIdentityId": "5f16d5ac-6663-5905-b920-c2140ac6769c",
+  "catalog": {
+    "releaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "catalogVersion": 7,
+    "catalogSha256": "8c49e1972186f841dca9cea8f26074fe27aed9a140e4f5687cf7f23d134f034c"
+  },
+  "workflows": [
+    {
+      "key": "research-brief",
+      "sourcePostKey": "chatgpt-desktop-research",
+      "provenance": {
+        "licenseId": "CC-BY-4.0",
+        "derivedFrom": [],
+        "discoveredVia": []
+      },
+      "content": {
+        "title": "研究资料整理与摘要",
+        "summary": "把用户选择的研究材料按事实、待核实信息和结论整理成一份清晰摘要。",
+        "inputs": [
+          { "name": "source_material", "type": "text", "required": true, "description": "用户选择并确认可处理的研究材料。" }
+        ],
+        "outputs": [
+          { "name": "research_brief", "type": "text", "description": "区分事实、待核实信息和结论的研究摘要。" }
+        ],
+        "instructions": [
+          "提取材料中的核心主张，并保留来源上下文。",
+          "把明确事实与仍需核实的信息分开整理。",
+          "输出结构化摘要，不补写材料中不存在的事实。"
+        ],
+        "dependencies": [
+          { "kind": "product", "canonicalId": "chatgpt-desktop", "permissions": ["read-selected-input", "write-selected-output"] }
+        ],
+        "secretPlaceholders": []
+      },
+      "composition": {
+        "steps": [
+          {
+            "stepId": "extract_claims",
+            "dependency": { "kind": "product", "canonicalId": "chatgpt-desktop" },
+            "inputs": [{ "name": "material", "type": "text", "from": { "kind": "workflow-input", "name": "source_material" } }],
+            "outputs": [{ "name": "claims", "type": "text" }]
+          },
+          {
+            "stepId": "separate_evidence",
+            "dependency": { "kind": "product", "canonicalId": "chatgpt-desktop" },
+            "inputs": [{ "name": "claims", "type": "text", "from": { "kind": "step-output", "stepId": "extract_claims", "name": "claims" } }],
+            "outputs": [{ "name": "checked_claims", "type": "text" }]
+          },
+          {
+            "stepId": "write_brief",
+            "dependency": { "kind": "product", "canonicalId": "chatgpt-desktop" },
+            "inputs": [{ "name": "checked_claims", "type": "text", "from": { "kind": "step-output", "stepId": "separate_evidence", "name": "checked_claims" } }],
+            "outputs": [{ "name": "research_brief", "type": "text" }]
+          }
+        ]
+      },
+      "review": { "reviewStatus": "manually-reviewed", "riskLevel": "low" }
+    },
+    {
+      "key": "code-review",
+      "sourcePostKey": "codex-cli-code-review",
+      "provenance": {
+        "licenseId": "CC-BY-4.0",
+        "derivedFrom": [],
+        "discoveredVia": []
+      },
+      "content": {
+        "title": "代码变更审查清单",
+        "summary": "依据用户提供的变更说明，整理正确性、风险和验证缺口，形成可执行的审查清单。",
+        "inputs": [
+          { "name": "change_summary", "type": "text", "required": true, "description": "用户选择的代码变更说明或差异摘要。" }
+        ],
+        "outputs": [
+          { "name": "review_report", "type": "text", "description": "按严重度排序并带验证建议的审查报告。" }
+        ],
+        "instructions": [
+          "只审查用户明确提供的变更范围。",
+          "优先记录正确性、安全边界和回归风险。",
+          "按严重度输出发现，并注明需要补充的验证。"
+        ],
+        "dependencies": [
+          { "kind": "product", "canonicalId": "codex-cli", "permissions": ["read-selected-input", "write-selected-output"] }
+        ],
+        "secretPlaceholders": []
+      },
+      "composition": {
+        "steps": [
+          {
+            "stepId": "inspect_changes",
+            "dependency": { "kind": "product", "canonicalId": "codex-cli" },
+            "inputs": [{ "name": "changes", "type": "text", "from": { "kind": "workflow-input", "name": "change_summary" } }],
+            "outputs": [{ "name": "findings", "type": "text" }]
+          },
+          {
+            "stepId": "prioritize_findings",
+            "dependency": { "kind": "product", "canonicalId": "codex-cli" },
+            "inputs": [{ "name": "findings", "type": "text", "from": { "kind": "step-output", "stepId": "inspect_changes", "name": "findings" } }],
+            "outputs": [{ "name": "prioritized_findings", "type": "text" }]
+          },
+          {
+            "stepId": "write_review",
+            "dependency": { "kind": "product", "canonicalId": "codex-cli" },
+            "inputs": [{ "name": "prioritized_findings", "type": "text", "from": { "kind": "step-output", "stepId": "prioritize_findings", "name": "prioritized_findings" } }],
+            "outputs": [{ "name": "review_report", "type": "text" }]
+          }
+        ]
+      },
+      "review": { "reviewStatus": "manually-reviewed", "riskLevel": "low" }
+    },
+    {
+      "key": "content-organizer",
+      "sourcePostKey": "claude-desktop-content",
+      "provenance": {
+        "licenseId": "CC-BY-4.0",
+        "derivedFrom": [],
+        "discoveredVia": []
+      },
+      "content": {
+        "title": "长内容分类与重组",
+        "summary": "把用户选择的长文本按主题分类、建立层级，并重组为便于阅读的内容稿。",
+        "inputs": [
+          { "name": "source_text", "type": "text", "required": true, "description": "用户选择并确认可处理的长文本。" }
+        ],
+        "outputs": [
+          { "name": "organized_content", "type": "text", "description": "保留原意并按主题重组的内容稿。" }
+        ],
+        "instructions": [
+          "识别重复主题和彼此独立的信息组。",
+          "建立不改变原意的标题层级。",
+          "按层级重组内容，并标出仍需作者确认的歧义。"
+        ],
+        "dependencies": [
+          { "kind": "product", "canonicalId": "claude-desktop", "permissions": ["read-selected-input", "write-selected-output"] }
+        ],
+        "secretPlaceholders": []
+      },
+      "composition": {
+        "steps": [
+          {
+            "stepId": "classify_topics",
+            "dependency": { "kind": "product", "canonicalId": "claude-desktop" },
+            "inputs": [{ "name": "text", "type": "text", "from": { "kind": "workflow-input", "name": "source_text" } }],
+            "outputs": [{ "name": "topic_groups", "type": "text" }]
+          },
+          {
+            "stepId": "build_outline",
+            "dependency": { "kind": "product", "canonicalId": "claude-desktop" },
+            "inputs": [{ "name": "topic_groups", "type": "text", "from": { "kind": "step-output", "stepId": "classify_topics", "name": "topic_groups" } }],
+            "outputs": [{ "name": "content_outline", "type": "text" }]
+          },
+          {
+            "stepId": "organize_content",
+            "dependency": { "kind": "product", "canonicalId": "claude-desktop" },
+            "inputs": [{ "name": "outline", "type": "text", "from": { "kind": "step-output", "stepId": "build_outline", "name": "content_outline" } }],
+            "outputs": [{ "name": "organized_content", "type": "text" }]
+          }
+        ]
+      },
+      "review": { "reviewStatus": "manually-reviewed", "riskLevel": "low" }
+    }
+  ]
+}

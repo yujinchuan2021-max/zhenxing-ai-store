@@ -1,0 +1,2 @@
+"productId","productName","strategy","uiAction","initialUrl","finalUrlOrHost","networkOrFirstData","cancelOrRecovery","status","reason"
+"alibaba-quark-ai-browser","夸克 AI 浏览器","direct-artifact","","","","","","FAIL","download failed before first data: DOWNLOAD_FAILED 下载服务器返回 404"

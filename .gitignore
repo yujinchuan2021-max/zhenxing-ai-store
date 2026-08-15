@@ -40,3 +40,10 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+/.playwright-cli/
+/.remote-state.json
+/output/
+
+# local packaging/runtime artifacts
+/pc-client/release-review-*.tar
+/pc-client/deployment/community-production/runtime/*.tar.gz

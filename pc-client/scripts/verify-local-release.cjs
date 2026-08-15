@@ -15,6 +15,7 @@ if (args.length && !allowCatalogPolicyDrift) {
 const result = verifyReleaseBundle({
   bundleDirectory: path.resolve(__dirname, "..", "deployment", "local")
     + path.sep + "runtime" + path.sep + "current",
+  allowLocalhost: true,
   allowLocalRuntimeTrust: true,
   allowCatalogPolicyDrift
 });

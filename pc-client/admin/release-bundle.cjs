@@ -18,6 +18,12 @@ const {
 const {
   publicKeyRecord
 } = require("./signing-key.cjs");
+const {
+  isLoopbackHostname
+} = require("../shared/client-services.cjs");
+const {
+  assertCatalogSigningKeyAllowed
+} = require("../shared/catalog-key-retirement.cjs");
 
 function sha256File(filePath) {
   const hash = crypto.createHash("sha256");
@@ -42,18 +48,18 @@ function normalizeBaseUrl(value, allowLocalhost) {
   } catch {
     throw new Error("发布地址无效");
   }
-  const local =
-    allowLocalhost &&
-    parsed.protocol === "http:" &&
-    ["127.0.0.1", "localhost"].includes(parsed.hostname);
+  const loopback = isLoopbackHostname(parsed.hostname);
+  const localHttp =
+    allowLocalhost && loopback && parsed.protocol === "http:";
   if (
-    (!local && parsed.protocol !== "https:") ||
+    (!allowLocalhost && loopback) ||
+    (!localHttp && parsed.protocol !== "https:") ||
     parsed.username ||
     parsed.password ||
     parsed.search ||
     parsed.hash
   ) {
-    throw new Error("生产发布地址必须使用 HTTPS；本地模拟只允许回环 HTTP");
+    throw new Error("生产发布地址必须使用非回环 HTTPS");
   }
   parsed.pathname = `${parsed.pathname.replace(/\/+$/, "")}/`;
   return parsed;
@@ -122,6 +128,7 @@ function prepareReleaseBundle({
   allowLocalhost = false,
   allowLocalDevelopmentKeys = false
 }) {
+  assertCatalogSigningKeyAllowed(signingKeys?.catalog?.keyId, "package");
   if (!path.isAbsolute(outputDirectory) || !path.isAbsolute(installerPath)) {
     throw new Error("发布输出目录和安装包路径必须是绝对路径");
   }

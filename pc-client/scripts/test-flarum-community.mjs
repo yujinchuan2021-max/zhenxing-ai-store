@@ -4,15 +4,19 @@ import crypto from "node:crypto";
 const identityOrigin = "http://127.0.0.1:4180";
 const mailOrigin = "http://127.0.0.1:8025";
 const communityOrigin = "http://127.0.0.1:8088";
+const forumAdminToken =
+  "aihub-local-forum-api-key-change-before-production; userId=1";
 const suffix = Date.now().toString(36);
 const email = `flarum-${suffix}@aihub.local`;
-const username = `flarum_${suffix}`;
+const username = `用户${suffix}`;
 const peerEmail = `flarum-peer-${suffix}@aihub.local`;
 const peerUsername = `flarum_peer_${suffix}`;
 const password = `AIHub-${suffix}-Secure9`;
 const nextPassword = `AIHub-${suffix}-Changed8`;
 const nextEmail = `flarum-next-${suffix}@aihub.local`;
+const linkedEmail = `flarum-linked-${suffix}@aihub.local`;
 const testPhone = `+8613${String(Date.now()).slice(-9)}`;
+const expectedNickname = `AI Hub ${suffix}`;
 
 async function jsonRequest(origin, pathname, options = {}) {
   const response = await fetch(`${origin}${pathname}`, {
@@ -80,17 +84,29 @@ const registered = await jsonRequest(identityOrigin, "/v1/registration/complete"
     deviceName: "Flarum acceptance"
   }
 });
+const communityUsername = `zx_${registered.user.id
+  .replaceAll("-", "")
+  .slice(0, 27)}`;
 
 const profile = await jsonRequest(identityOrigin, "/v1/me/profile", {
   method: "PUT",
   accessToken: registered.accessToken,
   body: {
-    nickname: `AI Hub ${suffix}`,
+    nickname: expectedNickname,
     bio: "统一个人中心验收",
     avatarUrl: ""
   }
 });
 assert.equal(profile.user.profile.bio, "统一个人中心验收");
+
+const avatarBase64 =
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=";
+const avatar = await jsonRequest(identityOrigin, "/v1/me/avatar", {
+  method: "PUT",
+  accessToken: registered.accessToken,
+  body: { dataUrl: `data:image/png;base64,${avatarBase64}` }
+});
+assert.match(avatar.user.profile.avatarUrl, /\/v1\/avatars\//);
 
 const phone = await jsonRequest(identityOrigin, "/v1/me/phone", {
   method: "PUT",
@@ -151,20 +167,22 @@ const tokenCookie = setCookies.find((cookie) =>
   cookie.startsWith("flarum_token=")
 );
 assert.ok(tokenCookie, "SSO bridge did not issue a Flarum token cookie");
-const forumToken = tokenCookie.split(";", 1)[0].split("=", 2)[1];
+let forumToken = tokenCookie.split(";", 1)[0].split("=", 2)[1];
 assert.ok(forumToken);
 
 const forumUsers = await jsonRequest(
   communityOrigin,
-  `/api/users?filter[q]=${encodeURIComponent(username)}`,
+  `/api/users?filter[q]=${encodeURIComponent(communityUsername)}`,
   { forumToken }
 );
 const forumUser = forumUsers.data.find(
-  (candidate) => candidate.attributes.username === username
+  (candidate) => candidate.attributes.username === communityUsername
 );
 assert.ok(forumUser, "The unified identity was not provisioned in Flarum");
 assert.equal(forumUser.attributes.isEmailConfirmed, true);
 assert.equal(forumUser.attributes.email, nextEmail);
+assert.equal(forumUser.attributes.displayName, expectedNickname);
+assert.equal(forumUser.attributes.avatarUrl, avatar.user.profile.avatarUrl);
 
 const existingDiscussions = await jsonRequest(
   communityOrigin,
@@ -240,6 +258,107 @@ const reply = await jsonRequest(communityOrigin, "/api/posts", {
 });
 assert.equal(reply.data.attributes.contentHtml.includes("same account"), true);
 
+const legacyUsername = `legacy_${suffix}`;
+const renamedLegacy = await jsonRequest(
+  communityOrigin,
+  `/api/users/${forumUser.id}`,
+  {
+    method: "PATCH",
+    forumToken: forumAdminToken,
+    body: {
+      data: {
+        type: "users",
+        id: String(forumUser.id),
+        attributes: { username: legacyUsername }
+      }
+    }
+  }
+);
+assert.equal(renamedLegacy.data.attributes.username, legacyUsername);
+
+const migrationHandoff = await jsonRequest(
+  identityOrigin,
+  "/v1/community/handoffs",
+  { method: "POST", accessToken: registered.accessToken }
+);
+const migrationBridge = await fetch(migrationHandoff.launchUrl, {
+  redirect: "manual"
+});
+assert.equal(migrationBridge.status, 303);
+const migrationCookies =
+  typeof migrationBridge.headers.getSetCookie === "function"
+    ? migrationBridge.headers.getSetCookie()
+    : [migrationBridge.headers.get("set-cookie")].filter(Boolean);
+const migrationTokenCookie = migrationCookies.find((cookie) =>
+  cookie.startsWith("flarum_token=")
+);
+assert.ok(migrationTokenCookie);
+forumToken = migrationTokenCookie.split(";", 1)[0].split("=", 2)[1];
+const migratedForumUser = await jsonRequest(
+  communityOrigin,
+  `/api/users/${forumUser.id}`,
+  { forumToken }
+);
+assert.equal(migratedForumUser.data.id, forumUser.id);
+assert.equal(migratedForumUser.data.attributes.username, communityUsername);
+assert.equal(migratedForumUser.data.attributes.displayName, expectedNickname);
+assert.equal(migratedForumUser.data.attributes.avatarUrl, avatar.user.profile.avatarUrl);
+const preservedDiscussion = await jsonRequest(
+  communityOrigin,
+  `/api/discussions/${discussion.data.id}`,
+  { forumToken }
+);
+assert.equal(
+  preservedDiscussion.data.relationships.user.data.id,
+  forumUser.id,
+  "email-based migration must preserve the Flarum author id"
+);
+
+const linkedEmailChallenge = await jsonRequest(
+  identityOrigin,
+  "/v1/me/email-change/challenges",
+  {
+    method: "POST",
+    accessToken: registered.accessToken,
+    body: { email: linkedEmail, currentPassword: password }
+  }
+);
+const linkedEmailCode = await waitForCode(linkedEmail);
+assert.match(linkedEmailCode, /^\d{6}$/);
+await jsonRequest(identityOrigin, "/v1/me/email-change/complete", {
+  method: "POST",
+  accessToken: registered.accessToken,
+  body: {
+    challengeId: linkedEmailChallenge.challengeId,
+    code: linkedEmailCode
+  }
+});
+const linkedHandoff = await jsonRequest(
+  identityOrigin,
+  "/v1/community/handoffs",
+  { method: "POST", accessToken: registered.accessToken }
+);
+const linkedBridge = await fetch(linkedHandoff.launchUrl, {
+  redirect: "manual"
+});
+assert.equal(linkedBridge.status, 303);
+const linkedCookies =
+  typeof linkedBridge.headers.getSetCookie === "function"
+    ? linkedBridge.headers.getSetCookie()
+    : [linkedBridge.headers.get("set-cookie")].filter(Boolean);
+const linkedTokenCookie = linkedCookies.find((cookie) =>
+  cookie.startsWith("flarum_token=")
+);
+assert.ok(linkedTokenCookie);
+forumToken = linkedTokenCookie.split(";", 1)[0].split("=", 2)[1];
+const relinkedForumUser = await jsonRequest(
+  communityOrigin,
+  `/api/users/${forumUser.id}`,
+  { forumToken }
+);
+assert.equal(relinkedForumUser.data.id, forumUser.id);
+assert.equal(relinkedForumUser.data.attributes.email, linkedEmail);
+
 const peerChallenge = await jsonRequest(
   identityOrigin,
   "/v1/registration/challenges",
@@ -294,6 +413,32 @@ await jsonRequest(communityOrigin, `/api/posts/${reply.data.id}`, {
   }
 });
 
+const lastReadPostNumber = Number(reply.data.attributes.number);
+assert.ok(lastReadPostNumber > 0);
+await jsonRequest(communityOrigin, `/api/discussions/${discussion.data.id}`, {
+  method: "PATCH",
+  forumToken: peerForumToken,
+  body: {
+    data: {
+      type: "discussions",
+      id: String(discussion.data.id),
+      attributes: { lastReadPostNumber }
+    }
+  }
+});
+const peerCenterBeforeHide = await jsonRequest(
+  identityOrigin,
+  "/v1/me/personal-center",
+  { accessToken: peer.accessToken }
+);
+assert.equal(
+  peerCenterBeforeHide.readingHistory.some(
+    (item) => item.discussionId === String(discussion.data.id)
+  ),
+  true,
+  "visible discussion did not reach the peer reading history"
+);
+
 await jsonRequest(communityOrigin, `/api/discussions/${discussion.data.id}`, {
   method: "PATCH",
   forumToken,
@@ -332,6 +477,12 @@ assert.equal(
   ),
   true
 );
+assert.equal(
+  personalCenter.readingHistory.some(
+    (item) => item.discussionId === String(discussion.data.id)
+  ),
+  true
+);
 assert.ok(personalCenter.summary.favorites >= 1);
 assert.ok(personalCenter.summary.likes >= 1);
 const unread = personalCenter.notifications.find(
@@ -367,6 +518,37 @@ assert.equal(
   true
 );
 
+await jsonRequest(communityOrigin, `/api/discussions/${discussion.data.id}`, {
+  method: "PATCH",
+  forumToken,
+  body: {
+    data: {
+      type: "discussions",
+      id: String(discussion.data.id),
+      attributes: { isHidden: true }
+    }
+  }
+});
+const peerCenterAfterHide = await jsonRequest(
+  identityOrigin,
+  "/v1/me/personal-center",
+  { accessToken: peer.accessToken }
+);
+assert.equal(
+  peerCenterAfterHide.readingHistory.some(
+    (item) => item.discussionId === String(discussion.data.id)
+  ),
+  false,
+  "hidden discussion leaked through the peer reading history"
+);
+assert.equal(
+  peerCenterAfterHide.interactions.some(
+    (item) => item.discussionId === String(discussion.data.id)
+  ),
+  false,
+  "hidden discussion leaked through the peer interactions"
+);
+
 await jsonRequest(identityOrigin, "/v1/me/password", {
   method: "PUT",
   accessToken: registered.accessToken,
@@ -379,7 +561,7 @@ await assert.rejects(
   jsonRequest(identityOrigin, "/v1/sessions/login", {
     method: "POST",
     body: {
-      identifier: nextEmail,
+      identifier: linkedEmail,
       password,
       deviceId: crypto.randomUUID(),
       deviceName: "Rejected old password"
@@ -390,7 +572,7 @@ await assert.rejects(
 const relogin = await jsonRequest(identityOrigin, "/v1/sessions/login", {
   method: "POST",
   body: {
-    identifier: nextEmail,
+    identifier: linkedEmail,
     password: nextPassword,
     deviceId: crypto.randomUUID(),
     deviceName: "Changed password acceptance"
@@ -418,6 +600,9 @@ process.stdout.write(
         communityNotificationRead: true,
         favorites: personalCenter.summary.favorites,
         likes: personalCenter.summary.likes,
+        readingHistory: personalCenter.readingHistory.length,
+        hiddenHistoryFiltered: true,
+        hiddenInteractionsFiltered: true,
         communitySource: personalCenter.sources.community
       },
       handoffReplay: "rejected"

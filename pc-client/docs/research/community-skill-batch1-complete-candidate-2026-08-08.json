@@ -1,0 +1,5082 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "observedAt": "2026-08-08T00:00:00.000Z",
+  "sourceRevision": "batch1-2026-08-08",
+  "policy": "Canonical first-party source required. Community and aggregate indexes may be discovery evidence only. No candidate grants an install profile, Agent binding, Workflow action, or execution authority.",
+  "fieldContract": {
+    "required": [
+      "canonicalSource",
+      "originalAuthor",
+      "license",
+      "sourceKind",
+      "sourcePlatform",
+      "observedAt",
+      "discoveredVia",
+      "reviewStatus",
+      "riskLevel",
+      "rawTags",
+      "normalizedTags",
+      "mappingEvidence"
+    ],
+    "sourceKinds": [
+      "reviewed-community",
+      "community"
+    ],
+    "reviewStatuses": [
+      "unreviewed",
+      "automated-reviewed",
+      "manually-reviewed",
+      "rejected"
+    ],
+    "riskLevels": [
+      "low",
+      "guarded",
+      "unsafe"
+    ],
+    "canonicalTaxonomy": [
+      "编程",
+      "Agent",
+      "多Agent",
+      "自动化",
+      "办公",
+      "数据",
+      "科研",
+      "知识库",
+      "内容",
+      "图像",
+      "视频音频",
+      "3D/CAD",
+      "游戏",
+      "营销",
+      "电商",
+      "财务",
+      "教育",
+      "健康",
+      "安全运维",
+      "社交",
+      "浏览器采集"
+    ]
+  },
+  "candidates": [
+    {
+      "candidateId": "obra-superpowers-brainstorming",
+      "canonicalKey": "github:obra/superpowers#brainstorming",
+      "name": "Brainstorming",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/brainstorming",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "planning",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-writing-plans",
+      "canonicalKey": "github:obra/superpowers#writing-plans",
+      "name": "Writing Plans",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/writing-plans",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "planning",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-executing-plans",
+      "canonicalKey": "github:obra/superpowers#executing-plans",
+      "name": "Executing Plans",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/executing-plans",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "automation",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "自动化",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-dispatching-parallel-agents",
+      "canonicalKey": "github:obra/superpowers#dispatching-parallel-agents",
+      "name": "Dispatching Parallel Agents",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/dispatching-parallel-agents",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "multi-agent",
+        "automation",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "多Agent",
+        "自动化",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "multi-agent",
+          "canonicalTag": "多Agent"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "matureAgentEcosystemCandidate": true,
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-requesting-code-review",
+      "canonicalKey": "github:obra/superpowers#requesting-code-review",
+      "name": "Requesting Code Review",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/requesting-code-review",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "code-review",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-receiving-code-review",
+      "canonicalKey": "github:obra/superpowers#receiving-code-review",
+      "name": "Receiving Code Review",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/receiving-code-review",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "code-review",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-using-git-worktrees",
+      "canonicalKey": "github:obra/superpowers#using-git-worktrees",
+      "name": "Using Git Worktrees",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/using-git-worktrees",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "automation",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "自动化",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-finishing-development-branch",
+      "canonicalKey": "github:obra/superpowers#finishing-a-development-branch",
+      "name": "Finishing a Development Branch",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/finishing-a-development-branch",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "automation",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "自动化",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-subagent-driven-development",
+      "canonicalKey": "github:obra/superpowers#subagent-driven-development",
+      "name": "Subagent Driven Development",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/subagent-driven-development",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "multi-agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "多Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "multi-agent",
+          "canonicalTag": "多Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "matureAgentEcosystemCandidate": true,
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-test-driven-development",
+      "canonicalKey": "github:obra/superpowers#test-driven-development",
+      "name": "Test Driven Development",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/test-driven-development",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "testing",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-systematic-debugging",
+      "canonicalKey": "github:obra/superpowers#systematic-debugging",
+      "name": "Systematic Debugging",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/systematic-debugging",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "debugging",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-verification-before-completion",
+      "canonicalKey": "github:obra/superpowers#verification-before-completion",
+      "name": "Verification Before Completion",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/verification-before-completion",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "testing",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-writing-skills",
+      "canonicalKey": "github:obra/superpowers#writing-skills",
+      "name": "Writing Skills",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/writing-skills",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "obra-superpowers-using-superpowers",
+      "canonicalKey": "github:obra/superpowers#using-superpowers",
+      "name": "Using Superpowers",
+      "canonicalSource": "https://github.com/obra/superpowers/tree/main/skills/using-superpowers",
+      "originalAuthor": {
+        "name": "Jesse Vincent / Prime Radiant",
+        "url": "https://github.com/obra"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/obra/superpowers/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/obra/superpowers"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "vercel-agent-browser",
+      "canonicalKey": "github:vercel-labs/agent-browser#agent-browser",
+      "name": "Agent Browser",
+      "canonicalSource": "https://github.com/vercel-labs/agent-browser",
+      "originalAuthor": {
+        "name": "Vercel Labs",
+        "url": "https://github.com/vercel-labs"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/vercel-labs/agent-browser/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/vercel-labs/agent-browser"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "browser",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "浏览器采集",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "browser",
+          "canonicalTag": "浏览器采集"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only-dynamic-content",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "supabase-agent-skills",
+      "canonicalKey": "github:supabase/agent-skills#supabase",
+      "name": "Supabase",
+      "canonicalSource": "https://github.com/supabase/agent-skills/tree/main/skills/supabase",
+      "originalAuthor": {
+        "name": "Supabase",
+        "url": "https://github.com/supabase"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/supabase/agent-skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/supabase/agent-skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "database",
+        "security",
+        "agent"
+      ],
+      "normalizedTags": [
+        "数据",
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "database",
+          "canonicalTag": "数据"
+        },
+        {
+          "rawTag": "security",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "supabase-postgres-best-practices",
+      "canonicalKey": "github:supabase/agent-skills#supabase-postgres-best-practices",
+      "name": "Supabase Postgres Best Practices",
+      "canonicalSource": "https://github.com/supabase/agent-skills/tree/main/skills/supabase-postgres-best-practices",
+      "originalAuthor": {
+        "name": "Supabase",
+        "url": "https://github.com/supabase"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/supabase/agent-skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/supabase/agent-skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "postgres",
+        "database",
+        "security"
+      ],
+      "normalizedTags": [
+        "数据",
+        "安全运维"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "postgres",
+          "canonicalTag": "数据"
+        },
+        {
+          "rawTag": "security",
+          "canonicalTag": "安全运维"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills",
+      "canonicalKey": "github:cloudflare/skills#cloudflare",
+      "name": "Cloudflare",
+      "canonicalSource": "https://github.com/cloudflare/skills/blob/main/skills/cloudflare/SKILL.md",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "security",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "security",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-docx-skill",
+      "canonicalKey": "github:anthropics/skills#docx",
+      "name": "DOCX",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/docx",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "document",
+        "office"
+      ],
+      "normalizedTags": [
+        "办公"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "document",
+          "canonicalTag": "办公"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-pdf-skill",
+      "canonicalKey": "github:anthropics/skills#pdf",
+      "name": "PDF",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/pdf",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-07T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "document",
+        "office"
+      ],
+      "normalizedTags": [
+        "办公"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "document",
+          "canonicalTag": "办公"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-algorithmic-art",
+      "canonicalKey": "github:anthropics/skills#algorithmic-art",
+      "name": "algorithmic-art",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/algorithmic-art",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-brand-guidelines",
+      "canonicalKey": "github:anthropics/skills#brand-guidelines",
+      "name": "brand-guidelines",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/brand-guidelines",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-canvas-design",
+      "canonicalKey": "github:anthropics/skills#canvas-design",
+      "name": "canvas-design",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/canvas-design",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-claude-api",
+      "canonicalKey": "github:anthropics/skills#claude-api",
+      "name": "claude-api",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/claude-api",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-doc-coauthoring",
+      "canonicalKey": "github:anthropics/skills#doc-coauthoring",
+      "name": "doc-coauthoring",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/doc-coauthoring",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": [
+        "github:getsentry/skills#doc-coauthoring"
+      ]
+    },
+    {
+      "candidateId": "anthropics-skills-frontend-design",
+      "canonicalKey": "github:anthropics/skills#frontend-design",
+      "name": "frontend-design",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/frontend-design",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-internal-comms",
+      "canonicalKey": "github:anthropics/skills#internal-comms",
+      "name": "internal-comms",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/internal-comms",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-mcp-builder",
+      "canonicalKey": "github:anthropics/skills#mcp-builder",
+      "name": "mcp-builder",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/mcp-builder",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-pptx",
+      "canonicalKey": "github:anthropics/skills#pptx",
+      "name": "pptx",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/pptx",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-skill-creator",
+      "canonicalKey": "github:anthropics/skills#skill-creator",
+      "name": "skill-creator",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/skill-creator",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-slack-gif-creator",
+      "canonicalKey": "github:anthropics/skills#slack-gif-creator",
+      "name": "slack-gif-creator",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/slack-gif-creator",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-theme-factory",
+      "canonicalKey": "github:anthropics/skills#theme-factory",
+      "name": "theme-factory",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/theme-factory",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-web-artifacts-builder",
+      "canonicalKey": "github:anthropics/skills#web-artifacts-builder",
+      "name": "web-artifacts-builder",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/web-artifacts-builder",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-webapp-testing",
+      "canonicalKey": "github:anthropics/skills#webapp-testing",
+      "name": "webapp-testing",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/webapp-testing",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "anthropics-skills-xlsx",
+      "canonicalKey": "github:anthropics/skills#xlsx",
+      "name": "xlsx",
+      "canonicalSource": "https://github.com/anthropics/skills/tree/main/skills/xlsx",
+      "originalAuthor": {
+        "name": "Anthropic",
+        "url": "https://github.com/anthropics"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/anthropics/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/anthropics/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "agent",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "Agent",
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-agents-sdk",
+      "canonicalKey": "github:cloudflare/skills#agents-sdk",
+      "name": "agents-sdk",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/agents-sdk",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-cloudflare-email-service",
+      "canonicalKey": "github:cloudflare/skills#cloudflare-email-service",
+      "name": "cloudflare-email-service",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/cloudflare-email-service",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-cloudflare-one-migrations",
+      "canonicalKey": "github:cloudflare/skills#cloudflare-one-migrations",
+      "name": "cloudflare-one-migrations",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/cloudflare-one-migrations",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-cloudflare-one",
+      "canonicalKey": "github:cloudflare/skills#cloudflare-one",
+      "name": "cloudflare-one",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/cloudflare-one",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-durable-objects",
+      "canonicalKey": "github:cloudflare/skills#durable-objects",
+      "name": "durable-objects",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/durable-objects",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-sandbox-sdk",
+      "canonicalKey": "github:cloudflare/skills#sandbox-sdk",
+      "name": "sandbox-sdk",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/sandbox-sdk",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-turnstile-spin",
+      "canonicalKey": "github:cloudflare/skills#turnstile-spin",
+      "name": "turnstile-spin",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/turnstile-spin",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-web-perf",
+      "canonicalKey": "github:cloudflare/skills#web-perf",
+      "name": "web-perf",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/web-perf",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-workers-best-practices",
+      "canonicalKey": "github:cloudflare/skills#workers-best-practices",
+      "name": "workers-best-practices",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/workers-best-practices",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "cloudflare-skills-wrangler",
+      "canonicalKey": "github:cloudflare/skills#wrangler",
+      "name": "wrangler",
+      "canonicalSource": "https://github.com/cloudflare/skills/tree/main/skills/wrangler",
+      "originalAuthor": {
+        "name": "Cloudflare",
+        "url": "https://github.com/cloudflare"
+      },
+      "license": {
+        "status": "unresolved",
+        "spdx": null,
+        "evidence": "https://github.com/cloudflare/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/cloudflare/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "cloudflare",
+        "infrastructure",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "cloudflare",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "infrastructure",
+          "canonicalTag": "Agent"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-license-unresolved",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-shared",
+      "canonicalKey": "github:googleworkspace/cli#gws-shared",
+      "name": "gws-shared",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-shared",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-drive",
+      "canonicalKey": "github:googleworkspace/cli#gws-drive",
+      "name": "gws-drive",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-drive",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-sheets",
+      "canonicalKey": "github:googleworkspace/cli#gws-sheets",
+      "name": "gws-sheets",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-sheets",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-gmail",
+      "canonicalKey": "github:googleworkspace/cli#gws-gmail",
+      "name": "gws-gmail",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-gmail",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-calendar",
+      "canonicalKey": "github:googleworkspace/cli#gws-calendar",
+      "name": "gws-calendar",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-calendar",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-admin-reports",
+      "canonicalKey": "github:googleworkspace/cli#gws-admin-reports",
+      "name": "gws-admin-reports",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-admin-reports",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-docs",
+      "canonicalKey": "github:googleworkspace/cli#gws-docs",
+      "name": "gws-docs",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-docs",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-slides",
+      "canonicalKey": "github:googleworkspace/cli#gws-slides",
+      "name": "gws-slides",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-slides",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-tasks",
+      "canonicalKey": "github:googleworkspace/cli#gws-tasks",
+      "name": "gws-tasks",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-tasks",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-people",
+      "canonicalKey": "github:googleworkspace/cli#gws-people",
+      "name": "gws-people",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-people",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-chat",
+      "canonicalKey": "github:googleworkspace/cli#gws-chat",
+      "name": "gws-chat",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-chat",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-classroom",
+      "canonicalKey": "github:googleworkspace/cli#gws-classroom",
+      "name": "gws-classroom",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-classroom",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-forms",
+      "canonicalKey": "github:googleworkspace/cli#gws-forms",
+      "name": "gws-forms",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-forms",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-keep",
+      "canonicalKey": "github:googleworkspace/cli#gws-keep",
+      "name": "gws-keep",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-keep",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-meet",
+      "canonicalKey": "github:googleworkspace/cli#gws-meet",
+      "name": "gws-meet",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-meet",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-events",
+      "canonicalKey": "github:googleworkspace/cli#gws-events",
+      "name": "gws-events",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-events",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-modelarmor",
+      "canonicalKey": "github:googleworkspace/cli#gws-modelarmor",
+      "name": "gws-modelarmor",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-modelarmor",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-workflow",
+      "canonicalKey": "github:googleworkspace/cli#gws-workflow",
+      "name": "gws-workflow",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-workflow",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-script",
+      "canonicalKey": "github:googleworkspace/cli#gws-script",
+      "name": "gws-script",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-script",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-drive-upload",
+      "canonicalKey": "github:googleworkspace/cli#gws-drive-upload",
+      "name": "gws-drive-upload",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-drive-upload",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-sheets-append",
+      "canonicalKey": "github:googleworkspace/cli#gws-sheets-append",
+      "name": "gws-sheets-append",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-sheets-append",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-sheets-read",
+      "canonicalKey": "github:googleworkspace/cli#gws-sheets-read",
+      "name": "gws-sheets-read",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-sheets-read",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-gmail-send",
+      "canonicalKey": "github:googleworkspace/cli#gws-gmail-send",
+      "name": "gws-gmail-send",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-gmail-send",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-gmail-triage",
+      "canonicalKey": "github:googleworkspace/cli#gws-gmail-triage",
+      "name": "gws-gmail-triage",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-gmail-triage",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-gmail-reply",
+      "canonicalKey": "github:googleworkspace/cli#gws-gmail-reply",
+      "name": "gws-gmail-reply",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-gmail-reply",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "googleworkspace-cli-gws-gmail-reply-all",
+      "canonicalKey": "github:googleworkspace/cli#gws-gmail-reply-all",
+      "name": "gws-gmail-reply-all",
+      "canonicalSource": "https://github.com/googleworkspace/cli/tree/main/skills/gws-gmail-reply-all",
+      "originalAuthor": {
+        "name": "Google Workspace CLI maintainers",
+        "url": "https://github.com/googleworkspace"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/googleworkspace/cli"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/googleworkspace/cli"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "workspace",
+        "automation",
+        "agent"
+      ],
+      "normalizedTags": [
+        "办公",
+        "自动化",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "workspace",
+          "canonicalTag": "办公"
+        },
+        {
+          "rawTag": "automation",
+          "canonicalTag": "自动化"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "blocked-credential-runtime-dynamic",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-sentry-for-ai-sentry-get-started",
+      "canonicalKey": "github:getsentry/sentry-for-ai#sentry-get-started",
+      "name": "sentry-get-started",
+      "canonicalSource": "https://github.com/getsentry/sentry-for-ai/tree/main/skills/sentry-get-started",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/getsentry/sentry-for-ai"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/sentry-for-ai"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "observability",
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "observability",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-sentry-for-ai-sentry-instrument",
+      "canonicalKey": "github:getsentry/sentry-for-ai#sentry-instrument",
+      "name": "sentry-instrument",
+      "canonicalSource": "https://github.com/getsentry/sentry-for-ai/tree/main/skills/sentry-instrument",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/getsentry/sentry-for-ai"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/sentry-for-ai"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "observability",
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "observability",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-sentry-for-ai-sentry-debug-issue",
+      "canonicalKey": "github:getsentry/sentry-for-ai#sentry-debug-issue",
+      "name": "sentry-debug-issue",
+      "canonicalSource": "https://github.com/getsentry/sentry-for-ai/tree/main/skills/sentry-debug-issue",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/getsentry/sentry-for-ai"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/sentry-for-ai"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "observability",
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "observability",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-sentry-for-ai-sentry-otel-exporter-setup",
+      "canonicalKey": "github:getsentry/sentry-for-ai#sentry-otel-exporter-setup",
+      "name": "sentry-otel-exporter-setup",
+      "canonicalSource": "https://github.com/getsentry/sentry-for-ai/tree/main/skills/sentry-otel-exporter-setup",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/getsentry/sentry-for-ai"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/sentry-for-ai"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "observability",
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "observability",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-sentry-for-ai-sentry-create-alert",
+      "canonicalKey": "github:getsentry/sentry-for-ai#sentry-create-alert",
+      "name": "sentry-create-alert",
+      "canonicalSource": "https://github.com/getsentry/sentry-for-ai/tree/main/skills/sentry-create-alert",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/getsentry/sentry-for-ai"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/sentry-for-ai"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "observability",
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "observability",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-sentry-for-ai-sentry-snapshots-cocoa",
+      "canonicalKey": "github:getsentry/sentry-for-ai#sentry-snapshots-cocoa",
+      "name": "sentry-snapshots-cocoa",
+      "canonicalSource": "https://github.com/getsentry/sentry-for-ai/tree/main/skills/sentry-snapshots-cocoa",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/getsentry/sentry-for-ai"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/sentry-for-ai"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "observability",
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "observability",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-sentry-for-ai-sentry-sdk-upgrade",
+      "canonicalKey": "github:getsentry/sentry-for-ai#sentry-sdk-upgrade",
+      "name": "sentry-sdk-upgrade",
+      "canonicalSource": "https://github.com/getsentry/sentry-for-ai/tree/main/skills/sentry-sdk-upgrade",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "MIT",
+        "evidence": "https://github.com/getsentry/sentry-for-ai"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/sentry-for-ai"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "observability",
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "安全运维",
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "observability",
+          "canonicalTag": "安全运维"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-add-integration-test",
+      "canonicalKey": "github:flutter/skills#flutter-add-integration-test",
+      "name": "flutter-add-integration-test",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-add-integration-test",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-add-widget-preview",
+      "canonicalKey": "github:flutter/skills#flutter-add-widget-preview",
+      "name": "flutter-add-widget-preview",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-add-widget-preview",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-add-widget-test",
+      "canonicalKey": "github:flutter/skills#flutter-add-widget-test",
+      "name": "flutter-add-widget-test",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-add-widget-test",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-apply-architecture-best-practices",
+      "canonicalKey": "github:flutter/skills#flutter-apply-architecture-best-practices",
+      "name": "flutter-apply-architecture-best-practices",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-apply-architecture-best-practices",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-build-responsive-layout",
+      "canonicalKey": "github:flutter/skills#flutter-build-responsive-layout",
+      "name": "flutter-build-responsive-layout",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-build-responsive-layout",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-fix-layout-issues",
+      "canonicalKey": "github:flutter/skills#flutter-fix-layout-issues",
+      "name": "flutter-fix-layout-issues",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-fix-layout-issues",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-implement-json-serialization",
+      "canonicalKey": "github:flutter/skills#flutter-implement-json-serialization",
+      "name": "flutter-implement-json-serialization",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-implement-json-serialization",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-setup-declarative-routing",
+      "canonicalKey": "github:flutter/skills#flutter-setup-declarative-routing",
+      "name": "flutter-setup-declarative-routing",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-setup-declarative-routing",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-setup-localization",
+      "canonicalKey": "github:flutter/skills#flutter-setup-localization",
+      "name": "flutter-setup-localization",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-setup-localization",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "flutter-skills-flutter-use-http-package",
+      "canonicalKey": "github:flutter/skills#flutter-use-http-package",
+      "name": "flutter-use-http-package",
+      "canonicalSource": "https://github.com/flutter/skills/tree/main/skills/flutter-use-http-package",
+      "originalAuthor": {
+        "name": "Flutter team",
+        "url": "https://github.com/flutter"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "BSD-3-Clause",
+        "evidence": "https://github.com/flutter/skills/blob/main/LICENSE"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/flutter/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "flutter",
+        "software-development"
+      ],
+      "normalizedTags": [
+        "编程"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "flutter",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-agents-md",
+      "canonicalKey": "github:getsentry/skills#agents-md",
+      "name": "agents-md",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/agents-md",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-blog-writing-guide",
+      "canonicalKey": "github:getsentry/skills#blog-writing-guide",
+      "name": "blog-writing-guide",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/blog-writing-guide",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-brand-guidelines",
+      "canonicalKey": "github:getsentry/skills#brand-guidelines",
+      "name": "brand-guidelines",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/brand-guidelines",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": [
+        "github:anthropics/skills#brand-guidelines"
+      ]
+    },
+    {
+      "candidateId": "getsentry-skills-claude-settings-audit",
+      "canonicalKey": "github:getsentry/skills#claude-settings-audit",
+      "name": "claude-settings-audit",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/claude-settings-audit",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-code-review",
+      "canonicalKey": "github:getsentry/skills#code-review",
+      "name": "code-review",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/code-review",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-code-simplifier",
+      "canonicalKey": "github:getsentry/skills#code-simplifier",
+      "name": "code-simplifier",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/code-simplifier",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-commit",
+      "canonicalKey": "github:getsentry/skills#commit",
+      "name": "commit",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/commit",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-create-branch",
+      "canonicalKey": "github:getsentry/skills#create-branch",
+      "name": "create-branch",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/create-branch",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-django-access-review",
+      "canonicalKey": "github:getsentry/skills#django-access-review",
+      "name": "django-access-review",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/django-access-review",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-django-perf-review",
+      "canonicalKey": "github:getsentry/skills#django-perf-review",
+      "name": "django-perf-review",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/django-perf-review",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    },
+    {
+      "candidateId": "getsentry-skills-doc-coauthoring",
+      "canonicalKey": "github:getsentry/skills#doc-coauthoring",
+      "name": "doc-coauthoring",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/doc-coauthoring",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": [
+        "github:anthropics/skills#doc-coauthoring"
+      ]
+    },
+    {
+      "candidateId": "getsentry-skills-document-api-endpoint",
+      "canonicalKey": "github:getsentry/skills#document-api-endpoint",
+      "name": "document-api-endpoint",
+      "canonicalSource": "https://github.com/getsentry/skills/tree/main/skills/document-api-endpoint",
+      "originalAuthor": {
+        "name": "Sentry",
+        "url": "https://github.com/getsentry"
+      },
+      "license": {
+        "status": "resolved",
+        "spdx": "Apache-2.0",
+        "evidence": "https://github.com/getsentry/skills"
+      },
+      "sourceKind": "reviewed-community",
+      "sourcePlatform": "github",
+      "observedAt": "2026-08-08T00:00:00.000Z",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/getsentry/skills"
+        }
+      ],
+      "reviewStatus": "manually-reviewed",
+      "riskLevel": "guarded",
+      "rawTags": [
+        "software-development",
+        "agent"
+      ],
+      "normalizedTags": [
+        "编程",
+        "Agent"
+      ],
+      "mappingEvidence": [
+        {
+          "rawTag": "software-development",
+          "canonicalTag": "编程"
+        },
+        {
+          "rawTag": "agent",
+          "canonicalTag": "Agent"
+        }
+      ],
+      "provenanceStatus": "first-party-verified",
+      "decision": "external-link-only",
+      "aliasMergeCandidates": []
+    }
+  ],
+  "excludedOrMergeCandidates": [
+    {
+      "canonicalKey": "github:openai/skills#chatgpt-apps",
+      "reason": "already represented by active canonical resource openai-chatgpt-apps-skill; not counted as a community candidate",
+      "discoveredVia": [
+        {
+          "sourcePlatform": "github",
+          "url": "https://github.com/openai/skills"
+        }
+      ]
+    }
+  ],
+  "remainingQueue": [],
+  "summary": {
+    "verifiedCandidates": 100,
+    "targetBatchSize": 100,
+    "remainingPlannedFirstPartyItems": 0,
+    "sourcePlatform": {
+      "github": 100
+    },
+    "sourceKind": {
+      "reviewed-community": 100,
+      "community": 0
+    },
+    "license": {
+      "resolved": 85,
+      "unresolvedBlocked": 15
+    },
+    "reviewStatus": {
+      "manuallyReviewed": 100,
+      "unreviewed": 0,
+      "rejected": 0
+    },
+    "riskLevel": {
+      "low": 0,
+      "guarded": 100,
+      "unsafe": 0
+    },
+    "duplicates": {
+      "withinBatch": 0,
+      "activeCatalogMergeCandidates": 1,
+      "aliasMergeCandidates": 3
+    },
+    "classificationCoverage": {
+      "Agent": 78,
+      "编程": 58,
+      "自动化": 31,
+      "多Agent": 2,
+      "浏览器采集": 1,
+      "数据": 2,
+      "安全运维": 20,
+      "办公": 28
+    },
+    "originalAuthorDirectLinkCoverage": 1,
+    "externalPopularity": {
+      "collected": 0,
+      "reason": "no first-party-safe popularity metric was needed"
+    },
+    "blockedReasons": {
+      "licenseUnresolved": 15,
+      "credentialRuntimeDynamic": 26,
+      "externalLinkOnly": 58,
+      "dynamicContent": 1
+    }
+  },
+  "forbiddenFieldCheck": {
+    "passed": true,
+    "forbiddenKeys": [
+      "command",
+      "args",
+      "env",
+      "headers",
+      "credentials",
+      "script",
+      "secret",
+      "token",
+      "path"
+    ]
+  },
+  "writes": []
+}

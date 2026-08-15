@@ -49,6 +49,9 @@ test("reports the dedicated gateway layers independently", () => {
   assert.equal(status.gatewayRunning, true);
   assert.equal(status.gatewayReady, true);
   assert.equal(status.gatewayPaired, true);
+  assert.equal(status.managed, false);
+  assert.equal(status.ownership, "vendor-managed");
+  assert.equal(status.canOpen, true);
   assert.equal(status.canUninstall, true);
   assert.equal(status.requiresInstallDirectory, false);
 });

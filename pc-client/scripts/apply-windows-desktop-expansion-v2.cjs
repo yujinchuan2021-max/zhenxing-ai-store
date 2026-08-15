@@ -11,7 +11,12 @@ const {
 const { applyDefinition } = require("../shared/catalog-maintenance.cjs");
 
 const root = path.resolve(__dirname, "..");
-const catalogPath = path.join(root, "admin", "data", "catalog-v1.json");
+const configuredCatalogPath = process.env.AIHUB_CATALOG_PATH || "";
+if (configuredCatalogPath && !path.isAbsolute(configuredCatalogPath)) {
+  throw new Error("AIHUB_CATALOG_PATH must be absolute");
+}
+const catalogPath =
+  configuredCatalogPath || path.join(root, "admin", "data", "catalog-v1.json");
 const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
 
 function allProducts() {
@@ -35,6 +40,11 @@ function upsertProduct(vendor, definition) {
       "enabled",
       "order"
     ]);
+    // This script restores the researched official-download baseline before
+    // the client-owned execution policies are applied. Do not retain a
+    // managed installer payload from an earlier run while the product is
+    // temporarily back on the official-only policy.
+    if (!Object.hasOwn(definition, "download")) delete existing.download;
     delete existing.extensions;
     return "updated";
   }

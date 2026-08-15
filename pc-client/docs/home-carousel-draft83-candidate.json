@@ -1,0 +1,72 @@
+{
+  "sourceRevision": 83,
+  "status": "applied-draft",
+  "appliedDraftRevision": 84,
+  "appliedAt": "2026-08-04T19:58:22.320Z",
+  "operation": "merged-draft",
+  "homeCarousel": {
+    "autoplayMs": 7000,
+    "slides": [
+      {
+        "id": "constellation-vendors",
+        "imageUrl": "/assets/home-carousel/constellation.svg",
+        "imageAlt": "深蓝星图与星点连线，表示 AI 厂商发现",
+        "title": "从可信厂商开始发现 AI 工具",
+        "description": "按厂商查看桌面端、CLI 与生态资源，并保留产品官网和教程入口。",
+        "primaryAction": { "label": "浏览 AI 厂商", "href": "/vendors" },
+        "secondaryAction": { "label": "查看 MCP 资源", "href": "/resources/mcp" },
+        "sort": 0,
+        "enabled": true
+      },
+      {
+        "id": "aurora-desktop",
+        "imageUrl": "/assets/home-carousel/aurora-grid.svg",
+        "imageAlt": "冷青色网格与极光渐变，表示 Windows 桌面工具",
+        "title": "桌面工具保持官网优先",
+        "description": "图形桌面产品仅指向官网或已批准的下载策略，不由目录下发任意执行命令。",
+        "primaryAction": { "label": "浏览 AI 厂商", "href": "/vendors" },
+        "sort": 1,
+        "enabled": true
+      },
+      {
+        "id": "orbit-resources",
+        "imageUrl": "/assets/home-carousel/orbit-network.svg",
+        "imageAlt": "环绕节点网络，表示可接入的生态资源",
+        "title": "在受控目录中连接生态资源",
+        "description": "Skill、MCP、插件与连接器按已批准的宿主 profile 展示和发布。",
+        "primaryAction": { "label": "浏览 Skill", "href": "/resources/skill" },
+        "secondaryAction": { "label": "浏览插件", "href": "/resources/plugin" },
+        "sort": 2,
+        "enabled": true
+      }
+    ]
+  },
+  "controlledAssetSources": {
+    "/assets/home-carousel/constellation.svg": "pc-client/prototypes/home-carousel-2026-08-05/assets/constellation.svg",
+    "/assets/home-carousel/aurora-grid.svg": "pc-client/prototypes/home-carousel-2026-08-05/assets/aurora-grid.svg",
+    "/assets/home-carousel/orbit-network.svg": "pc-client/prototypes/home-carousel-2026-08-05/assets/orbit-network.svg"
+  },
+  "pendingMergeCandidates": [
+    {
+      "file": "docs/desktop-download-only-rev83-binding-candidate.json",
+      "expectedRevision": 83,
+      "productCount": 14,
+      "excluded": ["coreldraw-graphics-suite", "tana-outliner"],
+      "registry": "desktop-download-only profile registry"
+    },
+    {
+      "file": "docs/cli-deploy-only-backend-binding-candidate.json",
+      "expectedRevision": 83,
+      "productCount": 1,
+      "productId": "anytype-cli",
+      "moduleId": "cli-deploy-only",
+      "installProfileId": "cli-deploy-only.anytype",
+      "capabilities": ["website", "tutorial", "install", "open"],
+      "forbiddenBackendFields": ["command", "args", "env", "headers", "url", "script"]
+    }
+  ],
+  "notes": [
+    "applied once with the desktop-download-only and CLI deploy-only candidates",
+    "publish controlled image assets before enabling these slides in a released catalog"
+  ]
+}

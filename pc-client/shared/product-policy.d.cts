@@ -18,6 +18,7 @@ export type ProductBehavior = {
   installMode:
     | "managed-cli"
     | "managed-installer"
+    | "managed-package-manager"
     | "official-installer-page"
     | "direct-open";
   entryPoints: readonly ProductEntryPoint[];

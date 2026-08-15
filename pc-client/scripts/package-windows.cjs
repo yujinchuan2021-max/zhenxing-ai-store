@@ -52,7 +52,8 @@ if (!upgradeFixture) {
   assertReleasePackageReady({
     variant: "production",
     catalogChannel: channelFromResources("catalog/channel.json"),
-    updateChannel: channelFromResources("updates/channel.json")
+    updateChannel: channelFromResources("updates/channel.json"),
+    clientServices: packageJson.build.extraMetadata?.clientServices
   });
 }
 

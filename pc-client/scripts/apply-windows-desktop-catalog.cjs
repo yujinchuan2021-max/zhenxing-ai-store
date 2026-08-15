@@ -5,9 +5,17 @@ const path = require("node:path");
 const {
   WINDOWS_DESKTOP_PRODUCTS
 } = require("../shared/windows-desktop-catalog.cjs");
+const {
+  getProductIntakeDossier
+} = require("../shared/install-registry.cjs");
 
 const root = path.resolve(__dirname, "..");
-const catalogPath = path.join(root, "admin", "data", "catalog-v1.json");
+const configuredCatalogPath = process.env.AIHUB_CATALOG_PATH || "";
+if (configuredCatalogPath && !path.isAbsolute(configuredCatalogPath)) {
+  throw new Error("AIHUB_CATALOG_PATH must be absolute");
+}
+const catalogPath =
+  configuredCatalogPath || path.join(root, "admin", "data", "catalog-v1.json");
 const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
 
 function findProduct(productId) {
@@ -33,6 +41,20 @@ const managedPolicy = {
   downloadPolicy: "client-managed",
   signaturePolicy: "client-reviewed",
   uninstallPolicy: "client-managed"
+};
+
+const officialDownloadPolicy = {
+  directoryKind: "ai-tool",
+  kind: "桌面端",
+  productType: "desktop-official",
+  moduleId: "desktop-official",
+  installPolicy: "open-official-download",
+  downloadPolicy: "official-page",
+  signaturePolicy: "vendor-controlled",
+  uninstallPolicy: "vendor-managed",
+  installProfileId: "",
+  capabilities: ["website", "tutorial"],
+  download: undefined
 };
 
 const openClawVendor = catalog.vendors.find((vendor) => vendor.id === "openclaw");
@@ -84,17 +106,27 @@ for (const [productId, definition] of Object.entries(WINDOWS_DESKTOP_PRODUCTS)) 
   if (located.vendor.id !== definition.vendorId) {
     throw new Error(`vendor mismatch for ${productId}`);
   }
-  applyPolicy(located.product, {
-    ...managedPolicy,
-    name: definition.label,
-    requirements: [...definition.requirements],
-    installProfileId: definition.profileId,
-    capabilities: [...definition.capabilities],
-    download: {
-      url: definition.download.url,
-      fileName: definition.download.fileName
-    }
-  });
+  const approved = getProductIntakeDossier(productId);
+  applyPolicy(
+    located.product,
+    approved
+      ? {
+          ...managedPolicy,
+          name: definition.label,
+          requirements: [...definition.requirements],
+          installProfileId: definition.profileId,
+          capabilities: [...definition.capabilities],
+          download: {
+            url: definition.download.url,
+            fileName: definition.download.fileName
+          }
+        }
+      : {
+          ...officialDownloadPolicy,
+          name: definition.label,
+          requirements: [...definition.requirements]
+        }
+  );
 }
 
 const contentOverrides = {
@@ -130,6 +162,9 @@ const contentOverrides = {
   opencode: {
     category: "编程开发",
     description: "OpenCode 官方 Windows 桌面客户端；可选连接 WSL 服务，但桌面应用本身是原生 Windows 产品。"
+  },
+  "wispr-flow-desktop": {
+    website: "https://wisprflow.ai/"
   }
 };
 
@@ -210,7 +245,12 @@ catalog.updatedAt = new Date().toISOString();
 fs.writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
 console.log(
   JSON.stringify({
-    managedWindowsDesktops: Object.keys(WINDOWS_DESKTOP_PRODUCTS).length,
+    reviewedWindowsDesktops: Object.keys(WINDOWS_DESKTOP_PRODUCTS).filter(
+      (productId) => getProductIntakeDossier(productId)
+    ).length,
+    officialPendingWindowsDesktops: Object.keys(WINDOWS_DESKTOP_PRODUCTS).filter(
+      (productId) => !getProductIntakeDossier(productId)
+    ).length,
     vendors: catalog.vendors.length,
     products: catalog.vendors.reduce(
       (count, vendor) => count + vendor.products.length,

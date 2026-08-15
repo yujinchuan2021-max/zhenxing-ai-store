@@ -1,0 +1,2 @@
+"productId","productName","strategy","uiAction","initialUrl","finalUrlOrHost","networkOrFirstData","cancelOrRecovery","status","reason"
+"wondershare-filmora","Filmora","direct-artifact","install-product","https://download.wondershare.com/filmora_full846.exe","download.wondershare.com","Electron authorized first data 99120 bytes; total=2324456","paused then refresh/retry data 115504 bytes; native discard confirmation BLOCKED (manual dialog)","BLOCKED","native discard confirmation requires a real Windows user decision; automation did not auto-accept it"

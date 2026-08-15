@@ -40,6 +40,8 @@ const metadata = state.history.find(
 if (!metadata) {
   throw new Error("活动目录发布记录不存在");
 }
+const catalogKeyMetadata = state.trustedKeys.find((entry) => entry.keyId === metadata.keyId);
+if (!catalogKeyMetadata) throw new Error("活动目录签名公钥不存在");
 const catalogEnvelope = JSON.parse(
   fs.readFileSync(
     path.join(
@@ -73,11 +75,12 @@ const buildProvenance = readArtifactBuildMetadata({
   artifactPath: installerPath,
   version: releaseVersion
 });
-function localSigningKey(environmentVariable, dataDirectory) {
+function localSigningKey(environmentVariable, dataDirectory, keyMetadata = null) {
   return loadSigningKey({
     dataDirectory,
     env: process.env,
-    environmentVariable
+    environmentVariable,
+    keyMetadata
   });
 }
 
@@ -144,7 +147,8 @@ const result = prepareReleaseBundle({
   signingKeys: {
     catalog: localSigningKey(
       "AIHUB_CATALOG_SIGNING_PRIVATE_KEY",
-      path.join(root, "admin", "data")
+      path.join(root, "admin", "data"),
+      catalogKeyMetadata
     ),
     update: localSigningKey(
       "AIHUB_UPDATE_SIGNING_PRIVATE_KEY",
@@ -166,7 +170,7 @@ const result = prepareReleaseBundle({
     "修复开发预览新增 CommonJS 模块未预构建导致的白屏"
   ],
   rollout: { percentage: 100, salt: "local-release-2026" },
-  allowLocalhost: false,
+  allowLocalhost: true,
   allowLocalDevelopmentKeys: true
 });
 deployment = activateStagedBundle({

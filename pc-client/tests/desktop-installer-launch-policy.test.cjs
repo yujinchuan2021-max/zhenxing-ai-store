@@ -108,7 +108,7 @@ test("a completed package uses first-install verification only when the product 
   );
 });
 
-test("the installer IPC and renderer preserve the reviewed intent end to end", () => {
+test("the installer IPC preserves intent without restoring automatic monitoring", () => {
   const main = fs.readFileSync(
     path.resolve(__dirname, "../electron/main.cjs"),
     "utf8"
@@ -128,11 +128,14 @@ test("the installer IPC and renderer preserve the reviewed intent end to end", (
   );
   assert.match(
     main,
-    /resolveTrustedDesktopInstallerLaunchPolicy\(intent, trustedPresence\)/
+    /resolveDesktopInstallerLaunchPolicy\(intent\)/
   );
-  assert.match(main, /trustedLaunchPolicy\.trackPresenceTransition/);
+  const handler = main.match(
+    /ipcMain\.handle\("installer:launch"[\s\S]*?ipcMain\.handle\("desktop:operation-get"/
+  )?.[0] || "";
+  assert.doesNotMatch(handler, /resolveTrustedDesktopInstallerLaunchPolicy|trackPresenceTransition/);
+  assert.match(handler, /shell\.openPath\(resolvedFile\)/);
   assert.match(preload, /launchInstaller: \(productId, intent\)/);
   assert.match(app, /window\.aihubPC\.launchInstaller\(product\.id, intent\)/);
-  assert.match(app, /useRef<Map<string, ManagedInstallIntent>>/);
   assert.match(app, /resolveCompletedPackageInstallIntent/);
 });

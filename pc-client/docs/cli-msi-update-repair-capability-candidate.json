@@ -1,0 +1,29 @@
+{
+  "sourceRevision": 79,
+  "sourceProductCount": 615,
+  "candidates": [
+    {
+      "vendorId": "amazon",
+      "productId": "amazon-kiro-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.kiro",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    },
+    {
+      "vendorId": "near-ai",
+      "productId": "ironclaw-cli",
+      "moduleId": "cli-managed",
+      "installProfileId": "cli.ironclaw",
+      "currentCapabilities": ["website", "tutorial", "install", "open", "uninstall"],
+      "proposedCapabilities": ["website", "tutorial", "install", "update", "repair", "open", "uninstall"]
+    }
+  ],
+  "blockers": [
+    "authoritative draft79 omits update and repair for both profiles; IPC remains blocked until catalog capability synchronization",
+    "candidate-only: requires independent Windows MSI update/repair acceptance; do not publish from this file"
+  ],
+  "status": "applied-draft",
+  "appliedDraftRevision": 80,
+  "appliedAt": "2026-08-04T17:37:28.479Z"
+}

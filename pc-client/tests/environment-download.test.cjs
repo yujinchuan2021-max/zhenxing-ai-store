@@ -49,6 +49,26 @@ test("always probes the official Python source before its trusted mirror", () =>
   assert.equal(plan.sources[1].kind, "mirror");
 });
 
+test("keeps Python 3.12 on the last official Windows installer", () => {
+  const plan = getEnvironmentDownloadPlan("python312");
+  assert.equal(plan.recommendedVersion, "3.12.10");
+  assert.equal(plan.fileName, "python-3.12.10-amd64.exe");
+  assert.deepEqual(plan.sources.map((source) => source.id), [
+    "python312-official"
+  ]);
+  assert.equal(
+    plan.sources[0].url,
+    "https://www.python.org/ftp/python/3.12.10/python-3.12.10-amd64.exe"
+  );
+});
+
+test("projects only exact reviewed environment versions", () => {
+  assert.equal(getEnvironmentDownloadPlan("node").recommendedVersion, "24.18.0");
+  assert.equal(getEnvironmentDownloadPlan("git").recommendedVersion, "2.55.0.3");
+  assert.equal(getEnvironmentDownloadPlan("python").recommendedVersion, "3.13.14");
+  assert.equal(getEnvironmentDownloadPlan("docker").recommendedVersion, "");
+});
+
 test("prefers the official source outside China", () => {
   const plan = getEnvironmentDownloadPlan("node", false);
 

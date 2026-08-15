@@ -1,0 +1,63 @@
+{
+  "candidateOnly": true,
+  "publishable": false,
+  "sourceCandidate": "docs/research/google-app-desktop-catalog-intake-candidate-2026-08-06.json",
+  "expectedSource": {
+    "draftRevision": 89,
+    "v2ActiveCatalogVersion": 6,
+    "v2ActiveReleaseId": "catalog-v00000006-567e671621f1-3dcee587"
+  },
+  "operation": "append-product-to-existing-vendor",
+  "vendorId": "google",
+  "proposedProduct": {
+    "id": "google-app-desktop",
+    "name": "Google app for desktop",
+    "kind": "桌面端",
+    "category": "浏览器与搜索",
+    "description": "Google 的 Windows 桌面搜索应用，提供 AI 回答、Lens、跨电脑与 Google Drive 搜索。",
+    "website": "https://search.google/google-app/desktop/",
+    "tutorial": "https://search.google/google-app/desktop/",
+    "productType": "desktop-download-only",
+    "moduleId": "desktop-download-only.signed-catalog",
+    "installProfileId": "desktop-download-only.signed-catalog",
+    "installPolicy": "client-managed-download",
+    "downloadPolicy": "desktop-download-only",
+    "signaturePolicy": "vendor-controlled",
+    "uninstallPolicy": "not-managed",
+    "requirements": [],
+    "capabilities": ["website", "tutorial", "install"],
+    "entryPoints": [
+      { "type": "website", "label": "工具官网", "url": "https://search.google/google-app/desktop/" },
+      { "type": "tutorial", "label": "使用教程", "url": "https://search.google/google-app/desktop/" },
+      { "type": "desktop", "label": "一键下载" }
+    ],
+    "enabled": true,
+    "order": 16,
+    "directoryKind": "ai-tool",
+    "download": {
+      "url": "https://dl.google.com/windows-google-app/GoogleAppInstaller.exe",
+      "fileName": "GoogleAppInstaller.exe",
+      "artifactKind": "exe",
+      "mirrors": []
+    }
+  },
+  "desktopAcquisitionRow": {
+    "productId": "google-app-desktop",
+    "kind": "direct-artifact",
+    "url": "https://dl.google.com/windows-google-app/GoogleAppInstaller.exe",
+    "fileName": "GoogleAppInstaller.exe",
+    "artifactKind": "exe",
+    "mirrors": []
+  },
+  "expectedResult": {
+    "products": 616,
+    "resources": 146,
+    "desktopDownloadOnlyDelta": 1,
+    "resourceDelta": 0
+  },
+  "constraints": [
+    "Do not add allowedHosts; the approved host derives from the signed HTTPS artifact URL.",
+    "Do not add command, args, env, headers, script, credentials, or executable fields.",
+    "Do not save, sign, publish, package, upload, install, or download an artifact."
+  ]
+}

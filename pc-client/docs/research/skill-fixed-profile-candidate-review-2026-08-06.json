@@ -1,0 +1,28 @@
+{
+  "sourceFile": "pc-client/admin/published/catalog-store/state.json",
+  "sourceRevision": 89,
+  "activeChannel": "v2",
+  "activeCatalogVersion": 6,
+  "input": {"skillResources": 16, "skillTargets": 34, "resourceLinkTargets": 33, "existingManagedTargets": 1},
+  "candidateCount": 0,
+  "candidates": [],
+  "reviewedResourceLinks": [
+    {"resourceId":"openai-codex-skills-catalog","publisher":"OpenAI","hosts":["codex-cli"],"source":"https://github.com/openai/skills","blocker":"rolling directory; no immutable single skill snapshot or receipt ownership"},
+    {"resourceId":"anythingllm-agent-skills","publisher":"Mintplex Labs","hosts":["anythingllm-desktop"],"source":"https://github.com/Mintplex-Labs/anything-llm","blocker":"application-managed mixed Skills/flows/MCP; no portable skill lifecycle"},
+    {"resourceId":"minimax-official-skills","publisher":"MiniMax","hosts":["minimax-cli"],"source":"https://github.com/MiniMax-AI/skills","blocker":"default-branch collection and git/symlink setup; no existing host profile"},
+    {"resourceId":"pika-mcp-skills","publisher":"Pika","hosts":["pika-agent"],"source":"https://experiment.pika.art/mcp","blocker":"Auth/API key, dynamic MCP/plugin and non-read-only capabilities"},
+    {"resourceId":"hf-agent-skills","publisher":"Hugging Face","hosts":["hf-cli"],"source":"https://huggingface.co/docs/hub/en/agents-overview","blocker":"token/plugin CLI and no fixed skill snapshot or host receipt contract"},
+    {"resourceId":"openclaw-clawhub-skills","publisher":"OpenClaw","hosts":["openclaw-agent"],"source":"https://docs.openclaw.ai/skills","blocker":"remote registry/CLI lifecycle and host outside approved profiles"},
+    {"resourceId":"hermes-agent-skills","publisher":"Nous Research","hosts":["nous-hermes-agent"],"source":"https://hermes-agent.nousresearch.com/docs/","blocker":"no single immutable package, Windows path or receipt contract"},
+    {"resourceId":"cline-official-skills-plugins","publisher":"Cline","hosts":["cline-agent"],"source":"https://docs.cline.bot/customization/skills","blocker":"mixed Skill/Plugin/MCP, npm/auth and no approved host profile"},
+    {"resourceId":"opencode-agent-skills","publisher":"Anomaly","hosts":["opencode"],"source":"https://opencode.ai/docs/skills","blocker":"directory discovery documentation only; no lifecycle ownership"},
+    {"resourceId":"matlab-agentic-toolkit","publisher":"MathWorks","hosts":["codex-cli","claude-code","github-copilot"],"source":"https://github.com/matlab/matlab-agentic-toolkit","blocker":"composite toolkit/MCP, default-branch clone, dependencies and config writes"},
+    {"resourceId":"simulink-agentic-toolkit","publisher":"MathWorks","hosts":["codex-cli","claude-code","gemini-cli","github-copilot"],"source":"https://github.com/matlab/simulink-agentic-toolkit","blocker":"composite installer/dependencies and no immutable single skill"},
+    {"resourceId":"nvidia-omniverse-agent-skills","publisher":"NVIDIA","hosts":["claude-code","codex-cli","cursor-desktop"],"source":"https://github.com/NVIDIA/skills","blocker":"current resource is broad dynamic directory; no selected skill name/commit/hash"},
+    {"resourceId":"cesium-agent-skills","publisher":"Cesium","hosts":["claude-desktop","claude-code","codex-cli","github-copilot"],"source":"https://github.com/CesiumGS/cesium-ai-integrations/blob/main/skills/README.md","blocker":"experimental/code-generation scope and no immutable lifecycle contract"},
+    {"resourceId":"meshy-3d-skill","publisher":"Meshy","hosts":["claude-code","gemini-cli","opencode","openclaw-agent"],"source":"https://docs.meshy.ai/en/agent/mcp-and-skill","blocker":"API key/quota and non-read-only generation"},
+    {"resourceId":"krea-agent-skills","publisher":"Krea","hosts":["claude-code","cursor-desktop","github-copilot","codex-cli","windsurf-editor","openclaw-agent"],"source":"https://www.krea.ai/skills","blocker":"token/quota generation, dynamic source and no approved profile"}
+  ],
+  "forbiddenFieldCheck": "no command/args/env/headers/script/credentials fields present",
+  "actionsTaken": []
+}

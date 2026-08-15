@@ -1,0 +1,37 @@
+{
+  "sourceRevision": 83,
+  "sourceProductCount": 615,
+  "status": "candidate-only",
+  "module": {
+    "moduleId": "cli-deploy-only",
+    "operations": ["environment-check", "deploy", "recheck", "open-terminal"],
+    "forbiddenBackendFields": ["command", "args", "env", "headers", "url", "script"]
+  },
+  "candidates": [
+    {
+      "vendorId": "anytype",
+      "productId": "anytype-cli",
+      "moduleId": "cli-deploy-only",
+      "installProfileId": "cli-deploy-only.anytype",
+      "currentCapabilities": ["website", "tutorial"],
+      "proposedCapabilities": ["website", "tutorial", "install", "open"]
+    }
+  ],
+  "blocked": [
+    { "productId": "cursor-cli", "reason": "WSL installer is dynamic and lacks a fixed immutable Windows artifact." },
+    { "productId": "nvidia-nemoclaw-cli", "reason": "WSL/Docker service composition has no existing fixed companion adapter." },
+    { "productId": "nous-hermes-agent", "reason": "Multi-runtime gateway and deferred downloads exceed deploy-only ownership." },
+    { "productId": "tabnine-cli", "reason": "Tenant-specific dynamic host prevents a fixed artifact identity." },
+    { "productId": "browser-use-cli", "reason": "No approved complete Python wheel lock; Chromium and daemon remain outside the receipt boundary." },
+    { "productId": "metagpt-framework", "reason": "Python, Node and pnpm composite runtime is not a fixed venv profile." },
+    { "productId": "kortix-cli", "reason": "Official support is Linux/WSL only and has no approved managed WSL profile." },
+    { "productId": "mini-swe-agent-cli", "reason": "Official execution relies on Bash or local Docker." },
+    { "productId": "simular-agent-s-cli", "reason": "GUI control and external model services exceed a CLI-only receipt." },
+    { "productId": "plandex-cli", "reason": "Official Windows use remains WSL-only without an approved WSL adapter." }
+  ],
+  "blockers": [
+    "Requires backend catalog binding before the client exposes the profile.",
+    "No update, repair, uninstall or Windows service operation is proposed.",
+    "Candidate is not a release, package, upload or real-device acceptance record."
+  ]
+}

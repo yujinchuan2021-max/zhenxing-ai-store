@@ -3,17 +3,28 @@
 const {
   getExtensionInstallProfile
 } = require("./extension-install-registry.cjs");
+const {
+  RESOURCE_SOURCE_KINDS,
+  RESOURCE_REVIEW_STATUSES,
+  RESOURCE_RISK_LEVELS,
+  RESOURCE_STORE_KINDS,
+  validateResourceMetadataSnapshot
+} = require("./resource-store.cjs");
+const {
+  validatePlatformSupportClaims
+} = require("./resource-platform-availability.cjs");
+const {
+  validateEnglishLocalization
+} = require("./catalog-localization.cjs");
+const {
+  isCanonicalScenarioTags
+} = require("./catalog-taxonomy.cjs");
 
-const RESOURCE_TYPES = Object.freeze(["skill", "mcp", "plugin", "connector"]);
+const RESOURCE_TYPES = RESOURCE_STORE_KINDS;
 const RESOURCE_COMPATIBILITY = Object.freeze([
   "official",
   "protocol-compatible",
   "verified"
-]);
-const RESOURCE_SOURCE_KINDS = Object.freeze([
-  "official",
-  "reviewed-community",
-  "community"
 ]);
 
 const RESOURCE_MODULES = Object.freeze({
@@ -77,7 +88,8 @@ const RESOURCE_STORE_FIELDS = new Set([
   "id",
   "label",
   "enabled",
-  "order"
+  "order",
+  "localized"
 ]);
 const RESOURCE_FIELDS = new Set([
   "id",
@@ -91,6 +103,10 @@ const RESOURCE_FIELDS = new Set([
   "publisherVendorId",
   "publisher",
   "sourceKind",
+  "reviewStatus",
+  "riskLevel",
+  "scenarioTags",
+  "platformSupport",
   "sourceProductIds",
   "targets",
   "versionRef",
@@ -99,7 +115,9 @@ const RESOURCE_FIELDS = new Set([
   "installScope",
   "uninstallPlan",
   "provenanceEvidence",
-  "lastVerifiedAt"
+  "lastVerifiedAt",
+  "metadataSnapshot",
+  "localized"
 ]);
 const RESOURCE_TARGET_FIELDS = new Set([
   "productId",
@@ -192,8 +210,9 @@ function validateResourceStore(store) {
   if (
     !hasOnlyFields(store, RESOURCE_STORE_FIELDS) ||
     typeof store.id !== "string" ||
-    !/^[a-z][a-z0-9-]{0,39}$/.test(store.id) ||
+    !RESOURCE_TYPES.includes(store.id) ||
     !isShortText(store.label, 40) ||
+    !validateEnglishLocalization(store.localized, { label: 40 }) ||
     typeof store.enabled !== "boolean" ||
     !Number.isInteger(store.order) ||
     store.order < 0 ||
@@ -262,9 +281,26 @@ function validateEcosystemResource(
     return "生态资源包含客户端不支持的字段";
   }
   if (
+    resource.platformSupport !== undefined &&
+    !validatePlatformSupportClaims(resource.platformSupport).valid
+  ) {
+    return "resource platform support invalid";
+  }
+  if (resource.metadataSnapshot !== undefined) {
+    try {
+      validateResourceMetadataSnapshot(resource.metadataSnapshot);
+    } catch {
+      return "resource metadata snapshot invalid";
+    }
+  }
+  if (
     !isShortText(resource.id, 120) ||
     !isShortText(resource.name, 150) ||
     !isShortText(resource.description, 500) ||
+    !validateEnglishLocalization(resource.localized, {
+      name: 150,
+      description: 500
+    }) ||
     !isHttpsUrl(resource.website) ||
     !isHttpsUrl(resource.tutorial) ||
     (resource.enabled !== undefined && typeof resource.enabled !== "boolean") ||
@@ -288,8 +324,12 @@ function validateEcosystemResource(
     (resource.publisherVendorId !== undefined &&
       !vendorIds.has(resource.publisherVendorId)) ||
     !isOptionalShortText(resource.publisher, 150) ||
-    (resource.sourceKind !== undefined &&
-      !RESOURCE_SOURCE_KINDS.includes(resource.sourceKind)) ||
+    !RESOURCE_SOURCE_KINDS.includes(resource.sourceKind) ||
+    (resource.reviewStatus !== undefined &&
+      !RESOURCE_REVIEW_STATUSES.includes(resource.reviewStatus)) ||
+    (resource.riskLevel !== undefined &&
+      !RESOURCE_RISK_LEVELS.includes(resource.riskLevel)) ||
+    !isCanonicalScenarioTags(resource.scenarioTags) ||
     !isOptionalShortText(resource.versionRef, 120) ||
     !isOptionalTextList(resource.requestedPermissions) ||
     !isOptionalTextList(resource.credentialRequirements) ||
@@ -301,6 +341,12 @@ function validateEcosystemResource(
     !isOptionalIsoDateTime(resource.lastVerifiedAt)
   ) {
     return "生态资源数据无效";
+  }
+  if (
+    (resource.reviewStatus === "rejected" || resource.riskLevel === "unsafe") &&
+    resource.targets.some((target) => target.moduleId !== "resource-link")
+  ) {
+    return "被拒绝或高风险资源不能绑定受管模块";
   }
   for (const productId of resource.sourceProductIds || []) {
     if (productById.get(productId)?.directoryKind !== "ai-connectable") {

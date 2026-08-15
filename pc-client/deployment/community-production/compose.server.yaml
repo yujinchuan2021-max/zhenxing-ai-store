@@ -1,0 +1,299 @@
+services:
+  admin:
+    image: ${AIHUB_ADMIN_CMS_IMAGE:?set the locally verified Admin CMS image}
+    environment:
+      AIHUB_ADMIN_HOST: 0.0.0.0
+      AIHUB_ADMIN_PORT: 4173
+      AIHUB_ADMIN_READ_ONLY: "1"
+      AIHUB_DISCOVERY_SCAN_INTERVAL_HOURS: "0"
+      AIHUB_COMMUNITY_MANAGEMENT_ENABLED: "1"
+      AIHUB_COMMUNITY_CMS_ORIGIN: http://127.0.0.1:4174
+      AIHUB_COMMUNITY_CMS_SECRET_FILE: /run/secrets/community_cms_gateway
+      AIHUB_COMMUNITY_MANAGEMENT_ORIGIN: http://community
+      AIHUB_COMMUNITY_MANAGEMENT_SECRET_FILE: /run/secrets/community_management
+    ports:
+      - "127.0.0.1:4173:4173"
+    volumes:
+      - ${AIHUB_ADMIN_DATA_DIR:?set Admin data path}:/app/admin/data
+      - ${AIHUB_ADMIN_PUBLISHED_DIR:?set signed catalog state path}:/app/admin/published
+      - ${AIHUB_ADMIN_OUTPUT_DIR:?set Admin output path}:/app/output
+    secrets:
+      - community_cms_gateway
+      - community_management
+    healthcheck:
+      test: ["CMD", "node", "-e", "const req=require('http').get({host:'127.0.0.1',port:4173,path:'/health',agent:false},r=>{r.resume();process.exit(r.statusCode===200?0:1)});req.setTimeout(2000,()=>{req.destroy();process.exit(1)});req.on('error',()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+    restart: unless-stopped
+    read_only: true
+    mem_limit: 192m
+    cpus: "0.75"
+    pids_limit: 128
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    tmpfs: ["/tmp"]
+
+  identity-database:
+    image: postgres:17-alpine@sha256:742f40ea20b9ff2ff31db5458d127452988a2164df9e17441e191f3b72252193
+    environment:
+      POSTGRES_DB: aihub
+      POSTGRES_USER: aihub
+      POSTGRES_PASSWORD_FILE: /run/secrets/identity_db_password
+    volumes:
+      - ${AIHUB_IDENTITY_DB_DIR:?set identity database path}:/var/lib/postgresql/data
+    secrets: [identity_db_password]
+    healthcheck:
+      test: ["CMD-SHELL", "PGPASSWORD=\"$(cat /run/secrets/identity_db_password)\" psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -U aihub -d aihub -Atqc \"SELECT CASE WHEN current_database()='aihub' AND current_user='aihub' THEN 1 ELSE 0 END\" | grep -qx 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+    mem_limit: 256m
+    cpus: "0.40"
+    pids_limit: 192
+    security_opt: ["no-new-privileges:true"]
+
+  identity-migrate:
+    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    profiles: ["migration"]
+    environment:
+      AIHUB_IDENTITY_DATABASE_PASSWORD_FILE: /run/secrets/identity_db_password
+      AIHUB_IDENTITY_SCHEMA_MODE: migrate
+    secrets: [identity_db_password]
+    depends_on:
+      identity-database: { condition: service_healthy }
+    restart: "no"
+    read_only: true
+    mem_limit: 192m
+    cpus: "0.35"
+    pids_limit: 128
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    tmpfs: ["/tmp"]
+
+  workflow-migrate:
+    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    profiles: ["workflow-migration"]
+    environment:
+      AIHUB_IDENTITY_DATABASE_PASSWORD_FILE: /run/secrets/identity_db_password
+      AIHUB_IDENTITY_SCHEMA_MODE: external
+      AIHUB_WORKFLOW_MIGRATION_MODE: verify
+    secrets: [identity_db_password]
+    depends_on:
+      identity-database: { condition: service_healthy }
+    restart: "no"
+    read_only: true
+    mem_limit: 192m
+    cpus: "0.35"
+    pids_limit: 128
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    tmpfs: ["/tmp"]
+
+  identity:
+    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    environment:
+      AIHUB_IDENTITY_HOST: 0.0.0.0
+      AIHUB_IDENTITY_PORT: 4180
+      AIHUB_IDENTITY_PUBLIC_ORIGIN: https://${AIHUB_PUBLIC_HOST:?set root public host}
+      AIHUB_IDENTITY_DATABASE_PASSWORD_FILE: /run/secrets/identity_db_password
+      AIHUB_IDENTITY_SCHEMA_MODE: external
+      AIHUB_REGISTRATION_ENABLED: "0"
+      AIHUB_CATALOG_URL: http://admin:4173/catalog-release.json
+      AIHUB_CATALOG_SOURCE_MODE: signed-internal-admin
+      AIHUB_CATALOG_HIGHEST_VERSION: "72"
+      AIHUB_CATALOG_HIGHEST_SHA256: e286516335da9272ce42902008c5f9016fdc444a42d988de2b22d8550a73f5ff
+      AIHUB_COMMUNITY_PUBLIC_ORIGIN: https://${AIHUB_COMMUNITY_PUBLIC_HOST:?set community public host}
+      AIHUB_FORUM_INTERNAL_URL: http://community
+      AIHUB_COMMUNITY_INTERNAL_SECRET_FILE: /run/secrets/community_internal
+      AIHUB_RESOURCE_SUBMISSIONS_ENABLED: "0"
+      AIHUB_RESOURCE_SUBMISSIONS_SCHEMA_VERSION: "0"
+      AIHUB_WORKFLOW_STORE_ENABLED: "0"
+      AIHUB_WORKFLOW_PUBLIC_STORE_ENABLED: "0"
+      AIHUB_WORKFLOW_SUBMISSION_LOOKUP_ENABLED: "0"
+      AIHUB_WORKFLOW_STORE_SCHEMA_VERSION: "0"
+    secrets:
+      - identity_db_password
+      - community_internal
+    depends_on:
+      identity-database: { condition: service_healthy }
+      admin: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "node", "-e", "const req=require('http').get({host:'127.0.0.1',port:4180,path:'/health',agent:false},r=>{r.resume();process.exit(r.statusCode===200?0:1)});req.setTimeout(2000,()=>{req.destroy();process.exit(1)});req.on('error',()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+    read_only: true
+    mem_limit: 192m
+    cpus: "0.35"
+    pids_limit: 128
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    tmpfs: ["/tmp"]
+
+  community-database:
+    image: mariadb:11.8@sha256:efb4959ef2c835cd735dbc388eb9ad6aab0c78dd64febcd51bc17481111890c4
+    environment:
+      MARIADB_DATABASE: aihub_forum
+      MARIADB_USER: aihub_forum
+      MARIADB_PASSWORD_FILE: /run/secrets/forum_db_password
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/forum_db_root_password
+    volumes:
+      - ${AIHUB_COMMUNITY_DB_DIR:?set community database path}:/var/lib/mysql
+    secrets:
+      - forum_db_password
+      - forum_db_root_password
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 20s
+    restart: unless-stopped
+    init: true
+    mem_limit: 320m
+    cpus: "0.45"
+    pids_limit: 384
+    security_opt: ["no-new-privileges:true"]
+
+  community-migrate:
+    image: zhenxing-ai/flarum:community-candidate-8b13962a36bf
+    profiles: ["migration"]
+    environment:
+      AIHUB_FLARUM_MODE: migrate
+      AIHUB_FORUM_PUBLIC_ORIGIN: https://${AIHUB_COMMUNITY_PUBLIC_HOST}
+      AIHUB_FORUM_DB_HOST: community-database
+      AIHUB_FORUM_DB_PORT: 3306
+      AIHUB_FORUM_DB_NAME: aihub_forum
+      AIHUB_FORUM_DB_USER: aihub_forum
+      AIHUB_FORUM_DB_PASSWORD_FILE: /run/secrets/forum_db_password
+      AIHUB_FORUM_ADMIN_USER: aihub_admin
+      AIHUB_FORUM_ADMIN_PASSWORD_FILE: /run/secrets/forum_admin_password
+      AIHUB_FORUM_ADMIN_EMAIL: ${AIHUB_FORUM_ADMIN_EMAIL:?set forum admin email}
+      AIHUB_FORUM_API_KEY_FILE: /run/secrets/forum_api_key
+    volumes:
+      - ${AIHUB_COMMUNITY_CONFIG_DIR:?set Flarum config path}:/var/lib/flarum
+      - ${AIHUB_COMMUNITY_STORAGE_DIR:?set Flarum storage path}:/var/www/html/storage
+      - ${AIHUB_COMMUNITY_ASSETS_DIR:?set Flarum assets path}:/var/www/html/public/assets
+    secrets:
+      - forum_db_password
+      - forum_admin_password
+      - forum_api_key
+    depends_on:
+      community-database: { condition: service_healthy }
+    restart: "no"
+    init: true
+    mem_limit: 320m
+    cpus: "0.45"
+    pids_limit: 256
+    security_opt: ["no-new-privileges:true"]
+
+  community:
+    image: zhenxing-ai/flarum:community-candidate-8b13962a36bf
+    environment:
+      AIHUB_FLARUM_MODE: runtime
+      AIHUB_FORUM_PUBLIC_ORIGIN: https://${AIHUB_COMMUNITY_PUBLIC_HOST}
+      AIHUB_FORUM_INTERNAL_ORIGIN: http://127.0.0.1
+      AIHUB_FORUM_DB_HOST: community-database
+      AIHUB_FORUM_DB_PORT: 3306
+      AIHUB_FORUM_DB_NAME: aihub_forum
+      AIHUB_FORUM_DB_USER: aihub_forum
+      AIHUB_FORUM_DB_PASSWORD_FILE: /run/secrets/forum_db_password
+      AIHUB_FORUM_ADMIN_USER: aihub_admin
+      AIHUB_FORUM_ADMIN_PASSWORD_FILE: /run/secrets/forum_admin_password
+      AIHUB_FORUM_ADMIN_EMAIL: ${AIHUB_FORUM_ADMIN_EMAIL:?set forum admin email}
+      AIHUB_FORUM_API_KEY_FILE: /run/secrets/forum_api_key
+      AIHUB_FORUM_PASSWORD_TOKEN_FILE: /run/secrets/forum_password_token
+      AIHUB_IDENTITY_INTERNAL_URL: http://identity:4180
+      AIHUB_COMMUNITY_INTERNAL_SECRET_FILE: /run/secrets/community_internal
+      AIHUB_COMMUNITY_MANAGEMENT_SECRET_FILE: /run/secrets/community_management
+    volumes:
+      - ${AIHUB_COMMUNITY_CONFIG_DIR:?set Flarum config path}:/var/lib/flarum
+      - ${AIHUB_COMMUNITY_STORAGE_DIR:?set Flarum storage path}:/var/www/html/storage
+      - ${AIHUB_COMMUNITY_ASSETS_DIR:?set Flarum assets path}:/var/www/html/public/assets
+    secrets:
+      - forum_db_password
+      - forum_admin_password
+      - forum_api_key
+      - forum_password_token
+      - community_internal
+      - community_management
+    depends_on:
+      community-database: { condition: service_healthy }
+      identity: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://127.0.0.1/') === false ? 1 : 0);"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
+    restart: unless-stopped
+    init: true
+    mem_limit: 320m
+    cpus: "0.45"
+    pids_limit: 256
+    security_opt: ["no-new-privileges:true"]
+
+  caddy:
+    image: caddy:2.10-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d
+    user: "0:0"
+    environment:
+      AIHUB_PUBLIC_HOST: ${AIHUB_PUBLIC_HOST}
+      AIHUB_COMMUNITY_PUBLIC_HOST: ${AIHUB_COMMUNITY_PUBLIC_HOST}
+    entrypoint: ["/bin/sh", "/usr/local/bin/aihub-caddy-entrypoint"]
+    ports:
+      - "80:80"
+      - "443:443"
+      - "127.0.0.1:4174:4174"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy-entrypoint.sh:/usr/local/bin/aihub-caddy-entrypoint:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - caddy_cms_secret:/run/aihub-caddy-secret:ro
+    depends_on:
+      admin: { condition: service_healthy }
+      identity: { condition: service_healthy }
+      community: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:2015/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+    restart: unless-stopped
+    read_only: true
+    mem_limit: 64m
+    cpus: "0.15"
+    pids_limit: 128
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    cap_add: ["CHOWN", "SETGID", "SETUID", "NET_BIND_SERVICE"]
+    tmpfs: ["/tmp"]
+
+secrets:
+  identity_db_password: { file: "${AIHUB_SECRET_DIR:?set external secret directory}/identity_db_password" }
+  forum_db_password: { file: "${AIHUB_SECRET_DIR}/forum_db_password" }
+  forum_db_root_password: { file: "${AIHUB_SECRET_DIR}/forum_db_root_password" }
+  forum_admin_password: { file: "${AIHUB_SECRET_DIR}/forum_admin_password" }
+  forum_api_key: { file: "${AIHUB_SECRET_DIR}/forum_api_key" }
+  forum_password_token: { file: "${AIHUB_SECRET_DIR}/forum_password_token" }
+  community_internal: { file: "${AIHUB_SECRET_DIR}/community_internal" }
+  community_management: { file: "${AIHUB_SECRET_DIR}/community_management" }
+  community_cms_gateway: { file: "${AIHUB_SECRET_DIR}/community_cms_gateway" }
+
+volumes:
+  caddy_data:
+    external: true
+    name: ${AIHUB_CADDY_DATA_VOLUME:?set the current Admin-only Caddy data volume}
+  caddy_config:
+    external: true
+    name: ${AIHUB_CADDY_CONFIG_VOLUME:?set the current Admin-only Caddy config volume}
+  caddy_cms_secret:
+    external: true
+    name: ${AIHUB_CADDY_CMS_SECRET_VOLUME:?set the seeded Caddy CMS secret volume}

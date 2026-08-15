@@ -1,0 +1,35 @@
+{
+  "status": "applied-draft",
+  "appliedDraftRevision": 82,
+  "appliedAt": "2026-08-04T17:54:52.643Z",
+  "source": "authoritative draft and client resource registry cross-check",
+  "sourceRevision": 81,
+  "sourceProductCount": 615,
+  "resourceId": "openai-codex-mcp-config",
+  "resourceType": "mcp",
+  "moduleId": "mcp-managed",
+  "candidates": [
+    {
+      "targetId": "mcp.claude-code.openai-developer-docs",
+      "hostProductId": "claude-code",
+      "installProfileId": "mcp.claude-code.openai-developer-docs",
+      "adapterId": "claude-code-mcp-cli",
+      "serverId": "openaiDeveloperDocs",
+      "scope": "user",
+      "capabilities": ["website", "install", "update", "repair", "uninstall"],
+      "entry": {"url": "https://developers.openai.com/mcp"}
+    },
+    {
+      "targetId": "mcp.cursor.openai-developer-docs",
+      "hostProductId": "cursor-desktop",
+      "installProfileId": "mcp.cursor.openai-developer-docs",
+      "adapterId": "cursor-mcp-json",
+      "serverId": "openaiDeveloperDocs",
+      "scope": "user",
+      "capabilities": ["website", "install", "update", "repair", "uninstall"],
+      "entry": {"url": "https://developers.openai.com/mcp"}
+    }
+  ],
+  "blockers": [],
+  "note": "候选仅用于恢复 authoritative draft81 缺失的两个 target；不得直接写入目录或 state。"
+}

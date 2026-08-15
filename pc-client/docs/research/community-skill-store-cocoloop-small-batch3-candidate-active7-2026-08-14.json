@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "candidateOnly": true,
+  "publishable": false,
+  "freezeOnly": true,
+  "generatedAt": "2026-08-14T00:00:00.000Z",
+  "title": "CocoLoop public Skill small-batch 3 candidate against active7",
+  "source": {
+    "discoveryOrigin": "https://hub.cocoloop.cn/",
+    "robotsUrl": "https://hub.cocoloop.cn/robots.txt",
+    "sitemapIndex": "https://hub.cocoloop.cn/sitemap-index.xml",
+    "activeReleaseId": "catalog-v00000007-8c49e1972186-0cec5335",
+    "activeCatalogVersion": 7,
+    "activeResources": 250,
+    "activeTargets": 777,
+    "activeCommunitySkills": 104,
+    "priorCandidateLedgers": [
+      "docs/research/community-skill-store-cocoloop-next-batch-candidate-active7-2026-08-13.json",
+      "docs/research/community-skill-store-cocoloop-small-batch2-candidate-active7-2026-08-14.json"
+    ],
+    "historicalReviewLedgers": [
+      "docs/research/community-skill-store-listing-batch1-candidate-draft89-active6-2026-08-08.json",
+      "docs/research/community-skill-store-batch2-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "docs/research/community-skill-store-batch3-canonical-merge-candidate-draft89-active6-2026-08-09.json",
+      "docs/research/community-skill-store-index-re-review-2026-08-09.json"
+    ]
+  },
+  "discovery": { "observed": 5, "candidate": 1, "deferred": 2, "blocked": 2, "nonCandidate": 4 },
+  "proposedChanges": [
+    {
+      "resourceId": "openclaw-weather-skill",
+      "canonicalKey": "github:openclaw/openclaw#skills/weather",
+      "action": "create-canonical",
+      "resource": {
+        "id": "openclaw-weather-skill",
+        "enabled": true,
+        "order": 254,
+        "name": "OpenClaw Weather Skill",
+        "resourceTypes": ["skill"],
+        "description": "OpenClaw official Skill for current weather and forecasts using web fetch, with a guarded curl fallback. Review the pinned external-content warning before use.",
+        "website": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather",
+        "tutorial": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather/SKILL.md",
+        "publisher": "OpenClaw Foundation",
+        "sourceKind": "reviewed-community",
+        "reviewStatus": "manually-reviewed",
+        "riskLevel": "guarded",
+        "sourceProductIds": [],
+        "targets": [{ "productId": "openclaw-agent", "compatibility": "official", "moduleId": "resource-link", "installProfileId": "", "capabilities": ["website"], "enabled": true }],
+        "versionRef": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+        "provenanceEvidence": [
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather/SKILL.md",
+          "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/LICENSE"
+        ],
+        "lastVerifiedAt": "2026-08-14T00:00:00.000Z",
+        "metadataSnapshot": {
+          "sourcePlatform": "github",
+          "discoveredVia": "cocoloop",
+          "sourcePage": "https://github.com/openclaw/openclaw/blob/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather/SKILL.md",
+          "canonicalSource": "https://github.com/openclaw/openclaw/tree/6f99d3405cec1221c4fd9fa30f89795acc5f427d/skills/weather",
+          "originalAuthor": "OpenClaw Foundation",
+          "licenseId": "MIT",
+          "sourceRevision": "6f99d3405cec1221c4fd9fa30f89795acc5f427d",
+          "provenanceStatus": "first-party-verified",
+          "externalId": "github:openclaw/openclaw#skills/weather",
+          "observedAt": "2026-08-14T00:00:00.000Z",
+          "licenseStatus": "verified"
+        }
+      }
+    }
+  ],
+  "reviewLedger": [
+    { "rank": 1, "cocoloopId": "169", "cocoloopUrl": "https://hub.cocoloop.cn/skills/169", "name": "weather", "outcome": "candidate", "reason": "OpenClaw first-party repository closes the exact Skill, CompatibleHost ownership, and MIT license at pinned revision 6f99d3405cec1221c4fd9fa30f89795acc5f427d; no credential is required" },
+    { "rank": 2, "cocoloopId": "161", "cocoloopUrl": "https://hub.cocoloop.cn/skills/161", "name": "github", "outcome": "blocked", "reason": "the pinned first-party Skill requires gh authentication and documents repository, issue, pull-request, release, and CI mutation commands, so credential and write authority are not closed for this intake" },
+    { "rank": 3, "cocoloopId": "193", "cocoloopUrl": "https://hub.cocoloop.cn/skills/193", "name": "video-frames", "outcome": "blocked", "reason": "the pinned first-party Skill invokes ffmpeg and bundled scripts over local files; dependency acquisition, executable trust, file permissions, and runtime behavior require a separate review" },
+    { "rank": 4, "cocoloopId": "173", "cocoloopUrl": "https://hub.cocoloop.cn/skills/173", "name": "multi-search-engine", "outcome": "deferred", "reason": "the public page does not close an original-author repository, fixed revision, exact SKILL body, same-revision license, or official CompatibleHost evidence" },
+    { "rank": 5, "cocoloopId": "182", "cocoloopUrl": "https://hub.cocoloop.cn/skills/182", "name": "skill-vetter", "outcome": "deferred", "reason": "the aggregator's official-source claim cannot be promoted because the claimed skills/skill-vetter path is absent at the checked OpenClaw revision and no alternative first-party pinned source is closed" }
+  ],
+  "safety": {
+    "allTargets": "resource-link with empty installProfileId and website-only capability",
+    "cocoloopRole": "discovery only; no aggregator payload is catalog provenance",
+    "downloadedZip": false,
+    "executedThirdPartyContent": false,
+    "calledApi": false,
+    "managedInstall": false,
+    "agentBinding": false,
+    "workflowDependency": false,
+    "stateMutation": false
+  },
+  "rollback": "No active catalog, state, profile, release, package, upload, signature, or publication was written. Delete this candidate, its research note, handoff, and focused test to discard it."
+}

@@ -4,9 +4,9 @@ const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 const {
-  verifyLegacyReleaseBundleV1,
-  verifyMigratableReleaseBundle,
-  verifyReleaseBundle
+  verifyLegacyReleaseBundleV1: verifyStrictLegacyReleaseBundleV1,
+  verifyMigratableReleaseBundle: verifyStrictMigratableReleaseBundle,
+  verifyReleaseBundle: verifyStrictReleaseBundle
 } = require("./release-bundle-verifier.cjs");
 const {
   compareVersions
@@ -22,6 +22,24 @@ const ACTIVATION_LOCK_NAME = ".activation-lock";
 const ACTIVATION_LOCK_OWNER = "owner.json";
 const ACTIVATION_LOCK_INITIALIZATION_GRACE_MS = 30_000;
 const ACTIVATION_LOCK_MAX_AGE_MS = 6 * 60 * 60 * 1000;
+
+function verifyReleaseBundle(options) {
+  return verifyStrictReleaseBundle({ ...options, allowLocalhost: true });
+}
+
+function verifyLegacyReleaseBundleV1(options) {
+  return verifyStrictLegacyReleaseBundleV1({
+    ...options,
+    allowLocalhost: true
+  });
+}
+
+function verifyMigratableReleaseBundle(options) {
+  return verifyStrictMigratableReleaseBundle({
+    ...options,
+    allowLocalhost: true
+  });
+}
 
 function compactTimestamp(date) {
   return date

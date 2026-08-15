@@ -1,0 +1,67 @@
+{
+  admin off
+  email {$AIHUB_ACME_EMAIL}
+}
+
+(public_headers) {
+  header {
+    -Server
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy "strict-origin-when-cross-origin"
+    Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  }
+}
+
+http://{$AIHUB_SERVER_IP} {
+  import public_headers
+  encode zstd gzip
+
+  @health path /health
+  handle @health {
+    header Content-Type application/json
+    header Cache-Control no-store
+    respond `{"status":"ok","tls":"waiting-for-dns"}` 200
+  }
+
+  handle {
+    reverse_proxy website:3000
+  }
+}
+
+{$AIHUB_DOMAIN} {
+  import public_headers
+  encode zstd gzip
+  header Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  @health path /health
+  handle @health {
+    header Content-Type application/json
+    header Cache-Control no-store
+    respond `{"status":"ok"}` 200
+  }
+
+  @identity path /v1/*
+  handle @identity {
+    reverse_proxy identity-community:4180
+  }
+
+  @catalog {
+    method GET HEAD
+    path /catalog-v1.json /catalog-release.json /software-update-release.json /vendor-icons/*
+  }
+  handle @catalog {
+    reverse_proxy admin:4173
+  }
+
+  handle {
+    header X-Frame-Options "DENY"
+    reverse_proxy website:3000
+  }
+}
+
+community.{$AIHUB_DOMAIN} {
+  import public_headers
+  encode zstd gzip
+  header Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  reverse_proxy community:80
+}
