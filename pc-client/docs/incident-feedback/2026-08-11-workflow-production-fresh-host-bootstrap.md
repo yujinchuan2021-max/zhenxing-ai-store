@@ -71,3 +71,42 @@ Flarum only by the existing migration seam.
 The implementation and tests are local candidate evidence only. No SSH,
 server write, transfer, prepare, launch, upload, or client package is part of
 this change.
+
+## 2026-08-16 current-Identity read-only recheck
+
+After the current Identity candidate `d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8`
+completed its fresh local A-E acceptance, one separately scoped read-only SSH
+connection inspected the fixed production host. The connection used the same
+dedicated known-host authority above, whose SHA-256 was still
+`a6a35075c8ea44425ef8b3db35f09c17670672cad83a64dc2e4bd110d58a5697`,
+and the deployment key fingerprint remained
+`SHA256:30qQ4kGdaJxbDUXu31TJybjq5g5GAuptdKBgHcYxW50`. It used strict host-key
+checking, one connection attempt, no forwarding, no `sudo`, and a stdin-only
+shell program containing read operations. It created no remote file and made
+no service, Docker, release, database, secret, or network configuration
+change.
+
+The host still reported Ubuntu 24.04 x86_64, but systemd reported `degraded`.
+Docker metadata was not readable through the fixed `admin` login
+(`docker info` did not succeed), while Compose 2.40.3 was present. Therefore
+the zero image/container observations are not evidence that an image or
+container is absent. Eight release directories and eight prepared markers were
+visible. The r16 and r25 transient units were both `not-found` / `inactive` /
+`dead`. Ports 80, 443, 4173, and 4174 all had listeners. The fixed r16 control
+file locations did not reproduce the earlier receipt/status/terminal/target
+hashes through this read-only view.
+
+The newest inspected frozen production bundles, including r19 and r27, still
+bind the deployed Identity closure `2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7`
+and image ID
+`sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748`.
+They are not a release artifact for the new local-only `d9fa8de…` image. The
+read-only connection consequently authorizes neither transfer nor prepare,
+and it cannot be used as production acceptance for the current candidate.
+
+Before any later production action, generate and independently freeze a new
+release bundle that binds the exact current Identity source manifest and image
+ID, then run a candidate-specific server preflight able to distinguish Docker
+daemon unavailability from login authorization. Transfer, prepare, service
+launch, migration, cutover, rollback, and public exposure remain separate
+explicit decisions.
