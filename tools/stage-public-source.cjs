@@ -7,13 +7,14 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const SOURCE = 'D:\\AIhub\\AIHUB备份';
-const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260813-f2e1a6c4';
+const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260815-apache-update-v4';
 const TOOL_REL = 'tools/stage-public-source.cjs';
 const MANIFEST_REL = 'SOURCE-MANIFEST.json';
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
 const ROOT_FILES = Object.freeze([
   '.dockerignore', '.openai/hosting.json',
+  'LICENSE', 'NOTICE', 'THIRD_PARTY_NOTICES.md',
   'drizzle.config.ts', 'eslint.config.mjs', 'next.config.ts', 'package-lock.json',
   'package.json', 'postcss.config.mjs', 'tsconfig.json', 'vite.config.ts',
 ]);
@@ -29,6 +30,56 @@ const PC_DIRS = Object.freeze([
   'pc-client/admin', 'pc-client/catalog', 'pc-client/community', 'pc-client/electron',
   'pc-client/extension-resources', 'pc-client/identity', 'pc-client/public',
   'pc-client/scripts', 'pc-client/shared', 'pc-client/src', 'pc-client/tests',
+]);
+const RESEARCH_ONLY_FILES = new Set([
+  'pc-client/scripts/clawhub-public-feed-intake.mjs',
+  'pc-client/scripts/generate-adadvisor-adramp-mcp-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-adeu-mcp-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-agentic-news-affiliate-hermes-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-auralogs-mcp-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-aws-agents-build-skill-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-brave-search-mcp-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-catalog-v3-resource-connections-candidate.cjs',
+  'pc-client/scripts/generate-community-skill-scenario-tags-overlay-candidate.cjs',
+  'pc-client/scripts/generate-deepseek-harness-product-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-official-mcp-registry-run3-final-disposition.cjs',
+  'pc-client/scripts/generate-official-mcp-registry-run3-ready4-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-official-unbound-mcp-d12-d16-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-resource-store-next-major-catalog-candidate.cjs',
+  'pc-client/scripts/official-mcp-registry-intake.mjs',
+  'pc-client/scripts/official-mcp-registry-run3-triage.cjs',
+  'pc-client/shared/clawhub-public-feed.cjs',
+  'pc-client/shared/official-mcp-registry-final-disposition.cjs',
+  'pc-client/shared/official-mcp-registry-intake.cjs',
+  'pc-client/tests/adadvisor-adramp-mcp-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/adeu-mcp-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/agentic-news-affiliate-hermes-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/auralogs-mcp-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/aws-agents-build-skill-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/brave-search-mcp-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/catalog-v3-resource-connections.test.cjs',
+  'pc-client/tests/clawhub-public-feed-intake.test.cjs',
+  'pc-client/tests/cocoloop-skill-metadata-phase2-stop-4069.test.cjs',
+  'pc-client/tests/community-skill-scenario-tags-overlay-candidate.test.cjs',
+  'pc-client/tests/community-skill-store-cocoloop-next-batch-candidate.test.cjs',
+  'pc-client/tests/community-skill-store-cocoloop-small-batch2-candidate.test.cjs',
+  'pc-client/tests/community-skill-store-cocoloop-small-batch3-candidate.test.cjs',
+  'pc-client/tests/deepseek-harness-product-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/mcp-connector-official-public-samples-active7-candidate.test.cjs',
+  'pc-client/tests/mcp-connector-official-small-batch2-active7-candidate.test.cjs',
+  'pc-client/tests/mcp-connector-small-batch-active7-candidate.test.cjs',
+  'pc-client/tests/official-mcp-registry-intake.test.cjs',
+  'pc-client/tests/official-mcp-registry-run3-final-disposition.test.cjs',
+  'pc-client/tests/official-mcp-registry-run3-ready4-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/official-mcp-registry-run3-triage.test.cjs',
+  'pc-client/tests/official-skill-seeds-active7-candidate.test.cjs',
+  'pc-client/tests/official-unbound-mcp-d12-d16-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/resource-connection-relations-next-major-candidate.test.cjs',
+  'pc-client/tests/resource-store-next-major-catalog-candidate.test.cjs',
+  'pc-client/tests/resource-store-next-major-consolidation-active7.test.cjs',
+  'pc-client/tests/resource-marketplace-projection.test.cjs',
+  'pc-client/tests/resource-store-channel-ui.test.cjs',
+  'pc-client/tests/resource-store.test.cjs',
 ]);
 const PUBLIC_DOCS = Object.freeze([
   'pc-client/docs/account-integration-boundary.md',
@@ -65,6 +116,14 @@ const AUTHORITY_BINDINGS = [
 const PUBLIC_README = `# 枕星AI商店
 
 枕星AI商店，让每个人都能更轻松地发现、安装和使用值得信赖的 AI 工具。我们希望把复杂留给系统，把探索与创造还给用户，让技术真正贴近日常、陪伴成长。
+
+此商店源码全部由 Codex 编写。
+
+作者从 2012 年开始做开源与基础互联网教育。新时代来临时，希望做更多普世性教育；AI 的发展应该惠及每一个人，而不是高高在上。
+
+所以我做了这款产品，希望把 AI 的使用门槛降到最低。
+
+希望有更多志同道合的朋友加入。项目会持续开源和开放；如果你在此基础上改版或使用，也欢迎（但不强制）告诉我你的使用场景。谢谢！
 
 ## 使命
 
@@ -112,15 +171,19 @@ npm run desktop
 
 ## 版本
 
-当前产品发布版本为 **0.1.91**。根站点 \`0.1.0\` 与 PC 客户端内部 package \`0.1.40\` 是独立开发包版本，不表示它们已经统一为产品发布版本。
+当前已完成验收的产品版本为 **0.1.93**。根站点 \`0.1.0\` 与 PC 客户端内部 package \`0.1.40\` 是独立开发包版本，不表示它们已经统一为产品发布版本。
 
 ## 语言与内容边界
 
 客户端支持中文与英文界面。目录中的厂商、产品和资源可使用经审核的英文本地化内容；缺少英文内容时保留原文。社区帖子属于用户内容，不由本仓库自动翻译，也不保证提供英文版本。
 
-## 版权
+## 开源许可证
 
-本仓库未附开源许可证，除非另有书面许可，保留所有权利。
+除另有说明外，本仓库中由项目方原创的软件源代码采用 Apache License 2.0 开源。
+
+详见 [LICENSE](./LICENSE)、[NOTICE](./NOTICE) 和 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。
+
+第三方依赖、厂商商标与图标、目录元数据、社区内容及另附许可证的扩展资源，不因本许可证而重新授权，分别遵循其原始许可证或条款。
 `;
 const PUBLIC_GITIGNORE = `# Dependencies and generated output
 node_modules/
@@ -227,6 +290,7 @@ function denyReason(value) {
   const parts = lower.split('/');
   const base = parts.at(-1);
   const ext = path.posix.extname(lower);
+  if (RESEARCH_ONLY_FILES.has(lower)) return 'internal-research-dependent-tooling';
   if (DENIED_SEGMENTS.has(base) || parts.some((part) => DENIED_SEGMENTS.has(part))) return 'generated-or-cache';
   if (parts.some((part) => part.startsWith('release-review-'))) return 'release-review';
   if (DENIED_EXTENSIONS.has(ext) || base === '.env' || base.startsWith('.env.')) return 'credential-binary-or-database';
@@ -406,6 +470,8 @@ function selfTest() {
   assert.equal(denyReason('pc-client/admin/data/catalog-signing-private.pem'), 'credential-binary-or-database');
   assert.equal(denyReason('pc-client/deployment/local/private/update/catalog-signing-private.pem'), 'credential-binary-or-database');
   assert.equal(denyReason('pc-client/src/App.tsx'), null);
+  assert.equal(denyReason('pc-client/tests/auralogs-mcp-catalog-v3-candidate.test.cjs'), 'internal-research-dependent-tooling');
+  assert.equal(denyReason('pc-client/shared/cocoloop-skill-metadata-parser.cjs'), null);
   assert.deepEqual(contentFindings('safe.js', Buffer.from('const value = "public";')), []);
   assert(contentFindings('bad.js', Buffer.from(PRIVATE_HEADER)).includes('secret:private-key'));
   assert(contentFindings('bad.js', Buffer.from(PROD_IP)).includes('operational:production-ip'));

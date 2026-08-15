@@ -78,16 +78,30 @@ test("browser development preview prebundles every shared CommonJS UI module", (
   const app = fs.readFileSync(path.join(root, "src", "App.tsx"), "utf8");
   const vite = fs.readFileSync(path.join(root, "vite.config.ts"), "utf8");
   const sharedModules = [
-    ...app.matchAll(/from\s+"(@aihub-shared\/[^"]+\.cjs)"/g)
-  ].map((match) => match[1]);
+    ...new Set(
+      [...app.matchAll(/from\s+"(@aihub-shared\/[^"]+\.cjs)"/g)].map(
+        (match) => match[1]
+      )
+    )
+  ].sort();
+  const configuredModules = (field) => {
+    const match = vite.match(
+      new RegExp(`\\b${field}: \\[([\\s\\S]*?)\\n    \\]`)
+    );
+    assert.ok(match, `vite optimizeDeps.${field} must be an array`);
+    return [
+      ...match[1].matchAll(/"([^"]+)"/g)
+    ]
+      .map((entry) => entry[1])
+      .sort();
+  };
 
   assert.ok(sharedModules.length > 0);
-  for (const moduleId of sharedModules) {
-    const occurrences = vite.split(`"${moduleId}"`).length - 1;
-    assert.equal(
-      occurrences,
-      2,
-      `${moduleId} must be listed in optimizeDeps.include and needsInterop`
+  for (const field of ["include", "needsInterop"]) {
+    assert.deepEqual(
+      configuredModules(field),
+      sharedModules,
+      `vite optimizeDeps.${field} must exactly match App shared CommonJS imports`
     );
   }
 });

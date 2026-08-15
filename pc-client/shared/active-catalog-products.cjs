@@ -46,7 +46,7 @@ function normalizeCatalogUrl(value, { sourceMode = "raw-catalog" } = {}) {
 function enabledProductIdsFromCatalog(catalog) {
   if (
     !catalog ||
-    ![1, 2].includes(catalog.schemaVersion) ||
+    ![1, 2, 3].includes(catalog.schemaVersion) ||
     !Array.isArray(catalog.vendors)
   ) {
     throw new Error("Identity active catalog response is invalid");

@@ -145,6 +145,32 @@ test("resource publisher, source products and target products are independent", 
   );
 });
 
+test("resource scenario tags accept only the shared canonical taxonomy", () => {
+  assert.doesNotThrow(() => validateCatalog(catalogWithResources([
+    linkedResource({ scenarioTags: ["programming-development", "gaming"] })
+  ])));
+  for (const scenarioTags of [
+    ["编程"],
+    ["not-a-scenario"],
+    ["programming-development", "programming-development"],
+    [
+      "programming-development",
+      "agent-multi-agent",
+      "automation-rpa",
+      "office-collaboration",
+      "data-analytics",
+      "research",
+      "knowledge-docs",
+      "writing-content",
+      "image-design"
+    ]
+  ]) {
+    assert.throws(() => validateCatalog(catalogWithResources([
+      linkedResource({ scenarioTags })
+    ])), /生态资源数据无效/);
+  }
+});
+
 test("catalog rejects duplicate, executable and unreviewed resource policies", () => {
   const duplicate = linkedResource();
   assert.throws(

@@ -16,6 +16,9 @@ const {
 const {
   validateEnglishLocalization
 } = require("./catalog-localization.cjs");
+const {
+  isCanonicalScenarioTags
+} = require("./catalog-taxonomy.cjs");
 
 const RESOURCE_TYPES = RESOURCE_STORE_KINDS;
 const RESOURCE_COMPATIBILITY = Object.freeze([
@@ -102,6 +105,7 @@ const RESOURCE_FIELDS = new Set([
   "sourceKind",
   "reviewStatus",
   "riskLevel",
+  "scenarioTags",
   "platformSupport",
   "sourceProductIds",
   "targets",
@@ -325,6 +329,7 @@ function validateEcosystemResource(
       !RESOURCE_REVIEW_STATUSES.includes(resource.reviewStatus)) ||
     (resource.riskLevel !== undefined &&
       !RESOURCE_RISK_LEVELS.includes(resource.riskLevel)) ||
+    !isCanonicalScenarioTags(resource.scenarioTags) ||
     !isOptionalShortText(resource.versionRef, 120) ||
     !isOptionalTextList(resource.requestedPermissions) ||
     !isOptionalTextList(resource.credentialRequirements) ||

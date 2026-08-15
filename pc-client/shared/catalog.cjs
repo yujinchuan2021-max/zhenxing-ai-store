@@ -34,6 +34,9 @@ const {
   validateVendorIconAsset
 } = require("./vendor-icon.cjs");
 const {
+  createResourceMarketplace
+} = require("./resource-marketplace.cjs");
+const {
   isAgentClassification,
   isCanonicalScenarioTags
 } = require("./catalog-taxonomy.cjs");
@@ -76,6 +79,10 @@ const CATALOG_FIELDS = new Set([
   "homeCarousel",
   "resourceStores",
   "resources"
+]);
+const CATALOG_V3_FIELDS = new Set([
+  ...CATALOG_FIELDS,
+  "resourceConnections"
 ]);
 const HOME_CAROUSEL_FIELDS = new Set(["autoplayMs", "slides"]);
 const HOME_SLIDE_FIELDS = new Set([
@@ -289,10 +296,14 @@ function validateCatalog(catalog) {
   const inputSchemaVersion = catalog?.schemaVersion;
   if (
     !catalog ||
-    ![1, 2].includes(inputSchemaVersion) ||
+    ![1, 2, 3].includes(inputSchemaVersion) ||
     !hasOnlyFields(
       catalog,
-      inputSchemaVersion === 1 ? LEGACY_CATALOG_FIELDS : CATALOG_FIELDS
+      inputSchemaVersion === 1
+        ? LEGACY_CATALOG_FIELDS
+        : inputSchemaVersion === 2
+          ? CATALOG_FIELDS
+          : CATALOG_V3_FIELDS
     ) ||
     !Array.isArray(catalog.vendors) ||
     catalog.vendors.length < 1 ||
@@ -316,7 +327,7 @@ function validateCatalog(catalog) {
   const allowedProductCategories = new Set(productCategories);
 
   const resourceStoreIds = new Set();
-  if (inputSchemaVersion === 2) {
+  if (inputSchemaVersion !== 1) {
     if (
       !Array.isArray(catalog.resourceStores) ||
       catalog.resourceStores.length < 1 ||
@@ -338,6 +349,12 @@ function validateCatalog(catalog) {
       RESOURCE_STORE_KINDS.some((kind) => !resourceStoreIds.has(kind))
     ) {
       throw new Error("生态资源商店必须包含固定的四类频道");
+    }
+    if (
+      inputSchemaVersion === 3 &&
+      !Array.isArray(catalog.resourceConnections)
+    ) {
+      throw new Error("生态资源连接结构无效");
     }
   }
 
@@ -406,7 +423,7 @@ function validateCatalog(catalog) {
             product.order < 0 ||
             product.order > 100000)) ||
         (inputSchemaVersion === 1 && product.directoryKind !== undefined) ||
-        (inputSchemaVersion === 2 &&
+        (inputSchemaVersion !== 1 &&
           !PRODUCT_DIRECTORY_KINDS.has(product.directoryKind)) ||
         !PRODUCT_KINDS.has(product.kind) ||
         !allowedProductCategories.has(product.category) ||
@@ -425,7 +442,7 @@ function validateCatalog(catalog) {
         throw new Error(`产品教程地址无效：${product.id}`);
       }
       if (
-        inputSchemaVersion === 2 &&
+        inputSchemaVersion !== 1 &&
         product.extensions !== undefined
       ) {
         throw new Error(`产品不能再包含扩展子目录：${product.id}`);
@@ -496,7 +513,7 @@ function validateCatalog(catalog) {
     }
   }
 
-  if (inputSchemaVersion === 2) {
+  if (inputSchemaVersion !== 1) {
     const resourceIds = new Set();
     for (const resource of catalog.resources) {
       if (resourceIds.has(resource?.id)) {
@@ -621,6 +638,12 @@ function validateCatalog(catalog) {
 
   if (catalog.homeCarousel !== undefined && !validateHomeCarousel(catalog.homeCarousel)) {
     throw new Error("首页视觉轮播配置无效");
+  }
+  if (inputSchemaVersion === 3) {
+    createResourceMarketplace({
+      ...catalog,
+      connections: catalog.resourceConnections
+    });
   }
   return inputSchemaVersion === 1
     ? validateCatalog(normalizeCatalog(catalog))

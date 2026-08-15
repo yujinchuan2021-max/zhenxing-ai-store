@@ -14,6 +14,7 @@ export default defineConfig({
     include: [
       "@aihub-shared/brand.cjs",
       "@aihub-shared/catalog-projections.cjs",
+      "@aihub-shared/catalog-taxonomy.cjs",
       "@aihub-shared/community-embed.cjs",
       "@aihub-shared/development-catalog.cjs",
       "@aihub-shared/desktop-installer-launch-policy.cjs",
@@ -29,8 +30,8 @@ export default defineConfig({
       "@aihub-shared/home-carousel-presentation.cjs",
       "@aihub-shared/product-install-presentation.cjs",
       "@aihub-shared/product-components.cjs",
-      "@aihub-shared/product-entry-points.cjs",
       "@aihub-shared/product-policy.cjs",
+      "@aihub-shared/resource-marketplace.cjs",
       "@aihub-shared/resource-store.cjs",
       "@aihub-shared/uninstall-presentation.cjs",
       "@aihub-shared/verified-managed-install.cjs"
@@ -38,6 +39,7 @@ export default defineConfig({
     needsInterop: [
       "@aihub-shared/brand.cjs",
       "@aihub-shared/catalog-projections.cjs",
+      "@aihub-shared/catalog-taxonomy.cjs",
       "@aihub-shared/community-embed.cjs",
       "@aihub-shared/development-catalog.cjs",
       "@aihub-shared/desktop-installer-launch-policy.cjs",
@@ -53,8 +55,8 @@ export default defineConfig({
       "@aihub-shared/home-carousel-presentation.cjs",
       "@aihub-shared/product-install-presentation.cjs",
       "@aihub-shared/product-components.cjs",
-      "@aihub-shared/product-entry-points.cjs",
       "@aihub-shared/product-policy.cjs",
+      "@aihub-shared/resource-marketplace.cjs",
       "@aihub-shared/resource-store.cjs",
       "@aihub-shared/uninstall-presentation.cjs",
       "@aihub-shared/verified-managed-install.cjs"

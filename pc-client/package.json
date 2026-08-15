@@ -2,6 +2,7 @@
   "name": "aihub-pc-client",
   "version": "0.1.40",
   "private": true,
+  "license": "Apache-2.0",
   "description": "枕星 AI Windows client",
   "author": "ZhenXing AI",
   "main": "electron/main.cjs",
@@ -104,6 +105,18 @@
       "package.json"
     ],
     "extraResources": [
+      {
+        "from": "../LICENSE",
+        "to": "LICENSE"
+      },
+      {
+        "from": "../NOTICE",
+        "to": "NOTICE"
+      },
+      {
+        "from": "../THIRD_PARTY_NOTICES.md",
+        "to": "THIRD_PARTY_NOTICES.md"
+      },
       {
         "from": "extension-resources",
         "to": "extensions"

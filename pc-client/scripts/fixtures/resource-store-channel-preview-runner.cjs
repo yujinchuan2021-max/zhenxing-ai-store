@@ -38,59 +38,193 @@ async function click(window, selector, message) {
   assert.equal(clicked, true, message);
 }
 
-async function assertEmptyCommunitySkillChannel(window) {
-  await click(window, '[data-aihub-resource-store-id="skill"]', "Skill store entry missing");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-filter="source-channel"]\'))', "Skill source filter did not render");
-  await click(window, '[data-aihub-resource-filter="source-channel"] [data-aihub-filter-value="community"]', "community Skill channel missing");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-empty-source="community"]\'))', "empty community Skill state did not render");
-  const state = await window.webContents.executeJavaScript(`(() => ({
-    context: document.querySelector('[data-aihub-resource-source-context]')?.textContent.trim() || '',
-    empty: document.querySelector('[data-aihub-resource-empty-source="community"]')?.textContent.trim() || '',
-    switchAction: Boolean(document.querySelector('[data-aihub-action="switch-resource-source-official"]')),
-    discussions: document.querySelector('[data-aihub-community-discussions]')?.textContent.trim() || ''
-  }))()`);
-  assert.match(state.context, /Skill/i, "current source context must name the Skill channel");
-  assert.match(state.empty, /community|社区/i, "empty state must explain that the selected community channel is empty");
-  assert.equal(state.switchAction, true, "empty community Skill state must offer an explicit return to official Skills");
-  assert.match(state.discussions, /discussion|讨论/i, "sidebar community entry must retain its discussion meaning");
-  await click(window, '[data-aihub-action="switch-resource-source-official"]', "return to official Skills action missing");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-product-id="codex-cli"]\'))', "official Skills did not return after the explicit action");
-  return state;
+async function resourceIds(window) {
+  return window.webContents.executeJavaScript(`
+    [...document.querySelectorAll('[data-aihub-resource-level="resources"] [data-aihub-resource-id]')]
+      .map((node) => node.getAttribute('data-aihub-resource-id'))
+      .sort()
+  `);
 }
 
-async function snapshotEmptyCommunitySkillChannel(window, width, height, theme) {
+async function chooseResourceFilter(window, marker, value) {
+  const selector = `[data-aihub-resource-filter="${marker}"] [data-aihub-filter-value="${value}"]`;
+  const changed = await window.webContents.executeJavaScript(`(() => {
+    const button = document.querySelector(${JSON.stringify(selector)});
+    if (!button) return false;
+    button.focus();
+    button.click();
+    return true;
+  })()`);
+  assert.equal(changed, true, `${marker}/${value} filter missing`);
+}
+
+async function assertStoreEntries(window) {
+  for (const store of ["skill", "mcp", "plugin", "connector"]) {
+    await click(window, `[data-aihub-resource-store-id="${store}"]`, `${store} store entry missing`);
+    await waitFor(window, `Boolean(document.querySelector('[data-aihub-resource-store-current="${store}"]'))`, `${store} store was not preselected`);
+    assert.equal(
+      Boolean(await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-filter=host]')")),
+      true,
+      `${store} store must expose the host filter`
+    );
+    assert.equal(
+      await window.webContents.executeJavaScript("document.querySelectorAll('[data-aihub-resource-filter=scenario]').length"),
+      store === "skill" ? 1 : 0,
+      "Skill category must not leak into another store"
+    );
+  }
+  await click(window, '[data-aihub-resource-store-id="plugin"]', "Plugin store entry missing");
+  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-empty-source="official"]\'))', "true source-empty state missing");
+  assert.equal(Boolean(await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-empty-filter]')")), false);
+}
+
+async function assertSkillScenarioFilters(window) {
   await click(window, '[data-aihub-resource-store-id="skill"]', "Skill store entry missing");
-  await click(window, '[data-aihub-resource-filter="source-channel"] [data-aihub-filter-value="community"]', "community Skill channel missing");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-empty-source="community"]\'))', "empty community Skill state did not render");
-  window.setContentSize(width, height);
-  await waitFor(window, `window.innerWidth === ${width}`, `viewport ${width} did not settle`);
-  const result = await window.webContents.executeJavaScript(`(() => {
-    const app = document.querySelector('.pcApp');
-    if (app) app.dataset.theme = ${JSON.stringify(theme)};
-    const action = document.querySelector('[data-aihub-action="switch-resource-source-official"]');
-    action?.focus();
-    const buttons = [...document.querySelectorAll('button')].filter((button) => {
-      const rect = button.getBoundingClientRect();
-      return rect.width > 0 && rect.height > 0;
-    });
+  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 2', "official Skill resources missing");
+  assert.deepEqual(
+    await resourceIds(window),
+    ["fixture-official-game-skill", "fixture-official-skill"],
+    "one multi-host Skill must still render exactly one canonical card"
+  );
+  const publisher = await window.webContents.executeJavaScript(`(() => ({
+    card: document.querySelector('[data-aihub-resource-id="fixture-official-skill"]')?.textContent || '',
+    parent: document.querySelector('[data-aihub-publisher-parent]')
+  }))()`);
+  assert.match(publisher.card, /Fixture Publisher/);
+  assert.equal(publisher.parent, null, "publisher must remain a fact, not a parent navigation node");
+  const accessibility = await window.webContents.executeJavaScript(`(() => {
+    const group = document.querySelector('[data-aihub-resource-filter="scenario"] [role="group"]');
+    return { label: group?.getAttribute('aria-label') || '', buttonsTyped: [...(group?.querySelectorAll('button') || [])].every((button) => button.type === 'button') };
+  })()`);
+  assert.match(accessibility.label, /场景|scenario/i);
+  assert.equal(accessibility.buttonsTyped, true);
+
+  await chooseResourceFilter(window, "scenario", "programming-development");
+  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 1', "official programming Skill filter did not narrow");
+  assert.deepEqual(await resourceIds(window), ["fixture-official-skill"]);
+  const pressed = await window.webContents.executeJavaScript(`(() => {
+    const button = document.querySelector('[data-aihub-resource-filter="scenario"] [data-aihub-filter-value="programming-development"]');
+    return { pressed: button?.getAttribute('aria-pressed'), focused: document.activeElement === button, count: document.querySelector('.directorySummary span')?.textContent.trim() || '' };
+  })()`);
+  assert.deepEqual({ pressed: pressed.pressed, focused: pressed.focused }, { pressed: "true", focused: true });
+  assert.match(pressed.count, /1/);
+
+  await chooseResourceFilter(window, "source-channel", "community");
+  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 1', "community programming Skill combination did not settle");
+  assert.deepEqual(await resourceIds(window), ["fixture-community-skill"]);
+  await chooseResourceFilter(window, "host", "codex-cli");
+  assert.deepEqual(await resourceIds(window), ["fixture-community-skill"]);
+  await chooseResourceFilter(window, "scenario", "gaming");
+  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-empty-filter]\'))', "host/category no-match state missing");
+
+  await chooseResourceFilter(window, "scenario", "research");
+  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-empty-filter]\'))', "no-match filter state missing");
+  assert.equal(Boolean(await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-empty-source]')")), false);
+
+  await chooseResourceFilter(window, "scenario", "全部");
+  assert.deepEqual(await resourceIds(window), ["fixture-community-skill"]);
+  await chooseResourceFilter(window, "host", "全部");
+  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 2', "All did not restore community Skills");
+  assert.deepEqual(await resourceIds(window), ["fixture-community-game-skill", "fixture-community-skill"]);
+
+  await chooseResourceFilter(window, "source-channel", "official");
+  await chooseResourceFilter(window, "scenario", "programming-development");
+  await click(window, '[data-aihub-resource-id="fixture-official-skill"]', "multi-host Skill card missing");
+  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-compatible-hosts] [data-aihub-resource-host-id]\').length === 2', "detail did not list every compatible host");
+  assert.deepEqual(await window.webContents.executeJavaScript(`
+    [...document.querySelectorAll('[data-aihub-resource-compatible-hosts] [data-aihub-resource-host-id]')]
+      .map((node) => node.getAttribute('data-aihub-resource-host-id')).sort()
+  `), ["codex-cli", "fixture-game-host"]);
+  await click(window, '[data-aihub-action="back-resource-list"]', "resource detail back button missing");
+  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-id="fixture-official-skill"]\'))', "resource list did not return");
+  const restored = await window.webContents.executeJavaScript(`(() => ({
+    source: document.querySelector('[data-aihub-resource-filter="source-channel"] [aria-pressed="true"]')?.dataset.aihubFilterValue,
+    scenario: document.querySelector('[data-aihub-resource-filter="scenario"] [aria-pressed="true"]')?.dataset.aihubFilterValue,
+    host: document.querySelector('[data-aihub-resource-filter="host"] [aria-pressed="true"]')?.dataset.aihubFilterValue
+  }))()`);
+  assert.deepEqual(restored, { source: "official", scenario: "programming-development", host: "全部" });
+  return { officialAll: 2, filtered: 1, communityAll: 2, detailHosts: 2 };
+}
+
+async function assertConnectionRelations(window) {
+  await click(window, '[data-aihub-resource-store-id="mcp"]', "MCP store entry missing");
+  await chooseResourceFilter(window, "source-channel", "community");
+  await chooseResourceFilter(window, "host", "fixture-game-host");
+  await waitFor(
+    window,
+    'Boolean(document.querySelector(\'[data-aihub-resource-id="fixture-community-connector"]\'))',
+    "multi-mode connection resource missing"
+  );
+  const card = await window.webContents.executeJavaScript(`(() => ({
+    count: document.querySelectorAll('[data-aihub-resource-id="fixture-community-connector"]').length,
+    text: document.querySelector('[data-aihub-resource-id="fixture-community-connector"]')?.textContent || ''
+  }))()`);
+  assert.equal(card.count, 1, "two relations must not duplicate the canonical resource card");
+  assert.match(card.text, /Fixture Connection Publisher/);
+
+  await click(
+    window,
+    '[data-aihub-resource-id="fixture-community-connector"]',
+    "multi-mode connection resource did not open"
+  );
+  await waitFor(
+    window,
+    'document.querySelectorAll("[data-aihub-resource-connection-mode]").length === 2',
+    "connection modes did not render"
+  );
+  const facts = await window.webContents.executeJavaScript(`(() => {
+    const group = document.querySelector('.resourceRelationFacts');
+    const publisher = document.querySelector('[data-aihub-resource-publisher]');
+    const hosts = document.querySelector('[data-aihub-resource-compatible-hosts]');
+    const modes = document.querySelector('[data-aihub-resource-connection-modes]');
     return {
-      viewport: window.innerWidth,
-      scrollWidth: document.documentElement.scrollWidth,
-      focused: document.activeElement === action,
-      buttonsInsideViewport: buttons.every((button) => {
-        const rect = button.getBoundingClientRect();
-        return rect.left >= 0 && rect.right <= window.innerWidth;
-      })
+      publisher: publisher?.textContent || '',
+      hosts: hosts?.querySelectorAll('[data-aihub-resource-host-id]').length || 0,
+      edges: [...(modes?.querySelectorAll('[data-aihub-resource-connection-mode]') || [])]
+        .map((node) => ({
+          mode: node.getAttribute('data-aihub-resource-connection-mode'),
+          hostId: node.getAttribute('data-aihub-resource-connection-host-id'),
+          bindingKind: node.getAttribute('data-aihub-resource-connection-binding-kind'),
+          text: node.textContent || ''
+        })),
+      peers: Boolean(group && publisher?.parentElement === group && hosts?.parentElement === group && modes?.parentElement === group),
+      parentNode: document.querySelector('[data-aihub-publisher-parent]')
     };
   })()`);
-  assert.equal(result.focused, true, "return to official Skills action must be keyboard-focusable");
-  assert.ok(result.scrollWidth <= result.viewport, `community Skill ${theme}/${width} has horizontal overflow`);
-  assert.equal(result.buttonsInsideViewport, true, "community Skill actions must stay in the viewport");
-  fs.mkdirSync(outputDirectory, { recursive: true });
-  fs.writeFileSync(path.join(outputDirectory, `resource-store-community-empty-${theme}-${width}.png`), (await window.webContents.capturePage()).toPNG());
-  await click(window, '[data-aihub-action="switch-resource-source-official"]', "return to official Skills action missing");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-product-id="codex-cli"]\'))', "official Skills did not return after the explicit action");
-  return result;
+  assert.match(facts.publisher, /Fixture Connection Publisher/);
+  assert.equal(facts.hosts, 2);
+  assert.deepEqual(facts.edges, [
+    {
+      mode: "remote-mcp",
+      hostId: "fixture-game-host",
+      bindingKind: "mcp-tool",
+      text: "远程 MCP · Fixture Game Host"
+    },
+    {
+      mode: "chatgpt-app",
+      hostId: "codex-cli",
+      bindingKind: "connector-authorized-connection",
+      text: "ChatGPT App · Fixture Codex CLI"
+    }
+  ]);
+  assert.equal(facts.peers, true, "publisher, hosts, and modes must be peer facts");
+  assert.equal(facts.parentNode, null, "publisher must remain a fact, not a parent");
+
+  await click(window, '[data-aihub-action="back-resource-list"]', "connection detail Back missing");
+  await waitFor(
+    window,
+    'Boolean(document.querySelector(\'[data-aihub-resource-id="fixture-community-connector"]\'))',
+    "connection resource list did not return"
+  );
+  assert.deepEqual(
+    await window.webContents.executeJavaScript(`(() => ({
+      source: document.querySelector('[data-aihub-resource-filter="source-channel"] [aria-pressed="true"]')?.dataset.aihubFilterValue,
+      host: document.querySelector('[data-aihub-resource-filter="host"] [aria-pressed="true"]')?.dataset.aihubFilterValue,
+      count: document.querySelectorAll('[data-aihub-resource-id="fixture-community-connector"]').length
+    }))()`),
+    { source: "community", host: "fixture-game-host", count: 1 }
+  );
+  return { cards: 1, publisher: true, hosts: 2, edges: 2, backPreserved: true };
 }
 
 async function openUnsafeDetail(window) {
@@ -102,15 +236,12 @@ async function openUnsafeDetail(window) {
     agentFilter: Boolean(document.querySelector('[data-aihub-resource-filter="agent"]'))
   }))()`);
   assert.deepEqual(filters.stores, ["skill", "mcp", "plugin", "connector"]);
-  assert.equal(filters.scenarioCount, 22, "all plus 21 canonical scenario filters must render");
+  assert.equal(filters.scenarioCount, 0, "scenario filters belong only to the Skill store");
   assert.equal(filters.agentFilter, true);
   await click(window, '[data-aihub-resource-filter="agent"] [data-aihub-filter-value="mature"]', "mature Agent filter missing");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-product-id="codex-cli"]\'))', "catalog-backed mature Agent host missing");
+  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-id="openai-codex-mcp-config"]\'))', "catalog-backed mature Agent resource missing");
   await click(window, '[data-aihub-resource-filter="agent"] [data-aihub-filter-value="all"]', "all Agent filter missing");
   await click(window, '[data-aihub-resource-filter="source-channel"] [data-aihub-filter-value="community"]', "community channel missing");
-  await click(window, '[data-aihub-resource-filter="scenario"] [data-aihub-filter-value="gaming"]', "gaming scenario filter missing");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-product-id="fixture-game-host"]\'))', "community gaming host missing");
-  await click(window, '[data-aihub-resource-product-id="fixture-game-host"]', "community gaming host did not open");
   await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-id="fixture-unsafe-community-mcp"]\'))', "unsafe community resource missing");
   await click(window, '[data-aihub-resource-id="fixture-unsafe-community-mcp"]', "unsafe community resource detail did not open");
   await waitFor(window, 'Boolean(document.querySelector(\'.resourceWarning\'))', "unsafe warning did not render");
@@ -128,6 +259,25 @@ async function assertContributionRoute(window) {
   assert.equal(result.disabled, true, "submission must stay unavailable until a backend capability exists");
   assert.deepEqual(result.fields, [], "disabled submission seam must not expose owner or reviewer fields");
   return result;
+}
+
+async function assertVendorProductRoute(window) {
+  const opened = await window.webContents.executeJavaScript(`(() => {
+    const button = [...document.querySelectorAll('.sidebar nav button')]
+      .find((node) => /全部 AI 厂商|AI vendors/i.test(node.textContent || ''));
+    button?.click();
+    return Boolean(button);
+  })()`);
+  assert.equal(opened, true, "AI vendor directory entry missing");
+  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-vendor-id="fixture-vendor"]\'))', "vendor directory did not render");
+  await click(window, '[data-aihub-vendor-id="fixture-vendor"]', "fixture vendor did not open");
+  await waitFor(window, 'Boolean(document.querySelector(\'.vendorHero\') && document.querySelector(\'.vendorProducts\'))', "vendor product page did not render");
+  assert.equal(
+    await window.webContents.executeJavaScript("document.querySelectorAll('[data-aihub-resource-filter]').length"),
+    0,
+    "resource-store filters must not leak into Product or Vendor pages"
+  );
+  return { vendor: true, products: true };
 }
 
 async function snapshot(window, width, height) {
@@ -176,20 +326,17 @@ async function run() {
   try {
     await window.loadFile(path.join(root, "dist", "index.html"));
     await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-store-id="skill"]\'))', "resource stores did not render");
-    const skillEmpty = await assertEmptyCommunitySkillChannel(window);
-    const skillEmptyPreviews = {
-      lightDesktop: await snapshotEmptyCommunitySkillChannel(window, 1365, 768, "light"),
-      lightNarrow: await snapshotEmptyCommunitySkillChannel(window, 740, 768, "light"),
-      darkDesktop: await snapshotEmptyCommunitySkillChannel(window, 1365, 768, "dark"),
-      darkNarrow: await snapshotEmptyCommunitySkillChannel(window, 740, 768, "dark")
-    };
+    await assertStoreEntries(window);
+    const skillFilters = await assertSkillScenarioFilters(window);
+    const connectionRelations = await assertConnectionRelations(window);
     await openUnsafeDetail(window);
     const result = {
       desktop: await snapshot(window, 1365, 768),
       narrow: await snapshot(window, 740, 768)
     };
     const submission = await assertContributionRoute(window);
-    process.stdout.write(`${JSON.stringify({ ok: true, ...result, submission, skillEmpty, skillEmptyPreviews }, null, 2)}\n`);
+    const vendorProduct = await assertVendorProductRoute(window);
+    process.stdout.write(`${JSON.stringify({ ok: true, ...result, submission, skillFilters, connectionRelations, vendorProduct }, null, 2)}\n`);
   } finally {
     if (!window.isDestroyed()) window.destroy();
   }
