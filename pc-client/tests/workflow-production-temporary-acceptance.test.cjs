@@ -103,7 +103,7 @@ test("independent cutover harness binds active7 images and exact prior-image rol
   assert.match(source, /sha256:58a5fdd80c026f5dc9fceda4abea3a743ef85cb45b2def10c0df189271251567/);
   assert.match(source, /createWorkflowProductionReleaseBundle/);
   assert.match(source, /verifyPreparedRelease\(prepared\)/);
-  assert.match(source, /prepared-release/);
+  assert.match(source, /\.aihub-workflow-release-prepared\.json/);
   assert.doesNotMatch(source, /AIHUB_WORKFLOW_RELEASE_PREPARED_BYPASS/);
 });
 

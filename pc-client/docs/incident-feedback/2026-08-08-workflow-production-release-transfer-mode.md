@@ -98,6 +98,22 @@ against the final manifest-controlled bundle before the user's continuing
 authorization can proceed to a new server preflight; no local result in this
 incident is a server retry.
 
+## Stale prepared-release substring assertion (2026-08-16)
+
+The current local Workflow acceptance suite was 39/40 because one source-level
+test required the prose fragment `prepared-release`. The actual frozen contract
+has always used the canonical marker `.aihub-workflow-release-prepared.json`
+and `verifyPreparedRelease(prepared)`; cutover separately executes
+`verify-prepared`. No production seam was missing.
+
+The test now asserts the exact marker filename instead of the reversed prose
+fragment. The isolated reproducer changed from 0/1 to 1/1, and the complete
+current-Identity plus production-acceptance command is 40/40. The deployment
+manifest still verifies without regeneration because no deployment source was
+changed. Future source-contract tests must lock canonical identifiers or
+callable seams rather than incidental wording. This correction did not package,
+install, upload, contact a server, run cutover or authorize release.
+
 ## 2026-08-09 catalog activation dependency closure regression
 
 A later fresh isolated cutover reached the prepared catalog activation stage
