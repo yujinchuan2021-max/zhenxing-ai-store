@@ -6,10 +6,10 @@ const { spawnSync } = require("node:child_process");
 const test = require("node:test");
 const { createIdentitySourceManifest } = require("../deployment/community-production/identity-source-manifest.cjs");
 
-const image = "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e";
-const expectedImageId = "sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748";
-const expectedDigest = "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7";
-const expectedReleaseLabel = "candidate-only-2a1147346c5e";
+const image = "zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8";
+const expectedImageId = "sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01";
+const expectedDigest = "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8";
+const expectedReleaseLabel = "candidate-only-d9fa8de84dc8";
 const excluded = new Set([".dockerignore", "deployment/community-production/identity.Dockerfile"]);
 
 function docker(args) {
@@ -29,11 +29,11 @@ function imagePath(sourcePath) {
   throw new Error(`unmapped COPY input: ${sourcePath}`);
 }
 
-test("Identity candidate image exactly closes the frozen 72-COPY source manifest", () => {
+test("Identity candidate image exactly closes the frozen 76-COPY source manifest", () => {
   const manifest = createIdentitySourceManifest();
   assert.equal(manifest.digest.sha256, expectedDigest);
   const files = manifest.files.filter((entry) => !excluded.has(entry.path));
-  assert.equal(files.length, 72);
+  assert.equal(files.length, 76);
 
   const inspect = JSON.parse(docker(["image", "inspect", image, "--format", "{{json .}}"]));
   assert.equal(inspect.Id, expectedImageId);

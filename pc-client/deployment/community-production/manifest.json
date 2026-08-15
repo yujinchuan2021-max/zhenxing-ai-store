@@ -9,7 +9,7 @@
     "encoding": "utf8",
     "ordering": "path ascending by UTF-16 code units",
     "record": "<path>\\t<bytes>\\t<sha256>\\n",
-    "sha256": "71ca9f85440b79d2f4b2a868fcd33885c513667965d363bc6886d4278c1aee48"
+    "sha256": "78b157cacb67aeac0220fbe927877b75699f49b89d0e203f1ccf96465da17ce1"
   },
   "files": [
     {
@@ -19,8 +19,8 @@
     },
     {
       "path": "deployment/community-production/README.md",
-      "bytes": 61568,
-      "sha256": "0cb123cd3e16582d6126b55734e4334bee589313dcfe732908c253da6db6d73c"
+      "bytes": 62117,
+      "sha256": "12ca6e86cedf33474d3b8056cb96dc91164ed0d3a99afe5e77c51b811c7c7a8d"
     },
     {
       "path": "deployment/community-production/backup.sh",

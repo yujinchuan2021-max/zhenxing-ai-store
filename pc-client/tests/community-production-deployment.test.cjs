@@ -42,6 +42,7 @@ const workflowProductionOverlaySmokePath = path.join(root, "scripts", "test-work
 const workflowProductionMigrationRollbackPath = path.join(root, "scripts", "test-workflow-production-migration-rollback.cjs");
 const workflowCandidate = fs.readFileSync(path.join(root, "docs", "workflow-store-production-deployment-candidate.md"), "utf8");
 const currentIdentitySourceDigest = "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8";
+const currentIdentityImage = "zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8";
 const deployedIdentitySourceDigest = "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7";
 const deployedIdentityImage = "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e";
 const nodeHttpHealth = /require\('http'\)\.get\(\{host:'127\.0\.0\.1',port:4173,path:'\/health',agent:false\},r=>\{r\.resume\(\);process\.exit\(r\.statusCode===200\?0:1\)\}\);req\.setTimeout\(2000,\(\)=>\{req\.destroy\(\);process\.exit\(1\)\}\);req\.on\('error',\(\)=>process\.exit\(1\)\)/;
@@ -306,11 +307,15 @@ test("Identity image copies one Workflow state machine and its exact persistence
   assert.equal(manifest.files.some((entry) => /(?:\.env|\.(?:pem|key))$/i.test(entry.path)), false);
 });
 
-test("Identity deployment keeps the reviewed image pinned until the current source closure is rebuilt", () => {
+test("Identity deployment keeps the reviewed image pinned while the current candidate stays local-only", () => {
   assert.equal((compose.match(new RegExp(`image: ${deployedIdentityImage}`, "g")) || []).length, 3);
+  assert.doesNotMatch(compose, new RegExp(currentIdentityImage));
   assert.doesNotMatch(compose, /AIHUB_IDENTITY_IMAGE/);
   assert.match(workflowCandidate, new RegExp(deployedIdentitySourceDigest));
-  assert.doesNotMatch(workflowCandidate, new RegExp(currentIdentitySourceDigest));
+  assert.match(workflowCandidate, new RegExp(currentIdentitySourceDigest));
+  assert.match(workflowCandidate, new RegExp(currentIdentityImage.replaceAll("/", "\\/")));
+  assert.match(workflowCandidate, /local-only image/);
+  assert.match(workflowCandidate, /production Compose, cutover, and release artifacts still bind the reviewed/);
   assert.match(workflowCandidate, new RegExp(deployedIdentityImage.replaceAll("/", "\\/")));
   assert.match(workflowCandidate, /Community inner public projection/);
   assert.match(workflowCandidate, /Identity outer wire DTO/);

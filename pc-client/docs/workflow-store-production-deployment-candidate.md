@@ -2,6 +2,12 @@
 
 Status: `candidateOnly=true`, `deployable=false`.
 
+## Current HEAD local Identity rebuild (2026-08-16)
+
+The repaired current source closure is `d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8` (78 manifest inputs / 76 actual Docker COPY inputs). Its local-only image is `zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8`, image ID `sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01`, size 58,884,827 bytes, source/revision labels equal the closure digest, release label `candidate-only-d9fa8de84dc8`, and `User=node`.
+
+The two exact image-closure/secret probes passed, as did all seven isolated catalog-readiness scenarios and the disposable PostgreSQL Workflow migration rollback matrix. The readiness report is `output/identity-catalog-readiness-docker-20260815190812166-f03153ee/report.json`, SHA-256 `bf1cd6c8a8178d409719ba9466885878e6d3df9cbdffd5d8fa641679f1107476`. This evidence does not replace the frozen deployment candidate below: production Compose, cutover, and release artifacts still bind the reviewed `2a114…` image. No server image was loaded or changed, and fresh A–E acceptance remains required before any cutover decision.
+
 ## Current Identity PostgreSQL target-contract freeze (2026-08-10)
 
 The current candidate supersedes the prior f18 Identity image for deployment
