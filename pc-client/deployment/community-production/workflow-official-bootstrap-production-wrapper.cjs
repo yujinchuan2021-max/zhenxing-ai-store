@@ -9,9 +9,9 @@ const { execFileSync } = require("node:child_process");
 
 const ACTIVE_ADMIN_IMAGE = "zhenxing-ai/admin:0.1.40-src-186ff057efd3";
 const EXPECTED_ADMIN_IMAGE_ID = "sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd";
-const IDENTITY_IMAGE = "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e";
-const EXPECTED_IDENTITY_IMAGE_ID = "sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748";
-const EXPECTED_SOURCE_DIGEST = "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7";
+const IDENTITY_IMAGE = "zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8";
+const EXPECTED_IDENTITY_IMAGE_ID = "sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01";
+const EXPECTED_SOURCE_DIGEST = "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8";
 const SOURCE_POST_KEYS = Object.freeze(["chatgpt-desktop-research", "codex-cli-code-review", "claude-desktop-content"]);
 const REPORT_KEYS = new Set(["schema", "candidateOnly", "deployable", "status", "manifestDigest", "adminImageId", "identityImageId", "identitySourceDigest", "workflowCount", "sourcePostCount", "sourcePostKeys", "workflowReferenceHashes", "checks", "failureStage", "failureCode"]);
 

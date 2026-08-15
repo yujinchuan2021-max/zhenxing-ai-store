@@ -36,17 +36,17 @@ test("production release bundle owns the exact transfer set and fixed file modes
   assert.equal(manifest.adminImage.path, "artifacts/admin-active7-image.tar");
   assert.deepEqual(manifest.identityImage, {
     path: "artifacts/identity-r11-image.tar",
-    image: "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e",
-    imageId: "sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748",
-    sourceDigest: "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7",
+    image: "zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8",
+    imageId: "sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01",
+    sourceDigest: "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8",
     user: "node",
-    bytes: 58903552,
-    sha256: "5026c7ae3fd05518434d28a1a704aacd81d138e7e74ca239d8110d8b15faa79b"
+    bytes: 58910720,
+    sha256: "01769b7769bf0f93f3d98c5d864822d2c03937b480b145abb7a456b5a6c8519f"
   });
   assert.deepEqual(byPath.get("artifacts/identity-r11-image.tar"), {
     path: "artifacts/identity-r11-image.tar",
-    bytes: 58903552,
-    sha256: "5026c7ae3fd05518434d28a1a704aacd81d138e7e74ca239d8110d8b15faa79b",
+    bytes: 58910720,
+    sha256: "01769b7769bf0f93f3d98c5d864822d2c03937b480b145abb7a456b5a6c8519f",
     mode: "0644"
   });
   assert.deepEqual(manifest.rollbackIdentityImage, {
@@ -112,11 +112,11 @@ test("production release bundle owns the exact transfer set and fixed file modes
       ["shared/signed-release.cjs", "8a342c6ef884e8652181b0fde4a91618784e9c7a6430897b2da55bd18eb0134e"]
     ].map(([relative, sha256]) => [relative, byPath.get(relative)?.mode, byPath.get(relative)?.sha256]),
     [
-      ["admin/release-store.cjs", "0644", "cb89639f08217bb489fcaccff988afa5a6e466d929420bced34e84cf4846cf42"],
+      ["admin/release-store.cjs", "0644", "69a20a1defc95746a2bb75235e10f16a288438c4b8fe49a4c6cde8d329fe8ae1"],
       ["shared/catalog-channel.cjs", "0644", "606dc8853ee85725d0f5c10205f0f39b0f8c891ddf3d70cba9cd7fa5fb592ace"],
       ["shared/catalog-release-icon-compat.cjs", "0644", "cd7d9fcbe63416fa3f88a6d93bac02f5dc7b22c989dcdf88147e7e3bc4a6870e"],
-      ["shared/catalog.cjs", "0644", "eb5092cb1e3688ba5291756d4c4db0e18e93ecb980f2474e853cb7aa731691b0"],
-      ["shared/signed-release.cjs", "0644", "8a342c6ef884e8652181b0fde4a91618784e9c7a6430897b2da55bd18eb0134e"]
+      ["shared/catalog.cjs", "0644", "e9d50d3f9eb41835b58d9035dd661133993ecbdb18b66d95a6f03425477e49a8"],
+      ["shared/signed-release.cjs", "0644", "174a401717e4a28d48f01ab9fd223d7d4dc7b2315c44c4565259d9cfb79d535e"]
     ]
   );
   assert.ok(byPath.has("deployment/community-production/manifest.json"));
@@ -416,7 +416,7 @@ test("prepared verification binds the Identity image input to the bundled artifa
     fs.writeFileSync(artifact, "not-the-frozen-identity-image\n");
     assert.throws(
       () => createWorkflowProductionReleaseBundleManifest({ identityArtifactPath: artifact }),
-      /Identity image archive size drifted/
+      /image archive size drifted/
     );
   } finally {
     fs.rmSync(temporary, { recursive: true, force: true });
@@ -470,12 +470,12 @@ test("true-Linux verifier loads every prepared custom image archive into a fresh
   assert.match(source, /\.workflow-runtime\/node-v24\.18\.1-linux-x64\/bin\/node/);
   assert.match(source, /require\("\/opt\/zhenxing-ai\/releases\/community-production-success01\/deployment\/community-production\/catalog-active7-state-activation\.cjs"\)/);
   assert.match(source, /activationModuleClosure/);
-  assert.match(source, /\["CATALOG_FAILURE_CODES_BY_STAGE", "PUBLISHED_DIRECTORY", "catalogFailureTerminal", "catalogStep", "installFreshCatalog", "preserveCatalogFailure"\]/);
+  assert.match(source, /\["ADMIN_DATA_DIRECTORY", "CATALOG_FAILURE_CODES_BY_STAGE", "PUBLISHED_DIRECTORY", "catalogFailureTerminal", "catalogStep", "installFreshCatalog", "preserveCatalogFailure"\]/);
   assert.match(source, /docker load -i '\/opt\/zhenxing-ai\/releases\/community-production-success01\/artifacts\/\$\{contract\.artifact\}'/);
   for (const artifact of ["identity-r11-image.tar", "identity-19a-rollback-image.tar", "admin-active7-image.tar", "admin-old-b6ea4c5bd0e9.tar", "flarum-8b13962a36bf.tar"]) assert.match(source, new RegExp(artifact.replaceAll(".", "\\.")));
   assert.match(source, /imageArchiveClosures/);
   assert.match(source, /wrongImageIdRejected/);
   assert.match(source, /com\.aihub\.source-content-sha256/);
-  assert.match(source, /92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748/);
+  assert.match(source, /981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01/);
   assert.match(source, /"--feature", "containerd-snapshotter=true"/);
 });

@@ -1,6 +1,6 @@
 services:
   workflow-official-bootstrap:
-    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    image: zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8
     profiles: ["workflow-official-bootstrap"]
     network_mode: "service:community"
     environment:
@@ -26,7 +26,7 @@ services:
     tmpfs: ["/tmp"]
 
   workflow-reviewer-provision:
-    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    image: zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8
     profiles: ["workflow-reviewer-provision"]
     environment:
       AIHUB_IDENTITY_DATABASE_PASSWORD_FILE: /run/secrets/identity_db_password

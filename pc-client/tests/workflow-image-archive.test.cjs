@@ -29,6 +29,7 @@ const expected = Object.freeze({
   imageId: "sha256:58a5fdd80c026f5dc9fceda4abea3a743ef85cb45b2def10c0df189271251567",
   configDigest: "sha256:341b0551662a03e16672d6171e1f297fe9f61a015a1aec19d04008bd82b22e5c",
   sourceDigest: "19a223a183921038d01ee49f149c10d7844d9ef1c85f359fba2bfbc745a15d8c",
+  sourceRevision: "f90543d936397fbdfa8a370a9a0b62e7b3a3f0ce",
   releaseLabel: "workflow-reviewer-service-identity-candidate-2026-08-08",
   user: "node",
   os: "linux",
@@ -45,6 +46,7 @@ test("protected 19a archive closes the exact OCI descriptor, config, and layer g
     imageId: expected.imageId,
     configDigest: expected.configDigest,
     sourceDigest: expected.sourceDigest,
+    sourceRevision: expected.sourceRevision,
     releaseLabel: expected.releaseLabel,
     user: expected.user,
     os: expected.os,
@@ -98,6 +100,7 @@ test("19a archive rejects every frozen supply-chain drift before use", () => {
   assert.throws(() => verifyWorkflowImageArchive({ archive, expected: { ...expected, sha256: "0".repeat(64) } }), /digest drifted/);
   assert.throws(() => verifyWorkflowImageArchive({ archive, expected: { ...expected, image: `wrong/${expected.image}` } }), /name drifted|tag drifted/);
   assert.throws(() => verifyWorkflowImageArchive({ archive, expected: { ...expected, sourceDigest: "0".repeat(64) } }), /source digest label drifted/);
+  assert.throws(() => verifyWorkflowImageArchive({ archive, expected: { ...expected, sourceRevision: "0".repeat(40) } }), /source revision label drifted/);
   assert.throws(() => verifyWorkflowImageArchive({ archive, expected: { ...expected, releaseLabel: "wrong-release" } }), /release label drifted/);
   assert.throws(() => verifyWorkflowImageArchive({ archive, expected: { ...expected, user: "root" } }), /image user drifted/);
 

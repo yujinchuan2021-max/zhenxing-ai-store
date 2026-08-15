@@ -170,12 +170,12 @@ function failCase(name, mutate, options = {}) {
     ), "load prepared fresh-host module closure").stdout);
     assert.deepEqual(freshHostModuleClosure, [
       ["BLOCK_CODES", "ENVIRONMENT", "STAGE0", "parseEnvironmentTemplate", "validateLoginIdentity", "validateStage0Observation", "versionAtLeast"],
-      ["DATA_DIRECTORIES", "REQUIRED_ENVIRONMENT", "assertEmptyDirectory", "createFreshHostPreflight", "exactEnvironment", "targetBlockedOutput"],
+      ["DATA_DIRECTORIES", "REQUIRED_ENVIRONMENT", "assertEmptyDirectory", "createFreshHostPreflight", "exactEnvironment", "targetBlockedOutput", "validateReusableCaddyDataVolume"],
       ["validateFreshHostTerminal"],
-      ["CATALOG_FAILURE_CODES_BY_STAGE", "PUBLISHED_DIRECTORY", "catalogFailureTerminal", "catalogStep", "installFreshCatalog", "preserveCatalogFailure"]
+      ["ADMIN_DATA_DIRECTORY", "CATALOG_FAILURE_CODES_BY_STAGE", "PUBLISHED_DIRECTORY", "catalogFailureTerminal", "catalogStep", "installFreshCatalog", "preserveCatalogFailure"]
     ]);
     const imageContracts = [
-      { name: "candidateIdentity", artifact: "identity-r11-image.tar", image: "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e", imageId: "sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748", sourceDigest: "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7", releaseLabel: "candidate-only-2a1147346c5e", user: "node" },
+      { name: "candidateIdentity", artifact: "identity-r11-image.tar", image: "zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8", imageId: "sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01", sourceDigest: "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8", releaseLabel: "candidate-only-d9fa8de84dc8", user: "node" },
       { name: "rollbackIdentity", artifact: "identity-19a-rollback-image.tar", image: "zhenxing-ai/identity:workflow-readiness-candidate-19a223a18392", imageId: "sha256:58a5fdd80c026f5dc9fceda4abea3a743ef85cb45b2def10c0df189271251567", sourceDigest: "19a223a183921038d01ee49f149c10d7844d9ef1c85f359fba2bfbc745a15d8c", releaseLabel: "workflow-reviewer-service-identity-candidate-2026-08-08", user: "node" },
       { name: "active7Admin", artifact: "admin-active7-image.tar", image: "zhenxing-ai/admin:0.1.40-src-186ff057efd3", imageId: "sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd", sourceDigest: "186ff057efd317b5b54af564e22c7cf3e3eac0f8af62b18dd48defc2d719f6e9", releaseLabel: "0.1.40", user: "node" },
       { name: "rollbackAdmin", artifact: "admin-old-b6ea4c5bd0e9.tar", image: "zhenxing-ai/admin:community-candidate-b6ea4c5bd0e9", imageId: "sha256:a1d976f82230edefb3c39416ba868fa9b50a5ab8db31cdb7a5dadb217bcb06c2", sourceDigest: "b6ea4c5bd0e9517579a3c4380fcf2c1617975f1ff6a2c6024a703a71ed4620de", releaseLabel: "0.1.40", user: "node" },

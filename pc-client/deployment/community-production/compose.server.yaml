@@ -57,7 +57,7 @@ services:
     security_opt: ["no-new-privileges:true"]
 
   identity-migrate:
-    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    image: zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8
     profiles: ["migration"]
     environment:
       AIHUB_IDENTITY_DATABASE_PASSWORD_FILE: /run/secrets/identity_db_password
@@ -75,7 +75,7 @@ services:
     tmpfs: ["/tmp"]
 
   workflow-migrate:
-    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    image: zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8
     profiles: ["workflow-migration"]
     environment:
       AIHUB_IDENTITY_DATABASE_PASSWORD_FILE: /run/secrets/identity_db_password
@@ -94,7 +94,7 @@ services:
     tmpfs: ["/tmp"]
 
   identity:
-    image: zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e
+    image: zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8
     environment:
       AIHUB_IDENTITY_HOST: 0.0.0.0
       AIHUB_IDENTITY_PORT: 4180

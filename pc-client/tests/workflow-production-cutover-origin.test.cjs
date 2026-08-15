@@ -233,11 +233,11 @@ case "$*" in
   *'com.aihub.release-version'*'workflow-readiness-candidate-19a223a18392'*) printf 'workflow-reviewer-service-identity-candidate-2026-08-08\\n' ;;
   *'com.aihub.source-content-sha256'*'community-candidate-b6ea4c5bd0e9'*) printf 'b6ea4c5bd0e9517579a3c4380fcf2c1617975f1ff6a2c6024a703a71ed4620de\\n' ;;
   *'com.aihub.release-version'*'community-candidate-b6ea4c5bd0e9'*) printf '0.1.40\\n' ;;
-  *'image inspect --format {{.Id}}'*'zhenxing-ai/identity:'*) printf 'sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748\\n' ;;
-  *'com.aihub.source-content-sha256'*) printf '2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7\\n' ;;
+  *'image inspect --format {{.Id}}'*'zhenxing-ai/identity:'*) printf 'sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01\\n' ;;
+  *'com.aihub.source-content-sha256'*) printf 'd9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8\\n' ;;
   *'image inspect --format {{.Config.User}}'*'zhenxing-ai/identity:'*) printf 'node\\n' ;;
   *'image inspect --format {{.Config.User}}'*'zhenxing-ai/admin:'*) printf 'node\\n' ;;
-  *'image inspect zhenxing-ai/identity:'*) printf '{"Id":"sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748"}\\n' ;;
+  *'image inspect zhenxing-ai/identity:'*) printf '{"Id":"sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01"}\\n' ;;
   *'image inspect zhenxing-ai/admin:'*) printf '{"Id":"sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd"}\\n' ;;
   *'inspect --format {{.Config.Image}} identity-old'*) printf 'zhenxing-ai/identity:workflow-readiness-candidate-19a223a18392\\n' ;;
   *'inspect --format {{.Config.Image}} admin-old'*) printf 'zhenxing-ai/admin:community-candidate-b6ea4c5bd0e9\\n' ;;

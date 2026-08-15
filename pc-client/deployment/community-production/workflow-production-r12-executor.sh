@@ -26,7 +26,7 @@ backup_pointer="$CONTROL_ROOT/verified-backup-path"
 old_admin='zhenxing-ai/admin:community-candidate-b6ea4c5bd0e9'
 old_identity='zhenxing-ai/identity:workflow-readiness-candidate-19a223a18392'
 target_admin='zhenxing-ai/admin:0.1.40-src-186ff057efd3'
-target_identity='zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e'
+target_identity='zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8'
 compose_baseline=(/usr/bin/docker compose -p "$PROJECT" -f "$base" -f "$disabled")
 compose_target=(/usr/bin/docker compose -p "$PROJECT" -f "$base" -f "$overlay")
 verify_compose() {
@@ -66,7 +66,7 @@ load_required_images() {
   /usr/bin/docker load -i "$release_root/artifacts/admin-active7-image.tar" >/dev/null
   verify_image "$old_identity" 'sha256:58a5fdd80c026f5dc9fceda4abea3a743ef85cb45b2def10c0df189271251567'
   verify_image "$old_admin" 'sha256:a1d976f82230edefb3c39416ba868fa9b50a5ab8db31cdb7a5dadb217bcb06c2'
-  verify_image "$target_identity" 'sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748'
+  verify_image "$target_identity" 'sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01'
   verify_image "$target_admin" 'sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd'
 }
 

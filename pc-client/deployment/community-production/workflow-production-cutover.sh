@@ -45,9 +45,9 @@ preflight_workflow_node_runtime
 workflow_node="$(prepare_workflow_node_runtime)"
 release_root="$(cd "$script_dir/../.." && pwd -P)"
 "$workflow_node" "$script_dir/workflow-production-release-bundle.cjs" verify-prepared "$release_root" >/dev/null
-identity_image="zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e"
-identity_image_id="sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748"
-identity_source_digest="2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7"
+identity_image="zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8"
+identity_image_id="sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01"
+identity_source_digest="d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8"
 identity_image_user="node"
 identity_archive="$release_root/artifacts/identity-r11-image.tar"
 rollback_identity_archive="$release_root/artifacts/identity-19a-rollback-image.tar"

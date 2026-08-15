@@ -307,15 +307,15 @@ test("Identity image copies one Workflow state machine and its exact persistence
   assert.equal(manifest.files.some((entry) => /(?:\.env|\.(?:pem|key))$/i.test(entry.path)), false);
 });
 
-test("Identity deployment keeps the reviewed image pinned while the current candidate stays local-only", () => {
-  assert.equal((compose.match(new RegExp(`image: ${deployedIdentityImage}`, "g")) || []).length, 3);
-  assert.doesNotMatch(compose, new RegExp(currentIdentityImage));
+test("Identity release inputs pin the current candidate while the server deployment remains historical", () => {
+  assert.equal((compose.match(new RegExp(`image: ${currentIdentityImage}`, "g")) || []).length, 3);
+  assert.doesNotMatch(compose, new RegExp(deployedIdentityImage));
   assert.doesNotMatch(compose, /AIHUB_IDENTITY_IMAGE/);
   assert.match(workflowCandidate, new RegExp(deployedIdentitySourceDigest));
   assert.match(workflowCandidate, new RegExp(currentIdentitySourceDigest));
   assert.match(workflowCandidate, new RegExp(currentIdentityImage.replaceAll("/", "\\/")));
-  assert.match(workflowCandidate, /local-only image/);
-  assert.match(workflowCandidate, /production Compose, cutover, and release artifacts still bind the reviewed/);
+  assert.match(workflowCandidate, /local-only release candidate/);
+  assert.match(workflowCandidate, /server deployment remains on the reviewed/);
   assert.match(workflowCandidate, new RegExp(deployedIdentityImage.replaceAll("/", "\\/")));
   assert.match(workflowCandidate, /Community inner public projection/);
   assert.match(workflowCandidate, /Identity outer wire DTO/);

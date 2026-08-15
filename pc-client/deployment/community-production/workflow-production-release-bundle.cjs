@@ -12,6 +12,7 @@ const {
 } = require("../../shared/vendor-icon.cjs");
 const {
   flarumImageArtifact,
+  identityImageArtifact,
   oldAdminImageArtifact,
   rollbackIdentityImageArtifact,
   verifyWorkflowImageArchive
@@ -36,18 +37,6 @@ const adminImageArtifact = Object.freeze({
   user: "node",
   bytes: 60332032,
   sha256: "e9088c657e0acb18835b295b5e3436fd1733881cfe0a670d3ed62eaaf939fd40"
-});
-const identityImageArtifact = Object.freeze({
-  source: "output/identity-pure-source-post-readback-candidate-20260810-2a1147346c5e/identity-image.tar",
-  path: "artifacts/identity-r11-image.tar",
-  image: "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e",
-  imageId: "sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748",
-  sourceDigest: "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7",
-  sourceRevision: "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7",
-  releaseLabel: "candidate-only-2a1147346c5e",
-  user: "node",
-  bytes: 58903552,
-  sha256: "5026c7ae3fd05518434d28a1a704aacd81d138e7e74ca239d8110d8b15faa79b"
 });
 const protectedImageArtifacts = Object.freeze([
   rollbackIdentityImageArtifact,
@@ -240,9 +229,7 @@ function createWorkflowProductionReleaseBundleManifest(options = {}) {
   const identityArtifactPath = options.identityArtifactPath
     ? path.resolve(options.identityArtifactPath)
     : path.join(workspace, identityImageArtifact.source);
-  const identityArtifactBytes = fs.readFileSync(identityArtifactPath);
-  assert.equal(identityArtifactBytes.length, identityImageArtifact.bytes, "Identity image archive size drifted");
-  assert.equal(sha256(identityArtifactBytes), identityImageArtifact.sha256, "Identity image archive digest drifted");
+  verifyWorkflowImageArchive({ archive: identityArtifactPath, expected: identityImageArtifact });
   files.push({
     path: identityImageArtifact.path,
     bytes: identityImageArtifact.bytes,

@@ -110,3 +110,56 @@ ID, then run a candidate-specific server preflight able to distinguish Docker
 daemon unavailability from login authorization. Transfer, prepare, service
 launch, migration, cutover, rollback, and public exposure remain separate
 explicit decisions.
+
+## 2026-08-16 local current-Identity release bundle freeze
+
+The missing local release artifact is now closed at
+`output/workflow-production-r28-current-identity-d9fa8de8-20260816.bundle`.
+It is still `candidateOnly=true` and `publishable=false`; it was created and
+verified locally and was not uploaded, transferred, prepared, installed, or
+run on a server. The existing r19/r27 server bundles and deployed `2a114…`
+Identity generation remain historical production facts, not inputs to this
+new candidate.
+
+The recursive bundle verifier accepted exactly 355 payload files and 14
+directories. Its deployment-set digest is
+`3b2cf7af3ea3df244938acaaea668eac0a11f7b18568ecf76ed6ff2757f48726`,
+deployment manifest SHA-256 is
+`0614c36c74021d6091a590d7220f9f3a69c6b9b5dd7ee552b752db88adb4bfc2`,
+and payload digest is
+`d968851c33191ddbd75edba1133a901e5e607dcc2261de0b75b06d6997575ac5`.
+The three root controls are frozen as follows:
+
+- `.aihub-workflow-release-bundle.json`: 87,412 bytes, SHA-256
+  `8dc1adcb980c642fb0ff37aa2e7947dc6134bde5173301fe88bc60aec9e91aa6`.
+- `.aihub-workflow-release-bundle.tsv`: 56,133 bytes, SHA-256
+  `45459880be86cac1725e86e3030e988901659b63650ab32475a31a54966bca88`.
+- `.aihub-identity-source-manifest.json`: 13,808 bytes, SHA-256
+  `26e3869fce15f375d007ea543aeb7aff651105023677580d953bfdf0f35dd253`.
+
+The bundled `artifacts/identity-r11-image.tar` is 58,910,720 bytes with
+SHA-256 `01769b7769bf0f93f3d98c5d864822d2c03937b480b145abb7a456b5a6c8519f`.
+The verifier recursively proved its Docker/OCI root descriptor, one runnable
+manifest, one attestation manifest, 16 layers, 22 referenced blobs, zero
+unreferenced blobs, exact tag, image/config digests, source/revision labels,
+release label, platform, and non-root `node` user.
+
+The repository's isolated true-Linux preparation gate then passed against this
+exact prebuilt bundle. Its report is
+`output/workflow-production-release-bundle-linux-44e90ba2cd/report.json`, 6,034
+bytes, SHA-256
+`e2e357948381a0ebe5bc7d01d021ec534729c58ba204692d969cfd4cf900023d`.
+It verified the prepared owner/mode/runtime closure, loaded and inspected all
+five custom image archives in an isolated Docker store, rejected a wrong image
+ID, and passed the 11-case missing/corrupt/path/link/owner/existing-target/
+rename failure matrix. Cleanup finalized with zero runner containers and zero
+runner volumes; the report records `serverTouched=false` and
+`catalogStateTouched=false`. The first attempt had stopped before these gates
+because its expected module-export list omitted two already-present exports;
+the test contract was updated to the exact current export sets before the
+passing run.
+
+This closes only the local bundle prerequisite. A later server action still
+requires a fresh candidate-specific read-only preflight and separate explicit
+authorization for transfer, prepare, migration, service launch, cutover,
+rollback, or public exposure.

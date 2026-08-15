@@ -9,7 +9,7 @@ PROJECT='zhenxing-community-production'
 CONTROL_ROOT='/opt/zhenxing-ai/shared/workflow-production-r25'
 EVIDENCE_ROOT='/opt/zhenxing-ai/shared/backups/workflow-production-r25-evidence'
 TARGET_ADMIN='zhenxing-ai/admin:0.1.40-src-186ff057efd3'
-TARGET_IDENTITY='zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e'
+TARGET_IDENTITY='zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8'
 TARGET_FLARUM='zhenxing-ai/flarum:community-candidate-8b13962a36bf'
 POSTGRES='postgres:17-alpine@sha256:742f40ea20b9ff2ff31db5458d127452988a2164df9e17441e191f3b72252193'
 MARIADB='mariadb:11.8@sha256:efb4959ef2c835cd735dbc388eb9ad6aab0c78dd64febcd51bc17481111890c4'
@@ -104,7 +104,7 @@ stage='image-supply-chain'
 /usr/bin/docker pull "$MARIADB" >/dev/null 2>&1
 /usr/bin/docker pull "$CADDY" >/dev/null 2>&1
 [[ "$(/usr/bin/docker image inspect --format '{{.Id}}' "$TARGET_ADMIN")" == sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd ]] || fail
-[[ "$(/usr/bin/docker image inspect --format '{{.Id}}' "$TARGET_IDENTITY")" == sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748 ]] || fail
+[[ "$(/usr/bin/docker image inspect --format '{{.Id}}' "$TARGET_IDENTITY")" == sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01 ]] || fail
 [[ "$(/usr/bin/docker image inspect --format '{{.Id}}' "$TARGET_FLARUM")" == sha256:6c32c21c9961e0dd35757c46be35ec2c8725f5b3537d4d0e7634c3a1cd11ba12 ]] || fail
 
 /usr/bin/docker volume create "$AIHUB_CADDY_DATA_VOLUME" >/dev/null

@@ -9,7 +9,7 @@
     "encoding": "utf8",
     "ordering": "path ascending by UTF-16 code units",
     "record": "<path>\\t<bytes>\\t<sha256>\\n",
-    "sha256": "e0fdd2ad48685541e56d5e77de7638d36368902682e3ea9841be46ca74a94edc"
+    "sha256": "3b2cf7af3ea3df244938acaaea668eac0a11f7b18568ecf76ed6ff2757f48726"
   },
   "files": [
     {
@@ -19,8 +19,8 @@
     },
     {
       "path": "deployment/community-production/README.md",
-      "bytes": 62118,
-      "sha256": "dceead79b1dfe5cbeff15f9f14bdcf3cfd83bec2d2a8fdda81d5839cbe54fae5"
+      "bytes": 62136,
+      "sha256": "1e79f76d0baa01a44d663d3ad25b0a69aefea1b7baf07f596c36a7a65080b000"
     },
     {
       "path": "deployment/community-production/backup.sh",
@@ -65,7 +65,7 @@
     {
       "path": "deployment/community-production/compose.server.yaml",
       "bytes": 11856,
-      "sha256": "8ad2f8aa27569bef56b0bd76745595601c71e0283a3973657be4ac8f57d74d09"
+      "sha256": "4204b44b567ef95e0302c1ae33687e21f2b0c703654176d35b6b6c64d5ae8c39"
     },
     {
       "path": "deployment/community-production/compose.software-update-static.yaml",
@@ -90,7 +90,7 @@
     {
       "path": "deployment/community-production/compose.workflow-production.yaml",
       "bytes": 2310,
-      "sha256": "d773a25d53edb080f92d35dc40059deb94cfd95c591ab64b97352457adac4db1"
+      "sha256": "e76a51f94d6d781f390a47b57aca0c9d640e723b8d5f49dbb0d220741656bb84"
     },
     {
       "path": "deployment/community-production/host-secret-authority.sh",
@@ -189,8 +189,8 @@
     },
     {
       "path": "deployment/community-production/workflow-image-archive.cjs",
-      "bytes": 13805,
-      "sha256": "775d46e837f4d18c8878c83ee74f16748f47b79f2ba2d0ca9495526f580b3367"
+      "bytes": 14644,
+      "sha256": "3219b0b1d4716876114b153a74c5e4f6a94a955d1478b570ab56f77a2f319db7"
     },
     {
       "path": "deployment/community-production/workflow-migrate.cjs",
@@ -205,12 +205,12 @@
     {
       "path": "deployment/community-production/workflow-official-bootstrap-production-wrapper.cjs",
       "bytes": 15888,
-      "sha256": "0229ed953ed8bf0cd37650deeba3edd655b105800f2adc9d9214fa3c5ca8a693"
+      "sha256": "2fe5f95bd6f4f85f3c5f697f8cf6d76eb981ec1fd189e5e99014f40f4f4702ba"
     },
     {
       "path": "deployment/community-production/workflow-official-bootstrap-temporary-acceptance.cjs",
       "bytes": 21328,
-      "sha256": "36f806386ae717f8bf430ac78bdf54e08ccc2b3782c8fb94ee9f3ea0c023da24"
+      "sha256": "ff6eb8665034c4254b2a6962b7bf4912623cb4402c8332e530e2d667984c3593"
     },
     {
       "path": "deployment/community-production/workflow-production-cutover-launcher.sh",
@@ -220,7 +220,7 @@
     {
       "path": "deployment/community-production/workflow-production-cutover.sh",
       "bytes": 25835,
-      "sha256": "be5d58cb6413b1bc4d2dedbbd920bebb91389f84ed2fc0cc555ac9cb7a43dd3f"
+      "sha256": "1f8b132bcde20670b92b64fabcb8e1934f76fcc87ada2504d5466e20aded2d6f"
     },
     {
       "path": "deployment/community-production/workflow-production-emergency-disable.sh",
@@ -250,7 +250,7 @@
     {
       "path": "deployment/community-production/workflow-production-fresh-host-runner.sh",
       "bytes": 9634,
-      "sha256": "3b930e7c93de061fbcadd27bc3edfa78d939dc6921f9db57d17f2a6f364d885d"
+      "sha256": "65df14f8d22549bdb3438e7800022b398a43ebedacad92c73ed32709212a49f8"
     },
     {
       "path": "deployment/community-production/workflow-production-fresh-host-stage0.sh",
@@ -275,7 +275,7 @@
     {
       "path": "deployment/community-production/workflow-production-r12-executor.sh",
       "bytes": 6949,
-      "sha256": "885cfb2f0e16189ef5e8a6b0b20621650c38c1064059220a8c9c2398e6036cd1"
+      "sha256": "fe1f76d2110ce7521b968872e061c5e7dc11d71a97d2757de303e0c3f8f9a16e"
     },
     {
       "path": "deployment/community-production/workflow-production-r12-fixed-collector.cjs",
@@ -304,8 +304,8 @@
     },
     {
       "path": "deployment/community-production/workflow-production-release-bundle.cjs",
-      "bytes": 31726,
-      "sha256": "0fe3c074095abc1f12aa5405b4a0a8a60cc54b0fa6e599803d8d064b00f73488"
+      "bytes": 30856,
+      "sha256": "0a64ad0a470612c33af79913517848da20fba8e23391422493bd0f55032c1e68"
     },
     {
       "path": "deployment/community-production/workflow-production-secret-authority-contract.cjs",
@@ -320,7 +320,7 @@
     {
       "path": "deployment/community-production/workflow-production-temporary-acceptance.cjs",
       "bytes": 50572,
-      "sha256": "b713ebd064592318171930b4a39ea467b1e45eaf5a9a41d50b9afe00347615ea"
+      "sha256": "588aee55bb4869b65ab96e36bb32d8e88a3a4b56fb74a69ef661552fedd56f71"
     },
     {
       "path": "deployment/community-production/workflow-review-secret.sh",

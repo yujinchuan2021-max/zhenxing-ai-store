@@ -12,9 +12,9 @@ const REVIEWER_ID = "22222222-2222-4222-8222-222222222222";
 const ADMIN_IMAGE = "zhenxing-ai/admin:0.1.40-src-186ff057efd3";
 const EXPECTED_ADMIN_IMAGE_ID = "sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd";
 const PRODUCTION_IDENTITY_CONTRACT = Object.freeze({
-  image: "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e",
-  imageId: "sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748",
-  sourceDigest: "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7"
+  image: "zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8",
+  imageId: "sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01",
+  sourceDigest: "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8"
 });
 const CADDY_IMAGE = "caddy:2.10-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d";
 const REPORT_SCHEMA = "aihub-workflow-temporary-acceptance-v1";

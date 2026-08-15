@@ -96,9 +96,9 @@ test("independent cutover harness binds active7 images and exact prior-image rol
   assert.match(source, /sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd/);
   assert.match(source, /zhenxing-ai\/admin:community-candidate-b6ea4c5bd0e9/);
   assert.match(source, /sha256:a1d976f82230edefb3c39416ba868fa9b50a5ab8db31cdb7a5dadb217bcb06c2/);
-  assert.match(source, /zhenxing-ai\/identity:workflow-readiness-candidate-2a1147346c5e/);
-  assert.match(source, /sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748/);
-  assert.match(source, /2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7/);
+  assert.match(source, /zhenxing-ai\/identity:workflow-readiness-candidate-d9fa8de84dc8/);
+  assert.match(source, /sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01/);
+  assert.match(source, /d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8/);
   assert.match(source, /zhenxing-ai\/identity:workflow-readiness-candidate-19a223a18392/);
   assert.match(source, /sha256:58a5fdd80c026f5dc9fceda4abea3a743ef85cb45b2def10c0df189271251567/);
   assert.match(source, /createWorkflowProductionReleaseBundle/);

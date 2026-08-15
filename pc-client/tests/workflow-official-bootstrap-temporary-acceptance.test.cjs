@@ -26,9 +26,9 @@ test("official full-stack runner freezes the active7/Admin/Identity/source-post 
   const sourcePosts = JSON.parse(read("community/workflow-official-source-posts-candidate.json"));
   assert.equal(ACTIVE_ADMIN_IMAGE, "zhenxing-ai/admin:0.1.40-src-186ff057efd3");
   assert.equal(EXPECTED_ADMIN_IMAGE_ID, "sha256:3ef2569e56c2fc40a0a31bc89c45bed0fa7b19766f6d688bf19527c1645cb9cd");
-  assert.equal(IDENTITY_IMAGE, "zhenxing-ai/identity:workflow-readiness-candidate-2a1147346c5e");
-  assert.equal(EXPECTED_IDENTITY_IMAGE_ID, "sha256:92e2cfb5e7822890681d522d732ecf15d8efcd81af30bdc38ad05bd9b3eb8748");
-  assert.equal(EXPECTED_SOURCE_DIGEST, "2a1147346c5e0dda9533fe803951dc9477141bb9234411bdc71f5c5f11dd50b7");
+  assert.equal(IDENTITY_IMAGE, "zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8");
+  assert.equal(EXPECTED_IDENTITY_IMAGE_ID, "sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01");
+  assert.equal(EXPECTED_SOURCE_DIGEST, "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8");
   assert.deepEqual(bootstrap.workflows.map((item) => item.sourcePostKey), SOURCE_POST_KEYS);
   assert.deepEqual(sourcePosts.posts.map((item) => item.key), SOURCE_POST_KEYS);
   const source = read("deployment/community-production/workflow-official-bootstrap-temporary-acceptance.cjs");

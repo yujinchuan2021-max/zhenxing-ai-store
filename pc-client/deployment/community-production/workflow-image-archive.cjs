@@ -7,6 +7,21 @@ const path = require("node:path");
 
 const BLOCK = 512;
 const DIGEST = /^sha256:([0-9a-f]{64})$/;
+const identityImageArtifact = Object.freeze({
+  source: "output/identity-current-workflow-candidate-20260816-d9fa8de84dc8/identity-image.tar",
+  path: "artifacts/identity-r11-image.tar",
+  bytes: 58_910_720,
+  sha256: "01769b7769bf0f93f3d98c5d864822d2c03937b480b145abb7a456b5a6c8519f",
+  image: "zhenxing-ai/identity:workflow-readiness-candidate-d9fa8de84dc8",
+  imageId: "sha256:981fcf842ab0700697ebfc324e99aac8da8ebc01b6c860a629550acd0d51ac01",
+  configDigest: "sha256:ed2c114916b7aa84069e44d4e55c1bb60fc4efef9d9bbfcfce4f7657b1826dc5",
+  sourceDigest: "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8",
+  sourceRevision: "d9fa8de84dc8170a88bf81dea377e1df6e903fe3a71a5e1199716d624d4b43c8",
+  releaseLabel: "candidate-only-d9fa8de84dc8",
+  user: "node",
+  os: "linux",
+  architecture: "amd64"
+});
 const rollbackIdentityImageArtifact = Object.freeze({
   source: "output/protected-production-image-exports/identity-19a-production-readonly-20260810T035233/zhenxing-ai-identity-19a-production-readonly.tar",
   path: "artifacts/identity-19a-rollback-image.tar",
@@ -263,6 +278,7 @@ if (require.main === module) {
 
 module.exports = {
   flarumImageArtifact,
+  identityImageArtifact,
   oldAdminImageArtifact,
   recoveryArchive,
   rollbackIdentityImageArtifact,
