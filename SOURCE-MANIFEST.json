@@ -4256,7 +4256,7 @@
     {
       "path": "README.md",
       "bytes": 3011,
-      "sha256": "ba0bcb192c31152681b1368bc10fe74ba1cb6d634d92a8359cf092fdccfd3ffb",
+      "sha256": "90d28a357c2b043ce7284af85276266740e5503be1e048e18ce1900725295897",
       "sourceState": "generated-release-metadata"
     },
     {
@@ -4273,8 +4273,8 @@
     },
     {
       "path": "tools/stage-public-source.cjs",
-      "bytes": 26167,
-      "sha256": "73ff5b0b5526713d810bafb8dd2213a35e9b256cbec6517b23da558e3825491c",
+      "bytes": 26169,
+      "sha256": "8b01b7bf7d829c06ce420154f8b703425d422b397f9e7229836b654f1b178988",
       "sourceState": "staging-tool"
     },
     {
@@ -4298,7 +4298,7 @@
   ],
   "totals": {
     "files": 715,
-    "bytes": 22849711
+    "bytes": 22849713
   },
   "safety": {
     "unknown": 0,
