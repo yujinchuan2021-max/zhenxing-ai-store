@@ -92,10 +92,32 @@ function classifyCommunityLoadFailure(errorCode, isMainFrame = true) {
   return { errorClass: "load", messageKey: "community.pageFailed" };
 }
 
+function communityEmbedSessionFailure(error) {
+  if (error?.status === 401 || error?.code === "SESSION_REVOKED") {
+    return {
+      ok: false,
+      error: {
+        code: "SESSION_REVOKED",
+        status: 401,
+        messageKey: "community.sessionExpired"
+      }
+    };
+  }
+  return {
+    ok: false,
+    error: {
+      code: "TEMPORARILY_UNAVAILABLE",
+      status: 503,
+      messageKey: "community.serviceUnavailable"
+    }
+  };
+}
+
 module.exports = {
   approvedCommunityOrigin,
   classifyCommunityLoadFailure,
   communityDiscussionLocation,
+  communityEmbedSessionFailure,
   communityProfileSyncKey,
   isApprovedCommunityNavigation,
   validateCommunityLaunchUrl

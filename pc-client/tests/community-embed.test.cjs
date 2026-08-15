@@ -4,10 +4,12 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
+const vm = require("node:vm");
 const {
   approvedCommunityOrigin,
   classifyCommunityLoadFailure,
   communityDiscussionLocation,
+  communityEmbedSessionFailure,
   communityProfileSyncKey,
   isApprovedCommunityNavigation,
   validateCommunityLaunchUrl
@@ -16,6 +18,108 @@ const {
 const app = fs.readFileSync(path.resolve(__dirname, "../src/App.tsx"), "utf8");
 const main = fs.readFileSync(path.resolve(__dirname, "../electron/main.cjs"), "utf8");
 const styles = fs.readFileSync(path.resolve(__dirname, "../src/styles.css"), "utf8");
+
+function loadPreload(invoke) {
+  const preload = fs.readFileSync(path.resolve(__dirname, "../electron/preload.cjs"), "utf8");
+  const context = vm.createContext({
+    require(specifier) {
+      assert.equal(specifier, "electron");
+      return {
+        contextBridge: {
+          exposeInMainWorld(_name, api) {
+            context.bridge = api;
+          }
+        },
+        ipcRenderer: { invoke, on() {}, removeListener() {} }
+      };
+    },
+    TextEncoder,
+    URL
+  });
+  vm.runInContext(preload, context, { filename: "electron/preload.cjs" });
+  return context.bridge;
+}
+
+test("community IPC failures stay structured instead of becoming Electron errors", async () => {
+  const bridge = loadPreload(async (channel) => {
+    assert.equal(channel, "community:create-embed-session");
+    throw new Error(
+      "Error invoking remote method 'community:create-embed-session': " +
+        "private diagnostic"
+    );
+  });
+
+  const result = await bridge.createCommunityEmbedSession();
+
+  assert.deepEqual(JSON.parse(JSON.stringify(result)), {
+    ok: false,
+    error: {
+      code: "TEMPORARILY_UNAVAILABLE",
+      status: 503,
+      messageKey: "community.serviceUnavailable"
+    }
+  });
+  assert.doesNotMatch(
+    JSON.stringify(result),
+    /community:create-embed-session|Error invoking|diagnostic/i
+  );
+});
+
+test("an expired community session returns to login instead of leaving a false signed-in page", async () => {
+  assert.deepEqual(communityEmbedSessionFailure({ status: 401 }), {
+    ok: false,
+    error: {
+      code: "SESSION_REVOKED",
+      status: 401,
+      messageKey: "community.sessionExpired"
+    }
+  });
+  assert.deepEqual(
+    communityEmbedSessionFailure(
+      Object.assign(new Error("private server detail"), {
+        code: "PRIVATE_DATABASE_FAILURE",
+        status: 500
+      })
+    ),
+    {
+      ok: false,
+      error: {
+        code: "TEMPORARILY_UNAVAILABLE",
+        status: 503,
+        messageKey: "community.serviceUnavailable"
+      }
+    }
+  );
+  assert.doesNotMatch(
+    JSON.stringify(communityEmbedSessionFailure(new Error("private diagnostic"))),
+    /private|diagnostic|database/i
+  );
+
+  const bridge = loadPreload(async () => ({
+    ok: true,
+    value: {
+      launchUrl: "https://evil.example/aihub-sso.php?ticket=private",
+      origin: "https://community.zhenxingai.com",
+      expiresAt: "2026-08-15T12:00:00.000Z"
+    }
+  }));
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(await bridge.createCommunityEmbedSession())),
+    {
+      ok: false,
+      error: {
+        code: "INVALID_IDENTITY_RESPONSE",
+        status: 502,
+        messageKey: "community.invalidResponse"
+      }
+    }
+  );
+
+  assert.match(main, /communityEmbedSessionFailure\(error\)/);
+  assert.match(app, /result\.error\.code === "SESSION_REVOKED"/);
+  assert.match(app, /onSessionRevokedRef\.current\(\)/);
+  assert.match(app, /setEmbed\(result\.value\)/);
+});
 
 test("keeps embedded-community back navigation out of the webview layout flow", () => {
   assert.match(

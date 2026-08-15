@@ -13,7 +13,10 @@ import {
   reconcileDesktopInventoryStage
 } from "@aihub-shared/desktop-inventory-presentation.cjs";
 import { resolveCompletedPackageInstallIntent } from "@aihub-shared/desktop-installer-launch-policy.cjs";
-import { createDownloadTaskRevisionTracker } from "@aihub-shared/download-task-presentation.cjs";
+import {
+  buildDownloadPopoverItems,
+  createDownloadTaskRevisionTracker
+} from "@aihub-shared/download-task-presentation.cjs";
 import { loadDevelopmentCatalog } from "@aihub-shared/development-catalog.cjs";
 import { buildInstalledProductManagement } from "@aihub-shared/installed-product-management.cjs";
 import {
@@ -170,7 +173,12 @@ const FIXED_CLI_LIFECYCLE_PRODUCT_IDS = new Set([
 
 const ALL_FILTER = "全部" as const;
 const RESOURCE_SOURCE_CHANNELS = ["official", "community"] as const;
-const RESOURCE_AGENT_FILTERS = ["all", "compatible", "mature"] as const;
+const RESOURCE_COMPATIBILITY_FILTERS = [
+  "all",
+  "official",
+  "verified",
+  "protocol-compatible"
+] as const;
 const CONTRIBUTION_SCOPES = [
   "vendor",
   "agent",
@@ -181,7 +189,7 @@ const CONTRIBUTION_SCOPES = [
   "workflow"
 ] as const;
 type ResourceSourceChannel = (typeof RESOURCE_SOURCE_CHANNELS)[number];
-type ResourceAgentFilter = (typeof RESOURCE_AGENT_FILTERS)[number];
+type ResourceCompatibilityFilter = (typeof RESOURCE_COMPATIBILITY_FILTERS)[number];
 type ResourceMarketplaceEntry = {
   resource: EcosystemResource;
   publisher: { id: string | null; name: string } | null;
@@ -194,8 +202,16 @@ type ResourceMarketplace = {
     category?: string;
     hostId?: string;
     source?: ResourceSourceChannel | "all";
+    compatibility?: ResourceCompatibilityFilter;
   }) => ResourceMarketplaceEntry[];
   detail: (resourceId: string) => ResourceMarketplaceEntry | null;
+  facets: (query?: {
+    store?: ResourceStoreKind | "all";
+    source?: ResourceSourceChannel | "all";
+  }) => {
+    scenarios: Record<string, number>;
+    compatibility: Record<Exclude<ResourceCompatibilityFilter, "all">, number>;
+  };
 };
 const createMarketplace = createResourceMarketplace as (input: {
   resources: EcosystemResource[];
@@ -676,6 +692,8 @@ export default function App() {
   const [scanning, setScanning] = useState(false);
   const [checkingUpdate, setCheckingUpdate] = useState(false);
   const [updateResult, setUpdateResult] = useState<UpdateCheckResult | null>(null);
+  const [softwareUpdateResult, setSoftwareUpdateResult] =
+    useState<SoftwareUpdateCheckResult | null>(null);
   const [installingUpdate, setInstallingUpdate] = useState(false);
   const [updateInstallMessage, setUpdateInstallMessage] = useState("");
   const [environmentMessages, setEnvironmentMessages] = useState<
@@ -869,6 +887,15 @@ export default function App() {
     }
     return names;
   }, [catalogAllVendors, language]);
+  const downloadPopover = useMemo(
+    () =>
+      buildDownloadPopoverItems({
+        names: downloadTaskNames,
+        queueTasks: managedDownloadQueueTasks,
+        legacyTasks: downloadTasks
+      }),
+    [downloadTaskNames, downloadTasks, managedDownloadQueueTasks]
+  );
   const installedManagement = useMemo(
     () =>
       buildInstalledProductManagement({
@@ -876,7 +903,8 @@ export default function App() {
         localInventory,
         desktopStatuses,
         cliStatuses,
-        environmentChecks: environment?.checks || [],
+        environmentChecks:
+          environment?.displayChecks || environment?.checks || [],
         wslDistributions: environment?.wslDistributions || [],
         downloadTasks,
         managedDownloadQueueTasks,
@@ -1828,12 +1856,33 @@ export default function App() {
   useEffect(() => {
     if (!window.aihubPC || initialInventoryRecovered.current) return;
     initialInventoryRecovered.current = true;
-    void window.aihubPC
-      .scanManagedInventory()
-      .then(applyManagedInventory)
-      .catch(() => {
+    let active = true;
+    void (async () => {
+      const updateResult = await window.aihubPC!.checkSoftwareUpdates();
+      if (active) setSoftwareUpdateResult(updateResult);
+      const [inventoryResult] = await Promise.allSettled([
+        window.aihubPC!.scanManagedInventory(),
+        refreshEnvironmentReport(false)
+      ]);
+      if (active && inventoryResult.status === "fulfilled") {
+        applyManagedInventory(inventoryResult.value);
+      }
+      if (inventoryResult.status === "rejected") {
         initialInventoryRecovered.current = false;
-      });
+      }
+    })().catch(() => {
+      initialInventoryRecovered.current = false;
+      if (active) {
+        setSoftwareUpdateResult({
+          status: "error",
+          publishedEntries: 0,
+          message: uiText("softwareUpdates.checkFailed")
+        });
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -4161,6 +4210,10 @@ export default function App() {
     }
   };
 
+  useEffect(() => {
+    void checkForUpdate().catch(() => undefined);
+  }, []);
+
   const installUpdate = async () => {
     if (!window.aihubPC || installingUpdate) return;
     setInstallingUpdate(true);
@@ -4323,6 +4376,8 @@ export default function App() {
     ]);
     setScanning(true);
     try {
+      const softwareResult = await window.aihubPC.checkSoftwareUpdates();
+      setSoftwareUpdateResult(softwareResult);
       const [environmentResult, inventoryResult, downloadResult] =
         await Promise.allSettled([
         refreshEnvironmentReport(false),
@@ -4461,15 +4516,19 @@ export default function App() {
           [environmentId]: "ready"
         }));
       }
-      setManagementMessage(
-        `environment-update:${environmentId}`,
-        result.error || result.message || ""
-      );
+      const message = result.error || result.message || "";
+      setManagementMessage(`environment-update:${environmentId}`, message);
+      setEnvironmentMessages((current) => ({
+        ...current,
+        [environmentId]: message
+      }));
     } catch {
-      setManagementMessage(
-        `environment-update:${environmentId}`,
-        uiText("environment.updateFailed")
-      );
+      const message = uiText("environment.updateFailed");
+      setManagementMessage(`environment-update:${environmentId}`, message);
+      setEnvironmentMessages((current) => ({
+        ...current,
+        [environmentId]: message
+      }));
     }
   };
 
@@ -4478,15 +4537,19 @@ export default function App() {
     try {
       const result = await window.aihubPC.openEnvironmentUpdater(environmentId);
       if (result.operationTask) applyEnvironmentOperationTask(result.operationTask);
-      setManagementMessage(
-        `environment-update:${environmentId}`,
-        result.error || result.message || result.warning || ""
-      );
+      const message = result.error || result.message || result.warning || "";
+      setManagementMessage(`environment-update:${environmentId}`, message);
+      setEnvironmentMessages((current) => ({
+        ...current,
+        [environmentId]: message
+      }));
     } catch {
-      setManagementMessage(
-        `environment-update:${environmentId}`,
-        uiText("environment.updaterOpenFailed")
-      );
+      const message = uiText("environment.updaterOpenFailed");
+      setManagementMessage(`environment-update:${environmentId}`, message);
+      setEnvironmentMessages((current) => ({
+        ...current,
+        [environmentId]: message
+      }));
     }
   };
 
@@ -4587,6 +4650,55 @@ export default function App() {
           <button className="quietButton" onClick={() => setSettingsOpen(true)}>
             ⚙ {t.settings}
           </button>
+          <details className="downloadMenu" data-aihub-download-menu>
+            <summary
+              aria-label={uiText("downloadMenu.title")}
+              title={uiText("downloadMenu.title")}
+            >
+              <span aria-hidden="true">↓</span>
+              {downloadPopover.activeCount > 0 && (
+                <b>{Math.min(99, downloadPopover.activeCount)}</b>
+              )}
+            </summary>
+            <div className="downloadPopover">
+              <header>
+                <strong>{uiText("downloadMenu.title")}</strong>
+                <small>{uiText("downloadMenu.count", { value1: downloadPopover.totalCount })}</small>
+              </header>
+              {downloadPopover.items.length === 0 ? (
+                <p>{uiText("downloadMenu.empty")}</p>
+              ) : (
+                <div className="downloadPopoverList">
+                  {downloadPopover.items.slice(0, 5).map((item) => (
+                    <article key={`${item.source}:${item.id}`} data-aihub-download-item={item.productId}>
+                      <div>
+                        <b>{item.name}</b>
+                        <small>
+                          {item.state === "completed"
+                            ? uiText("downloadMenu.completed")
+                            : item.state === "failed"
+                              ? uiText("downloadMenu.failed")
+                              : uiText("downloadMenu.inProgress")}
+                        </small>
+                      </div>
+                      {item.percent !== null && item.state === "active" && (
+                        <span>{item.percent}%</span>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.currentTarget.closest("details")?.removeAttribute("open");
+                  openInstalledManagement();
+                }}
+              >
+                {uiText("downloadMenu.viewAll")}
+              </button>
+            </div>
+          </details>
           {identity.status === "authenticated" && (
             <button
               className="notificationButton"
@@ -4865,9 +4977,12 @@ export default function App() {
               language={language}
               productStages={productStages}
               productErrors={productErrors}
-              environmentChecks={environment?.checks || []}
+              environmentChecks={
+                environment?.displayChecks || environment?.checks || []
+              }
               environmentPackageStages={environmentPackageStages}
               scanning={scanning}
+              softwareUpdateResult={softwareUpdateResult}
               onRefresh={refreshInstalledManagement}
               onOpen={openManagedProduct}
               onClose={closeManagedProduct}
@@ -4878,6 +4993,31 @@ export default function App() {
               onGetLatest={(entry) =>
                 void openCompletedDownloadTask(entry.id, "refresh")
               }
+              onUpdateDesktop={async (entry) => {
+                if (!window.aihubPC) return;
+                try {
+                  const result = await window.aihubPC.updateDesktopProduct(entry.id);
+                  setManagementMessage(
+                    entry.id,
+                    result.ok
+                      ? uiText("softwareUpdates.updateStarted")
+                      : result.error || uiText("softwareUpdates.updateFailed")
+                  );
+                  await refreshInstalledManagement();
+                } catch (error) {
+                  setManagementMessage(
+                    entry.id,
+                    error instanceof Error
+                      ? error.message
+                      : uiText("softwareUpdates.updateFailed")
+                  );
+                }
+              }}
+              onUpdateCli={async (entry) => {
+                const product = resolveProductActionContext(entry.id, true);
+                if (!product) return;
+                await requestCliReconcile(product, "update");
+              }}
               onReinstallEnvironment={(entry) =>
                 void openCompletedDownloadTask(entry.id)
               }
@@ -4934,6 +5074,11 @@ export default function App() {
               language={language}
               community={catalogCommunity}
               onLogin={() => setAuthOpen(true)}
+              onSessionRevoked={() => {
+                setIdentity({ status: "anonymous" });
+                setPersonalCenter(null);
+                setAuthOpen(true);
+              }}
               targetPath={communityTargetPath}
               onTargetConsumed={() => setCommunityTargetPath("")}
               onBack={() => {
@@ -4998,6 +5143,8 @@ export default function App() {
           onOpenEnvironmentInstaller={openEnvironmentInstaller}
           onOpenEnvironmentLocation={openEnvironmentLocation}
           onUninstallEnvironment={uninstallEnvironment}
+          onUpdateEnvironment={updateManagedEnvironment}
+          onOpenEnvironmentUpdater={openManagedEnvironmentUpdater}
           onResumeDownloadTask={resumeDownloadTask}
           onPauseDownloadTask={pauseDownloadTask}
           onCancelDownloadTask={cancelDownloadTask}
@@ -6108,8 +6255,8 @@ function ResourceStorePage({
     useState<ResourceSourceChannel>("official");
   const [scenarioTag, setScenarioTag] = useState<string>(ALL_FILTER);
   const [hostId, setHostId] = useState<string>(ALL_FILTER);
-  const [agentFilter, setAgentFilter] =
-    useState<ResourceAgentFilter>("all");
+  const [compatibilityFilter, setCompatibilityFilter] =
+    useState<ResourceCompatibilityFilter>("all");
   const store = resourceStores.find((candidate) => candidate.id === kind) || null;
   const marketplace = useMemo(
     () => createMarketplace({ resources, vendors, connections }),
@@ -6118,6 +6265,15 @@ function ResourceStorePage({
   const sourceEntries = store
     ? marketplace.browse({ store: store.id, source: sourceChannel })
     : [];
+  const filterFacets = store
+    ? marketplace.facets({ store: store.id, source: sourceChannel })
+    : { scenarios: {}, compatibility: { official: 0, verified: 0, "protocol-compatible": 0 } };
+  const scenarioOptions = SCENARIO_TAGS.filter(
+    (tag) => (filterFacets.scenarios[tag.id] || 0) > 0
+  );
+  const compatibilityOptions = RESOURCE_COMPATIBILITY_FILTERS.filter(
+    (value) => value === "all" || filterFacets.compatibility[value] > 0
+  );
   const hostOptions = [...new Map(
     sourceEntries.flatMap(({ hosts }) =>
       hosts.map(({ product }) => [product.id, product] as const)
@@ -6128,6 +6284,16 @@ function ResourceStorePage({
       setHostId(ALL_FILTER);
     }
   }, [hostId, hostOptions]);
+  useEffect(() => {
+    if (scenarioTag !== ALL_FILTER && !scenarioOptions.some((tag) => tag.id === scenarioTag)) {
+      setScenarioTag(ALL_FILTER);
+    }
+  }, [scenarioOptions, scenarioTag]);
+  useEffect(() => {
+    if (!compatibilityOptions.includes(compatibilityFilter)) {
+      setCompatibilityFilter("all");
+    }
+  }, [compatibilityFilter, compatibilityOptions]);
   if (!store) {
     return (
       <section className="catalogUnavailable" role="status">
@@ -6143,14 +6309,9 @@ function ResourceStorePage({
       category: store.id === "skill" && scenarioTag !== ALL_FILTER
         ? scenarioTag
         : "all",
-      hostId: hostId === ALL_FILTER ? "all" : hostId
-    })
-    .filter(({ hosts }) =>
-      agentFilter === "all" || hosts.some(({ product }) =>
-        (agentFilter === "compatible" && product.agentTag === true) ||
-        (agentFilter === "mature" && product.agentChannel === MATURE_AGENT_CHANNEL)
-      )
-    );
+      hostId: hostId === ALL_FILTER ? "all" : hostId,
+      compatibility: compatibilityFilter
+    });
   const storeLabel = resourceStoreDisplayLabel(store, language);
   const sourceLabel = uiText("resources.channel.store", {
     value1: uiText(`resources.channel.${sourceChannel}` as LanguageKey),
@@ -6274,22 +6435,27 @@ function ResourceStorePage({
               }}
               marker="source-channel"
             />
-            {kind === "skill" && (
+            {kind === "skill" && scenarioOptions.length > 0 ? (
               <FilterRow
                 label={uiText("resources.scenario")}
-                values={[ALL_FILTER, ...SCENARIO_TAGS.map((tag) => tag.id)]}
+                values={[ALL_FILTER, ...scenarioOptions.map((tag) => tag.id)]}
                 labels={Object.fromEntries([
-                  [ALL_FILTER, uiText("resources.filter.all")],
-                  ...SCENARIO_TAGS.map((tag) => [
+                  [ALL_FILTER, `${uiText("resources.filter.all")} (${sourceEntries.length})`],
+                  ...scenarioOptions.map((tag) => [
                     tag.id,
-                    uiText(`resources.scenario.${tag.id}` as LanguageKey)
+                    `${uiText(`resources.scenario.${tag.id}` as LanguageKey)} (${filterFacets.scenarios[tag.id]})`
                   ])
                 ])}
                 active={scenarioTag}
                 onChange={setScenarioTag}
                 marker="scenario"
               />
-            )}
+            ) : kind === "skill" ? (
+              <div className="filterRow resourceFilterUnavailable" data-aihub-resource-filter="scenario">
+                <b>{uiText("resources.scenario")}</b>
+                <span>{uiText("resources.scenarioUnavailable")}</span>
+              </div>
+            ) : null}
             <FilterRow
               label={uiText("resources.hostFilter")}
               values={[ALL_FILTER, ...hostOptions.map((product) => product.id)]}
@@ -6305,16 +6471,19 @@ function ResourceStorePage({
               marker="host"
             />
             <FilterRow
-              label={uiText("resources.agent")}
-              values={RESOURCE_AGENT_FILTERS}
-              labels={{
-                all: uiText("resources.filter.all"),
-                compatible: uiText("resources.agent.compatible"),
-                mature: uiText("resources.agent.mature")
-              }}
-              active={agentFilter}
-              onChange={(value) => setAgentFilter(value as ResourceAgentFilter)}
-              marker="agent"
+              label={uiText("resources.compatibilityFilter")}
+              values={compatibilityOptions}
+              labels={Object.fromEntries(
+                compatibilityOptions.map((value) => [
+                  value,
+                  value === "all"
+                    ? `${uiText("resources.filter.all")} (${sourceEntries.length})`
+                    : `${uiText(`resources.compatibility.${value}` as LanguageKey)} (${filterFacets.compatibility[value]})`
+                ])
+              )}
+              active={compatibilityFilter}
+              onChange={(value) => setCompatibilityFilter(value as ResourceCompatibilityFilter)}
+              marker="compatibility"
             />
           </div>
           {filteredEntries.length === 0 ? (
@@ -9711,6 +9880,7 @@ function FlarumCommunityPage({
   language,
   community,
   onLogin,
+  onSessionRevoked,
   targetPath,
   onTargetConsumed,
   onBack
@@ -9720,6 +9890,7 @@ function FlarumCommunityPage({
   language: Language;
   community: CatalogCommunity | null;
   onLogin: () => void;
+  onSessionRevoked: () => void;
   targetPath: string;
   onTargetConsumed: () => void;
   onBack: () => void;
@@ -9733,6 +9904,7 @@ function FlarumCommunityPage({
   const webviewRecoveringRef = useRef(false);
   const webviewRecoveryCountRef = useRef(0);
   const onTargetConsumedRef = useRef(onTargetConsumed);
+  const onSessionRevokedRef = useRef(onSessionRevoked);
   const communityThemeRef = useRef(theme);
   const communityLanguageRef = useRef(language);
   const [embed, setEmbed] = useState<CommunityEmbedSession | null>(null);
@@ -9743,6 +9915,7 @@ function FlarumCommunityPage({
   const communityText = createLanguage(language);
   const profileSyncKey = communityProfileSyncKey(identity);
   onTargetConsumedRef.current = onTargetConsumed;
+  onSessionRevokedRef.current = onSessionRevoked;
   communityThemeRef.current = theme;
   communityLanguageRef.current = language;
 
@@ -9786,10 +9959,22 @@ function FlarumCommunityPage({
     webviewLaunchRef.current = "";
     window.aihubPC
       .createCommunityEmbedSession()
-      .then((session) => {
+      .then((result) => {
         if (!canceled) {
           webviewRecoveringRef.current = false;
-          setEmbed(session);
+          if (!result.ok) {
+            if (result.error.code === "SESSION_REVOKED") {
+              onSessionRevokedRef.current();
+            } else {
+              setError(
+                createLanguage(communityLanguageRef.current).text(
+                  result.error.messageKey
+                )
+              );
+            }
+            return;
+          }
+          setEmbed(result.value);
         }
       })
       .catch((cause) => {
@@ -10212,12 +10397,15 @@ function InstalledProductsPage({
   environmentChecks,
   environmentPackageStages,
   scanning,
+  softwareUpdateResult,
   onRefresh,
   onOpen,
   onClose,
   onOpenFiles,
   onReinstall,
   onGetLatest,
+  onUpdateDesktop,
+  onUpdateCli,
   onReinstallEnvironment,
   onUninstall,
   onUpdateEnvironment,
@@ -10236,6 +10424,7 @@ function InstalledProductsPage({
   environmentChecks: EnvironmentCheck[];
   environmentPackageStages: Record<string, EnvironmentPackageStage>;
   scanning: boolean;
+  softwareUpdateResult: SoftwareUpdateCheckResult | null;
   onRefresh: () => Promise<void>;
   onOpen: (
     entry: ReturnType<
@@ -10262,6 +10451,16 @@ function InstalledProductsPage({
       typeof buildInstalledProductManagement
     >["products"][number]
   ) => void;
+  onUpdateDesktop: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["products"][number]
+  ) => Promise<void>;
+  onUpdateCli: (
+    entry: ReturnType<
+      typeof buildInstalledProductManagement
+    >["products"][number]
+  ) => Promise<void>;
   onReinstallEnvironment: (
     entry: ReturnType<
       typeof buildInstalledProductManagement
@@ -10301,6 +10500,8 @@ function InstalledProductsPage({
     | "uninstall"
     | "prepare-update"
     | "open-updater"
+    | "desktop-update"
+    | "cli-update"
     | "show-package"
     | "delete-package";
   const [managementBusy, setManagementBusy] = useState<
@@ -10336,6 +10537,7 @@ function InstalledProductsPage({
     profileId: string;
     action: ExtensionRuntimeAction;
   } | null>(null);
+  const [updatingAll, setUpdatingAll] = useState(false);
 
   const refreshExtensionInventory = async () => {
     const api = window.aihubPC;
@@ -10400,6 +10602,65 @@ function InstalledProductsPage({
     }
   };
 
+  const productUpdates = management.products.filter(
+    (entry) =>
+      entry.canUpdate === true &&
+      (entry.type === "desktop" || entry.type === "cli")
+  );
+  const environmentUpdates = environmentChecks.filter(
+    (check) => check.installed && check.canUpdate === true
+  );
+  const extensionUpdates = extensionInventory.filter((entry) =>
+    entry.allowedActions.includes("update")
+  );
+  const availableUpdateCount =
+    productUpdates.length + environmentUpdates.length + extensionUpdates.length;
+
+  const updateAllInstalled = async () => {
+    if (
+      updatingAll ||
+      scanning ||
+      extensionBusy !== null ||
+      managementBusyKeys.current.size > 0 ||
+      availableUpdateCount === 0
+    ) {
+      return;
+    }
+    setUpdatingAll(true);
+    try {
+      for (const entry of productUpdates) {
+        try {
+          await runManagementAction(
+            entry.id,
+            entry.type === "cli" ? "cli-update" : "desktop-update",
+            () => entry.type === "cli" ? onUpdateCli(entry) : onUpdateDesktop(entry)
+          );
+        } catch {
+          // Each product action owns its safe, user-visible failure message.
+        }
+      }
+      for (const check of environmentUpdates) {
+        const environmentId = check.updateEnvironmentId || check.id;
+        try {
+          await runManagementAction(
+            `environment:${environmentId}`,
+            "prepare-update",
+            () => onUpdateEnvironment(environmentId)
+          );
+        } catch {
+          // Environment update preparation reports its own bounded error.
+        }
+      }
+      for (const entry of extensionUpdates) {
+        await runExtensionInventoryAction(entry, "update");
+      }
+      await onRefresh();
+      await refreshExtensionInventory();
+    } finally {
+      setUpdatingAll(false);
+    }
+  };
+
   return (
     <section className="installedManagementPage">
       <header className="pageHeader managementHeader">
@@ -10408,9 +10669,33 @@ function InstalledProductsPage({
           <h2>{uiText("auto.6b8e74aca534")}</h2>
           <p>{uiText("auto.c23f887504cb")}</p>
         </div>
-        <button disabled={scanning} onClick={() => void onRefresh()}>
-          {scanning ? uiText("auto.71659de804df") : uiText("auto.802a407c7743")}
-        </button>
+        <div className="managementHeaderActions">
+          <small data-aihub-software-update-status={softwareUpdateResult?.status || "checking"}>
+            {softwareUpdateResult?.message || uiText("softwareUpdates.checking")}
+          </small>
+          <button
+            className="accentButton"
+            type="button"
+            data-aihub-action="update-all-installed"
+            disabled={
+              updatingAll ||
+              scanning ||
+              availableUpdateCount === 0 ||
+              extensionBusy !== null ||
+              Object.keys(managementBusy).length > 0
+            }
+            onClick={() => void updateAllInstalled()}
+          >
+            {updatingAll
+              ? uiText("softwareUpdates.updatingAll")
+              : uiText("softwareUpdates.updateAll", {
+                  count: availableUpdateCount
+                })}
+          </button>
+          <button disabled={scanning || updatingAll} onClick={() => void onRefresh()}>
+            {scanning ? uiText("auto.71659de804df") : uiText("auto.802a407c7743")}
+          </button>
+        </div>
       </header>
 
       <div className="managementList">
@@ -10422,9 +10707,11 @@ function InstalledProductsPage({
             const environmentCheck = environmentChecks.find(
               (check) => check.id === environmentId
             );
+            const updateEnvironmentId =
+              environmentCheck?.updateEnvironmentId || environmentId;
             const updateReady = Boolean(
-              environmentId &&
-              environmentPackageStages[environmentId] === "ready"
+              updateEnvironmentId &&
+              environmentPackageStages[updateEnvironmentId] === "ready"
             );
             return (
             <article className="managementCard" key={entry.id}>
@@ -10448,11 +10735,18 @@ function InstalledProductsPage({
                 {entry.updateOwner && (
                   <small>{desktopUpdateOwnerLabel(entry.updateOwner)}</small>
                 )}
+                {entry.canUpdate && entry.availableVersion && (
+                  <small>
+                    {uiText("desktop.updateAvailable", {
+                      value1: entry.availableVersion
+                    })}
+                  </small>
+                )}
                 {environmentCheck?.canUpdate && environmentCheck.recommendedVersion && (
                   <small>{uiText("environment.recommendedVersion", { value1: environmentCheck.recommendedVersion })}</small>
                 )}
-                {messages[`environment-update:${environmentId}`] && (
-                  <small>{runtimeMessage(messages[`environment-update:${environmentId}`])}</small>
+                {messages[`environment-update:${updateEnvironmentId}`] && (
+                  <small>{runtimeMessage(messages[`environment-update:${updateEnvironmentId}`])}</small>
                 )}
               </div>
               <div className="managementActions">
@@ -10480,8 +10774,38 @@ function InstalledProductsPage({
                     {managementBusy[entry.id] === "open-files" ? uiText("management.openingFiles") : uiText("auto.b3bd5ac7cc4d")}
                   </button>
                 )}
-                {entry.canReinstall && !environmentCheck?.canUpdate && (
+                {entry.canReinstall && !environmentCheck?.canUpdate && !entry.canUpdate && (
                   <button onClick={() => onReinstall(entry)}>{uiText("auto.453ad482ccef")}</button>
+                )}
+                {entry.type === "desktop" && entry.canUpdate && (
+                  <button
+                    className="accentButton"
+                    data-aihub-action="update-installed-desktop"
+                    disabled={Boolean(managementBusy[entry.id])}
+                    onClick={() => void runManagementAction(
+                      entry.id,
+                      "desktop-update",
+                      () => onUpdateDesktop(entry)
+                    )}
+                  >
+                    {uiText("environment.update")}
+                  </button>
+                )}
+                {entry.type === "cli" && entry.canUpdate && (
+                  <button
+                    className="accentButton"
+                    data-aihub-action="update-installed-cli"
+                    disabled={Boolean(managementBusy[entry.id])}
+                    onClick={() => void runManagementAction(
+                      entry.id,
+                      "cli-update",
+                      () => onUpdateCli(entry)
+                    )}
+                  >
+                    {managementBusy[entry.id] === "cli-update"
+                      ? uiText("softwareUpdates.updating")
+                      : uiText("environment.update")}
+                  </button>
                 )}
                 {environmentCheck?.canUpdate && (
                   <button
@@ -10491,8 +10815,8 @@ function InstalledProductsPage({
                       entry.id,
                       updateReady ? "open-updater" : "prepare-update",
                       () => updateReady
-                        ? onOpenEnvironmentUpdater(environmentId)
-                        : onUpdateEnvironment(environmentId)
+                        ? onOpenEnvironmentUpdater(updateEnvironmentId)
+                        : onUpdateEnvironment(updateEnvironmentId)
                     )}
                   >
                     {managementBusy[entry.id] === "prepare-update"
@@ -10504,7 +10828,7 @@ function InstalledProductsPage({
                           : uiText("environment.update")}
                   </button>
                 )}
-                {entry.canGetLatest && (
+                {entry.canGetLatest && !entry.canUpdate && (
                   <button onClick={() => onGetLatest(entry)}>
                     {uiText("desktop.getLatestInstaller")}
                   </button>
@@ -10773,6 +11097,8 @@ function SettingsPanel({
   onOpenEnvironmentInstaller,
   onOpenEnvironmentLocation,
   onUninstallEnvironment,
+  onUpdateEnvironment,
+  onOpenEnvironmentUpdater,
   onResumeDownloadTask,
   onPauseDownloadTask,
   onCancelDownloadTask,
@@ -10825,6 +11151,8 @@ function SettingsPanel({
   onOpenEnvironmentInstaller: (environmentId: string) => void;
   onOpenEnvironmentLocation: (environmentId: string) => void;
   onUninstallEnvironment: (environmentId: string) => void;
+  onUpdateEnvironment: (environmentId: string) => Promise<void>;
+  onOpenEnvironmentUpdater: (environmentId: string) => Promise<void>;
   onResumeDownloadTask: (productId: string) => void;
   onPauseDownloadTask: (productId: string) => void;
   onCancelDownloadTask: (productId: string, trigger: HTMLButtonElement) => void;
@@ -11383,15 +11711,31 @@ function SettingsPanel({
           </button>
           {environment && (
             <div className="environmentList">
-              {environment.checks.map((check) => {
+              {(environment.displayChecks || environment.checks).map((check) => {
+                const updateEnvironmentId =
+                  check.updateEnvironmentId || check.id;
                 const environmentStage =
                   environmentPackageStages[check.id];
+                const updateStage =
+                  environmentPackageStages[updateEnvironmentId];
+                const actionStage =
+                  check.installed && check.canUpdate
+                    ? updateStage
+                    : environmentStage;
                 const environmentDownloadTask =
-                  downloadTasks[`environment:${check.id}`];
+                  downloadTasks[
+                    `environment:${
+                      check.installed && check.canUpdate
+                        ? updateEnvironmentId
+                        : check.id
+                    }`
+                  ];
                 const operationBusy =
-                  environmentStageIsBusy(environmentStage);
+                  environmentStageIsBusy(environmentStage) ||
+                  environmentStageIsBusy(updateStage);
                 const operationNeedsCheck =
                   environmentStageNeedsCheck(environmentStage);
+                const updateReady = updateStage === "ready";
                 return (
                   <div key={check.id}>
                     <span
@@ -11400,13 +11744,34 @@ function SettingsPanel({
                     <b>{check.name}</b>
                     <small>
                       {check.installed
-                        ? uiText("auto.a8b6c39dcabf")
+                        ? check.canUpdate
+                          ? uiText("environment.updateAvailable")
+                          : uiText("auto.a8b6c39dcabf")
                         : check.detection === "unknown"
                           ? uiText("auto.89a7e9d49a47")
                           : uiText("auto.156219e305f6")}
                     </small>
                     {check.installed ? (
                       <>
+                        {check.canUpdate && (
+                          <button
+                            className="accentButton"
+                            data-aihub-action="update-environment"
+                            data-aihub-update-environment-id={updateEnvironmentId}
+                            disabled={operationBusy}
+                            onClick={() =>
+                              updateReady
+                                ? onOpenEnvironmentUpdater(updateEnvironmentId)
+                                : onUpdateEnvironment(updateEnvironmentId)
+                            }
+                          >
+                            {environmentInstallButtonLabel(
+                              actionStage,
+                              check.name,
+                              uiText("environment.update")
+                            )}
+                          </button>
+                        )}
                         <button
                           disabled={!check.location || operationBusy}
                           onClick={() => onOpenEnvironmentLocation(check.id)}
@@ -11466,8 +11831,23 @@ function SettingsPanel({
                             : uiText("auto.6afefc66ccdd")}
                         </button>
                       )}
-                    {environmentMessages[check.id] && (
-                      <em>{runtimeMessage(environmentMessages[check.id])}</em>
+                    {check.canUpdate && check.recommendedVersion && (
+                      <small>
+                        {uiText("environment.recommendedVersion", {
+                          value1: check.recommendedVersion
+                        })}
+                      </small>
+                    )}
+                    {environmentMessages[
+                      check.canUpdate ? updateEnvironmentId : check.id
+                    ] && (
+                      <em>
+                        {runtimeMessage(
+                          environmentMessages[
+                            check.canUpdate ? updateEnvironmentId : check.id
+                          ]
+                        )}
+                      </em>
                     )}
                   </div>
                 );

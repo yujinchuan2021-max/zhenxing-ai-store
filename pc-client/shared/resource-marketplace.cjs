@@ -33,6 +33,11 @@ const BINDING_RESOURCE_TYPE = Object.freeze({
   "plugin-host-extension": "plugin",
   "connector-authorized-connection": "connector"
 });
+const COMPATIBILITY_VALUES = new Set([
+  "official",
+  "verified",
+  "protocol-compatible"
+]);
 
 function createResourceMarketplace({ resources, vendors, connections = [] }) {
   const catalogResources = Array.isArray(resources) ? resources : [];
@@ -162,7 +167,7 @@ function createResourceMarketplace({ resources, vendors, connections = [] }) {
     );
   const byId = new Map(entries.map((entry) => [entry.resource.id, entry]));
 
-  function browse({ store = "all", category = "all", hostId = "all", source = "all" } = {}) {
+  function browse({ store = "all", category = "all", hostId = "all", source = "all", compatibility = "all" } = {}) {
     if (store !== "all") store = normalizeResourceStoreKind(store);
     if (source !== "all") source = normalizeResourceSourceChannel(source);
     if (category !== "all") {
@@ -173,11 +178,17 @@ function createResourceMarketplace({ resources, vendors, connections = [] }) {
     if (typeof hostId !== "string" || !hostId) {
       throw new Error("resource marketplace host invalid");
     }
+    if (compatibility !== "all" && !COMPATIBILITY_VALUES.has(compatibility)) {
+      throw new Error("resource marketplace compatibility invalid");
+    }
 
     return entries.filter(({ resource, hosts }) =>
       (store === "all" || resource.resourceTypes?.includes(store)) &&
       (category === "all" || canonicalScenarioTags(resource.scenarioTags).includes(category)) &&
-      (hostId === "all" || hosts.some(({ product }) => product.id === hostId)) &&
+      hosts.some(({ product, target }) =>
+        (hostId === "all" || product.id === hostId) &&
+        (compatibility === "all" || target.compatibility === compatibility)
+      ) &&
       (source === "all" || resourceSourceChannel(resource) === source)
     );
   }
@@ -186,7 +197,28 @@ function createResourceMarketplace({ resources, vendors, connections = [] }) {
     return typeof resourceId === "string" ? byId.get(resourceId) || null : null;
   }
 
-  return Object.freeze({ browse, detail });
+  function facets({ store = "all", source = "all" } = {}) {
+    const scenarios = {};
+    const compatibility = {
+      official: 0,
+      verified: 0,
+      "protocol-compatible": 0
+    };
+    for (const entry of browse({ store, source })) {
+      for (const tag of canonicalScenarioTags(entry.resource.scenarioTags)) {
+        scenarios[tag] = (scenarios[tag] || 0) + 1;
+      }
+      const seen = new Set(
+        entry.hosts
+          .map(({ target }) => target.compatibility)
+          .filter((value) => COMPATIBILITY_VALUES.has(value))
+      );
+      for (const value of seen) compatibility[value] += 1;
+    }
+    return { scenarios, compatibility };
+  }
+
+  return Object.freeze({ browse, detail, facets });
 }
 
 module.exports = { createResourceMarketplace };

@@ -1156,6 +1156,13 @@ const fixtureApi = {
     return submissionSuccess(ownerSubmission({ status: "withdrawn", expectedRevision: submissionRevision, allowedActions: [] }));
   },
   getCatalog: getFixtureCatalog,
+  checkSoftwareUpdates: async () => ({
+    status: "available",
+    releaseVersion: 1,
+    publishedAt: now,
+    publishedEntries: 1,
+    message: "后台已发布 1 项软件更新"
+  }),
   scanManagedInventory: async () => ({
     checkedAt: now,
     profiles: [

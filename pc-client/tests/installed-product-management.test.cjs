@@ -142,19 +142,10 @@ test("builds one catalog-driven management model for desktop, CLI, environments 
       canInstall: true
     }
   ]);
-  assert.deepEqual(result.reinstallableEnvironments, [
-    {
-      id: "environment:python",
-      environmentId: "python",
-      name: "Python",
-      vendorName: "运行环境",
-      type: "environment",
-      packageReady: false
-    }
-  ]);
+  assert.deepEqual(result.reinstallableEnvironments, []);
 });
 
-test("keeps an absent environment reinstallable with a cached installer", () => {
+test("keeps an absent environment out of installed management even with a cached installer", () => {
   const result = buildInstalledProductManagement({
     environmentChecks: [
       {
@@ -173,16 +164,86 @@ test("keeps an absent environment reinstallable with a cached installer", () => 
     }
   });
 
-  assert.deepEqual(result.reinstallableEnvironments, [
-    {
-      id: "environment:node",
-      environmentId: "node",
-      name: "Node.js",
-      vendorName: "运行环境",
-      type: "environment",
-      packageReady: true
+  assert.deepEqual(result.reinstallableEnvironments, []);
+});
+
+test("does not list an absent environment as an installed or reinstallable product", () => {
+  const result = buildInstalledProductManagement({
+    environmentChecks: [
+      {
+        id: "python",
+        name: "Python 3.13",
+        installed: false,
+        detection: "absent"
+      }
+    ]
+  });
+
+  assert.deepEqual(result.products, []);
+  assert.deepEqual(result.reinstallableEnvironments, []);
+});
+
+test("projects a desktop update only from a trusted package-manager version offer", () => {
+  const result = buildInstalledProductManagement({
+    vendors: [
+      {
+        id: "example",
+        name: "Example",
+        enabled: true,
+        products: [
+          {
+            id: "example-desktop",
+            name: "Example Desktop",
+            productType: "desktop-reviewed",
+            moduleId: "desktop-managed",
+            installProfileId: "desktop.example",
+            capabilities: ["install", "open", "uninstall"]
+          }
+        ]
+      }
+    ],
+    localInventory: [
+      {
+        productId: "example-desktop",
+        productType: "desktop-reviewed",
+        moduleId: "desktop-managed",
+        profileId: "desktop.example",
+        mode: "managed-package-manager",
+        capabilities: ["install", "open", "uninstall"],
+        lifecycle: {
+          updateOwner: "winget",
+          updateStrategy: "package-manager"
+        }
+      }
+    ],
+    desktopStatuses: {
+      "example-desktop": {
+        installed: true,
+        version: "1.0.0",
+        availableVersion: "1.1.0",
+        location: "C:\\Apps\\Example",
+        canOpen: true,
+        canUninstall: true
+      }
     }
-  ]);
+  });
+
+  assert.equal(result.products[0].availableVersion, "1.1.0");
+  assert.equal(result.products[0].canUpdate, true);
+});
+
+test("installed desktop update stays an explicit user action", () => {
+  const source = fs.readFileSync(
+    path.resolve(__dirname, "../src/App.tsx"),
+    "utf8"
+  );
+  const page = source.match(
+    /function InstalledProductsPage\([\s\S]*?function SettingsPanel/
+  )?.[0];
+  assert.ok(page);
+  assert.match(page, /entry\.availableVersion/);
+  assert.match(page, /data-aihub-action="update-installed-desktop"/);
+  assert.match(page, /onUpdateDesktop\(entry\)/);
 });
 
 test("exposes every installed environment's reviewed open action instead of special-casing Docker", () => {
@@ -824,21 +885,7 @@ test("projects receipt ownership, external desktop recovery, CLI, and environmen
       "environment:node": true
     }
   );
-  assert.equal(result.reinstallableEnvironments.length, 1);
-  assert.deepEqual(
-    {
-      id: result.reinstallableEnvironments[0].id,
-      environmentId: result.reinstallableEnvironments[0].environmentId,
-      type: result.reinstallableEnvironments[0].type,
-      packageReady: result.reinstallableEnvironments[0].packageReady
-    },
-    {
-      id: "environment:node",
-      environmentId: "node",
-      type: "environment",
-      packageReady: true
-    }
-  );
+  assert.deepEqual(result.reinstallableEnvironments, []);
 });
 
 test("projects a queued download only after an exact trusted completed-task recheck", () => {

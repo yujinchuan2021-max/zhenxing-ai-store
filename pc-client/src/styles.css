@@ -254,6 +254,7 @@ button:not(:disabled):active {
 }
 
 .notificationButton,
+.downloadMenu > summary,
 .accountButton {
   min-height: 40px;
   border: 1px solid var(--line);
@@ -270,6 +271,108 @@ button:not(:disabled):active {
   place-items: center;
   padding: 0;
   font-size: 20px;
+}
+
+.downloadMenu {
+  position: relative;
+}
+
+.downloadMenu > summary {
+  position: relative;
+  width: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 21px;
+  list-style: none;
+}
+
+.downloadMenu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.downloadMenu > summary b {
+  position: absolute;
+  top: -6px;
+  right: -5px;
+  min-width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+  border: 2px solid var(--paper);
+  border-radius: 999px;
+  color: var(--accent-ink);
+  background: var(--accent);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.downloadPopover {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(360px, calc(100vw - 24px));
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
+}
+
+.downloadPopover header,
+.downloadPopover article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.downloadPopover header small,
+.downloadPopover article small,
+.downloadPopover p {
+  color: var(--muted);
+}
+
+.downloadPopover p {
+  margin: 8px 0;
+}
+
+.downloadPopoverList {
+  display: grid;
+  gap: 4px;
+}
+
+.downloadPopover article {
+  min-width: 0;
+  padding: 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--deep) 4%, var(--surface));
+}
+
+.downloadPopover article > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.downloadPopover article b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.downloadPopover > button {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--paper);
+  font-weight: 800;
+  cursor: pointer;
 }
 
 .notificationButton b {
@@ -1085,6 +1188,11 @@ button:not(:disabled):active {
 
 .resourceStoreFilters .filterRow > div {
   flex-wrap: wrap;
+}
+
+.resourceFilterUnavailable > span {
+  color: var(--muted);
+  font-size: var(--font-small);
 }
 
 .resourceToolCard,
@@ -2013,6 +2121,7 @@ button:not(:disabled):active {
 }
 
 .managementHeader > button,
+.managementHeaderActions button,
 .managementActions button {
   min-height: 40px;
   padding: 0 13px;
@@ -2025,9 +2134,28 @@ button:not(:disabled):active {
   cursor: pointer;
 }
 
-.managementHeader > button:disabled {
+.managementHeader > button:disabled,
+.managementHeaderActions button:disabled {
   color: var(--muted);
   cursor: default;
+}
+
+.managementHeaderActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.managementHeaderActions small {
+  color: var(--muted);
+}
+
+.managementHeaderActions .accentButton {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  background: var(--accent);
 }
 
 .managementList {

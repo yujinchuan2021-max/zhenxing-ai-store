@@ -16,6 +16,7 @@ const state = {
   releaseChannel: "v1",
   releaseData: null,
   validationReport: null,
+  softwareUpdates: null,
   communityAdmin: null,
   productCertifications: {
     revision: 0,
@@ -98,6 +99,7 @@ async function loadCatalog() {
     state.draftRevision = payload.revision;
     state.activeCatalogVersion = payload.activeCatalogVersion;
     state.releaseData = await request("/api/release");
+    state.softwareUpdates = await request("/api/software-updates");
     state.discovery = await request("/api/discovery");
     try {
       state.communityAdmin = await request("/api/community-management");
@@ -1253,6 +1255,81 @@ function renderSections() {
     }`;
 }
 
+const softwareUpdateStatusLabels = {
+  ready: "已检测到审核版本",
+  delegated: "由受信软件源检测版本",
+  "manual-review": "待接入安全更新通道",
+  "vendor-managed": "由软件厂商自行更新"
+};
+
+function renderSoftwareUpdates() {
+  title.textContent = "软件更新中心";
+  const snapshot = state.softwareUpdates || {
+    revision: 0,
+    activeReleaseVersion: 0,
+    scannedAt: null,
+    publishedAt: null,
+    entries: []
+  };
+  const entries = snapshot.entries || [];
+  const publishable = entries.filter((entry) =>
+    ["ready", "delegated"].includes(entry.status)
+  );
+  const selected = publishable.filter((entry) => entry.selected);
+  const manual = entries.filter((entry) => entry.status === "manual-review");
+  const vendorManaged = entries.filter((entry) => entry.status === "vendor-managed");
+  content.innerHTML = `
+    <section class="publishCard softwareUpdateHero">
+      <p class="eyebrow">UNIFIED SOFTWARE UPDATE CENTER</p>
+      <h2>检测、审核并发布软件更新</h2>
+      <p>管理员手动扫描客户端审核注册表和当前目录；只有签名发布后，PC 客户端启动时才会显示“立即更新”。发布清单不包含命令、凭据或任意下载地址。</p>
+      <div class="publishMeta">
+        <span>扫描修订</span><code>r${escapeHtml(snapshot.revision)}</code>
+        <span>活动版本</span><code>v${escapeHtml(snapshot.activeReleaseVersion)}</code>
+        <span>上次检测</span><code>${escapeHtml(snapshot.scannedAt || "尚未检测")}</code>
+        <span>上次发布</span><code>${escapeHtml(snapshot.publishedAt || "尚未发布")}</code>
+      </div>
+      <button class="secondary" data-action="scan-software-updates">检测全部软件</button>
+      <button class="secondary" data-action="save-software-update-review" ${snapshot.scannedAt ? "" : "disabled"}>保存审核</button>
+      <button class="primary" data-action="publish-software-updates" ${snapshot.scannedAt ? "" : "disabled"}>${selected.length ? `一键发布 ${selected.length} 项` : "发布空清单（撤回全部更新）"}</button>
+    </section>
+    <section class="panel">
+      <div class="panelHeader"><h3>检测结果</h3><span>${entries.length} 项 · 可发布 ${publishable.length} · 待接入 ${manual.length} · 厂商管理 ${vendorManaged.length}</span></div>
+      ${entries.length ? `<div class="sourceList softwareUpdateList">${entries.map((entry) => `
+        <div data-software-update-id="${escapeHtml(entry.id)}">
+          <label class="toggleLabel">
+            <input type="checkbox" data-software-update-selection="${escapeHtml(entry.id)}" ${entry.selected ? "checked" : ""} ${["ready", "delegated"].includes(entry.status) ? "" : "disabled"}>
+            <b>${escapeHtml(entry.label)}</b>
+          </label>
+          <span>${escapeHtml(entry.kind)} · ${escapeHtml(entry.mode)} · ${escapeHtml(softwareUpdateStatusLabels[entry.status] || entry.status)}</span>
+          <code>${escapeHtml(entry.detectedVersion || (entry.status === "delegated" ? "客户端软件源实时版本" : "—"))}</code>
+        </div>`).join("")}</div>` : `<div class="empty">尚未检测。点击“检测全部软件”生成审核清单。</div>`}
+    </section>`;
+}
+
+async function saveSoftwareUpdateReview(showToast = true) {
+  try {
+    const snapshot = state.softwareUpdates;
+    const result = await request("/api/software-updates", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        expectedRevision: snapshot.revision,
+        selectedIds: snapshot.entries
+          .filter((entry) => entry.selected)
+          .map((entry) => entry.id)
+      })
+    });
+    state.softwareUpdates = { ...snapshot, ...result };
+    if (showToast) toast("软件更新审核已保存");
+    renderSoftwareUpdates();
+    return true;
+  } catch (error) {
+    toast(error.message, true);
+    return false;
+  }
+}
+
 function renderPublish() {
   title.textContent = "发布设置";
   const publication = state.publication;
@@ -1362,6 +1439,7 @@ function render() {
   if (state.view === "products") renderProducts();
   if (state.view === "resources") renderResources();
   if (state.view === "discovery") renderDiscovery();
+  if (state.view === "software-updates") renderSoftwareUpdates();
   if (state.view === "sections") renderSections();
   if (state.view === "publish") renderPublish();
 }
@@ -1462,7 +1540,44 @@ async function transitionProductCertification(target, status) {
 content.addEventListener("click", async (event) => {
   const target = event.target.closest("button");
   if (!target) return;
-  if (target.dataset.communityAction) {
+  if (target.dataset.action === "scan-software-updates") {
+    target.disabled = true;
+    target.textContent = "正在检测…";
+    try {
+      const result = await request("/api/software-updates/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          expectedRevision: state.softwareUpdates?.revision ?? 0
+        })
+      });
+      state.softwareUpdates = { ...state.softwareUpdates, ...result };
+      renderSoftwareUpdates();
+      toast(`已检测 ${result.entries.length} 项软件`);
+    } catch (error) {
+      toast(error.message, true);
+      renderSoftwareUpdates();
+    }
+  } else if (target.dataset.action === "save-software-update-review") {
+    await saveSoftwareUpdateReview();
+  } else if (target.dataset.action === "publish-software-updates") {
+    if (!(await saveSoftwareUpdateReview(false))) return;
+    try {
+      const result = await request("/api/software-updates/publish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          expectedRevision: state.softwareUpdates.revision
+        })
+      });
+      state.softwareUpdates = { ...state.softwareUpdates, ...result, published: true };
+      renderSoftwareUpdates();
+      toast(`软件更新 v${result.activeReleaseVersion} 已签名发布`);
+    } catch (error) {
+      toast(error.message, true);
+      renderSoftwareUpdates();
+    }
+  } else if (target.dataset.communityAction) {
     await changeCommunityVisibility(target);
   } else if (target.dataset.action === "refresh-community-summary") {
     await refreshCommunitySummary();
@@ -1940,7 +2055,14 @@ content.addEventListener("click", async (event) => {
 
 content.addEventListener("input", (event) => {
   const input = event.target;
-  if (input.dataset.home) {
+  if (input.dataset.softwareUpdateSelection) {
+    const entry = state.softwareUpdates?.entries.find(
+      (candidate) => candidate.id === input.dataset.softwareUpdateSelection
+    );
+    if (entry) entry.selected = input.checked;
+    renderSoftwareUpdates();
+    return;
+  } else if (input.dataset.home) {
     const [index, field] = input.dataset.home.split(":");
     state.catalog.home.banners[Number(index)][field] = input.value;
   } else if (input.dataset.carousel) {

@@ -637,6 +637,35 @@ async function run() {
       { taskId: ${JSON.stringify(queuedAttempt.taskId)} }
     )`);
     await waitFor(window, "document.querySelector('[data-aihub-product-id=fixture-queue-third-canonical] [data-aihub-managed-download-phase]')?.getAttribute('data-aihub-managed-download-phase') === 'queued'", "fixture queue state did not restore");
+    stage = "assert topbar downloads";
+    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-download-menu] > summary').click()");
+    await waitFor(window, "document.querySelectorAll('[data-aihub-download-item]').length === 5", "topbar downloads did not render the current queue");
+    const topbarDownloads = await window.webContents.executeJavaScript(`(() => {
+      const menu = document.querySelector('[data-aihub-download-menu]');
+      const popover = menu.querySelector('.downloadPopover');
+      const rows = [...menu.querySelectorAll('[data-aihub-download-item]')];
+      const menuRect = popover.getBoundingClientRect();
+      return {
+        open: menu.hasAttribute('open'),
+        rows: rows.length,
+        unique: new Set(rows.map((row) => row.getAttribute('data-aihub-download-item'))).size,
+        insideViewport: menuRect.left >= 0 && menuRect.right <= innerWidth,
+        hasViewAll: Boolean(popover.querySelector('button')),
+        activeBadge: menu.querySelector('summary b')?.textContent || ''
+      };
+    })()`);
+    assert.deepEqual(topbarDownloads, {
+      open: true,
+      rows: 5,
+      unique: 5,
+      insideViewport: true,
+      hasViewAll: true,
+      activeBadge: "5"
+    });
+    await screenshot(window, 1365, "topbar-downloads-light");
+    await screenshot(window, 740, "topbar-downloads-compact");
+    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-download-menu] > summary').click()");
+    window.setContentSize(1365, 768);
     await window.webContents.executeJavaScript("[...document.querySelectorAll('button')].find((node) => node.textContent.includes('设置')).click()");
     await waitFor(window, "document.querySelectorAll('.managedQueueTask').length === 5", "download center did not render all queue tasks");
     const queueSemantics = await window.webContents.executeJavaScript(`(() => {

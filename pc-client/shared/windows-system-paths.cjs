@@ -2,6 +2,14 @@
 
 const path = require("node:path");
 
+function windowsPowerShellEnvironment(environment = process.env) {
+  return Object.fromEntries(
+    Object.entries(environment || {}).filter(
+      ([name]) => !/^PSModulePath$/i.test(name)
+    )
+  );
+}
+
 function windowsPowerShellPath(systemRoot = process.env.SystemRoot || "C:\\Windows") {
   return path.win32.join(
     systemRoot || "C:\\Windows",
@@ -13,5 +21,6 @@ function windowsPowerShellPath(systemRoot = process.env.SystemRoot || "C:\\Windo
 }
 
 module.exports = {
+  windowsPowerShellEnvironment,
   windowsPowerShellPath
 };

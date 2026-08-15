@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
@@ -7,13 +8,14 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const SOURCE = 'D:\\AIhub\\AIHUB备份';
-const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260815-second-update-0194';
+const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260816-r28-postdeploy-v4';
 const TOOL_REL = 'tools/stage-public-source.cjs';
 const MANIFEST_REL = 'SOURCE-MANIFEST.json';
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
 const ROOT_FILES = Object.freeze([
   '.dockerignore', '.openai/hosting.json',
+  'build/sites-vite-plugin.ts',
   'LICENSE', 'NOTICE', 'THIRD_PARTY_NOTICES.md',
   'drizzle.config.ts', 'eslint.config.mjs', 'next.config.ts', 'package-lock.json',
   'package.json', 'postcss.config.mjs', 'tsconfig.json', 'vite.config.ts',
@@ -21,6 +23,7 @@ const ROOT_FILES = Object.freeze([
 const ROOT_DIRS = Object.freeze(['app', 'db', 'drizzle', 'examples', 'public', 'tests', 'worker']);
 const PC_FILES = Object.freeze([
   'pc-client/.dockerignore', 'pc-client/.gitattributes',
+  'pc-client/admin/data/catalog-v1.json',
   'pc-client/CONTEXT.md', 'pc-client/README.md', 'pc-client/index.html',
   'pc-client/electron-builder.local-release.cjs', 'pc-client/package-lock.json',
   'pc-client/package.json', 'pc-client/postcss.config.mjs', 'pc-client/tsconfig.json',
@@ -42,12 +45,17 @@ const RESEARCH_ONLY_FILES = new Set([
   'pc-client/scripts/generate-catalog-v3-resource-connections-candidate.cjs',
   'pc-client/scripts/generate-community-skill-scenario-tags-overlay-candidate.cjs',
   'pc-client/scripts/generate-deepseek-harness-product-catalog-v3-candidate.cjs',
+  'pc-client/scripts/generate-desktop-edition-gap-catalog-v3-candidate.cjs',
   'pc-client/scripts/generate-official-mcp-registry-run3-final-disposition.cjs',
   'pc-client/scripts/generate-official-mcp-registry-run3-ready4-catalog-v3-candidate.cjs',
   'pc-client/scripts/generate-official-unbound-mcp-d12-d16-catalog-v3-candidate.cjs',
   'pc-client/scripts/generate-resource-store-next-major-catalog-candidate.cjs',
+  'pc-client/scripts/generate-skill-scenario-classification-catalog-v3-candidate.cjs',
   'pc-client/scripts/official-mcp-registry-intake.mjs',
   'pc-client/scripts/official-mcp-registry-run3-triage.cjs',
+  'pc-client/scripts/test-identity-catalog-readiness-docker.cjs',
+  'pc-client/scripts/test-workflow-node-runtime-linux.cjs',
+  'pc-client/scripts/test-workflow-temporary-acceptance-linux-cleanup.cjs',
   'pc-client/shared/clawhub-public-feed.cjs',
   'pc-client/shared/official-mcp-registry-final-disposition.cjs',
   'pc-client/shared/official-mcp-registry-intake.cjs',
@@ -58,13 +66,20 @@ const RESEARCH_ONLY_FILES = new Set([
   'pc-client/tests/aws-agents-build-skill-catalog-v3-candidate.test.cjs',
   'pc-client/tests/brave-search-mcp-catalog-v3-candidate.test.cjs',
   'pc-client/tests/catalog-v3-resource-connections.test.cjs',
+  'pc-client/tests/catalog-active7-state-activation.test.cjs',
   'pc-client/tests/clawhub-public-feed-intake.test.cjs',
   'pc-client/tests/cocoloop-skill-metadata-phase2-stop-4069.test.cjs',
   'pc-client/tests/community-skill-scenario-tags-overlay-candidate.test.cjs',
+  'pc-client/tests/community-workflow-persistence.test.cjs',
   'pc-client/tests/community-skill-store-cocoloop-next-batch-candidate.test.cjs',
   'pc-client/tests/community-skill-store-cocoloop-small-batch2-candidate.test.cjs',
   'pc-client/tests/community-skill-store-cocoloop-small-batch3-candidate.test.cjs',
   'pc-client/tests/deepseek-harness-product-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/desktop-edition-gap-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/identity-resource-submissions.test.cjs',
+  'pc-client/tests/identity-source-image-closure.test.cjs',
+  'pc-client/tests/local-catalog-proxy.test.cjs',
+  'pc-client/tests/local-release-version.test.cjs',
   'pc-client/tests/mcp-connector-official-public-samples-active7-candidate.test.cjs',
   'pc-client/tests/mcp-connector-official-small-batch2-active7-candidate.test.cjs',
   'pc-client/tests/mcp-connector-small-batch-active7-candidate.test.cjs',
@@ -80,6 +95,8 @@ const RESEARCH_ONLY_FILES = new Set([
   'pc-client/tests/resource-marketplace-projection.test.cjs',
   'pc-client/tests/resource-store-channel-ui.test.cjs',
   'pc-client/tests/resource-store.test.cjs',
+  'pc-client/tests/skill-scenario-classification-catalog-v3-candidate.test.cjs',
+  'pc-client/tests/workflow-image-archive.test.cjs',
 ]);
 const PUBLIC_DOCS = Object.freeze([
   'pc-client/docs/account-integration-boundary.md',
@@ -94,6 +111,10 @@ const PUBLIC_DOCS = Object.freeze([
   'pc-client/docs/unified-installation-protocol.md',
   'pc-client/docs/windows-desktop-certification.md',
 ]);
+const PUBLIC_BUILD_INPUTS = new Set([
+  'build/sites-vite-plugin.ts',
+  'pc-client/admin/data/catalog-v1.json',
+]);
 
 const DENIED_SEGMENTS = new Set([
   '.git', '.next', '.playwright-cli', '.wrangler', 'build', 'cache', 'caches',
@@ -104,7 +125,7 @@ const DENIED_EXTENSIONS = new Set([
   '.msi', '.p12', '.pfx', '.pem', '.sqlite', '.sqlite3', '.tar', '.tgz', '.zip',
 ]);
 const OPERATIONAL_NAME = /(?:production|server-connected|fresh-host|cutover|preflight|stage0|transfer-prepare|provision|release-review|candidate)/i;
-const SCRIPT_TEST_OPERATIONAL = /(?:production|server-connected|fresh-host|cutover|preflight|stage0|transfer-prepare|provision|bootstrap|deploy|publish|key-rotation|signing-key)/i;
+const SCRIPT_TEST_OPERATIONAL = /(?:production|current-identity|server-connected|fresh-host|cutover|preflight|stage0|transfer-prepare|provision|bootstrap|deploy|publish|key-rotation|signing-key)/i;
 
 const PRIVATE_HEADER = ['-----BEGIN ', 'PRIVATE KEY-----'].join('');
 const PROD_IP = ['47', '236', '62', '189'].join('.');
@@ -290,6 +311,7 @@ function denyReason(value) {
   const parts = lower.split('/');
   const base = parts.at(-1);
   const ext = path.posix.extname(lower);
+  if (PUBLIC_BUILD_INPUTS.has(lower)) return null;
   if (RESEARCH_ONLY_FILES.has(lower)) return 'internal-research-dependent-tooling';
   if (DENIED_SEGMENTS.has(base) || parts.some((part) => DENIED_SEGMENTS.has(part))) return 'generated-or-cache';
   if (parts.some((part) => part.startsWith('release-review-'))) return 'release-review';
@@ -468,9 +490,16 @@ function scanStaging(files) {
 
 function selfTest() {
   assert.equal(denyReason('pc-client/admin/data/catalog-signing-private.pem'), 'credential-binary-or-database');
+  assert.equal(denyReason('pc-client/admin/data/catalog-v1.json'), null);
+  assert.equal(denyReason('build/sites-vite-plugin.ts'), null);
   assert.equal(denyReason('pc-client/deployment/local/private/update/catalog-signing-private.pem'), 'credential-binary-or-database');
   assert.equal(denyReason('pc-client/src/App.tsx'), null);
   assert.equal(denyReason('pc-client/tests/auralogs-mcp-catalog-v3-candidate.test.cjs'), 'internal-research-dependent-tooling');
+  assert.equal(denyReason('pc-client/scripts/generate-desktop-edition-gap-catalog-v3-candidate.cjs'), 'internal-research-dependent-tooling');
+  assert.equal(denyReason('pc-client/tests/skill-scenario-classification-catalog-v3-candidate.test.cjs'), 'internal-research-dependent-tooling');
+  assert.equal(denyReason('pc-client/tests/workflow-image-archive.test.cjs'), 'internal-research-dependent-tooling');
+  assert.equal(denyReason('pc-client/scripts/workflow-current-identity-temporary-acceptance.cjs'), 'operational-tooling-or-test');
+  assert.equal(denyReason('pc-client/tests/workflow-current-identity-release-bundle.test.cjs'), 'operational-tooling-or-test');
   assert.equal(denyReason('pc-client/shared/cocoloop-skill-metadata-parser.cjs'), null);
   assert.deepEqual(contentFindings('safe.js', Buffer.from('const value = "public";')), []);
   assert(contentFindings('bad.js', Buffer.from(PRIVATE_HEADER)).includes('secret:private-key'));

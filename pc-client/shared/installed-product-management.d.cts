@@ -13,6 +13,8 @@ export type InstalledProductManagementEntry = {
   managedByPackageManager: boolean;
   updateOwner: string;
   updateStrategy: string;
+  availableVersion?: string;
+  canUpdate?: boolean;
   canUninstall: boolean;
   children?: Array<{
     id: string;

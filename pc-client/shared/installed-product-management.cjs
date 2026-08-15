@@ -107,6 +107,14 @@ function buildInstalledProductManagement({
     if (product.productType === "cli") {
       const status = cliStatuses[product.id];
       if (!status?.installed) continue;
+      const availableVersion = String(status.availableVersion || "").trim();
+      const canUpdate =
+        catalogAllowsFullManagement &&
+        localProfilesByProductId.get(product.id)?.mode === "managed-cli" &&
+        allowed.has("update") &&
+        status.canUpdate === true &&
+        Boolean(availableVersion) &&
+        availableVersion !== String(status.version || "");
       products.push({
         id: product.id,
         name: product.name,
@@ -124,6 +132,8 @@ function buildInstalledProductManagement({
           Boolean(status.directory),
         canReinstall: false,
         canGetLatest: false,
+        canUpdate,
+        availableVersion,
         managedByPackageManager: false,
         updateOwner: "",
         updateStrategy: "",
@@ -141,6 +151,13 @@ function buildInstalledProductManagement({
     )
       ? candidateLocalProfile
       : null;
+    const availableVersion = String(status.availableVersion || "").trim();
+    const canUpdate =
+      catalogAllowsFullManagement &&
+      localProfile?.mode === "managed-package-manager" &&
+      allowed.has("install") &&
+      Boolean(availableVersion) &&
+      availableVersion !== String(status.version || "");
     products.push({
       id: product.id,
       name: product.name,
@@ -172,6 +189,7 @@ function buildInstalledProductManagement({
         localProfile?.mode === "managed-package-manager",
       updateOwner: String(localProfile?.lifecycle?.updateOwner || ""),
       updateStrategy: String(localProfile?.lifecycle?.updateStrategy || ""),
+      ...(canUpdate ? { availableVersion, canUpdate: true } : {}),
       canUninstall:
         allowed.has("uninstall") && status.canUninstall === true
     });
@@ -179,17 +197,6 @@ function buildInstalledProductManagement({
 
   for (const check of environmentChecks) {
     if (!check?.installed) {
-      if (check?.detection === "absent") {
-        reinstallableEnvironments.push({
-          id: `environment:${check.id}`,
-          environmentId: String(check.id),
-          name: String(check.name || check.id),
-          vendorName: "运行环境",
-          type: "environment",
-          packageReady:
-            downloadTasks[`environment:${check.id}`]?.phase === "completed"
-        });
-      }
       continue;
     }
     const isDesktopEnvironment = check.id === "docker";

@@ -88,6 +88,9 @@ const {
 const {
   readCatalogClientChannel
 } = require("../shared/catalog-client-channel.cjs");
+const {
+  createSoftwareUpdateCenter
+} = require("./software-update-center.cjs");
 
 const host = process.env.AIHUB_ADMIN_HOST || "127.0.0.1";
 const port = Number(process.env.AIHUB_ADMIN_PORT || 4173);
@@ -119,6 +122,15 @@ const vendorIconFallbackPath = path.join(
   "vendor-icon-fallbacks.json"
 );
 const updateReleasePath = path.join(publishedDirectory, "update-release.json");
+const softwareUpdateReleasePath = path.join(
+  publishedDirectory,
+  "software-update-release.json"
+);
+const softwareUpdateStatePath = path.join(
+  publishedDirectory,
+  "software-update-store",
+  "state.json"
+);
 const channelPath = path.join(root, "catalog", "channel.json");
 const updateChannelPath = path.join(root, "updates", "channel.json");
 const discoveryReportPath = path.join(
@@ -152,6 +164,12 @@ const releaseStore = createReleaseStore({
   },
   transformCatalogForRelease: (catalog) =>
     materializeLegacyVendorIconUrls(catalog, catalogAssetOrigin)
+});
+const softwareUpdateCenter = createSoftwareUpdateCenter({
+  statePath: softwareUpdateStatePath,
+  releasePath: softwareUpdateReleasePath,
+  keyId: signingKey?.keyId || "",
+  privateKey: signingKey?.privateKey || null
 });
 const productCertification = createProductCertification({
   filePath: productAcceptancePath
@@ -442,6 +460,56 @@ async function handleApi(request, response, pathname) {
       catalog: state.draft.catalog,
       revision: state.draft.revision,
       activeCatalogVersion: state.activeCatalogVersion
+    });
+    return true;
+  }
+
+  if (request.method === "GET" && pathname === "/api/software-updates") {
+    sendJson(response, 200, {
+      ...softwareUpdateCenter.snapshot(),
+      published: fs.existsSync(softwareUpdateReleasePath),
+      releaseUrl: `${publicOrigin}/software-update-release.json`
+    });
+    return true;
+  }
+
+  if (
+    request.method === "POST" &&
+    pathname === "/api/software-updates/scan"
+  ) {
+    const body = await readJson(request, 16 * 1024);
+    const state = await ensureDraft();
+    sendJson(response, 200, softwareUpdateCenter.scan({
+      expectedRevision: body.expectedRevision,
+      catalog: state.draft.catalog
+    }));
+    return true;
+  }
+
+  if (request.method === "PUT" && pathname === "/api/software-updates") {
+    const body = await readJson(request, 256 * 1024);
+    sendJson(response, 200, softwareUpdateCenter.saveReview({
+      expectedRevision: body.expectedRevision,
+      selectedIds: body.selectedIds
+    }));
+    return true;
+  }
+
+  if (
+    request.method === "POST" &&
+    pathname === "/api/software-updates/publish"
+  ) {
+    const body = await readJson(request, 16 * 1024);
+    const published = softwareUpdateCenter.publish({
+      expectedRevision: body.expectedRevision,
+      rollout: {
+        percentage: 100,
+        salt: "software-updates-stable-2026"
+      }
+    });
+    sendJson(response, 200, {
+      ...published,
+      releaseUrl: `${publicOrigin}/software-update-release.json`
     });
     return true;
   }
@@ -792,6 +860,19 @@ const server = http.createServer(async (request, response) => {
       serveFile(
         response,
         updateReleasePath,
+        "application/json; charset=utf-8",
+        "public, max-age=0, must-revalidate"
+      );
+      return;
+    }
+
+    if (
+      request.method === "GET" &&
+      url.pathname === "/software-update-release.json"
+    ) {
+      serveFile(
+        response,
+        softwareUpdateReleasePath,
         "application/json; charset=utf-8",
         "public, max-age=0, must-revalidate"
       );

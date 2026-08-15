@@ -47,6 +47,43 @@ test("extension facade returns only safe renderer fields", async () => {
   assert.equal(JSON.stringify(await facade.inspect("skill.example")).includes("private"), false);
 });
 
+test("extension facade applies the caller status filter to inspect, execute, and list", async () => {
+  const facade = createExtensionIpcFacade(
+    {
+      inspect() {
+        return {
+          state: "outdated",
+          managed: true,
+          allowedActions: ["update", "uninstall"]
+        };
+      },
+      execute() {
+        return this.inspect();
+      }
+    },
+    {
+      listProfiles: () => [
+        {
+          id: "skill.example",
+          label: "Example",
+          moduleId: "skill-managed",
+          hostProductId: "codex-cli"
+        }
+      ],
+      statusFilter: (_profileId, status) => ({
+        ...status,
+        allowedActions: status.allowedActions.filter((action) => action !== "update")
+      })
+    }
+  );
+
+  assert.deepEqual((await facade.inspect("skill.example")).allowedActions, ["uninstall"]);
+  assert.deepEqual((await facade.execute("skill.example", "update")).allowedActions, [
+    "uninstall"
+  ]);
+  assert.deepEqual((await facade.list())[0].allowedActions, ["uninstall"]);
+});
+
 test("extension list exposes managed marker-only profiles and safe anomalies", async () => {
   const statuses = {
     "skill.managed": {

@@ -188,6 +188,7 @@ const {
   validateWindowsInstallerIdentity
 } = require("../shared/windows-installer-identity.cjs");
 const {
+  windowsPowerShellEnvironment,
   windowsPowerShellPath
 } = require("../shared/windows-system-paths.cjs");
 const {
@@ -212,7 +213,9 @@ const {
   isMissingExactRegistryValueQuery
 } = require("../shared/environment-registry-query.cjs");
 const {
-  createEnvironmentUpdatePlan
+  createEnvironmentUpdatePlan,
+  environmentUpdateMemberIds,
+  projectEnvironmentFamilyChecks
 } = require("../shared/environment-update.cjs");
 const {
   createResumeHeaders,
@@ -222,6 +225,12 @@ const { assessDownloadSpace } = require("../shared/download-space.cjs");
 const {
   verifyAndEvaluateUpdateRelease
 } = require("../shared/update-release.cjs");
+const {
+  isSoftwareUpdatePublished,
+  normalizeSoftwareUpdateHighWater,
+  recordSoftwareUpdateHighWater,
+  verifySoftwareUpdateRelease
+} = require("../shared/software-update-release.cjs");
 const {
   planUpdateInstallerDownload,
   verifyUpdateInstallerDownload
@@ -378,6 +387,7 @@ const {
 } = require("../shared/tray-lifecycle.cjs");
 const {
   approvedCommunityOrigin,
+  communityEmbedSessionFailure,
   isApprovedCommunityNavigation,
   validateCommunityLaunchUrl
 } = require("../shared/community-embed.cjs");
@@ -476,10 +486,12 @@ const trayTaskStates = new Map();
 let tray = null;
 let isQuitting = false;
 let lastVerifiedUpdateOffer = null;
+let lastVerifiedSoftwareUpdateRelease = null;
 let identityClientInstance = null;
 let clientServicesInstance = null;
 let extensionIpcFacade = createExtensionIpcFacade(null);
 let updateCheckGeneration = 0;
+let softwareUpdateCheckGeneration = 0;
 let activeEnvironmentSourcePreferences;
 let managedDownloadTransportInstance = null;
 const DOWNLOAD_USER_AGENT =
@@ -2346,10 +2358,23 @@ async function detectEnvironmentOperationStatus(environmentId) {
   );
 }
 
+async function detectEnvironmentUpdateStatuses(environmentId) {
+  return Object.fromEntries(
+    await Promise.all(
+      environmentUpdateMemberIds(environmentId).map(async (memberId) => [
+        memberId,
+        await detectEnvironmentOperationStatus(memberId)
+      ])
+    )
+  );
+}
+
 function isolatedThirdPartyEnvironment() {
   const blocked = /^(PORTABLE_EXECUTABLE_|ELECTRON_|NODE_OPTIONS$|NODE_PATH$|npm_config_node_options$|__COMPAT_LAYER$)/i;
-  return Object.fromEntries(
-    Object.entries(process.env).filter(([name]) => !blocked.test(name))
+  return windowsPowerShellEnvironment(
+    Object.fromEntries(
+      Object.entries(process.env).filter(([name]) => !blocked.test(name))
+    )
   );
 }
 
@@ -2372,13 +2397,24 @@ async function scanEnvironment() {
         evidence,
         registryScan
       );
+      const recommendedVersion = plan.nativeWindowsFeature
+        ? ""
+        : getEnvironmentDownloadPlan(id, activeEnvironmentSourcePreferences)
+            .recommendedVersion;
+      const publishedRecommendedVersion =
+        recommendedVersion &&
+        isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, {
+          kind: "environment",
+          subjectId: id,
+          mode: "environment-download",
+          version: recommendedVersion
+        })
+          ? recommendedVersion
+          : "";
       const updateOffer = resolveEnvironmentUpdateOffer({
         detection: status.detection,
         installedVersion: status.version,
-        recommendedVersion: plan.nativeWindowsFeature
-          ? ""
-          : getEnvironmentDownloadPlan(id, activeEnvironmentSourcePreferences)
-              .recommendedVersion
+        recommendedVersion: publishedRecommendedVersion
       });
       return {
         status,
@@ -2412,11 +2448,13 @@ async function scanEnvironment() {
       );
     }
   }
+  const checks = scanned.map(({ check }) => check);
   return {
     platform: process.platform,
     architecture: process.arch,
     checkedAt: new Date().toISOString(),
-    checks: scanned.map(({ check }) => check),
+    checks,
+    displayChecks: projectEnvironmentFamilyChecks(checks),
     wslDistributions
   };
 }
@@ -3636,6 +3674,175 @@ async function checkForUpdate() {
       message: error instanceof Error ? error.message : "检查更新失败"
     };
   }
+}
+
+function softwareUpdateHighWaterPath() {
+  return path.join(app.getPath("userData"), "software-update-high-water.json");
+}
+
+function readSoftwareUpdateHighWater() {
+  try {
+    return normalizeSoftwareUpdateHighWater(
+      JSON.parse(fs.readFileSync(softwareUpdateHighWaterPath(), "utf8"))
+    );
+  } catch {
+    return normalizeSoftwareUpdateHighWater();
+  }
+}
+
+function softwareUpdateReleaseUrl(channel) {
+  if (!channel?.releaseUrl) return "";
+  const releaseUrl = new URL("/software-update-release.json", channel.releaseUrl);
+  if (
+    !channel.allowedReleaseOrigins.includes(releaseUrl.origin) ||
+    releaseUrl.username ||
+    releaseUrl.password ||
+    releaseUrl.search ||
+    releaseUrl.hash
+  ) {
+    throw new Error("软件更新发布地址不属于客户端固定来源");
+  }
+  return releaseUrl.toString();
+}
+
+async function fetchSoftwareUpdateRelease(channel, clientId, highWater) {
+  const releaseUrl = softwareUpdateReleaseUrl(channel);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await net.fetch(releaseUrl, {
+      method: "GET",
+      cache: "no-store",
+      redirect: "manual",
+      signal: controller.signal
+    });
+    if (!response.ok) {
+      throw new Error(`软件更新服务器返回 ${response.status}`);
+    }
+    const finalUrl = resolveReleaseResponseUrl(response, releaseUrl);
+    if (
+      finalUrl.toString() !== releaseUrl ||
+      !channel.allowedReleaseOrigins.includes(finalUrl.origin)
+    ) {
+      throw new Error("软件更新清单重定向到了未固定的来源");
+    }
+    const contentType = String(response.headers.get("content-type") || "")
+      .split(";", 1)[0]
+      .trim()
+      .toLowerCase();
+    if (contentType !== "application/json") {
+      throw new Error("软件更新服务器返回了非 JSON 内容");
+    }
+    const raw = await readResponseTextWithLimit(response, 64 * 1024);
+    return verifySoftwareUpdateRelease(JSON.parse(raw), {
+      trustedKeys: channel.trustedKeys,
+      clientId,
+      highWater
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function checkSoftwareUpdates() {
+  const generation = ++softwareUpdateCheckGeneration;
+  const channel = readChannel();
+  lastVerifiedSoftwareUpdateRelease = null;
+  if (channel.error) {
+    return { status: "error", message: channel.error, publishedEntries: 0 };
+  }
+  if (!channel.releaseUrl) {
+    return {
+      status: "disabled",
+      message: "尚未配置软件更新发布通道",
+      publishedEntries: 0
+    };
+  }
+  try {
+    const release = await fetchSoftwareUpdateRelease(
+      channel,
+      releaseClientId(),
+      readSoftwareUpdateHighWater()
+    );
+    if (generation !== softwareUpdateCheckGeneration) {
+      return {
+        status: "error",
+        message: "软件更新检查已被更新的请求替代",
+        publishedEntries: 0
+      };
+    }
+    if (!release.eligible) {
+      return {
+        status: "current",
+        releaseVersion: release.releaseVersion,
+        publishedAt: release.publishedAt,
+        message: "当前灰度批次暂无软件更新",
+        publishedEntries: 0
+      };
+    }
+    writeJsonAtomically(
+      softwareUpdateHighWaterPath(),
+      recordSoftwareUpdateHighWater(readSoftwareUpdateHighWater(), release)
+    );
+    lastVerifiedSoftwareUpdateRelease = release;
+    return {
+      status: release.entries.length ? "available" : "current",
+      releaseVersion: release.releaseVersion,
+      publishedAt: release.publishedAt,
+      message: release.entries.length
+        ? `后台已发布 ${release.entries.length} 项软件更新`
+        : "当前软件均为最新版本",
+      publishedEntries: release.entries.length
+    };
+  } catch (error) {
+    if (generation === softwareUpdateCheckGeneration) {
+      lastVerifiedSoftwareUpdateRelease = null;
+    }
+    return {
+      status: "error",
+      message: error instanceof Error ? error.message : "检查软件更新失败",
+      publishedEntries: 0
+    };
+  }
+}
+
+function assertSoftwareUpdatePublished(input) {
+  if (!isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, input)) {
+    const error = new Error("该更新尚未由管理员发布，请重新打开软件后再试");
+    error.code = "SOFTWARE_UPDATE_NOT_PUBLISHED";
+    throw error;
+  }
+}
+
+function cliPlanVersion(plan) {
+  return String(plan?.expectedVersion || plan?.version || "").trim();
+}
+
+function extensionProfileVersion(profile) {
+  return String(
+    profile?.versionRef || profile?.sourceManifest?.versionRef || ""
+  ).trim();
+}
+
+function filterPublishedExtensionUpdates(profileId, status) {
+  if (!status || !Array.isArray(status.allowedActions)) return status;
+  const profile = getExtensionRuntimeProfile(profileId);
+  const version = extensionProfileVersion(profile);
+  if (
+    !status.allowedActions.includes("update") ||
+    (version && isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, {
+      kind: "extension",
+      subjectId: profileId,
+      mode: "extension",
+      version
+    }))
+  ) {
+    return status;
+  }
+  return {
+    ...status,
+    allowedActions: status.allowedActions.filter((action) => action !== "update")
+  };
 }
 
 function readSettings() {
@@ -8337,11 +8544,19 @@ async function prepareEnvironmentPackageDownload(environmentId, intent) {
       environmentId,
       activeEnvironmentSourcePreferences
     );
+    if (intent === "update") {
+      assertSoftwareUpdatePublished({
+        kind: "environment",
+        subjectId: environmentId,
+        mode: "environment-download",
+        version: downloadPlan.recommendedVersion
+      });
+    }
     const updatePlan =
       intent === "update"
         ? createEnvironmentUpdatePlan({
             environmentId,
-            status: await detectEnvironmentOperationStatus(environmentId),
+            statuses: await detectEnvironmentUpdateStatuses(environmentId),
             downloadPlan
           })
         : null;
@@ -9575,9 +9790,15 @@ function initializeExtensionRuntime() {
           requiredCapability: action
         })
     });
-    extensionIpcFacade = createExtensionIpcFacade(manager, { listProfiles });
+    extensionIpcFacade = createExtensionIpcFacade(manager, {
+      listProfiles,
+      statusFilter: filterPublishedExtensionUpdates
+    });
   } catch (error) {
-    extensionIpcFacade = createExtensionIpcFacade(null, { listProfiles });
+    extensionIpcFacade = createExtensionIpcFacade(null, {
+      listProfiles,
+      statusFilter: filterPublishedExtensionUpdates
+    });
     console.warn(
       "Extension resources are unavailable; managed extensions are disabled",
       error?.code || "EXTENSION_RUNTIME_UNAVAILABLE"
@@ -10526,6 +10747,39 @@ async function uninstallWindowsPackageManagerProduct(productId) {
   }
 }
 
+function publishedDesktopStatus(productId, status) {
+  const registration = getInstallRegistration(productId);
+  const availableVersion = String(status?.availableVersion || "").trim();
+  const published =
+    registration?.mode === "managed-package-manager" &&
+    Boolean(availableVersion) &&
+    isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, {
+      kind: "product",
+      subjectId: productId,
+      mode: "package-manager",
+      version: availableVersion
+    });
+  return published ? status : { ...status, availableVersion: "" };
+}
+
+function publishedCliStatus(productId, status) {
+  const version = cliPlanVersion(CLI_INSTALL_PLANS[productId]);
+  const published =
+    status?.canUpdate === true &&
+    Boolean(version) &&
+    isSoftwareUpdatePublished(lastVerifiedSoftwareUpdateRelease, {
+      kind: "product",
+      subjectId: productId,
+      mode: "managed-cli",
+      version
+    });
+  return {
+    ...status,
+    canUpdate: Boolean(published),
+    availableVersion: published ? version : ""
+  };
+}
+
 async function scanApprovedProductInventory() {
   const desktopProfiles = CLIENT_INSTALL_PROFILES.filter(
     (profile) =>
@@ -10535,7 +10789,7 @@ async function scanApprovedProductInventory() {
   const cliProfiles = CLIENT_INSTALL_PROFILES.filter(
     (profile) => profile.mode === "managed-cli"
   );
-  const [desktopStatuses, cliStatusEntries] = await Promise.all([
+  const [detectedDesktopStatuses, detectedCliStatusEntries] = await Promise.all([
     detectDesktopProducts(desktopProfiles.map((profile) => profile.productId)),
     Promise.all(
       cliProfiles.map(async (profile) => [
@@ -10543,6 +10797,16 @@ async function scanApprovedProductInventory() {
         await discoverCliStatus(profile.productId)
       ])
     )
+  ]);
+  const desktopStatuses = Object.fromEntries(
+    Object.entries(detectedDesktopStatuses).map(([productId, status]) => [
+      productId,
+      publishedDesktopStatus(productId, status)
+    ])
+  );
+  const cliStatusEntries = detectedCliStatusEntries.map(([productId, status]) => [
+    productId,
+    publishedCliStatus(productId, status)
   ]);
   return {
     checkedAt: new Date().toISOString(),
@@ -10560,14 +10824,26 @@ function registerIpc() {
     return result;
   });
   ipcMain.handle("update:check", () => checkForUpdate());
+  ipcMain.handle("software-updates:check", () => checkSoftwareUpdates());
   ipcMain.handle("inventory:scan", () => scanApprovedProductInventory());
   ipcMain.handle("extension:list", () => extensionIpcFacade.list());
   ipcMain.handle("extension:inspect", (_event, profileId) =>
     extensionIpcFacade.inspect(profileId)
   );
-  ipcMain.handle("extension:execute", (_event, profileId, action) =>
-    extensionIpcFacade.execute(profileId, action)
-  );
+  ipcMain.handle("extension:execute", (_event, profileId, action) => {
+    if (action === "update") {
+      const version = extensionProfileVersion(
+        getExtensionRuntimeProfile(profileId)
+      );
+      assertSoftwareUpdatePublished({
+        kind: "extension",
+        subjectId: profileId,
+        mode: "extension",
+        version
+      });
+    }
+    return extensionIpcFacade.execute(profileId, action);
+  });
   ipcMain.handle("extension:status", (_event, profileId) =>
     extensionIpcFacade.inspect(profileId)
   );
@@ -10695,16 +10971,23 @@ function registerIpc() {
       getIdentityClient().setCommunityInteraction(discussionId, input)
   );
   ipcMain.handle("community:create-embed-session", async () => {
-    const handoff = await getIdentityClient().createCommunityHandoff();
-    const approvedOrigin = getClientServices().communityOrigin;
-    return {
-      launchUrl: validateCommunityLaunchUrl(
-        handoff.launchUrl,
-        approvedOrigin
-      ),
-      origin: approvedCommunityOrigin(approvedOrigin),
-      expiresAt: handoff.expiresAt
-    };
+    try {
+      const handoff = await getIdentityClient().createCommunityHandoff();
+      const approvedOrigin = getClientServices().communityOrigin;
+      return {
+        ok: true,
+        value: {
+          launchUrl: validateCommunityLaunchUrl(
+            handoff.launchUrl,
+            approvedOrigin
+          ),
+          origin: approvedCommunityOrigin(approvedOrigin),
+          expiresAt: handoff.expiresAt
+        }
+      };
+    } catch (error) {
+      return communityEmbedSessionFailure(error);
+    }
   });
   ipcMain.handle("update:open-download", async (event) => {
     const offer = lastVerifiedUpdateOffer;
@@ -11095,7 +11378,7 @@ function registerIpc() {
         );
         const baseline = createEnvironmentUpdatePlan({
           environmentId,
-          status: await detectEnvironmentOperationStatus(environmentId),
+          statuses: await detectEnvironmentUpdateStatuses(environmentId),
           downloadPlan
         });
         if (!baseline) {
@@ -11107,11 +11390,12 @@ function registerIpc() {
         }
         const confirmed = createEnvironmentUpdatePlan({
           environmentId,
-          status: await detectEnvironmentOperationStatus(environmentId),
+          statuses: await detectEnvironmentUpdateStatuses(environmentId),
           downloadPlan
         });
         if (
           !confirmed ||
+          confirmed.installedEnvironmentId !== baseline.installedEnvironmentId ||
           confirmed.installedVersion !== baseline.installedVersion ||
           confirmed.recommendedVersion !== baseline.recommendedVersion
         ) {
@@ -11955,9 +12239,21 @@ function registerIpc() {
         : null
   );
 
-  ipcMain.handle("desktop:status", (_event, productId) =>
-    detectDesktopProduct(productId)
+  ipcMain.handle("desktop:status", async (_event, productId) =>
+    publishedDesktopStatus(productId, await detectDesktopProduct(productId))
   );
+
+  ipcMain.handle("desktop:update", async (_event, productId) => {
+    const status = await detectDesktopProduct(productId);
+    const version = String(status.availableVersion || "").trim();
+    assertSoftwareUpdatePublished({
+      kind: "product",
+      subjectId: productId,
+      mode: "package-manager",
+      version
+    });
+    return reconcileWindowsPackageManagerProduct(productId, "update");
+  });
 
   ipcMain.handle("desktop:uninstall", async (_event, productId) => {
     if (portableDesktopPlan(getStaticManagedDownload(productId))) {
@@ -12412,8 +12708,8 @@ function registerIpc() {
     return false;
   });
 
-  ipcMain.handle("cli:status", (_event, productId) =>
-    discoverCliStatus(productId)
+  ipcMain.handle("cli:status", async (_event, productId) =>
+    publishedCliStatus(productId, await discoverCliStatus(productId))
   );
   ipcMain.handle("cli:open", (_event, productId) =>
     openManagedCliTerminal(productId)
@@ -12473,9 +12769,17 @@ function registerIpc() {
     return true;
   });
 
-  ipcMain.handle("cli:reconcile", (event, productId, intent) =>
-    reconcileManagedCli(event, productId, intent)
-  );
+  ipcMain.handle("cli:reconcile", (event, productId, intent) => {
+    if (intent === "update") {
+      assertSoftwareUpdatePublished({
+        kind: "product",
+        subjectId: productId,
+        mode: "managed-cli",
+        version: cliPlanVersion(CLI_INSTALL_PLANS[productId])
+      });
+    }
+    return reconcileManagedCli(event, productId, intent);
+  });
   ipcMain.handle("cli:deploy", (event, productId) =>
     reconcileManagedCli(event, productId, "install")
   );

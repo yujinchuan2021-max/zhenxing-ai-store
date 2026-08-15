@@ -132,11 +132,25 @@ function safeInventoryProfile(profile) {
   };
 }
 
-function createExtensionIpcFacade(manager, { listProfiles = () => [] } = {}) {
+function createExtensionIpcFacade(
+  manager,
+  { listProfiles = () => [], statusFilter = (_profileId, status) => status } = {}
+) {
+  function filterStatus(profileId, status) {
+    try {
+      return statusFilter(profileId, status);
+    } catch {
+      return failedResult();
+    }
+  }
+
   async function inspect(profileId) {
     if (!manager) return unavailableResult();
     try {
-      return sanitizeStatus(await manager.inspect(profileId));
+      return filterStatus(
+        profileId,
+        sanitizeStatus(await manager.inspect(profileId))
+      );
     } catch (error) {
       return failedResult(error);
     }
@@ -145,7 +159,10 @@ function createExtensionIpcFacade(manager, { listProfiles = () => [] } = {}) {
   async function execute(profileId, action) {
     if (!manager) return unavailableResult();
     try {
-      return sanitizeStatus(await manager.execute(profileId, action));
+      return filterStatus(
+        profileId,
+        sanitizeStatus(await manager.execute(profileId, action))
+      );
     } catch (error) {
       return failedResult(error);
     }

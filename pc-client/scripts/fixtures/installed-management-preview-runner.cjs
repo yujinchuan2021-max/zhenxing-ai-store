@@ -86,6 +86,12 @@ async function snapshot(window, width, height) {
       scrollWidth: document.documentElement.scrollWidth,
       pageHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
       management: Boolean(document.querySelector(".installedManagementPage")),
+      softwareUpdateStatus: document
+        .querySelector("[data-aihub-software-update-status]")
+        ?.textContent.trim(),
+      updateAllLabel: document
+        .querySelector('[data-aihub-action="update-all-installed"]')
+        ?.textContent.trim(),
       labels: labels.filter((label) => cards.some((card) => card.textContent.includes(label))),
       installButton: packageCard
         ? [...packageCard.querySelectorAll("button")].map((button) => button.textContent.trim())
@@ -97,6 +103,16 @@ async function snapshot(window, width, height) {
     };
   })()`);
   assert.equal(result.management, true, "installed management route did not render");
+  assert.equal(
+    result.softwareUpdateStatus,
+    "后台已发布 1 项软件更新",
+    "startup software update status did not render"
+  );
+  assert.equal(
+    result.updateAllLabel,
+    "全部更新（1）",
+    "bulk software update action did not render"
+  );
   assert.deepEqual(result.labels.sort(), [
     "Fixture CLI",
     "Fixture Canonical Package",
@@ -239,7 +255,7 @@ async function assertEnvironmentUpdate(window) {
     return {
       recommended: card?.textContent.includes('审核推荐版本 24.18.0') === true,
       action: [...(card?.querySelectorAll('button') || [])]
-        .some((button) => button.textContent.trim() === '更新')
+        .some((button) => button.textContent.trim() === '立即更新')
     };
   })()`);
   assert.deepEqual(initial, { recommended: true, action: true });
@@ -250,7 +266,7 @@ async function assertEnvironmentUpdate(window) {
   await window.webContents.executeJavaScript(`(() => {
     const card = ${nodeCard};
     [...card.querySelectorAll('button')]
-      .find((button) => button.textContent.trim() === '更新')?.click();
+      .find((button) => button.textContent.trim() === '立即更新')?.click();
   })()`);
   await waitFor(
     window,

@@ -17,6 +17,7 @@ type EnvironmentCheck = {
   version?: string;
   recommendedVersion?: string;
   canUpdate?: boolean;
+  updateEnvironmentId?: string;
   detection?: "installed" | "absent" | "unknown";
 };
 
@@ -25,6 +26,7 @@ type EnvironmentReport = {
   architecture: string;
   checkedAt: string;
   checks: EnvironmentCheck[];
+  displayChecks?: EnvironmentCheck[];
   wslDistributions?: Array<{
     name: string;
     environments: Array<{
@@ -449,6 +451,14 @@ type UpdateCheckResult = {
   message: string;
 };
 
+type SoftwareUpdateCheckResult = {
+  status: "disabled" | "current" | "available" | "error";
+  releaseVersion?: number;
+  publishedAt?: string;
+  publishedEntries: number;
+  message: string;
+};
+
 type UpdateInstallResult = {
   ok: boolean;
   stage: "offer" | "download" | "confirmation" | "launch" | "launched";
@@ -616,6 +626,20 @@ type CommunityEmbedSession = {
   expiresAt: string;
 };
 
+type CommunityEmbedSessionResult =
+  | { ok: true; value: CommunityEmbedSession }
+  | {
+      ok: false;
+      error: {
+        code: "SESSION_REVOKED" | "TEMPORARILY_UNAVAILABLE" | "INVALID_IDENTITY_RESPONSE";
+        status: 401 | 502 | 503;
+        messageKey:
+          | "community.sessionExpired"
+          | "community.serviceUnavailable"
+          | "community.invalidResponse";
+      };
+    };
+
 type IdentityDeviceSession = {
   id: string;
   deviceId: string;
@@ -669,6 +693,7 @@ type CliDeployResult = {
 type CliStatus = {
   installed: boolean;
   version: string;
+  availableVersion?: string;
   directory: string;
   detection: "installed" | "absent" | "unknown";
   managed: boolean;
@@ -1061,6 +1086,7 @@ interface Window {
     getCatalog(): Promise<CatalogResult>;
     scanManagedInventory(): Promise<ManagedProductInventorySnapshot>;
     checkForUpdate(): Promise<UpdateCheckResult>;
+    checkSoftwareUpdates(): Promise<SoftwareUpdateCheckResult>;
     openUpdateDownload(): Promise<UpdateInstallResult>;
     listExtensions(): Promise<ExtensionInventoryEntry[]>;
     getExtensionStatus(profileId: string): Promise<ExtensionRuntimeResult>;
@@ -1303,7 +1329,7 @@ interface Window {
         liked: boolean;
       }
     ): Promise<CommunityInteraction>;
-    createCommunityEmbedSession(): Promise<CommunityEmbedSession>;
+    createCommunityEmbedSession(): Promise<CommunityEmbedSessionResult>;
     getSettings(): Promise<PCSettings>;
     setLanguage(language: "zh" | "en"): Promise<PCSettings>;
     chooseDownloadDirectory(): Promise<PCSettings>;
@@ -1379,6 +1405,16 @@ interface Window {
       operationId: string
     ): Promise<DesktopOperationTask | null>;
     getDesktopStatus(productId: string): Promise<DesktopStatus>;
+    updateDesktopProduct(productId: string): Promise<{
+      ok: boolean;
+      canceled?: boolean;
+      launched?: boolean;
+      busy?: boolean;
+      status?: DesktopStatus;
+      operationTask?: DesktopOperationTask | null;
+      warning?: string;
+      error?: string;
+    }>;
     uninstallDesktopProduct(
       productId: string
     ): Promise<DesktopUninstallResult>;

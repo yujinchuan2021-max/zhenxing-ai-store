@@ -93,6 +93,102 @@ function invokeIdentityLogin(input) {
   }
 }
 
+const communityEmbedChannel = "community:create-embed-session";
+
+function communityEmbedFailure() {
+  return {
+    ok: false,
+    error: {
+      code: "TEMPORARILY_UNAVAILABLE",
+      status: 503,
+      messageKey: "community.serviceUnavailable"
+    }
+  };
+}
+
+function safeCommunityEmbedResult(value) {
+  if (value?.ok === false) {
+    const error = value.error;
+    const allowed = new Map([
+      ["SESSION_REVOKED", [401, "community.sessionExpired"]],
+      ["TEMPORARILY_UNAVAILABLE", [503, "community.serviceUnavailable"]]
+    ]);
+    const expected = allowed.get(error?.code);
+    if (
+      exactIdentityLoginObject(value, new Set(["ok", "error"])) &&
+      exactIdentityLoginObject(error, new Set(["code", "status", "messageKey"])) &&
+      expected?.[0] === error.status &&
+      expected?.[1] === error.messageKey
+    ) {
+      return {
+        ok: false,
+        error: {
+          code: error.code,
+          status: error.status,
+          messageKey: error.messageKey
+        }
+      };
+    }
+    return {
+      ok: false,
+      error: {
+        code: "INVALID_IDENTITY_RESPONSE",
+        status: 502,
+        messageKey: "community.invalidResponse"
+      }
+    };
+  }
+  const session = value?.value;
+  try {
+    const origin = new URL(session?.origin);
+    const launchUrl = new URL(session?.launchUrl);
+    const queryKeys = [...launchUrl.searchParams.keys()];
+    if (
+      value?.ok !== true ||
+      !exactIdentityLoginObject(value, new Set(["ok", "value"])) ||
+      !exactIdentityLoginObject(session, new Set(["launchUrl", "origin", "expiresAt"])) ||
+      origin.href !== `${origin.origin}/` ||
+      !(origin.protocol === "https:" ||
+        (origin.protocol === "http:" && ["127.0.0.1", "localhost"].includes(origin.hostname))) ||
+      launchUrl.origin !== origin.origin ||
+      launchUrl.pathname !== "/aihub-sso.php" ||
+      queryKeys.length !== 1 ||
+      queryKeys[0] !== "ticket" ||
+      !/^[A-Za-z0-9_-]{32,}$/.test(launchUrl.searchParams.get("ticket") || "") ||
+      launchUrl.username ||
+      launchUrl.password ||
+      launchUrl.hash ||
+      typeof session.expiresAt !== "string" ||
+      !Number.isFinite(Date.parse(session.expiresAt))
+    ) {
+      throw new Error("invalid community response");
+    }
+    return {
+      ok: true,
+      value: {
+        launchUrl: launchUrl.href,
+        origin: origin.origin,
+        expiresAt: session.expiresAt
+      }
+    };
+  } catch {
+    return {
+      ok: false,
+      error: {
+        code: "INVALID_IDENTITY_RESPONSE",
+        status: 502,
+        messageKey: "community.invalidResponse"
+      }
+    };
+  }
+}
+
+function invokeCommunityEmbedSession() {
+  return ipcRenderer
+    .invoke(communityEmbedChannel)
+    .then(safeCommunityEmbedResult, () => communityEmbedFailure());
+}
+
 // Sandboxed preloads cannot require local modules. Keep this defensive copy
 // aligned with the shared five-phase public contract; main revalidates the
 // same exact cancel envelope against the current durable attempt.
@@ -654,6 +750,7 @@ contextBridge.exposeInMainWorld("aihubPC", {
   getCatalog: () => ipcRenderer.invoke("catalog:get"),
   scanManagedInventory: () => ipcRenderer.invoke("inventory:scan"),
   checkForUpdate: () => ipcRenderer.invoke("update:check"),
+  checkSoftwareUpdates: () => ipcRenderer.invoke("software-updates:check"),
   openUpdateDownload: () => ipcRenderer.invoke("update:open-download"),
   listExtensions: () => ipcRenderer.invoke("extension:list"),
   getExtensionStatus: (profileId) =>
@@ -733,8 +830,7 @@ contextBridge.exposeInMainWorld("aihubPC", {
       discussionId,
       input
     ),
-  createCommunityEmbedSession: () =>
-    ipcRenderer.invoke("community:create-embed-session"),
+  createCommunityEmbedSession: invokeCommunityEmbedSession,
   getSettings: () => ipcRenderer.invoke("settings:get"),
   setLanguage: (language) =>
     ipcRenderer.invoke("settings:set-language", language),
@@ -809,6 +905,8 @@ contextBridge.exposeInMainWorld("aihubPC", {
     ),
   getDesktopStatus: (productId) =>
     ipcRenderer.invoke("desktop:status", productId),
+  updateDesktopProduct: (productId) =>
+    ipcRenderer.invoke("desktop:update", productId),
   uninstallDesktopProduct: (productId) =>
     ipcRenderer.invoke("desktop:uninstall", productId),
   openDesktopApp: (productId) =>

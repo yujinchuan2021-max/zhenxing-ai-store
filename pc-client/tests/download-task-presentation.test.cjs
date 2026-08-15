@@ -4,8 +4,11 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 
 const {
+  buildDownloadPopoverItems,
   createDownloadTaskRevisionTracker
 } = require("../shared/download-task-presentation.cjs");
+const fs = require("node:fs");
+const path = require("node:path");
 
 function task(productId, attemptId, attempt, revision) {
   return { productId, attemptId, attempt, revision };
@@ -75,4 +78,75 @@ test("invalid or duplicate task identities are rejected", () => {
   assert.equal(revisions.accept(task("ollama-cli", "a", 1, 1)), false);
   assert.equal(revisions.accept(task("ollama-cli", "b", 1, 2)), false);
   assert.equal(revisions.accept(task("ollama-cli", "b", 2, 1)), true);
+});
+
+test("the top-bar download list merges queue and legacy tasks without duplicates", () => {
+  const result = buildDownloadPopoverItems({
+    names: {
+      alpha: "Alpha Desktop",
+      beta: "Beta Desktop"
+    },
+    queueTasks: {
+      alpha: {
+        taskId: "queue-alpha",
+        productId: "alpha",
+        phase: "downloading",
+        progress: { percent: 42 },
+        presentation: { state: "active" }
+      }
+    },
+    legacyTasks: {
+      alpha: {
+        attemptId: "legacy-alpha",
+        productId: "alpha",
+        phase: "downloading",
+        progress: { percent: 10 },
+        updatedAt: "2026-08-15T09:00:00.000Z"
+      },
+      beta: {
+        attemptId: "legacy-beta",
+        productId: "beta",
+        phase: "completed",
+        progress: { percent: 100 },
+        updatedAt: "2026-08-15T10:00:00.000Z"
+      }
+    }
+  });
+
+  assert.deepEqual(result, {
+    activeCount: 1,
+    totalCount: 2,
+    items: [
+      {
+        id: "queue-alpha",
+        productId: "alpha",
+        name: "Alpha Desktop",
+        source: "queue",
+        phase: "downloading",
+        state: "active",
+        percent: 42
+      },
+      {
+        id: "legacy-beta",
+        productId: "beta",
+        name: "Beta Desktop",
+        source: "legacy",
+        phase: "completed",
+        state: "completed",
+        percent: 100
+      }
+    ]
+  });
+
+  const root = path.resolve(__dirname, "..");
+  const app = fs.readFileSync(path.join(root, "src/App.tsx"), "utf8");
+  const styles = fs.readFileSync(path.join(root, "src/styles.css"), "utf8");
+  const language = fs.readFileSync(path.join(root, "src/language/index.ts"), "utf8");
+  assert.match(app, /data-aihub-download-menu/);
+  assert.match(app, /data-aihub-download-item/);
+  assert.match(app, /buildDownloadPopoverItems/);
+  assert.match(app, /openInstalledManagement/);
+  assert.match(styles, /\.downloadPopover/);
+  assert.match(language, /"downloadMenu\.title"/);
+  assert.match(language, /"downloadMenu\.empty"/);
 });

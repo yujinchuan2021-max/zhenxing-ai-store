@@ -27,3 +27,24 @@ export function classifyCommunityLoadFailure(
   errorCode?: number,
   isMainFrame?: boolean
 ): { errorClass: string; messageKey: string } | null;
+
+export function communityEmbedSessionFailure(error?: {
+  code?: string;
+  status?: number;
+}):
+  | {
+      ok: false;
+      error: {
+        code: "SESSION_REVOKED";
+        status: 401;
+        messageKey: "community.sessionExpired";
+      };
+    }
+  | {
+      ok: false;
+      error: {
+        code: "TEMPORARILY_UNAVAILABLE";
+        status: 503;
+        messageKey: "community.serviceUnavailable";
+      };
+    };
