@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "pass",
   "sourceRootKind": "dirty-working-tree-snapshot",
-  "sourceHead": "f9fcce740bb7d90510b4cfdac7492aef78d16a3c",
+  "sourceHead": "7d05f28c2628e2a36f9d31f4d6c748283e0fdcd2",
   "stagingPurpose": "public-source-snapshot-candidate-only",
   "files": [
     {
@@ -151,14 +151,14 @@
     },
     {
       "path": "package-lock.json",
-      "bytes": 389815,
-      "sha256": "d114c23c5407213924f29309d661391d8843514863c79a78ea50dd90c5169a8e",
+      "bytes": 390982,
+      "sha256": "c62450b772cea463b24e4301fec4dee736d30d98c7fff2408084573805389182",
       "sourceState": "tracked-clean"
     },
     {
       "path": "package.json",
-      "bytes": 1135,
-      "sha256": "184a456dd85496285499f1f469bc63afe128448e095b715e080cf3b343adfb25",
+      "bytes": 1153,
+      "sha256": "d13f6ac5a9a93d15a0087d403bceb9cb7bf83aaf601bc058cbab5ada06f42cbe",
       "sourceState": "tracked-clean"
     },
     {
@@ -763,14 +763,14 @@
     },
     {
       "path": "pc-client/package-lock.json",
-      "bytes": 173323,
-      "sha256": "709300fbdda20a488381e314012523c4153b89854e1a76c1577bc0c0d1f4b477",
+      "bytes": 173589,
+      "sha256": "9fab87c0493153da32471285f85d301873915d7c535417d658056baf0da858fa",
       "sourceState": "tracked-clean"
     },
     {
       "path": "pc-client/package.json",
-      "bytes": 7444,
-      "sha256": "7921f35c5d7b2f6db9f3278a4ea70b5cc6dd092a9b574c8e8cc6002cc7578346",
+      "bytes": 7443,
+      "sha256": "d9f0a250d7905c5116f0fe3d7cfd65233bf2a9397981eb3c8cc7c4053a2ebddb",
       "sourceState": "tracked-clean"
     },
     {
@@ -4273,8 +4273,8 @@
     },
     {
       "path": "tools/stage-public-source.cjs",
-      "bytes": 28196,
-      "sha256": "f5d66e36cf3eb8f8421cc1bc1c2dfe7210f63f628cf221cd5e008a73647df56b",
+      "bytes": 28201,
+      "sha256": "40cbd10b33c2069659a672b89b6b1eb44fffcc4a16b90d67f9baeac5a9716b34",
       "sourceState": "staging-tool"
     },
     {
@@ -4298,7 +4298,7 @@
   ],
   "totals": {
     "files": 715,
-    "bytes": 24456756
+    "bytes": 24458211
   },
   "safety": {
     "unknown": 0,
