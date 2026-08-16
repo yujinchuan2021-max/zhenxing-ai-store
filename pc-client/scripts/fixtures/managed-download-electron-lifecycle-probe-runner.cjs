@@ -72,7 +72,7 @@ async function startElectronLifecycleProbe({ electron, userData, preloadPath, ch
   checkpoint.write("keepalive-ready", "completed");
 }
 
-if (require.main === module) {
+if (require.main === module || process.versions?.electron) {
   const electron = require("electron");
   const userData = process.env.AIHUB_ELECTRON_LIFECYCLE_PROBE_USER_DATA;
   const preloadPath = path.join(__dirname, "installed-management-preview-preload.cjs");

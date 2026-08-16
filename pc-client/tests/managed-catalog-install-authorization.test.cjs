@@ -247,7 +247,7 @@ test("main process reauthorizes every new managed install boundary", () => {
     /async function reconcileManagedCli[\s\S]*?async function scanApprovedProductInventory/
   )?.[0];
   const resourceLifecycle = source.match(
-    /const manager = createExtensionResourceManager[\s\S]*?extensionIpcFacade = createExtensionIpcFacade\(manager, \{ listProfiles \}\)/
+    /const manager = createExtensionResourceManager[\s\S]*?extensionIpcFacade = createExtensionIpcFacade\(manager, \{[\s\S]*?\n\s*\}\);/
   )?.[0];
 
   assert.ok(downloadStart);

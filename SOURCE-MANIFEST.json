@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "pass",
   "sourceRootKind": "dirty-working-tree-snapshot",
-  "sourceHead": "7d05f28c2628e2a36f9d31f4d6c748283e0fdcd2",
+  "sourceHead": "e121b65ace1b418c77c18fab715bb8e9b9b3514c",
   "stagingPurpose": "public-source-snapshot-candidate-only",
   "files": [
     {
@@ -1057,8 +1057,8 @@
     },
     {
       "path": "pc-client/scripts/fixtures/managed-download-electron-lifecycle-probe-runner.cjs",
-      "bytes": 3224,
-      "sha256": "45ef21584d212754bddbcaa6dcb928a7b1d3c92822713ed78b9f350132e367bd",
+      "bytes": 3254,
+      "sha256": "c68488b68e22556a0bd63173c251e527c1963ab23d86ad9f2bea698c98f51166",
       "sourceState": "tracked-clean"
     },
     {
@@ -3596,7 +3596,7 @@
     {
       "path": "pc-client/tests/managed-catalog-install-authorization.test.cjs",
       "bytes": 10175,
-      "sha256": "1ad7f46305da7c55dfa92038e4a99f1d906eb12a0d3d432def07d36c5bf7f37a",
+      "sha256": "9bdff369d4e3edeb9ff84a00e766ceaf1a4b6df92aa1f154276531eb74ad8c7c",
       "sourceState": "tracked-clean"
     },
     {
@@ -4249,8 +4249,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 3011,
-      "sha256": "90d28a357c2b043ce7284af85276266740e5503be1e048e18ce1900725295897",
+      "bytes": 3108,
+      "sha256": "2546187ef3a922a3f2f624594a7c03115627ac00363425babec5b335a5c25069",
       "sourceState": "generated-release-metadata"
     },
     {
@@ -4273,8 +4273,8 @@
     },
     {
       "path": "tools/stage-public-source.cjs",
-      "bytes": 28201,
-      "sha256": "40cbd10b33c2069659a672b89b6b1eb44fffcc4a16b90d67f9baeac5a9716b34",
+      "bytes": 28293,
+      "sha256": "81c0a1c63a4e236824a523d750e97f854c46475bb5ddd970c72110166ca28573",
       "sourceState": "staging-tool"
     },
     {
@@ -4298,7 +4298,7 @@
   ],
   "totals": {
     "files": 715,
-    "bytes": 24458211
+    "bytes": 24458430
   },
   "safety": {
     "unknown": 0,

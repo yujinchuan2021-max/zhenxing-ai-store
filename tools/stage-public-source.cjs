@@ -8,7 +8,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const SOURCE = 'D:\\AIhub\\AIHUB备份';
-const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260816-dependency-security-v6';
+const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260816-0198-lifecycle-v1';
 const TOOL_REL = 'tools/stage-public-source.cjs';
 const MANIFEST_REL = 'SOURCE-MANIFEST.json';
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -192,7 +192,7 @@ npm run desktop
 
 ## 版本
 
-当前已完成验收的产品版本为 **0.1.94**。根站点 \`0.1.0\` 与 PC 客户端内部 package \`0.1.40\` 是独立开发包版本，不表示它们已经统一为产品发布版本。
+当前已完成本地验收的产品版本为 **0.1.98**。根站点 \`0.1.0\` 与 PC 客户端内部 package \`0.1.40\` 是独立开发包版本，不表示它们已经统一为产品发布版本。0.1.98 的 Windows 安装包尚未签名，不属于公开下载或自动更新发布物。
 
 ## 语言与内容边界
 
