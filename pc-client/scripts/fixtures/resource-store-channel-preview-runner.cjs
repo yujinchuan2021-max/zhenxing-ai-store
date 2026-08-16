@@ -46,6 +46,92 @@ async function resourceIds(window) {
   `);
 }
 
+async function assertResponsiveShell(window) {
+  await click(window, '[data-aihub-resource-store-id="skill"]', "Skill store entry missing before responsive check");
+  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-filter="host"]\'))', "Skill filters missing before responsive check");
+  window.setContentSize(740, 768);
+  await waitFor(window, "window.innerWidth === 740", "responsive shell viewport did not settle");
+  await window.webContents.executeJavaScript(`(() => {
+    const navbar = document.querySelector('#primary-navigation');
+    if (navbar) navbar.style.transition = 'none';
+    return true;
+  })()`);
+  await waitFor(window, `(() => {
+    const rect = document.querySelector('#primary-navigation')?.getBoundingClientRect();
+    return Boolean(rect && rect.right <= 0);
+  })()`, "closed mobile navigation did not settle outside the viewport");
+
+  const closed = await window.webContents.executeJavaScript(`(() => {
+    const toggle = document.querySelector('[data-aihub-mobile-nav-toggle]');
+    const compact = document.querySelector('[data-aihub-filter-compact="host"]');
+    const chips = document.querySelector('[data-aihub-resource-filter="host"] .filterChipGroup');
+    const navbarRect = document.querySelector('#primary-navigation')?.getBoundingClientRect();
+    const mainRect = document.querySelector('main')?.getBoundingClientRect();
+    return {
+      appShell: Boolean(document.querySelector('[data-aihub-app-shell]')),
+      expanded: toggle?.getAttribute('aria-expanded'),
+      toggleVisible: Boolean(toggle && toggle.getBoundingClientRect().width > 0),
+      compactVisible: Boolean(compact && getComputedStyle(compact).display !== 'none'),
+      chipsHidden: Boolean(chips && getComputedStyle(chips).display === 'none'),
+      navbarOutsideViewport: Boolean(navbarRect && navbarRect.right <= 0),
+      mainStartsAtViewport: Boolean(mainRect && mainRect.left === 0)
+    };
+  })()`);
+  assert.deepEqual(closed, {
+    appShell: true,
+    expanded: "false",
+    toggleVisible: true,
+    compactVisible: true,
+    chipsHidden: true,
+    navbarOutsideViewport: true,
+    mainStartsAtViewport: true
+  });
+
+  await click(window, '[data-aihub-mobile-nav-toggle]', "mobile navigation toggle missing");
+  await waitFor(window, 'document.querySelector(\'[data-aihub-mobile-nav-toggle]\')?.getAttribute("aria-expanded") === "true"', "mobile navigation did not open");
+  await waitFor(window, `(() => {
+    const rect = document.querySelector('#primary-navigation')?.getBoundingClientRect();
+    return Boolean(rect && rect.width > 0 && rect.left >= 0 && rect.right <= innerWidth);
+  })()`, "open mobile navigation did not settle inside the viewport");
+  const opened = await window.webContents.executeJavaScript(`(() => {
+    const navbar = document.querySelector('#primary-navigation');
+    const rect = navbar?.getBoundingClientRect();
+    return Boolean(rect && rect.width > 0 && rect.left >= 0 && rect.right <= innerWidth);
+  })()`);
+  assert.equal(opened, true, "open mobile navigation must remain inside the viewport");
+  fs.mkdirSync(outputDirectory, { recursive: true });
+  await window.webContents.capturePage();
+  fs.writeFileSync(
+    path.join(outputDirectory, "mantine-appshell-skill-narrow-2026-08-16.png"),
+    (await window.webContents.capturePage()).toPNG()
+  );
+  await click(window, '[data-aihub-mobile-nav-toggle]', "mobile navigation toggle did not close");
+  await waitFor(window, 'document.querySelector(\'[data-aihub-mobile-nav-toggle]\')?.getAttribute("aria-expanded") === "false"', "mobile navigation did not close");
+  await waitFor(window, `(() => {
+    const rect = document.querySelector('#primary-navigation')?.getBoundingClientRect();
+    return Boolean(rect && rect.right <= 0);
+  })()`, "closed mobile navigation did not settle outside the viewport");
+  const reclosed = await window.webContents.executeJavaScript(`(() => {
+    const toggle = document.querySelector('[data-aihub-mobile-nav-toggle]');
+    const navbar = document.querySelector('#primary-navigation');
+    const rect = navbar?.getBoundingClientRect();
+    return {
+      expanded: toggle?.getAttribute('aria-expanded'),
+      navbarOutsideViewport: Boolean(rect && rect.right <= 0)
+    };
+  })()`);
+  assert.equal(reclosed.expanded, "false");
+  assert.equal(reclosed.navbarOutsideViewport, true, `closed navbar remained visible: ${JSON.stringify(reclosed)}`);
+  await window.webContents.capturePage();
+  fs.writeFileSync(
+    path.join(outputDirectory, "mantine-appshell-skill-narrow-closed-2026-08-16.png"),
+    (await window.webContents.capturePage()).toPNG()
+  );
+  window.setContentSize(1365, 768);
+  await waitFor(window, "window.innerWidth === 1365", "desktop shell viewport did not restore");
+  return { ...closed, reclosed };
+}
+
 async function chooseResourceFilter(window, marker, value) {
   const selector = `[data-aihub-resource-filter="${marker}"] [data-aihub-filter-value="${value}"]`;
   const changed = await window.webContents.executeJavaScript(`(() => {
@@ -63,14 +149,21 @@ async function assertStoreEntries(window) {
     await click(window, `[data-aihub-resource-store-id="${store}"]`, `${store} store entry missing`);
     await waitFor(window, `Boolean(document.querySelector('[data-aihub-resource-store-current="${store}"]'))`, `${store} store was not preselected`);
     assert.equal(
+      await window.webContents.executeJavaScript(
+        `document.querySelector('[data-aihub-resource-store-window]')?.getAttribute('data-aihub-resource-store-window')`
+      ),
+      store,
+      `${store} store must use the shared resource window`
+    );
+    assert.equal(
       Boolean(await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-filter=host]')")),
       true,
       `${store} store must expose the host filter`
     );
     assert.equal(
       await window.webContents.executeJavaScript("document.querySelectorAll('[data-aihub-resource-filter=scenario]').length"),
-      store === "skill" ? 1 : 0,
-      "Skill category must not leak into another store"
+      0,
+      "empty scenario filters must not render in any resource store"
     );
   }
   await click(window, '[data-aihub-resource-store-id="plugin"]', "Plugin store entry missing");
@@ -78,7 +171,74 @@ async function assertStoreEntries(window) {
   assert.equal(Boolean(await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-empty-filter]')")), false);
 }
 
-async function assertSkillScenarioFilters(window) {
+async function assertResourceStoreSplitPane(window) {
+  await click(window, '[data-aihub-resource-store-id="skill"]', "Skill store entry missing");
+  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-results-scroll] [data-aihub-resource-id]\').length === 2', "Skill split pane did not render");
+
+  const inspect = () => window.webContents.executeJavaScript(`(() => {
+    const page = document.querySelector('[data-aihub-resource-store-window="skill"]');
+    const filter = document.querySelector('[data-aihub-resource-filter-panel]');
+    const results = document.querySelector('[data-aihub-resource-results-scroll]');
+    const pageRect = page?.getBoundingClientRect();
+    const filterRect = filter?.getBoundingClientRect();
+    const resultsRect = results?.getBoundingClientRect();
+    return {
+      viewport: window.innerWidth,
+      pageHeight: pageRect?.height || 0,
+      filterTop: filterRect?.top || 0,
+      filterRight: filterRect?.right || 0,
+      resultsTop: resultsRect?.top || 0,
+      resultsLeft: resultsRect?.left || 0,
+      resultsClientHeight: results?.clientHeight || 0,
+      resultsScrollHeight: results?.scrollHeight || 0,
+      resultsScrollTop: results?.scrollTop || 0,
+      documentScrollTop: document.scrollingElement?.scrollTop || 0
+    };
+  })()`);
+
+  const verifyAtWidth = async (width) => {
+    window.setContentSize(width, 768);
+    await waitFor(window, `window.innerWidth === ${width}`, `split pane viewport ${width} did not settle`);
+    await waitFor(window, `(() => {
+      const pageRect = document.querySelector('[data-aihub-resource-store-window="skill"]')?.getBoundingClientRect();
+      const navbarRect = document.querySelector('#primary-navigation')?.getBoundingClientRect();
+      if (!pageRect || !navbarRect) return false;
+      return ${width <= 760
+        ? "navbarRect.right <= 0 && pageRect.left <= 40"
+        : "navbarRect.left >= 0 && pageRect.left >= 260"};
+    })()`, `split pane shell ${width} did not settle`);
+    const before = await inspect();
+    assert.ok(before.pageHeight > 0, "resource window must have a bounded height");
+    assert.ok(before.resultsScrollHeight > before.resultsClientHeight, `results must scroll at ${width}px`);
+    assert.ok(before.filterRight <= before.resultsLeft + 1, `filter and results must remain side by side at ${width}px`);
+    await window.webContents.executeJavaScript(`(() => {
+      const results = document.querySelector('[data-aihub-resource-results-scroll]');
+      if (results) results.scrollTop = Math.min(140, results.scrollHeight - results.clientHeight);
+    })()`);
+    await waitFor(window, "document.querySelector('[data-aihub-resource-results-scroll]')?.scrollTop > 0", `results did not scroll at ${width}px`);
+    const after = await inspect();
+    assert.ok(
+      Math.abs(after.filterTop - before.filterTop) <= 2,
+      `filter rail moved at ${width}px: ${before.filterTop} -> ${after.filterTop}`
+    );
+    assert.equal(after.documentScrollTop, before.documentScrollTop, `document scrolled with results at ${width}px`);
+    fs.mkdirSync(outputDirectory, { recursive: true });
+    fs.writeFileSync(
+      path.join(outputDirectory, `resource-store-split-pane-${width}.png`),
+      (await window.webContents.capturePage()).toPNG()
+    );
+    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-results-scroll]').scrollTop = 0");
+    return after;
+  };
+
+  const desktop = await verifyAtWidth(1365);
+  const narrow = await verifyAtWidth(740);
+  window.setContentSize(1365, 768);
+  await waitFor(window, "window.innerWidth === 1365", "desktop split pane viewport did not restore");
+  return { desktop, narrow };
+}
+
+async function assertSkillStoreFiltersAndDetail(window) {
   await click(window, '[data-aihub-resource-store-id="skill"]', "Skill store entry missing");
   await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 2', "official Skill resources missing");
   assert.deepEqual(
@@ -93,44 +253,30 @@ async function assertSkillScenarioFilters(window) {
   assert.match(publisher.card, /Fixture Publisher/);
   assert.equal(publisher.parent, null, "publisher must remain a fact, not a parent navigation node");
   const accessibility = await window.webContents.executeJavaScript(`(() => {
-    const group = document.querySelector('[data-aihub-resource-filter="scenario"] [role="group"]');
+    const group = document.querySelector('[data-aihub-resource-filter="host"] [role="group"]');
     return { label: group?.getAttribute('aria-label') || '', buttonsTyped: [...(group?.querySelectorAll('button') || [])].every((button) => button.type === 'button') };
   })()`);
-  assert.match(accessibility.label, /场景|scenario/i);
+  assert.match(accessibility.label, /兼容宿主|compatible host/i);
   assert.equal(accessibility.buttonsTyped, true);
+  assert.equal(
+    await window.webContents.executeJavaScript("document.querySelectorAll('[data-aihub-resource-filter=scenario]').length"),
+    0,
+    "empty scenario filter must be removed"
+  );
 
-  await chooseResourceFilter(window, "scenario", "programming-development");
-  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 1', "official programming Skill filter did not narrow");
-  assert.deepEqual(await resourceIds(window), ["fixture-official-skill"]);
-  const pressed = await window.webContents.executeJavaScript(`(() => {
-    const button = document.querySelector('[data-aihub-resource-filter="scenario"] [data-aihub-filter-value="programming-development"]');
-    return { pressed: button?.getAttribute('aria-pressed'), focused: document.activeElement === button, count: document.querySelector('.directorySummary span')?.textContent.trim() || '' };
-  })()`);
-  assert.deepEqual({ pressed: pressed.pressed, focused: pressed.focused }, { pressed: "true", focused: true });
-  assert.match(pressed.count, /1/);
-
-  await chooseResourceFilter(window, "source-channel", "community");
-  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 1', "community programming Skill combination did not settle");
-  assert.deepEqual(await resourceIds(window), ["fixture-community-skill"]);
-  await chooseResourceFilter(window, "host", "codex-cli");
-  assert.deepEqual(await resourceIds(window), ["fixture-community-skill"]);
-  await chooseResourceFilter(window, "scenario", "gaming");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-empty-filter]\'))', "host/category no-match state missing");
-
-  await chooseResourceFilter(window, "scenario", "research");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-empty-filter]\'))', "no-match filter state missing");
-  assert.equal(Boolean(await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-empty-source]')")), false);
-
-  await chooseResourceFilter(window, "scenario", "全部");
-  assert.deepEqual(await resourceIds(window), ["fixture-community-skill"]);
-  await chooseResourceFilter(window, "host", "全部");
-  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 2', "All did not restore community Skills");
-  assert.deepEqual(await resourceIds(window), ["fixture-community-game-skill", "fixture-community-skill"]);
-
-  await chooseResourceFilter(window, "source-channel", "official");
-  await chooseResourceFilter(window, "scenario", "programming-development");
   await click(window, '[data-aihub-resource-id="fixture-official-skill"]', "multi-host Skill card missing");
+  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-overview]\'))', "useful resource overview missing");
   await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-compatible-hosts] [data-aihub-resource-host-id]\').length === 2', "detail did not list every compatible host");
+  const overview = await window.webContents.executeJavaScript(`(() => ({
+    text: document.querySelector('[data-aihub-resource-overview]')?.textContent || '',
+    purpose: document.querySelector('[data-aihub-resource-purpose]')?.textContent || '',
+    outcomes: [...document.querySelectorAll('[data-aihub-resource-outcome]')].map((node) => node.textContent || '')
+  }))()`);
+  assert.match(overview.text, /它能做什么|what it does/i);
+  assert.match(overview.purpose, /Official link-only fixture resource/);
+  assert.ok(overview.outcomes.length >= 3, "detail must explain multiple concrete outcomes");
+  assert.match(overview.outcomes.join(" "), /代码审查|code review/i);
+  assert.match(overview.outcomes.join(" "), /重复逻辑|duplicate logic/i);
   assert.deepEqual(await window.webContents.executeJavaScript(`
     [...document.querySelectorAll('[data-aihub-resource-compatible-hosts] [data-aihub-resource-host-id]')]
       .map((node) => node.getAttribute('data-aihub-resource-host-id')).sort()
@@ -139,11 +285,17 @@ async function assertSkillScenarioFilters(window) {
   await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-id="fixture-official-skill"]\'))', "resource list did not return");
   const restored = await window.webContents.executeJavaScript(`(() => ({
     source: document.querySelector('[data-aihub-resource-filter="source-channel"] [aria-pressed="true"]')?.dataset.aihubFilterValue,
-    scenario: document.querySelector('[data-aihub-resource-filter="scenario"] [aria-pressed="true"]')?.dataset.aihubFilterValue,
     host: document.querySelector('[data-aihub-resource-filter="host"] [aria-pressed="true"]')?.dataset.aihubFilterValue
   }))()`);
-  assert.deepEqual(restored, { source: "official", scenario: "programming-development", host: "全部" });
-  return { officialAll: 2, filtered: 1, communityAll: 2, detailHosts: 2 };
+  assert.deepEqual(restored, { source: "official", host: "全部" });
+
+  await chooseResourceFilter(window, "source-channel", "community");
+  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 2', "community Skills did not settle");
+  await chooseResourceFilter(window, "host", "codex-cli");
+  await waitFor(window, 'document.querySelectorAll(\'[data-aihub-resource-level="resources"] [data-aihub-resource-id]\').length === 1', "community host filter did not narrow");
+  assert.deepEqual(await resourceIds(window), ["fixture-community-skill"]);
+  await chooseResourceFilter(window, "host", "全部");
+  return { officialAll: 2, communityAll: 2, hostFiltered: 1, detailHosts: 2 };
 }
 
 async function assertConnectionRelations(window) {
@@ -232,15 +384,10 @@ async function openUnsafeDetail(window) {
   await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-filter="source-channel"]\'))', "resource channel filters did not render");
   const filters = await window.webContents.executeJavaScript(`(() => ({
     stores: [...document.querySelectorAll('[data-aihub-resource-store-id]')].map((node) => node.getAttribute('data-aihub-resource-store-id')),
-    scenarioCount: document.querySelectorAll('[data-aihub-resource-filter="scenario"] [data-aihub-filter-value]').length,
-    agentFilter: Boolean(document.querySelector('[data-aihub-resource-filter="agent"]'))
+    scenarioCount: document.querySelectorAll('[data-aihub-resource-filter="scenario"] [data-aihub-filter-value]').length
   }))()`);
   assert.deepEqual(filters.stores, ["skill", "mcp", "plugin", "connector"]);
-  assert.equal(filters.scenarioCount, 0, "scenario filters belong only to the Skill store");
-  assert.equal(filters.agentFilter, true);
-  await click(window, '[data-aihub-resource-filter="agent"] [data-aihub-filter-value="mature"]', "mature Agent filter missing");
-  await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-id="openai-codex-mcp-config"]\'))', "catalog-backed mature Agent resource missing");
-  await click(window, '[data-aihub-resource-filter="agent"] [data-aihub-filter-value="all"]', "all Agent filter missing");
+  assert.equal(filters.scenarioCount, 0, "empty scenario filters must not render");
   await click(window, '[data-aihub-resource-filter="source-channel"] [data-aihub-filter-value="community"]', "community channel missing");
   await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-id="fixture-unsafe-community-mcp"]\'))', "unsafe community resource missing");
   await click(window, '[data-aihub-resource-id="fixture-unsafe-community-mcp"]', "unsafe community resource detail did not open");
@@ -288,7 +435,13 @@ async function snapshot(window, width, height) {
     if (details) details.open = true;
     const visibleButtons = [...document.querySelectorAll('button')].filter((button) => {
       const rect = button.getBoundingClientRect();
-      return rect.width > 0 && rect.height > 0;
+      return rect.width > 0 && rect.height > 0 && rect.right > 0 && rect.left < window.innerWidth;
+    });
+    const buttonOverflow = visibleButtons.flatMap((button) => {
+      const rect = button.getBoundingClientRect();
+      return rect.left < 0 || rect.right > window.innerWidth
+        ? [{ text: (button.textContent || '').trim(), action: button.dataset.aihubAction || '', left: rect.left, right: rect.right }]
+        : [];
     });
     return {
       viewport: window.innerWidth,
@@ -296,10 +449,8 @@ async function snapshot(window, width, height) {
       warning: document.querySelector('.resourceWarning')?.textContent.trim() || '',
       managedProbe: Boolean(document.querySelector('[data-aihub-action="inspect-extension"]')),
       externalData: document.body.textContent.includes('外部平台数据'),
-      buttonsInsideViewport: visibleButtons.every((button) => {
-        const rect = button.getBoundingClientRect();
-        return rect.left >= 0 && rect.right <= window.innerWidth;
-      }),
+      buttonsInsideViewport: buttonOverflow.length === 0,
+      buttonOverflow,
       pageHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
     };
   })()`);
@@ -307,7 +458,7 @@ async function snapshot(window, width, height) {
   assert.equal(result.managedProbe, false, "unsafe resource must not expose a managed probe");
   assert.equal(result.externalData, true, "external values must retain their platform label");
   assert.ok(result.scrollWidth <= result.viewport, `viewport ${width} has horizontal overflow`);
-  assert.equal(result.buttonsInsideViewport, true, "visible resource buttons must stay in the viewport");
+  assert.equal(result.buttonsInsideViewport, true, `visible resource buttons must stay in the viewport: ${JSON.stringify(result.buttonOverflow)}`);
   fs.mkdirSync(outputDirectory, { recursive: true });
   window.setContentSize(width, result.pageHeight);
   await waitFor(window, 'new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve(true))))', `full-page viewport ${width} did not settle`);
@@ -326,8 +477,14 @@ async function run() {
   try {
     await window.loadFile(path.join(root, "dist", "index.html"));
     await waitFor(window, 'Boolean(document.querySelector(\'[data-aihub-resource-store-id="skill"]\'))', "resource stores did not render");
+    const responsiveShell = await assertResponsiveShell(window);
+    const splitPane = await assertResourceStoreSplitPane(window);
+    if (process.env.AIHUB_RESOURCE_CHANNEL_SHELL_ONLY === "1") {
+      process.stdout.write(`${JSON.stringify({ ok: true, responsiveShell, splitPane }, null, 2)}\n`);
+      return;
+    }
     await assertStoreEntries(window);
-    const skillFilters = await assertSkillScenarioFilters(window);
+    const skillFilters = await assertSkillStoreFiltersAndDetail(window);
     const connectionRelations = await assertConnectionRelations(window);
     await openUnsafeDetail(window);
     const result = {
@@ -336,7 +493,7 @@ async function run() {
     };
     const submission = await assertContributionRoute(window);
     const vendorProduct = await assertVendorProductRoute(window);
-    process.stdout.write(`${JSON.stringify({ ok: true, ...result, submission, skillFilters, connectionRelations, vendorProduct }, null, 2)}\n`);
+    process.stdout.write(`${JSON.stringify({ ok: true, ...result, responsiveShell, splitPane, submission, skillFilters, connectionRelations, vendorProduct }, null, 2)}\n`);
   } finally {
     if (!window.isDestroyed()) window.destroy();
   }

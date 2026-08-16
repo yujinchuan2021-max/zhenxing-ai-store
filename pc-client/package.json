@@ -69,6 +69,11 @@
     "language:translate": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/translate-ui-language.ps1"
   },
   "dependencies": {
+    "@mantine/core": "9.5.1",
+    "@mantine/hooks": "9.5.1",
+    "@mantine/notifications": "9.5.1",
+    "@mantine/spotlight": "9.5.1",
+    "@tabler/icons-react": "3.46.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
@@ -102,6 +107,7 @@
       "electron/**/*",
       "shared/**/*",
       "build/icon.png",
+      "build/icon.ico",
       "package.json"
     ],
     "extraResources": [
@@ -131,7 +137,7 @@
       }
     ],
     "win": {
-      "icon": "build/icon.png",
+      "icon": "build/icon.ico",
       "target": [
         {
           "target": "portable",
@@ -156,7 +162,9 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "枕星 AI"
+      "shortcutName": "枕星 AI",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
     }
   }
 }

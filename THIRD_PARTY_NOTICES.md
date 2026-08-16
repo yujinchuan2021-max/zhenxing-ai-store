@@ -13,6 +13,8 @@
 | Drizzle ORM | 0.45.2 | Apache-2.0 | 网站数据访问 |
 | Next.js | 16.2.6 | MIT | 网站运行时 |
 | React / React DOM | 19.2.x | MIT | 网站与 Windows 客户端界面 |
+| Mantine Core / Hooks / Notifications / Spotlight | 9.5.1 | MIT | Windows 客户端主题、命令中心、弹层与通知 |
+| Tabler Icons React | 3.46.0 | MIT | Windows 客户端界面图标 |
 | Electron | 39.8.10 | MIT | Windows 客户端运行时 |
 | Vite | 7.3.6 / 8.0.13 | MIT | 客户端与网站构建 |
 | TypeScript | 5.9.3 | Apache-2.0 | 构建工具链 |

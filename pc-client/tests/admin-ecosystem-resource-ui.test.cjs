@@ -88,11 +88,11 @@ test("PC resource cards expose only catalog-backed safety details", () => {
     "installScope",
     "versionRef",
     "uninstallPlan",
-    "lastVerifiedAt",
-    "provenanceEvidence"
+    "lastVerifiedAt"
   ]) {
     assert.match(app, new RegExp(`resource\\.${field}`));
   }
+  assert.match(app, /resourceProvenancePresentation\(resource\)/);
   assert.match(app, /selectedEntry\.publisher &&/);
   assert.match(app, /data-aihub-resource-publisher/);
   assert.match(app, /\{selectedEntry\.publisher\.name\}/);

@@ -1220,7 +1220,13 @@ function updateDownloadTrayTask(task) {
   );
 }
 
-function showTaskNotification({ key, productId, title, body }) {
+function showTaskNotification({
+  key,
+  productId,
+  title,
+  body,
+  restored = false
+}) {
   if (
     typeof key !== "string" ||
     !key ||
@@ -1245,6 +1251,7 @@ function showTaskNotification({ key, productId, title, body }) {
   ) {
     return false;
   }
+  if (restored) return false;
   try {
     const notification = new Notification(localizedSystemOptions({
       title,
@@ -1271,7 +1278,7 @@ function showTaskNotification({ key, productId, title, body }) {
   }
 }
 
-function notifyDesktopOperationTask(task) {
+function notifyDesktopOperationTask(task, { restored = false } = {}) {
   if (!["installed", "uninstalled", "timed-out"].includes(task?.phase)) return;
   const name = taskNotificationProductName(task.productId);
   const title =
@@ -1288,11 +1295,12 @@ function notifyDesktopOperationTask(task) {
     key: `desktop:${task.productId}:${task.generation}:${task.phase}`,
     productId: task.productId,
     title,
-    body
+    body,
+    restored
   });
 }
 
-function emitDesktopOperationTask(task) {
+function emitDesktopOperationTask(task, context) {
   for (const window of BrowserWindow.getAllWindows()) {
     if (!window.isDestroyed() && !window.webContents.isDestroyed()) {
       try {
@@ -1312,7 +1320,7 @@ function emitDesktopOperationTask(task) {
     )}`,
     ["launching", "monitoring"].includes(task?.phase)
   );
-  notifyDesktopOperationTask(task);
+  notifyDesktopOperationTask(task, context);
 }
 
 function getDesktopOperationController() {
@@ -1417,7 +1425,7 @@ function writeEnvironmentOperationRecords(records) {
   writeJsonAtomically(environmentOperationRecordsPath(), records);
 }
 
-function emitEnvironmentOperationTask(task) {
+function emitEnvironmentOperationTask(task, { restored = false } = {}) {
   for (const window of BrowserWindow.getAllWindows()) {
     if (!window.isDestroyed() && !window.webContents.isDestroyed()) {
       try {
@@ -1452,7 +1460,8 @@ function emitEnvironmentOperationTask(task) {
       body:
         task.phase === "timed-out"
           ? "点击打开任务中心重新检测实际状态。"
-          : "点击打开任务中心查看结果。"
+          : "点击打开任务中心查看结果。",
+      restored
     });
   }
 }
@@ -3416,6 +3425,8 @@ async function fetchRemoteCatalogRelease(channel, clientId, highest = null) {
     const response = await net.fetch(channel.releaseUrl, {
       method: "GET",
       cache: "no-store",
+      redirect: "manual",
+      headers: { Accept: "application/json" },
       signal: controller.signal
     });
     if (!response.ok) {
@@ -3576,14 +3587,26 @@ async function fetchUpdateManifest(channel, currentVersion, clientId) {
     const response = await net.fetch(channel.releaseUrl, {
       method: "GET",
       cache: "no-store",
+      redirect: "manual",
+      headers: { Accept: "application/json" },
       signal: controller.signal
     });
     if (!response.ok) {
       throw new Error(`更新服务器返回 ${response.status}`);
     }
     const finalUrl = resolveReleaseResponseUrl(response, channel.releaseUrl);
-    if (!channel.allowedReleaseOrigins.includes(finalUrl.origin)) {
+    if (
+      finalUrl.toString() !== channel.releaseUrl ||
+      !channel.allowedReleaseOrigins.includes(finalUrl.origin)
+    ) {
       throw new Error("更新清单重定向到了未固定的来源");
+    }
+    const contentType = String(response.headers.get("content-type") || "")
+      .split(";", 1)[0]
+      .trim()
+      .toLowerCase();
+    if (contentType !== "application/json") {
+      throw new Error("更新服务器返回了非 JSON 内容");
     }
     const raw = await readResponseTextWithLimit(response, 64 * 1024);
     return verifyAndEvaluateUpdateRelease(JSON.parse(raw), {
@@ -12813,7 +12836,8 @@ function createWindow() {
     minHeight: 700,
     show: false,
     backgroundColor: "#0e1714",
-    title: `${BRAND.name} PC`,
+    title: `${BRAND.name} Windows`,
+    icon: path.join(__dirname, "..", "build", "icon.png"),
     webPreferences: {
       preload: path.join(__dirname, "preload.cjs"),
       contextIsolation: true,

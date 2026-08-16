@@ -12,7 +12,7 @@ const password = `AIHub-${suffix}-Secure9`;
 
 const targets = await (await fetch(`${debuggerOrigin}/json/list`)).json();
 const target = targets.find(
-  (item) => item.type === "page" && item.title === "枕星 AI PC"
+  (item) => item.type === "page" && item.title === "枕星 AI Windows"
 );
 assert.ok(target?.webSocketDebuggerUrl, "没有找到枕星 AI Electron 渲染页");
 

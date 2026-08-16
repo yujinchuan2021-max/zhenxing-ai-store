@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "pass",
   "sourceRootKind": "dirty-working-tree-snapshot",
-  "sourceHead": "e121b65ace1b418c77c18fab715bb8e9b9b3514c",
+  "sourceHead": "84f46bb3b859abc5297d9e85451a21d0682f4bae",
   "stagingPurpose": "public-source-snapshot-candidate-only",
   "files": [
     {
@@ -13,8 +13,8 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 1037,
-      "sha256": "0b0778626fbf965c2f78cc68249f165211d75509bf06da134f8147aca6d1c3f3",
+      "bytes": 1150,
+      "sha256": "9d9c7c90cc5f66bef94d72e3ad9c4dc2c0de32988291fb538026bb646386dae2",
       "sourceState": "generated-release-metadata"
     },
     {
@@ -306,6 +306,24 @@
       "sourceState": "tracked-clean"
     },
     {
+      "path": "pc-client/assets/brand/zhenxing-star.png",
+      "bytes": 308638,
+      "sha256": "931eaae2f85ca8a5d6d91b15838fd3573e067158ff4a9c75f9ff70ba9fdb677e",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/build/icon.ico",
+      "bytes": 27383,
+      "sha256": "1a853acbad7343b7e38cfeebbfb6aaf82556354e99d238d3d017739d5eea903e",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/build/icon.png",
+      "bytes": 42276,
+      "sha256": "80f9610cf8c0d51638dc41d433145355d614ff6a5a7f97d844547bd22070b5f7",
+      "sourceState": "tracked-modified"
+    },
+    {
       "path": "pc-client/catalog/ai-connectable-taxonomy.cjs",
       "bytes": 4964,
       "sha256": "0c5a1549d0d4debfcaed1f5e5a061c1b684553cae386a53744d3b8bee096dc86",
@@ -535,9 +553,9 @@
     },
     {
       "path": "pc-client/electron/main.cjs",
-      "bytes": 434309,
-      "sha256": "24552d1722f7a72af351557be394ca20fe9fe4de57e9721138f75a47decb48f7",
-      "sourceState": "tracked-clean"
+      "bytes": 434996,
+      "sha256": "c794cb1c13e4246ab91a4ccd503f0be4c441cfb6d8cb07992c1306a24f540072",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/electron/managed-cli-lifecycle-ipc.cjs",
@@ -757,21 +775,21 @@
     },
     {
       "path": "pc-client/index.html",
-      "bytes": 1025,
-      "sha256": "229f84e533f9bd940c3264588b3ba3f9eb712e4b5ad0cc256cc94427ca0849aa",
-      "sourceState": "tracked-clean"
+      "bytes": 815,
+      "sha256": "8477a6ab947930c71b874ff6654b48e0cea9b3f54021dae4da0a28b93da3520c",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/package-lock.json",
-      "bytes": 173589,
-      "sha256": "9fab87c0493153da32471285f85d301873915d7c535417d658056baf0da858fa",
-      "sourceState": "tracked-clean"
+      "bytes": 188448,
+      "sha256": "a79e219289cd2e62256e26eb81ccae8c48f20f47995b4f3cd2976e12bb5395eb",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/package.json",
-      "bytes": 7443,
-      "sha256": "d9f0a250d7905c5116f0fe3d7cfd65233bf2a9397981eb3c8cc7c4053a2ebddb",
-      "sourceState": "tracked-clean"
+      "bytes": 7723,
+      "sha256": "5080c336ba554dc70046139dfbe859aff10fe75158b3425086aa289ffd10ea12",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/postcss.config.mjs",
@@ -796,6 +814,12 @@
       "bytes": 1135,
       "sha256": "dc909f1ea0c829ff1fdb1baa9f8102dddda59013ea74445f49b2b8ad2a980db7",
       "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/public/brand-icon.png",
+      "bytes": 42276,
+      "sha256": "80f9610cf8c0d51638dc41d433145355d614ff6a5a7f97d844547bd22070b5f7",
+      "sourceState": "untracked"
     },
     {
       "path": "pc-client/README.md",
@@ -1051,9 +1075,9 @@
     },
     {
       "path": "pc-client/scripts/fixtures/installed-management-preview-runner.cjs",
-      "bytes": 18834,
-      "sha256": "f057654620ebd485e89bdcbeecc172332824676ab8ed9d83a6cfba26d81198dc",
-      "sourceState": "tracked-clean"
+      "bytes": 23849,
+      "sha256": "f31d85abc6997703840232dcc2b89b864fe64e5dd42c00f210ed4df3800f30bb",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/fixtures/managed-download-electron-lifecycle-probe-runner.cjs",
@@ -1063,15 +1087,15 @@
     },
     {
       "path": "pc-client/scripts/fixtures/managed-download-queue-preview-runner.cjs",
-      "bytes": 77821,
-      "sha256": "2ce0275b3a57462c967fb821b6968b60f117de7ef0cca052d147ee8b9d2c6017",
-      "sourceState": "tracked-clean"
+      "bytes": 78875,
+      "sha256": "0e34b645b6aa25261189dabfff3b663e37d70ec19cd8393aa3953327c93d533e",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/fixtures/resource-store-channel-preview-runner.cjs",
-      "bytes": 19906,
-      "sha256": "83470e50f5f37867c21d1003bcc512163bb54d1e117f7aca9562e1bb47bb8f7c",
-      "sourceState": "tracked-clean"
+      "bytes": 27772,
+      "sha256": "f2a0372e412a343b8ce07c35bac3ed4916a85c19d7c71ab74b16e7c133bf0750",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/fixtures/resource-submission-preview-runner.cjs",
@@ -1381,9 +1405,9 @@
     },
     {
       "path": "pc-client/scripts/test-electron-identity-community.mjs",
-      "bytes": 4726,
-      "sha256": "45342e1af7fbde3efe10f35896f8dcb31580f77418bc17f8a820b730576b6733",
-      "sourceState": "tracked-clean"
+      "bytes": 4731,
+      "sha256": "63aa600c33b8a1c2e6e91273ebd497467eb045b9be0f5dc5f292b741be48ed3c",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/test-flarum-community.mjs",
@@ -1861,8 +1885,8 @@
     },
     {
       "path": "pc-client/shared/desktop-operation.cjs",
-      "bytes": 25297,
-      "sha256": "e29269e69e46ae0bb5c85852b1cd0c26596400f9f985863a84776378d6fe7917",
+      "bytes": 25347,
+      "sha256": "05cbd64a816c3da25ebed7eb0bf8096bc45afc9e0b26e0a51d3f28491e5c07cc",
       "sourceState": "tracked-clean"
     },
     {
@@ -1987,8 +2011,8 @@
     },
     {
       "path": "pc-client/shared/environment-operation.cjs",
-      "bytes": 4235,
-      "sha256": "6de6d5543761377cea78fe2cca291b610f3b42999d651ed3e2dff833d6c9039d",
+      "bytes": 4266,
+      "sha256": "ed9189ea44ce2ed693595ff60d9fbe3950ae5bb4ce6257851e56c91b4af968e5",
       "sourceState": "tracked-clean"
     },
     {
@@ -2497,9 +2521,9 @@
     },
     {
       "path": "pc-client/shared/resource-store.cjs",
-      "bytes": 10043,
-      "sha256": "4748a00cd9b65ddd684815d222b0dad1416b9de89bf660760acfb8ccf082bb9d",
-      "sourceState": "tracked-clean"
+      "bytes": 12536,
+      "sha256": "ae4d4144ed1c5b904d1ee4b940eb191e5c1433d86e0e5da882d1d3afc36908cd",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/shared/reviewed-process-close.cjs",
@@ -2689,9 +2713,9 @@
     },
     {
       "path": "pc-client/src/App.tsx",
-      "bytes": 442370,
-      "sha256": "b2430e0b9ce4fc68cfff49382a052cc78e3abc28f376cd4bd6446bfd254f736a",
-      "sourceState": "tracked-clean"
+      "bytes": 457495,
+      "sha256": "bf86c52c29c81a9a2ec748e4e9c7dffc63e526cdd13b316e30d6be4ab8327c19",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/src/catalog-localization.cjs",
@@ -2725,33 +2749,33 @@
     },
     {
       "path": "pc-client/src/language/index.ts",
-      "bytes": 71595,
-      "sha256": "bce8ec6d719d6ac751e63942f09dd7ccb672ed3272e70f15abc726b0cab4e90f",
-      "sourceState": "tracked-clean"
+      "bytes": 83612,
+      "sha256": "e86020873a9e65036014bbf0e06b0815b73254af3cbc2e136fdaad934e99f163",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/src/main.tsx",
-      "bytes": 231,
-      "sha256": "2dae0f9e6e34f4d3798f3dfdfc4afb700732eda06ef4369e51a6d83700694c64",
-      "sourceState": "tracked-clean"
+      "bytes": 1312,
+      "sha256": "6079bc8d62274771a958c0ae78fd2f73c0b636189d46db9e33905dbaebf12e48",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/src/resource-store-presentation.d.ts",
-      "bytes": 1137,
-      "sha256": "6696a01261cf3d3fc2f7f0c779728c064ca5d131a2e1f1e0cd5848b69f5fe78a",
-      "sourceState": "tracked-clean"
+      "bytes": 1822,
+      "sha256": "ea6f3ef38018808ae17bad62047386d8de1948d69a4263417c48e05b9ee4a97e",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/src/styles.css",
-      "bytes": 66752,
-      "sha256": "99aedd78a6fcd580cf2c568b1ddb5455e0be2a0e2c3c18c9ab9aeea259faa424",
-      "sourceState": "tracked-clean"
+      "bytes": 97316,
+      "sha256": "f00b93192fbf8668933d170195fef0a22ea7eb185be9a3ecc5ecb649cdb84c86",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/src/vite-env.d.ts",
-      "bytes": 40225,
-      "sha256": "59ded0a04ac71bf89781133c99ea66434eb3a5597a5598c56130eed9b13cf6d5",
-      "sourceState": "tracked-clean"
+      "bytes": 40382,
+      "sha256": "4b989158678a340e11f7674ca5d3db40459b52b2a4027ce0a0782f36ccb601aa",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/admin-community-management.test.cjs",
@@ -2773,9 +2797,9 @@
     },
     {
       "path": "pc-client/tests/admin-ecosystem-resource-ui.test.cjs",
-      "bytes": 5970,
-      "sha256": "146db7752d28e007a57c64cda88ea0ac5034d1d752e4f3a9e9fd072ab5fcf176",
-      "sourceState": "tracked-clean"
+      "bytes": 6011,
+      "sha256": "5787668cb78d9d20e79fbe1cad1a6e29e2814eda7badc58aec4a6f1879b860c3",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/admin-product-entry-module.test.cjs",
@@ -2833,9 +2857,9 @@
     },
     {
       "path": "pc-client/tests/brand-contract.test.cjs",
-      "bytes": 1478,
-      "sha256": "c7d7b203638263a4c3cba7b62dd9d5436b9f6d7a4419a28087a8c50489ce9158",
-      "sourceState": "tracked-clean"
+      "bytes": 3828,
+      "sha256": "8d90b9c82557d44547836b68a100f988f860d18298634db5a9b086c9621f61b7",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/catalog-backlog-closure.test.cjs",
@@ -2989,9 +3013,9 @@
     },
     {
       "path": "pc-client/tests/client-runtime-version.test.cjs",
-      "bytes": 1226,
-      "sha256": "7aa6df4b121ad8e57580c394a1e3818bb77f9924e3273a8ac5f7a0a26cdb9fd3",
-      "sourceState": "tracked-clean"
+      "bytes": 1287,
+      "sha256": "d3945bb66247ae3385eb2bbb51f023d11cac34d043a3c46fb696983ddf0a3a1f",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/client-services.test.cjs",
@@ -3259,8 +3283,8 @@
     },
     {
       "path": "pc-client/tests/environment-operation.test.cjs",
-      "bytes": 11552,
-      "sha256": "acaa9d4b6935f3bba4eb0b397486d9526e0c9652f4e0c9036072f92a0bbc3457",
+      "bytes": 13644,
+      "sha256": "3c3d539f3412aa068f6b7d85aaa979d20f62f01b05e9054f13396c657a38d801",
       "sourceState": "tracked-clean"
     },
     {
@@ -3732,10 +3756,16 @@
       "sourceState": "tracked-clean"
     },
     {
+      "path": "pc-client/tests/modern-ui-shell.test.cjs",
+      "bytes": 19184,
+      "sha256": "69fff47565959c587d5c8bb44d5ad7d77de37dc9bd72e2eeb9c54ea0fafd12ae",
+      "sourceState": "untracked"
+    },
+    {
       "path": "pc-client/tests/navigation-back.test.cjs",
-      "bytes": 1240,
-      "sha256": "03bc791b8dae9e37621ac19c5f3e05f4b05b0c49d275892026dc126685571665",
-      "sourceState": "tracked-clean"
+      "bytes": 1279,
+      "sha256": "e9256d6014bab6946ee7a53e7137947f18dd7490f7a9c788c3b9ed7efd5c61c5",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/node-runtime-policy.test.cjs",
@@ -3895,9 +3925,9 @@
     },
     {
       "path": "pc-client/tests/resource-store-presentation.test.cjs",
-      "bytes": 2931,
-      "sha256": "87928c06bcc162009572288e850c0d22dcbd609531bd54ba50e0a67466b32fcd",
-      "sourceState": "tracked-clean"
+      "bytes": 3833,
+      "sha256": "2d23a7e105225ff35e97698ce8309568c62baacf9f5ca85f64b1fc14b4a7aaef",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/resource-submission-renderer.test.cjs",
@@ -4250,7 +4280,7 @@
     {
       "path": "README.md",
       "bytes": 3108,
-      "sha256": "2546187ef3a922a3f2f624594a7c03115627ac00363425babec5b335a5c25069",
+      "sha256": "518813af5c327526fd52cbf5a567550ab645a7cb2f8e1ffb8f919c6201ca2e36",
       "sourceState": "generated-release-metadata"
     },
     {
@@ -4267,14 +4297,14 @@
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 2134,
-      "sha256": "7606bae89ffd6fa42473a4d6f3957ea708474ca831da298b3de325dbf0f72288",
-      "sourceState": "tracked-clean"
+      "bytes": 2330,
+      "sha256": "96d1e22037c3bffbe7fcc5a4bb179c873319ae9940a9d9ad308a61a1d07f7870",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "tools/stage-public-source.cjs",
-      "bytes": 28293,
-      "sha256": "81c0a1c63a4e236824a523d750e97f854c46475bb5ddd970c72110166ca28573",
+      "bytes": 28984,
+      "sha256": "865f24baeab9b8c8fe8645e85717a0a7122b04b28abb0facb487de9fb212f0a7",
       "sourceState": "staging-tool"
     },
     {
@@ -4297,8 +4327,8 @@
     }
   ],
   "totals": {
-    "files": 715,
-    "bytes": 24458430
+    "files": 720,
+    "bytes": 24996431
   },
   "safety": {
     "unknown": 0,

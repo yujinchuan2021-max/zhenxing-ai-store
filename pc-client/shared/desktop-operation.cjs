@@ -372,9 +372,9 @@ function createDesktopOperationController({
     }
   }
 
-  const safeEmit = (task) => {
+  const safeEmit = (task, context = {}) => {
     try {
-      onChange(clone(task));
+      onChange(clone(task), clone(context));
     } catch {
       // Renderer listeners cannot own the durable operation lifecycle.
     }
@@ -854,7 +854,7 @@ function createDesktopOperationController({
           }
         }
       }
-      safeEmit(task);
+      safeEmit(task, { restored: true });
       if (
         task.phase !== "launching" &&
         !scheduledHandles.has(productId)

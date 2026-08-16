@@ -8,7 +8,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const SOURCE = 'D:\\AIhub\\AIHUB备份';
-const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260816-0198-lifecycle-v1';
+const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260817-0199-ui-v3';
 const TOOL_REL = 'tools/stage-public-source.cjs';
 const MANIFEST_REL = 'SOURCE-MANIFEST.json';
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -24,6 +24,8 @@ const ROOT_DIRS = Object.freeze(['app', 'db', 'drizzle', 'examples', 'public', '
 const PC_FILES = Object.freeze([
   'pc-client/.dockerignore', 'pc-client/.gitattributes',
   'pc-client/admin/data/catalog-v1.json',
+  'pc-client/assets/brand/zhenxing-star.png',
+  'pc-client/build/icon.ico', 'pc-client/build/icon.png',
   'pc-client/CONTEXT.md', 'pc-client/README.md', 'pc-client/index.html',
   'pc-client/electron-builder.local-release.cjs', 'pc-client/package-lock.json',
   'pc-client/package.json', 'pc-client/postcss.config.mjs', 'pc-client/tsconfig.json',
@@ -114,6 +116,9 @@ const PUBLIC_DOCS = Object.freeze([
 const PUBLIC_BUILD_INPUTS = new Set([
   'build/sites-vite-plugin.ts',
   'pc-client/admin/data/catalog-v1.json',
+  'pc-client/assets/brand/zhenxing-star.png',
+  'pc-client/build/icon.ico',
+  'pc-client/build/icon.png',
 ]);
 
 const DENIED_SEGMENTS = new Set([
@@ -192,7 +197,7 @@ npm run desktop
 
 ## 版本
 
-当前已完成本地验收的产品版本为 **0.1.98**。根站点 \`0.1.0\` 与 PC 客户端内部 package \`0.1.40\` 是独立开发包版本，不表示它们已经统一为产品发布版本。0.1.98 的 Windows 安装包尚未签名，不属于公开下载或自动更新发布物。
+当前已完成本地验收的产品版本为 **0.1.99**。根站点 \`0.1.0\` 与 PC 客户端内部 package \`0.1.40\` 是独立开发包版本，不表示它们已经统一为产品发布版本。0.1.99 的 Windows 安装包尚未签名，不属于公开下载或自动更新发布物。
 
 ## 语言与内容边界
 
@@ -215,6 +220,10 @@ dist/
 **/dist/
 build/
 **/build/
+!pc-client/build/
+pc-client/build/*
+!pc-client/build/icon.ico
+!pc-client/build/icon.png
 out/
 **/out/
 output/
@@ -228,6 +237,7 @@ release-local*/
 
 # Caches, temporary files, and logs
 .cache/
+.wrangler/
 cache/
 caches/
 **/.cache/
@@ -243,6 +253,7 @@ tmp/
 logs/
 **/logs/
 *.tsbuildinfo
+next-env.d.ts
 
 # Local state, databases, volumes, and backups
 .remote-state.json
@@ -492,6 +503,9 @@ function selfTest() {
   assert.equal(denyReason('pc-client/admin/data/catalog-signing-private.pem'), 'credential-binary-or-database');
   assert.equal(denyReason('pc-client/admin/data/catalog-v1.json'), null);
   assert.equal(denyReason('build/sites-vite-plugin.ts'), null);
+  assert.equal(denyReason('pc-client/assets/brand/zhenxing-star.png'), null);
+  assert.equal(denyReason('pc-client/build/icon.ico'), null);
+  assert.equal(denyReason('pc-client/build/icon.png'), null);
   assert.equal(denyReason('pc-client/deployment/local/private/update/catalog-signing-private.pem'), 'credential-binary-or-database');
   assert.equal(denyReason('pc-client/src/App.tsx'), null);
   assert.equal(denyReason('pc-client/tests/auralogs-mcp-catalog-v3-candidate.test.cjs'), 'internal-research-dependent-tooling');
@@ -507,6 +521,9 @@ function selfTest() {
   assert.throws(() => normalizeRel('../secret'));
   assert(PUBLIC_README.startsWith('# 枕星AI商店\n\n枕星AI商店，让每个人都能更轻松地发现、安装和使用值得信赖的 AI 工具。'));
   assert(PUBLIC_GITIGNORE.includes('pc-client/admin/published/'));
+  assert(PUBLIC_GITIGNORE.includes('!pc-client/build/icon.ico'));
+  assert(PUBLIC_GITIGNORE.includes('!pc-client/build/icon.png'));
+  assert(PUBLIC_GITIGNORE.includes('.wrangler/'));
   process.stdout.write(JSON.stringify({ status: 'pass', selfTest: true }) + '\n');
 }
 

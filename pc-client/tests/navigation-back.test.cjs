@@ -28,8 +28,8 @@ test("uses the explicit parent page for a direct deep link", () => {
   assert.deepEqual(calls, ["parent"]);
 });
 
-test("the shared back control keeps a bordered target and focus-visible treatment", () => {
+test("the shared back control is a floating circular target with focus-visible treatment", () => {
   const styles = fs.readFileSync(path.join(__dirname, "../src/styles.css"), "utf8");
-  assert.match(styles, /\.backButton\s*\{[\s\S]*?min-height:\s*38px;[\s\S]*?border:\s*1px solid var\(--line\);/);
+  assert.match(styles, /\.backButton\s*\{[\s\S]*?position:\s*sticky;[\s\S]*?width:\s*44px;[\s\S]*?height:\s*44px;[\s\S]*?border-radius:\s*50%;/);
   assert.match(styles, /\.backButton:focus-visible\s*\{[\s\S]*?outline:/);
 });

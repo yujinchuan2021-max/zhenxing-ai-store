@@ -7,6 +7,10 @@ dist/
 **/dist/
 build/
 **/build/
+!pc-client/build/
+pc-client/build/*
+!pc-client/build/icon.ico
+!pc-client/build/icon.png
 out/
 **/out/
 output/
@@ -20,6 +24,7 @@ release-local*/
 
 # Caches, temporary files, and logs
 .cache/
+.wrangler/
 cache/
 caches/
 **/.cache/
@@ -35,6 +40,7 @@ tmp/
 logs/
 **/logs/
 *.tsbuildinfo
+next-env.d.ts
 
 # Local state, databases, volumes, and backups
 .remote-state.json

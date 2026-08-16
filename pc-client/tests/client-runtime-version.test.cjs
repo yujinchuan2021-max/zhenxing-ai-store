@@ -11,7 +11,7 @@ function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), "utf8");
 }
 
-test("settings primes the packaged runtime version when the client starts", () => {
+test("client chrome primes the packaged runtime version when the client starts", () => {
   const app = read("src/App.tsx");
   const main = read("electron/main.cjs");
   const preload = read("electron/preload.cjs");
@@ -26,8 +26,11 @@ test("settings primes the packaged runtime version when the client starts", () =
   assert.match(updateCheck, /setUpdateResult\(result\)/);
   assert.match(
     app,
-    /useEffect\(\(\) => \{\s*void checkForUpdate\(\)\.catch\(\(\) => undefined\);\s*\}, \[\]\);/,
-    "the packaged client must read its runtime version before Settings is opened"
+    /useEffect\(\(\) => \{\s*void checkForUpdate\(false\)\.catch\(\(\) => undefined\);\s*\}, \[\]\);/,
+    "the packaged client must read its runtime version before the chrome renders"
   );
-  assert.match(app, /\{updateResult\?\.currentVersion \|\| packageJson\.version\}/);
+  assert.match(
+    app,
+    /uiText\("update\.version", \{ value1: updateResult\?\.currentVersion \|\| packageJson\.version \}\)/
+  );
 });

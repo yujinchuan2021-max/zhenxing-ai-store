@@ -1,9 +1,14 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const test = require("node:test");
 
 const {
   createEnvironmentOperationController
 } = require("../shared/environment-operation.cjs");
+const {
+  rememberNotificationKey
+} = require("../shared/task-notification.cjs");
 
 const absent = {
   installed: false,
@@ -49,6 +54,7 @@ function createHarness({
   const statusQueue = [...statuses];
   const scheduled = [];
   const changes = [];
+  const changeEvents = [];
   let deferredCheck = null;
   const controller = createEnvironmentOperationController({
     loadRecords: () => structuredClone(stored),
@@ -71,13 +77,20 @@ function createHarness({
     cancelSchedule: (handle) => {
       handle.canceled = true;
     },
-    onChange: (task) => changes.push(structuredClone(task)),
+    onChange: (task, context) => {
+      changes.push(structuredClone(task));
+      changeEvents.push({
+        task: structuredClone(task),
+        context: context == null ? null : structuredClone(context)
+      });
+    },
     intervalMs: 5_000,
     timeoutMs: 10 * 60 * 1_000
   });
   return {
     controller,
     changes,
+    changeEvents,
     get records() {
       return structuredClone(stored);
     },
@@ -285,7 +298,7 @@ test("a stale scan cannot overwrite a newer environment generation", async () =>
   assert.equal(harness.changes.length, changesAfterSecondBegin);
 });
 
-test("a timed-out operation preserves identity across restart and manual checks", async () => {
+test("startup restores a timed-out operation identity without replaying its Windows notification", async () => {
   const first = createHarness({ statuses: [absent] });
   const launching = first.controller.begin("python", "install");
   first.controller.finishLaunch(
@@ -342,6 +355,48 @@ test("a timed-out operation preserves identity across restart and manual checks"
     generation: resumed.generation,
     operation: null
   });
+  const claimed = new Map();
+  const notificationPhases = [];
+  for (const event of restored.changeEvents) {
+    const task = event.task;
+    if (!["installed", "uninstalled", "timed-out"].includes(task.phase)) {
+      continue;
+    }
+    const key = `environment:${task.environmentId}:${task.generation}:${task.phase}`;
+    const firstClaim = rememberNotificationKey(claimed, key, Date.now(), 500);
+    if (firstClaim && event.context?.restored !== true) {
+      notificationPhases.push(task.phase);
+    }
+  }
+  assert.deepEqual(notificationPhases, ["installed"]);
+});
+
+test("the Electron environment notification seam suppresses restored snapshots after claiming their key", () => {
+  const mainSource = fs.readFileSync(
+    path.join(__dirname, "..", "electron", "main.cjs"),
+    "utf8"
+  );
+  const presenter = mainSource.match(
+    /function showTaskNotification[\s\S]*?\n}\n\nfunction notifyDesktopOperationTask/
+  )?.[0];
+  const environmentEmitter = mainSource.match(
+    /function emitEnvironmentOperationTask[\s\S]*?\n}\n\nfunction getEnvironmentOperationController/
+  )?.[0];
+  const desktopEmitter = mainSource.match(
+    /function emitDesktopOperationTask[\s\S]*?\n}\n\nfunction getDesktopOperationController/
+  )?.[0];
+
+  assert.ok(presenter);
+  assert.ok(environmentEmitter);
+  assert.ok(desktopEmitter);
+  assert.match(presenter, /restored = false/);
+  assert.ok(
+    presenter.indexOf("rememberNotificationKey") <
+      presenter.indexOf("if (restored) return false")
+  );
+  assert.match(environmentEmitter, /\{ restored = false \} = \{\}/);
+  assert.match(environmentEmitter, /showTaskNotification\(\{[\s\S]*?restored/);
+  assert.match(desktopEmitter, /notifyDesktopOperationTask\(task, context\)/);
 });
 
 test("a trusted global scan settles only the exact timed-out operation identity", async () => {

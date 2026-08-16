@@ -4,7 +4,10 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
-const { resourceTargetPresentation } = require("../shared/resource-store.cjs");
+const {
+  resourceProvenancePresentation,
+  resourceTargetPresentation
+} = require("../shared/resource-store.cjs");
 
 const active6 = JSON.parse(fs.readFileSync(
   path.join(
@@ -85,4 +88,35 @@ test("official-link-only remains a direct external action even when a catalog ta
       ["tutorial", "https://example.com/tutorial"]
     ]
   );
+});
+
+test("provenance actions remove website duplicates and name the actual source", () => {
+  const actions = resourceProvenancePresentation({
+    sourceKind: "official",
+    website: "https://www.krea.ai/skills",
+    tutorial: "https://www.krea.ai/skills/",
+    provenanceEvidence: [
+      "https://www.krea.ai/skills#install",
+      "https://github.com/krea-ai/skills",
+      "https://github.com/krea-ai/skills/",
+      "https://docs.krea.ai/skills/setup",
+      "https://example.org/review",
+      "not-a-url"
+    ]
+  });
+
+  assert.deepEqual(actions, [
+    {
+      href: "https://github.com/krea-ai/skills",
+      labelKey: "resources.source.github"
+    },
+    {
+      href: "https://docs.krea.ai/skills/setup",
+      labelKey: "resources.source.official"
+    },
+    {
+      href: "https://example.org/review",
+      labelKey: "resources.source.web"
+    }
+  ]);
 });
