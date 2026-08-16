@@ -3,7 +3,7 @@
   "version": "0.1.40",
   "private": true,
   "license": "Apache-2.0",
-  "description": "枕星 AI Windows client",
+  "description": "枕星AI助手 Windows client",
   "author": "ZhenXing AI",
   "main": "electron/main.cjs",
   "type": "module",
@@ -89,7 +89,7 @@
   },
   "build": {
     "appId": "com.aihub.desktop",
-    "productName": "枕星 AI",
+    "productName": "枕星AI助手",
     "asar": true,
     "directories": {
       "output": "release"
@@ -162,7 +162,7 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "枕星 AI",
+      "shortcutName": "枕星AI助手",
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico"
     }

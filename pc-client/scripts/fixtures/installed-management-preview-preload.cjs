@@ -174,7 +174,7 @@ const catalog = {
   schemaVersion: 3,
   updatedAt: now,
   brand: {
-    name: "枕星 AI",
+    name: "枕星AI助手",
     mark: "枕",
     slogan: "中文目录品牌标语",
     localized: { en: { slogan: "Localized catalog brand slogan" } }

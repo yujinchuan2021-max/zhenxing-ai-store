@@ -13,28 +13,33 @@ const read = (relativePath) =>
 const readBinary = (relativePath) =>
   fs.readFileSync(path.join(root, relativePath));
 
-test("public surfaces use the ZhenXing AI brand without breaking the legacy app identity", () => {
+test("public surfaces use the ZhenXing AI Assistant brand without breaking legacy identities and paths", () => {
   const catalog = JSON.parse(read("admin/data/catalog-v1.json"));
   const communityMigrationEntrypoint = read("community/flarum/migration-entrypoint.sh");
   const language = read("src/language/index.ts");
   const index = read("index.html");
   const main = read("electron/main.cjs");
+  const app = read("src/App.tsx");
 
   assert.deepEqual(
     { name: BRAND.name, englishName: BRAND.englishName, domain: BRAND.domain },
-    { name: "枕星 AI", englishName: "ZhenXing AI", domain: "zhenxingai.com" }
+    { name: "枕星AI助手", englishName: "ZhenXing AI Assistant", domain: "zhenxingai.com" }
   );
   assert.equal(packageJson.build.productName, BRAND.name);
+  assert.equal(packageJson.build.nsis.shortcutName, BRAND.name);
   assert.match(packageJson.build.nsis.artifactName, /^ZhenXing-AI-/);
   assert.match(packageJson.build.portable.artifactName, /^ZhenXing-AI-/);
   assert.equal(packageJson.build.appId, BRAND.legacyAppId);
+  assert.equal(BRAND.legacyManagedDirectoryName, "枕星 AI");
   assert.equal(catalog.brand.name, BRAND.name);
   assert.equal(catalog.brand.mark, BRAND.mark);
   assert.equal(catalog.community.title, `${BRAND.name} 社区`);
-  assert.match(communityMigrationEntrypoint, /forum_title[^\n]+枕星 AI 社区/);
+  assert.match(communityMigrationEntrypoint, /forum_title[^\n]+枕星AI助手 社区/);
   assert.match(main, /BRAND\.legacyUserDataDirectory/);
+  assert.match(main, /BRAND\.legacyManagedDirectoryName/);
+  assert.match(app, /BRAND\.legacyManagedDirectoryName/);
   assert.match(main, /title: `\$\{BRAND\.name\} Windows`/);
-  assert.match(index, /<title>枕星 AI Windows<\/title>/);
+  assert.match(index, /<title>枕星AI助手 Windows<\/title>/);
   assert.equal([...language.matchAll(/"chrome\.pc": "Windows"/g)].length, 2);
   assert.doesNotMatch(language, /"chrome\.pc": "PC"/);
 });

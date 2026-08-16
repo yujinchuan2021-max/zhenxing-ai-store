@@ -107,13 +107,13 @@ async function loadCatalog() {
       state.communityAdmin = { status: "unavailable", error: error.message };
     }
     state.catalog.brand ||= {
-      name: "枕星 AI",
+      name: "枕星AI助手",
       mark: "枕",
       slogan: "一个地方，找到并安装你的 AI 工具"
     };
     state.catalog.extraSections ||= [];
     state.catalog.community ||= {
-      title: "枕星 AI 社区",
+      title: "枕星AI助手 社区",
       description: "交流 AI 工具的安装、使用经验与工作流。",
       provider: "Flarum",
       url: "",
@@ -1667,7 +1667,7 @@ content.addEventListener("click", async (event) => {
     }
   } else if (target.dataset.action === "add-banner") {
     state.catalog.home.banners.push({
-      eyebrow: "枕星 AI · PC",
+      eyebrow: "枕星AI助手 · PC",
       title: "新轮播标题",
       description: "请输入轮播说明。",
       action: "查看全部 AI 厂商"

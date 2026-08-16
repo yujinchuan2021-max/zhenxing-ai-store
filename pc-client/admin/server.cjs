@@ -916,5 +916,5 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`枕星 AI CMS 已启动：http://${host}:${port}`);
+  console.log(`枕星AI助手 CMS 已启动：http://${host}:${port}`);
 });

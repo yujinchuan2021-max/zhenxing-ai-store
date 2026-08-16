@@ -10,18 +10,18 @@ const UNINSTALL_PRESENTATIONS = Object.freeze({
       preparingTitle: "正在准备自动卸载",
       preparing: "正在验证并启动自动卸载",
       activeTitle: "正在自动卸载",
-      activeDetail: "枕星 AI 正在确认产品是否已移除。",
+      activeDetail: "枕星AI助手 正在确认产品是否已移除。",
       timedOut:
         "暂未确认卸载完成。自动卸载可能仍在运行，请稍后点击“立即检测”。",
       stillInstalled: "自动卸载尚未完成，请稍后再次检测。",
-      launched: "已启动自动卸载，枕星 AI 正在确认卸载结果。"
+      launched: "已启动自动卸载，枕星AI助手 正在确认卸载结果。"
     }),
     interactive: Object.freeze({
       preparingTitle: "正在验证卸载程序",
       preparing: "正在验证并调起厂商卸载面板",
       activeTitle: "已调起厂商卸载面板",
       activeDetail:
-        "请在卸载面板中手动完成，枕星 AI 将自动确认结果。",
+        "请在卸载面板中手动完成，枕星AI助手 将自动确认结果。",
       timedOut:
         "暂未确认卸载完成。请在卸载面板中完成后点击“立即检测”。",
       stillInstalled: "仍检测到该产品，请先在厂商卸载面板中完成卸载。",
@@ -33,19 +33,19 @@ const UNINSTALL_PRESENTATIONS = Object.freeze({
       preparingTitle: "Preparing automatic uninstall",
       preparing: "Verifying and starting automatic uninstall",
       activeTitle: "Uninstalling automatically",
-      activeDetail: "ZhenXing AI is confirming whether the product has been removed.",
+      activeDetail: "ZhenXing AI Assistant is confirming whether the product has been removed.",
       timedOut:
         "Uninstall is not confirmed yet. It may still be running; check again shortly.",
       stillInstalled: "Automatic uninstall is not complete. Check again shortly.",
       launched:
-        "Automatic uninstall started. ZhenXing AI is confirming the result."
+        "Automatic uninstall started. ZhenXing AI Assistant is confirming the result."
     }),
     interactive: Object.freeze({
       preparingTitle: "Verifying uninstaller",
       preparing: "Verifying and opening the vendor uninstaller",
       activeTitle: "Vendor uninstaller opened",
       activeDetail:
-        "Finish the uninstall manually in the vendor panel. ZhenXing AI will confirm the result.",
+        "Finish the uninstall manually in the vendor panel. ZhenXing AI Assistant will confirm the result.",
       timedOut:
         "Uninstall is not confirmed yet. Finish it in the vendor panel, then check again.",
       stillInstalled:
@@ -161,12 +161,12 @@ function buildDesktopUninstallConfirmation({
     ? isWindowsSettings
       ? `Open Windows Installed apps to uninstall ${name}?`
       : isAutomatic
-        ? `Allow ZhenXing AI to uninstall ${name} automatically?`
+        ? `Allow ZhenXing AI Assistant to uninstall ${name} automatically?`
         : `Open the vendor uninstaller for ${name}?`
     : isWindowsSettings
       ? `确认打开 Windows 已安装的应用来卸载 ${name}？`
       : isAutomatic
-        ? `确认由枕星 AI 自动卸载 ${name}？`
+        ? `确认由枕星AI助手 自动卸载 ${name}？`
         : `确认打开 ${name} 的厂商卸载程序？`;
   const unknown = english ? "Not provided by Windows" : "Windows 未提供";
   const lines = english
@@ -179,10 +179,10 @@ function buildDesktopUninstallConfirmation({
         executableName ? `Uninstaller: ${executableName}` : "",
         signer ? `Signer: ${signer}` : "",
         isWindowsSettings
-          ? "ZhenXing AI will not silently remove this package. Confirm the uninstall in Windows."
+          ? "ZhenXing AI Assistant will not silently remove this package. Confirm the uninstall in Windows."
           : isAutomatic
-            ? "ZhenXing AI will close the running product, start the reviewed vendor uninstaller, and confirm that the installation record is gone."
-            : "Opening the vendor uninstaller does not mean uninstall is complete. ZhenXing AI will keep checking the installation record.",
+            ? "ZhenXing AI Assistant will close the running product, start the reviewed vendor uninstaller, and confirm that the installation record is gone."
+            : "Opening the vendor uninstaller does not mean uninstall is complete. ZhenXing AI Assistant will keep checking the installation record.",
         presentation.confirmationDetail || ""
       ]
     : [
@@ -194,10 +194,10 @@ function buildDesktopUninstallConfirmation({
         executableName ? `卸载程序：${executableName}` : "",
         signer ? `签发者：${signer}` : "",
         isWindowsSettings
-          ? "枕星 AI 不会静默移除该应用包；请在 Windows 界面中确认卸载。"
+          ? "枕星AI助手 不会静默移除该应用包；请在 Windows 界面中确认卸载。"
           : isAutomatic
-            ? "枕星 AI 会先关闭正在运行的产品，再执行已审核的厂商卸载程序并确认安装记录已经消失。"
-            : "打开卸载程序不代表卸载已经完成；枕星 AI 会继续检测安装记录是否真正消失。",
+            ? "枕星AI助手 会先关闭正在运行的产品，再执行已审核的厂商卸载程序并确认安装记录已经消失。"
+            : "打开卸载程序不代表卸载已经完成；枕星AI助手 会继续检测安装记录是否真正消失。",
         presentation.confirmationDetail || ""
       ];
   const confirmLabel = english

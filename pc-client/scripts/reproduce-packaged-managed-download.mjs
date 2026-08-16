@@ -43,7 +43,8 @@ const portablePath = process.env.AIHUB_LOCAL_RELEASE_CLIENT
       `ZhenXing-AI-Local-${packageJson.version}-Windows-x64-Portable.exe`
     );
 const installedPath =
-  process.env.AIHUB_INSTALLED_CLIENT || "C:\\Program Files\\枕星 AI\\枕星 AI.exe";
+  process.env.AIHUB_INSTALLED_CLIENT ||
+  "C:\\Program Files\\枕星AI助手\\枕星AI助手.exe";
 const clientExecutable = useDevelopmentClient
   ? path.join(root, "node_modules", "electron", "dist", "electron.exe")
   : useInstalledClient

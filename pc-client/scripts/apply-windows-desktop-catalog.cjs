@@ -66,7 +66,7 @@ if (!findProduct("openclaw-wsl-gateway")) {
     directoryKind: "ai-tool",
     kind: "CLI",
     category: "智能体",
-    description: "由 OpenClaw Windows Hub 官方配置流程创建并管理专属 OpenClawGateway；枕星 AI 分别检测发行版、CLI、服务就绪和配对状态。",
+    description: "由 OpenClaw Windows Hub 官方配置流程创建并管理专属 OpenClawGateway；枕星AI助手 分别检测发行版、CLI、服务就绪和配对状态。",
     website: "https://docs.openclaw.ai/windows",
     tutorial: "https://docs.openclaw.ai/windows",
     productType: "cli",
@@ -142,19 +142,19 @@ const contentOverrides = {
     tutorial: "https://b.qianwen.com/apps/qkhomepage_twofoufeb/routes/l5Utxkrh6"
   },
   "bytedance-doubao": {
-    description: "豆包官方 Windows 桌面客户端，由枕星 AI 下载并校验已审核安装包。",
+    description: "豆包官方 Windows 桌面客户端，由枕星AI助手 下载并校验已审核安装包。",
     website: "https://www.doubao.com/download/desktop"
   },
   "tencent-codebuddy": {
     category: "编程开发",
-    description: "腾讯 CodeBuddy 官方 Windows AI 编程客户端，由枕星 AI 管理已审核安装包。"
+    description: "腾讯 CodeBuddy 官方 Windows AI 编程客户端，由枕星AI助手 管理已审核安装包。"
   },
   "amazon-kiro-ide": {
     category: "编程开发",
-    description: "AWS Kiro 官方 Windows x64 用户级 AI 开发客户端，由枕星 AI 管理已审核安装包。"
+    description: "AWS Kiro 官方 Windows x64 用户级 AI 开发客户端，由枕星AI助手 管理已审核安装包。"
   },
   "perplexity-comet": {
-    description: "Perplexity Comet 官方 Windows x64 AI 浏览器，由枕星 AI 管理已审核安装包。"
+    description: "Perplexity Comet 官方 Windows x64 AI 浏览器，由枕星AI助手 管理已审核安装包。"
   },
   "nvidia-ai-workbench": {
     description: "NVIDIA AI Workbench Desktop；桌面端可独立安装，本地 WSL、容器和 Git 环境由产品内的 Full Local 流程按需配置。"

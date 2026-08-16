@@ -107,7 +107,7 @@ function managedChatgptAppsResource(order) {
     name: "ChatGPT Apps Skill",
     resourceTypes: ["skill"],
     description:
-      "OpenAI 官方 curated Skill，用于设计、搭建和检查基于 Apps SDK 的 ChatGPT 应用。枕星 AI 固定安装经过审核的目录快照。",
+      "OpenAI 官方 curated Skill，用于设计、搭建和检查基于 Apps SDK 的 ChatGPT 应用。枕星AI助手 固定安装经过审核的目录快照。",
     website: treeUrl,
     tutorial: `https://github.com/openai/skills/blob/${CHATGPT_APPS_COMMIT}/skills/.curated/chatgpt-apps/SKILL.md`,
     sourceProductIds: [],
@@ -129,7 +129,7 @@ function managedChatgptAppsResource(order) {
     credentialRequirements: [],
     installScope: "Codex 用户级 skills/chatgpt-apps 目录",
     uninstallPlan:
-      "仅删除枕星 AI 回执记录的 chatgpt-apps 目录；保留 Codex skills 根目录和其他 Skill。",
+      "仅删除枕星AI助手 回执记录的 chatgpt-apps 目录；保留 Codex skills 根目录和其他 Skill。",
     provenanceEvidence: [
       "https://github.com/openai/skills",
       `https://github.com/openai/skills/commit/${CHATGPT_APPS_COMMIT}`,
@@ -532,7 +532,7 @@ const verifiedProductUpserts = Object.freeze([
       name: "Kimi Code CLI",
       ...productPolicies.cli,
       category: "编程开发",
-      description: "Moonshot AI 的原生终端智能体，支持 Windows x64 与 ARM64；由枕星 AI 固定版本下载、校验并管理。",
+      description: "Moonshot AI 的原生终端智能体，支持 Windows x64 与 ARM64；由枕星AI助手 固定版本下载、校验并管理。",
       website: "https://code.kimi.com/",
       tutorial: "https://moonshotai.github.io/kimi-code/en/guides/getting-started.html",
       productType: "cli",

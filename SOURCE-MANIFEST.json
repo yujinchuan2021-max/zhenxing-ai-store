@@ -31,9 +31,9 @@
     },
     {
       "path": "app/components/HubShell.tsx",
-      "bytes": 5625,
-      "sha256": "5999270152d2b24f5572edad9466a0de271bb1e2920fa88a9fa526f40c31bfcd",
-      "sourceState": "tracked-clean"
+      "bytes": 5649,
+      "sha256": "44318eb0f987a592310765290d31e36ad1296f8ddfe06640801feb90582f58dd",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "app/data.ts",
@@ -49,9 +49,9 @@
     },
     {
       "path": "app/layout.tsx",
-      "bytes": 1196,
-      "sha256": "8235a039b77d126c04b9cb46dc76da46f0955a1676247666e36dbf868c740c10",
-      "sourceState": "tracked-clean"
+      "bytes": 1224,
+      "sha256": "c292de506b6811582cbe0db5af2b03e9f8903b23f3b1b1c5bc1fd50e33b4486e",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "app/login/page.tsx",
@@ -67,9 +67,9 @@
     },
     {
       "path": "app/page.tsx",
-      "bytes": 9769,
-      "sha256": "72c25f0f4dd01de681b05a7c8bc16ec973c2ef804d4ec8fca21eb898b9034683",
-      "sourceState": "tracked-clean"
+      "bytes": 9806,
+      "sha256": "aff17f66c33328e4e89e7bef9a652540280af656a92c580324c226ddeabe09aa",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "app/vendors/[slug]/page.tsx",
@@ -145,9 +145,9 @@
     },
     {
       "path": "NOTICE",
-      "bytes": 605,
-      "sha256": "3a75e64891f9033fdd7fb295bcd8080b01f32df84f38d860ec44f86d65d72521",
-      "sourceState": "tracked-clean"
+      "bytes": 627,
+      "sha256": "15a28f72f4c62cc12cfe8a7ca91043b1bdc13f5f04c7dc0cd61dcbf40dd316bb",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "package-lock.json",
@@ -193,9 +193,9 @@
     },
     {
       "path": "pc-client/admin/data/catalog-v1.json",
-      "bytes": 1610289,
-      "sha256": "75ff95ce9d579965e04fc44725787b72e9ed133ce9ed684747af04a0dd3d1d36",
-      "sourceState": "tracked-clean"
+      "bytes": 1610554,
+      "sha256": "b23b81ae48981e9d8946ae764ee06fdb14061bb8548dbef16001000c990750f8",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/admin/discovery-review.cjs",
@@ -229,15 +229,15 @@
     },
     {
       "path": "pc-client/admin/public/app.js",
-      "bytes": 129314,
-      "sha256": "b17d0d165b8b8d187469e81e4e8c736df2de9a2e22ad8dcc229738d134ddf20a",
-      "sourceState": "tracked-clean"
+      "bytes": 129329,
+      "sha256": "8c675524a2eeddbfa818cb79615d2712f044adbf4ac8a92e2615c6107ff6089e",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/admin/public/index.html",
-      "bytes": 2065,
-      "sha256": "cee309f9c35df588152215ff8f586695e8ad7ced6d3c30838ddb0a4493336a11",
-      "sourceState": "tracked-clean"
+      "bytes": 2075,
+      "sha256": "71d8425541e5916359be53661dc0562c3ffd09630640d356ebab48d05d1991b3",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/admin/public/styles.css",
@@ -259,9 +259,9 @@
     },
     {
       "path": "pc-client/admin/release-bundle.cjs",
-      "bytes": 10144,
-      "sha256": "e53792bb24465e0e7659deef66ff5623bd5abfafc170e1a3ec2ba6cbcda3beca",
-      "sourceState": "tracked-clean"
+      "bytes": 10149,
+      "sha256": "73714d3c3f84a9e1e823dbc3cca43d9ac066eb042b9072f98fc0ea43c5afcd4a",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/admin/release-store.cjs",
@@ -283,9 +283,9 @@
     },
     {
       "path": "pc-client/admin/server.cjs",
-      "bytes": 29463,
-      "sha256": "ed2d02c3d5b588057a4e411f04ff3ea54aecb3ddc20836a96a3c1910ec0f2235",
-      "sourceState": "tracked-clean"
+      "bytes": 29468,
+      "sha256": "34069c7ce17f2ca6b3fcf2fda0031438b6c4bfafe8c56e58dea1acd4f36d8a00",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/admin/signing-key.cjs",
@@ -331,9 +331,9 @@
     },
     {
       "path": "pc-client/catalog/catalog-v1.example.json",
-      "bytes": 234773,
-      "sha256": "52ee92002431c7427de66307f677bbfef3aaf411c49b7bf0f05f0a4e99ea060d",
-      "sourceState": "tracked-clean"
+      "bytes": 234823,
+      "sha256": "12ca019094c157939c2e1d8c61f6f1d6c1e673f66f07666ce97cc8c34d55b4f1",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/catalog/channel.local-v2.json",
@@ -343,15 +343,15 @@
     },
     {
       "path": "pc-client/catalog/README.md",
-      "bytes": 2065,
-      "sha256": "82621df4f2e2473cc72f70488a8168750a15dbd536633e45a7f529f5a86f8eb8",
-      "sourceState": "tracked-clean"
+      "bytes": 2075,
+      "sha256": "6ec6057d8518e928cdd30170694a1e2e417fd2ebcea107d1af8bd2aa72d678ee",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/catalog/windows-desktop-expansion-v2.cjs",
-      "bytes": 42259,
-      "sha256": "686a056db9c35459526e060354e6c8fad67225e00b541c5e19368ed61d35d5c0",
-      "sourceState": "tracked-clean"
+      "bytes": 42264,
+      "sha256": "e07c0a09ec6a3b21b4f1fa2b03ad4b99e2430311bfeb0936d1362da360843b9a",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/community/flarum/.dockerignore",
@@ -373,9 +373,9 @@
     },
     {
       "path": "pc-client/community/flarum/aihub-sso.php",
-      "bytes": 9996,
-      "sha256": "fc4180851c3b9e7fdbfa53a4d13d40eb114a3ee10c31d10af0bc2e3ac77c0976",
-      "sourceState": "tracked-clean"
+      "bytes": 10001,
+      "sha256": "e5fee8f0e42293cef37f1fe48e127516dddd7f4017f799fe284ecba1094665ff",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/community/flarum/apache.conf",
@@ -409,15 +409,15 @@
     },
     {
       "path": "pc-client/community/flarum/migration-entrypoint.sh",
-      "bytes": 5367,
-      "sha256": "be585312cc8e53c7e8335df7802c926edf92f53f40dad38e4f70be786a93d47f",
-      "sourceState": "tracked-clean"
+      "bytes": 5377,
+      "sha256": "0ba2b9847aef8168ac4b178d298d01cdcb22b80ee763c05ceced8aaba2e1e222",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/community/flarum/README.md",
-      "bytes": 1098,
-      "sha256": "67836a3e7202f4bab714be9216c7977d14d7fba322952d4933a7fa6c727ae132",
-      "sourceState": "tracked-clean"
+      "bytes": 1103,
+      "sha256": "79c968dc0ab83997e393f5083f8e15c1e4f80e994c6a78c0caa8d0395fd8d6dc",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/community/public-contributions.cjs",
@@ -451,9 +451,9 @@
     },
     {
       "path": "pc-client/CONTEXT.md",
-      "bytes": 13957,
-      "sha256": "35ca58bef3814c08d8be62985dec4f9d1e07e40aeeecdff9338659c31d74d9bb",
-      "sourceState": "tracked-clean"
+      "bytes": 14012,
+      "sha256": "00175562531dc0f765aca0d4884dda69b98fc49ff3a50f15efe25fb906ca4b75",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/docs/account-integration-boundary.md",
@@ -463,9 +463,9 @@
     },
     {
       "path": "pc-client/docs/community-options.md",
-      "bytes": 2378,
-      "sha256": "8041b383bf886ab5dbc0b54849c30a7a7bdebc19e351400ac9300b10e4016780",
-      "sourceState": "tracked-clean"
+      "bytes": 2382,
+      "sha256": "d54a1db9fce352e576d1e373a803440f52b5722a6e0551d2208054c79b38d99d",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/docs/flarum-sso-integration.md",
@@ -511,9 +511,9 @@
     },
     {
       "path": "pc-client/docs/unified-installation-protocol.md",
-      "bytes": 4483,
-      "sha256": "db25f9c568cca5d7b34e61394babfdb8622e4c72329fb62186b4bb2a2efd6c16",
-      "sourceState": "tracked-clean"
+      "bytes": 4487,
+      "sha256": "1c1eacb22d49426f27b2d3793d359cc4bbd5e0c2da5b7b6ff4a29164fcfe45bc",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/docs/windows-desktop-certification.md",
@@ -553,8 +553,8 @@
     },
     {
       "path": "pc-client/electron/main.cjs",
-      "bytes": 434996,
-      "sha256": "c794cb1c13e4246ab91a4ccd503f0be4c441cfb6d8cb07992c1306a24f540072",
+      "bytes": 435080,
+      "sha256": "d51a1bc8dda1f6d48e4578682e02aea5dde006fa07974d167d25c67d7c16ad5c",
       "sourceState": "tracked-modified"
     },
     {
@@ -655,9 +655,9 @@
     },
     {
       "path": "pc-client/extension-resources/README.md",
-      "bytes": 731,
-      "sha256": "6633a412e3271bc9f7e32d90e7952674919fb6b9b7056865afe1b2b58413fddd",
-      "sourceState": "tracked-clean"
+      "bytes": 735,
+      "sha256": "3be867a24937688b1fbf93bf97cf7a22527cdfb7d494b61dd79855805b0bbdbe",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/identity/flarum-personal-center.cjs",
@@ -667,9 +667,9 @@
     },
     {
       "path": "pc-client/identity/identity-community.cjs",
-      "bytes": 59996,
-      "sha256": "53c057a2df0cf5988c57d9d79f0d36651abb7daa424a09be3c3b7620c7fb4887",
-      "sourceState": "tracked-clean"
+      "bytes": 60001,
+      "sha256": "6aeb483a082dbe26bd15f064ee86061a5eb4cc96c57ed99db0f2ce67710db541",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/identity/migration-database-contract.cjs",
@@ -721,9 +721,9 @@
     },
     {
       "path": "pc-client/identity/package.json",
-      "bytes": 251,
-      "sha256": "c0c5ddc7cfe2cf45a0f4aaa008fb381a66ea98dc2b911111dd7f9adab211e065",
-      "sourceState": "tracked-clean"
+      "bytes": 261,
+      "sha256": "d328a6bde24b88a93db623b5fe2421d81e913dbd4a506bbc61729de141c899d5",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/identity/resource-submissions.cjs",
@@ -745,15 +745,15 @@
     },
     {
       "path": "pc-client/identity/smtp-config.cjs",
-      "bytes": 1357,
-      "sha256": "c2a22a19be9c63a03ce69a9538a59ce079de584aa51f4e74337be5967de4fc4d",
-      "sourceState": "tracked-clean"
+      "bytes": 1367,
+      "sha256": "5a71cf1db7bc068ca18115182df0e5e19d12a0137fea598cfff907369b305719",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/identity/workflow-official-publisher-service-identity.cjs",
-      "bytes": 8591,
-      "sha256": "d1698057653a817a1d5f3d189e7c2299685cca356dd6b7165ca5aba266281399",
-      "sourceState": "tracked-clean"
+      "bytes": 8596,
+      "sha256": "36c92492418954b15201368c383ea783270c8be6a2900bf3c1521b4dc1790179",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/identity/workflow-resolvers.cjs",
@@ -775,8 +775,8 @@
     },
     {
       "path": "pc-client/index.html",
-      "bytes": 815,
-      "sha256": "8477a6ab947930c71b874ff6654b48e0cea9b3f54021dae4da0a28b93da3520c",
+      "bytes": 825,
+      "sha256": "70de1a6582246dd8b37a5a75d7d0e5a0b60691a805f52baf6cea100141b53980",
       "sourceState": "tracked-modified"
     },
     {
@@ -787,8 +787,8 @@
     },
     {
       "path": "pc-client/package.json",
-      "bytes": 7723,
-      "sha256": "5080c336ba554dc70046139dfbe859aff10fe75158b3425086aa289ffd10ea12",
+      "bytes": 7738,
+      "sha256": "0eab4e5caf5261523f400077a5cf5651f2dd6b700bc04396dcef4bed4149243d",
       "sourceState": "tracked-modified"
     },
     {
@@ -823,9 +823,9 @@
     },
     {
       "path": "pc-client/README.md",
-      "bytes": 5238,
-      "sha256": "f801357cebc3657ba66fc7ee6be57d85ba8b5d622f5b4178faaed2eeb7ea911d",
-      "sourceState": "tracked-clean"
+      "bytes": 5252,
+      "sha256": "924b0c76537d21b283d29ec36a95254033b2ef82a961ba76488c42c9fc2b4f06",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/apply-all-windows-desktop-catalog.cjs",
@@ -835,9 +835,9 @@
     },
     {
       "path": "pc-client/scripts/apply-catalog-backlog-closure.cjs",
-      "bytes": 26015,
-      "sha256": "e9af993bc5d1686353798f86a93d450bc2ffe73cc0dfef50aa6913dcb4cfe72a",
-      "sourceState": "tracked-clean"
+      "bytes": 26020,
+      "sha256": "04264a2a8e6dea393b3654086753413b9352af0949f197847b33f5e13288508e",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/apply-connectable-catalog.cjs",
@@ -847,15 +847,15 @@
     },
     {
       "path": "pc-client/scripts/apply-connectable-expansion.cjs",
-      "bytes": 34114,
-      "sha256": "7f55b91e47c2a2342380e05be92e924b59bd5da6a4a71a3f05e52362c42394be",
-      "sourceState": "tracked-clean"
+      "bytes": 34139,
+      "sha256": "bd1718ab4d8a4b0ab442a431e2a89d25eadaace180bd08811e6a846d383c606a",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/apply-connectable-vertical-expansion.cjs",
-      "bytes": 68125,
-      "sha256": "24e16216633a750f87d9e133f287f99f34db3d5365543e46589586da38c32f25",
-      "sourceState": "tracked-clean"
+      "bytes": 68155,
+      "sha256": "10a05c8574a029f00263b3644141cd479a3fc9a2c01bdfe3ccfa67067b891158",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/apply-continuous-catalog-expansion.cjs",
@@ -901,9 +901,9 @@
     },
     {
       "path": "pc-client/scripts/apply-vendor-expansion-batch5.cjs",
-      "bytes": 14549,
-      "sha256": "016557110177ee61a858a7c07628ffb74a4e77ed9b5b81f6ad719cfda17f8e21",
-      "sourceState": "tracked-clean"
+      "bytes": 14554,
+      "sha256": "d9b4afdcb7d2a43a51271b2d3288837e56da68de5e5a98e5d81a989e41c0aec5",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/apply-vendor-expansion-batch6.cjs",
@@ -925,9 +925,9 @@
     },
     {
       "path": "pc-client/scripts/apply-windows-desktop-catalog.cjs",
-      "bytes": 8965,
-      "sha256": "2a5e98a542b78b9b4b5a29ee9917dbcf54c5729a9ce1e10ccb43e64c1a2932dc",
-      "sourceState": "tracked-clean"
+      "bytes": 8990,
+      "sha256": "cdba9687b13a98690d63ea45be446a803dc7b177d2939a5dbe691ba169d89407",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/apply-windows-desktop-expansion-v2.cjs",
@@ -991,9 +991,9 @@
     },
     {
       "path": "pc-client/scripts/discover-official-products.mjs",
-      "bytes": 13084,
-      "sha256": "ac683a8a29fa6aefe9d5a98284a5f6c5b289897a4d0d2cd870959f3cb613d6bd",
-      "sourceState": "tracked-clean"
+      "bytes": 13089,
+      "sha256": "0d6741220dcf8575e264a6939d9cad492c17c03485c2153c4b8a571b5fa23c3f",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/discover-winget-desktop-packages.cjs",
@@ -1069,9 +1069,9 @@
     },
     {
       "path": "pc-client/scripts/fixtures/installed-management-preview-preload.cjs",
-      "bytes": 62882,
-      "sha256": "a192b63ba400b4cd1f3b1346a5be98948a448318a98e1cbd8b401a7049989f9b",
-      "sourceState": "tracked-clean"
+      "bytes": 62887,
+      "sha256": "70420fc391522b2aedebf5cf09134e7313432a77a7bdeaf737d1a133875533bd",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/fixtures/installed-management-preview-runner.cjs",
@@ -1147,9 +1147,9 @@
     },
     {
       "path": "pc-client/scripts/import-researched-catalog.mjs",
-      "bytes": 41326,
-      "sha256": "4f22db3138219da93a27d536fd3b334b89efb94ca139b083dd4e8eddd42f7155",
-      "sourceState": "tracked-clean"
+      "bytes": 41341,
+      "sha256": "7e25f85ae142037380c484fb05cf3210cb2af59b4dcba519b9b77ee27ef0ad8b",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/inspect-remote-msix.cjs",
@@ -1183,9 +1183,9 @@
     },
     {
       "path": "pc-client/scripts/lib/packaged-client-cdp.mjs",
-      "bytes": 68806,
-      "sha256": "cc717bb3112c853492a7e33985fe0617243e226cc8be107eaa609a10d64a02ac",
-      "sourceState": "tracked-clean"
+      "bytes": 68863,
+      "sha256": "112eeedd036c6528be8c9cf79243e10b321135b6ff4e044ac88220f22db492a3",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/lib/packaged-managed-download-fixture-gate.cjs",
@@ -1315,15 +1315,15 @@
     },
     {
       "path": "pc-client/scripts/render-vendor-logo-review.cjs",
-      "bytes": 4884,
-      "sha256": "da232e15df33594db0048042be277cace6b12016bcd66e13593f7f96f8d5b68d",
-      "sourceState": "tracked-clean"
+      "bytes": 4889,
+      "sha256": "5fd656335e145d848fb41f8db43ce61d3b3024991d023d89c5d01bab1727c06f",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/reproduce-packaged-managed-download.mjs",
-      "bytes": 5742,
-      "sha256": "5949e06734fa474c38a029982580aaa3545df10d184790b3bc9d4bec690db58b",
-      "sourceState": "tracked-clean"
+      "bytes": 5754,
+      "sha256": "c472be962979563be52d436c87d005c16fa5a7108da92357fd18b9c94d9a1df2",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/restore-local-release.cjs",
@@ -1351,9 +1351,9 @@
     },
     {
       "path": "pc-client/scripts/seed-admin-catalog.mjs",
-      "bytes": 2625,
-      "sha256": "93527187252ceb08e9bc185a8518227ddd245e15fbbfe69a22843489d1e13e43",
-      "sourceState": "tracked-clean"
+      "bytes": 2645,
+      "sha256": "ff94a60f5acd7440f8a6ff187acd805140d9cf448d08601c699d8f455cb0d07c",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/stage-draft-catalog-preview.cjs",
@@ -1405,8 +1405,8 @@
     },
     {
       "path": "pc-client/scripts/test-electron-identity-community.mjs",
-      "bytes": 4731,
-      "sha256": "63aa600c33b8a1c2e6e91273ebd497467eb045b9be0f5dc5f292b741be48ed3c",
+      "bytes": 4741,
+      "sha256": "11ba61c1d5c6455b27b3c59a8567b6f625a6993ec6d7fd90990715a3b4b38916",
       "sourceState": "tracked-modified"
     },
     {
@@ -1495,9 +1495,9 @@
     },
     {
       "path": "pc-client/scripts/test-personal-center-community.mjs",
-      "bytes": 39880,
-      "sha256": "2c1dcd8671f7f263e4438ecd93acdb2b4a41d9a6c0e6e57c9aa5061bafffb1f9",
-      "sourceState": "tracked-clean"
+      "bytes": 39895,
+      "sha256": "6702cd014f64b48bd1faf3c060240ec5048974c7a8279ee55fc579707c1b4259",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/test-product-layout.mjs",
@@ -1531,9 +1531,9 @@
     },
     {
       "path": "pc-client/scripts/test-system-tray.cjs",
-      "bytes": 2273,
-      "sha256": "de245978c8c1358e85ddc210d402a224f7fff30f168273f5487bb0a674da1d00",
-      "sourceState": "tracked-clean"
+      "bytes": 2288,
+      "sha256": "71f4a6f26c9fb5a5bef35d3521eec0fdf64dc1c3ca431216a45a3fc1dbf377c6",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/test-windows-installer.ps1",
@@ -1543,15 +1543,15 @@
     },
     {
       "path": "pc-client/scripts/test-windows-notification.cjs",
-      "bytes": 1465,
-      "sha256": "3774e08a52347a4f00f670d93fe6e344d0dfe8c9cb14cb75f4a01718b96486c6",
-      "sourceState": "tracked-clean"
+      "bytes": 1469,
+      "sha256": "c92bc991b6b9f045b33f990d6de9860c73fc370a1458b4b6261f58c1cc836604",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/test-windows-upgrade.ps1",
-      "bytes": 9416,
-      "sha256": "32886d80aac52db31b86a84beb218849591106939839abec24e5979bc279a7e0",
-      "sourceState": "tracked-clean"
+      "bytes": 10007,
+      "sha256": "65278f3ee5e9eb73bfc1130c8ef333215b461e133e246e5338c51a1cdfbb164c",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/test-workflow-official-source-posts-flarum.cjs",
@@ -1663,15 +1663,15 @@
     },
     {
       "path": "pc-client/shared/brand.cjs",
-      "bytes": 314,
-      "sha256": "733ceb1e7c89277ec25f1213f084e1d959ecbd6a12e82007e58cf6366c8e3645",
-      "sourceState": "tracked-clean"
+      "bytes": 372,
+      "sha256": "2f30410957adb715554e10b66b722579b9af9ac604cd7bb86c59d7c24b7989e4",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/shared/brand.d.cts",
-      "bytes": 272,
-      "sha256": "3ceb0eae17f42203d2a8f28580ea165d759ec8bf1fa008f59df2bb6ac1760bba",
-      "sourceState": "tracked-clean"
+      "bytes": 330,
+      "sha256": "25b12867bea811be8e8f597cfcd10a2e2bdccad230036f860474795903a8b8d5",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/shared/catalog-channel.cjs",
@@ -2059,9 +2059,9 @@
     },
     {
       "path": "pc-client/shared/extension-ipc.cjs",
-      "bytes": 6781,
-      "sha256": "0bb028f0bf40143c1ffe5a948b1f738d44ceec9bd125bcb2465a5930946f0058",
-      "sourceState": "tracked-clean"
+      "bytes": 6806,
+      "sha256": "0a24189c11de113d4ebe98a01f18636ff4a57cded361afec65bc933d91e52c3b",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/shared/extension-mcp-runtime.cjs",
@@ -2071,9 +2071,9 @@
     },
     {
       "path": "pc-client/shared/extension-plugin-runtime.cjs",
-      "bytes": 24686,
-      "sha256": "40e2bf20275212a9e72f81abd8e3fa10150e145cd1f053826f3c8ce4ddd2ccc0",
-      "sourceState": "tracked-clean"
+      "bytes": 24736,
+      "sha256": "8304b3be3bf6637b6915b10329ccbb94a4cbcc66caceeecdb290c67ea7902d0c",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/shared/extension-resource-manager.cjs",
@@ -2125,9 +2125,9 @@
     },
     {
       "path": "pc-client/shared/installed-product-management.cjs",
-      "bytes": 9907,
-      "sha256": "2c8c378eb2a6e6c94b715404dda9f30ed9c659fa68c10dbe4e4a0adf66fcd62f",
-      "sourceState": "tracked-clean"
+      "bytes": 9912,
+      "sha256": "1e473eb7191c6166a47a4cceb64cc3033442f0f404b959587afa09b593222848",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/shared/installed-product-management.d.cts",
@@ -2365,9 +2365,9 @@
     },
     {
       "path": "pc-client/shared/microsoft-store-repair.cjs",
-      "bytes": 4958,
-      "sha256": "129f946f52c80adbb536529ee64db7bf956019a07539fd22c82225391e8a370d",
-      "sourceState": "tracked-clean"
+      "bytes": 4988,
+      "sha256": "0675e65be1ef8c4602b51dd5348678b2e6f510b48d205f099b8f81c2205a5162",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/shared/navigation-back.cjs",
@@ -2533,9 +2533,9 @@
     },
     {
       "path": "pc-client/shared/runtime-language.cjs",
-      "bytes": 9783,
-      "sha256": "497cf757c89b5bc1ebfea1893863db074d73b1830ea1f1cb1c31516e34254011",
-      "sourceState": "tracked-clean"
+      "bytes": 9843,
+      "sha256": "6007292b9d873acdd726665c757e9c1651f386626a979dbc35027dede3a30e51",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/shared/safe-zip-extraction.cjs",
@@ -2587,9 +2587,9 @@
     },
     {
       "path": "pc-client/shared/uninstall-presentation.cjs",
-      "bytes": 9061,
-      "sha256": "b1138c8cda9579e87dddd16bd6be06f4414f5190c843251b7db120cb8630c3af",
-      "sourceState": "tracked-clean"
+      "bytes": 9166,
+      "sha256": "11716f84869b6f4084a59c6b27f74441ecf8d892a71134fa033261f81b595c4d",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/shared/uninstall-presentation.d.cts",
@@ -2713,8 +2713,8 @@
     },
     {
       "path": "pc-client/src/App.tsx",
-      "bytes": 457495,
-      "sha256": "bf86c52c29c81a9a2ec748e4e9c7dffc63e526cdd13b316e30d6be4ab8327c19",
+      "bytes": 457458,
+      "sha256": "6667bfc3364503cbd277b54e10835bc41be4d9fdb5d487c56e96baf9eb41446e",
       "sourceState": "tracked-modified"
     },
     {
@@ -2737,20 +2737,20 @@
     },
     {
       "path": "pc-client/src/language/generated.en.ts",
-      "bytes": 23244,
-      "sha256": "c27feaef3cb52948fff81fde8af74b7a6b9ff1dac076b8d17c69b386425d002f",
-      "sourceState": "tracked-clean"
+      "bytes": 23314,
+      "sha256": "56e3eb69631634bed4f8c02a0b1f2ddb43b60d7aafab250d9ee52090424919ac",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/src/language/generated.ts",
-      "bytes": 19898,
-      "sha256": "c97a76586ce526a10114ab777d94a726dfe01c86ef85c389ba5888f36830dcce",
-      "sourceState": "tracked-clean"
+      "bytes": 19933,
+      "sha256": "e4b655f1ba0995c591c9b33dfbc9f010081ec38cb7b7006cc14ea8391268cd98",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/src/language/index.ts",
-      "bytes": 83612,
-      "sha256": "e86020873a9e65036014bbf0e06b0815b73254af3cbc2e136fdaad934e99f163",
+      "bytes": 83692,
+      "sha256": "a4dfc983ce935c51729954f15d514a884c13660f750ad6d3f4ac2095bd3c3b4a",
       "sourceState": "tracked-modified"
     },
     {
@@ -2857,8 +2857,8 @@
     },
     {
       "path": "pc-client/tests/brand-contract.test.cjs",
-      "bytes": 3828,
-      "sha256": "8d90b9c82557d44547836b68a100f988f860d18298634db5a9b086c9621f61b7",
+      "bytes": 4147,
+      "sha256": "668bb7368a54ef9750a9aca6c8d2f28b879ee1b2ab222bb15bdee273c345cc7e",
       "sourceState": "tracked-modified"
     },
     {
@@ -3325,9 +3325,9 @@
     },
     {
       "path": "pc-client/tests/extension-ipc.test.cjs",
-      "bytes": 9636,
-      "sha256": "f8f9a990b78e7baf39bd72564a595bfbc222f3a794aef539a29e3d33c8e277bd",
-      "sourceState": "tracked-clean"
+      "bytes": 9646,
+      "sha256": "34598d617b53288d2f7868dadda793b01e0ad4e606fbe794b6dd74a2402af567",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/extension-mcp-runtime.test.cjs",
@@ -3463,9 +3463,9 @@
     },
     {
       "path": "pc-client/tests/identity-smtp-config.test.cjs",
-      "bytes": 1181,
-      "sha256": "aba66cae4314c9b1a9173c27cf4617ef267c223509683572e48ce14119b97484",
-      "sourceState": "tracked-clean"
+      "bytes": 1201,
+      "sha256": "2f1aa9ff7b2513c255e86ee680bd37f72838e909703fc087fc34ae2a7ded5d72",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/identity-social.test.cjs",
@@ -3475,9 +3475,9 @@
     },
     {
       "path": "pc-client/tests/identity-workflow-resolvers.test.cjs",
-      "bytes": 7327,
-      "sha256": "a7dafe9c1e4c92a2bb3af53c4ab1a204e1cd9833b7e5fec98f0d21dfb0fa642e",
-      "sourceState": "tracked-clean"
+      "bytes": 7332,
+      "sha256": "08bbefd793cb906b00d76b503d4f520687f1603ca14bcfed3c67cee5ed8169e0",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/install-monitor.test.cjs",
@@ -3955,9 +3955,9 @@
     },
     {
       "path": "pc-client/tests/runtime-language.test.cjs",
-      "bytes": 2537,
-      "sha256": "d6ad6221fa8c68ab7253ec1916b4ff9eef2f66e361470fc973a44b5d0ab0750a",
-      "sourceState": "tracked-clean"
+      "bytes": 2552,
+      "sha256": "ceb3b3266bff298a877926227e0933f60fb7842955536826c02f3fa173854b6c",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/safe-zip-extraction.test.cjs",
@@ -4279,8 +4279,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 3108,
-      "sha256": "518813af5c327526fd52cbf5a567550ab645a7cb2f8e1ffb8f919c6201ca2e36",
+      "bytes": 3112,
+      "sha256": "3a4957b2890dbbbbf608d67e50abe9ab0e24093f9204961719463ea80e019909",
       "sourceState": "generated-release-metadata"
     },
     {
@@ -4291,20 +4291,20 @@
     },
     {
       "path": "tests/rendered-html.test.mjs",
-      "bytes": 2794,
-      "sha256": "b41fe17283ec4d3d479facb67e86ec96cbe1aef634f0d32698e63b2393db1ccb",
-      "sourceState": "tracked-clean"
+      "bytes": 2799,
+      "sha256": "33f3c60a8593d0ed57e3167fdfa28ab4e0030f882956511c5554e0bad6b55068",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 2330,
-      "sha256": "96d1e22037c3bffbe7fcc5a4bb179c873319ae9940a9d9ad308a61a1d07f7870",
+      "bytes": 2338,
+      "sha256": "42dc7c30c689f2dd6623696d25e6fd37ff5620ba52309d5baec52527b9bbe759",
       "sourceState": "tracked-modified"
     },
     {
       "path": "tools/stage-public-source.cjs",
-      "bytes": 28984,
-      "sha256": "865f24baeab9b8c8fe8645e85717a0a7122b04b28abb0facb487de9fb212f0a7",
+      "bytes": 28542,
+      "sha256": "182eb9212ef26fe01cfc9e0e1f210452ec60cbd373245b77c2d4d2fe87515269",
       "sourceState": "staging-tool"
     },
     {
@@ -4328,7 +4328,7 @@
   ],
   "totals": {
     "files": 720,
-    "bytes": 24996431
+    "bytes": 24998474
   },
   "safety": {
     "unknown": 0,

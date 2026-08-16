@@ -1042,19 +1042,20 @@ export function assertNoExistingAIHubProcesses() {
   );
   if (result.error) throw result.error;
   if (result.status !== 0) {
-    throw new Error("Unable to inspect existing ZhenXing AI processes safely");
+    throw new Error("Unable to inspect existing ZhenXing AI Assistant processes safely");
   }
   const names = String(result.stdout || "")
     .split(/\r?\n/)
     .map((line) => /^"([^"]+)"/.exec(line)?.[1] || "");
   if (names.some((name) =>
+    name === "枕星AI助手.exe" ||
     name === "枕星 AI.exe" ||
     name === "AI Hub.exe" ||
     /^ZhenXing-AI-Local-.*-Portable\.exe$/i.test(name) ||
     /^AI-Hub-Local-.*-Portable\.exe$/i.test(name)
   )) {
     throw new Error(
-      "Close the running ZhenXing AI client before packaged acceptance; the gate refuses to reuse or terminate a live user session"
+      "Close the running ZhenXing AI Assistant client before packaged acceptance; the gate refuses to reuse or terminate a live user session"
     );
   }
 }

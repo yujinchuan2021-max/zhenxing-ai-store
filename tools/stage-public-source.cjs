@@ -8,7 +8,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const SOURCE = 'D:\\AIhub\\AIHUB备份';
-const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260817-0199-ui-v3';
+const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260817-01100-assistant-name-v4';
 const TOOL_REL = 'tools/stage-public-source.cjs';
 const MANIFEST_REL = 'SOURCE-MANIFEST.json';
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -139,9 +139,9 @@ const AUTHORITY_BINDINGS = [
   ['known', 'hosts', 'aihub', 'production'].join('_'),
   ['zhenxingai', 'deploy'].join('-'),
 ];
-const PUBLIC_README = `# 枕星AI商店
+const PUBLIC_README = `# 枕星AI助手
 
-枕星AI商店，让每个人都能更轻松地发现、安装和使用值得信赖的 AI 工具。我们希望把复杂留给系统，把探索与创造还给用户，让技术真正贴近日常、陪伴成长。
+枕星AI助手让每个人都能更轻松地发现、安装和使用值得信赖的 AI 工具。我们希望把复杂留给系统，把探索与创造还给用户，让技术真正贴近日常、陪伴成长。
 
 此商店源码全部由 Codex 编写。
 
@@ -197,7 +197,7 @@ npm run desktop
 
 ## 版本
 
-当前已完成本地验收的产品版本为 **0.1.99**。根站点 \`0.1.0\` 与 PC 客户端内部 package \`0.1.40\` 是独立开发包版本，不表示它们已经统一为产品发布版本。0.1.99 的 Windows 安装包尚未签名，不属于公开下载或自动更新发布物。
+当前已完成本地验收的产品版本为 **0.1.100**。根站点 \`0.1.0\` 与 Windows 客户端内部 package \`0.1.40\` 是独立开发包版本，不表示它们已经统一为产品发布版本。0.1.100 的 Windows 安装包尚未签名，不属于公开下载或自动更新发布物。
 
 ## 语言与内容边界
 
@@ -519,7 +519,7 @@ function selfTest() {
   assert(contentFindings('bad.js', Buffer.from(PRIVATE_HEADER)).includes('secret:private-key'));
   assert(contentFindings('bad.js', Buffer.from(PROD_IP)).includes('operational:production-ip'));
   assert.throws(() => normalizeRel('../secret'));
-  assert(PUBLIC_README.startsWith('# 枕星AI商店\n\n枕星AI商店，让每个人都能更轻松地发现、安装和使用值得信赖的 AI 工具。'));
+  assert(PUBLIC_README.startsWith('# 枕星AI助手\n\n枕星AI助手让每个人都能更轻松地发现、安装和使用值得信赖的 AI 工具。'));
   assert(PUBLIC_GITIGNORE.includes('pc-client/admin/published/'));
   assert(PUBLIC_GITIGNORE.includes('!pc-client/build/icon.ico'));
   assert(PUBLIC_GITIGNORE.includes('!pc-client/build/icon.png'));

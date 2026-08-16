@@ -4136,13 +4136,13 @@ function createNpmExecutionContext() {
   );
   const userConfigPath = path.join(directory, "user.npmrc");
   const globalConfigPath = path.join(directory, "global.npmrc");
-  fs.writeFileSync(userConfigPath, "# Isolated ZhenXing AI user npm configuration\n", {
+  fs.writeFileSync(userConfigPath, "# Isolated ZhenXing AI Assistant user npm configuration\n", {
     encoding: "utf8",
     flag: "wx"
   });
   fs.writeFileSync(
     globalConfigPath,
-    "# Isolated ZhenXing AI global npm configuration\n",
+    "# Isolated ZhenXing AI Assistant global npm configuration\n",
     { encoding: "utf8", flag: "wx" }
   );
   return { directory, userConfigPath, globalConfigPath, temporaryRoot };
@@ -8462,7 +8462,10 @@ function ensureEnvironmentDownloadDirectory() {
   ) {
     return settings.downloadDirectory;
   }
-  const downloadDirectory = path.join(app.getPath("downloads"), BRAND.name);
+  const downloadDirectory = path.join(
+    app.getPath("downloads"),
+    BRAND.legacyManagedDirectoryName
+  );
   fs.mkdirSync(downloadDirectory, { recursive: true });
   writeSettings({ ...settings, downloadDirectory });
   return downloadDirectory;
@@ -8801,7 +8804,7 @@ async function uninstallPortableDesktopProduct(productId) {
   if (!action) {
     return {
       launched: false,
-      error: "未找到与枕星 AI 安装收据一致的便携程序"
+      error: "未找到与枕星AI助手 安装收据一致的便携程序"
     };
   }
   const trust = portableDesktopTrustForReceipt(download, receipt);
@@ -12386,7 +12389,7 @@ function registerIpc() {
         if (managedReceiptPresent) {
           return {
             launched: false,
-            error: "枕星 AI 安装收据与当前软件实例不一致，已停止卸载"
+            error: "枕星AI助手 安装收据与当前软件实例不一致，已停止卸载"
           };
         }
         if (probe.appx) {
@@ -12450,7 +12453,7 @@ function registerIpc() {
         ) {
           return {
             launched: false,
-            error: "枕星 AI 安装收据在确认期间发生变化，已停止卸载"
+            error: "枕星AI助手 安装收据在确认期间发生变化，已停止卸载"
           };
         }
         record = {
@@ -12612,7 +12615,7 @@ function registerIpc() {
         : {
             ok: false,
             closed: false,
-            error: "未找到由枕星 AI 管理的便携程序"
+            error: "未找到由枕星AI助手 管理的便携程序"
           };
     }
     if (windowsPackageManagerPlan(productId)) {
@@ -13079,7 +13082,7 @@ if (!hasSingleInstanceLock) {
       });
     })
     .catch((error) => {
-      console.error("ZhenXing AI failed to initialize", error);
+      console.error("ZhenXing AI Assistant failed to initialize", error);
       app.quit();
     });
 

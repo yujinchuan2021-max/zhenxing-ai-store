@@ -1,6 +1,6 @@
 # Third-party notices
 
-枕星 AI 的原创软件源代码采用 Apache License 2.0。第三方软件、素材、
+枕星AI助手的原创软件源代码采用 Apache License 2.0。第三方软件、素材、
 目录元数据和用户内容不因本项目许可证而重新授权。
 
 ## 直接软件依赖
@@ -29,7 +29,7 @@ Electron 分发物还包含 Chromium 等第三方组件；正式分发中由 Ele
 - `pc-client/extension-resources/codex/chatgpt-apps/` 随附自己的
   `LICENSE.txt`（Apache-2.0）和来源记录；该目录的许可证与归属声明继续保留。
 - 其他扩展、Skill、MCP、插件或连接器只有在各自目录明确随附许可证时，才按该
-  许可证授权其内容。目录中的链接或元数据不代表枕星 AI 获得上游代码的再授权权。
+  许可证授权其内容。目录中的链接或元数据不代表枕星AI助手获得上游代码的再授权权。
 
 ## 商标、图标、目录与社区内容
 

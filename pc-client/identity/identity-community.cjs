@@ -788,7 +788,7 @@ function createIdentityCommunity({
         [
           uuid(),
           userId,
-          "欢迎来到枕星 AI",
+          "欢迎来到枕星AI助手",
           "你的 PC 客户端与社区已经使用同一个用户身份。",
           "/community"
         ]

@@ -2,13 +2,13 @@
   "schemaVersion": 2,
   "updatedAt": "2026-08-02T15:48:46.000Z",
   "brand": {
-    "name": "枕星 AI",
+    "name": "枕星AI助手",
     "mark": "枕",
     "slogan": "一个地方，找到并安装你的 AI 工具"
   },
   "extraSections": [],
   "community": {
-    "title": "枕星 AI 社区",
+    "title": "枕星AI助手 社区",
     "description": "交流 AI 工具的安装、使用经验与工作流。",
     "provider": "Flarum",
     "url": "",
@@ -17,7 +17,7 @@
   "home": {
     "banners": [
       {
-        "eyebrow": "枕星 AI · PC",
+        "eyebrow": "枕星AI助手 · Windows",
         "title": "一个地方，找到并安装你的 AI 工具",
         "description": "从厂商进入，查看桌面端、CLI 与其他产品。",
         "action": "查看全部 AI 厂商"
@@ -505,7 +505,7 @@
           "name": "Docker Desktop",
           "kind": "桌面端",
           "category": "云服务与运维",
-          "description": "官方 Windows 桌面产品，内置 MCP Toolkit、Catalog 和 Gateway；枕星 AI 仅打开官方下载入口。",
+          "description": "官方 Windows 桌面产品，内置 MCP Toolkit、Catalog 和 Gateway；枕星AI助手 仅打开官方下载入口。",
           "website": "https://www.docker.com/products/docker-desktop/",
           "tutorial": "https://docs.docker.com/ai/mcp-catalog-and-toolkit/get-started/",
           "productType": "desktop-official",
@@ -778,7 +778,7 @@
           "name": "IntelliJ IDEA",
           "kind": "桌面端",
           "category": "编程与调试",
-          "description": "IntelliJ IDEA 2025.2 起内置官方 MCP Server；枕星 AI 仅打开官方下载与配置说明。",
+          "description": "IntelliJ IDEA 2025.2 起内置官方 MCP Server；枕星AI助手 仅打开官方下载与配置说明。",
           "website": "https://www.jetbrains.com/idea/download/?section=windows",
           "tutorial": "https://www.jetbrains.com/help/idea/mcp-server.html",
           "productType": "desktop-official",
@@ -3370,7 +3370,7 @@
         "需要本地 Docker Desktop；OAuth 凭据由 MCP Toolkit 管理。"
       ],
       "installScope": "仅打开官方接入文档；不写入本地配置。",
-      "uninstallPlan": "枕星 AI 未安装或修改 Toolkit；用户需在 Docker Desktop 中禁用 Toolkit/Gateway 并撤销授权。",
+      "uninstallPlan": "枕星AI助手 未安装或修改 Toolkit；用户需在 Docker Desktop 中禁用 Toolkit/Gateway 并撤销授权。",
       "provenanceEvidence": [
         "https://docs.docker.com/ai/mcp-catalog-and-toolkit/toolkit/",
         "https://docs.docker.com/ai/mcp-catalog-and-toolkit/get-started/"
@@ -4454,7 +4454,7 @@
         "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
       ],
       "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
-      "uninstallPlan": "只移除枕星 AI 收据内的 MCP 与客户端配置；保留 MATLAB、许可证、Toolbox 和工程。",
+      "uninstallPlan": "只移除枕星AI助手 收据内的 MCP 与客户端配置；保留 MATLAB、许可证、Toolbox 和工程。",
       "provenanceEvidence": [
         "https://github.com/matlab/matlab-mcp-core-server"
       ],
@@ -4497,7 +4497,7 @@
         "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
       ],
       "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
-      "uninstallPlan": "只移除枕星 AI 收据内的连接配置；保留 Omniverse 工程、USD、纹理和缓存。",
+      "uninstallPlan": "只移除枕星AI助手 收据内的连接配置；保留 Omniverse 工程、USD、纹理和缓存。",
       "provenanceEvidence": [
         "https://github.com/NVIDIA-Omniverse"
       ],
@@ -5314,7 +5314,7 @@
         "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
       ],
       "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
-      "uninstallPlan": "只移除枕星 AI 收据内的 MCP 配置；撤销专用令牌，保留 Terraform、State、Workspace、Module 与云资源。",
+      "uninstallPlan": "只移除枕星AI助手 收据内的 MCP 配置；撤销专用令牌，保留 Terraform、State、Workspace、Module 与云资源。",
       "provenanceEvidence": [
         "https://developer.hashicorp.com/terraform/mcp-server/deploy"
       ],

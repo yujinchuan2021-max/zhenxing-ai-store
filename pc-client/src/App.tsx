@@ -2482,7 +2482,7 @@ export default function App() {
     const settings = window.aihubPC
       ? await window.aihubPC.chooseDownloadDirectory()
       : {
-          downloadDirectory: `D:\\${BRAND.name}\\Downloads`,
+          downloadDirectory: `D:\\${BRAND.legacyManagedDirectoryName}\\Downloads`,
           selectionCanceled: false
         };
     setDownloadDirectory(settings.downloadDirectory);
@@ -3833,7 +3833,10 @@ export default function App() {
   const chooseCliDirectory = async () => {
     const settings = window.aihubPC
       ? await window.aihubPC.chooseCliDirectory()
-      : { downloadDirectory: "", cliInstallDirectory: `D:\\${BRAND.name}\\CLI` };
+      : {
+          downloadDirectory: "",
+          cliInstallDirectory: `D:\\${BRAND.legacyManagedDirectoryName}\\CLI`
+        };
     setCliInstallDirectory(settings.cliInstallDirectory || "");
     return settings.cliInstallDirectory || "";
   };
@@ -4747,10 +4750,7 @@ export default function App() {
     void refreshPersonalCenter().catch(() => undefined);
   };
 
-  const displayBrandName =
-    language === "en" && brand.name === BRAND.name
-      ? BRAND.englishName
-      : brand.name;
+  const displayBrandName = language === "en" ? BRAND.englishName : BRAND.name;
   const personalUnreadCount =
     (personalCenter?.summary.unreadNotifications || 0) +
     (personalCenter?.summary.unreadDirectMessages || 0);
@@ -10548,7 +10548,7 @@ function FlarumCommunityPage({
         <BackButton onBack={onBack} />
         <span>◎</span>
         <p>{community?.provider || communityText.text("community.provider")}</p>
-        <h1>{community ? catalogDisplayField(community, "title", language) : communityText.text("community.title")}</h1>
+        <h1>{communityText.text("community.title")}</h1>
         {community && <small>{catalogDisplayField(community, "description", language)}</small>}
         <small>{communityText.text("community.loginHint")}</small>
         <button className="accentButton" onClick={onLogin}>

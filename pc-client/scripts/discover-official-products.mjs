@@ -265,7 +265,7 @@ async function discoverVendor(vendor) {
 
 function markdownReport(report) {
   const lines = [
-    "# 枕星 AI 官方产品自动发现报告",
+    "# 枕星AI助手 官方产品自动发现报告",
     "",
     `生成时间：${report.generatedAt}`,
     "",

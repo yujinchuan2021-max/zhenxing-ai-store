@@ -25,7 +25,7 @@ app
       return;
     }
     notification = new Notification({
-      title: "枕星 AI 通知验收",
+      title: "枕星AI助手通知验收",
       body: "Windows 原生通知通道已成功调用。",
       silent: true,
       timeoutType: "default"

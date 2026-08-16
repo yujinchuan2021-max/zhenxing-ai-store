@@ -63,8 +63,8 @@ function buildMicrosoftStoreRepairDialog({ language = "zh", health } = {}) {
           ? "Microsoft Store was not detected"
           : "未检测到 Microsoft Store 系统组件",
         detail: english
-          ? "Use Windows Update first. If Store is still missing, follow Microsoft's official support page. ZhenXing AI will not register or replace system packages itself."
-          : "请先运行 Windows 更新；若商店仍然缺失，再按微软官方帮助处理。枕星 AI 不会自行注册或替换系统组件。",
+          ? "Use Windows Update first. If Store is still missing, follow Microsoft's official support page. ZhenXing AI Assistant will not register or replace system packages itself."
+          : "请先运行 Windows 更新；若商店仍然缺失，再按微软官方帮助处理。枕星AI助手 不会自行注册或替换系统组件。",
         buttons: english
           ? ["Close", "Open Windows Update", "Microsoft help"]
           : ["关闭", "打开 Windows 更新", "微软官方帮助"]
@@ -81,8 +81,8 @@ function buildMicrosoftStoreRepairDialog({ language = "zh", health } = {}) {
           ? "Microsoft Store's web endpoint is not reachable"
           : "Microsoft Store 基础网络连接失败",
         detail: english
-          ? "Check or turn off VPN/proxy, or switch networks and try again. ZhenXing AI will not change your VPN or proxy. You can still run Microsoft's wsreset.exe cache reset."
-          : "请检查或关闭 VPN/代理，或切换网络后重试。枕星 AI 不会自动修改 VPN 或代理；你仍可运行微软的 wsreset.exe 重置商店缓存。",
+          ? "Check or turn off VPN/proxy, or switch networks and try again. ZhenXing AI Assistant will not change your VPN or proxy. You can still run Microsoft's wsreset.exe cache reset."
+          : "请检查或关闭 VPN/代理，或切换网络后重试。枕星AI助手 不会自动修改 VPN 或代理；你仍可运行微软的 wsreset.exe 重置商店缓存。",
         buttons: english
           ? ["Close", "Open proxy settings", "Reset Store cache"]
           : ["关闭", "打开代理设置", "重置商店缓存"]

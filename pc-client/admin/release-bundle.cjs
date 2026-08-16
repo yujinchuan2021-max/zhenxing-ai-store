@@ -170,7 +170,7 @@ function prepareReleaseBundle({
     artifactName
   );
   if (!artifactMatch) {
-    throw new Error("更新安装包文件名不符合枕星 AI Windows x64 规则");
+    throw new Error("更新安装包文件名不符合枕星AI助手 Windows x64 规则");
   }
   if (artifactMatch[1] !== version) {
     throw new Error("更新安装包文件名版本与发布版本不一致");

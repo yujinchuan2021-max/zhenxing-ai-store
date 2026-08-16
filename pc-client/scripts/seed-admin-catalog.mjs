@@ -37,13 +37,13 @@ const catalog = {
   schemaVersion: 2,
   updatedAt: new Date().toISOString(),
   brand: {
-    name: "枕星 AI",
+    name: "枕星AI助手",
     mark: "枕",
     slogan: "一个地方，找到并安装你的 AI 工具"
   },
   extraSections: [],
   community: {
-    title: "枕星 AI 社区",
+    title: "枕星AI助手 社区",
     description: "交流 AI 工具的安装、使用经验与工作流。",
     provider: "Flarum",
     url: "",
@@ -52,7 +52,7 @@ const catalog = {
   home: {
     banners: [
       {
-        eyebrow: "枕星 AI · PC",
+        eyebrow: "枕星AI助手 · Windows",
         title: "一个地方，找到并安装你的 AI 工具",
         description:
           "从厂商进入，查看桌面端、CLI 与其他产品；只有点击安装后才进行环境检测。",

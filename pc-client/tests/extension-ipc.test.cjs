@@ -207,7 +207,7 @@ test("missing resources and runtime errors become safe messages", async () => {
     state: "unavailable",
     managed: false,
     allowedActions: [],
-    error: "扩展安装资源不可用，请更新枕星 AI 后重试"
+    error: "扩展安装资源不可用，请更新枕星AI助手 后重试"
   });
   const facade = createExtensionIpcFacade({
     inspect() {
@@ -218,7 +218,7 @@ test("missing resources and runtime errors become safe messages", async () => {
     execute() {}
   });
   const result = await facade.inspect("skill.example");
-  assert.equal(result.error, "扩展安装资源缺失，请更新枕星 AI 后重试");
+  assert.equal(result.error, "扩展安装资源缺失，请更新枕星AI助手 后重试");
   assert.equal(JSON.stringify(result).includes("secret-path"), false);
   assert.equal(safeExtensionError(new Error("private detail")), "扩展操作失败，请稍后重试");
 });

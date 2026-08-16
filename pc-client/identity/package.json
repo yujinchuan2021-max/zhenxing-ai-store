@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "license": "Apache-2.0",
-  "description": "ZhenXing AI unified identity and community service",
+  "description": "ZhenXing AI Assistant unified identity and community service",
   "dependencies": {
     "nodemailer": "9.0.3",
     "pg": "8.16.3"

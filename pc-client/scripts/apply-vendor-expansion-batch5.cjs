@@ -121,7 +121,7 @@ const specs = [
     id: "oracle", name: "Oracle", initial: "O", color: "#f80000",
     description: "提供数据库、企业软件和 Oracle Cloud Infrastructure。",
     website: "https://www.oracle.com/", tutorial: "https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm",
-    product: product("web", "oracle-cloud-infrastructure", "Oracle Cloud Infrastructure", "云服务与运维", "可连接企业数据、API 和 Agent 的云平台；枕星 AI 仅打开官方平台与文档。", "https://www.oracle.com/artificial-intelligence/enterprise-ai/", "https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm", "ai-connectable")
+    product: product("web", "oracle-cloud-infrastructure", "Oracle Cloud Infrastructure", "云服务与运维", "可连接企业数据、API 和 Agent 的云平台；枕星AI助手 仅打开官方平台与文档。", "https://www.oracle.com/artificial-intelligence/enterprise-ai/", "https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm", "ai-connectable")
   },
   {
     id: "sap", name: "SAP", initial: "S", color: "#0a6ed1",

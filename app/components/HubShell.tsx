@@ -22,9 +22,9 @@ export function HubShell({ children }: { children: ReactNode }) {
   return (
     <main className="site">
       <header className="topbar">
-        <Link className="brand" href="/" aria-label="枕星 AI 主页">
+        <Link className="brand" href="/" aria-label="枕星AI助手主页">
           <span className="brandMark">枕</span>
-          <span>枕星 AI</span>
+          <span>枕星AI助手</span>
           <small>AI 工具商店</small>
         </Link>
 
@@ -72,12 +72,12 @@ export function HubShell({ children }: { children: ReactNode }) {
         <div className="footerBrand">
           <span className="brandMark">枕</span>
           <div>
-            <b>枕星 AI</b>
+            <b>枕星AI助手</b>
             <small>AI 工具商店</small>
           </div>
         </div>
         <p>主页 · 全部厂商</p>
-        <span>ZhenXing AI · zhenxingai.com</span>
+        <span>ZhenXing AI Assistant · zhenxingai.com</span>
       </footer>
     </main>
   );
