@@ -45,6 +45,7 @@ function createProductionOrderBridgeHarness(cancelOutcome) {
     structuredClone,
     TextEncoder,
     URL,
+    URLSearchParams,
     setTimeout,
     clearTimeout
   });

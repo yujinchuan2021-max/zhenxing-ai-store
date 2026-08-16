@@ -1196,3 +1196,63 @@ The package and acceptance invocations are both consumed and must not be
 repeated. Both Windows executables remain unsigned, and this isolated packaged
 PASS is not installation, user-machine acceptance, signing, upload, or
 publication authority.
+
+### 0.1.98 prepackage Electron lifecycle compatibility
+
+The prepackage download gate exposed three test-contract drifts without
+changing the production download policy. Electron 43 loads a standalone CJS
+entry through its default app, so `require.main === module` alone did not start
+the hidden lifecycle probe. The child therefore produced no checkpoint and
+reached the outer 30-second timeout. The probe now also recognizes the Electron
+browser process, while ordinary Node imports remain inert. Its hidden run
+reaches the final checkpoint and controlled teardown in under one second.
+
+The nested preload VM also now supplies the standard `URLSearchParams` global
+used by the current preload, and the static managed-resource authorization
+probe accepts the current `statusFilter` option while still requiring
+`authorizeFreshCatalogResource`. The three focused suites passed 29/29, 8/8,
+and 4/4; the five download, authorization, lifecycle, and packaged-renderer
+suites passed 48/48 when run serially, as required by the shared temporary
+residue gate. The package/acceptance contract suites passed 31/31.
+
+The broad repository release suite still contains unrelated historical
+catalog/candidate assertions and Docker-dependent failures. Those failures are
+not converted into product changes or hidden by this correction. A successor
+may consume a new review-only package invocation only after its exact
+preflight; public signing, upload, and update publication remain separate
+gates.
+
+### 0.1.98 package, formal acceptance, and real-machine upgrade
+
+The 0.1.98 review package and its formal acceptance were each invoked exactly
+once. Packaging produced the expected seven-file closure; the Portable,
+Setup, and blockmap SHA-256 values are respectively
+`207ecb6db02c49173dad448462812cdee0c3f74e0f40c6038d40f6e119746c11`,
+`32f9ce5c79fbfba8bee740e6dd83bb8e392eeabe072baf970ca166de9f361458`,
+and `14067181898020e014f4a5bd547912c9a605f66d454a677ef623cf5b2d868f3`.
+The formal run reached terminal PASS with FINAL SHA-256
+`f61ced33c8b3d6838017b5f71243681aa8eff52062b93e9a2c229a293a671678`;
+its packaged live-convergence, deterministic renderer, provenance, secret
+scan, observer disposal, and isolated cleanup checks all passed.
+
+After explicit user confirmation, the accepted Setup upgraded the machine-wide
+installation from 0.1.97 to 0.1.98 with exit code zero. The installed product
+reports `0.1.98.0`, its `app.asar` SHA-256 matches the accepted BUILD record
+(`8a728adc8ab139598de5688973440ec9417e046284371d68a7837ba7ff13626b`),
+and the prior 0.1.97 Setup remains available as the bounded rollback input.
+The real installed client loaded successfully and independently exercised the
+home page, persisted download popover, package-management list, automatic
+software-update refresh with disabled `全部更新（0）`, Skill compatibility
+filters, MiniMax vendor detail, and the community login gate. The community
+view no longer produced the prior generic operation failure. The live cache
+bound Catalog v7 at normalized SHA-256
+`8c49e1972186f841dca9cea8f26074fe27aed9a140e4f5687cf7f23d134f034c`.
+
+This acceptance does not overstate catalog evidence. The current official
+Skill source has compatible-host and compatibility-level filters but no
+approved scene tags, so the UI explicitly says that scene categories are not
+available instead of returning a false no-match result. MiniMax Agent remains
+a web/tutorial product in this catalog; a desktop action requires a separately
+approved, stable publisher download identity. Both accepted executables and
+the installed executable remain `NotSigned`, so 0.1.98 is a local reviewed
+installation only and is not authorized for public update publication.
