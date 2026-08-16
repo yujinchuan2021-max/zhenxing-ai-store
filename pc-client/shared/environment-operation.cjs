@@ -103,7 +103,8 @@ function createEnvironmentOperationController({
     loadRecords: () => toCoreEnvelope(loadRecords()),
     saveRecords: (records) =>
       saveRecords(toEnvironmentEnvelope(records)),
-    onChange: (task) => onChange(toEnvironmentTask(task))
+    onChange: (task, context) =>
+      onChange(toEnvironmentTask(task), clone(context))
   });
   return {
     begin(environmentId, operation) {
