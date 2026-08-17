@@ -5,6 +5,44 @@ import {
   useRef,
   useState
 } from "react";
+import IconArrowLeft from "@tabler/icons-react/dist/esm/icons/IconArrowLeft.mjs";
+import IconBell from "@tabler/icons-react/dist/esm/icons/IconBell.mjs";
+import IconBuildingStore from "@tabler/icons-react/dist/esm/icons/IconBuildingStore.mjs";
+import IconChevronRight from "@tabler/icons-react/dist/esm/icons/IconChevronRight.mjs";
+import IconDownload from "@tabler/icons-react/dist/esm/icons/IconDownload.mjs";
+import IconExternalLink from "@tabler/icons-react/dist/esm/icons/IconExternalLink.mjs";
+import IconHome from "@tabler/icons-react/dist/esm/icons/IconHome.mjs";
+import IconLayoutGrid from "@tabler/icons-react/dist/esm/icons/IconLayoutGrid.mjs";
+import IconLink from "@tabler/icons-react/dist/esm/icons/IconLink.mjs";
+import IconMessages from "@tabler/icons-react/dist/esm/icons/IconMessages.mjs";
+import IconPlus from "@tabler/icons-react/dist/esm/icons/IconPlus.mjs";
+import IconPlugConnected from "@tabler/icons-react/dist/esm/icons/IconPlugConnected.mjs";
+import IconPuzzle from "@tabler/icons-react/dist/esm/icons/IconPuzzle.mjs";
+import IconRoute from "@tabler/icons-react/dist/esm/icons/IconRoute.mjs";
+import IconSearch from "@tabler/icons-react/dist/esm/icons/IconSearch.mjs";
+import IconSettings from "@tabler/icons-react/dist/esm/icons/IconSettings.mjs";
+import IconSparkles from "@tabler/icons-react/dist/esm/icons/IconSparkles.mjs";
+import IconX from "@tabler/icons-react/dist/esm/icons/IconX.mjs";
+import {
+  ActionIcon,
+  AppShell,
+  Burger,
+  Button,
+  Drawer,
+  Modal,
+  PasswordInput,
+  Popover,
+  Select,
+  TextInput,
+  useMantineColorScheme
+} from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import {
+  Spotlight,
+  spotlight,
+  type SpotlightActionData
+} from "@mantine/spotlight";
 import { runEnvironmentInstall } from "@aihub-shared/environment-install-flow.cjs";
 import { createEnvironmentInstallOrchestrator } from "@aihub-shared/environment-install-orchestrator.cjs";
 import { runDownloadedPackageAction } from "@aihub-shared/downloaded-package-action.cjs";
@@ -51,6 +89,7 @@ import {
 import { createResourceMarketplace } from "@aihub-shared/resource-marketplace.cjs";
 import {
   resourceRiskLevel,
+  resourceProvenancePresentation,
   resourceReviewStatus,
   resourceSourceChannel,
   resourceTargetPresentation
@@ -179,6 +218,27 @@ const RESOURCE_COMPATIBILITY_FILTERS = [
   "verified",
   "protocol-compatible"
 ] as const;
+const RESOURCE_TYPE_OUTCOME_KEYS: Record<ResourceStoreKind, readonly LanguageKey[]> = {
+  skill: [
+    "resources.outcome.skill.reuse",
+    "resources.outcome.skill.consistency"
+  ],
+  mcp: [
+    "resources.outcome.mcp.context",
+    "resources.outcome.mcp.flow"
+  ],
+  plugin: [
+    "resources.outcome.plugin.extend",
+    "resources.outcome.plugin.reuse"
+  ],
+  connector: [
+    "resources.outcome.connector.authorize",
+    "resources.outcome.connector.sync"
+  ]
+};
+const RESOURCE_SCENARIO_TAG_IDS = new Set(
+  SCENARIO_TAGS.map(({ id }: { id: string }) => id)
+);
 const CONTRIBUTION_SCOPES = [
   "vendor",
   "agent",
@@ -213,6 +273,18 @@ type ResourceMarketplace = {
     compatibility: Record<Exclude<ResourceCompatibilityFilter, "all">, number>;
   };
 };
+
+function resourceOutcomeKeys(resource: EcosystemResource): LanguageKey[] {
+  const typeOutcomes = resource.resourceTypes.flatMap(
+    (resourceType) => RESOURCE_TYPE_OUTCOME_KEYS[resourceType] || []
+  );
+  const scenarioOutcomes = (resource.scenarioTags || [])
+    .filter((scenarioTag) => RESOURCE_SCENARIO_TAG_IDS.has(scenarioTag))
+    .map((scenarioTag) =>
+      `resources.outcome.scenario.${scenarioTag}` as LanguageKey
+    );
+  return [...new Set([...typeOutcomes, ...scenarioOutcomes])].slice(0, 6);
+}
 const createMarketplace = createResourceMarketplace as (input: {
   resources: EcosystemResource[];
   vendors: Vendor[];
@@ -354,6 +426,7 @@ function hasManagedDownloadQueueApi() {
   return Boolean(
     api &&
       "enqueueManagedDownload" in api &&
+      "discoverDownloadedPackages" in api &&
       "listManagedDownloadTasks" in api &&
       "getManagedDownloadTaskStatus" in api &&
       "cancelManagedDownload" in api &&
@@ -526,6 +599,22 @@ function builtInBrand(language: Language): CatalogBrand {
   };
 }
 
+const BRAND_ICON_SRC = "./brand-icon.png";
+
+function BrandMark() {
+  return (
+    <span className="brandMark" aria-hidden="true">
+      <img src={BRAND_ICON_SRC} alt="" />
+    </span>
+  );
+}
+
+function communityProviderLabel(provider: string | null | undefined, language: Language) {
+  return !provider || provider.trim().toLowerCase() === "flarum"
+    ? createLanguage(language).text("community.provider")
+    : provider;
+}
+
 const CATALOG_REFRESH_TTL_MS = 60_000;
 
 function sortCatalogVendors(vendors: Vendor[]) {
@@ -618,6 +707,7 @@ function inferCatalogCategories(vendors: Vendor[]) {
 const builtInCatalogVendors = sortCatalogVendors(builtInVendors);
 
 export default function App() {
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
   const [catalogAllVendors, setCatalogAllVendors] =
     useState<Vendor[]>(() => (window.aihubPC ? [] : builtInCatalogVendors));
   const [catalogVendors, setCatalogVendors] =
@@ -669,7 +759,11 @@ export default function App() {
   >(ALL_FILTER);
   const [letter, setLetter] = useState<string>(ALL_FILTER);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [downloadMenuOpen, setDownloadMenuOpen] = useState(false);
+  const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false);
+  const mobileViewport = useMediaQuery("(max-width: 47.99em)");
   const [authOpen, setAuthOpen] = useState(false);
+  const [brandEasterEggOpen, setBrandEasterEggOpen] = useState(false);
   const [identity, setIdentity] = useState<IdentitySnapshot>({
     status: "anonymous"
   });
@@ -680,7 +774,7 @@ export default function App() {
   const [communityTargetPath, setCommunityTargetPath] = useState("");
   const [communityParentView, setCommunityParentView] =
     useState<CommunityParentView>("home");
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const theme: "light" | "dark" = colorScheme === "dark" ? "dark" : "light";
   const [language, setLanguage] = useState<Language>("zh");
   const homeBanners = catalogHomeBanners.length
     ? catalogHomeBanners
@@ -740,6 +834,8 @@ export default function App() {
   const [managementMessages, setManagementMessages] = useState<
     Record<string, string>
   >({});
+  const downloadNotificationsReady = useRef(false);
+  const downloadNotificationStates = useRef<Record<string, string>>({});
   const productOperationGenerations = useRef<Record<string, number>>({});
   const downloadTaskRevisions = useRef(createDownloadTaskRevisionTracker());
   const managedDownloadQueueEventRevisions = useRef(
@@ -757,6 +853,7 @@ export default function App() {
       }
     >()
   );
+  const managedPackageInventoryScanned = useRef(false);
   const desktopOperationRevisions = useRef<
     Record<
       string,
@@ -789,6 +886,8 @@ export default function App() {
   const pendingEnvironmentProducts = useRef<Map<string, Product>>(new Map());
   const autoOpenEnvironmentInstallers = useRef<Set<string>>(new Set());
   const advancingEnvironmentFlow = useRef(false);
+  const brandClickCountRef = useRef(0);
+  const brandLastClickAtRef = useRef(0);
 
   const languageModule = useMemo(() => createLanguage(language), [language]);
   const t = {
@@ -887,6 +986,18 @@ export default function App() {
     }
     return names;
   }, [catalogAllVendors, language]);
+  const managedPackageDiscoveryCandidates = useMemo(
+    () =>
+      catalogAllVendors.flatMap((vendor) =>
+        vendor.products
+          .filter((product) => Boolean(product.download))
+          .map((product) => ({
+            productId: product.id,
+            artifact: product.download!
+          }))
+      ),
+    [catalogAllVendors]
+  );
   const downloadPopover = useMemo(
     () =>
       buildDownloadPopoverItems({
@@ -896,6 +1007,38 @@ export default function App() {
       }),
     [downloadTaskNames, downloadTasks, managedDownloadQueueTasks]
   );
+  useEffect(() => {
+    const nextStates = Object.fromEntries(
+      downloadPopover.items.map((item) => [
+        `${item.source}:${item.id}`,
+        item.state
+      ])
+    );
+    if (!downloadNotificationsReady.current) {
+      downloadNotificationStates.current = nextStates;
+      downloadNotificationsReady.current = true;
+      return;
+    }
+    for (const item of downloadPopover.items) {
+      const key = `${item.source}:${item.id}`;
+      const previousState = downloadNotificationStates.current[key];
+      if (
+        previousState === "active" &&
+        (item.state === "completed" || item.state === "failed")
+      ) {
+        notifications.show({
+          id: `download:${key}:${item.state}`,
+          title: item.name,
+          message:
+            item.state === "completed"
+              ? uiText("downloadMenu.completed")
+              : uiText("downloadMenu.failed"),
+          color: item.state === "completed" ? "aiHubCyan" : "red"
+        });
+      }
+    }
+    downloadNotificationStates.current = nextStates;
+  }, [downloadPopover.items]);
   const installedManagement = useMemo(
     () =>
       buildInstalledProductManagement({
@@ -1193,12 +1336,14 @@ export default function App() {
       ...current,
       [task.productId]: task
     }));
-    setDownloadTasks((current) => {
-      if (!current[task.productId]) return current;
-      const next = { ...current };
-      delete next[task.productId];
-      return next;
-    });
+    if (task.phase !== "downloaded") {
+      setDownloadTasks((current) => {
+        if (!current[task.productId]) return current;
+        const next = { ...current };
+        delete next[task.productId];
+        return next;
+      });
+    }
   };
 
   const removeManagedDownloadQueueTask = (productId: string) => {
@@ -1294,10 +1439,7 @@ export default function App() {
           next[task.productId] = task;
         }
         for (const productId of Object.keys(next)) {
-          if (
-            !productIds.has(productId) &&
-            snapshotIsCurrent(productId)
-          ) {
+          if (!productIds.has(productId) && snapshotIsCurrent(productId)) {
             delete next[productId];
           }
         }
@@ -1305,7 +1447,9 @@ export default function App() {
       });
       setDownloadTasks((current) => {
         const next = { ...current };
-        for (const task of acceptedTasks) delete next[task.productId];
+        for (const task of acceptedTasks) {
+          if (task.phase !== "downloaded") delete next[task.productId];
+        }
         return next;
       });
     } catch {
@@ -2362,7 +2506,7 @@ export default function App() {
     const settings = window.aihubPC
       ? await window.aihubPC.chooseDownloadDirectory()
       : {
-          downloadDirectory: `D:\\${BRAND.name}\\Downloads`,
+          downloadDirectory: `D:\\${BRAND.legacyManagedDirectoryName}\\Downloads`,
           selectionCanceled: false
         };
     setDownloadDirectory(settings.downloadDirectory);
@@ -2583,6 +2727,7 @@ export default function App() {
   };
 
   const removeClearedDownloadTask = (productId: string) => {
+    removeManagedDownloadQueueTask(productId);
     downloadTaskRevisions.current.clearProduct(productId);
     setDownloadTasks((current) => {
       const next = { ...current };
@@ -3713,7 +3858,10 @@ export default function App() {
   const chooseCliDirectory = async () => {
     const settings = window.aihubPC
       ? await window.aihubPC.chooseCliDirectory()
-      : { downloadDirectory: "", cliInstallDirectory: `D:\\${BRAND.name}\\CLI` };
+      : {
+          downloadDirectory: "",
+          cliInstallDirectory: `D:\\${BRAND.legacyManagedDirectoryName}\\CLI`
+        };
     setCliInstallDirectory(settings.cliInstallDirectory || "");
     return settings.cliInstallDirectory || "";
   };
@@ -4182,7 +4330,7 @@ export default function App() {
   };
 
   const changeTheme = (next: "light" | "dark") => {
-    setTheme(next);
+    setColorScheme(next);
     document.documentElement.dataset.theme = next;
   };
 
@@ -4193,7 +4341,7 @@ export default function App() {
     void window.aihubPC?.setLanguage(next);
   };
 
-  const checkForUpdate = async () => {
+  const checkForUpdate = async (announce = false) => {
     setCheckingUpdate(true);
     setUpdateInstallMessage("");
     try {
@@ -4205,13 +4353,26 @@ export default function App() {
             message: uiText("auto.92ae7c88cf13")
           };
       setUpdateResult(result);
+      if (announce) {
+        notifications.show({
+          id: "client-update-check",
+          title: uiText("update.version", { value1: result.currentVersion }),
+          message: runtimeMessage(result.message),
+          color:
+            result.status === "error"
+              ? "red"
+              : result.status === "disabled"
+                ? "yellow"
+                : "aiHubCyan"
+        });
+      }
     } finally {
       setCheckingUpdate(false);
     }
   };
 
   useEffect(() => {
-    void checkForUpdate().catch(() => undefined);
+    void checkForUpdate(false).catch(() => undefined);
   }, []);
 
   const installUpdate = async () => {
@@ -4221,18 +4382,36 @@ export default function App() {
     try {
       const result = await window.aihubPC.openUpdateDownload();
       if (result.ok) {
-        setUpdateInstallMessage(
-          result.warning
-            ? uiText("auto.a129621fd2d5", { value1: result.warning })
-            : uiText("auto.79e4bb930e5c")
-        );
+        const message = result.warning
+          ? uiText("auto.a129621fd2d5", { value1: result.warning })
+          : uiText("auto.79e4bb930e5c");
+        setUpdateInstallMessage(message);
+        notifications.show({
+          id: "client-update-download",
+          title: uiText("update.installNow"),
+          message,
+          color: result.warning ? "yellow" : "aiHubCyan"
+        });
         return;
       }
-      setUpdateInstallMessage(result.error || uiText("auto.d308fd9d9d27"));
+      const message = result.error || uiText("auto.d308fd9d9d27");
+      setUpdateInstallMessage(message);
+      notifications.show({
+        id: "client-update-download",
+        title: uiText("update.installNow"),
+        message,
+        color: "red"
+      });
     } catch (error) {
-      setUpdateInstallMessage(
-        error instanceof Error ? error.message : uiText("auto.d308fd9d9d27")
-      );
+      const message =
+        error instanceof Error ? error.message : uiText("auto.d308fd9d9d27");
+      setUpdateInstallMessage(message);
+      notifications.show({
+        id: "client-update-download",
+        title: uiText("update.installNow"),
+        message,
+        color: "red"
+      });
     } finally {
       setInstallingUpdate(false);
     }
@@ -4366,28 +4545,46 @@ export default function App() {
       uninstallDesktopProduct(product)
     );
 
+  const refreshDownloadedPackages = async (force = false) => {
+    if (!window.aihubPC || !hasManagedDownloadQueueApi()) return;
+    if (managedPackageDiscoveryCandidates.length === 0) return;
+    if (managedPackageInventoryScanned.current && !force) return;
+    managedPackageInventoryScanned.current = true;
+    try {
+      const tasks = await window.aihubPC.discoverDownloadedPackages(
+        managedPackageDiscoveryCandidates
+      );
+      const packageTasks = tasks.filter(
+        (task) => !task.productId.startsWith("environment:")
+      );
+      for (const task of packageTasks) applyManagedDownloadQueueTask(task);
+      const completed = await Promise.all(
+        packageTasks
+          .filter((task) => task.phase === "downloaded")
+          .map(async (task) => [
+            task.productId,
+            await window.aihubPC!.getDownloadTask(task.productId)
+          ] as const)
+      );
+      for (const [productId, task] of completed) {
+        if (task) applyManagedDownloadTask(task);
+      }
+    } catch {
+      managedPackageInventoryScanned.current = false;
+    }
+  };
+
   const refreshInstalledManagement = async () => {
     if (!window.aihubPC) return;
-    const downloadProductIds = new Set([
-      ...Object.keys(downloadTasks),
-      ...Object.values(managedDownloadQueueTasks)
-        .filter((task) => task.phase === "downloaded")
-        .map((task) => task.productId)
-    ]);
     setScanning(true);
     try {
       const softwareResult = await window.aihubPC.checkSoftwareUpdates();
       setSoftwareUpdateResult(softwareResult);
-      const [environmentResult, inventoryResult, downloadResult] =
+      const [environmentResult, inventoryResult, packageResult] =
         await Promise.allSettled([
         refreshEnvironmentReport(false),
         window.aihubPC.scanManagedInventory(),
-        Promise.all(
-          [...downloadProductIds].map(async (productId) => [
-            productId,
-            (await window.aihubPC!.getDownloadTask(productId)) || null
-          ] as const)
-        )
+        refreshDownloadedPackages(true)
       ]);
       if (inventoryResult.status === "fulfilled") {
         applyManagedInventory(inventoryResult.value);
@@ -4398,11 +4595,11 @@ export default function App() {
           runtimeMessage(environmentResult.reason)
         );
       }
-      if (downloadResult.status === "fulfilled") {
-        for (const [productId, task] of downloadResult.value) {
-          if (task) applyManagedDownloadTask(task);
-          else removeClearedDownloadTask(productId);
-        }
+      if (packageResult.status === "rejected") {
+        setManagementMessage(
+          "package:scan",
+          runtimeMessage(packageResult.reason)
+        );
       }
     } finally {
       setScanning(false);
@@ -4411,7 +4608,7 @@ export default function App() {
 
   const openInstalledManagement = () => {
     navigate("management");
-    void refreshInstalledManagement();
+    void refreshDownloadedPackages();
   };
 
   const setManagementMessage = (id: string, message: string) =>
@@ -4596,19 +4793,138 @@ export default function App() {
     void refreshPersonalCenter().catch(() => undefined);
   };
 
-  const displayBrandName =
-    language === "en" && brand.name === BRAND.name
-      ? BRAND.englishName
-      : brand.name;
+  const displayBrandName = language === "en" ? BRAND.englishName : BRAND.name;
+  const handleBrandClick = () => {
+    const now = Date.now();
+    brandClickCountRef.current =
+      now - brandLastClickAtRef.current <= 5000
+        ? brandClickCountRef.current + 1
+        : 1;
+    brandLastClickAtRef.current = now;
+    if (brandClickCountRef.current >= 5) {
+      brandClickCountRef.current = 0;
+      brandLastClickAtRef.current = 0;
+      setBrandEasterEggOpen(true);
+      return;
+    }
+    navigate("home");
+  };
   const personalUnreadCount =
     (personalCenter?.summary.unreadNotifications || 0) +
     (personalCenter?.summary.unreadDirectMessages || 0);
+  const spotlightActions: SpotlightActionData[] = [
+    {
+      id: "navigation:home",
+      label: t.home,
+      description: catalogDisplayField(brand, "slogan", language),
+      leftSection: <IconHome size={21} stroke={1.8} />,
+      onClick: () => {
+        spotlight.close();
+        navigate("home");
+      }
+    },
+    {
+      id: "navigation:ai-vendors",
+      label: t.aiVendors,
+      description: uiText("directory.ai.description"),
+      leftSection: <IconBuildingStore size={21} stroke={1.8} />,
+      onClick: () => {
+        spotlight.close();
+        openVendorDirectory("ai-tool");
+      }
+    },
+    {
+      id: "navigation:connectable-vendors",
+      label: t.connectableVendors,
+      description: uiText("directory.connectable.description"),
+      leftSection: <IconPlugConnected size={21} stroke={1.8} />,
+      onClick: () => {
+        spotlight.close();
+        openVendorDirectory("ai-connectable");
+      }
+    },
+    ...activeResourceStores.map((store) => ({
+      id: `navigation:resource-store:${store.id}`,
+      label: resourceStoreDisplayLabel(store, language),
+      description: uiText("resources.description"),
+      leftSection: <ResourceStoreIcon storeId={store.id} size={21} />,
+      onClick: () => {
+        spotlight.close();
+        openResourceStore(store.id);
+      }
+    })),
+    {
+      id: "navigation:installed",
+      label: uiText("auto.a8b6c39dcabf"),
+      description: uiText("downloadMenu.viewAll"),
+      leftSection: <IconDownload size={21} stroke={1.8} />,
+      onClick: () => {
+        spotlight.close();
+        openInstalledManagement();
+      }
+    },
+    {
+      id: "navigation:settings",
+      label: t.settings,
+      description: uiText("settings.language"),
+      leftSection: <IconSettings size={21} stroke={1.8} />,
+      onClick: () => {
+        spotlight.close();
+        setSettingsOpen(true);
+      }
+    },
+    ...catalogVendors.flatMap((vendor) => {
+      const vendorName = vendorDisplayName(vendor, language);
+      return vendor.products
+        .filter((product) => product.enabled !== false)
+        .map((product) => ({
+          id: `product:${product.id}`,
+          label: catalogDisplayField(product, "name", language),
+          description: `${vendorName} · ${catalogDisplayField(product, "description", language)}`,
+          keywords: [vendorName, vendor.id, product.id],
+          leftSection: <IconSparkles size={21} stroke={1.8} />,
+          onClick: () => {
+            spotlight.close();
+            setVendorDirectory(product.directoryKind || "ai-tool");
+            setSelectedVendorId(vendor.id);
+            setView("vendors");
+          }
+        }));
+    }),
+    ...catalogResources.flatMap((resource) => {
+      if (resource.enabled === false) return [];
+      const store = activeResourceStores.find((entry) =>
+        resource.resourceTypes.includes(entry.id)
+      );
+      if (!store) return [];
+      return [{
+        id: `resource:${resource.id}`,
+        label: catalogDisplayField(resource, "name", language),
+        description: `${resourceStoreDisplayLabel(store, language)} · ${catalogDisplayField(resource, "description", language)}`,
+        keywords: [resource.id, resource.publisher || ""],
+        leftSection: <ResourceStoreIcon storeId={store.id} size={21} />,
+        onClick: () => {
+          spotlight.close();
+          setSelectedResourceStoreId(store.id);
+          setResourceStoreSelection({ resourceId: resource.id });
+          setResourceStoreVisit((current) => current + 1);
+          setSelectedVendorId("");
+          setView("resources");
+        }
+      }];
+    })
+  ];
+
+  const communityShellActive =
+    view === "community" &&
+    identity.status === "authenticated" &&
+    !selectedVendor;
 
   if (catalogStartupPending) {
     return (
       <main className="pcApp startupScreen" data-theme={theme} data-aihub-startup>
         <div className="startupBrand" aria-hidden="true">
-          <span className="brandMark">{BRAND.mark}</span>
+          <BrandMark />
           <strong>{BRAND.name}</strong>
         </div>
         <span className="startupSpinner" aria-hidden="true" />
@@ -4618,87 +4934,144 @@ export default function App() {
   }
 
   return (
-    <div className="pcApp" data-theme={theme}>
-      <header className="topbar">
-        <button
-          className="brand"
-          title={catalogDisplayField(brand, "slogan", language)}
-          onClick={() => navigate("home")}
-        >
-          <span className="brandMark">{brand.mark}</span>
-          <span>{displayBrandName}</span>
-          <small>{uiText("chrome.pc")}</small>
-        </button>
+    <AppShell
+      className={`pcApp${communityShellActive ? " communityWorkspace" : ""}`}
+      data-theme={theme}
+      data-aihub-app-shell
+      header={{ height: { base: 76, sm: 88 } }}
+      navbar={{
+        width: { base: 218, lg: 248 },
+        breakpoint: "sm",
+        collapsed: { mobile: !mobileNavigationOpen }
+      }}
+      padding={0}
+      transitionDuration={180}
+      withBorder={false}
+    >
+      <AppShell.Header className="topbar">
+        <div className="brandCluster">
+          <Burger
+            className="mobileNavToggle"
+            hiddenFrom="sm"
+            opened={mobileNavigationOpen}
+            data-aihub-mobile-nav-toggle
+            aria-label={t.navigation}
+            aria-controls="primary-navigation"
+            aria-expanded={mobileNavigationOpen}
+            onClick={() => setMobileNavigationOpen((current) => !current)}
+          />
+          <button
+            className="brand"
+            title={catalogDisplayField(brand, "slogan", language)}
+            aria-label={displayBrandName}
+            data-aihub-brand-easter-egg-trigger
+            onClick={handleBrandClick}
+          >
+            <BrandMark />
+            <span>{displayBrandName}</span>
+          </button>
+        </div>
 
         <form
           className="search"
           data-aihub-action="catalog-search"
           onSubmit={submitSearch}
         >
-          <span>⌕</span>
+          <span aria-hidden="true"><IconSearch size={19} stroke={1.8} /></span>
           <input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder={t.searchPlaceholder}
           />
+          <button
+            type="button"
+            className="searchShortcut"
+            data-aihub-command-center
+            aria-label={t.search}
+            title="Ctrl/Cmd + K"
+            onClick={spotlight.open}
+          >
+            <kbd>Ctrl K</kbd>
+          </button>
           <button type="submit">{t.search}</button>
         </form>
 
         <div className="topActions">
           <button className="quietButton" onClick={openInstalledManagement}>
             {uiText("auto.a8b6c39dcabf")}</button>
-          <button className="quietButton" onClick={() => setSettingsOpen(true)}>
-            ⚙ {t.settings}
+          <button
+            className="quietButton iconTextButton"
+            data-aihub-action="open-settings"
+            onClick={() => setSettingsOpen(true)}
+          >
+            <IconSettings size={18} stroke={1.8} aria-hidden="true" /> {t.settings}
           </button>
-          <details className="downloadMenu" data-aihub-download-menu>
-            <summary
-              aria-label={uiText("downloadMenu.title")}
-              title={uiText("downloadMenu.title")}
+          <div className="downloadMenu" data-aihub-download-menu>
+            <Popover
+              opened={downloadMenuOpen}
+              onChange={setDownloadMenuOpen}
+              position="bottom-end"
+              offset={10}
+              width={360}
+              withArrow
+              withinPortal={false}
             >
-              <span aria-hidden="true">↓</span>
-              {downloadPopover.activeCount > 0 && (
-                <b>{Math.min(99, downloadPopover.activeCount)}</b>
-              )}
-            </summary>
-            <div className="downloadPopover">
-              <header>
-                <strong>{uiText("downloadMenu.title")}</strong>
-                <small>{uiText("downloadMenu.count", { value1: downloadPopover.totalCount })}</small>
-              </header>
-              {downloadPopover.items.length === 0 ? (
-                <p>{uiText("downloadMenu.empty")}</p>
-              ) : (
-                <div className="downloadPopoverList">
-                  {downloadPopover.items.slice(0, 5).map((item) => (
-                    <article key={`${item.source}:${item.id}`} data-aihub-download-item={item.productId}>
-                      <div>
-                        <b>{item.name}</b>
-                        <small>
-                          {item.state === "completed"
-                            ? uiText("downloadMenu.completed")
-                            : item.state === "failed"
-                              ? uiText("downloadMenu.failed")
-                              : uiText("downloadMenu.inProgress")}
-                        </small>
-                      </div>
-                      {item.percent !== null && item.state === "active" && (
-                        <span>{item.percent}%</span>
-                      )}
-                    </article>
-                  ))}
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.currentTarget.closest("details")?.removeAttribute("open");
-                  openInstalledManagement();
-                }}
-              >
-                {uiText("downloadMenu.viewAll")}
-              </button>
-            </div>
-          </details>
+              <Popover.Target>
+                <button
+                  type="button"
+                  className="downloadMenuButton"
+                  data-aihub-download-trigger
+                  aria-label={uiText("downloadMenu.title")}
+                  aria-expanded={downloadMenuOpen}
+                  title={uiText("downloadMenu.title")}
+                  onClick={() => setDownloadMenuOpen((current) => !current)}
+                >
+                  <IconDownload size={19} stroke={1.8} aria-hidden="true" />
+                  {downloadPopover.activeCount > 0 && (
+                    <b>{Math.min(99, downloadPopover.activeCount)}</b>
+                  )}
+                </button>
+              </Popover.Target>
+              <Popover.Dropdown className="downloadPopover">
+                <header>
+                  <strong>{uiText("downloadMenu.title")}</strong>
+                  <small>{uiText("downloadMenu.count", { value1: downloadPopover.totalCount })}</small>
+                </header>
+                {downloadPopover.items.length === 0 ? (
+                  <p>{uiText("downloadMenu.empty")}</p>
+                ) : (
+                  <div className="downloadPopoverList">
+                    {downloadPopover.items.slice(0, 5).map((item) => (
+                      <article key={`${item.source}:${item.id}`} data-aihub-download-item={item.productId}>
+                        <div>
+                          <b>{item.name}</b>
+                          <small>
+                            {item.state === "completed"
+                              ? uiText("downloadMenu.completed")
+                              : item.state === "failed"
+                                ? uiText("downloadMenu.failed")
+                                : uiText("downloadMenu.inProgress")}
+                          </small>
+                        </div>
+                        {item.percent !== null && item.state === "active" && (
+                          <span>{item.percent}%</span>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDownloadMenuOpen(false);
+                    openInstalledManagement();
+                  }}
+                >
+                  {uiText("downloadMenu.viewAll")}
+                </button>
+              </Popover.Dropdown>
+            </Popover>
+          </div>
           {identity.status === "authenticated" && (
             <button
               className="notificationButton"
@@ -4719,7 +5092,7 @@ export default function App() {
                 )
               }
             >
-              <span aria-hidden="true">🔔</span>
+              <IconBell size={19} stroke={1.8} aria-hidden="true" />
               {Boolean(personalUnreadCount) && (
                 <b>{Math.min(99, personalUnreadCount)}</b>
               )}
@@ -4748,29 +5121,53 @@ export default function App() {
               t.login
             )}
           </button>
+          <div className="windowControls" data-aihub-window-controls>
+            <button
+              type="button"
+              className="windowControl windowControlMinimize"
+              aria-label="最小化"
+              title="最小化"
+              onClick={() => void window.aihubPC?.minimizeWindow()}
+            />
+            <button
+              type="button"
+              className="windowControl windowControlMaximize"
+              aria-label="最大化或还原"
+              title="最大化或还原"
+              onClick={() => void window.aihubPC?.toggleMaximizeWindow()}
+            />
+            <button
+              type="button"
+              className="windowControl windowControlClose"
+              aria-label="关闭"
+              title="关闭"
+              onClick={() => void window.aihubPC?.closeWindow()}
+            />
+          </div>
         </div>
-      </header>
+      </AppShell.Header>
 
-      <div
-        className={`workspace${
-          view === "community" &&
-          identity.status === "authenticated" &&
-          !selectedVendor
-            ? " communityWorkspace"
-            : ""
-        }`}
+      <AppShell.Navbar
+        id="primary-navigation"
+        className="sidebar"
+        style={{
+          transform:
+            mobileViewport && !mobileNavigationOpen
+              ? "translateX(-100%)"
+              : "translateX(0)"
+        }}
+        onClickCapture={() => setMobileNavigationOpen(false)}
       >
-        <aside className="sidebar">
           <p>{t.navigation}</p>
           <nav>
             <NavButton active={view === "home"} onClick={() => navigate("home")}>
-              <span>⌂</span>{t.home}
+              <span className="navIcon"><IconHome size={19} stroke={1.8} /></span>{t.home}
             </NavButton>
             <NavButton
               active={view === "vendors" && vendorDirectory === "ai-tool"}
               onClick={() => openVendorDirectory("ai-tool")}
             >
-              <span>◇</span>{t.aiVendors}
+              <span className="navIcon"><IconBuildingStore size={19} stroke={1.8} /></span>{t.aiVendors}
             </NavButton>
             <NavButton
               active={
@@ -4778,7 +5175,7 @@ export default function App() {
               }
               onClick={() => openVendorDirectory("ai-connectable")}
             >
-              <span>⌁</span>{t.connectableVendors}
+              <span className="navIcon"><IconPlugConnected size={19} stroke={1.8} /></span>{t.connectableVendors}
             </NavButton>
             {activeResourceStores.map((store) => (
               <NavButton
@@ -4790,7 +5187,7 @@ export default function App() {
                 }
                 onClick={() => openResourceStore(store.id)}
               >
-                <span>▦</span>{resourceStoreDisplayLabel(store, language)}
+                <span className="navIcon"><ResourceStoreIcon storeId={store.id} size={19} /></span>{resourceStoreDisplayLabel(store, language)}
               </NavButton>
             ))}
             {hasPublicWorkflowStore && (
@@ -4803,7 +5200,7 @@ export default function App() {
                   setView("workflow-public-store");
                 }}
               >
-                <span>◇</span>{uiText("workflow.public.nav")}
+                <span className="navIcon"><IconRoute size={19} stroke={1.8} /></span>{uiText("workflow.public.nav")}
               </button>
             )}
             <NavButton
@@ -4816,7 +5213,7 @@ export default function App() {
                 setView("community");
               }}
             >
-              <span>◎</span>{t.community}
+              <span className="navIcon"><IconMessages size={19} stroke={1.8} /></span>{t.community}
             </NavButton>
             {extraSections
               .filter((section) => section.enabled)
@@ -4826,7 +5223,7 @@ export default function App() {
                   active={false}
                   onClick={() => window.open(section.url)}
                 >
-                  <span>↗</span>
+                  <span className="navIcon"><IconExternalLink size={19} stroke={1.8} /></span>
                   {catalogDisplayField(section, "title", language)}
                 </NavButton>
               ))}
@@ -4836,20 +5233,35 @@ export default function App() {
               active={view === "contribution"}
               onClick={() => navigate("contribution")}
             >
-              <span>＋</span>{uiText("resources.submit.nav")}
+              <span className="navIcon"><IconPlus size={19} stroke={1.8} /></span>{uiText("resources.submit.nav")}
             </NavButton>
           </div>
-        </aside>
+          <footer
+            className={`clientUpdateBadge clientUpdateBadge-${updateResult?.status || "checking"} sidebarUpdate`}
+            data-aihub-client-update-status={updateResult?.status || "checking"}
+            aria-live="polite"
+          >
+            <span className="clientUpdateCopy">
+              <b>{uiText("update.version", { value1: updateResult?.currentVersion || packageJson.version })}</b>
+            </span>
+            {updateResult?.status === "available" && (
+              <button
+                type="button"
+                onClick={installUpdate}
+                disabled={installingUpdate}
+              >
+                {installingUpdate
+                  ? uiText("update.installing")
+                  : uiText("update.availableAction")}
+              </button>
+            )}
+          </footer>
+      </AppShell.Navbar>
 
-        <main
-          className={`content${
-            view === "community" &&
-            identity.status === "authenticated" &&
-            !selectedVendor
-              ? " communityContent"
-              : ""
-          }`}
-        >
+      <AppShell.Main
+        className={`appShellMain${communityShellActive ? " communityAppShellMain" : ""}`}
+      >
+        <div className={`content${communityShellActive ? " communityContent" : ""}`}>
           {selectedVendor ? (
             <VendorPage
               vendor={selectedVendor}
@@ -5087,11 +5499,36 @@ export default function App() {
               }}
             />
           )}
-        </main>
-      </div>
+        </div>
+      </AppShell.Main>
+
+      <Spotlight
+        actions={spotlightActions}
+        shortcut="mod + K"
+        limit={7}
+        highlightQuery
+        scrollable
+        maxHeight={420}
+        data-aihub-command-center
+        nothingFound={uiText("directory.emptyTitle")}
+        overlayProps={{ backgroundOpacity: 0.48, blur: 14 }}
+        classNames={{
+          content: "aiHubSpotlightContent",
+          search: "aiHubSpotlightSearch",
+          actionsList: "aiHubSpotlightActions",
+          action: "aiHubSpotlightAction",
+          empty: "aiHubSpotlightEmpty"
+        }}
+        searchProps={{
+          leftSection: <IconSearch size={20} stroke={1.8} />,
+          placeholder: t.searchPlaceholder,
+          "aria-label": t.search
+        }}
+      />
 
       {settingsOpen && (
         <SettingsPanel
+          opened={settingsOpen}
           theme={theme}
           language={language}
           downloadDirectory={downloadDirectory}
@@ -5119,10 +5556,6 @@ export default function App() {
             .filter((entry) => entry.canInstall)
             .map((entry) => entry.id)}
           scanning={scanning}
-          checkingUpdate={checkingUpdate}
-          installingUpdate={installingUpdate}
-          updateResult={updateResult}
-          updateInstallMessage={updateInstallMessage}
           onClose={() => setSettingsOpen(false)}
           onTheme={changeTheme}
           onLanguage={changeLanguage}
@@ -5172,8 +5605,6 @@ export default function App() {
             )
           }
           onRecheckCliManagedTask={recheckCliManagedTask}
-          onCheckForUpdate={checkForUpdate}
-          onOpenUpdate={installUpdate}
         />
       )}
       {authOpen && (
@@ -5183,6 +5614,33 @@ export default function App() {
           onIdentity={setIdentity}
         />
       )}
+      <Modal
+        opened={brandEasterEggOpen}
+        onClose={() => undefined}
+        closeOnClickOutside={false}
+        closeOnEscape={false}
+        centered
+        size={440}
+        withCloseButton={false}
+        overlayProps={{ backgroundOpacity: 0.58, blur: 16 }}
+        classNames={{
+          content: "brandEasterEggContent",
+          body: "brandEasterEggBody"
+        }}
+        data-aihub-brand-easter-egg
+      >
+        <section className="brandEasterEgg">
+          <div className="brandEasterEggStar" aria-hidden="true">
+            <BrandMark />
+          </div>
+          <p>{uiText("brand.easterEggProgress")}</p>
+          <h2>{uiText("brand.easterEggTitle")}</h2>
+          <blockquote>{uiText("brand.easterEggMessage")}</blockquote>
+          <Button onClick={() => setBrandEasterEggOpen(false)}>
+            {uiText("brand.easterEggDismiss")}
+          </Button>
+        </section>
+      </Modal>
       {pendingDownloadCancellation && (
         <ManagedDownloadCancelDialog
           pending={pendingDownloadCancellation}
@@ -5191,7 +5649,7 @@ export default function App() {
           onDiscard={() => void confirmDownloadCancellation()}
         />
       )}
-    </div>
+    </AppShell>
   );
 }
 
@@ -5263,6 +5721,25 @@ function ManagedDownloadCancelDialog({
       </section>
     </div>
   );
+}
+
+function ResourceStoreIcon({
+  storeId,
+  size = 20
+}: {
+  storeId: string;
+  size?: number;
+}) {
+  const StoreIcon = storeId === "skill"
+    ? IconSparkles
+    : storeId === "mcp"
+      ? IconPlugConnected
+      : storeId === "plugin"
+        ? IconPuzzle
+        : storeId === "connector"
+          ? IconLink
+          : IconLayoutGrid;
+  return <StoreIcon size={size} stroke={1.8} aria-hidden="true" />;
 }
 
 function NavButton({
@@ -5354,7 +5831,6 @@ function HomePage({
   const carouselHero = useCarousel && slide ? (
     <section className={`hero carouselHero${imageFailed || !carouselImageUrl ? " imageFailed" : ""}`} onMouseEnter={() => setCarouselPaused(true)} onFocusCapture={() => setCarouselPaused(true)}>
       <div className="heroCopy" aria-live={carouselPaused ? "polite" : "off"}>
-        <p>{uiText("carousel.eyebrow")}</p>
         <h1>{catalogDisplayField(slide, "title", language)}</h1>
         <span>{catalogDisplayField(slide, "description", language)}</span>
         <div className="carouselActions">
@@ -5403,7 +5879,6 @@ function HomePage({
     <>
       {carouselHero || <section className="hero">
         <div className="heroCopy">
-          <p>{catalogDisplayField(banner, "eyebrow", language)}</p>
           <h1>{catalogDisplayField(banner, "title", language)}</h1>
           <span>{catalogDisplayField(banner, "description", language)}</span>
           <button className="primaryAction" onClick={onOpenVendors}>
@@ -5433,7 +5908,6 @@ function HomePage({
       <section className="homeSection">
         <div className="sectionHeading">
           <div>
-            <p>{uiText("auto.cf2b91fc1b4a")}</p>
             <h2>{uiText("auto.1af1e69bc945")}</h2>
           </div>
           <button onClick={onOpenVendors}>{uiText("home.aiVendorsAction")}</button>
@@ -5447,7 +5921,6 @@ function HomePage({
             >
               <VendorMark vendor={vendor} />
               <span>
-                <small>{uiText("auto.2e10281b39c0")}</small>
                 <b>{vendorDisplayName(vendor, language)}</b>
               </span>
               <i>→</i>
@@ -5476,7 +5949,6 @@ function SearchResultsPage({
   return (
     <>
       <header className="pageHeader" data-aihub-search-results>
-        <p>{uiText("nav.search")}</p>
         <h1>
           {results.query
             ? uiText("auto.ce30bf880263", { value1: results.query })
@@ -5510,7 +5982,6 @@ function SearchResultsPage({
             <section className="homeSection">
               <div className="sectionHeading">
                 <div>
-                  <p>{uiText("auto.9900470a1321")}</p>
                   <h2>{uiText("auto.9900470a1321")}</h2>
                 </div>
               </div>
@@ -5527,11 +5998,6 @@ function SearchResultsPage({
                   >
                     <div className="vendorCardTop">
                       <VendorMark vendor={result.vendor} large />
-                      <span>
-                        {result.directoryKind === "ai-tool"
-                          ? uiText("directory.ai.eyebrow")
-                          : uiText("directory.connectable.eyebrow")}
-                      </span>
                     </div>
                     <h2>{vendorDisplayName(result.vendor, language)}</h2>
                     <p>{catalogDisplayField(result.vendor, "description", language)}</p>
@@ -5556,7 +6022,6 @@ function SearchResultsPage({
             <section className="homeSection">
               <div className="sectionHeading">
                 <div>
-                  <p>{uiText("resources.eyebrow")}</p>
                   <h2>{uiText("resources.eyebrow")}</h2>
                 </div>
               </div>
@@ -5572,7 +6037,6 @@ function SearchResultsPage({
                     data-aihub-resource-product-id={result.product.id}
                     onClick={() => onOpenResource(result)}
                   >
-                    <span>{resourceStoreDisplayLabel(result.store, language)}</span>
                     <b>{catalogDisplayField(result.resource, "name", language)}</b>
                     <small>
                       {vendorDisplayName(result.vendor, language)} · {catalogDisplayField(result.product, "name", language)}
@@ -5623,12 +6087,7 @@ function VendorsPage({
 }) {
   return (
     <>
-      <header className="pageHeader">
-        <p>
-          {directoryKind === "ai-tool"
-            ? uiText("directory.ai.eyebrow")
-            : uiText("directory.connectable.eyebrow")}
-        </p>
+      <header className="pageHeader resourceStoreHeader">
         <h1>
           {directoryKind === "ai-tool"
             ? uiText("directory.ai.title")
@@ -5726,11 +6185,28 @@ function FilterRow({
   labels?: Record<string, string>;
   marker?: string;
 }) {
+  const data = values.map((value) => ({
+    value,
+    label:
+      labels?.[value] ||
+      (value === ALL_FILTER ? uiText("auto.5c55a67935af") : value)
+  }));
+
   return (
     <div className="filterRow" data-aihub-resource-filter={marker}>
       <b>{label}</b>
-      <div role="group" aria-label={label}>
-        {values.map((value) => (
+      <Select
+        className="filterCompactSelect"
+        data-aihub-filter-compact={marker}
+        aria-label={label}
+        data={data}
+        value={active}
+        searchable={values.length > 8}
+        allowDeselect={false}
+        onChange={(value) => value && onChange(value)}
+      />
+      <div className="filterChipGroup" role="group" aria-label={label}>
+        {data.map(({ value, label: valueLabel }) => (
           <button
             type="button"
             key={value}
@@ -5739,8 +6215,7 @@ function FilterRow({
             aria-pressed={active === value}
             onClick={() => onChange(value)}
           >
-            {labels?.[value] ||
-              (value === ALL_FILTER ? uiText("auto.5c55a67935af") : value)}
+            {valueLabel}
           </button>
         ))}
       </div>
@@ -6014,9 +6489,10 @@ function BackButton({
       className="backButton"
       data-aihub-action={action}
       aria-label={uiText("navigation.back")}
+      title={uiText("navigation.back")}
       onClick={onBack}
     >
-      ← {uiText("navigation.back")}
+      <IconArrowLeft size={21} stroke={2} aria-hidden="true" />
     </button>
   );
 }
@@ -6179,7 +6655,6 @@ function VendorPage({
       <section className="vendorHero">
         <VendorMark vendor={vendor} hero />
         <div>
-          <p>{uiText("auto.1ffe67baf7b9")}</p>
           <h1>{vendorDisplayName(vendor, language)}</h1>
           <span>{catalogDisplayField(vendor, "description", language)}</span>
         </div>
@@ -6190,7 +6665,6 @@ function VendorPage({
       <section className="vendorProducts">
         <div className="sectionHeading">
           <div>
-            <p>{uiText("auto.47935eda89dd")}</p>
             <h2>
               {vendorDisplayName(vendor, language)} {directoryKind === "ai-connectable"
                 ? uiText("directory.vendorProducts.connectable")
@@ -6220,7 +6694,6 @@ function VendorPage({
 
       <section className="tutorialCard">
         <div>
-          <p>{uiText("auto.ca89fe5c9aa4")}</p>
           <h2>{vendorDisplayName(vendor, language)} {uiText("auto.8ef3fead5883")}</h2>
         </div>
         <button onClick={() => window.open(vendor.tutorial)}>
@@ -6253,7 +6726,6 @@ function ResourceStorePage({
     useState(initialResourceId);
   const [sourceChannel, setSourceChannel] =
     useState<ResourceSourceChannel>("official");
-  const [scenarioTag, setScenarioTag] = useState<string>(ALL_FILTER);
   const [hostId, setHostId] = useState<string>(ALL_FILTER);
   const [compatibilityFilter, setCompatibilityFilter] =
     useState<ResourceCompatibilityFilter>("all");
@@ -6268,9 +6740,6 @@ function ResourceStorePage({
   const filterFacets = store
     ? marketplace.facets({ store: store.id, source: sourceChannel })
     : { scenarios: {}, compatibility: { official: 0, verified: 0, "protocol-compatible": 0 } };
-  const scenarioOptions = SCENARIO_TAGS.filter(
-    (tag) => (filterFacets.scenarios[tag.id] || 0) > 0
-  );
   const compatibilityOptions = RESOURCE_COMPATIBILITY_FILTERS.filter(
     (value) => value === "all" || filterFacets.compatibility[value] > 0
   );
@@ -6284,11 +6753,6 @@ function ResourceStorePage({
       setHostId(ALL_FILTER);
     }
   }, [hostId, hostOptions]);
-  useEffect(() => {
-    if (scenarioTag !== ALL_FILTER && !scenarioOptions.some((tag) => tag.id === scenarioTag)) {
-      setScenarioTag(ALL_FILTER);
-    }
-  }, [scenarioOptions, scenarioTag]);
   useEffect(() => {
     if (!compatibilityOptions.includes(compatibilityFilter)) {
       setCompatibilityFilter("all");
@@ -6306,9 +6770,7 @@ function ResourceStorePage({
     .browse({
       store: store.id,
       source: sourceChannel,
-      category: store.id === "skill" && scenarioTag !== ALL_FILTER
-        ? scenarioTag
-        : "all",
+      category: "all",
       hostId: hostId === ALL_FILTER ? "all" : hostId,
       compatibility: compatibilityFilter
     });
@@ -6332,26 +6794,22 @@ function ResourceStorePage({
     selectedEntry?.hosts[0] || null;
 
   return (
-    <>
-      <header
-        className="pageHeader resourceStoreHeader"
-        data-aihub-resource-store-current={store.id}
-      >
-        <p>{uiText("resources.eyebrow")}</p>
-        <h1>{storeLabel}</h1>
-        <span>{uiText("resources.description")}</span>
-        <small className="resourceSourceContext" data-aihub-resource-source-context={sourceChannel} aria-live="polite">
-          {uiText("resources.currentSource", { value1: sourceLabel })}
-        </small>
-      </header>
-      <button
-        type="button"
-        className="submissionTextLink"
-        data-aihub-action="open-resource-submission"
-        onClick={onOpenContribution}
-      >
-        {uiText("resources.submit.storeLink")} →
-      </button>
+    <section
+      className={`resourceStorePage${selectedEntry && selectedHost ? " resourceStorePageDetail" : ""}`}
+      data-aihub-resource-store-window={store.id}
+    >
+      {!(selectedEntry && selectedHost) && (
+        <header
+          className="pageHeader resourceStoreHeader"
+          data-aihub-resource-store-current={store.id}
+        >
+          <h1>{storeLabel}</h1>
+          <span>{uiText("resources.description")}</span>
+          <small className="resourceSourceContext" data-aihub-resource-source-context={sourceChannel} aria-live="polite">
+            {uiText("resources.currentSource", { value1: sourceLabel })}
+          </small>
+        </header>
+      )}
       {marketplace.browse({ store: store.id }).length === 0 ? (
         <section className="catalogUnavailable" role="status">
           <b>{uiText("resources.emptyTitle")}</b>
@@ -6368,12 +6826,49 @@ function ResourceStorePage({
               action="back-resource-list"
               onBack={() => setSelectedResourceId("")}
             />
-            <div>
-              <small>{storeLabel}</small>
-              <h2>{catalogDisplayField(selectedEntry.resource, "name", language)}</h2>
-              <span>{uiText("resources.detailTitle")}</span>
+            <div className="resourceDetailIdentity" data-aihub-resource-detail-identity>
+              <span className="resourceDetailIcon" aria-hidden="true">
+                <ResourceStoreIcon storeId={store.id} size={30} />
+              </span>
+              <div className="resourceDetailCopy">
+                <h2 className="resourceDetailName">
+                  {catalogDisplayField(selectedEntry.resource, "name", language)}
+                </h2>
+                <p className="resourceDetailMeta" data-aihub-resource-detail-meta>
+                  {[
+                    selectedEntry.publisher?.name || selectedEntry.resource.publisher,
+                    uiText(`resources.type.${store.id}` as LanguageKey),
+                    uiText("resources.compatibleHostCount", { value1: selectedEntry.hosts.length })
+                  ].filter(Boolean).join(" · ")}
+                </p>
+              </div>
             </div>
           </header>
+          <section className="resourceOverview" data-aihub-resource-overview>
+            <span className="resourceOverviewIcon">
+              <ResourceStoreIcon storeId={store.id} size={30} />
+            </span>
+            <div className="resourceOverviewMain">
+              <h3>{uiText("resources.whatItDoes")}</h3>
+              <div className="resourcePurpose" data-aihub-resource-purpose>
+                <b>{uiText("resources.resourceNote")}</b>
+                <span>{catalogDisplayField(selectedEntry.resource, "description", language)}</span>
+              </div>
+              <p className="resourceOutcomeIntro">{uiText("resources.outcomeIntro")}</p>
+              <ul className="resourceOutcomeList">
+                {resourceOutcomeKeys(selectedEntry.resource).map((outcomeKey) => (
+                  <li
+                    className="resourceOutcomeItem"
+                    key={outcomeKey}
+                    data-aihub-resource-outcome={outcomeKey}
+                  >
+                    <span className="resourceOutcomeMarker" aria-hidden="true" />
+                    <span>{uiText(outcomeKey)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
           <div className="resourceRelationFacts">
             {selectedEntry.publisher && (
               <div className="resourceRelationFact" data-aihub-resource-publisher>
@@ -6408,13 +6903,24 @@ function ResourceStorePage({
           <ResourceRow
             resource={selectedEntry.resource}
             target={selectedHost.target}
-            storeLabel={storeLabel}
-            language={language}
           />
         </section>
       ) : (
-        <section data-aihub-resource-level="resources">
-          <div className="filters resourceStoreFilters">
+        <section className="resourceStoreBrowse" data-aihub-resource-level="resources">
+          <aside
+            className="resourceFilterPanel"
+            data-aihub-resource-filter-panel
+          >
+            <button
+              type="button"
+              className="submissionTextLink"
+              data-aihub-action="open-resource-submission"
+              onClick={onOpenContribution}
+            >
+              <span>{uiText("resources.submit.storeLink")}</span>
+              <IconChevronRight size={18} stroke={1.9} aria-hidden="true" />
+            </button>
+            <div className="filters resourceStoreFilters">
             <FilterRow
               label={uiText("resources.sourceFilter")}
               values={RESOURCE_SOURCE_CHANNELS}
@@ -6435,27 +6941,6 @@ function ResourceStorePage({
               }}
               marker="source-channel"
             />
-            {kind === "skill" && scenarioOptions.length > 0 ? (
-              <FilterRow
-                label={uiText("resources.scenario")}
-                values={[ALL_FILTER, ...scenarioOptions.map((tag) => tag.id)]}
-                labels={Object.fromEntries([
-                  [ALL_FILTER, `${uiText("resources.filter.all")} (${sourceEntries.length})`],
-                  ...scenarioOptions.map((tag) => [
-                    tag.id,
-                    `${uiText(`resources.scenario.${tag.id}` as LanguageKey)} (${filterFacets.scenarios[tag.id]})`
-                  ])
-                ])}
-                active={scenarioTag}
-                onChange={setScenarioTag}
-                marker="scenario"
-              />
-            ) : kind === "skill" ? (
-              <div className="filterRow resourceFilterUnavailable" data-aihub-resource-filter="scenario">
-                <b>{uiText("resources.scenario")}</b>
-                <span>{uiText("resources.scenarioUnavailable")}</span>
-              </div>
-            ) : null}
             <FilterRow
               label={uiText("resources.hostFilter")}
               values={[ALL_FILTER, ...hostOptions.map((product) => product.id)]}
@@ -6485,7 +6970,14 @@ function ResourceStorePage({
               onChange={(value) => setCompatibilityFilter(value as ResourceCompatibilityFilter)}
               marker="compatibility"
             />
-          </div>
+            </div>
+          </aside>
+          <div
+            className="resourceStoreResults"
+            data-aihub-resource-results-scroll
+            tabIndex={0}
+            aria-label={sourceLabel}
+          >
           {filteredEntries.length === 0 ? (
             <section
               className="catalogUnavailable resourceSourceEmpty"
@@ -6532,35 +7024,38 @@ function ResourceStorePage({
                 data-aihub-resource-id={resource.id}
                 onClick={() => setSelectedResourceId(resource.id)}
               >
-                <span>{storeLabel}</span>
-                <b>{catalogDisplayField(resource, "name", language)}</b>
-                <small>{catalogDisplayField(resource, "description", language)}</small>
-                {publisher && <small>{uiText("resources.publisher")}: {publisher.name}</small>}
+                <span className="resourceCardIdentity">
+                  <span className="resourceCardIcon">
+                    <ResourceStoreIcon storeId={store.id} size={29} />
+                  </span>
+                  <span className="resourceCardTitle">
+                    <b>{catalogDisplayField(resource, "name", language)}</b>
+                  </span>
+                </span>
+                <small className="resourceCardDescription">{catalogDisplayField(resource, "description", language)}</small>
+                {publisher && <small className="resourceCardPublisher">{uiText("resources.publisher")}: {publisher.name}</small>}
                 <footer>
                   <span>{uiText("resources.compatibleHostCount", { value1: hosts.length })}</span>
-                  <strong>{uiText("resources.viewDetail")} →</strong>
+                  <strong>{uiText("resources.viewDetail")} <IconChevronRight size={16} stroke={2} aria-hidden="true" /></strong>
                 </footer>
               </button>
             ))}
           </div>
             </>
           )}
+          </div>
         </section>
       )}
-    </>
+    </section>
   );
 }
 
 function ResourceRow({
   resource,
-  target,
-  storeLabel,
-  language
+  target
 }: {
   resource: EcosystemResource;
   target: ResourceTarget;
-  storeLabel: string;
-  language: Language;
 }) {
   const presentation = resourceTargetPresentation(resource, target);
   const managed = presentation.managed;
@@ -6568,6 +7063,7 @@ function ResourceRow({
   const reviewStatus = resourceReviewStatus(resource);
   const riskLevel = resourceRiskLevel(resource);
   const source = resource.metadataSnapshot;
+  const provenanceActions = resourceProvenancePresentation(resource);
   const blockedFromManagement =
     reviewStatus === "rejected" || riskLevel === "unsafe";
   const externalReference = source?.externalReference
@@ -6640,10 +7136,8 @@ function ResourceRow({
       data-aihub-resource-id={resource.id}
       data-aihub-extension-profile-id={target.installProfileId || undefined}
     >
-      <span>{storeLabel}</span>
-      <div>
-        <b>{catalogDisplayField(resource, "name", language)}</b>
-        <small>{catalogDisplayField(resource, "description", language)}</small>
+      <div className="resourceRowMain">
+        <h3 className="resourceInstallHeading">{uiText("resources.installAndTrust")}</h3>
         <div className="resourceGovernance">
           {sourceChannel && (
             <span>{uiText(`resources.channel.${sourceChannel}` as LanguageKey)}</span>
@@ -6719,10 +7213,13 @@ function ResourceRow({
             {uiText(link.labelKey)} ↗
           </button>
         ))}
-        {(resource.provenanceEvidence || []).map((evidence, index) => (
-          <button key={evidence} onClick={() => window.open(evidence)}>
-            {uiText("resources.provenance")}
-            {resource.provenanceEvidence!.length > 1 ? ` ${index + 1}` : ""} ↗
+        {provenanceActions.map((action) => (
+          <button
+            key={action.href}
+            data-aihub-action="open-resource-provenance"
+            onClick={() => window.open(action.href)}
+          >
+            {uiText(action.labelKey as LanguageKey)} ↗
           </button>
         ))}
         {managed && !status && (
@@ -7210,31 +7707,35 @@ function ProductRow({
   return (
     <article className="productRow" data-aihub-product-id={product.id}>
       <div className="productInfo">
-        <span>
-          {product.kind === "CLI"
-            ? uiText("product.kind.cli")
-            : product.kind === "桌面端"
-              ? uiText("product.kind.visual")
-              : product.kind}
-        </span>
-        <h4>{catalogDisplayField(product, "name", language)}</h4>
-        <p>{catalogDisplayField(product, "description", language)}</p>
-        {product.kind === "CLI" && (
-          <small>{uiText("product.kind.cliHint")}</small>
-        )}
-        {product.kind === "桌面端" && (
-          <small>{uiText("product.kind.visualHint")}</small>
-        )}
-        {officialDownloadCopy && (
-          <small className="acquisitionHint">{uiText(officialDownloadCopy.hint)}</small>
-        )}
-        {product.officialDownload?.note && (
-          <small className="acquisitionHint">{product.officialDownload.note}</small>
-        )}
-        {desktopStatus?.legacyInstall === "comfy-desktop-v1" && (
-          <small>{uiText("desktop.comfyLegacyMigration")}</small>
-        )}
-        {cliStatus?.summary && <small>{runtimeMessage(cliStatus.summary)}</small>}
+        <div className="productInfoMain">
+          <span className="productKind">
+            {product.kind === "CLI"
+              ? uiText("product.kind.cli")
+              : product.kind === "桌面端"
+                ? uiText("product.kind.visual")
+                : product.kind}
+          </span>
+          <h4>{catalogDisplayField(product, "name", language)}</h4>
+          <p className="productDescription">{catalogDisplayField(product, "description", language)}</p>
+        </div>
+        <div className="productStatusStack">
+          {product.kind === "CLI" && (
+            <small>{uiText("product.kind.cliHint")}</small>
+          )}
+          {product.kind === "桌面端" && (
+            <small>{uiText("product.kind.visualHint")}</small>
+          )}
+          {officialDownloadCopy && (
+            <small className="acquisitionHint">{uiText(officialDownloadCopy.hint)}</small>
+          )}
+          {product.officialDownload?.note && (
+            <small className="acquisitionHint">{product.officialDownload.note}</small>
+          )}
+          {desktopStatus?.legacyInstall === "comfy-desktop-v1" && (
+            <small>{uiText("desktop.comfyLegacyMigration")}</small>
+          )}
+          {cliStatus?.summary && <small>{runtimeMessage(cliStatus.summary)}</small>}
+        </div>
       </div>
       <div className="productActions">
       {linkEntries.map((entry, index) => (
@@ -7687,11 +8188,20 @@ function AuthModal({
   };
 
   return (
-    <div className="modalBackdrop" onMouseDown={onClose}>
-      <section
-        className="authModal"
-        onMouseDown={(event) => event.stopPropagation()}
-      >
+    <Modal
+      opened
+      onClose={onClose}
+      centered
+      size={520}
+      withCloseButton={false}
+      overlayProps={{ backgroundOpacity: 0.52, blur: 14 }}
+      classNames={{
+        content: "authDialogContent",
+        body: "authDialogBody"
+      }}
+      data-aihub-auth-modal
+    >
+      <section className="authModal">
         <header>
           <div>
             <p>{uiText("auto.53ef710af69d")}</p>
@@ -7699,28 +8209,31 @@ function AuthModal({
               {mode === "login" ? uiText("auto.1e2df9c3075a") : uiText("auto.c4fb62202bad")}
             </h2>
           </div>
-          <button onClick={onClose}>×</button>
+          <ActionIcon
+            variant="subtle"
+            onClick={onClose}
+            aria-label={uiText("action.close")}
+          >
+            <IconX size={18} stroke={1.8} />
+          </ActionIcon>
         </header>
 
         {mode === "login" && (
           <form className="authForm" onSubmit={submitLogin}>
-            <label>
-              {uiText("auto.1ef7b40a9c43")}<input
-                value={identifier}
-                onChange={(event) => setIdentifier(event.target.value)}
-                autoComplete="username"
-                required
-              />
-            </label>
-            <label>
-              {uiText("auto.a621ab606db2")}<input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                autoComplete="current-password"
-                required
-              />
-            </label>
+            <TextInput
+              label={uiText("auto.1ef7b40a9c43")}
+              value={identifier}
+              onChange={(event) => setIdentifier(event.target.value)}
+              autoComplete="username"
+              required
+            />
+            <PasswordInput
+              label={uiText("auto.a621ab606db2")}
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              autoComplete="current-password"
+              required
+            />
             <button className="accentButton" disabled={busy}>
               {busy ? uiText("auto.3f06ed8f8c38") : uiText("auto.1e2df9c3075a")}
             </button>
@@ -7731,25 +8244,24 @@ function AuthModal({
 
         {mode === "register" && (
           <form className="authForm" onSubmit={submitRegistration}>
-            <label>
-              {uiText("auto.73075237fd0f")}<input
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                autoComplete="email"
+            <TextInput
+              type="email"
+              label={uiText("auto.73075237fd0f")}
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              autoComplete="email"
+              required
+            />
+            <div className="verificationRow">
+              <TextInput
+                className="verificationField"
+                label={uiText("auto.3acdd163e67a")}
+                value={code}
+                onChange={(event) => setCode(event.target.value)}
+                inputMode="numeric"
+                maxLength={6}
                 required
               />
-            </label>
-            <div className="verificationRow">
-              <label>
-                {uiText("auto.3acdd163e67a")}<input
-                  value={code}
-                  onChange={(event) => setCode(event.target.value)}
-                  inputMode="numeric"
-                  maxLength={6}
-                  required
-                />
-              </label>
               <button type="button" disabled={busy} onClick={requestCode}>
                 {uiText("auto.3b91d186d44e")}</button>
             </div>
@@ -7760,32 +8272,28 @@ function AuthModal({
               >
                 {uiText("auto.6d27eba56d2c")}</button>
             )}
-            <label>
-              {uiText("auto.1a3f0617d6de")}<input
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                autoComplete="username"
-                required
-              />
-            </label>
-            <label>
-              {uiText("auto.19bf5d20cb51")}<input
-                value={nickname}
-                onChange={(event) => setNickname(event.target.value)}
-                placeholder={uiText("auto.f79fd585f90f")}
-              />
-            </label>
-            <label>
-              {uiText("auto.a621ab606db2")}<input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                autoComplete="new-password"
-                minLength={10}
-                required
-              />
-              <small>{uiText("auto.8ada8911bed2")}</small>
-            </label>
+            <TextInput
+              label={uiText("auto.1a3f0617d6de")}
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              autoComplete="username"
+              required
+            />
+            <TextInput
+              label={uiText("auto.19bf5d20cb51")}
+              value={nickname}
+              onChange={(event) => setNickname(event.target.value)}
+              placeholder={uiText("auto.f79fd585f90f")}
+            />
+            <PasswordInput
+              label={uiText("auto.a621ab606db2")}
+              description={uiText("auto.8ada8911bed2")}
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              autoComplete="new-password"
+              minLength={10}
+              required
+            />
             <button className="accentButton" disabled={busy}>
               {busy ? uiText("auto.0debc065262a") : uiText("auto.8aa3eb250835")}
             </button>
@@ -7803,7 +8311,7 @@ function AuthModal({
           </p>
         )}
       </section>
-    </div>
+    </Modal>
   );
 }
 
@@ -8488,7 +8996,7 @@ function PersonalCenterPage({
   if (!authenticated) {
     return (
       <section className="emptyPanel accountEmpty">
-        <span>◎</span>
+        <BrandMark />
         <h1>{uiText("auto.5a2cac68fd2d")}</h1>
         <small>{uiText("auto.a83ac4ce12c4")}</small>
         <button className="accentButton" onClick={onLogin}>
@@ -10141,9 +10649,13 @@ function FlarumCommunityPage({
     return (
       <section className="emptyPanel communityLoginRequired">
         <BackButton onBack={onBack} />
-        <span>◎</span>
-        <p>{community?.provider || communityText.text("community.provider")}</p>
-        <h1>{community ? catalogDisplayField(community, "title", language) : communityText.text("community.title")}</h1>
+        <BrandMark />
+        <p>{communityProviderLabel(community?.provider, language)}</p>
+        <h1>
+          {community
+            ? catalogDisplayField(community, "title", language)
+            : communityText.text("community.title")}
+        </h1>
         {community && <small>{catalogDisplayField(community, "description", language)}</small>}
         <small>{communityText.text("community.loginHint")}</small>
         <button className="accentButton" onClick={onLogin}>
@@ -10371,8 +10883,8 @@ function CommunityPage({
 }) {
   return (
     <section className="emptyPanel">
-      <span>◎</span>
-      <p>{community.provider}</p>
+      <BrandMark />
+      <p>{communityProviderLabel(community.provider, language)}</p>
       <h1>{catalogDisplayField(community, "title", language)}</h1>
       <small>{catalogDisplayField(community, "description", language)}</small>
       {community.enabled && community.url ? (
@@ -10673,10 +11185,11 @@ function InstalledProductsPage({
           <small data-aihub-software-update-status={softwareUpdateResult?.status || "checking"}>
             {softwareUpdateResult?.message || uiText("softwareUpdates.checking")}
           </small>
-          <button
+          <Button
             className="accentButton"
             type="button"
             data-aihub-action="update-all-installed"
+            loading={updatingAll}
             disabled={
               updatingAll ||
               scanning ||
@@ -10691,7 +11204,7 @@ function InstalledProductsPage({
               : uiText("softwareUpdates.updateAll", {
                   count: availableUpdateCount
                 })}
-          </button>
+          </Button>
           <button disabled={scanning || updatingAll} onClick={() => void onRefresh()}>
             {scanning ? uiText("auto.71659de804df") : uiText("auto.802a407c7743")}
           </button>
@@ -10714,40 +11227,44 @@ function InstalledProductsPage({
               environmentPackageStages[updateEnvironmentId] === "ready"
             );
             return (
-            <article className="managementCard" key={entry.id}>
+            <article className="managementCard installedProductCard" key={entry.id}>
               <div className="managementInfo">
-                <span>
-                  {entry.vendorName} ·{" "}
-                  {entry.type === "cli"
-                    ? "CLI"
-                    : entry.type === "environment"
-                      ? uiText("auto.423f51a28678")
-                      : uiText("auto.a3dc386f84de")}
-                </span>
-                <h3>{entry.name}</h3>
-                <p>
-                  {entry.version ? `v${entry.version}` : uiText("auto.a8b6c39dcabf")}
-                  {entry.location ? ` · ${entry.location}` : ""}
-                </p>
-                {messages[entry.id] && (
-                  <small>{runtimeMessage(messages[entry.id])}</small>
-                )}
-                {entry.updateOwner && (
-                  <small>{desktopUpdateOwnerLabel(entry.updateOwner)}</small>
-                )}
-                {entry.canUpdate && entry.availableVersion && (
-                  <small>
-                    {uiText("desktop.updateAvailable", {
-                      value1: entry.availableVersion
-                    })}
-                  </small>
-                )}
-                {environmentCheck?.canUpdate && environmentCheck.recommendedVersion && (
-                  <small>{uiText("environment.recommendedVersion", { value1: environmentCheck.recommendedVersion })}</small>
-                )}
-                {messages[`environment-update:${updateEnvironmentId}`] && (
-                  <small>{runtimeMessage(messages[`environment-update:${updateEnvironmentId}`])}</small>
-                )}
+                <div className="managementIdentity">
+                  <span>
+                    {entry.vendorName} ·{" "}
+                    {entry.type === "cli"
+                      ? "CLI"
+                      : entry.type === "environment"
+                        ? uiText("auto.423f51a28678")
+                        : uiText("auto.a3dc386f84de")}
+                  </span>
+                  <h3>{entry.name}</h3>
+                  <p className="managementMeta">
+                    {entry.version ? `v${entry.version}` : uiText("auto.a8b6c39dcabf")}
+                    {entry.location ? ` · ${entry.location}` : ""}
+                  </p>
+                </div>
+                <div className="managementStatusStack" role="status" aria-live="polite">
+                  {messages[entry.id] && (
+                    <small className="managementRuntimeStatus">{runtimeMessage(messages[entry.id])}</small>
+                  )}
+                  {entry.updateOwner && (
+                    <small className="managementStatusNote">{desktopUpdateOwnerLabel(entry.updateOwner)}</small>
+                  )}
+                  {entry.canUpdate && entry.availableVersion && (
+                    <small className="managementUpdateNotice">
+                      {uiText("desktop.updateAvailable", {
+                        value1: entry.availableVersion
+                      })}
+                    </small>
+                  )}
+                  {environmentCheck?.canUpdate && environmentCheck.recommendedVersion && (
+                    <small className="managementUpdateNotice">{uiText("environment.recommendedVersion", { value1: environmentCheck.recommendedVersion })}</small>
+                  )}
+                  {messages[`environment-update:${updateEnvironmentId}`] && (
+                    <small className="managementRuntimeStatus">{runtimeMessage(messages[`environment-update:${updateEnvironmentId}`])}</small>
+                  )}
+                </div>
               </div>
               <div className="managementActions">
                 {entry.canOpen && (
@@ -10904,74 +11421,73 @@ function InstalledProductsPage({
         )}
       </div>
 
-      <section
-        className="packageManagement"
-        data-aihub-extension-inventory="local-receipts"
-      >
-        <header className="managementHeader">
-          <div className="sectionHeading">
-            <span>{uiText("extensions.managementEyebrow")}</span>
-            <h2>{uiText("extensions.managementTitle")}</h2>
-            <p>{uiText("extensions.managementDescription")}</p>
-          </div>
-          <button
-            data-aihub-action="refresh-extension-inventory"
-            disabled={extensionInventoryScanning || extensionBusy !== null}
-            onClick={() => void refreshExtensionInventory()}
-          >
-            {extensionInventoryScanning
-              ? uiText("extensions.refreshing")
-              : uiText("extensions.refresh")}
-          </button>
-        </header>
-        {extensionInventory.length ? (
-          <div className="managementList">
-            {extensionInventory.map((entry) => (
-              <article
-                className="managementCard"
-                key={entry.profileId}
-                data-aihub-extension-profile-id={entry.profileId}
-              >
-                <div className="managementInfo">
-                  <span>{entry.resourceType.toUpperCase()}</span>
-                  <h3>{entry.label}</h3>
-                  <p>{extensionStatusLabel(entry)}</p>
-                  {entry.error && entry.error !== extensionStatusLabel(entry) && (
-                    <small>{entry.error}</small>
-                  )}
-                </div>
-                <div className="managementActions">
-                  {entry.allowedActions.map((action) => (
-                    <button
-                      key={action}
-                      className={
-                        action === "uninstall"
-                          ? "dangerButton"
-                          : ["install", "update", "repair", "enable"].includes(action)
-                            ? "accentButton"
-                            : ""
-                      }
-                      data-aihub-action={`${action}-installed-extension`}
-                      disabled={extensionBusy !== null}
-                      onClick={() => void runExtensionInventoryAction(entry, action)}
-                    >
-                      {extensionActionLabel(
-                        action,
-                        extensionBusy?.profileId === entry.profileId &&
-                          extensionBusy.action === action
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="emptyManagement">
-            {extensionInventoryError || uiText("extensions.managementEmpty")}
-          </div>
-        )}
-      </section>
+      {(extensionInventory.length > 0 || Boolean(extensionInventoryError)) && (
+        <section
+          className="packageManagement"
+          data-aihub-extension-inventory="local-receipts"
+        >
+          <header className="managementHeader">
+            <div className="sectionHeading">
+              <h2>{uiText("extensions.managementTitle")}</h2>
+              <p>{uiText("extensions.managementDescription")}</p>
+            </div>
+            <button
+              data-aihub-action="refresh-extension-inventory"
+              disabled={extensionInventoryScanning || extensionBusy !== null}
+              onClick={() => void refreshExtensionInventory()}
+            >
+              {extensionInventoryScanning
+                ? uiText("extensions.refreshing")
+                : uiText("extensions.refresh")}
+            </button>
+          </header>
+          {extensionInventory.length > 0 ? (
+            <div className="managementList">
+              {extensionInventory.map((entry) => (
+                <article
+                  className="managementCard"
+                  key={entry.profileId}
+                  data-aihub-extension-profile-id={entry.profileId}
+                >
+                  <div className="managementInfo">
+                    <span>{entry.resourceType.toUpperCase()}</span>
+                    <h3>{entry.label}</h3>
+                    <p>{extensionStatusLabel(entry)}</p>
+                    {entry.error && entry.error !== extensionStatusLabel(entry) && (
+                      <small>{entry.error}</small>
+                    )}
+                  </div>
+                  <div className="managementActions">
+                    {entry.allowedActions.map((action) => (
+                      <button
+                        key={action}
+                        className={
+                          action === "uninstall"
+                            ? "dangerButton"
+                            : ["install", "update", "repair", "enable"].includes(action)
+                              ? "accentButton"
+                              : ""
+                        }
+                        data-aihub-action={`${action}-installed-extension`}
+                        disabled={extensionBusy !== null}
+                        onClick={() => void runExtensionInventoryAction(entry, action)}
+                      >
+                        {extensionActionLabel(
+                          action,
+                          extensionBusy?.profileId === entry.profileId &&
+                            extensionBusy.action === action
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="emptyManagement">{extensionInventoryError}</div>
+          )}
+        </section>
+      )}
 
       {management.reinstallableEnvironments.length > 0 && (
         <section className="packageManagement">
@@ -11004,7 +11520,6 @@ function InstalledProductsPage({
 
       <section className="packageManagement">
         <div className="sectionHeading">
-          <span>{uiText("auto.57e88a43ef2b")}</span>
           <h2>{uiText("auto.f9300f5383cb")}</h2>
         </div>
         {management.packages.length ? (
@@ -11062,6 +11577,7 @@ function InstalledProductsPage({
 }
 
 function SettingsPanel({
+  opened,
   theme,
   language,
   downloadDirectory,
@@ -11080,10 +11596,6 @@ function SettingsPanel({
   installedTaskIds,
   installableDownloadTaskIds,
   scanning,
-  checkingUpdate,
-  installingUpdate,
-  updateResult,
-  updateInstallMessage,
   onClose,
   onTheme,
   onLanguage,
@@ -11112,10 +11624,9 @@ function SettingsPanel({
   onCheckEnvironmentOperationTask,
   onClearCliManagedTask,
   onRetryCliManagedTask,
-  onRecheckCliManagedTask,
-  onCheckForUpdate,
-  onOpenUpdate
+  onRecheckCliManagedTask
 }: {
+  opened: boolean;
   theme: "light" | "dark";
   language: Language;
   downloadDirectory: string;
@@ -11134,10 +11645,6 @@ function SettingsPanel({
   installedTaskIds: string[];
   installableDownloadTaskIds: string[];
   scanning: boolean;
-  checkingUpdate: boolean;
-  installingUpdate: boolean;
-  updateResult: UpdateCheckResult | null;
-  updateInstallMessage: string;
   onClose: () => void;
   onTheme: (value: "light" | "dark") => void;
   onLanguage: (value: Language) => void;
@@ -11167,8 +11674,6 @@ function SettingsPanel({
   onClearCliManagedTask: (productId: string) => void;
   onRetryCliManagedTask: (productId: string) => void;
   onRecheckCliManagedTask: (productId: string) => void;
-  onCheckForUpdate: () => void;
-  onOpenUpdate: () => void;
 }) {
   type TaskFilter = "active" | "failed" | "completed";
   const [taskFilter, setTaskFilter] = useState<TaskFilter>("active");
@@ -11214,6 +11719,7 @@ function SettingsPanel({
   const visibleDownloadTasks = Object.values(downloadTasks)
     .filter(
       (task) =>
+        !managedDownloadQueueTasks[task.productId] &&
         task.phase !== "canceled" &&
         !(
           task.phase === "completed" &&
@@ -11292,14 +11798,32 @@ function SettingsPanel({
     filteredEnvironmentOperations.length > 0 ||
     filteredCliTasks.length > 0;
   return (
-    <div className="overlay" onMouseDown={onClose}>
-      <aside className="settingsPanel" onMouseDown={(event) => event.stopPropagation()}>
+    <Drawer
+      opened={opened}
+      onClose={onClose}
+      position="right"
+      size="min(490px, 94vw)"
+      withCloseButton={false}
+      overlayProps={{ backgroundOpacity: 0.18, blur: 0 }}
+      classNames={{
+        content: "settingsDrawerContent",
+        body: "settingsDrawerBody"
+      }}
+      data-aihub-settings-drawer
+    >
+      <aside className="settingsPanel">
         <header>
           <div>
             <p>{uiText("auto.df3d58c7d84b")}</p>
             <h2>{uiText("auto.1c39e6a19bda")}</h2>
           </div>
-          <button onClick={onClose}>×</button>
+          <ActionIcon
+            variant="subtle"
+            onClick={onClose}
+            aria-label={uiText("action.close")}
+          >
+            <IconX size={18} stroke={1.8} />
+          </ActionIcon>
         </header>
 
         <SettingBlock title={uiText("auto.7d5ce714f1d6")}>
@@ -11737,102 +12261,106 @@ function SettingsPanel({
                   environmentStageNeedsCheck(environmentStage);
                 const updateReady = updateStage === "ready";
                 return (
-                  <div key={check.id}>
+                  <div className="environmentItem" key={check.id}>
                     <span
                       className={check.installed ? "statusDot ok" : "statusDot"}
                     />
-                    <b>{check.name}</b>
-                    <small>
-                      {check.installed
-                        ? check.canUpdate
-                          ? uiText("environment.updateAvailable")
-                          : uiText("auto.a8b6c39dcabf")
-                        : check.detection === "unknown"
-                          ? uiText("auto.89a7e9d49a47")
-                          : uiText("auto.156219e305f6")}
-                    </small>
-                    {check.installed ? (
-                      <>
-                        {check.canUpdate && (
+                    <div className="environmentItemMain">
+                      <b>{check.name}</b>
+                      <small className={check.canUpdate ? "environmentItemState update" : "environmentItemState"}>
+                        {check.installed
+                          ? check.canUpdate
+                            ? uiText("environment.updateAvailable")
+                            : uiText("auto.a8b6c39dcabf")
+                          : check.detection === "unknown"
+                            ? uiText("auto.89a7e9d49a47")
+                            : uiText("auto.156219e305f6")}
+                      </small>
+                    </div>
+                    <div className="environmentItemActions">
+                      {check.installed ? (
+                        <>
+                          {check.canUpdate && (
+                            <button
+                              className="accentButton"
+                              data-aihub-action="update-environment"
+                              data-aihub-update-environment-id={updateEnvironmentId}
+                              disabled={operationBusy}
+                              onClick={() =>
+                                updateReady
+                                  ? onOpenEnvironmentUpdater(updateEnvironmentId)
+                                  : onUpdateEnvironment(updateEnvironmentId)
+                              }
+                            >
+                              {environmentInstallButtonLabel(
+                                actionStage,
+                                check.name,
+                                uiText("environment.update")
+                              )}
+                            </button>
+                          )}
                           <button
-                            className="accentButton"
-                            data-aihub-action="update-environment"
-                            data-aihub-update-environment-id={updateEnvironmentId}
-                            disabled={operationBusy}
-                            onClick={() =>
-                              updateReady
-                                ? onOpenEnvironmentUpdater(updateEnvironmentId)
-                                : onUpdateEnvironment(updateEnvironmentId)
-                            }
+                            disabled={!check.location || operationBusy}
+                            onClick={() => onOpenEnvironmentLocation(check.id)}
                           >
-                            {environmentInstallButtonLabel(
-                              actionStage,
-                              check.name,
-                              uiText("environment.update")
-                            )}
+                            {uiText("auto.9a0ea4b1177d")}</button>
+                          <button
+                            disabled={
+                              operationBusy ||
+                              (!operationNeedsCheck && !check.canUninstall)
+                            }
+                            title={
+                              operationNeedsCheck
+                                ? uiText("auto.ee268c8851e5")
+                                : check.canUninstall
+                                  ? uiText("auto.c9667f9ac158")
+                                  : uiText("auto.d4b02f63b3b8")
+                            }
+                            onClick={() => onUninstallEnvironment(check.id)}
+                          >
+                            {environmentUninstallButtonLabel(environmentStage)}
                           </button>
-                        )}
-                        <button
-                          disabled={!check.location || operationBusy}
-                          onClick={() => onOpenEnvironmentLocation(check.id)}
-                        >
-                          {uiText("auto.9a0ea4b1177d")}</button>
+                        </>
+                      ) : (
                         <button
                           disabled={
-                            operationBusy ||
-                            (!operationNeedsCheck && !check.canUninstall)
+                            operationBusy &&
+                            environmentStage !== "downloading"
                           }
-                          title={
-                            operationNeedsCheck
-                              ? uiText("auto.ee268c8851e5")
-                              : check.canUninstall
-                                ? uiText("auto.c9667f9ac158")
-                                : uiText("auto.d4b02f63b3b8")
-                          }
-                          onClick={() => onUninstallEnvironment(check.id)}
-                        >
-                          {environmentUninstallButtonLabel(environmentStage)}
-                        </button>
-                      </>
-                    ) : (
-                      <button
-                        disabled={
-                          operationBusy &&
-                          environmentStage !== "downloading"
-                        }
-                        onClick={() =>
-                          environmentStage === "ready"
-                            ? onOpenEnvironmentInstaller(check.id)
-                            : onInstallEnvironment(check.id)
-                        }
-                      >
-                        {environmentInstallButtonLabel(
-                          environmentStage,
-                          check.name,
-                          uiText("auto.4a34bde479c3")
-                        )}
-                      </button>
-                    )}
-                    {!check.installed &&
-                      environmentDownloadTask &&
-                      !["completed", "canceled"].includes(
-                        environmentDownloadTask.phase
-                      ) && (
-                        <button
-                          disabled={
-                            environmentDownloadTask.phase === "canceling"
-                          }
-                          onClick={(event) =>
-                            onCancelDownloadTask(environmentDownloadTask.productId, event.currentTarget)
+                          onClick={() =>
+                            environmentStage === "ready"
+                              ? onOpenEnvironmentInstaller(check.id)
+                              : onInstallEnvironment(check.id)
                           }
                         >
-                          {environmentDownloadTask.phase === "canceling"
-                            ? uiText("auto.e36f3187b31a")
-                            : uiText("auto.6afefc66ccdd")}
+                          {environmentInstallButtonLabel(
+                            environmentStage,
+                            check.name,
+                            uiText("auto.4a34bde479c3")
+                          )}
                         </button>
                       )}
+                      {!check.installed &&
+                        environmentDownloadTask &&
+                        !["completed", "canceled"].includes(
+                          environmentDownloadTask.phase
+                        ) && (
+                          <button
+                            disabled={
+                              environmentDownloadTask.phase === "canceling"
+                            }
+                            onClick={(event) =>
+                              onCancelDownloadTask(environmentDownloadTask.productId, event.currentTarget)
+                            }
+                          >
+                            {environmentDownloadTask.phase === "canceling"
+                              ? uiText("auto.e36f3187b31a")
+                              : uiText("auto.6afefc66ccdd")}
+                          </button>
+                        )}
+                    </div>
                     {check.canUpdate && check.recommendedVersion && (
-                      <small>
+                      <small className="environmentItemRecommendation">
                         {uiText("environment.recommendedVersion", {
                           value1: check.recommendedVersion
                         })}
@@ -11841,7 +12369,7 @@ function SettingsPanel({
                     {environmentMessages[
                       check.canUpdate ? updateEnvironmentId : check.id
                     ] && (
-                      <em>
+                      <em className="environmentItemMessage">
                         {runtimeMessage(
                           environmentMessages[
                             check.canUpdate ? updateEnvironmentId : check.id
@@ -11856,33 +12384,6 @@ function SettingsPanel({
           )}
         </SettingBlock>
 
-        <SettingBlock title={uiText("auto.42e40f432b6d")}>
-          <p className="pathValue">
-            {uiText("auto.435bd0f89db5")}
-            {updateResult?.currentVersion || packageJson.version}
-          </p>
-          <div className="rowActions">
-            <button onClick={onCheckForUpdate} disabled={checkingUpdate}>
-              {checkingUpdate ? uiText("auto.fb11aa6f2982") : uiText("auto.7f68ebad19ba")}
-            </button>
-            <button
-              onClick={onOpenUpdate}
-              disabled={
-                updateResult?.status !== "available" || installingUpdate
-              }
-            >
-              {installingUpdate ? uiText("auto.f324661ed993") : uiText("auto.fe31585819ad")}
-            </button>
-          </div>
-          {updateResult && <em>{runtimeMessage(updateResult.message)}</em>}
-          {updateInstallMessage && <em>{runtimeMessage(updateInstallMessage)}</em>}
-          {updateResult?.notes?.length ? (
-            <ul className="updateNotes">
-              {updateResult.notes.map((note) => <li key={note}>{note}</li>)}
-            </ul>
-          ) : null}
-        </SettingBlock>
-
         <SettingBlock title={createLanguage(language).text("settings.language")}>
           <div className="segmented">
             <button className={language === "zh" ? "active" : ""} onClick={() => onLanguage("zh")}>
@@ -11893,8 +12394,12 @@ function SettingsPanel({
             </button>
           </div>
         </SettingBlock>
+
+        <SettingBlock title={uiText("settings.fontTitle")}>
+          <p className="pathValue">{uiText("settings.fontNotice")}</p>
+        </SettingBlock>
       </aside>
-    </div>
+    </Drawer>
   );
 }
 

@@ -18,7 +18,8 @@ const child = spawn(electron, [runner], {
     ...process.env,
     AIHUB_INSTALLED_LAYOUT_USER_DATA: userData,
     AIHUB_MANAGED_DOWNLOAD_QUEUE_FIXTURE_MODE: "installed",
-    AIHUB_INSTALLED_QUEUE_ONLY: "1"
+    AIHUB_INSTALLED_QUEUE_ONLY: "1",
+    AIHUB_INSTALLED_EXACT_PACKAGE_DELETE: "1"
   },
   stdio: "inherit",
   windowsHide: true

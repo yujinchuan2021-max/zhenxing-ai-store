@@ -189,7 +189,7 @@ $status = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
 curl_close($curl);
 
 if ($status !== 200 || !is_string($body)) {
-    fail(401, '社区登录票据已失效，请返回枕星 AI 重新进入');
+    fail(401, '社区登录票据已失效，请返回枕星AI助手 重新进入');
 }
 
 $payload = json_decode($body, true, 32, JSON_THROW_ON_ERROR);

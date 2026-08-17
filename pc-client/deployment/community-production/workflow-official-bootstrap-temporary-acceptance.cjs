@@ -161,7 +161,7 @@ async function execute(argv = process.argv.slice(2)) {
     report.workflowCount = 3; report.sourcePostCount = 3; report.checks.active7CatalogChannel = true; report.checks.sourcePostKeysBound = true; report.checks.publisherOwnerReviewerPublic = true;
     workflowIds = first.items.map((item) => item.workflowId);
     const list = request({ path: "/v1/community/workflow-store/public/list?limit=50" });
-    if (list.status !== 200 || list.body?.items?.length !== 3 || list.body?.items.some((item) => item.author?.displayName !== "枕星 AI")) throw new Error("public list is not exactly three official workflows");
+    if (list.status !== 200 || list.body?.items?.length !== 3 || list.body?.items.some((item) => item.author?.displayName !== "枕星AI助手")) throw new Error("public list is not exactly three official workflows");
     for (const id of workflowIds) { const detail = request({ path: `/v1/community/workflow-store/public/release?workflowId=${id}&version=1` }); if (detail.status !== 200 || detail.body?.workflowId !== id || detail.body?.version !== 1) throw new Error("public detail failed"); }
     const caddyProbe = request({ target: "caddy", path: "/v1/community/workflow-store/public/list?limit=50" });
     if (caddyProbe.status !== 200 || caddyProbe.body?.items?.length !== 3) throw new Error("Caddy public route failed");

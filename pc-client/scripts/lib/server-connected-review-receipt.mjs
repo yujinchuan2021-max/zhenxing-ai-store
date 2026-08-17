@@ -17,13 +17,16 @@ function exactRecord(value, keys) {
 }
 
 function validArtifacts(buildArtifacts, freezeArtifacts, version) {
-  if (!Array.isArray(buildArtifacts) || !Array.isArray(freezeArtifacts) || buildArtifacts.length !== 3 || freezeArtifacts.length !== 3) return false;
+  if (!Array.isArray(buildArtifacts) || !Array.isArray(freezeArtifacts) || buildArtifacts.length !== freezeArtifacts.length || ![2, 3].includes(buildArtifacts.length)) return false;
   const expected = new Map([
     ["portable", `ZhenXing-AI-Server-Connected-Review-${version}-Windows-x64-Portable.exe`],
     ["setup", `ZhenXing-AI-Server-Connected-Review-${version}-Windows-x64-Setup.exe`],
     ["blockmap", `ZhenXing-AI-Server-Connected-Review-${version}-Windows-x64-Setup.exe.blockmap`]
   ]);
-  const expectedNames = new Set(expected.values());
+  const requiredKinds = buildArtifacts.length === 2
+    ? new Set(["portable", "setup"])
+    : new Set(expected.keys());
+  const expectedNames = new Set([...requiredKinds].map((kind) => expected.get(kind)));
   const buildByName = new Map();
   for (const artifact of buildArtifacts) {
     if (!exactRecord(artifact, BUILD_ARTIFACT_KEYS) || !expectedNames.has(artifact.name) || !SHA256.test(artifact.sha256 || "") || !Number.isSafeInteger(artifact.fileSize) || artifact.fileSize < 1 || buildByName.has(artifact.name)) return false;
@@ -34,7 +37,8 @@ function validArtifacts(buildArtifacts, freezeArtifacts, version) {
     const built = buildByName.get(artifact.name);
     if (!built || built.sha256 !== artifact.sha256 || built.fileSize !== artifact.bytes) return false;
   }
-  return new Set(freezeArtifacts.map(({ kind }) => kind)).size === 3;
+  const kinds = new Set(freezeArtifacts.map(({ kind }) => kind));
+  return kinds.size === requiredKinds.size && [...requiredKinds].every((kind) => kinds.has(kind));
 }
 
 function receiptName(kind) {

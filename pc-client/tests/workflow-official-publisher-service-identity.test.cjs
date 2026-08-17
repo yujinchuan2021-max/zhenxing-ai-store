@@ -18,7 +18,7 @@ const root = path.resolve(__dirname, "..");
 
 test("official Workflow publisher is one fixed disabled organization service identity", () => {
   assert.equal(WORKFLOW_OFFICIAL_PUBLISHER_SERVICE_ID, "46564566-f5f4-599c-8ce5-0609069f5148");
-  assert.equal(WORKFLOW_OFFICIAL_PUBLISHER_DISPLAY_NAME, "枕星 AI");
+  assert.equal(WORKFLOW_OFFICIAL_PUBLISHER_DISPLAY_NAME, "枕星AI助手");
   assert.notEqual(WORKFLOW_OFFICIAL_PUBLISHER_SERVICE_ID, WORKFLOW_PRODUCTION_REVIEWER_SERVICE_ID);
   assert.deepEqual(workflowOfficialPublisherIdentityRecord(), {
     id: WORKFLOW_OFFICIAL_PUBLISHER_SERVICE_ID,
@@ -32,7 +32,7 @@ test("official Workflow publisher is one fixed disabled organization service ide
     username: "__workflow_official_publisher_service__",
     normalizedUsername: "__workflow_official_publisher_service__",
     communityUsername: "zx_46564566f5f4599c8ce50609069",
-    publicDisplayName: "枕星 AI"
+    publicDisplayName: "枕星AI助手"
   });
   const source = fs.readFileSync(path.join(root, "identity", "workflow-official-publisher-service-identity.cjs"), "utf8");
   assert.doesNotMatch(source, /process\.env|publisherIdentityId|reviewerIdentityId|accessToken|bearer/i);

@@ -9,7 +9,7 @@ const {
 test("registration stays disabled without SMTP configuration", () => {
   assert.deepEqual(registrationMailSettings({}), {
     enabled: false,
-    from: "ZhenXing AI <no-reply@zhenxingai.com>",
+    from: "ZhenXing AI Assistant <no-reply@zhenxingai.com>",
     transportOptions: null
   });
 });
@@ -32,7 +32,7 @@ test("SMTP authentication and TLS settings are explicit", () => {
     }),
     {
       enabled: true,
-      from: "ZhenXing AI <no-reply@zhenxingai.com>",
+      from: "ZhenXing AI Assistant <no-reply@zhenxingai.com>",
       transportOptions: {
         host: "smtp.example.com",
         port: 587,

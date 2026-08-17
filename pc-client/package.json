@@ -3,7 +3,7 @@
   "version": "0.1.40",
   "private": true,
   "license": "Apache-2.0",
-  "description": "枕星 AI Windows client",
+  "description": "枕星AI助手 Windows client",
   "author": "ZhenXing AI",
   "main": "electron/main.cjs",
   "type": "module",
@@ -69,6 +69,11 @@
     "language:translate": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/translate-ui-language.ps1"
   },
   "dependencies": {
+    "@mantine/core": "9.5.1",
+    "@mantine/hooks": "9.5.1",
+    "@mantine/notifications": "9.5.1",
+    "@mantine/spotlight": "9.5.1",
+    "@tabler/icons-react": "3.46.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
@@ -84,7 +89,7 @@
   },
   "build": {
     "appId": "com.aihub.desktop",
-    "productName": "枕星 AI",
+    "productName": "枕星AI助手",
     "asar": true,
     "directories": {
       "output": "release"
@@ -102,6 +107,7 @@
       "electron/**/*",
       "shared/**/*",
       "build/icon.png",
+      "build/icon.ico",
       "package.json"
     ],
     "extraResources": [
@@ -131,7 +137,7 @@
       }
     ],
     "win": {
-      "icon": "build/icon.png",
+      "icon": "build/icon.ico",
       "target": [
         {
           "target": "portable",
@@ -153,10 +159,18 @@
     "nsis": {
       "artifactName": "ZhenXing-AI-${version}-Windows-${arch}-Setup.${ext}",
       "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "枕星 AI"
+      "shortcutName": "枕星AI助手",
+      "include": "build/installer.nsh",
+      "installerHeader": "build/installerHeader.bmp",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "uninstallerSidebar": "build/uninstallerSidebar.bmp",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
     }
   }
 }

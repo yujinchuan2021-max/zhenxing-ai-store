@@ -38,7 +38,7 @@
 		file_server
 	}
 
-	@catalog path /catalog-release.json /channels/v2/catalog-release.json
+	@catalog path /catalog-release.json /channels/v2/catalog-release.json /update-release.json
 	handle @catalog {
 		reverse_proxy admin:4173
 	}

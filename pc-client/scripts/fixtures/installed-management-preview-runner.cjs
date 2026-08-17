@@ -10,6 +10,7 @@ const root = path.resolve(__dirname, "..", "..");
 const outputDirectory = path.join(root, "output", "playwright");
 const preload = path.join(__dirname, "installed-management-preview-preload.cjs");
 const userData = process.env.AIHUB_INSTALLED_LAYOUT_USER_DATA;
+const exactPackageDeleteEnabled = process.env.AIHUB_INSTALLED_EXACT_PACKAGE_DELETE === "1";
 
 if (!userData) throw new Error("AIHUB_INSTALLED_LAYOUT_USER_DATA is required");
 app.setPath("userData", userData);
@@ -73,12 +74,20 @@ async function snapshot(window, width, height) {
       "Fixture External Store Installation",
       "Fixture Vendor-managed Desktop",
       "Fixture Canonical Package",
+      "Fixture Missing Package",
       "Fixture Invalid Canonical Package"
     ];
     const cards = [...document.querySelectorAll(".managementCard")];
     const visibleButtons = [...document.querySelectorAll("button")].filter((button) => {
       const rect = button.getBoundingClientRect();
-      return rect.width > 0 && rect.height > 0;
+      return (
+        rect.width > 0 &&
+        rect.height > 0 &&
+        rect.right > 0 &&
+        rect.left < window.innerWidth &&
+        rect.bottom > 0 &&
+        rect.top < window.innerHeight
+      );
     });
     const packageCard = cards.find((card) => card.textContent.includes("Fixture Canonical Package"));
     return {
@@ -99,7 +108,21 @@ async function snapshot(window, width, height) {
       buttonsInsideViewport: visibleButtons.every((button) => {
         const rect = button.getBoundingClientRect();
         return rect.left >= 0 && rect.right <= window.innerWidth;
-      })
+      }),
+      buttonsOutsideViewport: visibleButtons
+        .filter((button) => {
+          const rect = button.getBoundingClientRect();
+          return rect.left < 0 || rect.right > window.innerWidth;
+        })
+        .map((button) => {
+          const rect = button.getBoundingClientRect();
+          return {
+            text: button.textContent.trim(),
+            className: button.className,
+            left: Math.round(rect.left),
+            right: Math.round(rect.right)
+          };
+        })
     };
   })()`);
   assert.equal(result.management, true, "installed management route did not render");
@@ -113,7 +136,7 @@ async function snapshot(window, width, height) {
     "全部更新（1）",
     "bulk software update action did not render"
   );
-  assert.deepEqual(result.labels.sort(), [
+  const expectedLabels = [
     "Fixture CLI",
     "Fixture Canonical Package",
     "Fixture Docker Environment",
@@ -121,7 +144,9 @@ async function snapshot(window, width, height) {
     "Fixture Managed Desktop",
     "Fixture Managed MCP Resource",
     "Fixture Vendor-managed Desktop"
-  ]);
+  ];
+  if (exactPackageDeleteEnabled) expectedLabels.push("Fixture Missing Package");
+  assert.deepEqual(result.labels.sort(), expectedLabels.sort());
   assert.ok(
     result.installButton.includes("点击安装"),
     `canonical completed package must project 点击安装: ${result.installButton.join(" / ")}`
@@ -130,7 +155,11 @@ async function snapshot(window, width, height) {
     result.scrollWidth <= result.viewport,
     `viewport ${width} has horizontal overflow: ${result.scrollWidth}/${result.viewport}`
   );
-  assert.equal(result.buttonsInsideViewport, true, "a visible management button is outside the viewport");
+  assert.equal(
+    result.buttonsInsideViewport,
+    true,
+    `a visible management button is outside the viewport: ${JSON.stringify(result.buttonsOutsideViewport)}`
+  );
   fs.mkdirSync(outputDirectory, { recursive: true });
   window.setContentSize(width, result.pageHeight);
   await waitFor(
@@ -144,6 +173,84 @@ async function snapshot(window, width, height) {
     image.toPNG()
   );
   window.setContentSize(width, height);
+  return result;
+}
+
+async function snapshotEnvironmentSettings(window, width, height) {
+  window.setContentSize(width, height);
+  await window.webContents.executeJavaScript(`(() => {
+    if (document.querySelector('[data-aihub-fixture=no-drawer-transition]')) return true;
+    const style = document.createElement('style');
+    style.dataset.aihubFixture = 'no-drawer-transition';
+    style.textContent = '.settingsDrawerContent { transition: none !important; }';
+    document.head.appendChild(style);
+    return true;
+  })()`);
+  const opened = await window.webContents.executeJavaScript(`(() => {
+    const button = [...document.querySelectorAll('.topActions button')]
+      .find((candidate) => candidate.textContent.includes('设置'));
+    button?.click();
+    return Boolean(button);
+  })()`);
+  assert.equal(opened, true, "settings action did not render");
+  await waitFor(window, "Boolean(document.querySelector('.settingsPanel'))", "settings panel did not open");
+  await waitFor(
+    window,
+    "document.querySelector('.settingsPanel')?.getBoundingClientRect().right <= window.innerWidth",
+    "settings drawer did not settle inside the viewport"
+  );
+  await window.webContents.executeJavaScript(`document.querySelector('.scanButton')?.click()`);
+  await waitFor(window, "document.querySelectorAll('.environmentItem').length === 2", "environment cards did not render");
+  const result = await window.webContents.executeJavaScript(`(() => {
+    const list = document.querySelector('.environmentList');
+    list?.scrollIntoView({ block: 'center' });
+    const items = [...document.querySelectorAll('.environmentItem')];
+    const panelRect = document.querySelector('.settingsPanel').getBoundingClientRect();
+    const buttonRects = items.flatMap((item) => [...item.querySelectorAll('button')])
+      .map((button) => {
+        const rect = button.getBoundingClientRect();
+        return { text: button.textContent.trim(), left: Math.round(rect.left), right: Math.round(rect.right) };
+      });
+    return {
+      count: items.length,
+      structured: items.every((item) =>
+        item.querySelector('.environmentItemMain') &&
+        item.querySelector('.environmentItemActions')
+      ),
+      buttonsInsidePanel: items.flatMap((item) => [...item.querySelectorAll('button')])
+        .every((button) => button.getBoundingClientRect().right <= window.innerWidth),
+      panelRect: { left: Math.round(panelRect.left), right: Math.round(panelRect.right), width: Math.round(panelRect.width) },
+      buttonRects
+    };
+  })()`);
+  assert.equal(result.count, 2);
+  assert.equal(result.structured, true);
+  assert.equal(
+    result.buttonsInsidePanel,
+    true,
+    `environment action escaped settings panel: ${JSON.stringify({ panel: result.panelRect, buttons: result.buttonRects })}`
+  );
+  await waitFor(
+    window,
+    "new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve(true))))",
+    "environment settings did not settle"
+  );
+  const panelBounds = await window.webContents.executeJavaScript(`(() => {
+    const rect = document.querySelector('.settingsPanel').getBoundingClientRect();
+    return {
+      x: Math.round(rect.x),
+      y: Math.round(rect.y),
+      width: Math.round(rect.width),
+      height: Math.round(rect.height)
+    };
+  })()`);
+  fs.mkdirSync(outputDirectory, { recursive: true });
+  fs.writeFileSync(
+    path.join(outputDirectory, `environment-settings-${width}.png`),
+    (await window.webContents.capturePage(panelBounds)).toPNG()
+  );
+  await window.webContents.executeJavaScript(`document.querySelector('.settingsPanel > header button')?.click()`);
+  await waitFor(window, "!document.querySelector('.settingsPanel')", "settings panel did not close");
   return result;
 }
 
@@ -244,6 +351,55 @@ async function assertManagementBusy(window) {
     window,
     `(() => { const button = ${findButton("Fixture Node Environment", "卸载")}; return button && !button.disabled; })()`,
     "uninstall action did not recover"
+  );
+}
+
+async function assertExactPackageDeletionPreservesSibling(window) {
+  if (!exactPackageDeleteEnabled) return;
+  const cardExists = (name) => `(() => [...document.querySelectorAll('.packageCard')]
+    .some((card) => card.textContent.includes(${JSON.stringify(name)})))()`;
+  assert.equal(
+    await window.webContents.executeJavaScript(cardExists("Fixture Canonical Package")),
+    true,
+    "deleted package fixture is missing before deletion"
+  );
+  assert.equal(
+    await window.webContents.executeJavaScript(cardExists("Fixture Missing Package")),
+    true,
+    "sibling package fixture is missing before deletion"
+  );
+  const clicked = await window.webContents.executeJavaScript(`(() => {
+    const card = [...document.querySelectorAll('.packageCard')]
+      .find((item) => item.textContent.includes('Fixture Canonical Package'));
+    const button = card && [...card.querySelectorAll('button')]
+      .find((item) => item.textContent.trim() === '删除安装包');
+    button?.click();
+    return Boolean(button);
+  })()`);
+  assert.equal(clicked, true, "delete package action is missing");
+  await waitFor(
+    window,
+    `!${cardExists("Fixture Canonical Package")}`,
+    "deleted package card did not disappear"
+  );
+  const listCallsBeforeFocus = await window.webContents.executeJavaScript(
+    "window.aihubPC.fixtureGetManagedDownloadQueueCalls().filter((call) => call.method === 'list').length"
+  );
+  await window.webContents.executeJavaScript(
+    "window.aihubPC.fixtureEnableExactPackageQueueList(); window.dispatchEvent(new Event('focus'))"
+  );
+  await waitFor(
+    window,
+    `window.aihubPC.fixtureGetManagedDownloadQueueCalls().filter((call) => call.method === 'list').length > ${listCallsBeforeFocus}`,
+    "focus did not refresh the managed download queue"
+  );
+  await window.webContents.executeJavaScript(
+    "new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))"
+  );
+  assert.equal(
+    await window.webContents.executeJavaScript(cardExists("Fixture Missing Package")),
+    true,
+    "deleting one package must preserve every sibling package card after focus refresh"
   );
 }
 
@@ -417,6 +573,12 @@ async function run() {
       preload
     }
   });
+  const consoleErrors = [];
+  window.webContents.on("console-message", (_event, levelOrDetails, message) => {
+    const level = typeof levelOrDetails === "object" ? levelOrDetails.level : levelOrDetails;
+    const text = typeof levelOrDetails === "object" ? levelOrDetails.message : message;
+    if (level >= 3) consoleErrors.push(String(text || ""));
+  });
   try {
     await window.loadFile(path.join(root, "dist", "index.html"));
     await waitFor(
@@ -438,15 +600,25 @@ async function run() {
       "Boolean(document.querySelector('.installedManagementPage'))",
       "installed management action did not navigate"
     );
+    if (exactPackageDeleteEnabled) {
+      await waitFor(
+        window,
+        "[...document.querySelectorAll('.packageCard')].some((card) => card.textContent.includes('Fixture Canonical Package')) && [...document.querySelectorAll('.packageCard')].some((card) => card.textContent.includes('Fixture Missing Package'))",
+        "exact deletion package fixtures did not settle"
+      );
+    }
     const result = {
       desktop: await snapshot(window, 1365, 768),
       narrow: await snapshot(window, 740, 768)
     };
     await assertManagementBusy(window);
+    await assertExactPackageDeletionPreservesSibling(window);
     await assertEnvironmentUpdate(window);
+    const environmentSettings = await snapshotEnvironmentSettings(window, 740, 768);
     const activeFeedback = await assertPressedFeedback(window);
+    assert.deepEqual(consoleErrors, [], "preview emitted a console error");
     if (process.env.AIHUB_INSTALLED_QUEUE_ONLY === "1") {
-      process.stdout.write(`${JSON.stringify({ ok: true, invalidCanonicalCanInstall, ...result }, null, 2)}\n`);
+      process.stdout.write(`${JSON.stringify({ ok: true, invalidCanonicalCanInstall, consoleErrors, environmentSettings, ...result }, null, 2)}\n`);
       return;
     }
     await openVendor(window, "fixture-vendor");

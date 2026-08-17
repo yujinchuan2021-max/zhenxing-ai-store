@@ -35,13 +35,13 @@
     "浏览器与搜索"
   ],
   "brand": {
-    "name": "枕星 AI",
+    "name": "枕星AI助手",
     "mark": "枕",
     "slogan": "让每一个人都能享受AI的乐趣"
   },
   "extraSections": [],
   "community": {
-    "title": "枕星 AI 社区",
+    "title": "枕星AI助手 社区",
     "description": "交流 AI 工具的安装、使用经验与工作流。",
     "provider": "Flarum",
     "url": "",
@@ -50,7 +50,7 @@
   "home": {
     "banners": [
       {
-        "eyebrow": "枕星 AI · PC",
+        "eyebrow": "枕星AI助手 · Windows",
         "title": "让每一个人都能享受AI的乐趣",
         "description": "从厂商进入，查看桌面端、CLI 与其他产品；只有点击安装后才进行环境检测。",
         "action": "查看全部 AI 厂商"
@@ -283,7 +283,7 @@
           "name": "Claude Code",
           "kind": "CLI",
           "category": "编程开发",
-          "description": "Anthropic 官方 Claude Code。枕星 AI 使用固定版本 npm 专用模块安装，并关闭未经审核的依赖脚本。",
+          "description": "Anthropic 官方 Claude Code。枕星AI助手 使用固定版本 npm 专用模块安装，并关闭未经审核的依赖脚本。",
           "website": "https://docs.anthropic.com/en/docs/claude-code/getting-started",
           "requirements": [
             "node",
@@ -544,7 +544,7 @@
             "uninstall"
           ],
           "category": "AI 对话",
-          "description": "豆包官方 Windows 桌面客户端，由枕星 AI 下载并校验已审核安装包。",
+          "description": "豆包官方 Windows 桌面客户端，由枕星AI助手 下载并校验已审核安装包。",
           "website": "https://www.doubao.com/download/desktop",
           "tutorial": "https://www.doubao.com/download/desktop",
           "productType": "desktop-reviewed",
@@ -866,7 +866,7 @@
             "uninstall"
           ],
           "category": "编程开发",
-          "description": "Comfy 官方命令行管理工具。枕星 AI 会自动检测 Python，并安装到独立虚拟环境。",
+          "description": "Comfy 官方命令行管理工具。枕星AI助手 会自动检测 Python，并安装到独立虚拟环境。",
           "website": "https://github.com/Comfy-Org/comfy-cli",
           "tutorial": "https://github.com/Comfy-Org/comfy-cli",
           "productType": "cli",
@@ -2190,7 +2190,7 @@
             "uninstall"
           ],
           "category": "智能体",
-          "description": "GitHub 官方 Copilot 终端智能体。枕星 AI 使用固定版本官方 npm 包部署，首次打开后由用户登录 GitHub。",
+          "description": "GitHub 官方 Copilot 终端智能体。枕星AI助手 使用固定版本官方 npm 包部署，首次打开后由用户登录 GitHub。",
           "website": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-in-the-cli",
           "tutorial": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-in-the-cli",
           "productType": "cli",
@@ -2400,7 +2400,7 @@
             "uninstall"
           ],
           "category": "编程开发",
-          "description": "Moonshot AI 的原生终端智能体，支持 Windows x64 与 ARM64；由枕星 AI 固定版本下载、校验并管理。",
+          "description": "Moonshot AI 的原生终端智能体，支持 Windows x64 与 ARM64；由枕星AI助手 固定版本下载、校验并管理。",
           "website": "https://code.kimi.com/",
           "tutorial": "https://moonshotai.github.io/kimi-code/en/guides/getting-started.html",
           "productType": "cli",
@@ -2623,7 +2623,7 @@
             "uninstall"
           ],
           "category": "智能体",
-          "description": "Qwen 官方终端编程智能体。枕星 AI 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。",
+          "description": "Qwen 官方终端编程智能体。枕星AI助手 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。",
           "website": "https://github.com/QwenLM/qwen-code",
           "tutorial": "https://qwen.ai/blog?id=qwen3-coder",
           "productType": "cli",
@@ -2672,7 +2672,7 @@
             "tutorial"
           ],
           "category": "本地模型",
-          "description": "由本地模型运行器承载；枕星 AI 不直接把权重当应用安装。",
+          "description": "由本地模型运行器承载；枕星AI助手 不直接把权重当应用安装。",
           "website": "https://github.com/QwenLM",
           "tutorial": "https://qwen.ai/",
           "productType": "tutorial",
@@ -2993,7 +2993,7 @@
             "uninstall"
           ],
           "category": "编程开发",
-          "description": "腾讯 CodeBuddy 官方 Windows AI 编程客户端，由枕星 AI 管理已审核安装包。",
+          "description": "腾讯 CodeBuddy 官方 Windows AI 编程客户端，由枕星AI助手 管理已审核安装包。",
           "website": "https://www.codebuddy.ai/",
           "tutorial": "https://www.codebuddy.ai/docs",
           "productType": "desktop-reviewed",
@@ -3828,7 +3828,7 @@
             "uninstall"
           ],
           "category": "编程开发",
-          "description": "AWS Kiro 官方 Windows x64 用户级 AI 开发客户端，由枕星 AI 管理已审核安装包。",
+          "description": "AWS Kiro 官方 Windows x64 用户级 AI 开发客户端，由枕星AI助手 管理已审核安装包。",
           "website": "https://kiro.dev/",
           "tutorial": "https://kiro.dev/docs/",
           "productType": "desktop-reviewed",
@@ -3861,7 +3861,7 @@
             "uninstall"
           ],
           "category": "智能体",
-          "description": "Amazon 官方 Kiro CLI。枕星 AI 下载固定 Windows x64 MSI，校验哈希与数字签名后安装。",
+          "description": "Amazon 官方 Kiro CLI。枕星AI助手 下载固定 Windows x64 MSI，校验哈希与数字签名后安装。",
           "website": "https://kiro.dev/docs/cli/",
           "tutorial": "https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/upgrade-to-kiro.html",
           "productType": "cli",
@@ -4109,7 +4109,7 @@
             "uninstall"
           ],
           "category": "智能体",
-          "description": "Mistral 官方 Vibe 编程智能体。枕星 AI 会自动检测 Python，并安装到独立虚拟环境。",
+          "description": "Mistral 官方 Vibe 编程智能体。枕星AI助手 会自动检测 Python，并安装到独立虚拟环境。",
           "website": "https://docs.mistral.ai/vibe/code/overview",
           "tutorial": "https://docs.mistral.ai/vibe/code/overview",
           "productType": "cli",
@@ -4292,7 +4292,7 @@
             "tutorial"
           ],
           "category": "智能体",
-          "description": "Perplexity Comet 官方 Windows x64 AI 浏览器，由枕星 AI 管理已审核安装包。",
+          "description": "Perplexity Comet 官方 Windows x64 AI 浏览器，由枕星AI助手 管理已审核安装包。",
           "website": "https://www.perplexity.ai/comet",
           "tutorial": "https://www.perplexity.ai/help-center/en/collections/11252744-comet",
           "productType": "desktop-official",
@@ -4577,7 +4577,7 @@
             "uninstall"
           ],
           "category": "编程开发",
-          "description": "MiniMax 官方终端智能体。枕星 AI 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。",
+          "description": "MiniMax 官方终端智能体。枕星AI助手 使用固定版本官方 npm 包部署，安装后直接打开命令窗口。",
           "website": "https://github.com/MiniMax-AI/cli",
           "tutorial": "https://github.com/MiniMax-AI/cli",
           "productType": "cli",
@@ -5113,7 +5113,7 @@
             "uninstall"
           ],
           "category": "编程开发",
-          "description": "Hugging Face 官方命令行工具。枕星 AI 会自动检测 Python，并安装到独立虚拟环境。",
+          "description": "Hugging Face 官方命令行工具。枕星AI助手 会自动检测 Python，并安装到独立虚拟环境。",
           "website": "https://huggingface.co/docs/huggingface_hub/en/guides/cli",
           "tutorial": "https://huggingface.co/docs/huggingface_hub/en/guides/cli",
           "productType": "cli",
@@ -5664,7 +5664,7 @@
           "name": "OpenClaw WSL Gateway",
           "kind": "CLI",
           "category": "智能体",
-          "description": "由 OpenClaw Windows Hub 官方配置流程创建并管理专属 OpenClawGateway；枕星 AI 分别检测发行版、CLI、服务就绪和配对状态。",
+          "description": "由 OpenClaw Windows Hub 官方配置流程创建并管理专属 OpenClawGateway；枕星AI助手 分别检测发行版、CLI、服务就绪和配对状态。",
           "website": "https://docs.openclaw.ai/windows",
           "tutorial": "https://docs.openclaw.ai/windows",
           "productType": "cli",
@@ -6912,7 +6912,7 @@
           "name": "Pinokio",
           "kind": "桌面端",
           "category": "智能体",
-          "description": "用于安装和运行本地 AI 应用的桌面浏览器；第三方脚本不继承枕星 AI 信任。",
+          "description": "用于安装和运行本地 AI 应用的桌面浏览器；第三方脚本不继承枕星AI助手 信任。",
           "website": "https://github.com/pinokiocomputer/pinokio/releases/latest",
           "tutorial": "https://github.com/pinokiocomputer/pinokio",
           "productType": "desktop-download-only",
@@ -10507,7 +10507,7 @@
           "name": "Docker Desktop",
           "kind": "桌面端",
           "category": "云服务与运维",
-          "description": "官方 Windows 桌面产品，内置 MCP Toolkit、Catalog 和 Gateway；枕星 AI 仅打开官方下载入口。",
+          "description": "官方 Windows 桌面产品，内置 MCP Toolkit、Catalog 和 Gateway；枕星AI助手 仅打开官方下载入口。",
           "website": "https://www.docker.com/products/docker-desktop/",
           "tutorial": "https://docs.docker.com/ai/mcp-catalog-and-toolkit/get-started/",
           "productType": "desktop-download-only",
@@ -10939,7 +10939,7 @@
           "name": "IntelliJ IDEA",
           "kind": "桌面端",
           "category": "编程与调试",
-          "description": "IntelliJ IDEA 2025.2 起内置官方 MCP Server；枕星 AI 仅打开官方下载与配置说明。",
+          "description": "IntelliJ IDEA 2025.2 起内置官方 MCP Server；枕星AI助手 仅打开官方下载与配置说明。",
           "website": "https://www.jetbrains.com/idea/download/?section=windows",
           "tutorial": "https://www.jetbrains.com/help/idea/mcp-server.html",
           "productType": "desktop-official",
@@ -15721,7 +15721,7 @@
           "name": "Oracle Cloud Infrastructure",
           "kind": "其他产品",
           "category": "云服务与运维",
-          "description": "可连接企业数据、API 和 Agent 的云平台；枕星 AI 仅打开官方平台与文档。",
+          "description": "可连接企业数据、API 和 Agent 的云平台；枕星AI助手 仅打开官方平台与文档。",
           "website": "https://www.oracle.com/artificial-intelligence/enterprise-ai/",
           "tutorial": "https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm",
           "productType": "web",
@@ -28034,7 +28034,7 @@
     {
       "id": "openai-codex-skills-catalog",
       "name": "OpenAI Codex Skills",
-      "description": "官方仓库明确区分 system、curated、experimental；枕星 AI 默认只允许 system/curated，实验项需额外确认。",
+      "description": "官方仓库明确区分 system、curated、experimental；枕星AI助手 默认只允许 system/curated，实验项需额外确认。",
       "website": "https://github.com/openai/skills",
       "tutorial": "https://github.com/openai/skills",
       "enabled": true,
@@ -28071,7 +28071,7 @@
     {
       "id": "openai-codex-mcp-config",
       "name": "OpenAI Developer Docs MCP",
-      "description": "OpenAI 官方只读开发者文档 MCP。枕星 AI 只维护 Codex 用户配置中的固定 openaiDeveloperDocs 条目。",
+      "description": "OpenAI 官方只读开发者文档 MCP。枕星AI助手 只维护 Codex 用户配置中的固定 openaiDeveloperDocs 条目。",
       "website": "https://developers.openai.com/resources/docs-mcp",
       "tutorial": "https://developers.openai.com/codex/mcp",
       "enabled": true,
@@ -28086,7 +28086,7 @@
         "无需凭据"
       ],
       "installScope": "Codex 用户级 ~/.codex/config.toml 的 openaiDeveloperDocs 条目",
-      "uninstallPlan": "仅删除枕星 AI 标记且内容未被用户修改的 openaiDeveloperDocs 配置块。",
+      "uninstallPlan": "仅删除枕星AI助手 标记且内容未被用户修改的 openaiDeveloperDocs 配置块。",
       "provenanceEvidence": [
         "https://developers.openai.com/resources/docs-mcp",
         "https://developers.openai.com/codex/mcp"
@@ -28148,7 +28148,7 @@
     {
       "id": "openai-chatgpt-apps-skill",
       "name": "ChatGPT Apps Skill",
-      "description": "OpenAI 官方 curated Skill，用于设计、搭建和检查基于 Apps SDK 的 ChatGPT 应用。枕星 AI 固定安装经过审核的目录快照。",
+      "description": "OpenAI 官方 curated Skill，用于设计、搭建和检查基于 Apps SDK 的 ChatGPT 应用。枕星AI助手 固定安装经过审核的目录快照。",
       "website": "https://github.com/openai/skills/tree/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/chatgpt-apps",
       "tutorial": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/chatgpt-apps/SKILL.md",
       "enabled": true,
@@ -29007,7 +29007,7 @@
     {
       "id": "hf-agent-skills",
       "name": "Hugging Face Agent Skills",
-      "description": "官方 CLI 原生提供宿主定向安装，适合复用为枕星 AI 适配器。",
+      "description": "官方 CLI 原生提供宿主定向安装，适合复用为枕星AI助手 适配器。",
       "website": "https://huggingface.co/docs/hub/agents-overview",
       "tutorial": "https://huggingface.co/docs/hub/agents-overview",
       "enabled": true,
@@ -29118,7 +29118,7 @@
     {
       "id": "hermes-agent-skills",
       "name": "Hermes Agent Skills",
-      "description": "Hermes 会从经验创建/改进 skills；枕星 AI 只管理明确来源的外部 skill，不能把 Agent 自生成内容误标为官方。",
+      "description": "Hermes 会从经验创建/改进 skills；枕星AI助手 只管理明确来源的外部 skill，不能把 Agent 自生成内容误标为官方。",
       "website": "https://hermes-agent.nousresearch.com/docs/",
       "tutorial": "https://github.com/NousResearch/hermes-agent",
       "enabled": true,
@@ -29194,7 +29194,7 @@
     {
       "id": "opencode-agent-skills",
       "name": "OpenCode Agent Skills",
-      "description": "OpenCode 当前支持本地 .agents/skills 等目录发现，但没有一方稳定“任意 registry 一键装”协议；枕星 AI 只能安装审核过的目录快照。",
+      "description": "OpenCode 当前支持本地 .agents/skills 等目录发现，但没有一方稳定“任意 registry 一键装”协议；枕星AI助手 只能安装审核过的目录快照。",
       "website": "https://opencode.ai/docs/skills",
       "tutorial": "https://opencode.ai/docs/skills",
       "enabled": true,
@@ -29710,7 +29710,7 @@
         "需要本地 Docker Desktop；OAuth 凭据由 MCP Toolkit 管理。"
       ],
       "installScope": "仅打开官方接入文档；不写入本地配置。",
-      "uninstallPlan": "枕星 AI 未安装或修改 Toolkit；用户需在 Docker Desktop 中禁用 Toolkit/Gateway 并撤销授权。",
+      "uninstallPlan": "枕星AI助手 未安装或修改 Toolkit；用户需在 Docker Desktop 中禁用 Toolkit/Gateway 并撤销授权。",
       "provenanceEvidence": [
         "https://docs.docker.com/ai/mcp-catalog-and-toolkit/toolkit/",
         "https://docs.docker.com/ai/mcp-catalog-and-toolkit/get-started/"
@@ -30295,7 +30295,7 @@
         "本地 IDE 连接；目录不保存凭据、命令或任意配置。"
       ],
       "installScope": "仅打开官方接入文档；不写入本地配置。",
-      "uninstallPlan": "枕星 AI 未修改 IDE；断开时在 IntelliJ IDEA 禁用 MCP Server 或从目标客户端删除连接。",
+      "uninstallPlan": "枕星AI助手 未修改 IDE；断开时在 IntelliJ IDEA 禁用 MCP Server 或从目标客户端删除连接。",
       "provenanceEvidence": [
         "https://www.jetbrains.com/help/idea/mcp-server.html"
       ],
@@ -30687,7 +30687,7 @@
         "使用本机 Chrome 会话；目录不保存浏览器账号、Cookie 或访问令牌。"
       ],
       "installScope": "仅打开官方接入文档；不写入本地配置。",
-      "uninstallPlan": "枕星 AI 当前只打开官方接入说明；断开时从目标 AI 工具删除连接，并关闭专用调试会话。",
+      "uninstallPlan": "枕星AI助手 当前只打开官方接入说明；断开时从目标 AI 工具删除连接，并关闭专用调试会话。",
       "provenanceEvidence": [
         "https://developer.chrome.com/docs/devtools/agents/get-started",
         "https://github.com/ChromeDevTools/chrome-devtools-mcp"
@@ -32280,7 +32280,7 @@
         "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
       ],
       "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
-      "uninstallPlan": "只移除枕星 AI 收据内的 MCP 与客户端配置；保留 MATLAB、许可证、Toolbox 和工程。",
+      "uninstallPlan": "只移除枕星AI助手 收据内的 MCP 与客户端配置；保留 MATLAB、许可证、Toolbox 和工程。",
       "provenanceEvidence": [
         "https://github.com/matlab/matlab-mcp-core-server"
       ],
@@ -32343,7 +32343,7 @@
         "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
       ],
       "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
-      "uninstallPlan": "只移除枕星 AI 收据内的 Toolkit、Skills 与客户端配置；保留 MATLAB、许可证、Toolbox 和工程。",
+      "uninstallPlan": "只移除枕星AI助手 收据内的 Toolkit、Skills 与客户端配置；保留 MATLAB、许可证、Toolbox 和工程。",
       "provenanceEvidence": [
         "https://github.com/matlab/matlab-agentic-toolkit"
       ],
@@ -32416,7 +32416,7 @@
         "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
       ],
       "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
-      "uninstallPlan": "只移除枕星 AI 收据内的 Toolkit、Skills 和客户端配置；保留 MATLAB、Simulink、许可证与模型。",
+      "uninstallPlan": "只移除枕星AI助手 收据内的 Toolkit、Skills 和客户端配置；保留 MATLAB、Simulink、许可证与模型。",
       "provenanceEvidence": [
         "https://github.com/matlab/simulink-agentic-toolkit"
       ],
@@ -32469,7 +32469,7 @@
         "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
       ],
       "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
-      "uninstallPlan": "只移除枕星 AI 收据内的连接配置；保留 Omniverse 工程、USD、纹理和缓存。",
+      "uninstallPlan": "只移除枕星AI助手 收据内的连接配置；保留 Omniverse 工程、USD、纹理和缓存。",
       "provenanceEvidence": [
         "https://github.com/NVIDIA-Omniverse"
       ],
@@ -32532,7 +32532,7 @@
         "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
       ],
       "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
-      "uninstallPlan": "只移除枕星 AI 收据内的 Skill 配置；保留 Omniverse 工程、SDK 与用户文件。",
+      "uninstallPlan": "只移除枕星AI助手 收据内的 Skill 配置；保留 Omniverse 工程、SDK 与用户文件。",
       "provenanceEvidence": [
         "https://github.com/NVIDIA-Omniverse"
       ],
@@ -32957,7 +32957,7 @@
         "账号、OAuth 或令牌由厂商与目标 AI 工具管理，目录不保存凭据。"
       ],
       "installScope": "仅打开经过核验的接入说明；当前不写入本地配置。",
-      "uninstallPlan": "只移除枕星 AI 收据内的 MCP 配置；撤销专用令牌，保留 Terraform、State、Workspace、Module 与云资源。",
+      "uninstallPlan": "只移除枕星AI助手 收据内的 MCP 配置；撤销专用令牌，保留 Terraform、State、Workspace、Module 与云资源。",
       "provenanceEvidence": [
         "https://developer.hashicorp.com/terraform/mcp-server/deploy"
       ],
@@ -36710,7 +36710,7 @@
         "连接账户、OAuth token 和 API key 由 Composio 与目标应用管理，目录不保存。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.composio.dev/docs/quickstart"
       ],
@@ -36783,7 +36783,7 @@
         "Arcade 与下游服务的授权由用户账户管理，目录不保存 token。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.arcade.dev/en/guides/mcp-gateways"
       ],
@@ -36856,7 +36856,7 @@
         "Mem0 API key 由目标 AI 工具保存，目录不接收或转存。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.mem0.ai/platform/mem0-mcp"
       ],
@@ -36943,7 +36943,7 @@
         "按 Zep 官方文档配置；目录不保存任何账户凭据。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://help.getzep.com/docs-mcp-server"
       ],
@@ -37016,7 +37016,7 @@
         "Browserbase 项目凭据与网站登录态由用户和目标工具管理。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.browserbase.com/integrations/mcp/introduction"
       ],
@@ -37089,7 +37089,7 @@
         "Firecrawl API key 由目标 AI 工具管理，目录不保存。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.firecrawl.dev/mcp"
       ],
@@ -37162,7 +37162,7 @@
         "OAuth 或 Tavily API key 由 Tavily 与目标客户端管理。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.tavily.com/documentation/mcp"
       ],
@@ -37235,7 +37235,7 @@
         "Apify token 与 Actor 所需凭据由用户账户管理，目录不保存。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.apify.com/integrations/mcp"
       ],
@@ -37308,7 +37308,7 @@
         "Pinecone API key 和项目权限由目标 AI 工具管理。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.pinecone.io/guides/operations/mcp-server"
       ],
@@ -37381,7 +37381,7 @@
         "Qdrant 实例地址、API key 与 embedding 模型配置由目标工具管理。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://qdrant.tech/documentation/qdrant-mcp-server/"
       ],
@@ -37454,7 +37454,7 @@
         "实例地址与认证凭据由用户自己的 Weaviate 环境管理。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.weaviate.io/weaviate/configuration/mcp-server"
       ],
@@ -37527,7 +37527,7 @@
         "Neon OAuth、项目和数据库权限由 Neon 与目标客户端管理。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://neon.com/docs/ai/neon-mcp-server"
       ],
@@ -37600,7 +37600,7 @@
         "受保护站点的身份验证由 GitBook 与目标客户端管理。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://gitbook.com/docs/publishing-documentation/mcp-servers-for-published-docs"
       ],
@@ -37673,7 +37673,7 @@
         "按账户区域使用 US/EU 端点，New Relic 身份与授权由目标客户端管理。"
       ],
       "installScope": "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+      "uninstallPlan": "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
       "provenanceEvidence": [
         "https://docs.newrelic.com/docs/agentic-ai/mcp/setup/"
       ],

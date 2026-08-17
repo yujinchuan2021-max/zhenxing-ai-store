@@ -16,7 +16,7 @@
 
   @catalog {
     host {$AIHUB_PUBLIC_HOST}
-    path /catalog-release.json /channels/v2/catalog-release.json /software-update-release.json
+    path /catalog-release.json /channels/v2/catalog-release.json /update-release.json /software-update-release.json
   }
   handle @catalog {
     header Cache-Control "public, max-age=0, must-revalidate"

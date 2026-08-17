@@ -194,8 +194,8 @@ const identity = createIdentityCommunity({
     await mailer.sendMail({
       from: mailSettings.from,
       to: email,
-      subject: changingEmail ? "枕星 AI 更换邮箱验证码" : "枕星 AI 注册验证码",
-      text: `你的枕星 AI ${changingEmail ? "更换邮箱" : "注册"}验证码是 ${code}。验证码将在 ${expiresAt.toISOString()} 过期。`
+      subject: changingEmail ? "枕星AI助手 更换邮箱验证码" : "枕星AI助手 注册验证码",
+      text: `你的枕星AI助手 ${changingEmail ? "更换邮箱" : "注册"}验证码是 ${code}。验证码将在 ${expiresAt.toISOString()} 过期。`
     });
   }
 });
@@ -830,7 +830,7 @@ async function start() {
     void activeCatalogProducts.warm().catch(() => {});
     ready = true;
     server.listen(port, host, () => {
-      console.log(`ZhenXing AI identity and community listening on ${host}:${port}`);
+      console.log(`ZhenXing AI Assistant identity and community listening on ${host}:${port}`);
     });
   } catch (error) {
     if (error instanceof IdentityMigrationDatabaseError) {

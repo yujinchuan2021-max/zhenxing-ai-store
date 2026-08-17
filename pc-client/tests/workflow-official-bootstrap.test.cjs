@@ -36,7 +36,7 @@ function runtime(postIds = ["101", "102", "103"]) {
     repository,
     resolveOwnerIdentity: (request) => request.officialPublisherIdentityId,
     resolveReviewerIdentity: (request) => request.serviceIdentityId,
-    resolvePublicIdentity: async (identityId) => ({ identityId, displayName: "枕星 AI" }),
+    resolvePublicIdentity: async (identityId) => ({ identityId, displayName: "枕星AI助手" }),
     hasCanonicalDependency: ({ kind, canonicalId }) => kind === "product" &&
       ["chatgpt-desktop", "codex-cli", "claude-desktop"].includes(canonicalId),
     hasCanonicalLicense: (licenseId) => licenseId === "CC-BY-4.0",
@@ -47,7 +47,7 @@ function runtime(postIds = ["101", "102", "103"]) {
   const publicGateway = createIdentityWorkflowStoreGateway({
     repository,
     workflowPublicStoreEnabled: true,
-    resolvePublicIdentity: async (identityId) => ({ identityId, displayName: "枕星 AI" })
+    resolvePublicIdentity: async (identityId) => ({ identityId, displayName: "枕星AI助手" })
   });
   return { workflow, publicGateway };
 }
@@ -82,7 +82,7 @@ test("official publisher is one governed organization service identity, not a pe
     username: "__workflow_official_publisher_service__",
     normalizedUsername: "__workflow_official_publisher_service__",
     communityUsername: "zx_46564566f5f4599c8ce50609069",
-    publicDisplayName: "枕星 AI"
+    publicDisplayName: "枕星AI助手"
   });
 });
 

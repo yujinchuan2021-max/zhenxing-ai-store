@@ -32,3 +32,15 @@ test("production serves the signed software update feed from the read-only publi
   assert.match(hotfix, /AIHUB_SOFTWARE_UPDATE_CADDYFILE[^\n]*:\/etc\/caddy\/Caddyfile:ro/);
   assert.match(hotfix, /AIHUB_ADMIN_PUBLISHED_DIR[^\n]*:\/srv\/aihub-admin-published:ro/);
 });
+
+test("server topologies expose the signed client version manifest through the admin boundary", () => {
+  for (const relativePath of [
+    "deployment/admin-only/Caddyfile",
+    "deployment/community-production/Caddyfile",
+    "../deployment/server/Caddyfile"
+  ]) {
+    const source = fs.readFileSync(path.join(root, relativePath), "utf8");
+    assert.match(source, /path[^\n]*\/update-release\.json/, relativePath);
+    assert.match(source, /reverse_proxy\s+admin:4173/, relativePath);
+  }
+});

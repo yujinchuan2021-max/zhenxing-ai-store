@@ -7,7 +7,7 @@ function enabled(value) {
 function registrationMailSettings(env = process.env) {
   const active = enabled(env.AIHUB_REGISTRATION_ENABLED);
   const from = String(
-    env.AIHUB_MAIL_FROM || "ZhenXing AI <no-reply@zhenxingai.com>"
+    env.AIHUB_MAIL_FROM || "ZhenXing AI Assistant <no-reply@zhenxingai.com>"
   ).trim();
   if (!active) {
     return { enabled: false, from, transportOptions: null };

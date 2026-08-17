@@ -47,7 +47,7 @@ http://{$AIHUB_SERVER_IP} {
 
   @catalog {
     method GET HEAD
-    path /catalog-v1.json /catalog-release.json /software-update-release.json /vendor-icons/*
+    path /catalog-v1.json /catalog-release.json /update-release.json /software-update-release.json /vendor-icons/*
   }
   handle @catalog {
     reverse_proxy admin:4173

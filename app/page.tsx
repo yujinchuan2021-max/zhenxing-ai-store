@@ -50,7 +50,7 @@ export default function Home() {
 
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <a className={styles.brand} href="#top" aria-label="枕星 AI 首页">
+          <a className={styles.brand} href="#top" aria-label="枕星AI助手首页">
             <img
               src="/zhenxingai-logo-simple.png"
               alt=""
@@ -58,7 +58,7 @@ export default function Home() {
               height="48"
             />
             <span>
-              <b>枕星 AI</b>
+              <b>枕星AI助手</b>
               <small>ZHENXING AI</small>
             </span>
           </a>
@@ -91,7 +91,7 @@ export default function Home() {
             在星图里，找到下一步的 <em>AI</em> 能力。
           </h1>
           <p className={styles.lead}>
-            枕星 AI 是一座为桌面而生的观测台：用清楚的状态、可信的入口和可验证的发布信息，陪你抵达下一颗星。
+            枕星AI助手是一座为桌面而生的观测台：用清楚的状态、可信的入口和可验证的发布信息，陪你抵达下一颗星。
           </p>
           <div className={styles.heroActions}>
             <a className={styles.primaryAction} href="#downloads">
@@ -232,7 +232,7 @@ export default function Home() {
           <article>
             <span>COMMUNITY</span>
             <h3>同行的观测记录</h3>
-            <p>社区开放后，枕星 AI PC 内外将使用明确且可信的进入方式。</p>
+            <p>社区开放后，枕星AI助手 Windows 客户端内外将使用明确且可信的进入方式。</p>
             <b>公开入口准备中</b>
           </article>
         </div>
@@ -242,7 +242,7 @@ export default function Home() {
         <div className={styles.footerBrand}>
           <img src="/zhenxingai-logo-simple.png" alt="" width="44" height="44" />
           <div>
-            <b>枕星 AI</b>
+            <b>枕星AI助手</b>
             <span>让每一次下载，都从一份可验证的说明开始。</span>
           </div>
         </div>

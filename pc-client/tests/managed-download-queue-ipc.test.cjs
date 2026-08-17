@@ -93,11 +93,14 @@ function loadMainIpcHandlers(
   const childProcess = options.execFile
     ? { ...originalLoad("node:child_process", module, false), execFile: options.execFile }
     : null;
+  const filesystem = options.fsModule || null;
   Module._load = (specifier, parent, isMain) =>
     specifier === "electron"
       ? electron
       : specifier === "node:child_process" && childProcess
         ? childProcess
+        : specifier === "node:fs" && filesystem
+          ? filesystem
         : originalLoad(specifier, parent, isMain);
   try {
     const loaded = new Module(mainPath, module);
@@ -119,6 +122,22 @@ function validEnvironmentSignatureExecFile() {
       Signer: "CN=Python Software Foundation"
     })
   });
+  return execFile;
+}
+
+function validManagedPackageSignatureExecFile() {
+  const execFile = () => {};
+  execFile[promisify.custom] = async (_file, _args, options) => {
+    const fileName = path.basename(options?.env?.AIHUB_SIGNATURE_PATH || "");
+    return {
+      stdout: JSON.stringify({
+        Status: "Valid",
+        Signer: fileName.startsWith("ChatGPT")
+          ? "CN=Microsoft Corporation, O=Microsoft Corporation"
+          : "CN=Anthropic, PBC, O=Anthropic, PBC"
+      })
+    };
+  };
   return execFile;
 }
 
@@ -357,6 +376,107 @@ test("managed download queue preload exposes only fixed task operations and reje
   assert.equal(calls.length, 0);
 });
 
+test("package management exposes one bounded first-entry discovery operation", async () => {
+  const { bridge, calls } = preloadHarness([]);
+  assert.equal(typeof bridge.discoverDownloadedPackages, "function");
+
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(await bridge.discoverDownloadedPackages([
+      { productId: "chatgpt-desktop" },
+      {
+        productId: "canva-windows",
+        artifact: {
+          url: "https://download.canva.com/windows/Canva%20Setup%201.123.1.exe",
+          fileName: "Canva Setup 1.123.1.exe",
+          artifactKind: "exe"
+        }
+      }
+    ]))),
+    []
+  );
+  assert.deepEqual(JSON.parse(JSON.stringify(calls)), [[
+    "download:discover-packages",
+    [
+      { productId: "chatgpt-desktop" },
+      {
+        productId: "canva-windows",
+        artifact: {
+          url: "https://download.canva.com/windows/Canva%20Setup%201.123.1.exe",
+          fileName: "Canva Setup 1.123.1.exe",
+          artifactKind: "exe"
+        }
+      }
+    ]
+  ]]);
+
+  const before = calls.length;
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(await bridge.discoverDownloadedPackages([
+      { productId: "safe-product", command: "cmd.exe" }
+    ]))),
+    { ok: false, errorCode: "INPUT_INVALID" }
+  );
+  assert.equal(calls.length, before);
+});
+
+test("first package entry discovers reviewed installers and exact deletion preserves its sibling", async (t) => {
+  const userData = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-package-entry-"));
+  const downloadRoot = path.join(userData, "packages");
+  fs.mkdirSync(downloadRoot);
+  fs.writeFileSync(path.join(userData, "pc-settings.json"), JSON.stringify({
+    downloadDirectory: downloadRoot,
+    cliInstallDirectory: "",
+    language: "zh"
+  }));
+  const chatgptPath = path.join(downloadRoot, "ChatGPT Installer.exe");
+  const claudePath = path.join(downloadRoot, "Claude-Setup-x64.exe");
+  const unrelatedPath = path.join(downloadRoot, "Unreviewed Tool.exe");
+  fs.writeFileSync(chatgptPath, "chatgpt-installer");
+  fs.writeFileSync(claudePath, "claude-installer");
+  fs.writeFileSync(unrelatedPath, "unreviewed-installer");
+
+  const { handlers, main } = loadMainIpcHandlers(userData, null, [], {
+    confirmationResponse: 1,
+    execFile: validManagedPackageSignatureExecFile()
+  });
+  t.after(() => {
+    main.getManagedDownloadQueue().dispose();
+    fs.rmSync(userData, { recursive: true, force: true });
+  });
+  const { bridge } = preloadHarness((channel, input) =>
+    handlers.get(channel)(
+      null,
+      input === undefined ? undefined : JSON.parse(JSON.stringify(input))
+    )
+  );
+
+  const discovered = JSON.parse(JSON.stringify(
+    await bridge.discoverDownloadedPackages([
+      { productId: "chatgpt-desktop" },
+      { productId: "claude-desktop" }
+    ])
+  ));
+  assert.deepEqual(
+    discovered.map((task) => [task.productId, task.phase]),
+    [["chatgpt-desktop", "downloaded"], ["claude-desktop", "downloaded"]]
+  );
+  assert.equal(fs.existsSync(unrelatedPath), true);
+
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(await bridge.deleteDownloadedPackage("chatgpt-desktop"))),
+    { ok: true, filePath: chatgptPath }
+  );
+  assert.equal(fs.existsSync(chatgptPath), false);
+  assert.equal(fs.existsSync(claudePath), true);
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(await bridge.listManagedDownloadTasks()))
+      .map((task) => task.productId),
+    ["claude-desktop"]
+  );
+  const records = JSON.parse(fs.readFileSync(path.join(userData, "download-records.json"), "utf8"));
+  assert.deepEqual(Object.keys(records), ["claude-desktop"]);
+});
+
 test("managed download queue preload returns only public task status", async () => {
   const { bridge, calls } = preloadHarness({
     ok: true,
@@ -582,6 +702,91 @@ test("completed package deletion requires the current fixed desktop task and rec
   );
   assert.equal(remaining[productId].sha256, sha256);
   assert.equal(remaining[independentProductId].sha256, independentSha256);
+});
+
+test("a failed package unlink performs no state write and preserves every record", async (t) => {
+  const userData = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-package-unlink-failure-"));
+  t.after(() => fs.rmSync(userData, { recursive: true, force: true }));
+  const productId = "wondershare-filmora";
+  const siblingId = "wondershare-edrawmax";
+  const plan = fixedDesktopPlan(productId);
+  const siblingPlan = fixedDesktopPlan(siblingId);
+  const filePath = path.join(userData, plan.fileName);
+  const siblingPath = path.join(userData, siblingPlan.fileName);
+  const contents = Buffer.from("owned-filmora-installer");
+  const siblingContents = Buffer.from("owned-edrawmax-installer");
+  const sha256 = crypto.createHash("sha256").update(contents).digest("hex");
+  const siblingSha256 = crypto.createHash("sha256").update(siblingContents).digest("hex");
+  fs.writeFileSync(filePath, contents);
+  fs.writeFileSync(siblingPath, siblingContents);
+  const records = {
+    [productId]: {
+      productId,
+      url: plan.url,
+      fileName: plan.fileName,
+      artifactKind: "exe",
+      filePath,
+      downloadRoot: userData,
+      sha256,
+      fileSize: contents.length
+    },
+    [siblingId]: {
+      productId: siblingId,
+      url: siblingPlan.url,
+      fileName: siblingPlan.fileName,
+      artifactKind: "exe",
+      filePath: siblingPath,
+      downloadRoot: userData,
+      sha256: siblingSha256,
+      fileSize: siblingContents.length
+    }
+  };
+  const tasks = {
+    [productId]: completedTask(productId, filePath, sha256, contents.length),
+    [siblingId]: completedTask(siblingId, siblingPath, siblingSha256, siblingContents.length)
+  };
+  fs.writeFileSync(path.join(userData, "download-records.json"), JSON.stringify(records));
+  fs.writeFileSync(path.join(userData, "managed-download-tasks.json"), JSON.stringify(tasks));
+
+  const events = [];
+  let deletionStarted = false;
+  const fsModule = Object.create(fs);
+  fsModule.writeFileSync = (...args) => {
+    if (deletionStarted) events.push(`write:${path.basename(String(args[0]))}`);
+    return fs.writeFileSync(...args);
+  };
+  fsModule.renameSync = (...args) => {
+    if (deletionStarted) events.push(`rename:${path.basename(String(args[1]))}`);
+    return fs.renameSync(...args);
+  };
+  fsModule.unlinkSync = (candidatePath) => {
+    if (deletionStarted && path.resolve(candidatePath) === path.resolve(filePath)) {
+      events.push(`unlink:${path.basename(candidatePath)}`);
+      const error = new Error("fixture package is locked");
+      error.code = "EPERM";
+      throw error;
+    }
+    return fs.unlinkSync(candidatePath);
+  };
+  const { handlers } = loadMainIpcHandlers(userData, null, [], {
+    confirmationResponse: 1,
+    fsModule
+  });
+  deletionStarted = true;
+
+  const result = await handlers.get("download:delete-package")(null, productId);
+  assert.equal(result.ok, false);
+  assert.deepEqual(events, [`unlink:${path.basename(filePath)}`]);
+  assert.equal(fs.existsSync(filePath), true);
+  assert.equal(fs.existsSync(siblingPath), true);
+  assert.deepEqual(
+    JSON.parse(fs.readFileSync(path.join(userData, "download-records.json"), "utf8")),
+    records
+  );
+  assert.deepEqual(
+    JSON.parse(fs.readFileSync(path.join(userData, "managed-download-tasks.json"), "utf8")),
+    tasks
+  );
 });
 
 test("fixed desktop deletion removes only the exact completed package", async (t) => {

@@ -146,7 +146,59 @@ test("the top-bar download list merges queue and legacy tasks without duplicates
   assert.match(app, /data-aihub-download-item/);
   assert.match(app, /buildDownloadPopoverItems/);
   assert.match(app, /openInstalledManagement/);
+  assert.match(app, /discoverDownloadedPackages/);
+  assert.match(
+    app,
+    /const openInstalledManagement = \(\) => \{[\s\S]*?refreshDownloadedPackages\(\);[\s\S]*?\};/
+  );
+  assert.match(
+    app,
+    /const removeClearedDownloadTask = \(productId: string\) => \{[\s\S]*?removeManagedDownloadQueueTask\(productId\);/
+  );
   assert.match(styles, /\.downloadPopover/);
   assert.match(language, /"downloadMenu\.title"/);
   assert.match(language, /"downloadMenu\.empty"/);
+});
+
+test("package refresh is additive and only an explicit successful delete removes one card", () => {
+  const root = path.resolve(__dirname, "..");
+  const app = fs.readFileSync(path.join(root, "src/App.tsx"), "utf8");
+  const queueRefresh = app.slice(
+    app.indexOf("const refreshManagedDownloadQueue = async"),
+    app.indexOf("const applyDesktopOperationTask =")
+  );
+  const packageRefresh = app.slice(
+    app.indexOf("const refreshDownloadedPackages = async"),
+    app.indexOf("const refreshInstalledManagement = async")
+  );
+  const explicitDelete = app.slice(
+    app.indexOf("const deleteManagedPackage = async"),
+    app.indexOf("const refreshPersonalCenter = async")
+  );
+  const queueApply = app.slice(
+    app.indexOf("const applyManagedDownloadQueueTask ="),
+    app.indexOf("const removeManagedDownloadQueueTask =")
+  );
+  const taskCenter = app.slice(
+    app.indexOf("const visibleDownloadTasks ="),
+    app.indexOf("const visibleManagedDownloadQueueTasks =")
+  );
+
+  assert.match(
+    queueApply,
+    /if \(task\.phase !== "downloaded"\)[\s\S]*?delete next\[task\.productId\]/
+  );
+  assert.match(
+    queueRefresh,
+    /if \(task\.phase !== "downloaded"\) delete next\[task\.productId\]/
+  );
+  assert.doesNotMatch(packageRefresh, /removeClearedDownloadTask\(productId\)/);
+  assert.match(
+    taskCenter,
+    /!managedDownloadQueueTasks\[task\.productId\]/
+  );
+  assert.match(
+    explicitDelete,
+    /if \(!result\.ok\)[\s\S]*?return;[\s\S]*?removeClearedDownloadTask\(productId\)/
+  );
 });

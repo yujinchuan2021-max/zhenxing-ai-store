@@ -35,6 +35,28 @@ try {
   ) {
     await new Promise((resolve) => setTimeout(resolve, 200));
   }
+  let packagedBrand = null;
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    packagedBrand = await client.evaluate(`(() => {
+      const icon = document.querySelector(".brandMark img");
+      return {
+        present: Boolean(icon),
+        complete: icon?.complete === true,
+        naturalWidth: icon?.naturalWidth || 0,
+        src: icon?.getAttribute("src") || ""
+      };
+    })()`);
+    if (packagedBrand.present && packagedBrand.complete && packagedBrand.naturalWidth > 0) break;
+    await new Promise((resolve) => setTimeout(resolve, 250));
+  }
+  if (
+    !packagedBrand.present ||
+    !packagedBrand.complete ||
+    packagedBrand.naturalWidth < 1 ||
+    packagedBrand.src !== "./brand-icon.png"
+  ) {
+    throw new Error(`Packaged brand DOM gate failed: ${JSON.stringify(packagedBrand)}`);
+  }
   const catalog = await client.evaluate(`window.aihubPC.getCatalog().then((result) => {
     const vendors = result?.catalog?.vendors || [];
     const products = vendors.flatMap((vendor) => vendor.products || []);
@@ -200,6 +222,7 @@ try {
       vendors,
       products: products.length
       ,vendorCards: rendered.vendorCards
+      ,brandIconLoaded: packagedBrand.naturalWidth > 0
       ,normalizedSha256
     })}\n`
   );

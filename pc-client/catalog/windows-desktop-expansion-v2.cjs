@@ -301,7 +301,7 @@ const newVendors = Object.freeze([
     description: "开发用于发现和运行本地 AI 应用的开源桌面浏览器。",
     website: "https://pinokio.computer/",
     tutorial: "https://github.com/pinokiocomputer/pinokio",
-    products: [desktopProduct({ id: "pinokio-ai-browser", name: "Pinokio", category: "智能体", description: "用于安装和运行本地 AI 应用的桌面浏览器；第三方脚本不继承枕星 AI 信任。", website: "https://github.com/pinokiocomputer/pinokio/releases/latest", home: "https://pinokio.computer/", tutorial: "https://github.com/pinokiocomputer/pinokio" })]
+    products: [desktopProduct({ id: "pinokio-ai-browser", name: "Pinokio", category: "智能体", description: "用于安装和运行本地 AI 应用的桌面浏览器；第三方脚本不继承枕星AI助手 信任。", website: "https://github.com/pinokiocomputer/pinokio/releases/latest", home: "https://pinokio.computer/", tutorial: "https://github.com/pinokiocomputer/pinokio" })]
   }),
   vendor({
     id: "lykos-ai",

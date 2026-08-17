@@ -110,13 +110,16 @@ test("resource search resolves canonical scenario aliases through its host produ
   assert.equal(result.resources[0].resource.id, "fixture-resource");
 });
 
-test("ResourceStorePage keeps resource-first source, category, and host filters explicit", () => {
+test("ResourceStorePage keeps shared source, host, compatibility, and useful detail seams explicit", () => {
   const app = read("src/App.tsx");
   const language = read("src/language/index.ts");
+  const resourceStorePage = app.slice(
+    app.indexOf("function ResourceStorePage({"),
+    app.indexOf("function ResourceRow({")
+  );
 
   for (const marker of [
     'marker="source-channel"',
-    'marker="scenario"',
     'marker="host"',
     'marker="compatibility"',
     "createMarketplace",
@@ -128,6 +131,7 @@ test("ResourceStorePage keeps resource-first source, category, and host filters 
     "data-aihub-resource-connection-mode",
     "data-aihub-resource-connection-host-id",
     "data-aihub-resource-connection-binding-kind",
+    "data-aihub-resource-overview",
     "data-aihub-resource-store-current",
     "resourceSourceChannel",
     "resourceReviewStatus",
@@ -137,7 +141,6 @@ test("ResourceStorePage keeps resource-first source, category, and host filters 
     "data-aihub-resource-source-context",
     "data-aihub-resource-empty-source",
     "switch-resource-source-official",
-    "SCENARIO_TAGS",
     "marketplace.facets",
     "metadataSnapshot",
     "canonicalSource",
@@ -145,6 +148,9 @@ test("ResourceStorePage keeps resource-first source, category, and host filters 
   ]) {
     assert.match(app, new RegExp(marker.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
+  assert.doesNotMatch(resourceStorePage, /marker="scenario"/);
+  assert.doesNotMatch(resourceStorePage, /resourceFilterUnavailable/);
+  assert.match(resourceStorePage, /data-aihub-resource-purpose/);
   for (const key of [
     "resources.channel.official",
     "resources.channel.community",
@@ -155,6 +161,21 @@ test("ResourceStorePage keeps resource-first source, category, and host filters 
     "resources.compatibilityFilter",
     "resources.compatibleHosts",
     "resources.connectionModes",
+    "resources.whatItDoes",
+    "resources.outcomeIntro",
+    "resources.resourceNote",
+    "resources.installAndTrust",
+    "resources.source.github",
+    "resources.source.official",
+    "resources.source.web",
+    "resources.outcome.skill.reuse",
+    "resources.outcome.skill.consistency",
+    "resources.outcome.mcp.context",
+    "resources.outcome.mcp.flow",
+    "resources.outcome.plugin.extend",
+    "resources.outcome.plugin.reuse",
+    "resources.outcome.connector.authorize",
+    "resources.outcome.connector.sync",
     "resources.connectionMode.remote-mcp",
     "resources.connectionMode.chatgpt-app",
     "nav.communityDiscussions",
@@ -164,6 +185,47 @@ test("ResourceStorePage keeps resource-first source, category, and host filters 
   ]) {
     assert.match(language, new RegExp(`"${key}"`));
   }
+  for (const { id } of SCENARIO_TAGS) {
+    assert.match(
+      language,
+      new RegExp(`"resources\\.outcome\\.scenario\\.${id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`),
+      `missing detailed outcome copy for ${id}`
+    );
+  }
+  assert.doesNotMatch(resourceStorePage, /resources\.capability\.\$\{resourceType\}/);
+  assert.match(resourceStorePage, /className="resourceDetailName"/);
+  assert.match(resourceStorePage, /data-aihub-resource-detail-identity/);
+  assert.match(resourceStorePage, /data-aihub-resource-detail-meta/);
+  assert.match(resourceStorePage, /ResourceStoreIcon storeId=\{store\.id\} size=\{30\}/);
+  assert.match(resourceStorePage, /resources\.type\.\$\{store\.id\}/);
+  assert.match(resourceStorePage, /resources\.compatibleHostCount/);
+  assert.doesNotMatch(resourceStorePage, /uiText\("resources\.detailTitle"\)/);
+
+  const resourceRow = app.slice(
+    app.indexOf("function ResourceRow({"),
+    app.indexOf("function FixedCliLifecycleActions({")
+  );
+  assert.match(resourceRow, /resourceProvenancePresentation\(resource\)/);
+  assert.doesNotMatch(resourceRow, /resources\.provenance/);
+
+  const styles = read("src/styles.css");
+  assert.match(styles, /\.resourceLevelHeader\s*\{[\s\S]*?position:\s*sticky;[\s\S]*?top:\s*0;/);
+  assert.match(styles, /\.resourceDetailIdentity\s*\{[\s\S]*?grid-template-columns:\s*58px minmax\(0, 1fr\);/);
+  assert.match(styles, /\.resourceDetailIcon\s*\{[\s\S]*?width:\s*58px;[\s\S]*?height:\s*58px;[\s\S]*?border-radius:\s*16px;/);
+  assert.match(styles, /\.resourceDetailName\s*\{[\s\S]*?font-size:\s*clamp\(28px,/);
+  const resourceDetailNameStyle = styles.match(/\.resourceDetailName\s*\{([^}]*)\}/)?.[1] || "";
+  assert.doesNotMatch(resourceDetailNameStyle, /(?:padding|border|background):/);
+  assert.match(styles, /\.resourceDetailMeta\s*\{[\s\S]*?border-bottom:\s*3px solid/);
+  assert.match(styles, /\.resourcePurpose\s*\{[\s\S]*?font-size:\s*16px;/);
+  assert.match(styles, /\.resourcePurpose\s+span\s*\{[\s\S]*?font-weight:\s*7/);
+
+  const backButton = app.slice(
+    app.indexOf("function BackButton({"),
+    app.indexOf("function VendorPage({")
+  );
+  assert.match(backButton, /aria-label=\{uiText\("navigation\.back"\)\}/);
+  assert.match(backButton, /title=\{uiText\("navigation\.back"\)\}/);
+  assert.doesNotMatch(backButton, />\s*\{uiText\("navigation\.back"\)\}\s*<\/button>/);
 });
 
 test("one global navigation entry leads to an unavailable candidate-submission seam", () => {

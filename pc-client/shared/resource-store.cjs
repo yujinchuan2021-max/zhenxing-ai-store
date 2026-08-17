@@ -305,6 +305,79 @@ function resourceTargetPresentation(resource, target) {
   return { managed, links };
 }
 
+function normalizeResourceLinkUrl(value) {
+  if (typeof value !== "string") return null;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:") return null;
+    url.hash = "";
+    url.hostname = url.hostname.toLowerCase();
+    if (url.pathname !== "/") url.pathname = url.pathname.replace(/\/+$/, "");
+    for (const key of [...url.searchParams.keys()]) {
+      if (/^(?:utm_|ref$|source$|campaign$)/i.test(key)) {
+        url.searchParams.delete(key);
+      }
+    }
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
+function sourceLabelKey(hostname) {
+  const host = hostname.replace(/^www\./, "");
+  if (host === "github.com" || host.endsWith(".githubusercontent.com")) {
+    return "resources.source.github";
+  }
+  if (host === "gitlab.com") return "resources.source.gitlab";
+  if (host === "npmjs.com" || host === "registry.npmjs.org") {
+    return "resources.source.npm";
+  }
+  if (host === "pypi.org") return "resources.source.pypi";
+  if (host === "huggingface.co") return "resources.source.huggingFace";
+  if (host === "modelscope.cn") return "resources.source.modelScope";
+  if (host === "registry.modelcontextprotocol.io") {
+    return "resources.source.mcpRegistry";
+  }
+  if (host === "clawhub.ai") return "resources.source.clawHub";
+  return null;
+}
+
+function sameSite(left, right) {
+  left = left.replace(/^www\./, "");
+  right = right.replace(/^www\./, "");
+  return left === right || left.endsWith(`.${right}`) || right.endsWith(`.${left}`);
+}
+
+function resourceProvenancePresentation(resource) {
+  const reserved = new Set(
+    [resource?.website, resource?.tutorial]
+      .map(normalizeResourceLinkUrl)
+      .filter(Boolean)
+  );
+  const officialHosts = [resource?.website, resource?.tutorial]
+    .map(normalizeResourceLinkUrl)
+    .filter(Boolean)
+    .map((value) => new URL(value).hostname);
+  const actions = [];
+
+  for (const evidence of resource?.provenanceEvidence || []) {
+    const normalized = normalizeResourceLinkUrl(evidence);
+    if (!normalized || reserved.has(normalized)) continue;
+    reserved.add(normalized);
+    const hostname = new URL(normalized).hostname;
+    const labelKey = sourceLabelKey(hostname) || (
+      resource?.sourceKind === "official" &&
+      officialHosts.some((officialHost) => sameSite(hostname, officialHost))
+        ? "resources.source.official"
+        : "resources.source.web"
+    );
+    actions.push({ href: evidence, labelKey });
+  }
+
+  return actions;
+}
+
 module.exports = {
   RESOURCE_SOURCE_CHANNELS,
   RESOURCE_SOURCE_KINDS,
@@ -320,6 +393,7 @@ module.exports = {
   resourceSourceChannel,
   resourceReviewStatus,
   resourceRiskLevel,
+  resourceProvenancePresentation,
   resourceStoreChannelStats,
   resourceTargetPresentation,
   validateResourceMetadataSnapshot

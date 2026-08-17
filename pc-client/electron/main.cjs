@@ -111,6 +111,10 @@ const {
   isAllowedManagedDownloadUrl
 } = require("../shared/managed-downloads.cjs");
 const {
+  discoverManagedPackages,
+  reviewedManagedPackagePlan
+} = require("../shared/managed-package-inventory.cjs");
+const {
   buildDesktopDownloadOnlyPlan,
   desktopDownloadOnlyArtifactFromReceipt,
   signedDesktopDownloadArtifactFromReceipt,
@@ -468,6 +472,7 @@ const discoveredCliPrefixes = new Map();
 const managedWslStatusCache = new Map();
 const activeDownloads = new Map();
 let managedDownloadQueue = null;
+let managedPackageDiscoveryInFlight = null;
 const signedDesktopDownloadPlans = new Map();
 let managedDownloadRefreshPending = false;
 const activeDesktopOperationEntries = new Set();
@@ -3425,6 +3430,8 @@ async function fetchRemoteCatalogRelease(channel, clientId, highest = null) {
     const response = await net.fetch(channel.releaseUrl, {
       method: "GET",
       cache: "no-store",
+      redirect: "manual",
+      headers: { Accept: "application/json" },
       signal: controller.signal
     });
     if (!response.ok) {
@@ -3585,14 +3592,26 @@ async function fetchUpdateManifest(channel, currentVersion, clientId) {
     const response = await net.fetch(channel.releaseUrl, {
       method: "GET",
       cache: "no-store",
+      redirect: "manual",
+      headers: { Accept: "application/json" },
       signal: controller.signal
     });
     if (!response.ok) {
       throw new Error(`更新服务器返回 ${response.status}`);
     }
     const finalUrl = resolveReleaseResponseUrl(response, channel.releaseUrl);
-    if (!channel.allowedReleaseOrigins.includes(finalUrl.origin)) {
+    if (
+      finalUrl.toString() !== channel.releaseUrl ||
+      !channel.allowedReleaseOrigins.includes(finalUrl.origin)
+    ) {
       throw new Error("更新清单重定向到了未固定的来源");
+    }
+    const contentType = String(response.headers.get("content-type") || "")
+      .split(";", 1)[0]
+      .trim()
+      .toLowerCase();
+    if (contentType !== "application/json") {
+      throw new Error("更新服务器返回了非 JSON 内容");
     }
     const raw = await readResponseTextWithLimit(response, 64 * 1024);
     return verifyAndEvaluateUpdateRelease(JSON.parse(raw), {
@@ -4122,13 +4141,13 @@ function createNpmExecutionContext() {
   );
   const userConfigPath = path.join(directory, "user.npmrc");
   const globalConfigPath = path.join(directory, "global.npmrc");
-  fs.writeFileSync(userConfigPath, "# Isolated ZhenXing AI user npm configuration\n", {
+  fs.writeFileSync(userConfigPath, "# Isolated ZhenXing AI Assistant user npm configuration\n", {
     encoding: "utf8",
     flag: "wx"
   });
   fs.writeFileSync(
     globalConfigPath,
-    "# Isolated ZhenXing AI global npm configuration\n",
+    "# Isolated ZhenXing AI Assistant global npm configuration\n",
     { encoding: "utf8", flag: "wx" }
   );
   return { directory, userConfigPath, globalConfigPath, temporaryRoot };
@@ -8448,7 +8467,10 @@ function ensureEnvironmentDownloadDirectory() {
   ) {
     return settings.downloadDirectory;
   }
-  const downloadDirectory = path.join(app.getPath("downloads"), BRAND.name);
+  const downloadDirectory = path.join(
+    app.getPath("downloads"),
+    BRAND.legacyManagedDirectoryName
+  );
   fs.mkdirSync(downloadDirectory, { recursive: true });
   writeSettings({ ...settings, downloadDirectory });
   return downloadDirectory;
@@ -8787,7 +8809,7 @@ async function uninstallPortableDesktopProduct(productId) {
   if (!action) {
     return {
       launched: false,
-      error: "未找到与枕星 AI 安装收据一致的便携程序"
+      error: "未找到与枕星AI助手 安装收据一致的便携程序"
     };
   }
   const trust = portableDesktopTrustForReceipt(download, receipt);
@@ -8951,23 +8973,11 @@ function removeTrustedCompletedPackage(productId, record) {
     );
     const nextRecords = canceledCleanup.records;
     delete nextRecords[productId];
-    writeDownloadRecords(nextRecords);
-    try {
-      fs.unlinkSync(record.filePath);
-    } catch (error) {
-      try {
-        writeDownloadRecords(records);
-      } catch (rollbackError) {
-        throw new Error(
-          `${error instanceof Error ? error.message : "文件删除失败"}；下载记录回滚失败：${
-            rollbackError instanceof Error
-              ? rollbackError.message
-              : "未知错误"
-          }`
-        );
-      }
-      throw error;
+    fs.unlinkSync(record.filePath);
+    if (fs.existsSync(record.filePath)) {
+      throw new Error("安装包文件删除后仍然存在");
     }
+    writeDownloadRecords(nextRecords);
     loadManagedDownloadTasks();
     managedDownloadTasks.delete(productId);
     writeManagedDownloadTasks();
@@ -9252,6 +9262,81 @@ function validManagedDownloadQueueRequest(request, allowArtifact = true) {
     Object.hasOwn(request, "productId") && typeof request.productId === "string" &&
     request.productId.length > 0 && request.productId.length <= 160 &&
     (!Object.hasOwn(request, "artifact") || validManagedDownloadQueueArtifact(request.artifact));
+}
+
+function validManagedPackageDiscoveryCandidates(candidates) {
+  if (!Array.isArray(candidates) || candidates.length > 128) return false;
+  const productIds = new Set();
+  return candidates.every((candidate) => {
+    if (!validManagedDownloadQueueRequest(candidate)) return false;
+    if (productIds.has(candidate.productId)) return false;
+    productIds.add(candidate.productId);
+    return true;
+  });
+}
+
+function managedPackageDiscoveryPlan(candidate) {
+  let plan = resolveManagedDownloadPlan(
+    candidate.productId,
+    "",
+    candidate.artifact
+  );
+  if (!plan && candidate.artifact) {
+    plan = getDesktopDownloadOnlyProfile(candidate.productId)
+      ? buildDesktopDownloadOnlyPlan(candidate.productId, candidate.artifact)
+      : buildSignedDesktopDownloadPlan(candidate.productId, candidate.artifact);
+  }
+  return reviewedManagedPackagePlan(candidate.productId, plan);
+}
+
+async function discoverDownloadedPackages(candidates) {
+  if (!validManagedPackageDiscoveryCandidates(candidates)) return [];
+  if (managedPackageDiscoveryInFlight) return managedPackageDiscoveryInFlight;
+  managedPackageDiscoveryInFlight = (async () => {
+    if (managedDownloadRefreshPending || hasManagedDownloadWork()) {
+      return listManagedDownloadQueueTasks();
+    }
+    managedDownloadRefreshPending = true;
+    try {
+      const downloadRoot = readSettings().downloadDirectory;
+      if (
+        typeof downloadRoot !== "string" ||
+        !path.isAbsolute(downloadRoot) ||
+        !fs.existsSync(downloadRoot)
+      ) {
+        return listManagedDownloadQueueTasks();
+      }
+      const plans = [];
+      for (const candidate of candidates) {
+        const existingTask = reconcileManagedDownloadTask(candidate.productId);
+        if (existingTask?.phase === "completed") continue;
+        const plan = managedPackageDiscoveryPlan(candidate);
+        if (plan) plans.push(plan);
+      }
+      const discovered = await discoverManagedPackages({
+        downloadRoot,
+        plans,
+        inspectSignature,
+        hashFile: fileSha256
+      });
+      if (discovered.length > 0) {
+        const records = readDownloadRecords();
+        for (const record of discovered) records[record.productId] = record;
+        writeDownloadRecords(records);
+        for (const record of discovered) reconcileManagedDownloadTask(record.productId);
+      }
+      return listManagedDownloadQueueTasks();
+    } catch {
+      return listManagedDownloadQueueTasks();
+    } finally {
+      managedDownloadRefreshPending = false;
+    }
+  })();
+  try {
+    return await managedPackageDiscoveryInFlight;
+  } finally {
+    managedPackageDiscoveryInFlight = null;
+  }
 }
 
 function managedDownloadTaskProfileId(task) {
@@ -10826,6 +10911,29 @@ async function scanApprovedProductInventory() {
 }
 
 function registerIpc() {
+  const senderWindow = (event) => {
+    const window = BrowserWindow.fromWebContents(event.sender);
+    return window && !window.isDestroyed() ? window : null;
+  };
+  ipcMain.handle("window:minimize", (event) => {
+    const window = senderWindow(event);
+    if (!window) return false;
+    window.minimize();
+    return true;
+  });
+  ipcMain.handle("window:toggle-maximize", (event) => {
+    const window = senderWindow(event);
+    if (!window) return false;
+    if (window.isMaximized()) window.unmaximize();
+    else window.maximize();
+    return true;
+  });
+  ipcMain.handle("window:close", (event) => {
+    const window = senderWindow(event);
+    if (!window) return false;
+    window.close();
+    return true;
+  });
   ipcMain.handle("catalog:get", async () => {
     const result = await resolveCatalog();
     activeEnvironmentSourcePreferences =
@@ -11934,6 +12042,9 @@ function registerIpc() {
       return { ok: false, error: "无法加入下载队列" };
     }
   });
+  ipcMain.handle("download:discover-packages", (_event, candidates) =>
+    discoverDownloadedPackages(candidates)
+  );
   ipcMain.handle("download:list", () => listManagedDownloadQueueTasks());
   ipcMain.handle("download:status", (_event, request) => {
     if (!validManagedDownloadQueueRequest(request, false) || !request || typeof request !== "object" || Array.isArray(request) ||
@@ -12372,7 +12483,7 @@ function registerIpc() {
         if (managedReceiptPresent) {
           return {
             launched: false,
-            error: "枕星 AI 安装收据与当前软件实例不一致，已停止卸载"
+            error: "枕星AI助手 安装收据与当前软件实例不一致，已停止卸载"
           };
         }
         if (probe.appx) {
@@ -12436,7 +12547,7 @@ function registerIpc() {
         ) {
           return {
             launched: false,
-            error: "枕星 AI 安装收据在确认期间发生变化，已停止卸载"
+            error: "枕星AI助手 安装收据在确认期间发生变化，已停止卸载"
           };
         }
         record = {
@@ -12598,7 +12709,7 @@ function registerIpc() {
         : {
             ok: false,
             closed: false,
-            error: "未找到由枕星 AI 管理的便携程序"
+            error: "未找到由枕星AI助手 管理的便携程序"
           };
     }
     if (windowsPackageManagerPlan(productId)) {
@@ -12821,8 +12932,10 @@ function createWindow() {
     minWidth: 1080,
     minHeight: 700,
     show: false,
-    backgroundColor: "#0e1714",
-    title: `${BRAND.name} PC`,
+    backgroundColor: "#f4f8fb",
+    title: BRAND.name,
+    frame: false,
+    icon: path.join(__dirname, "..", "build", "icon.png"),
     webPreferences: {
       preload: path.join(__dirname, "preload.cjs"),
       contextIsolation: true,
@@ -13064,7 +13177,7 @@ if (!hasSingleInstanceLock) {
       });
     })
     .catch((error) => {
-      console.error("ZhenXing AI failed to initialize", error);
+      console.error("ZhenXing AI Assistant failed to initialize", error);
       app.quit();
     });
 

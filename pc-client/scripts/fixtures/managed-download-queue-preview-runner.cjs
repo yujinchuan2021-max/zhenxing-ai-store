@@ -25,6 +25,17 @@ function waitFor(window, expression, message, timeoutMs = 10_000) {
   });
 }
 
+async function openSettings(window) {
+  await waitFor(
+    window,
+    'Boolean(document.querySelector(\'[data-aihub-action="open-settings"]\'))',
+    "settings action missing"
+  );
+  await window.webContents.executeJavaScript(
+    'document.querySelector(\'[data-aihub-action="open-settings"]\').click()'
+  );
+}
+
 function flushRenderer(window) {
   return window.webContents.executeJavaScript("new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))");
 }
@@ -35,12 +46,26 @@ async function screenshot(window, width, label) {
   const metrics = await window.webContents.executeJavaScript(`(() => {
     const buttons = [...document.querySelectorAll('button')].filter((node) => {
       const rect = node.getBoundingClientRect();
-      return rect.width && rect.height && rect.bottom > 0 && rect.top < innerHeight;
+      return rect.width && rect.height && rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
     });
-    return { viewport: innerWidth, scrollWidth: document.documentElement.scrollWidth, buttonsInside: buttons.every((node) => { const rect = node.getBoundingClientRect(); return rect.left >= 0 && rect.right <= innerWidth; }) };
+    const outsideButtons = buttons.flatMap((node) => {
+      const rect = node.getBoundingClientRect();
+      return rect.left >= 0 && rect.right <= innerWidth
+        ? []
+        : [{
+            label: node.getAttribute('aria-label') || node.textContent.trim(),
+            className: node.className,
+            left: rect.left,
+            right: rect.right,
+            opacity: getComputedStyle(node).opacity,
+            visibility: getComputedStyle(node).visibility,
+            parentClassName: node.parentElement?.className || ''
+          }];
+    });
+    return { viewport: innerWidth, scrollWidth: document.documentElement.scrollWidth, buttonsInside: outsideButtons.length === 0, outsideButtons };
   })()`);
   assert.ok(metrics.scrollWidth <= metrics.viewport, "horizontal overflow");
-  assert.equal(metrics.buttonsInside, true, "visible button outside viewport");
+  assert.equal(metrics.buttonsInside, true, `visible button outside viewport: ${JSON.stringify(metrics.outsideButtons)}`);
   const height = await window.webContents.executeJavaScript("Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)");
   window.setContentSize(width, height);
   if (process.env.AIHUB_MANAGED_DOWNLOAD_QUEUE_NO_OUTPUT !== "1") {
@@ -90,12 +115,25 @@ async function run() {
       for (const width of [1365, 740]) {
         window.setContentSize(width, 768);
         await waitFor(window, `window.innerWidth === ${width}`, "carousel viewport did not settle");
+        if (width === 740) {
+          await window.webContents.executeJavaScript(`(() => {
+            const navbar = document.querySelector('#primary-navigation');
+            if (navbar) navbar.style.transition = 'none';
+            return true;
+          })()`);
+          await waitFor(
+            window,
+            "document.querySelector('#primary-navigation')?.getBoundingClientRect().right <= 0",
+            "carousel mobile navigation did not settle outside the viewport"
+          );
+        }
         await window.webContents.executeJavaScript(`document.querySelector('.pcApp').dataset.theme = ${JSON.stringify(theme)}`);
         const state = await window.webContents.executeJavaScript(`(() => {
           const hero = document.querySelector('.carouselHero');
           const arrows = [...hero.querySelectorAll('.carouselEdge')];
           const dots = [...hero.querySelectorAll('.carouselControls button')];
           const dot = dots[0];
+          dot.scrollIntoView({ block: 'center', inline: 'center' });
           dot.focus();
           return {
             overflow: document.documentElement.scrollWidth > innerWidth,
@@ -104,7 +142,20 @@ async function run() {
             readableArrows: arrows.every((button) => getComputedStyle(button).color !== getComputedStyle(button).backgroundColor),
             dotTargets: dots.map((button) => { const rect = button.getBoundingClientRect(); return { width: rect.width, height: rect.height }; }),
             dotVisuals: dots.map((button) => { const style = getComputedStyle(button, '::before'); return { width: parseFloat(style.width), height: parseFloat(style.height), active: button.getAttribute('aria-current') === 'true' }; }),
-            mouseTarget: (() => { const rect = dots[1].getBoundingClientRect(); return { x: Math.round(rect.left + rect.width / 2), y: Math.round(rect.top + rect.height / 2), label: dots[1].getAttribute('aria-label') }; })()
+            mouseTarget: (() => {
+              const rect = dots[1].getBoundingClientRect();
+              const x = Math.round(rect.left + rect.width / 2);
+              const y = Math.round(rect.top + rect.height / 2);
+              const hit = document.elementFromPoint(x, y);
+              return {
+                x,
+                y,
+                label: dots[1].getAttribute('aria-label'),
+                hitLabel: hit?.closest('button')?.getAttribute('aria-label') || hit?.textContent || '',
+                top: Math.round(rect.top),
+                bottom: Math.round(rect.bottom)
+              };
+            })()
           };
         })()`);
         assert.equal(state.overflow, false, `${theme}/${width} carousel must not overflow`);
@@ -115,7 +166,7 @@ async function run() {
         assert.equal(state.dotVisuals.every(({ width: visualWidth, height, active }) => visualWidth === (active ? 28 : 18) && height === (active ? 8 : 5)), true, `${theme}/${width} carousel dot visuals must retain their compact size`);
         window.webContents.sendInputEvent({ type: "mouseDown", x: state.mouseTarget.x, y: state.mouseTarget.y, button: "left", clickCount: 1 });
         window.webContents.sendInputEvent({ type: "mouseUp", x: state.mouseTarget.x, y: state.mouseTarget.y, button: "left", clickCount: 1 });
-        await waitFor(window, `document.querySelector('.carouselControls button[aria-current=true]')?.getAttribute('aria-label') === ${JSON.stringify(state.mouseTarget.label)}`, `${theme}/${width} carousel pointer navigation failed`);
+        await waitFor(window, `document.querySelector('.carouselControls button[aria-current=true]')?.getAttribute('aria-label') === ${JSON.stringify(state.mouseTarget.label)}`, `${theme}/${width} carousel pointer navigation failed: ${JSON.stringify(state.mouseTarget)}`);
         await window.webContents.executeJavaScript("document.querySelector('.heroVisual').focus()");
         window.webContents.sendInputEvent({ type: "keyDown", keyCode: "LEFT" });
         window.webContents.sendInputEvent({ type: "keyUp", keyCode: "LEFT" });
@@ -129,7 +180,7 @@ async function run() {
     window.webContents.sendInputEvent({ type: "keyDown", keyCode: "RIGHT" });
     window.webContents.sendInputEvent({ type: "keyUp", keyCode: "RIGHT" });
     await waitFor(window, "document.querySelector('.carouselControls button[aria-current=true]')?.getAttribute('aria-label')?.includes('2')", "carousel keyboard navigation failed");
-    await window.webContents.executeJavaScript("document.querySelector('.topActions .quietButton:nth-child(2)').click()");
+    await openSettings(window);
     await waitFor(window, "Boolean(document.querySelector('.settingsPanel'))", "settings panel missing");
     const chineseTaskName = await window.webContents.executeJavaScript("document.querySelector('.managedDownloadList [data-product-id=fixture-running-canonical]')?.textContent || ''");
     assert.match(chineseTaskName, /Fixture Running Download/, "Chinese task center must use the primary product name before switching languages");
@@ -168,17 +219,16 @@ async function run() {
     await bannerWindow.loadFile(path.join(root, "dist", "index.html"), { query: { fixtureHome: "banner", fixtureLanguage: "zh" } });
     const bannerRawBefore = await bannerWindow.webContents.executeJavaScript("window.aihubPC.getCatalog().then((result) => result.catalog)");
     await waitFor(bannerWindow, `document.querySelector('.hero:not(.carouselHero) h1')?.textContent === ${JSON.stringify(rawCatalogBefore.home.banners[0].title)}`, "primary banner title missing before language switch");
-    await bannerWindow.webContents.executeJavaScript("document.querySelector('.topActions .quietButton:nth-child(2)').click()");
+    await openSettings(bannerWindow);
     await waitFor(bannerWindow, "Boolean(document.querySelector('.settingsPanel'))", "banner settings panel missing");
     await bannerWindow.webContents.executeJavaScript("[...document.querySelectorAll('.settingsPanel button')].find((node) => node.textContent.trim() === 'English').click()");
     await waitFor(bannerWindow, "document.querySelector('.hero:not(.carouselHero) h1')?.textContent === 'Localized banner title'", "localized banner title missing");
     const localizedBanner = await bannerWindow.webContents.executeJavaScript(`(() => ({
-      eyebrow: document.querySelector('.hero:not(.carouselHero) .heroCopy > p')?.textContent,
       description: document.querySelector('.hero:not(.carouselHero) .heroCopy > span')?.textContent,
       action: document.querySelector('.hero:not(.carouselHero) .primaryAction')?.textContent,
       overflow: document.documentElement.scrollWidth > innerWidth
     }))()`);
-    assert.deepEqual(localizedBanner, { eyebrow: "Localized banner eyebrow", description: "Localized banner description", action: "Localized banner action →", overflow: false }, "banner did not consume localized English");
+    assert.deepEqual(localizedBanner, { description: "Localized banner description", action: "Localized banner action →", overflow: false }, "banner did not consume localized English");
     await bannerWindow.webContents.executeJavaScript("[...document.querySelectorAll('.settingsPanel button')].find((node) => node.textContent.trim() === '中文').click()");
     await waitFor(bannerWindow, `document.querySelector('.hero:not(.carouselHero) h1')?.textContent === ${JSON.stringify(rawCatalogBefore.home.banners[0].title)}`, "banner did not restore its primary title");
     assert.equal(await bannerWindow.webContents.executeJavaScript("!document.querySelector('.hero:not(.carouselHero)').textContent.includes('Localized banner')"), true, "banner retained an old English display value after returning to Chinese");
@@ -271,7 +321,7 @@ async function run() {
     assert.match(restoredHome.store || "", new RegExp(rawCatalogBefore.resourceStores[0].label), "resource store did not restore its primary label");
     assert.equal(restoredHome.extra, 1, "extra section did not restore exactly one primary label");
     assert.equal(restoredHome.staleEnglish, false, "home retained an old English display value after returning to Chinese");
-    await window.webContents.executeJavaScript("document.querySelector('.topActions .quietButton:nth-child(2)').click()");
+    await openSettings(window);
     await waitFor(window, "Boolean(document.querySelector('.settingsPanel'))", "Chinese task center did not reopen");
     const restoredTask = await window.webContents.executeJavaScript("document.querySelector('.managedDownloadList [data-product-id=fixture-running-canonical]')?.textContent || ''");
     assert.match(restoredTask, /Fixture Running Download/, "task name did not restore its primary product name");
@@ -299,14 +349,17 @@ async function run() {
     stage = "select community Skill source";
     await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-filter=source-channel] [data-aihub-filter-value=community]').click()");
     await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-level=resources] [data-aihub-resource-id=fixture-community-skill]'))", "community Skill did not project");
+    assert.match(
+      await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-source-context=community]')?.textContent || ''"),
+      /社区 Skill 商店/,
+      "current Skill source must remain explicit"
+    );
     await window.webContents.executeJavaScript("document.querySelector('[data-aihub-resource-level=resources] [data-aihub-resource-id=fixture-community-skill]').click()");
     await waitFor(window, "Boolean(document.querySelector('[data-aihub-resource-detail-id=fixture-community-skill] [data-aihub-resource-host-id=codex-cli]'))", "signed-catalog community Skill host did not project");
     const communitySkill = await window.webContents.executeJavaScript(`(() => ({
-      context: document.querySelector('[data-aihub-resource-source-context=community]')?.textContent || '',
       managed: Boolean(document.querySelector('[data-aihub-resource-id=fixture-community-skill] [data-aihub-action=inspect-extension]')),
       overflow: document.documentElement.scrollWidth > innerWidth
     }))()`);
-    assert.match(communitySkill.context, /社区 Skill 商店/, "current Skill source must remain explicit");
     assert.equal(communitySkill.managed, false, "community link-only Skill must not gain a managed action");
     assert.equal(communitySkill.overflow, false, "community Skill view must not overflow");
     for (const theme of ["light", "dark"]) {
@@ -343,7 +396,7 @@ async function run() {
     assert.ok(backButton.height >= 36, "back navigation must retain a clear click target");
     assert.equal(backButton.focused, true, "back navigation must remain keyboard-focusable");
     stage = "assert initial authority";
-    await window.webContents.executeJavaScript("document.querySelector('.topActions .quietButton:nth-child(2)').click()");
+    await openSettings(window);
     await waitFor(window, "document.querySelectorAll('.managedDownloadList [data-product-id=fixture-running-canonical]').length > 0", "initial queue task missing");
     const initialAuthority = await window.webContents.executeJavaScript(`(() => ({
       rows: document.querySelectorAll('.managedDownloadList [data-product-id=\"fixture-running-canonical\"]').length,
@@ -472,7 +525,7 @@ async function run() {
     );
     assert.equal(await window.webContents.executeJavaScript("window.aihubPC.fixtureResolveManagedDownloadQueueStatus('fixture-running-canonical')"), true, "held status was not released");
     await flushRenderer(window);
-    await window.webContents.executeJavaScript("document.querySelector('.topActions .quietButton:nth-child(2)').click()");
+    await openSettings(window);
     await flushRenderer(window);
     const beforeListRelease = await window.webContents.executeJavaScript(`(() => ({
       productPhase: document.querySelector('[data-aihub-product-id=fixture-running-canonical] [data-aihub-managed-download-phase]')?.getAttribute('data-aihub-managed-download-phase'),
@@ -519,7 +572,7 @@ async function run() {
     causalObservations.push("event-accepted", "status-call");
     await waitFor(window, `document.querySelector('[data-aihub-product-id=${deferredProductId}] [data-aihub-managed-download-phase]')?.getAttribute('data-aihub-managed-download-phase') === 'downloading'`, "public downloading status did not reach the product card before command completion");
     causalObservations.push("status-apply");
-    await window.webContents.executeJavaScript("document.querySelector('.topActions .quietButton:nth-child(2)').click()");
+    await openSettings(window);
     await waitFor(window, `document.querySelector('.managedQueueTask[data-product-id=${deferredProductId}]')?.getAttribute('data-aihub-managed-download-phase') === 'downloading'`, "public downloading status did not reach Task Center before command completion");
     assert.equal(await window.webContents.executeJavaScript(`document.querySelectorAll('.managedDownloadList [data-product-id=${deferredProductId}]').length`), 1, "deferred attempt must render once before command completion");
     await window.webContents.executeJavaScript("document.querySelector('.settingsPanel > header > button').click()");
@@ -529,7 +582,7 @@ async function run() {
     causalObservations.push("status-call");
     await waitFor(window, `document.querySelector('[data-aihub-product-id=${deferredProductId}] [data-aihub-managed-download-phase]')?.getAttribute('data-aihub-managed-download-phase') === 'downloading'`, "late queued command result remained on the product card");
     causalObservations.push("status-apply");
-    await window.webContents.executeJavaScript("document.querySelector('.topActions .quietButton:nth-child(2)').click()");
+    await openSettings(window);
     await waitFor(window, `document.querySelector('.managedQueueTask[data-product-id=${deferredProductId}]')?.getAttribute('data-aihub-managed-download-phase') === 'downloading'`, "late queued command result remained in Task Center");
     const deferredFinal = await window.webContents.executeJavaScript(`(() => ({
       rows: document.querySelectorAll('.managedDownloadList [data-product-id=${deferredProductId}]').length,
@@ -605,7 +658,7 @@ async function run() {
     assert.equal(productConvergence.errorLeaked, false, "raw error token must not reach the product card");
     assert.equal(productConvergence.pathLeaked, false, "raw path token must not reach the product card");
     assert.ok(productConvergence.statusCalls >= 2, "dirty same-attempt events must continue status reads");
-    await window.webContents.executeJavaScript("document.querySelector('.topActions .quietButton:nth-child(2)').click()");
+    await openSettings(window);
     await waitFor(window, "document.querySelector('.managedQueueTask[data-product-id=fixture-queue-third-canonical]')?.getAttribute('data-aihub-managed-download-phase') === 'downloading'", "Task Center did not converge with the product card");
     const taskCenterConvergence = await window.webContents.executeJavaScript(`(() => ({
       rows: document.querySelectorAll('.managedDownloadList [data-product-id=fixture-queue-third-canonical]').length,
@@ -628,6 +681,7 @@ async function run() {
       "status reads must stop after the same-attempt dirty revision is clean"
     );
     await window.webContents.executeJavaScript("document.querySelector('.settingsPanel > header > button').click()");
+    await waitFor(window, "!document.querySelector('.settingsPanel')", "settings drawer did not close before topbar download checks");
     await window.webContents.executeJavaScript(`window.aihubPC.fixtureSetManagedDownloadQueueTask(
       'fixture-queue-third-canonical',
       'queued',
@@ -638,20 +692,21 @@ async function run() {
     )`);
     await waitFor(window, "document.querySelector('[data-aihub-product-id=fixture-queue-third-canonical] [data-aihub-managed-download-phase]')?.getAttribute('data-aihub-managed-download-phase') === 'queued'", "fixture queue state did not restore");
     stage = "assert topbar downloads";
-    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-download-menu] > summary').click()");
+    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-download-trigger]').click()");
     await waitFor(window, "document.querySelectorAll('[data-aihub-download-item]').length === 5", "topbar downloads did not render the current queue");
     const topbarDownloads = await window.webContents.executeJavaScript(`(() => {
       const menu = document.querySelector('[data-aihub-download-menu]');
       const popover = menu.querySelector('.downloadPopover');
+      const trigger = menu.querySelector('[data-aihub-download-trigger]');
       const rows = [...menu.querySelectorAll('[data-aihub-download-item]')];
       const menuRect = popover.getBoundingClientRect();
       return {
-        open: menu.hasAttribute('open'),
+        open: trigger?.getAttribute('aria-expanded') === 'true',
         rows: rows.length,
         unique: new Set(rows.map((row) => row.getAttribute('data-aihub-download-item'))).size,
         insideViewport: menuRect.left >= 0 && menuRect.right <= innerWidth,
         hasViewAll: Boolean(popover.querySelector('button')),
-        activeBadge: menu.querySelector('summary b')?.textContent || ''
+        activeBadge: trigger?.querySelector('b')?.textContent || ''
       };
     })()`);
     assert.deepEqual(topbarDownloads, {
@@ -664,9 +719,9 @@ async function run() {
     });
     await screenshot(window, 1365, "topbar-downloads-light");
     await screenshot(window, 740, "topbar-downloads-compact");
-    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-download-menu] > summary').click()");
+    await window.webContents.executeJavaScript("document.querySelector('[data-aihub-download-trigger]').click()");
     window.setContentSize(1365, 768);
-    await window.webContents.executeJavaScript("[...document.querySelectorAll('button')].find((node) => node.textContent.includes('设置')).click()");
+    await openSettings(window);
     await waitFor(window, "document.querySelectorAll('.managedQueueTask').length === 5", "download center did not render all queue tasks");
     const queueSemantics = await window.webContents.executeJavaScript(`(() => {
       const section = document.querySelector('.managedQueueSection');
@@ -828,7 +883,7 @@ async function run() {
     const packageCalls = await window.webContents.executeJavaScript("window.aihubPC.fixtureGetManagedDownloadQueueCalls().filter((call) => ['get-record', 'launch-installer'].includes(call.method))");
     assert.deepEqual(packageCalls.slice(-2).map((call) => call.method), ["get-record", "launch-installer"], "downloaded package must recheck its record before opening the installer");
     assert.deepEqual(packageCalls.at(-1).input, { productId: "fixture-missing-canonical", intent: "install" }, "renderer must pass only the existing product intent to the installer seam");
-    await window.webContents.executeJavaScript("[...document.querySelectorAll('button')].find((node) => node.textContent.includes('设置')).click()");
+    await openSettings(window);
     await waitFor(window, "Boolean(document.querySelector('.managedDownloadList'))", "download center missing");
     const desktop = await screenshot(window, 1365, "light");
     const narrow = await screenshot(window, 740, "light");

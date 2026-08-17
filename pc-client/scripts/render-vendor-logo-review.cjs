@@ -65,7 +65,7 @@ function pageHtml(vendors, manifest, pageNumber, pageCount) {
     main{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}article{height:132px;min-width:0;padding:12px;border:1px solid #cad8d1;border-radius:14px;background:white;display:grid;grid-template-columns:58px 1fr;grid-template-rows:24px 22px 1fr;column-gap:10px;overflow:hidden}
     .icon{grid-row:1/4;width:58px;height:58px;border-radius:12px;background:repeating-conic-gradient(#edf2ef 0 25%,#fff 0 50%) 50%/12px 12px;display:grid;place-items:center;overflow:hidden}.icon img{width:50px;height:50px;object-fit:contain}
     strong,code,small{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}strong{font-size:15px}code{color:#476057}small{font-size:10px;color:#718179;align-self:end}
-  </style><body><header><div><h1>枕星 AI · 官方 Logo 变更审阅</h1><p>检查错品牌、透明低对比、裁切与过度留白</p></div><b>${pageNumber}/${pageCount}</b></header><main>${cards}</main></body>`;
+  </style><body><header><div><h1>枕星AI助手 · 官方 Logo 变更审阅</h1><p>检查错品牌、透明低对比、裁切与过度留白</p></div><b>${pageNumber}/${pageCount}</b></header><main>${cards}</main></body>`;
 }
 
 async function main() {

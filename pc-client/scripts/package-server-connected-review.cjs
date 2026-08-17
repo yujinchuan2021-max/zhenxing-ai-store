@@ -8,6 +8,7 @@ const config = require("../electron-builder.server-connected-review.cjs");
 const { assertReleasePackageReady } = require("../shared/release-package-policy.cjs");
 const { createArtifactBuildMetadata, inspectGitReleaseSource, sha256File } = require("../shared/release-provenance.cjs");
 const { formatLocalReleaseChecksums } = require("../shared/local-release-artifacts.cjs");
+const { compileInnoSetup } = require("./lib/inno-setup.cjs");
 const {
   assertRendererDistAsar,
   assertRendererDistDirectory,
@@ -15,7 +16,7 @@ const {
 } = require("./lib/renderer-dist-closure.cjs");
 
 const root = path.resolve(__dirname, "..");
-const version = process.env.AIHUB_SERVER_CONNECTED_REVIEW_VERSION || "0.1.57";
+const version = process.env.AIHUB_SERVER_CONNECTED_REVIEW_VERSION || "0.1.100";
 if (!/^(?:0|[1-9]\d*)\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version)) {
   throw new Error("AIHUB_SERVER_CONNECTED_REVIEW_VERSION must be semantic");
 }
@@ -48,6 +49,17 @@ function runAcceptanceHelperTests() {
   if (result.status !== 0) throw new Error(`Packaged acceptance helper tests exited with ${result.status}`);
 }
 
+function runNodeScript(relativePath) {
+  const result = spawnSync(process.execPath, [path.join(root, relativePath)], {
+    cwd: root,
+    env: process.env,
+    stdio: "inherit",
+    shell: false
+  });
+  if (result.error) throw result.error;
+  if (result.status !== 0) throw new Error(`${relativePath} exited with ${result.status}`);
+}
+
 async function main() {
   if (fs.existsSync(output)) throw new Error(`Review output already exists: ${output}`);
   assertReleasePackageReady({
@@ -70,9 +82,18 @@ async function main() {
   clearRendererDistBundles(path.join(root, "dist"));
   run("npm", ["run", "build"]);
   assertRendererDistDirectory(path.join(root, "dist"));
-  run("npx", ["electron-builder", "--config", "electron-builder.server-connected-review.cjs", "--win", "portable", "nsis", `--config.extraMetadata.version=${version}`, `--config.directories.output=${temporary}`]);
-  const artifacts = fs.readdirSync(temporary).filter((name) => /Windows-x64-(?:Portable|Setup)\.exe$|Windows-x64-Setup\.exe\.blockmap$/i.test(name));
-  if (!artifacts.some((name) => /-Portable\.exe$/i.test(name)) || !artifacts.some((name) => /-Setup\.exe$/i.test(name))) throw new Error("Server-connected review Setup and Portable artifacts are required");
+  runNodeScript("scripts/generate-inno-brand-assets.cjs");
+  run("npx", ["electron-builder", "--config", "electron-builder.server-connected-review.cjs", "--win", "portable", `--config.extraMetadata.version=${version}`, `--config.directories.output=${temporary}`]);
+  const setupBaseName = `ZhenXing-AI-Server-Connected-Review-${version}-Windows-x64-Setup`;
+  compileInnoSetup({
+    root,
+    appVersion: version,
+    sourceDir: path.join(temporary, "win-unpacked"),
+    outputDir: temporary,
+    outputBaseFilename: setupBaseName
+  });
+  const artifacts = fs.readdirSync(temporary).filter((name) => /Windows-x64-(?:Portable|Setup)\.exe$/i.test(name));
+  if (artifacts.length !== 2 || !artifacts.some((name) => /-Portable\.exe$/i.test(name)) || !artifacts.some((name) => /-Setup\.exe$/i.test(name))) throw new Error("Server-connected review requires the exact Inno Setup and Portable artifact pair");
   const portable = artifacts.find((name) => /-Portable\.exe$/i.test(name));
   const appAsar = path.join(temporary, "win-unpacked", "resources", "app.asar");
   const catalogChannel = path.join(temporary, "win-unpacked", "resources", "catalog", "channel.json");

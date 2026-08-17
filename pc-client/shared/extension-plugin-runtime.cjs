@@ -544,7 +544,7 @@ function createClaudePluginRuntime({
       throw runtimeError("EXTENSION_HOST_MISSING", "Plugin host is not installed");
     }
     if (!allowedStates.includes(status.state)) {
-      throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI");
+      throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI Assistant");
     }
     const executable = await hostExecutable(profile);
     if (!executable) throw runtimeError("EXTENSION_HOST_MISSING", "Plugin host is not installed");
@@ -554,7 +554,7 @@ function createClaudePluginRuntime({
       !markerMatches(profileId, profile, receipt) ||
       !instanceMatches(profile, receipt)
     ) {
-      throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI");
+      throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI Assistant");
     }
     return { profile, status, executable, receipt };
   }
@@ -576,7 +576,7 @@ function createClaudePluginRuntime({
     const status = await inspect(profileId);
     if (["installed", "disabled", "outdated"].includes(status.state)) return update(profileId);
     if (status.state !== "stale") {
-      throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI");
+      throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI Assistant");
     }
     const executable = await hostExecutable(profile);
     if (!executable) throw runtimeError("EXTENSION_HOST_MISSING", "Plugin host is not installed");
@@ -619,7 +619,7 @@ function createClaudePluginRuntime({
     if (receiptResult.state === "missing") {
       const status = await inspect(profileId);
       if (status.state === "not-installed") return status;
-      throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI");
+      throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI Assistant");
     }
     if (receiptResult.state !== "valid") {
       throw runtimeError("EXTENSION_RECEIPT_INVALID", "Plugin receipt is invalid");
@@ -632,7 +632,7 @@ function createClaudePluginRuntime({
         !markerMatches(profileId, profile, receiptResult.receipt) ||
         !instanceMatches(profile, receiptResult.receipt)
       ) {
-        throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI");
+        throw runtimeError("EXTENSION_NOT_MANAGED", "Plugin is not managed by ZhenXing AI Assistant");
       }
       await command(executable, [
         "plugin", "uninstall", profile.pluginId,

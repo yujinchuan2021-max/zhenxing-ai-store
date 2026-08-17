@@ -29,7 +29,7 @@ test("server-renders the official site without a public download claim", async (
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>枕星 AI｜桌面 AI 的可信入口<\/title>/);
+  assert.match(html, /<title>枕星AI助手｜桌面 AI 的可信入口<\/title>/);
   assert.match(html, /跳到主要内容/);
   assert.match(html, /id="main-content"/);
   assert.match(html, /Windows/);

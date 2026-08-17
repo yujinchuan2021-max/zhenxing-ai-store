@@ -1,5 +1,11 @@
 /// <reference types="vite/client" />
 
+declare module "@tabler/icons-react/dist/esm/icons/*.mjs" {
+  import type { Icon } from "@tabler/icons-react";
+  const icon: Icon;
+  export default icon;
+}
+
 type PCSettings = {
   downloadDirectory: string;
   cliInstallDirectory?: string;
@@ -1083,6 +1089,9 @@ type ExtensionInventoryEntry = ExtensionRuntimeResult & {
 
 interface Window {
   aihubPC?: {
+    minimizeWindow(): Promise<boolean>;
+    toggleMaximizeWindow(): Promise<boolean>;
+    closeWindow(): Promise<boolean>;
     getCatalog(): Promise<CatalogResult>;
     scanManagedInventory(): Promise<ManagedProductInventorySnapshot>;
     checkForUpdate(): Promise<UpdateCheckResult>;
@@ -1370,6 +1379,10 @@ interface Window {
       productId: string;
       artifact?: { url: string; fileName: string; artifactKind?: "exe" | "msi" | "msix" | "zip"; mirrors?: string[] };
     }): Promise<ManagedDownloadQueueCommandResult>;
+    discoverDownloadedPackages(input: Array<{
+      productId: string;
+      artifact?: { url: string; fileName: string; artifactKind?: "exe" | "msi" | "msix" | "zip"; mirrors?: string[] };
+    }>): Promise<ManagedDownloadQueueTask[]>;
     listManagedDownloadTasks(): Promise<ManagedDownloadQueueTask[]>;
     getManagedDownloadTaskStatus(input: { productId: string }): Promise<ManagedDownloadQueueCommandResult>;
     cancelManagedDownload(input: { productId: string; taskId: string; confirmed: true }): Promise<ManagedDownloadQueueCommandResult>;

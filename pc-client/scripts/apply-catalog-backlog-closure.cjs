@@ -456,7 +456,7 @@ function resource({
     requestedPermissions: [requestedPermissions],
     credentialRequirements: [credentialRequirements],
     installScope: "仅打开发布者官方接入文档；不执行命令、不写入目标工具配置，也不保存凭据。",
-    uninstallPlan: "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星 AI 创建的配置。",
+    uninstallPlan: "从目标 AI 工具中删除对应连接；保留厂商账户、数据和未由枕星AI助手 创建的配置。",
     provenanceEvidence: [website],
     lastVerifiedAt: verifiedAt
   };

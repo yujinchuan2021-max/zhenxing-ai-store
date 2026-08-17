@@ -1,7 +1,7 @@
 "use strict";
 
 const WORKFLOW_OFFICIAL_PUBLISHER_SERVICE_ID = "46564566-f5f4-599c-8ce5-0609069f5148";
-const WORKFLOW_OFFICIAL_PUBLISHER_DISPLAY_NAME = "枕星 AI";
+const WORKFLOW_OFFICIAL_PUBLISHER_DISPLAY_NAME = "枕星AI助手";
 const SERVICE_KIND = "workflow-official-publisher-service";
 const SERVICE_USERNAME = "__workflow_official_publisher_service__";
 const SERVICE_COMMUNITY_USERNAME = "zx_46564566f5f4599c8ce50609069";

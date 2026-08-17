@@ -20,6 +20,7 @@ const fixedCliLifecycleMode = process.env.AIHUB_FIXED_CLI_LIFECYCLE_FIXTURE_MODE
 const fixedCliLifecycleAvailable = ["enabled", "error", "busy", "busy-update", "busy-uninstall"].includes(fixedCliLifecycleMode);
 const managedDownloadQueueMode = process.env.AIHUB_MANAGED_DOWNLOAD_QUEUE_FIXTURE_MODE || "disabled";
 const managedDownloadQueueEnabled = ["enabled", "installed"].includes(managedDownloadQueueMode);
+const exactPackageDeleteEnabled = process.env.AIHUB_INSTALLED_EXACT_PACKAGE_DELETE === "1";
 const managedDownloadProductionOrderEnabled = Boolean(process.env.AIHUB_MANAGED_DOWNLOAD_PRODUCTION_ORDER);
 const submissionCalls = [];
 const workflowCalls = [];
@@ -37,6 +38,7 @@ const managedDownloadQueueStatusDelays = new Map();
 const managedDownloadQueueDeferredEnqueues = new Map();
 let managedDownloadQueueListDelayMs = 0;
 let managedDownloadQueueHeldList = false;
+let exactPackageQueueListEnabled = !exactPackageDeleteEnabled;
 const managedDownloadQueueHeldStatuses = new Map();
 const fixedCliPlans = new Map();
 const fixedCliInstalled = new Set();
@@ -174,7 +176,7 @@ const catalog = {
   schemaVersion: 3,
   updatedAt: now,
   brand: {
-    name: "枕星 AI",
+    name: "枕星AI助手",
     mark: "枕",
     slogan: "中文目录品牌标语",
     localized: { en: { slogan: "Localized catalog brand slogan" } }
@@ -695,6 +697,12 @@ const downloadTasks = {
     }
   }
 };
+if (exactPackageDeleteEnabled) {
+  downloadTasks["fixture-missing-canonical"] = completedDownloadTask(
+    "fixture-missing-canonical",
+    "Missing-Setup.exe"
+  );
+}
 
 const downloadStarts = [];
 
@@ -747,6 +755,12 @@ if (managedDownloadQueueMode === "installed") {
     "fixture-canonical-package",
     queueTask("fixture-canonical-package", "downloaded", 1024, 1024)
   );
+  if (exactPackageDeleteEnabled) {
+    managedDownloadQueueTasks.set(
+      "fixture-missing-canonical",
+      queueTask("fixture-missing-canonical", "downloaded", 1024, 1024)
+    );
+  }
 }
 
 function pumpManagedDownloadQueue() {
@@ -810,6 +824,7 @@ function managedDownloadQueueBridge() {
     },
     listManagedDownloadTasks: async () => {
       managedDownloadQueueCalls.push({ method: "list" });
+      if (!exactPackageQueueListEnabled) return [];
       const snapshot = managedDownloadQueueHeldList?.snapshot || [...managedDownloadQueueTasks.values()].map((task) => structuredClone(task));
       if (managedDownloadQueueHeldList?.snapshot && !managedDownloadQueueHeldList.resolve) {
         managedDownloadQueueCalls.push({ method: "list-held" });
@@ -822,6 +837,8 @@ function managedDownloadQueueBridge() {
       if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
       return snapshot;
     },
+    discoverDownloadedPackages: async () =>
+      [...managedDownloadQueueTasks.values()].map((task) => structuredClone(task)),
     getManagedDownloadTaskStatus: async ({ productId }) => {
       managedDownloadQueueCalls.push({ method: "status", input: { productId } });
       managedDownloadQueueCalls.push({ method: "status-call", input: { productId } });
@@ -924,6 +941,9 @@ function managedDownloadQueueBridge() {
     fixtureDeleteManagedDownloadQueueTask: (productId) => {
       managedDownloadQueueTasks.delete(productId);
       managedDownloadQueueDeferredEnqueues.delete(productId);
+    },
+    fixtureEnableExactPackageQueueList: () => {
+      exactPackageQueueListEnabled = true;
     },
     fixtureGetManagedDownloadQueueCalls: () => structuredClone(managedDownloadQueueCalls)
   };
@@ -1283,12 +1303,19 @@ const fixtureApi = {
     }),
   showDownloadInFolder: async (productId) =>
     runManagementAction(`show-package:${productId}`, { ok: true }),
-  deleteDownloadedPackage: async (productId) =>
-    runManagementAction(`delete-package:${productId}`, {
-      ok: false,
-      canceled: false,
-      error: "fixture retained"
-    }),
+  deleteDownloadedPackage: async (productId) => {
+    const result = await runManagementAction(
+      `delete-package:${productId}`,
+      exactPackageDeleteEnabled
+        ? { ok: true, filePath: downloadTasks[productId]?.filePath || "" }
+        : { ok: false, canceled: false, error: "fixture retained" }
+    );
+    if (exactPackageDeleteEnabled && result?.ok) {
+      delete downloadTasks[productId];
+      managedDownloadQueueTasks.delete(productId);
+    }
+    return result;
+  },
   getDownloadTask: async (productId) => downloadTasks[productId] || null,
   getDownloadRecord: async (productId) => {
     managedDownloadQueueCalls.push({ method: "get-record", input: { productId } });

@@ -97,7 +97,7 @@ function buildInstalledProductManagement({
         String(entry?.vendorName || "") ||
         vendorNames.get(vendorId) ||
         vendorId ||
-        "枕星 AI"
+        "枕星AI助手"
     });
   }
 

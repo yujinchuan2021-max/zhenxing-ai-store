@@ -1,4 +1,4 @@
-# 枕星 AI 本地受管生态资源
+# 枕星AI助手本地受管生态资源
 
 This directory is packaged as the read-only source root for locally approved
 Skill, MCP, and plugin snapshots. Catalog schema v2 stores each resource once

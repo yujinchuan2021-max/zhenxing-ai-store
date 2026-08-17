@@ -154,7 +154,7 @@ test("public identity resolver exposes the governed organization name without cr
 
   assert.deepEqual(await resolver(WORKFLOW_OFFICIAL_PUBLISHER_SERVICE_ID), {
     identityId: WORKFLOW_OFFICIAL_PUBLISHER_SERVICE_ID,
-    displayName: "枕星 AI"
+    displayName: "枕星AI助手"
   });
   assert.equal(queries.some(({ text }) => /JOIN\s+community_profiles/i.test(text)), false);
   assert.match(queries[0].text, /NOT EXISTS \(SELECT 1 FROM public\.community_profiles/);

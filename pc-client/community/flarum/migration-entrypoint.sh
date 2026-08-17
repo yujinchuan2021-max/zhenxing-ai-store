@@ -27,7 +27,7 @@ if [ ! -f /var/lib/flarum/config.php ]; then
         "password" => getenv("AIHUB_FORUM_ADMIN_PASSWORD"),
         "email" => getenv("AIHUB_FORUM_ADMIN_EMAIL")
       ],
-      "settings" => ["forum_title" => "枕星 AI 社区"],
+      "settings" => ["forum_title" => "枕星AI助手 社区"],
       "queue" => ["driver" => "sync"]
     ];
     file_put_contents("/tmp/aihub-flarum-install.json", json_encode($config));
@@ -142,7 +142,7 @@ php -r '
     "INSERT INTO settings (`key`, value) VALUES (?, ?)
      ON DUPLICATE KEY UPDATE value = VALUES(value)"
   );
-  $statement->execute(["forum_title", "枕星 AI 社区"]);
+  $statement->execute(["forum_title", "枕星AI助手 社区"]);
   foreach ([
     "display_name_driver" => "nickname",
     "flarum-nicknames.min" => "2",

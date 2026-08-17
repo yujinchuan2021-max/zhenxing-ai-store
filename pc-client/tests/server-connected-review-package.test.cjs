@@ -143,6 +143,11 @@ test("server-connected packaging runs the formal helper gate and claims one rece
   assert.match(packageScript, /PACKAGE-CONTROL\.json/);
   assert.match(packageScript, /packageInvocationCount:\s*1/);
   assert.match(packageScript, /server-connected-review-receipt\.mjs/);
+  assert.match(
+    packageScript,
+    /AIHUB_SERVER_CONNECTED_REVIEW_VERSION \|\| "0\.1\.100"/,
+    "the default review build must not silently regress from the current 0.1.100 line"
+  );
 });
 
 test("package and acceptance callers bind the exact packaged runtime closure to extraction cleanup", () => {
@@ -155,6 +160,9 @@ test("package and acceptance callers bind the exact packaged runtime closure to 
   assert.match(packageScript, /check-packaged-catalog\.mjs"\),\s*path\.join\(temporary, portable\),\s*packageAsarSha256,\s*packageCatalogChannelSha256,\s*packageUpdateChannelSha256/);
   assert.match(catalogGate, /expectedPackageAsarSha256/);
   assert.match(catalogGate, /launchPackagedClientCdp\(\{\s*executable,\s*profile,\s*expectedPackageAsarSha256,\s*expectedCatalogChannelSha256,\s*expectedUpdateChannelSha256\s*\}\)/);
+  assert.match(catalogGate, /document\.querySelector\("\.brandMark img"\)/);
+  assert.match(catalogGate, /naturalWidth/);
+  assert.match(catalogGate, /\.\/brand-icon\.png/);
   assert.match(acceptanceCli, /expectedCatalogChannelSha256/);
   assert.match(acceptanceCli, /expectedUpdateChannelSha256/);
   assert.match(acceptanceRunner, /launchPackagedClientCdp\(\{[\s\S]*expectedCatalogChannelSha256[\s\S]*expectedUpdateChannelSha256/);

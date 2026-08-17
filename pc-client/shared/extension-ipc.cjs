@@ -6,13 +6,13 @@ const SAFE_EXTENSION_ERRORS = Object.freeze({
   EXTENSION_ACTION_NOT_APPROVED: "当前客户端不允许执行该操作",
   EXTENSION_ACTION_UNAVAILABLE: "当前状态下不能执行该操作，请先重新检测",
   EXTENSION_BUSY: "该资源正在执行其他操作",
-  EXTENSION_TARGET_EXISTS: "目标位置已有内容，枕星 AI 不会覆盖或接管",
+  EXTENSION_TARGET_EXISTS: "目标位置已有内容，枕星AI助手 不会覆盖或接管",
   EXTENSION_RECEIPT_INVALID: "本地安装记录异常，未执行任何修改",
   EXTENSION_OWNED_PATH_UNSAFE: "资源目录状态异常，未执行卸载",
   EXTENSION_SYMLINK_REJECTED: "资源目录包含不安全链接，操作已停止",
-  EXTENSION_SOURCE_MISSING: "扩展安装资源缺失，请更新枕星 AI 后重试",
-  EXTENSION_SOURCE_INVALID: "扩展安装资源无效，请更新枕星 AI 后重试",
-  EXTENSION_SOURCE_MANIFEST_MISMATCH: "扩展安装资源校验失败，请更新枕星 AI 后重试",
+  EXTENSION_SOURCE_MISSING: "扩展安装资源缺失，请更新枕星AI助手 后重试",
+  EXTENSION_SOURCE_INVALID: "扩展安装资源无效，请更新枕星AI助手 后重试",
+  EXTENSION_SOURCE_MANIFEST_MISMATCH: "扩展安装资源校验失败，请更新枕星AI助手 后重试",
   EXTENSION_SOURCE_OUTSIDE_ROOT: "扩展安装资源未通过安全检查",
   EXTENSION_FILE_TYPE_REJECTED: "扩展安装资源包含不支持的文件",
   EXTENSION_PATH_INVALID: "扩展安装路径未通过安全检查",
@@ -80,7 +80,7 @@ function unavailableResult() {
     state: "unavailable",
     managed: false,
     allowedActions: [],
-    error: "扩展安装资源不可用，请更新枕星 AI 后重试"
+    error: "扩展安装资源不可用，请更新枕星AI助手 后重试"
   };
 }
 

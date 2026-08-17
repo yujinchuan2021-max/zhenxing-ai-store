@@ -6,6 +6,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$CurrentProductName = "枕星AI助手"
+$LegacyProductName = "枕星 AI"
 if (-not $BaseInstallerPath) {
   $BaseInstallerPath = Join-Path `
     $PSScriptRoot `
@@ -30,7 +32,7 @@ function Get-AIHubUninstallEntries {
     }
     foreach ($key in Get-ChildItem -LiteralPath $root -ErrorAction SilentlyContinue) {
       $value = Get-ItemProperty -LiteralPath $key.PSPath -ErrorAction SilentlyContinue
-      if ([string]$value.DisplayName -match '^(?:枕星 AI|AI Hub)(?:\s+\d+\.\d+\.\d+)?$') {
+      if ([string]$value.DisplayName -match '^(?:枕星AI助手|枕星 AI|AI Hub)(?:\s+\d+\.\d+\.\d+)?$') {
         $entries += [pscustomobject]@{
           key = $key.PSPath
           name = [string]$value.DisplayName
@@ -84,7 +86,7 @@ function Get-ProcessesAtPath {
 
   $resolved = [System.IO.Path]::GetFullPath($ExecutablePath)
   return @(
-    Get-Process -Name "枕星 AI", "AI Hub" -ErrorAction SilentlyContinue |
+    Get-Process -Name $CurrentProductName, $LegacyProductName, "AI Hub" -ErrorAction SilentlyContinue |
       Where-Object {
         try {
           [System.IO.Path]::GetFullPath($_.Path) -eq $resolved
@@ -124,7 +126,7 @@ function Stop-InstalledApplication {
 $baseInstaller = (Resolve-Path -LiteralPath $BaseInstallerPath).Path
 $upgradeInstaller = (Resolve-Path -LiteralPath $UpgradeInstallerPath).Path
 if ((Get-AIHubUninstallEntries).Count -ne 0) {
-  throw "A registered 枕星 AI installation already exists; refusing upgrade test."
+  throw "A registered 枕星AI助手 or legacy installation already exists; refusing upgrade test."
 }
 
 $acceptanceRoot = Join-Path $env:LOCALAPPDATA "AIHubAcceptance"
@@ -144,14 +146,18 @@ if (Test-Path -LiteralPath $resolvedTarget) {
   throw "Acceptance install path must not exist before the test."
 }
 
-$desktopShortcut = Join-Path (
-  [Environment]::GetFolderPath("Desktop")
-) "枕星 AI.lnk"
-$startMenuShortcut = Join-Path (
-  [Environment]::GetFolderPath("Programs")
-) "枕星 AI.lnk"
-$desktopBefore = Test-Path -LiteralPath $desktopShortcut
-$startMenuBefore = Test-Path -LiteralPath $startMenuShortcut
+$desktopShortcuts = @($CurrentProductName, $LegacyProductName) | ForEach-Object {
+  Join-Path ([Environment]::GetFolderPath("Desktop")) "$_.lnk"
+}
+$startMenuShortcuts = @($CurrentProductName, $LegacyProductName) | ForEach-Object {
+  Join-Path ([Environment]::GetFolderPath("Programs")) "$_.lnk"
+}
+$desktopBefore = ($desktopShortcuts | ForEach-Object {
+  Test-Path -LiteralPath $_
+}) -join ","
+$startMenuBefore = ($startMenuShortcuts | ForEach-Object {
+  Test-Path -LiteralPath $_
+}) -join ","
 $userDataDirectory = Join-Path $env:APPDATA "AI Hub"
 $markerPath = Join-Path $userDataDirectory (
   "upgrade-acceptance-{0}.json" -f [guid]::NewGuid().ToString("N")
@@ -166,9 +172,9 @@ try {
   Invoke-SilentInstaller `
     -Installer $baseInstaller `
     -InstallDirectory $resolvedTarget
-  $installedExecutable = Join-Path $resolvedTarget "枕星 AI.exe"
+  $installedExecutable = Join-Path $resolvedTarget "$LegacyProductName.exe"
   if (-not (Test-Path -LiteralPath $installedExecutable)) {
-    throw "Base installation did not create 枕星 AI.exe."
+    throw "Base installation did not create $LegacyProductName.exe."
   }
   $baseEntries = @(Get-EntryAtDirectory -InstallDirectory $resolvedTarget)
   if ($baseEntries.Count -ne 1 -or $baseEntries[0].version -ne "0.1.0") {
@@ -195,8 +201,9 @@ try {
   Invoke-SilentInstaller `
     -Installer $upgradeInstaller `
     -InstallDirectory $resolvedTarget
+  $installedExecutable = Join-Path $resolvedTarget "$CurrentProductName.exe"
   if (-not (Test-Path -LiteralPath $installedExecutable)) {
-    throw "Upgrade removed the installed executable."
+    throw "Upgrade did not create $CurrentProductName.exe."
   }
   $upgradeEntries = @(Get-EntryAtDirectory -InstallDirectory $resolvedTarget)
   if (
@@ -232,9 +239,11 @@ try {
     Remove-Item -LiteralPath $markerPath -Force
   }
   if (Test-Path -LiteralPath $resolvedTarget) {
-    $installedExecutable = Join-Path $resolvedTarget "枕星 AI.exe"
-    if (Test-Path -LiteralPath $installedExecutable) {
-      Stop-InstalledApplication -ExecutablePath $installedExecutable | Out-Null
+    foreach ($productName in @($CurrentProductName, $LegacyProductName)) {
+      $installedExecutable = Join-Path $resolvedTarget "$productName.exe"
+      if (Test-Path -LiteralPath $installedExecutable) {
+        Stop-InstalledApplication -ExecutablePath $installedExecutable | Out-Null
+      }
     }
     $uninstaller = Get-ChildItem `
       -LiteralPath $resolvedTarget `
@@ -262,8 +271,12 @@ while (
 
 $remainingEntries = @(Get-EntryAtDirectory -InstallDirectory $resolvedTarget)
 $targetRemains = Test-Path -LiteralPath $resolvedTarget
-$desktopAfter = Test-Path -LiteralPath $desktopShortcut
-$startMenuAfter = Test-Path -LiteralPath $startMenuShortcut
+$desktopAfter = ($desktopShortcuts | ForEach-Object {
+  Test-Path -LiteralPath $_
+}) -join ","
+$startMenuAfter = ($startMenuShortcuts | ForEach-Object {
+  Test-Path -LiteralPath $_
+}) -join ","
 $markerRemains = Test-Path -LiteralPath $markerPath
 
 $result = [ordered]@{

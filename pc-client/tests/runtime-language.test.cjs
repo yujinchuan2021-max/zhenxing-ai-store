@@ -78,13 +78,13 @@ test("system dialogs and notifications use the same runtime language boundary", 
     localizeRuntimePayload(
       {
         title: "卸载 OpenClaw",
-        detail: "只删除枕星 AI 管理的文件",
+        detail: "只删除枕星AI助手 管理的文件",
         buttons: ["取消", "确认卸载"]
       },
       "en"
     ),
     {
-      title: "ZhenXing AI",
+      title: "ZhenXing AI Assistant",
       detail: "The operation status was updated.",
       buttons: ["Cancel", "Uninstall"]
     }

@@ -1,6 +1,6 @@
 # Third-party notices
 
-枕星 AI 的原创软件源代码采用 Apache License 2.0。第三方软件、素材、
+枕星AI助手的原创软件源代码采用 Apache License 2.0。第三方软件、素材、
 目录元数据和用户内容不因本项目许可证而重新授权。
 
 ## 直接软件依赖
@@ -13,6 +13,8 @@
 | Drizzle ORM | 0.45.2 | Apache-2.0 | 网站数据访问 |
 | Next.js | 16.2.6 | MIT | 网站运行时 |
 | React / React DOM | 19.2.x | MIT | 网站与 Windows 客户端界面 |
+| Mantine Core / Hooks / Notifications / Spotlight | 9.5.1 | MIT | Windows 客户端主题、命令中心、弹层与通知 |
+| Tabler Icons React | 3.46.0 | MIT | Windows 客户端界面图标 |
 | Electron | 39.8.10 | MIT | Windows 客户端运行时 |
 | Vite | 7.3.6 / 8.0.13 | MIT | 客户端与网站构建 |
 | TypeScript | 5.9.3 | Apache-2.0 | 构建工具链 |
@@ -22,12 +24,22 @@
 Electron 分发物还包含 Chromium 等第三方组件；正式分发中由 Electron 提供的
 `LICENSE.electron.txt` 和 `LICENSES.chromium.html` 继续适用，不能由本文件替代。
 
+## 随应用分发的字体
+
+- **HarmonyOS Sans SC** — Copyright Huawei Device Co., Ltd.。枕星AI助手随包
+  分发未经修改的字体文件，来源固定在 OpenHarmony
+  `global_system_resources` 仓库提交
+  `1bb2f1c93b0abb791adf13961cd631773a18a8d5`，文件 SHA-256 为
+  `8978e05044e7089ad6a9de38c505c8148305607983487435a916d2610700a7ca`。
+  字体继续受上游 [`LICENSE_Fonts`](https://github.com/openharmony/global_system_resources/blob/master/LICENSE_Fonts)
+  约束；本项目的 Apache-2.0 许可证不替代该字体许可证。
+
 ## 随仓库提供的扩展资源
 
 - `pc-client/extension-resources/codex/chatgpt-apps/` 随附自己的
   `LICENSE.txt`（Apache-2.0）和来源记录；该目录的许可证与归属声明继续保留。
 - 其他扩展、Skill、MCP、插件或连接器只有在各自目录明确随附许可证时，才按该
-  许可证授权其内容。目录中的链接或元数据不代表枕星 AI 获得上游代码的再授权权。
+  许可证授权其内容。目录中的链接或元数据不代表枕星AI助手获得上游代码的再授权权。
 
 ## 商标、图标、目录与社区内容
 
