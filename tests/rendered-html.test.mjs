@@ -23,7 +23,7 @@ async function render(path = "/") {
   );
 }
 
-test("server-renders the official site without a public download claim", async () => {
+test("server-renders the official site with the current formal Windows release", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -35,12 +35,18 @@ test("server-renders the official site without a public download claim", async (
   assert.match(html, /Windows/);
   assert.match(html, /macOS/);
   assert.match(html, /Linux/);
-  assert.match(html, /联机评审候选/);
-  assert.match(html, /尚未公开下载/);
+  assert.match(html, /Windows v0\.1\.100 正式版已开放/);
+  assert.match(html, /RELEASE \/ 0\.1\.100/);
+  assert.match(html, /查看 v0\.1\.100 正式版/);
+  assert.match(
+    html,
+    /https:\/\/github\.com\/yujinchuan2021-max\/zhenxing-ai-assistant\/releases\/tag\/v0\.1\.100/,
+  );
   assert.match(html, /SHA-256/);
   assert.match(html, /低门槛，不降安全线/);
   assert.match(html, /固定合同和用户确认/);
   assert.match(html, /zhenxingai-logo-starry\.png/);
+  assert.doesNotMatch(html, /PRERELEASE|预发行|zhenxing-ai-store/);
   assert.doesNotMatch(html, /(?:\.exe|\.msi|\.msix|\.zip)(?:["'?\s])/i);
   assert.doesNotMatch(html, /\b(?:Skill|MCP|Plugin|Connector|Workflow)\b/i);
 });

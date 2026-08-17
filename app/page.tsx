@@ -2,16 +2,16 @@ import styles from "./official-site.module.css";
 
 /* eslint-disable @next/next/no-img-element -- The official site intentionally serves local brand assets without an image optimization service. */
 
-const windowsPrereleaseUrl =
-  "https://github.com/yujinchuan2021-max/zhenxing-ai-store/releases/tag/v0.1.100";
+const windowsReleaseUrl =
+  "https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.100";
 
 const platforms = [
   {
     name: "Windows",
-    state: "预发行测试",
-    detail: "v0.1.100 提供 Windows x64 全机安装版与便携测试版；当前制品尚未代码签名。",
-    availability: "查看 v0.1.100 预发行版",
-    href: windowsPrereleaseUrl,
+    state: "正式发布",
+    detail: "v0.1.100 提供 Windows x64 全机安装版与便携版；当前制品尚未代码签名。",
+    availability: "查看 v0.1.100 正式版",
+    href: windowsReleaseUrl,
   },
   {
     name: "macOS",
@@ -108,7 +108,7 @@ export default function Home() {
             </a>
           </div>
           <p className={styles.heroStatus} role="status">
-            <span aria-hidden="true" /> Windows v0.1.100 预发行测试版已开放
+            <span aria-hidden="true" /> Windows v0.1.100 正式版已开放
           </p>
         </div>
 
@@ -131,7 +131,7 @@ export default function Home() {
           <span className={styles.starThree}>✦</span>
           <div className={styles.readout}>
             <span>STATUS</span>
-            <b>PRERELEASE / 0.1.100</b>
+            <b>RELEASE / 0.1.100</b>
           </div>
         </div>
       </section>
@@ -194,7 +194,7 @@ export default function Home() {
         </div>
 
         <p className={styles.downloadNote}>
-          Windows 预发行页已列出版本号、文件名、大小、SHA-256 与签名状态；macOS 和 Linux 仅在真实制品就绪后开放。
+          Windows 发布页已列出版本号、文件名、大小、SHA-256 与签名状态；macOS 和 Linux 仅在真实制品就绪后开放。
         </p>
       </section>
 
@@ -265,7 +265,7 @@ export default function Home() {
         </div>
         <div className={styles.footerStatus}>
           <span>当前状态</span>
-          <b>Windows v0.1.100 预发行测试</b>
+          <b>Windows v0.1.100 正式发布</b>
         </div>
         <a className={styles.backToTop} href="#top">回到星图顶部 ↑</a>
       </footer>

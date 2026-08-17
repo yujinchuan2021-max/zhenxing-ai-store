@@ -4,11 +4,11 @@
 
 ## 当前公开版本
 
-- [v0.1.100 预发行测试版](https://github.com/yujinchuan2021-max/zhenxing-ai-store/releases/tag/v0.1.100)
-- 提供 Windows x64 全机安装版和便携测试版。
+- [v0.1.100 正式版](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.100)
+- 提供 Windows x64 全机安装版和便携版。
 - 发布页同时提供 SHA-256、BUILD 和 PACKAGE-CONTROL 校验记录。
 - 当前 EXE 尚未代码签名，Windows 可能显示未知发布者或 SmartScreen 提示。
-- 正式 Latest 仍为 v0.1.91；预发行版不会自动替换正式版。
+- 当前 GitHub Latest 为 v0.1.100。
 
 ## 主要能力
 
@@ -45,4 +45,4 @@ npm.cmd install
 npm.cmd run dev
 ```
 
-正式发布仍要求代码签名、正式 HTTPS 更新通道和独立发布验收；候选或预发行制品不等于生产发布。
+当前正式版仍未进行代码签名，也尚未启用客户端自身的正式 HTTPS 自动更新通道；这些边界会在发布页明确披露。
