@@ -122,6 +122,22 @@ function validEnvironmentSignatureExecFile() {
   return execFile;
 }
 
+function validManagedPackageSignatureExecFile() {
+  const execFile = () => {};
+  execFile[promisify.custom] = async (_file, _args, options) => {
+    const fileName = path.basename(options?.env?.AIHUB_SIGNATURE_PATH || "");
+    return {
+      stdout: JSON.stringify({
+        Status: "Valid",
+        Signer: fileName.startsWith("ChatGPT")
+          ? "CN=Microsoft Corporation, O=Microsoft Corporation"
+          : "CN=Anthropic, PBC, O=Anthropic, PBC"
+      })
+    };
+  };
+  return execFile;
+}
+
 test("the first public downloading transition bypasses progress throttling", (t) => {
   const userData = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-download-notification-"));
   const messages = [];
@@ -355,6 +371,107 @@ test("managed download queue preload exposes only fixed task operations and reje
     { ok: false, errorCode: "INPUT_INVALID" }
   );
   assert.equal(calls.length, 0);
+});
+
+test("package management exposes one bounded first-entry discovery operation", async () => {
+  const { bridge, calls } = preloadHarness([]);
+  assert.equal(typeof bridge.discoverDownloadedPackages, "function");
+
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(await bridge.discoverDownloadedPackages([
+      { productId: "chatgpt-desktop" },
+      {
+        productId: "canva-windows",
+        artifact: {
+          url: "https://download.canva.com/windows/Canva%20Setup%201.123.1.exe",
+          fileName: "Canva Setup 1.123.1.exe",
+          artifactKind: "exe"
+        }
+      }
+    ]))),
+    []
+  );
+  assert.deepEqual(JSON.parse(JSON.stringify(calls)), [[
+    "download:discover-packages",
+    [
+      { productId: "chatgpt-desktop" },
+      {
+        productId: "canva-windows",
+        artifact: {
+          url: "https://download.canva.com/windows/Canva%20Setup%201.123.1.exe",
+          fileName: "Canva Setup 1.123.1.exe",
+          artifactKind: "exe"
+        }
+      }
+    ]
+  ]]);
+
+  const before = calls.length;
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(await bridge.discoverDownloadedPackages([
+      { productId: "safe-product", command: "cmd.exe" }
+    ]))),
+    { ok: false, errorCode: "INPUT_INVALID" }
+  );
+  assert.equal(calls.length, before);
+});
+
+test("first package entry discovers reviewed installers and exact deletion preserves its sibling", async (t) => {
+  const userData = fs.mkdtempSync(path.join(os.tmpdir(), "aihub-package-entry-"));
+  const downloadRoot = path.join(userData, "packages");
+  fs.mkdirSync(downloadRoot);
+  fs.writeFileSync(path.join(userData, "pc-settings.json"), JSON.stringify({
+    downloadDirectory: downloadRoot,
+    cliInstallDirectory: "",
+    language: "zh"
+  }));
+  const chatgptPath = path.join(downloadRoot, "ChatGPT Installer.exe");
+  const claudePath = path.join(downloadRoot, "Claude-Setup-x64.exe");
+  const unrelatedPath = path.join(downloadRoot, "Unreviewed Tool.exe");
+  fs.writeFileSync(chatgptPath, "chatgpt-installer");
+  fs.writeFileSync(claudePath, "claude-installer");
+  fs.writeFileSync(unrelatedPath, "unreviewed-installer");
+
+  const { handlers, main } = loadMainIpcHandlers(userData, null, [], {
+    confirmationResponse: 1,
+    execFile: validManagedPackageSignatureExecFile()
+  });
+  t.after(() => {
+    main.getManagedDownloadQueue().dispose();
+    fs.rmSync(userData, { recursive: true, force: true });
+  });
+  const { bridge } = preloadHarness((channel, input) =>
+    handlers.get(channel)(
+      null,
+      input === undefined ? undefined : JSON.parse(JSON.stringify(input))
+    )
+  );
+
+  const discovered = JSON.parse(JSON.stringify(
+    await bridge.discoverDownloadedPackages([
+      { productId: "chatgpt-desktop" },
+      { productId: "claude-desktop" }
+    ])
+  ));
+  assert.deepEqual(
+    discovered.map((task) => [task.productId, task.phase]),
+    [["chatgpt-desktop", "downloaded"], ["claude-desktop", "downloaded"]]
+  );
+  assert.equal(fs.existsSync(unrelatedPath), true);
+
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(await bridge.deleteDownloadedPackage("chatgpt-desktop"))),
+    { ok: true, filePath: chatgptPath }
+  );
+  assert.equal(fs.existsSync(chatgptPath), false);
+  assert.equal(fs.existsSync(claudePath), true);
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(await bridge.listManagedDownloadTasks()))
+      .map((task) => task.productId),
+    ["claude-desktop"]
+  );
+  const records = JSON.parse(fs.readFileSync(path.join(userData, "download-records.json"), "utf8"));
+  assert.deepEqual(Object.keys(records), ["claude-desktop"]);
 });
 
 test("managed download queue preload returns only public task status", async () => {

@@ -1376,6 +1376,10 @@ interface Window {
       productId: string;
       artifact?: { url: string; fileName: string; artifactKind?: "exe" | "msi" | "msix" | "zip"; mirrors?: string[] };
     }): Promise<ManagedDownloadQueueCommandResult>;
+    discoverDownloadedPackages(input: Array<{
+      productId: string;
+      artifact?: { url: string; fileName: string; artifactKind?: "exe" | "msi" | "msix" | "zip"; mirrors?: string[] };
+    }>): Promise<ManagedDownloadQueueTask[]>;
     listManagedDownloadTasks(): Promise<ManagedDownloadQueueTask[]>;
     getManagedDownloadTaskStatus(input: { productId: string }): Promise<ManagedDownloadQueueCommandResult>;
     cancelManagedDownload(input: { productId: string; taskId: string; confirmed: true }): Promise<ManagedDownloadQueueCommandResult>;

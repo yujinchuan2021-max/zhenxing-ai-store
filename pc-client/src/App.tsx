@@ -426,6 +426,7 @@ function hasManagedDownloadQueueApi() {
   return Boolean(
     api &&
       "enqueueManagedDownload" in api &&
+      "discoverDownloadedPackages" in api &&
       "listManagedDownloadTasks" in api &&
       "getManagedDownloadTaskStatus" in api &&
       "cancelManagedDownload" in api &&
@@ -598,7 +599,7 @@ function builtInBrand(language: Language): CatalogBrand {
   };
 }
 
-const BRAND_ICON_SRC = "/brand-icon.png";
+const BRAND_ICON_SRC = "./brand-icon.png";
 
 function BrandMark() {
   return (
@@ -606,6 +607,12 @@ function BrandMark() {
       <img src={BRAND_ICON_SRC} alt="" />
     </span>
   );
+}
+
+function communityProviderLabel(provider: string | null | undefined, language: Language) {
+  return !provider || provider.trim().toLowerCase() === "flarum"
+    ? createLanguage(language).text("community.provider")
+    : provider;
 }
 
 const CATALOG_REFRESH_TTL_MS = 60_000;
@@ -756,6 +763,7 @@ export default function App() {
   const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false);
   const mobileViewport = useMediaQuery("(max-width: 47.99em)");
   const [authOpen, setAuthOpen] = useState(false);
+  const [brandEasterEggOpen, setBrandEasterEggOpen] = useState(false);
   const [identity, setIdentity] = useState<IdentitySnapshot>({
     status: "anonymous"
   });
@@ -845,6 +853,7 @@ export default function App() {
       }
     >()
   );
+  const managedPackageInventoryScanned = useRef(false);
   const desktopOperationRevisions = useRef<
     Record<
       string,
@@ -877,6 +886,8 @@ export default function App() {
   const pendingEnvironmentProducts = useRef<Map<string, Product>>(new Map());
   const autoOpenEnvironmentInstallers = useRef<Set<string>>(new Set());
   const advancingEnvironmentFlow = useRef(false);
+  const brandClickCountRef = useRef(0);
+  const brandLastClickAtRef = useRef(0);
 
   const languageModule = useMemo(() => createLanguage(language), [language]);
   const t = {
@@ -975,6 +986,18 @@ export default function App() {
     }
     return names;
   }, [catalogAllVendors, language]);
+  const managedPackageDiscoveryCandidates = useMemo(
+    () =>
+      catalogAllVendors.flatMap((vendor) =>
+        vendor.products
+          .filter((product) => Boolean(product.download))
+          .map((product) => ({
+            productId: product.id,
+            artifact: product.download!
+          }))
+      ),
+    [catalogAllVendors]
+  );
   const downloadPopover = useMemo(
     () =>
       buildDownloadPopoverItems({
@@ -2703,6 +2726,7 @@ export default function App() {
   };
 
   const removeClearedDownloadTask = (productId: string) => {
+    removeManagedDownloadQueueTask(productId);
     downloadTaskRevisions.current.clearProduct(productId);
     setDownloadTasks((current) => {
       const next = { ...current };
@@ -4520,28 +4544,60 @@ export default function App() {
       uninstallDesktopProduct(product)
     );
 
+  const refreshDownloadedPackages = async (force = false) => {
+    if (!window.aihubPC || !hasManagedDownloadQueueApi()) return;
+    if (managedPackageDiscoveryCandidates.length === 0) return;
+    if (managedPackageInventoryScanned.current && !force) return;
+    managedPackageInventoryScanned.current = true;
+    try {
+      const tasks = await window.aihubPC.discoverDownloadedPackages(
+        managedPackageDiscoveryCandidates
+      );
+      const packageTasks = tasks.filter(
+        (task) => !task.productId.startsWith("environment:")
+      );
+      const taskIds = new Set(packageTasks.map((task) => task.productId));
+      for (const task of packageTasks) applyManagedDownloadQueueTask(task);
+      const previouslyKnownPackageIds = new Set([
+        ...Object.keys(managedDownloadQueueTasks),
+        ...Object.keys(downloadTasks)
+      ]);
+      const discoverableProductIds = new Set(
+        managedPackageDiscoveryCandidates.map((candidate) => candidate.productId)
+      );
+      for (const productId of previouslyKnownPackageIds) {
+        if (!taskIds.has(productId) && discoverableProductIds.has(productId)) {
+          removeClearedDownloadTask(productId);
+        }
+      }
+      const completed = await Promise.all(
+        packageTasks
+          .filter((task) => task.phase === "downloaded")
+          .map(async (task) => [
+            task.productId,
+            await window.aihubPC!.getDownloadTask(task.productId)
+          ] as const)
+      );
+      for (const [productId, task] of completed) {
+        if (task) applyManagedDownloadTask(task);
+        else removeClearedDownloadTask(productId);
+      }
+    } catch {
+      managedPackageInventoryScanned.current = false;
+    }
+  };
+
   const refreshInstalledManagement = async () => {
     if (!window.aihubPC) return;
-    const downloadProductIds = new Set([
-      ...Object.keys(downloadTasks),
-      ...Object.values(managedDownloadQueueTasks)
-        .filter((task) => task.phase === "downloaded")
-        .map((task) => task.productId)
-    ]);
     setScanning(true);
     try {
       const softwareResult = await window.aihubPC.checkSoftwareUpdates();
       setSoftwareUpdateResult(softwareResult);
-      const [environmentResult, inventoryResult, downloadResult] =
+      const [environmentResult, inventoryResult, packageResult] =
         await Promise.allSettled([
         refreshEnvironmentReport(false),
         window.aihubPC.scanManagedInventory(),
-        Promise.all(
-          [...downloadProductIds].map(async (productId) => [
-            productId,
-            (await window.aihubPC!.getDownloadTask(productId)) || null
-          ] as const)
-        )
+        refreshDownloadedPackages(true)
       ]);
       if (inventoryResult.status === "fulfilled") {
         applyManagedInventory(inventoryResult.value);
@@ -4552,11 +4608,11 @@ export default function App() {
           runtimeMessage(environmentResult.reason)
         );
       }
-      if (downloadResult.status === "fulfilled") {
-        for (const [productId, task] of downloadResult.value) {
-          if (task) applyManagedDownloadTask(task);
-          else removeClearedDownloadTask(productId);
-        }
+      if (packageResult.status === "rejected") {
+        setManagementMessage(
+          "package:scan",
+          runtimeMessage(packageResult.reason)
+        );
       }
     } finally {
       setScanning(false);
@@ -4565,7 +4621,7 @@ export default function App() {
 
   const openInstalledManagement = () => {
     navigate("management");
-    void refreshInstalledManagement();
+    void refreshDownloadedPackages();
   };
 
   const setManagementMessage = (id: string, message: string) =>
@@ -4751,6 +4807,21 @@ export default function App() {
   };
 
   const displayBrandName = language === "en" ? BRAND.englishName : BRAND.name;
+  const handleBrandClick = () => {
+    const now = Date.now();
+    brandClickCountRef.current =
+      now - brandLastClickAtRef.current <= 5000
+        ? brandClickCountRef.current + 1
+        : 1;
+    brandLastClickAtRef.current = now;
+    if (brandClickCountRef.current >= 5) {
+      brandClickCountRef.current = 0;
+      brandLastClickAtRef.current = 0;
+      setBrandEasterEggOpen(true);
+      return;
+    }
+    navigate("home");
+  };
   const personalUnreadCount =
     (personalCenter?.summary.unreadNotifications || 0) +
     (personalCenter?.summary.unreadDirectMessages || 0);
@@ -4905,11 +4976,12 @@ export default function App() {
           <button
             className="brand"
             title={catalogDisplayField(brand, "slogan", language)}
-            onClick={() => navigate("home")}
+            aria-label={displayBrandName}
+            data-aihub-brand-easter-egg-trigger
+            onClick={handleBrandClick}
           >
             <BrandMark />
             <span>{displayBrandName}</span>
-            <small>{uiText("chrome.pc")}</small>
           </button>
         </div>
 
@@ -5538,6 +5610,29 @@ export default function App() {
           onIdentity={setIdentity}
         />
       )}
+      <Modal
+        opened={brandEasterEggOpen}
+        onClose={() => setBrandEasterEggOpen(false)}
+        centered
+        size={440}
+        withCloseButton={false}
+        overlayProps={{ backgroundOpacity: 0.58, blur: 16 }}
+        classNames={{
+          content: "brandEasterEggContent",
+          body: "brandEasterEggBody"
+        }}
+        data-aihub-brand-easter-egg
+      >
+        <section className="brandEasterEgg">
+          <div className="brandEasterEggStar" aria-hidden="true">
+            <BrandMark />
+          </div>
+          <p>隐藏彩蛋 · 5 / 5</p>
+          <h2>被你发现了</h2>
+          <blockquote>你咋知道作者有个儿子叫于枕星？哈哈哈！</blockquote>
+          <Button onClick={() => setBrandEasterEggOpen(false)}>哈哈，知道啦</Button>
+        </section>
+      </Modal>
       {pendingDownloadCancellation && (
         <ManagedDownloadCancelDialog
           pending={pendingDownloadCancellation}
@@ -8893,7 +8988,7 @@ function PersonalCenterPage({
   if (!authenticated) {
     return (
       <section className="emptyPanel accountEmpty">
-        <span>◎</span>
+        <BrandMark />
         <h1>{uiText("auto.5a2cac68fd2d")}</h1>
         <small>{uiText("auto.a83ac4ce12c4")}</small>
         <button className="accentButton" onClick={onLogin}>
@@ -10546,9 +10641,13 @@ function FlarumCommunityPage({
     return (
       <section className="emptyPanel communityLoginRequired">
         <BackButton onBack={onBack} />
-        <span>◎</span>
-        <p>{community?.provider || communityText.text("community.provider")}</p>
-        <h1>{communityText.text("community.title")}</h1>
+        <BrandMark />
+        <p>{communityProviderLabel(community?.provider, language)}</p>
+        <h1>
+          {community
+            ? catalogDisplayField(community, "title", language)
+            : communityText.text("community.title")}
+        </h1>
         {community && <small>{catalogDisplayField(community, "description", language)}</small>}
         <small>{communityText.text("community.loginHint")}</small>
         <button className="accentButton" onClick={onLogin}>
@@ -10776,8 +10875,8 @@ function CommunityPage({
 }) {
   return (
     <section className="emptyPanel">
-      <span>◎</span>
-      <p>{community.provider}</p>
+      <BrandMark />
+      <p>{communityProviderLabel(community.provider, language)}</p>
       <h1>{catalogDisplayField(community, "title", language)}</h1>
       <small>{catalogDisplayField(community, "description", language)}</small>
       {community.enabled && community.url ? (

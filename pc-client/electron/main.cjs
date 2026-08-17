@@ -111,6 +111,10 @@ const {
   isAllowedManagedDownloadUrl
 } = require("../shared/managed-downloads.cjs");
 const {
+  discoverManagedPackages,
+  reviewedManagedPackagePlan
+} = require("../shared/managed-package-inventory.cjs");
+const {
   buildDesktopDownloadOnlyPlan,
   desktopDownloadOnlyArtifactFromReceipt,
   signedDesktopDownloadArtifactFromReceipt,
@@ -468,6 +472,7 @@ const discoveredCliPrefixes = new Map();
 const managedWslStatusCache = new Map();
 const activeDownloads = new Map();
 let managedDownloadQueue = null;
+let managedPackageDiscoveryInFlight = null;
 const signedDesktopDownloadPlans = new Map();
 let managedDownloadRefreshPending = false;
 const activeDesktopOperationEntries = new Set();
@@ -9271,6 +9276,81 @@ function validManagedDownloadQueueRequest(request, allowArtifact = true) {
     (!Object.hasOwn(request, "artifact") || validManagedDownloadQueueArtifact(request.artifact));
 }
 
+function validManagedPackageDiscoveryCandidates(candidates) {
+  if (!Array.isArray(candidates) || candidates.length > 128) return false;
+  const productIds = new Set();
+  return candidates.every((candidate) => {
+    if (!validManagedDownloadQueueRequest(candidate)) return false;
+    if (productIds.has(candidate.productId)) return false;
+    productIds.add(candidate.productId);
+    return true;
+  });
+}
+
+function managedPackageDiscoveryPlan(candidate) {
+  let plan = resolveManagedDownloadPlan(
+    candidate.productId,
+    "",
+    candidate.artifact
+  );
+  if (!plan && candidate.artifact) {
+    plan = getDesktopDownloadOnlyProfile(candidate.productId)
+      ? buildDesktopDownloadOnlyPlan(candidate.productId, candidate.artifact)
+      : buildSignedDesktopDownloadPlan(candidate.productId, candidate.artifact);
+  }
+  return reviewedManagedPackagePlan(candidate.productId, plan);
+}
+
+async function discoverDownloadedPackages(candidates) {
+  if (!validManagedPackageDiscoveryCandidates(candidates)) return [];
+  if (managedPackageDiscoveryInFlight) return managedPackageDiscoveryInFlight;
+  managedPackageDiscoveryInFlight = (async () => {
+    if (managedDownloadRefreshPending || hasManagedDownloadWork()) {
+      return listManagedDownloadQueueTasks();
+    }
+    managedDownloadRefreshPending = true;
+    try {
+      const downloadRoot = readSettings().downloadDirectory;
+      if (
+        typeof downloadRoot !== "string" ||
+        !path.isAbsolute(downloadRoot) ||
+        !fs.existsSync(downloadRoot)
+      ) {
+        return listManagedDownloadQueueTasks();
+      }
+      const plans = [];
+      for (const candidate of candidates) {
+        const existingTask = reconcileManagedDownloadTask(candidate.productId);
+        if (existingTask?.phase === "completed") continue;
+        const plan = managedPackageDiscoveryPlan(candidate);
+        if (plan) plans.push(plan);
+      }
+      const discovered = await discoverManagedPackages({
+        downloadRoot,
+        plans,
+        inspectSignature,
+        hashFile: fileSha256
+      });
+      if (discovered.length > 0) {
+        const records = readDownloadRecords();
+        for (const record of discovered) records[record.productId] = record;
+        writeDownloadRecords(records);
+        for (const record of discovered) reconcileManagedDownloadTask(record.productId);
+      }
+      return listManagedDownloadQueueTasks();
+    } catch {
+      return listManagedDownloadQueueTasks();
+    } finally {
+      managedDownloadRefreshPending = false;
+    }
+  })();
+  try {
+    return await managedPackageDiscoveryInFlight;
+  } finally {
+    managedPackageDiscoveryInFlight = null;
+  }
+}
+
 function managedDownloadTaskProfileId(task) {
   if (!task || typeof task !== "object") return "";
   const profile = getDesktopDownloadOnlyProfile(task.productId) || getInstallRegistration(task.productId);
@@ -11951,6 +12031,9 @@ function registerIpc() {
       return { ok: false, error: "无法加入下载队列" };
     }
   });
+  ipcMain.handle("download:discover-packages", (_event, candidates) =>
+    discoverDownloadedPackages(candidates)
+  );
   ipcMain.handle("download:list", () => listManagedDownloadQueueTasks());
   ipcMain.handle("download:status", (_event, request) => {
     if (!validManagedDownloadQueueRequest(request, false) || !request || typeof request !== "object" || Array.isArray(request) ||

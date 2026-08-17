@@ -249,6 +249,86 @@ html[data-mantine-color-scheme="dark"] {
   font-size: var(--font-caption);
 }
 
+.brandEasterEggContent {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-radius: 30px;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 50% 10%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 42%),
+    linear-gradient(155deg, color-mix(in srgb, var(--surface) 96%, white), var(--paper));
+  box-shadow: 0 34px 90px rgba(7, 20, 33, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.brandEasterEggBody {
+  padding: 34px 38px 36px;
+}
+
+.brandEasterEgg {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.brandEasterEggStar {
+  width: 98px;
+  height: 98px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 17%, transparent), transparent 67%);
+  filter: drop-shadow(0 18px 24px color-mix(in srgb, var(--accent) 30%, transparent));
+  animation: brandEasterEggPulse 1.8s ease-in-out infinite;
+}
+
+.brandEasterEggStar .brandMark {
+  width: 88px;
+  height: 88px;
+}
+
+.brandEasterEgg > p {
+  margin: 0;
+  color: var(--zx-accent-strong);
+  font-size: var(--font-caption);
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.brandEasterEgg h2 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -0.045em;
+}
+
+.brandEasterEgg blockquote {
+  margin: 4px 0 10px;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 760;
+  line-height: 1.7;
+}
+
+.brandEasterEgg button {
+  min-width: 150px;
+  border: 1px solid color-mix(in srgb, var(--zx-accent) 48%, transparent);
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--zx-accent-strong), #0c3650);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--zx-accent-strong) 28%, transparent);
+}
+
+.brandEasterEgg button:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+@keyframes brandEasterEggPulse {
+  0%, 100% { transform: scale(0.96); opacity: 0.82; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
 .search {
   height: 43px;
   display: flex;
@@ -2794,6 +2874,10 @@ button:disabled {
   color: var(--accent-ink);
   background: var(--accent);
   font-size: 28px;
+}
+
+.emptyPanel > .brandMark {
+  background: transparent;
 }
 
 .emptyPanel p {

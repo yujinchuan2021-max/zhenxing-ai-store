@@ -562,6 +562,18 @@ test("formal runtime closure requires matching complete BUILD and FREEZE records
   write(freezePath, freeze);
   assert.deepEqual(readServerConnectedReviewRuntimeClosure({ packageDirectory: directory, version }), hashes);
 
+  const innoBuild = { ...build, artifacts: buildArtifacts.slice(0, 2) };
+  const innoFreeze = { ...freeze, artifacts: freezeArtifacts.slice(0, 2) };
+  write(buildPath, innoBuild);
+  write(freezePath, innoFreeze);
+  assert.deepEqual(
+    readServerConnectedReviewRuntimeClosure({ packageDirectory: directory, version }),
+    hashes,
+    "an Inno package has Setup and Portable without an NSIS blockmap"
+  );
+  write(buildPath, build);
+  write(freezePath, freeze);
+
   const cases = [
     ["BUILD missing", null, freeze],
     ["FREEZE missing", build, null],

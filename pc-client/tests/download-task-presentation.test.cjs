@@ -146,6 +146,15 @@ test("the top-bar download list merges queue and legacy tasks without duplicates
   assert.match(app, /data-aihub-download-item/);
   assert.match(app, /buildDownloadPopoverItems/);
   assert.match(app, /openInstalledManagement/);
+  assert.match(app, /discoverDownloadedPackages/);
+  assert.match(
+    app,
+    /const openInstalledManagement = \(\) => \{[\s\S]*?refreshDownloadedPackages\(\);[\s\S]*?\};/
+  );
+  assert.match(
+    app,
+    /const removeClearedDownloadTask = \(productId: string\) => \{[\s\S]*?removeManagedDownloadQueueTask\(productId\);/
+  );
   assert.match(styles, /\.downloadPopover/);
   assert.match(language, /"downloadMenu\.title"/);
   assert.match(language, /"downloadMenu\.empty"/);

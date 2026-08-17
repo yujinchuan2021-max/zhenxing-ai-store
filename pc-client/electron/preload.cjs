@@ -677,6 +677,7 @@ const fixedCliLifecycleBridge = Object.freeze({
 
 const managedDownloadQueueChannels = Object.freeze({
   enqueue: "download:enqueue",
+  discoverPackages: "download:discover-packages",
   list: "download:list",
   status: "download:status",
   cancel: "download:cancel",
@@ -700,6 +701,16 @@ function managedDownloadQueueInput(input, allowArtifact) {
   if (!exactSubmissionObject(value, allowed, ["productId"]) || typeof value.productId !== "string" || !value.productId || value.productId.length > 160) invalidSubmissionInput();
   if (Object.hasOwn(value, "artifact")) managedDownloadQueueArtifact(value.artifact);
   return value;
+}
+function managedPackageDiscoveryInput(input) {
+  if (!Array.isArray(input) || input.length > 128) invalidSubmissionInput();
+  const productIds = new Set();
+  return input.map((candidate) => {
+    const value = managedDownloadQueueInput(candidate, true);
+    if (productIds.has(value.productId)) invalidSubmissionInput();
+    productIds.add(value.productId);
+    return value;
+  });
 }
 function managedDownloadCancelInput(input) {
   let value;
@@ -740,6 +751,7 @@ function validManagedDownloadQueueCall(work) {
 }
 const managedDownloadQueueBridge = Object.freeze({
   enqueueManagedDownload: (input) => validManagedDownloadQueueCall(() => invokeManagedDownloadQueue(managedDownloadQueueChannels.enqueue, managedDownloadQueueInput(input, true))),
+  discoverDownloadedPackages: (input) => validManagedDownloadQueueCall(() => invokeManagedDownloadQueue(managedDownloadQueueChannels.discoverPackages, managedPackageDiscoveryInput(input))),
   listManagedDownloadTasks: () => invokeManagedDownloadQueue(managedDownloadQueueChannels.list),
   getManagedDownloadTaskStatus: (input) => validManagedDownloadQueueCall(() => invokeManagedDownloadQueue(managedDownloadQueueChannels.status, managedDownloadQueueInput(input, false))),
   cancelManagedDownload: (input) => validManagedDownloadQueueCall(() => invokeManagedDownloadQueue(managedDownloadQueueChannels.cancel, managedDownloadCancelInput(input))),

@@ -8,7 +8,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const SOURCE = 'D:\\AIhub\\AIHUB备份';
-const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260817-01100-assistant-name-v4';
+const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260817-01100-package-manager-v2';
 const TOOL_REL = 'tools/stage-public-source.cjs';
 const MANIFEST_REL = 'SOURCE-MANIFEST.json';
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -26,6 +26,7 @@ const PC_FILES = Object.freeze([
   'pc-client/admin/data/catalog-v1.json',
   'pc-client/assets/brand/zhenxing-star.png',
   'pc-client/build/icon.ico', 'pc-client/build/icon.png',
+  'pc-client/build/inno/installer.iss', 'pc-client/build/inno/toolchain.json',
   'pc-client/CONTEXT.md', 'pc-client/README.md', 'pc-client/index.html',
   'pc-client/electron-builder.local-release.cjs', 'pc-client/package-lock.json',
   'pc-client/package.json', 'pc-client/postcss.config.mjs', 'pc-client/tsconfig.json',
@@ -119,6 +120,8 @@ const PUBLIC_BUILD_INPUTS = new Set([
   'pc-client/assets/brand/zhenxing-star.png',
   'pc-client/build/icon.ico',
   'pc-client/build/icon.png',
+  'pc-client/build/inno/installer.iss',
+  'pc-client/build/inno/toolchain.json',
 ]);
 
 const DENIED_SEGMENTS = new Set([
@@ -506,6 +509,8 @@ function selfTest() {
   assert.equal(denyReason('pc-client/assets/brand/zhenxing-star.png'), null);
   assert.equal(denyReason('pc-client/build/icon.ico'), null);
   assert.equal(denyReason('pc-client/build/icon.png'), null);
+  assert.equal(denyReason('pc-client/build/inno/installer.iss'), null);
+  assert.equal(denyReason('pc-client/build/inno/toolchain.json'), null);
   assert.equal(denyReason('pc-client/deployment/local/private/update/catalog-signing-private.pem'), 'credential-binary-or-database');
   assert.equal(denyReason('pc-client/src/App.tsx'), null);
   assert.equal(denyReason('pc-client/tests/auralogs-mcp-catalog-v3-candidate.test.cjs'), 'internal-research-dependent-tooling');

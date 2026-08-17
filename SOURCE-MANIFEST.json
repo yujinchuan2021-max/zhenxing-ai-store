@@ -324,6 +324,18 @@
       "sourceState": "tracked-modified"
     },
     {
+      "path": "pc-client/build/inno/installer.iss",
+      "bytes": 42039,
+      "sha256": "0234b89bdefde6a62ac152de9713934960838c081be3a775b2e56ae1f0da35e1",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/build/inno/toolchain.json",
+      "bytes": 653,
+      "sha256": "7cea67568e1094bcb9af9d077d6b33502b3fffd81404301cfcd2727b49b4956c",
+      "sourceState": "untracked"
+    },
+    {
       "path": "pc-client/catalog/ai-connectable-taxonomy.cjs",
       "bytes": 4964,
       "sha256": "0c5a1549d0d4debfcaed1f5e5a061c1b684553cae386a53744d3b8bee096dc86",
@@ -553,8 +565,8 @@
     },
     {
       "path": "pc-client/electron/main.cjs",
-      "bytes": 435080,
-      "sha256": "d51a1bc8dda1f6d48e4578682e02aea5dde006fa07974d167d25c67d7c16ad5c",
+      "bytes": 438010,
+      "sha256": "23b035686d8510a1474a16b2b55c5b2c1c2bb75c6d813e5a2b6b413c7573921b",
       "sourceState": "tracked-modified"
     },
     {
@@ -565,9 +577,9 @@
     },
     {
       "path": "pc-client/electron/preload.cjs",
-      "bytes": 48647,
-      "sha256": "d0b90ca8ae0ae8fb5b44d1b0adc65f7937de98725c6514bd3fb93f8ddcda05c8",
-      "sourceState": "tracked-clean"
+      "bytes": 49271,
+      "sha256": "5055bbd83cc3a84f25986f0362909bc508e3395a730c6a3ff185f45126de25fd",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/electron/resource-submission-ipc.cjs",
@@ -775,8 +787,8 @@
     },
     {
       "path": "pc-client/index.html",
-      "bytes": 825,
-      "sha256": "70de1a6582246dd8b37a5a75d7d0e5a0b60691a805f52baf6cea100141b53980",
+      "bytes": 826,
+      "sha256": "26a7a7576a667d40de45f2c4bb9774cc30a0eec826d48872e6973e5666303f8a",
       "sourceState": "tracked-modified"
     },
     {
@@ -787,8 +799,8 @@
     },
     {
       "path": "pc-client/package.json",
-      "bytes": 7738,
-      "sha256": "0eab4e5caf5261523f400077a5cf5651f2dd6b700bc04396dcef4bed4149243d",
+      "bytes": 8004,
+      "sha256": "e9c5d8c138a0c01afd3b54109fc6c664134b5a5422de259dc66b50d82df0b739",
       "sourceState": "tracked-modified"
     },
     {
@@ -967,9 +979,9 @@
     },
     {
       "path": "pc-client/scripts/check-packaged-catalog.mjs",
-      "bytes": 9058,
-      "sha256": "6e5e1f70fa849d48d1da720b2512348d9647a0f68931742a2a124571c16be81a",
-      "sourceState": "tracked-clean"
+      "bytes": 9925,
+      "sha256": "23b4a24cb446577a82cffbb7b280ca086463c3f089092ff0439819eed23e681a",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/scripts/check-vite-render.cjs",
@@ -1134,6 +1146,18 @@
       "sourceState": "tracked-clean"
     },
     {
+      "path": "pc-client/scripts/generate-inno-brand-assets.cjs",
+      "bytes": 5443,
+      "sha256": "47dbb398231f1dccb231e9abdaf6722275ec743a4e666f5754b429c3f291a488",
+      "sourceState": "untracked"
+    },
+    {
+      "path": "pc-client/scripts/generate-nsis-brand-assets.cjs",
+      "bytes": 9045,
+      "sha256": "d175ad9871754f2a06c18205eb96b5ca65f946781e14ecf430d466c624426aed",
+      "sourceState": "untracked"
+    },
+    {
       "path": "pc-client/scripts/generate-python-cli-lock-expansion.cjs",
       "bytes": 1985,
       "sha256": "b5053c483a28f8ae5d3dd0a861e0ee998bc27995b8a629c190a4666e858e1035",
@@ -1168,6 +1192,12 @@
       "bytes": 1723,
       "sha256": "e5c835452d3d0967d1873ad05d1c6daa75719c410d1592d1acf2028820c5dcfa",
       "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/scripts/lib/inno-setup.cjs",
+      "bytes": 5258,
+      "sha256": "03997c914c13914add2a7894c450523d2ced39af946ad48777cde87cabe1b165",
+      "sourceState": "untracked"
     },
     {
       "path": "pc-client/scripts/lib/local-release-transaction-receipt.cjs",
@@ -2310,6 +2340,12 @@
       "sourceState": "tracked-clean"
     },
     {
+      "path": "pc-client/shared/managed-package-inventory.cjs",
+      "bytes": 4963,
+      "sha256": "7862207ac59bad68dcf17e0f3a34e17eec86b403cab3998a4eeb6870a9b0db43",
+      "sourceState": "untracked"
+    },
+    {
       "path": "pc-client/shared/managed-portable-desktop.cjs",
       "bytes": 15962,
       "sha256": "3f732dac0e50c8fb4e7a05eee1aa2709adb45f5286cc0656533b50bfbac90799",
@@ -2713,8 +2749,8 @@
     },
     {
       "path": "pc-client/src/App.tsx",
-      "bytes": 457458,
-      "sha256": "6667bfc3364503cbd277b54e10835bc41be4d9fdb5d487c56e96baf9eb41446e",
+      "bytes": 461016,
+      "sha256": "d9588639b0aa912579e7524010589a379a50facd787b2bb7f2197001ab7ed6b4",
       "sourceState": "tracked-modified"
     },
     {
@@ -2749,8 +2785,8 @@
     },
     {
       "path": "pc-client/src/language/index.ts",
-      "bytes": 83692,
-      "sha256": "a4dfc983ce935c51729954f15d514a884c13660f750ad6d3f4ac2095bd3c3b4a",
+      "bytes": 83679,
+      "sha256": "69a7f996b82a044d74e11d201b7fef49c97d792a0d5d85dc1de0282e01c25db8",
       "sourceState": "tracked-modified"
     },
     {
@@ -2767,14 +2803,14 @@
     },
     {
       "path": "pc-client/src/styles.css",
-      "bytes": 97316,
-      "sha256": "f00b93192fbf8668933d170195fef0a22ea7eb185be9a3ecc5ecb649cdb84c86",
+      "bytes": 99376,
+      "sha256": "61979eb5c84b18a195506d02bdcd9d834d023771880b1b2f439b934a904065ff",
       "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/src/vite-env.d.ts",
-      "bytes": 40382,
-      "sha256": "4b989158678a340e11f7674ca5d3db40459b52b2a4027ce0a0782f36ccb601aa",
+      "bytes": 40618,
+      "sha256": "1664318df3e9415c5082d02af6eff3497d756be1c4470b5636ea87f43ebed8c1",
       "sourceState": "tracked-modified"
     },
     {
@@ -2857,8 +2893,8 @@
     },
     {
       "path": "pc-client/tests/brand-contract.test.cjs",
-      "bytes": 4147,
-      "sha256": "668bb7368a54ef9750a9aca6c8d2f28b879ee1b2ab222bb15bdee273c345cc7e",
+      "bytes": 12856,
+      "sha256": "c23eb5ecb77b8eace07f0138de8e5291cba01a3f73ca2b8eb46d14d81ed0746e",
       "sourceState": "tracked-modified"
     },
     {
@@ -3211,9 +3247,9 @@
     },
     {
       "path": "pc-client/tests/download-task-presentation.test.cjs",
-      "bytes": 4987,
-      "sha256": "cf942f045a5dcf1895f5f1c382dcd2b7a3c0e09d935af85495d88e73ceb4b4f4",
-      "sourceState": "tracked-clean"
+      "bytes": 5316,
+      "sha256": "214c4f1889f884c0331d5bf50f7fdc8b6e1f98eff35567264a2520d27f95fc8a",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/download-task-recovery.test.cjs",
@@ -3480,6 +3516,12 @@
       "sourceState": "tracked-modified"
     },
     {
+      "path": "pc-client/tests/inno-installer-contract.test.cjs",
+      "bytes": 10884,
+      "sha256": "6934fd400659f523ad5b3a73ff486850c2c06684916f6a8fbb0feab72893b2ca",
+      "sourceState": "untracked"
+    },
+    {
       "path": "pc-client/tests/install-monitor.test.cjs",
       "bytes": 2168,
       "sha256": "572e859c5c91909702fddb0318023e32ce0db973e477e0196e8107bdf8f6bb2b",
@@ -3667,9 +3709,9 @@
     },
     {
       "path": "pc-client/tests/managed-download-queue-ipc.test.cjs",
-      "bytes": 32109,
-      "sha256": "7c856be5d2f9014a6894d9c4b975bd628002af31e5de725539632fd5fdf164a3",
-      "sourceState": "tracked-clean"
+      "bytes": 36163,
+      "sha256": "1a0199315427b4aaa009d27c4c7cb1e33d35b17eefcf5d8561a2853cbe4e239b",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/managed-download-queue-renderer.test.cjs",
@@ -3700,6 +3742,12 @@
       "bytes": 6212,
       "sha256": "758776ffa21d20fee0eb303d01ab2061bf6f06013e22677c41a7b374d209456e",
       "sourceState": "tracked-clean"
+    },
+    {
+      "path": "pc-client/tests/managed-package-inventory.test.cjs",
+      "bytes": 3728,
+      "sha256": "9947d96ff5d7186c3343c4df02b7eb75da625ccbca1f4d9900b24d255315c948",
+      "sourceState": "untracked"
     },
     {
       "path": "pc-client/tests/managed-portable-desktop.test.cjs",
@@ -3781,9 +3829,9 @@
     },
     {
       "path": "pc-client/tests/packaged-client-acceptance.test.cjs",
-      "bytes": 41148,
-      "sha256": "59237ca4fc7162e065ef7e634463c9f7625b7d32ba7d7118b7f7e3b2bd302107",
-      "sourceState": "tracked-clean"
+      "bytes": 41612,
+      "sha256": "a149ee0d79483298469f183e1e8bb010131c5b36b62746f0f622fc2cfdebd93f",
+      "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/tests/packaged-managed-download-fixture-gate.test.cjs",
@@ -4303,8 +4351,8 @@
     },
     {
       "path": "tools/stage-public-source.cjs",
-      "bytes": 28542,
-      "sha256": "182eb9212ef26fe01cfc9e0e1f210452ec60cbd373245b77c2d4d2fe87515269",
+      "bytes": 28848,
+      "sha256": "a14f8befbc7faf32ea5f1d46a7d75e6e0c1e1170331090a1cf1d1693b1b92938",
       "sourceState": "staging-tool"
     },
     {
@@ -4327,8 +4375,8 @@
     }
   ],
   "totals": {
-    "files": 720,
-    "bytes": 24998474
+    "files": 728,
+    "bytes": 25104878
   },
   "safety": {
     "unknown": 0,
