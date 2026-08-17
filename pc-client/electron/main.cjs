@@ -12921,8 +12921,14 @@ function createWindow() {
     minWidth: 1080,
     minHeight: 700,
     show: false,
-    backgroundColor: "#0e1714",
-    title: `${BRAND.name} Windows`,
+    backgroundColor: "#f4f8fb",
+    title: BRAND.name,
+    titleBarStyle: "hidden",
+    titleBarOverlay: {
+      color: "#00000000",
+      symbolColor: "#10203b",
+      height: 88
+    },
     icon: path.join(__dirname, "..", "build", "icon.png"),
     webPreferences: {
       preload: path.join(__dirname, "preload.cjs"),

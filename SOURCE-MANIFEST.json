@@ -325,8 +325,8 @@
     },
     {
       "path": "pc-client/build/inno/installer.iss",
-      "bytes": 42039,
-      "sha256": "0234b89bdefde6a62ac152de9713934960838c081be3a775b2e56ae1f0da35e1",
+      "bytes": 57876,
+      "sha256": "c3f3fd70f5c7ae0d2b896d231785eedd297ee342832ac22d3e699c55a703ce40",
       "sourceState": "untracked"
     },
     {
@@ -565,8 +565,8 @@
     },
     {
       "path": "pc-client/electron/main.cjs",
-      "bytes": 438010,
-      "sha256": "23b035686d8510a1474a16b2b55c5b2c1c2bb75c6d813e5a2b6b413c7573921b",
+      "bytes": 438129,
+      "sha256": "95456389e234764aac9f715a1fbd0f7269cdff0df3226b9bc60afe693cb5727f",
       "sourceState": "tracked-modified"
     },
     {
@@ -787,8 +787,8 @@
     },
     {
       "path": "pc-client/index.html",
-      "bytes": 826,
-      "sha256": "26a7a7576a667d40de45f2c4bb9774cc30a0eec826d48872e6973e5666303f8a",
+      "bytes": 818,
+      "sha256": "34876cbd6f410058280d9ffed2a1080d0bf59485103887c63ee2a6fd45b7c0d8",
       "sourceState": "tracked-modified"
     },
     {
@@ -1147,8 +1147,8 @@
     },
     {
       "path": "pc-client/scripts/generate-inno-brand-assets.cjs",
-      "bytes": 5443,
-      "sha256": "47dbb398231f1dccb231e9abdaf6722275ec743a4e666f5754b429c3f291a488",
+      "bytes": 5651,
+      "sha256": "6b65c5204073be5ab8108b3c82859cf45c2b67771a8bdd200954b744286fd408",
       "sourceState": "untracked"
     },
     {
@@ -2749,9 +2749,15 @@
     },
     {
       "path": "pc-client/src/App.tsx",
-      "bytes": 461016,
-      "sha256": "d9588639b0aa912579e7524010589a379a50facd787b2bb7f2197001ab7ed6b4",
+      "bytes": 460897,
+      "sha256": "48425ec8817007103dde6faaf913af5a561249200da88bee7244eb8406512fd4",
       "sourceState": "tracked-modified"
+    },
+    {
+      "path": "pc-client/src/assets/fonts/HarmonyOS_Sans_SC.ttf",
+      "bytes": 20617156,
+      "sha256": "8978e05044e7089ad6a9de38c505c8148305607983487435a916d2610700a7ca",
+      "sourceState": "untracked"
     },
     {
       "path": "pc-client/src/catalog-localization.cjs",
@@ -2785,14 +2791,14 @@
     },
     {
       "path": "pc-client/src/language/index.ts",
-      "bytes": 83679,
-      "sha256": "69a7f996b82a044d74e11d201b7fef49c97d792a0d5d85dc1de0282e01c25db8",
+      "bytes": 84606,
+      "sha256": "c1eecd56f9b248163e0bffc9285ec8d88e9f7302ec92877d46179e6aa60f250b",
       "sourceState": "tracked-modified"
     },
     {
       "path": "pc-client/src/main.tsx",
-      "bytes": 1312,
-      "sha256": "6079bc8d62274771a958c0ae78fd2f73c0b636189d46db9e33905dbaebf12e48",
+      "bytes": 1293,
+      "sha256": "1acdf9f284f640a37de5876ff798274d2d8bebd9574bb4d4a4e38a854a6f7a96",
       "sourceState": "tracked-modified"
     },
     {
@@ -2803,8 +2809,8 @@
     },
     {
       "path": "pc-client/src/styles.css",
-      "bytes": 99376,
-      "sha256": "61979eb5c84b18a195506d02bdcd9d834d023771880b1b2f439b934a904065ff",
+      "bytes": 100545,
+      "sha256": "8f107ef3f0c48277b48c47a39a8dd2aa4397e7afe7ab711e0abd29cf5e8fb248",
       "sourceState": "tracked-modified"
     },
     {
@@ -2893,8 +2899,8 @@
     },
     {
       "path": "pc-client/tests/brand-contract.test.cjs",
-      "bytes": 12856,
-      "sha256": "c23eb5ecb77b8eace07f0138de8e5291cba01a3f73ca2b8eb46d14d81ed0746e",
+      "bytes": 12899,
+      "sha256": "cc9cba1262e5096f0639dd3082badf1247094ee855a94d1782334ea94468f5c2",
       "sourceState": "tracked-modified"
     },
     {
@@ -3468,6 +3474,12 @@
       "sourceState": "tracked-clean"
     },
     {
+      "path": "pc-client/tests/harmonyos-font-contract.test.cjs",
+      "bytes": 2027,
+      "sha256": "8b990fb0ba02c38aaab37172965d14d8825e8e701452c622d98e637d5f9ec3a8",
+      "sourceState": "untracked"
+    },
+    {
       "path": "pc-client/tests/home-carousel-assets.test.cjs",
       "bytes": 1112,
       "sha256": "652eb00bb15ca60b89828d349fd77eb7d012b875a2a0cf7150c160afe93a8a3f",
@@ -3517,8 +3529,8 @@
     },
     {
       "path": "pc-client/tests/inno-installer-contract.test.cjs",
-      "bytes": 10884,
-      "sha256": "6934fd400659f523ad5b3a73ff486850c2c06684916f6a8fbb0feab72893b2ca",
+      "bytes": 16779,
+      "sha256": "3bbd1072855bbb1808dafe01ee753e0d0091cc3a3f073037e8c5f2697e113228",
       "sourceState": "untracked"
     },
     {
@@ -3805,8 +3817,8 @@
     },
     {
       "path": "pc-client/tests/modern-ui-shell.test.cjs",
-      "bytes": 19184,
-      "sha256": "69fff47565959c587d5c8bb44d5ad7d77de37dc9bd72e2eeb9c54ea0fafd12ae",
+      "bytes": 21378,
+      "sha256": "eec8568d4332776d7a00d55ca7f5689615bc9e4537bbdfedc4ae87685c9a9dd1",
       "sourceState": "untracked"
     },
     {
@@ -4345,14 +4357,14 @@
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 2338,
-      "sha256": "42dc7c30c689f2dd6623696d25e6fd37ff5620ba52309d5baec52527b9bbe759",
+      "bytes": 2897,
+      "sha256": "216d1adba8cfc5cb69df32e653aadcd657d78303d7fe4a56d3384b774d3909b2",
       "sourceState": "tracked-modified"
     },
     {
       "path": "tools/stage-public-source.cjs",
-      "bytes": 28848,
-      "sha256": "a14f8befbc7faf32ea5f1d46a7d75e6e0c1e1170331090a1cf1d1693b1b92938",
+      "bytes": 29251,
+      "sha256": "e308be6411e07953cba6cf588b5660f2c3a1788cbef9351b7c8e9d31e9ad3820",
       "sourceState": "staging-tool"
     },
     {
@@ -4375,8 +4387,8 @@
     }
   ],
   "totals": {
-    "files": 728,
-    "bytes": 25104878
+    "files": 730,
+    "bytes": 45751269
   },
   "safety": {
     "unknown": 0,

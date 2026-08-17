@@ -8,10 +8,13 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const SOURCE = 'D:\\AIhub\\AIHUB备份';
-const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260817-01100-package-manager-v2';
+const STAGING = 'D:\\AIhub\\github-staging\\zhenxing-ai-store-source-20260817-01100-no-flash-font-v1';
 const TOOL_REL = 'tools/stage-public-source.cjs';
 const MANIFEST_REL = 'SOURCE-MANIFEST.json';
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
+const LARGE_PUBLIC_FILE_LIMITS = Object.freeze({
+  'pc-client/src/assets/fonts/HarmonyOS_Sans_SC.ttf': 24 * 1024 * 1024,
+});
 
 const ROOT_FILES = Object.freeze([
   '.dockerignore', '.openai/hosting.json',
@@ -398,6 +401,10 @@ function stateFor(rel, states) {
   return 'untracked';
 }
 
+function maxFileBytesFor(rel) {
+  return LARGE_PUBLIC_FILE_LIMITS[rel] || MAX_FILE_BYTES;
+}
+
 function assertSafeSourceFile(rel, counters) {
   const safeRel = normalizeRel(rel);
   const denied = denyReason(safeRel);
@@ -410,7 +417,7 @@ function assertSafeSourceFile(rel, counters) {
   }
   const canonical = fs.realpathSync.native(absolute);
   if (canonical !== path.resolve(absolute)) fail(`non-canonical source file: ${safeRel}`);
-  if (stat.size > MAX_FILE_BYTES) fail(`source file too large: ${safeRel}`);
+  if (stat.size > maxFileBytesFor(safeRel)) fail(`source file too large: ${safeRel}`);
   return { absolute, stat };
 }
 
@@ -513,6 +520,8 @@ function selfTest() {
   assert.equal(denyReason('pc-client/build/inno/toolchain.json'), null);
   assert.equal(denyReason('pc-client/deployment/local/private/update/catalog-signing-private.pem'), 'credential-binary-or-database');
   assert.equal(denyReason('pc-client/src/App.tsx'), null);
+  assert.equal(maxFileBytesFor('pc-client/src/App.tsx'), MAX_FILE_BYTES);
+  assert.equal(maxFileBytesFor('pc-client/src/assets/fonts/HarmonyOS_Sans_SC.ttf'), 24 * 1024 * 1024);
   assert.equal(denyReason('pc-client/tests/auralogs-mcp-catalog-v3-candidate.test.cjs'), 'internal-research-dependent-tooling');
   assert.equal(denyReason('pc-client/scripts/generate-desktop-edition-gap-catalog-v3-candidate.cjs'), 'internal-research-dependent-tooling');
   assert.equal(denyReason('pc-client/tests/skill-scenario-classification-catalog-v3-candidate.test.cjs'), 'internal-research-dependent-tooling');

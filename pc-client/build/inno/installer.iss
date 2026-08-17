@@ -43,15 +43,14 @@ PrivilegesRequired=admin
 #endif
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
-WizardStyle=modern dark hidebevels
-WizardBackColor=#071421
+WizardStyle=modern hidebevels
+WizardBackColor=#F4F8FB
 WizardSizePercent=100,100
 WizardResizable=no
-Compression=lzma2/ultra64
-SolidCompression=yes
-LZMAUseSeparateProcess=yes
-CloseApplications=yes
-RestartApplications=yes
+Compression=lzma2/fast
+SolidCompression=no
+CloseApplications=force
+RestartApplications=no
 UsePreviousAppDir=yes
 UsePreviousTasks=yes
 SetupLogging=yes
@@ -97,6 +96,54 @@ Source: "brand\star-6.png"; Flags: dontcopy
 Source: "brand\star-6-twinkle.png"; Flags: dontcopy
 Source: "brand\star-7.png"; Flags: dontcopy
 Source: "brand\star-7-twinkle.png"; Flags: dontcopy
+Source: "brand\star-8.png"; Flags: dontcopy
+Source: "brand\star-8-twinkle.png"; Flags: dontcopy
+Source: "brand\star-9.png"; Flags: dontcopy
+Source: "brand\star-9-twinkle.png"; Flags: dontcopy
+Source: "brand\star-10.png"; Flags: dontcopy
+Source: "brand\star-10-twinkle.png"; Flags: dontcopy
+Source: "brand\star-11.png"; Flags: dontcopy
+Source: "brand\star-11-twinkle.png"; Flags: dontcopy
+Source: "brand\star-12.png"; Flags: dontcopy
+Source: "brand\star-12-twinkle.png"; Flags: dontcopy
+Source: "brand\star-13.png"; Flags: dontcopy
+Source: "brand\star-13-twinkle.png"; Flags: dontcopy
+Source: "brand\star-14.png"; Flags: dontcopy
+Source: "brand\star-14-twinkle.png"; Flags: dontcopy
+Source: "brand\star-15.png"; Flags: dontcopy
+Source: "brand\star-15-twinkle.png"; Flags: dontcopy
+Source: "brand\star-16.png"; Flags: dontcopy
+Source: "brand\star-16-twinkle.png"; Flags: dontcopy
+Source: "brand\star-17.png"; Flags: dontcopy
+Source: "brand\star-17-twinkle.png"; Flags: dontcopy
+Source: "brand\star-18.png"; Flags: dontcopy
+Source: "brand\star-18-twinkle.png"; Flags: dontcopy
+Source: "brand\star-19.png"; Flags: dontcopy
+Source: "brand\star-19-twinkle.png"; Flags: dontcopy
+Source: "brand\star-20.png"; Flags: dontcopy
+Source: "brand\star-20-twinkle.png"; Flags: dontcopy
+Source: "brand\star-21.png"; Flags: dontcopy
+Source: "brand\star-21-twinkle.png"; Flags: dontcopy
+Source: "brand\star-22.png"; Flags: dontcopy
+Source: "brand\star-22-twinkle.png"; Flags: dontcopy
+Source: "brand\star-23.png"; Flags: dontcopy
+Source: "brand\star-23-twinkle.png"; Flags: dontcopy
+Source: "brand\star-24.png"; Flags: dontcopy
+Source: "brand\star-24-twinkle.png"; Flags: dontcopy
+Source: "brand\star-25.png"; Flags: dontcopy
+Source: "brand\star-25-twinkle.png"; Flags: dontcopy
+Source: "brand\star-26.png"; Flags: dontcopy
+Source: "brand\star-26-twinkle.png"; Flags: dontcopy
+Source: "brand\star-27.png"; Flags: dontcopy
+Source: "brand\star-27-twinkle.png"; Flags: dontcopy
+Source: "brand\star-28.png"; Flags: dontcopy
+Source: "brand\star-28-twinkle.png"; Flags: dontcopy
+Source: "brand\star-29.png"; Flags: dontcopy
+Source: "brand\star-29-twinkle.png"; Flags: dontcopy
+Source: "brand\star-30.png"; Flags: dontcopy
+Source: "brand\star-30-twinkle.png"; Flags: dontcopy
+Source: "brand\star-31.png"; Flags: dontcopy
+Source: "brand\star-31-twinkle.png"; Flags: dontcopy
 Source: "brand\progress-track.png"; Flags: dontcopy
 Source: "brand\progress-fill.png"; Flags: dontcopy
 Source: "brand\star-0.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
@@ -115,6 +162,54 @@ Source: "brand\star-6.png"; DestDir: "{app}\resources\installer-brand"; Flags: i
 Source: "brand\star-6-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
 Source: "brand\star-7.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
 Source: "brand\star-7-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-8.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-8-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-9.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-9-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-10.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-10-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-11.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-11-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-12.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-12-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-13.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-13-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-14.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-14-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-15.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-15-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-16.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-16-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-17.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-17-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-18.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-18-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-19.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-19-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-20.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-20-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-21.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-21-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-22.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-22-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-23.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-23-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-24.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-24-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-25.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-25-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-26.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-26-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-27.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-27-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-28.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-28-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-29.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-29-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-30.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-30-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-31.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
+Source: "brand\star-31-twinkle.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
 Source: "brand\progress-track.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
 Source: "brand\progress-fill.png"; DestDir: "{app}\resources\installer-brand"; Flags: ignoreversion
 
@@ -124,7 +219,7 @@ Name: "{autodesktop}\枕星AI助手"; Filename: "{app}\{#MainExeName}"; WorkingD
 
 [Run]
 #ifndef PreviewMode
-Filename: "{app}\{#MainExeName}"; Description: "启动枕星AI助手"; Flags: nowait postinstall skipifsilent runasoriginaluser
+Filename: "{app}\{#MainExeName}"; Description: "启动枕星AI助手"; Flags: nowait postinstall skipifsilent runasoriginaluser unchecked
 #endif
 
 [Code]
@@ -137,7 +232,19 @@ const
   ShellUninstallConfirmState = 3;
   ShellUninstallingState = 4;
   ShellUninstallFinishedState = 5;
+  BrandFrameCount = 32;
+  BrandMaxFrame = BrandFrameCount - 1;
+  BrandBrightBaseFrame = 0;
+  BrandBreathAmplitude = 31;
+  BrandBreathHalfSteps = 32;
+  BrandBreathPeakStep = BrandBreathHalfSteps - 1;
+  BrandTimerIntervalMs = 80;
+  BrandBreathStepTicks = 1;
+  BrandBreathCycleSteps = 64;
+  BrandTransitionStepTicks = 1;
   GWLStyle = -16;
+  GWLExStyle = -20;
+  GWLWndProc = -4;
   WSCaption = $00C00000;
   WSThickFrame = $00040000;
   WSSystemMenu = $00080000;
@@ -147,23 +254,36 @@ const
   SWPNoMove = $0002;
   SWPNoZOrder = $0004;
   SWPFrameChanged = $0020;
+  WSExLayered = $00080000;
+  LWAColorKey = $00000001;
+  WMSetRedraw = $000B;
+  RDWInvalidate = $0001;
+  RDWAllChildren = $0080;
+  RDWUpdateNow = $0100;
+  WMNCHitTest = $0084;
+  HTClient = 1;
+  HTCaption = 2;
+  TransparentKeyColor = $00FF00FF;
 
 var
   ShellStar: TBitmapImage;
+  ShellStarBuffer: TBitmapImage;
   ShellFrame: TPanel;
   ShellPanel: TPanel;
   ShellAccent: TPanel;
   ShellTitle: TNewStaticText;
   ShellDescription: TNewStaticText;
   ShellPathLabel: TNewStaticText;
-  ShellScopeLabel: TNewStaticText;
   ShellProgressText: TNewStaticText;
   ShellProgressTrack: TBitmapImage;
   ShellProgressFill: TBitmapImage;
   ShellLaunchButton: TNewButton;
   ConfirmStar: TBitmapImage;
+  ConfirmStarBuffer: TBitmapImage;
   FinishedStar: TBitmapImage;
+  FinishedStarBuffer: TBitmapImage;
   UninstallStar: TBitmapImage;
+  UninstallStarBuffer: TBitmapImage;
   UninstallFrame: TPanel;
   UninstallPanel: TPanel;
   UninstallAccent: TPanel;
@@ -176,11 +296,23 @@ var
   CurrentUninstallFrame: Integer;
   CurrentShellState: Integer;
   AnimationTickCounter: Integer;
-  BrandTwinkle: Boolean;
+  BrandBreathStep: Integer;
   BrandTimerId: UINT_PTR;
   ConfirmTimerId: UINT_PTR;
   FinishedTimerId: UINT_PTR;
   UninstallTimerId: UINT_PTR;
+  InstallerAnimationReady: Boolean;
+  ConfirmAnimationReady: Boolean;
+  FinishedAnimationReady: Boolean;
+  UninstallAnimationReady: Boolean;
+  WizardOriginalWndProc: Longint;
+  ConfirmOriginalWndProc: Longint;
+  FinishedOriginalWndProc: Longint;
+  UninstallOriginalWndProc: Longint;
+  WizardDragHandle: HWND;
+  ConfirmDragHandle: HWND;
+  FinishedDragHandle: HWND;
+  UninstallDragHandle: HWND;
 
 function SetTimer(hWnd: HWND; nIDEvent: UINT_PTR; uElapse: UINT;
   lpTimerFunc: NativeInt): UINT_PTR;
@@ -195,6 +327,22 @@ function SetWindowLong(hWnd: HWND; nIndex: Integer;
 function SetWindowPos(hWnd, hWndInsertAfter: HWND; X, Y, CX, CY: Integer;
   uFlags: UINT): BOOL;
   external 'SetWindowPos@user32.dll stdcall';
+function SetLayeredWindowAttributes(hWnd: HWND; ColorKey: TColor;
+  Alpha: Byte; Flags: DWORD): BOOL;
+  external 'SetLayeredWindowAttributes@user32.dll stdcall';
+function CallWindowProc(PreviousProc: Longint; hWnd: HWND; Message: UINT;
+  wParam, lParam: Longint): Longint;
+  external 'CallWindowProcW@user32.dll stdcall';
+function SendMessage(hWnd: HWND; Message: UINT; wParam,
+  lParam: Longint): Longint;
+  external 'SendMessageW@user32.dll stdcall';
+function RedrawWindow(hWnd: HWND; UpdateRect, UpdateRegion: Longint;
+  Flags: UINT): BOOL;
+  external 'RedrawWindow@user32.dll stdcall';
+function GetCursorPos(var Point: TPoint): BOOL;
+  external 'GetCursorPos@user32.dll stdcall';
+function ScreenToClient(hWnd: HWND; var Point: TPoint): BOOL;
+  external 'ScreenToClient@user32.dll stdcall';
 function CreateRoundRectRgn(LeftRect, TopRect, RightRect, BottomRect,
   WidthEllipse, HeightEllipse: Integer): THandle;
   external 'CreateRoundRectRgn@gdi32.dll stdcall';
@@ -213,6 +361,68 @@ begin
   SetWindowLong(FormHandle, GWLStyle, Style);
   SetWindowPos(FormHandle, 0, 0, 0, 0, 0,
     SWPNoSize or SWPNoMove or SWPNoZOrder or SWPFrameChanged);
+end;
+
+procedure ApplyTransparentBackdrop(FormHandle: HWND);
+var
+  Style: Longint;
+begin
+  Style := GetWindowLong(FormHandle, GWLExStyle);
+  SetWindowLong(FormHandle, GWLExStyle, Style or WSExLayered);
+  if not SetLayeredWindowAttributes(FormHandle, TransparentKeyColor, 255, LWAColorKey) then
+    RaiseException('无法启用安装器透明背景。');
+end;
+
+function DraggableWindowProc(hWnd: HWND; Message: UINT;
+  wParam, lParam: Longint): Longint;
+var
+  OriginalProc: Longint;
+  Point: TPoint;
+begin
+  OriginalProc := 0;
+  if hWnd = WizardDragHandle then
+    OriginalProc := WizardOriginalWndProc
+  else if hWnd = ConfirmDragHandle then
+    OriginalProc := ConfirmOriginalWndProc
+  else if hWnd = FinishedDragHandle then
+    OriginalProc := FinishedOriginalWndProc
+  else if hWnd = UninstallDragHandle then
+    OriginalProc := UninstallOriginalWndProc;
+  if OriginalProc = 0 then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := CallWindowProc(OriginalProc, hWnd, Message, wParam, lParam);
+  if (Message = WMNCHitTest) and (Result = HTClient) then
+  begin
+    if GetCursorPos(Point) then
+    begin
+      if ScreenToClient(hWnd, Point) then
+      begin
+        if Point.Y < ScaleY(352) then
+          Result := HTCaption;
+      end;
+    end;
+  end;
+end;
+
+procedure InstallDragWindowProc(Form: TSetupForm; var OriginalProc: Longint; var FormHandle: HWND);
+begin
+  FormHandle := Form.Handle;
+  OriginalProc := SetWindowLong(FormHandle, GWLWndProc,
+    CreateCallback(@DraggableWindowProc));
+  if OriginalProc = 0 then
+    RaiseException('无法启用安装器窗口拖动。');
+end;
+
+procedure RestoreDragWindowProc(var OriginalProc: Longint;
+  var FormHandle: HWND);
+begin
+  if (OriginalProc <> 0) and (FormHandle <> 0) then
+    SetWindowLong(FormHandle, GWLWndProc, OriginalProc);
+  OriginalProc := 0;
+  FormHandle := 0;
 end;
 
 procedure ApplyRoundedCorners(Control: TWinControl; Radius: Integer);
@@ -239,7 +449,7 @@ begin
   Frame.Height := ScaleY(276);
   Frame.ParentColor := False;
   Frame.ParentBackground := False;
-  Frame.Color := $00DCD664;
+  Frame.Color := $00D6CB9F;
   Frame.BevelOuter := bvNone;
   ApplyRoundedCorners(Frame, 26);
 
@@ -250,7 +460,7 @@ begin
   Panel.Height := ScaleY(274);
   Panel.ParentColor := False;
   Panel.ParentBackground := False;
-  Panel.Color := $00362920;
+  Panel.Color := $00FEFCF8;
   Panel.BevelOuter := bvNone;
   ApplyRoundedCorners(Panel, 25);
 end;
@@ -259,7 +469,7 @@ procedure ExtractBrandFrames;
 var
   I: Integer;
 begin
-  for I := 0 to 7 do
+  for I := 0 to BrandMaxFrame do
   begin
     ExtractTemporaryFile('star-' + IntToStr(I) + '.png');
     ExtractTemporaryFile('star-' + IntToStr(I) + '-twinkle.png');
@@ -290,14 +500,65 @@ begin
     Exit;
   if Frame < 0 then
     Frame := 0;
-  if Frame > 7 then
-    Frame := 7;
+  if Frame > BrandMaxFrame then
+    Frame := BrandMaxFrame;
   FileName := 'star-' + IntToStr(Frame);
   if Twinkle then
     FileName := FileName + '-twinkle';
   FileName := FileName + '.png';
   FileName := ExpandConstant('{tmp}\') + FileName;
   Image.PngImage.LoadFromFile(FileName);
+end;
+
+procedure LoadBrandFrameBuffered(var FrontImage: TBitmapImage;
+  var BackImage: TBitmapImage; Frame: Integer);
+var
+  FileName: String;
+  ParentHandle: HWND;
+begin
+  if (FrontImage = nil) or (BackImage = nil) then
+    Exit;
+  if Frame < 0 then
+    Frame := 0;
+  if Frame > BrandMaxFrame then
+    Frame := BrandMaxFrame;
+  FileName := ExpandConstant('{tmp}\star-') + IntToStr(Frame) + '.png';
+
+  { Decode off-screen first. Then copy to the permanently visible control while
+    its parent cannot paint, and issue one complete repaint after the copy. }
+  BackImage.PngImage.LoadFromFile(FileName);
+  ParentHandle := BackImage.Parent.Handle;
+  SendMessage(ParentHandle, WMSetRedraw, 0, 0);
+  try
+    FrontImage.PngImage.Assign(BackImage.PngImage);
+  finally
+    SendMessage(ParentHandle, WMSetRedraw, 1, 0);
+    RedrawWindow(ParentHandle, 0, 0,
+      RDWInvalidate or RDWAllChildren or RDWUpdateNow);
+  end;
+end;
+
+procedure AdvanceBrandBreath;
+begin
+  BrandBreathStep := (BrandBreathStep + 1) mod BrandBreathCycleSteps;
+end;
+
+function BrandBreathFrame(BaseFrame: Integer): Integer;
+var
+  Phase: Integer;
+begin
+  Phase := BrandBreathStep;
+  if Phase >= BrandBreathHalfSteps then
+    Phase := BrandBreathCycleSteps - 1 - Phase;
+  Result := BaseFrame +
+    ((Phase * BrandBreathAmplitude) div (BrandBreathHalfSteps - 1));
+  if Result > BrandMaxFrame then
+    Result := BrandMaxFrame;
+end;
+
+function BrandBreathTwinkle: Boolean;
+begin
+  Result := False;
 end;
 
 procedure CacheUninstallFrames;
@@ -307,7 +568,7 @@ var
   SourceName: String;
   TargetName: String;
 begin
-  for I := 0 to 7 do
+  for I := 0 to BrandMaxFrame do
   begin
     Suffix := 'star-' + IntToStr(I) + '.png';
     SourceName := ExpandConstant('{app}\resources\installer-brand\') + Suffix;
@@ -344,43 +605,65 @@ end;
 procedure ApplyInstallStars;
 begin
   if CurrentShellState = ShellInstallingState then
-    LoadBrandFrame(ShellStar, CurrentInstallFrame, BrandTwinkle)
+  begin
+    if CurrentInstallFrame < BrandMaxFrame then
+      LoadBrandFrameBuffered(ShellStar, ShellStarBuffer, CurrentInstallFrame)
+    else
+      LoadBrandFrameBuffered(ShellStar, ShellStarBuffer,
+        BrandBreathFrame(BrandBrightBaseFrame));
+  end
   else if (CurrentShellState = ShellFinishedState) or
     (CurrentShellState = ShellUninstallConfirmState) then
-    LoadBrandFrame(ShellStar, 7, BrandTwinkle)
+    LoadBrandFrameBuffered(ShellStar, ShellStarBuffer,
+      BrandBreathFrame(BrandBrightBaseFrame))
   else if CurrentShellState = ShellUninstallingState then
-    LoadBrandFrame(ShellStar, CurrentUninstallFrame, BrandTwinkle)
+  begin
+    if CurrentUninstallFrame > 0 then
+      LoadBrandFrameBuffered(ShellStar, ShellStarBuffer, CurrentUninstallFrame)
+    else
+      LoadBrandFrameBuffered(ShellStar, ShellStarBuffer, BrandBreathFrame(0));
+  end
   else
-    LoadBrandFrame(ShellStar, 0, BrandTwinkle);
+    LoadBrandFrameBuffered(ShellStar, ShellStarBuffer, BrandBreathFrame(0));
 end;
 
 procedure BrandTimerProc(hWnd: HWND; uMsg: UINT; idEvent: UINT_PTR;
   dwTime: DWORD);
 begin
+  if not InstallerAnimationReady then
+    Exit;
   AnimationTickCounter := AnimationTickCounter + 1;
-  if (AnimationTickCounter mod 3) = 0 then
-    BrandTwinkle := not BrandTwinkle;
+  if (AnimationTickCounter mod BrandBreathStepTicks) = 0 then
+    AdvanceBrandBreath;
   if (CurrentShellState = ShellInstallingState) and
-    ((AnimationTickCounter mod 6) = 0) then
+    ((AnimationTickCounter mod BrandTransitionStepTicks) = 0) then
   begin
-    if CurrentInstallFrame < 7 then
+    if CurrentInstallFrame < BrandMaxFrame then
+    begin
       CurrentInstallFrame := CurrentInstallFrame + 1;
+      if CurrentInstallFrame = BrandMaxFrame then
+        BrandBreathStep := BrandBreathPeakStep;
+    end;
   end;
   if (CurrentShellState = ShellUninstallingState) and
-    ((AnimationTickCounter mod 6) = 0) and
+    ((AnimationTickCounter mod BrandTransitionStepTicks) = 0) and
     (CurrentUninstallFrame > 0) then
     CurrentUninstallFrame := CurrentUninstallFrame - 1;
-  ApplyInstallStars;
+  if ((AnimationTickCounter mod BrandBreathStepTicks) = 0) or
+    ((AnimationTickCounter mod BrandTransitionStepTicks) = 0) then
+    ApplyInstallStars;
 end;
 
 procedure BuildCustomInstallerShell;
 begin
   WizardForm.ClientWidth := ScaleX(520);
   WizardForm.ClientHeight := ScaleY(552);
-  WizardForm.Color := $00241B15;
+  WizardForm.Color := TransparentKeyColor;
   WizardForm.Caption := '枕星AI助手';
   WizardForm.Font.Name := 'Segoe UI';
   ApplyBorderlessWindow(WizardForm.Handle);
+  ApplyTransparentBackdrop(WizardForm.Handle);
+  InstallDragWindowProc(WizardForm, WizardOriginalWndProc, WizardDragHandle);
   WizardForm.OuterNotebook.Hide;
   WizardForm.InnerNotebook.Hide;
   WizardForm.MainPanel.Hide;
@@ -388,6 +671,9 @@ begin
 
   ShellStar := TBitmapImage.Create(WizardForm);
   PrepareStarImage(ShellStar, WizardForm, 150, 24, 220);
+  ShellStarBuffer := TBitmapImage.Create(WizardForm);
+  PrepareStarImage(ShellStarBuffer, WizardForm, 150, 24, 220);
+  ShellStarBuffer.Visible := False;
 
   ShellFrame := TPanel.Create(WizardForm);
   ShellPanel := TPanel.Create(WizardForm);
@@ -401,7 +687,7 @@ begin
   ShellAccent.Height := ScaleY(2);
   ShellAccent.ParentColor := False;
   ShellAccent.ParentBackground := False;
-  ShellAccent.Color := $00DCD664;
+  ShellAccent.Color := $008B7E08;
   ShellAccent.BevelOuter := bvNone;
 
   ShellTitle := TNewStaticText.Create(WizardForm);
@@ -415,7 +701,7 @@ begin
   ShellTitle.Alignment := taCenter;
   ShellTitle.Font.Size := 14;
   ShellTitle.Font.Style := [fsBold];
-  ShellTitle.Font.Color := clWhite;
+  ShellTitle.Font.Color := $0035170A;
   ShellTitle.Color := ShellPanel.Color;
 
   ShellDescription := TNewStaticText.Create(WizardForm);
@@ -428,7 +714,7 @@ begin
   ShellDescription.Font.Name := 'Segoe UI';
   ShellDescription.Font.Size := 9;
   ShellDescription.Alignment := taCenter;
-  ShellDescription.Font.Color := $00D2C3B8;
+  ShellDescription.Font.Color := $007A6252;
   ShellDescription.Color := ShellPanel.Color;
 
   ShellPathLabel := TNewStaticText.Create(WizardForm);
@@ -442,21 +728,8 @@ begin
   ShellPathLabel.Font.Name := 'Segoe UI';
   ShellPathLabel.Font.Size := 9;
   ShellPathLabel.Font.Style := [fsBold];
-  ShellPathLabel.Font.Color := $00DCD664;
+  ShellPathLabel.Font.Color := $008B7E08;
   ShellPathLabel.Color := ShellPanel.Color;
-
-  ShellScopeLabel := TNewStaticText.Create(WizardForm);
-  ShellScopeLabel.Parent := ShellPanel;
-  ShellScopeLabel.Left := ScaleX(28);
-  ShellScopeLabel.Top := ScaleY(170);
-  ShellScopeLabel.Width := ScaleX(416);
-  ShellScopeLabel.Height := ScaleY(18);
-  ShellScopeLabel.AutoSize := False;
-  ShellScopeLabel.Caption := '管理员全机安装 · 保留现有设置 · 可安全卸载';
-  ShellScopeLabel.Font.Name := 'Segoe UI';
-  ShellScopeLabel.Font.Size := 8;
-  ShellScopeLabel.Font.Color := $00D2C3B8;
-  ShellScopeLabel.Color := ShellPanel.Color;
 
   ShellProgressText := TNewStaticText.Create(WizardForm);
   ShellProgressText.Parent := ShellPanel;
@@ -469,7 +742,7 @@ begin
   ShellProgressText.Font.Name := 'Segoe UI';
   ShellProgressText.Font.Size := 10;
   ShellProgressText.Font.Style := [fsBold];
-  ShellProgressText.Font.Color := clWhite;
+  ShellProgressText.Font.Color := $0035170A;
   ShellProgressText.Color := ShellPanel.Color;
 
   WizardForm.DirEdit.Parent := ShellPanel;
@@ -489,14 +762,14 @@ begin
   WizardForm.StatusLabel.Top := ScaleY(168);
   WizardForm.StatusLabel.Width := ScaleX(416);
   WizardForm.StatusLabel.Alignment := taCenter;
-  WizardForm.StatusLabel.Font.Color := $00FBF7F5;
+  WizardForm.StatusLabel.Font.Color := $0035170A;
   WizardForm.StatusLabel.Color := ShellPanel.Color;
   WizardForm.FilenameLabel.Parent := ShellPanel;
   WizardForm.FilenameLabel.Left := ScaleX(28);
   WizardForm.FilenameLabel.Top := ScaleY(190);
   WizardForm.FilenameLabel.Width := ScaleX(416);
   WizardForm.FilenameLabel.Alignment := taCenter;
-  WizardForm.FilenameLabel.Font.Color := $00D2C3B8;
+  WizardForm.FilenameLabel.Font.Color := $007A6252;
   WizardForm.FilenameLabel.Color := ShellPanel.Color;
   WizardForm.ProgressGauge.Parent := ShellPanel;
   WizardForm.ProgressGauge.Left := ScaleX(28);
@@ -516,7 +789,7 @@ begin
   WizardForm.RunList.Width := ScaleX(416);
   WizardForm.RunList.Height := ScaleY(50);
   WizardForm.RunList.Color := ShellPanel.Color;
-  WizardForm.RunList.Font.Color := clWhite;
+  WizardForm.RunList.Font.Color := $0035170A;
 
   ShellLaunchButton := TNewButton.Create(WizardForm);
   ShellLaunchButton.Parent := ShellPanel;
@@ -554,16 +827,14 @@ begin
   WizardForm.RunList.Visible := False;
   ShellLaunchButton.Visible := False;
   ShellPathLabel.Visible := False;
-  ShellScopeLabel.Visible := False;
   WizardForm.NextButton.Visible := False;
   WizardForm.CancelButton.Visible := False;
 
   if State = ShellReadyState then
   begin
     ShellTitle.Caption := '准备点亮枕星AI助手';
-    ShellDescription.Caption := '枕星AI助手将安装到这台电脑，所有用户都可以使用。';
+    ShellDescription.Caption := '选择安装位置，然后开始点亮。';
     ShellPathLabel.Visible := True;
-    ShellScopeLabel.Visible := True;
     WizardForm.DirEdit.Visible := True;
     WizardForm.DirBrowseButton.Visible := True;
     WizardForm.NextButton.Caption := '安装';
@@ -573,6 +844,7 @@ begin
     WizardForm.CancelButton.Caption := '取消';
     WizardForm.CancelButton.Visible := True;
     CurrentInstallFrame := 0;
+    BrandBreathStep := 0;
   end
   else if State = ShellInstallingState then
   begin
@@ -586,10 +858,10 @@ begin
     ShellProgressText.Caption := '0%';
     ShellProgressText.Visible := True;
     WizardForm.CancelButton.Caption := '取消安装';
-    WizardForm.CancelButton.Visible := False;
+    WizardForm.CancelButton.Visible := True;
     CurrentInstallFrame := 0;
     AnimationTickCounter := 0;
-    BrandTwinkle := False;
+    BrandBreathStep := 0;
   end
   else if State = ShellFinishedState then
   begin
@@ -600,7 +872,8 @@ begin
     WizardForm.NextButton.Width := ScaleX(138);
     WizardForm.NextButton.Visible := True;
     ShellLaunchButton.Visible := True;
-    CurrentInstallFrame := 7;
+    CurrentInstallFrame := BrandMaxFrame;
+    BrandBreathStep := BrandBreathPeakStep;
   end
   else if State = ShellUninstallConfirmState then
   begin
@@ -612,7 +885,8 @@ begin
     WizardForm.NextButton.Visible := True;
     WizardForm.CancelButton.Caption := '取消卸载';
     WizardForm.CancelButton.Visible := True;
-    CurrentUninstallFrame := 7;
+    CurrentUninstallFrame := BrandMaxFrame;
+    BrandBreathStep := BrandBreathPeakStep;
   end
   else if State = ShellUninstallingState then
   begin
@@ -625,7 +899,7 @@ begin
     ShellProgressText.Visible := True;
     CurrentUninstallFrame := 6;
     AnimationTickCounter := 0;
-    BrandTwinkle := False;
+    BrandBreathStep := BrandBreathPeakStep;
   end
   else
   begin
@@ -636,6 +910,7 @@ begin
     WizardForm.NextButton.Width := ScaleX(100);
     WizardForm.NextButton.Visible := True;
     CurrentUninstallFrame := 0;
+    BrandBreathStep := 0;
   end;
   ApplyInstallStars;
 end;
@@ -653,12 +928,13 @@ begin
   BuildCustomInstallerShell;
   ShellLaunchButton.OnClick := @LaunchInstalledAppClick;
   CurrentInstallFrame := 0;
-  CurrentUninstallFrame := 7;
+  CurrentUninstallFrame := BrandMaxFrame;
   CurrentShellState := ShellReadyState;
   AnimationTickCounter := 0;
-  BrandTwinkle := False;
+  BrandBreathStep := 0;
   ShowInstallerState(ShellReadyState);
-  BrandTimerId := SetTimer(0, 0, 180, CreateCallback(@BrandTimerProc));
+  InstallerAnimationReady := True;
+  BrandTimerId := SetTimer(0, 0, BrandTimerIntervalMs, CreateCallback(@BrandTimerProc));
 end;
 
 procedure CurPageChanged(CurPageID: Integer);
@@ -770,8 +1046,13 @@ end;
 
 procedure DeinitializeSetup;
 begin
+  InstallerAnimationReady := False;
   if BrandTimerId <> 0 then
+  begin
     KillTimer(0, BrandTimerId);
+    BrandTimerId := 0;
+  end;
+  RestoreDragWindowProc(WizardOriginalWndProc, WizardDragHandle);
 end;
 
 procedure UninstallTimerProc(hWnd: HWND; uMsg: UINT; idEvent: UINT_PTR;
@@ -779,13 +1060,24 @@ procedure UninstallTimerProc(hWnd: HWND; uMsg: UINT; idEvent: UINT_PTR;
 var
   ProgressPercent: Integer;
 begin
+  if not UninstallAnimationReady then
+    Exit;
   AnimationTickCounter := AnimationTickCounter + 1;
-  if (AnimationTickCounter mod 3) = 0 then
-    BrandTwinkle := not BrandTwinkle;
-  if ((AnimationTickCounter mod 6) = 0) and
+  if (AnimationTickCounter mod BrandBreathStepTicks) = 0 then
+    AdvanceBrandBreath;
+  if ((AnimationTickCounter mod BrandTransitionStepTicks) = 0) and
     (CurrentUninstallFrame > 0) then
     CurrentUninstallFrame := CurrentUninstallFrame - 1;
-  LoadBrandFrame(UninstallStar, CurrentUninstallFrame, BrandTwinkle);
+  if ((AnimationTickCounter mod BrandBreathStepTicks) = 0) or
+    ((AnimationTickCounter mod BrandTransitionStepTicks) = 0) then
+  begin
+    if CurrentUninstallFrame > 0 then
+      LoadBrandFrameBuffered(UninstallStar, UninstallStarBuffer,
+        CurrentUninstallFrame)
+    else
+      LoadBrandFrameBuffered(UninstallStar, UninstallStarBuffer,
+        BrandBreathFrame(0));
+  end;
   ProgressPercent := 0;
   if UninstallProgressForm.ProgressBar.Max > 0 then
     ProgressPercent := (UninstallProgressForm.ProgressBar.Position * 100) div
@@ -800,19 +1092,29 @@ end;
 procedure ConfirmTimerProc(hWnd: HWND; uMsg: UINT; idEvent: UINT_PTR;
   dwTime: DWORD);
 begin
+  if not ConfirmAnimationReady then
+    Exit;
   AnimationTickCounter := AnimationTickCounter + 1;
-  if (AnimationTickCounter mod 3) = 0 then
-    BrandTwinkle := not BrandTwinkle;
-  LoadBrandFrame(ConfirmStar, 7, BrandTwinkle);
+  if (AnimationTickCounter mod BrandBreathStepTicks) = 0 then
+  begin
+    AdvanceBrandBreath;
+    LoadBrandFrameBuffered(ConfirmStar, ConfirmStarBuffer,
+      BrandBreathFrame(BrandBrightBaseFrame));
+  end;
 end;
 
 procedure FinishedTimerProc(hWnd: HWND; uMsg: UINT; idEvent: UINT_PTR;
   dwTime: DWORD);
 begin
+  if not FinishedAnimationReady then
+    Exit;
   AnimationTickCounter := AnimationTickCounter + 1;
-  if (AnimationTickCounter mod 3) = 0 then
-    BrandTwinkle := not BrandTwinkle;
-  LoadBrandFrame(FinishedStar, 0, BrandTwinkle);
+  if (AnimationTickCounter mod BrandBreathStepTicks) = 0 then
+  begin
+    AdvanceBrandBreath;
+    LoadBrandFrameBuffered(FinishedStar, FinishedStarBuffer,
+      BrandBreathFrame(0));
+  end;
 end;
 
 function ShowCustomUninstallConfirmation: Boolean;
@@ -829,13 +1131,18 @@ begin
   ConfirmForm := CreateCustomForm(ScaleX(520), ScaleY(552), False, True);
   try
     ConfirmForm.Caption := '卸载枕星AI助手';
-    ConfirmForm.Color := $00241B15;
+    ConfirmForm.Color := TransparentKeyColor;
     ConfirmForm.Font.Name := 'Segoe UI';
     ApplyBorderlessWindow(ConfirmForm.Handle);
+    ApplyTransparentBackdrop(ConfirmForm.Handle);
+    InstallDragWindowProc(ConfirmForm, ConfirmOriginalWndProc, ConfirmDragHandle);
 
     ConfirmStar := TBitmapImage.Create(ConfirmForm);
     PrepareStarImage(ConfirmStar, ConfirmForm, 150, 24, 220);
-    LoadBrandFrame(ConfirmStar, 7, False);
+    LoadBrandFrame(ConfirmStar, BrandMaxFrame, False);
+    ConfirmStarBuffer := TBitmapImage.Create(ConfirmForm);
+    PrepareStarImage(ConfirmStarBuffer, ConfirmForm, 150, 24, 220);
+    ConfirmStarBuffer.Visible := False;
 
     ConfirmFrame := TPanel.Create(ConfirmForm);
     ConfirmPanel := TPanel.Create(ConfirmForm);
@@ -848,7 +1155,7 @@ begin
     ConfirmAccent.Height := ScaleY(2);
     ConfirmAccent.ParentColor := False;
     ConfirmAccent.ParentBackground := False;
-    ConfirmAccent.Color := $00DCD664;
+    ConfirmAccent.Color := $008B7E08;
     ConfirmAccent.BevelOuter := bvNone;
 
     ConfirmTitle := TNewStaticText.Create(ConfirmForm);
@@ -863,7 +1170,7 @@ begin
     ConfirmTitle.Font.Name := 'Segoe UI';
     ConfirmTitle.Font.Size := 15;
     ConfirmTitle.Font.Style := [fsBold];
-    ConfirmTitle.Font.Color := $00FBF7F5;
+    ConfirmTitle.Font.Color := $0035170A;
     ConfirmTitle.Color := ConfirmPanel.Color;
 
     ConfirmText := TNewStaticText.Create(ConfirmForm);
@@ -877,7 +1184,7 @@ begin
     ConfirmText.Caption := '卸载后，本机应用文件将被移除。';
     ConfirmText.Font.Name := 'Segoe UI';
     ConfirmText.Font.Size := 10;
-    ConfirmText.Font.Color := $00D2C3B8;
+    ConfirmText.Font.Color := $007A6252;
     ConfirmText.Color := ConfirmPanel.Color;
 
     CancelButton := TNewButton.Create(ConfirmForm);
@@ -902,16 +1209,20 @@ begin
     ConfirmForm.ActiveControl := CancelButton;
 
     AnimationTickCounter := 0;
-    BrandTwinkle := False;
-    ConfirmTimerId := SetTimer(0, 0, 180, CreateCallback(@ConfirmTimerProc));
+    BrandBreathStep := BrandBreathPeakStep;
+    ConfirmAnimationReady := True;
+    ConfirmTimerId := SetTimer(0, 0, BrandTimerIntervalMs, CreateCallback(@ConfirmTimerProc));
     Result := ConfirmForm.ShowModal() = mrOk;
   finally
+    ConfirmAnimationReady := False;
     if ConfirmTimerId <> 0 then
     begin
       KillTimer(0, ConfirmTimerId);
       ConfirmTimerId := 0;
     end;
+    RestoreDragWindowProc(ConfirmOriginalWndProc, ConfirmDragHandle);
     ConfirmStar := nil;
+    ConfirmStarBuffer := nil;
     ConfirmForm.Free();
   end;
 end;
@@ -939,15 +1250,20 @@ procedure BuildCustomUninstallerShell;
 begin
   UninstallProgressForm.ClientWidth := ScaleX(520);
   UninstallProgressForm.ClientHeight := ScaleY(552);
-  UninstallProgressForm.Color := $00241B15;
+  UninstallProgressForm.Color := TransparentKeyColor;
   UninstallProgressForm.Caption := '卸载枕星AI助手';
   UninstallProgressForm.Font.Name := 'Segoe UI';
   ApplyBorderlessWindow(UninstallProgressForm.Handle);
+  ApplyTransparentBackdrop(UninstallProgressForm.Handle);
+  InstallDragWindowProc(UninstallProgressForm, UninstallOriginalWndProc, UninstallDragHandle);
   UninstallProgressForm.PageNameLabel.Hide;
   UninstallProgressForm.PageDescriptionLabel.Hide;
 
   UninstallStar := TBitmapImage.Create(UninstallProgressForm);
   PrepareStarImage(UninstallStar, UninstallProgressForm, 150, 24, 220);
+  UninstallStarBuffer := TBitmapImage.Create(UninstallProgressForm);
+  PrepareStarImage(UninstallStarBuffer, UninstallProgressForm, 150, 24, 220);
+  UninstallStarBuffer.Visible := False;
 
   UninstallFrame := TPanel.Create(UninstallProgressForm);
   UninstallPanel := TPanel.Create(UninstallProgressForm);
@@ -960,7 +1276,7 @@ begin
   UninstallAccent.Height := ScaleY(2);
   UninstallAccent.ParentColor := False;
   UninstallAccent.ParentBackground := False;
-  UninstallAccent.Color := $00DCD664;
+  UninstallAccent.Color := $008B7E08;
   UninstallAccent.BevelOuter := bvNone;
 
   UninstallTitle := TNewStaticText.Create(UninstallProgressForm);
@@ -975,7 +1291,7 @@ begin
   UninstallTitle.Font.Name := 'Segoe UI';
   UninstallTitle.Font.Size := 15;
   UninstallTitle.Font.Style := [fsBold];
-  UninstallTitle.Font.Color := $00FBF7F5;
+  UninstallTitle.Font.Color := $0035170A;
   UninstallTitle.Color := UninstallPanel.Color;
 
   UninstallDescription := TNewStaticText.Create(UninstallProgressForm);
@@ -989,7 +1305,7 @@ begin
   UninstallDescription.Caption := '卸载中…';
   UninstallDescription.Font.Name := 'Segoe UI';
   UninstallDescription.Font.Size := 10;
-  UninstallDescription.Font.Color := $00D2C3B8;
+  UninstallDescription.Font.Color := $007A6252;
   UninstallDescription.Color := UninstallPanel.Color;
 
   UninstallProgressText := TNewStaticText.Create(UninstallProgressForm);
@@ -1004,7 +1320,7 @@ begin
   UninstallProgressText.Font.Name := 'Segoe UI';
   UninstallProgressText.Font.Size := 10;
   UninstallProgressText.Font.Style := [fsBold];
-  UninstallProgressText.Font.Color := $00FBF7F5;
+  UninstallProgressText.Font.Color := $0035170A;
   UninstallProgressText.Color := UninstallPanel.Color;
 
   UninstallProgressForm.ProgressBar.Parent := UninstallPanel;
@@ -1024,7 +1340,7 @@ begin
   UninstallProgressForm.StatusLabel.Top := ScaleY(170);
   UninstallProgressForm.StatusLabel.Width := ScaleX(414);
   UninstallProgressForm.StatusLabel.Alignment := taCenter;
-  UninstallProgressForm.StatusLabel.Font.Color := $00D2C3B8;
+  UninstallProgressForm.StatusLabel.Font.Color := $007A6252;
   UninstallProgressForm.StatusLabel.Color := UninstallPanel.Color;
   UninstallProgressForm.CancelButton.Parent := UninstallPanel;
   UninstallProgressForm.CancelButton.Visible := False;
@@ -1034,11 +1350,12 @@ procedure InitializeUninstallProgressForm;
 begin
   CacheUninstallFrames;
   BuildCustomUninstallerShell;
-  CurrentUninstallFrame := 7;
+  CurrentUninstallFrame := BrandMaxFrame;
   AnimationTickCounter := 0;
   LoadBrandFrame(UninstallStar, CurrentUninstallFrame, False);
-  BrandTwinkle := False;
-  UninstallTimerId := SetTimer(0, 0, 180, CreateCallback(@UninstallTimerProc));
+  BrandBreathStep := BrandBreathPeakStep;
+  UninstallAnimationReady := True;
+  UninstallTimerId := SetTimer(0, 0, BrandTimerIntervalMs, CreateCallback(@UninstallTimerProc));
 end;
 
 procedure ShowUninstallFinished;
@@ -1053,13 +1370,18 @@ begin
   FinishedForm := CreateCustomForm(ScaleX(520), ScaleY(552), False, True);
   try
     FinishedForm.Caption := '枕星AI助手已卸载';
-    FinishedForm.Color := $00241B15;
+    FinishedForm.Color := TransparentKeyColor;
     FinishedForm.Font.Name := 'Segoe UI';
     ApplyBorderlessWindow(FinishedForm.Handle);
+    ApplyTransparentBackdrop(FinishedForm.Handle);
+    InstallDragWindowProc(FinishedForm, FinishedOriginalWndProc, FinishedDragHandle);
 
     FinishedStar := TBitmapImage.Create(FinishedForm);
     PrepareStarImage(FinishedStar, FinishedForm, 150, 24, 220);
     LoadBrandFrame(FinishedStar, 0, False);
+    FinishedStarBuffer := TBitmapImage.Create(FinishedForm);
+    PrepareStarImage(FinishedStarBuffer, FinishedForm, 150, 24, 220);
+    FinishedStarBuffer.Visible := False;
 
     FinishedFrame := TPanel.Create(FinishedForm);
     FinishedPanel := TPanel.Create(FinishedForm);
@@ -1072,7 +1394,7 @@ begin
     FinishedAccent.Height := ScaleY(2);
     FinishedAccent.ParentColor := False;
     FinishedAccent.ParentBackground := False;
-    FinishedAccent.Color := $00DCD664;
+    FinishedAccent.Color := $008B7E08;
     FinishedAccent.BevelOuter := bvNone;
 
     FinishedText := TNewStaticText.Create(FinishedForm);
@@ -1087,7 +1409,7 @@ begin
     FinishedText.Font.Name := 'Segoe UI';
     FinishedText.Font.Size := 15;
     FinishedText.Font.Style := [fsBold];
-    FinishedText.Font.Color := $00FBF7F5;
+    FinishedText.Font.Color := $0035170A;
     FinishedText.Color := FinishedPanel.Color;
 
     GoodbyeButton := TNewButton.Create(FinishedForm);
@@ -1102,16 +1424,20 @@ begin
     FinishedForm.ActiveControl := GoodbyeButton;
 
     AnimationTickCounter := 0;
-    BrandTwinkle := False;
-    FinishedTimerId := SetTimer(0, 0, 180, CreateCallback(@FinishedTimerProc));
+    BrandBreathStep := 0;
+    FinishedAnimationReady := True;
+    FinishedTimerId := SetTimer(0, 0, BrandTimerIntervalMs, CreateCallback(@FinishedTimerProc));
     FinishedForm.ShowModal();
   finally
+    FinishedAnimationReady := False;
     if FinishedTimerId <> 0 then
     begin
       KillTimer(0, FinishedTimerId);
       FinishedTimerId := 0;
     end;
+    RestoreDragWindowProc(FinishedOriginalWndProc, FinishedDragHandle);
     FinishedStar := nil;
+    FinishedStarBuffer := nil;
     FinishedForm.Free();
   end;
 end;
@@ -1120,18 +1446,25 @@ procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
   if CurUninstallStep = usUninstall then
   begin
-    CurrentUninstallFrame := 7;
-    LoadBrandFrame(UninstallStar, CurrentUninstallFrame, False);
+    CurrentUninstallFrame := BrandMaxFrame;
+    if UninstallAnimationReady then
+      LoadBrandFrameBuffered(UninstallStar, UninstallStarBuffer,
+        CurrentUninstallFrame);
   end
   else if CurUninstallStep = usPostUninstall then
   begin
     CurrentUninstallFrame := 0;
-    LoadBrandFrame(UninstallStar, CurrentUninstallFrame, False);
+    if UninstallAnimationReady then
+      LoadBrandFrameBuffered(UninstallStar, UninstallStarBuffer,
+        CurrentUninstallFrame);
   end
   else if CurUninstallStep = usDone then
   begin
     CurrentUninstallFrame := 0;
-    LoadBrandFrame(UninstallStar, CurrentUninstallFrame, False);
+    if UninstallAnimationReady then
+      LoadBrandFrameBuffered(UninstallStar, UninstallStarBuffer,
+        CurrentUninstallFrame);
+    UninstallAnimationReady := False;
     if UninstallTimerId <> 0 then
     begin
       KillTimer(0, UninstallTimerId);
@@ -1144,10 +1477,25 @@ end;
 
 procedure DeinitializeUninstall;
 begin
+  ConfirmAnimationReady := False;
+  FinishedAnimationReady := False;
+  UninstallAnimationReady := False;
   if ConfirmTimerId <> 0 then
+  begin
     KillTimer(0, ConfirmTimerId);
+    ConfirmTimerId := 0;
+  end;
   if FinishedTimerId <> 0 then
+  begin
     KillTimer(0, FinishedTimerId);
+    FinishedTimerId := 0;
+  end;
   if UninstallTimerId <> 0 then
+  begin
     KillTimer(0, UninstallTimerId);
+    UninstallTimerId := 0;
+  end;
+  RestoreDragWindowProc(ConfirmOriginalWndProc, ConfirmDragHandle);
+  RestoreDragWindowProc(FinishedOriginalWndProc, FinishedDragHandle);
+  RestoreDragWindowProc(UninstallOriginalWndProc, UninstallDragHandle);
 end;

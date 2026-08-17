@@ -11,7 +11,34 @@ const entry = fs.readFileSync(path.join(root, "src", "main.tsx"), "utf8");
 const styles = fs.readFileSync(path.join(root, "src", "styles.css"), "utf8");
 const language = fs.readFileSync(path.join(root, "src", "language", "index.ts"), "utf8");
 const main = fs.readFileSync(path.join(root, "electron", "main.cjs"), "utf8");
+const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
+
+test("desktop chrome integrates native Windows controls into the draggable app header", () => {
+  const windowOptions = main.slice(
+    main.indexOf("const window = new BrowserWindow({"),
+    main.indexOf("webPreferences:", main.indexOf("const window = new BrowserWindow({"))
+  );
+
+  assert.match(windowOptions, /title:\s*BRAND\.name/);
+  assert.match(windowOptions, /titleBarStyle:\s*"hidden"/);
+  assert.match(
+    windowOptions,
+    /titleBarOverlay:\s*\{[\s\S]*?color:\s*"#00000000"[\s\S]*?symbolColor:\s*"#10203b"[\s\S]*?height:\s*88[\s\S]*?\}/
+  );
+  assert.doesNotMatch(windowOptions, /frame:\s*false/);
+  assert.match(index, /<title>枕星AI助手<\/title>/);
+  assert.doesNotMatch(index, /<title>枕星AI助手 Windows<\/title>/);
+  assert.match(styles, /--window-controls-width:\s*138px/);
+  assert.match(
+    styles,
+    /\.topbar\s*\{[\s\S]*?-webkit-app-region:\s*drag[\s\S]*?app-region:\s*drag/
+  );
+  assert.match(
+    styles,
+    /\.topbar :is\([^}]+\)\s*\{[\s\S]*?-webkit-app-region:\s*no-drag[\s\S]*?app-region:\s*no-drag/
+  );
+});
 
 test("modern shell uses the pinned icon system and replaces legacy chrome glyphs", () => {
   assert.equal(packageJson.dependencies["@tabler/icons-react"], "3.46.0");
@@ -26,21 +53,48 @@ test("modern shell uses the pinned icon system and replaces legacy chrome glyphs
   assert.match(styles, /\.navItem\.active::before/);
 });
 
-test("client chrome surfaces automatic update state and an explicit update action", () => {
-  assert.match(app, /data-aihub-client-update-status/);
-  assert.match(app, /void checkForUpdate\(false\)\.catch\(\(\) => undefined\)/);
-  assert.match(
-    app,
-    /updateResult\?\.status === "available"[\s\S]*?\? installUpdate[\s\S]*?: \(\) => void checkForUpdate\(true\)/
+test("client update stays at the bottom of the sidebar and only offers an action when available", () => {
+  const topbar = app.slice(
+    app.indexOf('<AppShell.Header className="topbar">'),
+    app.indexOf('</AppShell.Header>')
   );
+  const sidebar = app.slice(
+    app.indexOf('<AppShell.Navbar'),
+    app.indexOf('</AppShell.Navbar>')
+  );
+
+  assert.equal((app.match(/data-aihub-client-update-status/g) || []).length, 1);
+  assert.doesNotMatch(topbar, /data-aihub-client-update-status/);
+  assert.match(sidebar, /className=\{`clientUpdateBadge[^`]*sidebarUpdate/);
+  assert.match(sidebar, /data-aihub-client-update-status/);
+  assert.match(
+    sidebar,
+    /updateResult\?\.status === "available"\s*&&\s*\([\s\S]*?onClick=\{installUpdate\}[\s\S]*?update\.availableAction/
+  );
+  assert.doesNotMatch(sidebar, /checkForUpdate\(true\)/);
+  assert.match(app, /void checkForUpdate\(false\)\.catch\(\(\) => undefined\)/);
   for (const key of [
     "update.version",
-    "update.checking",
-    "update.checkAction",
-    "update.installNow"
+    "update.availableAction",
+    "update.installing"
   ]) {
     assert.equal((language.match(new RegExp(`"${key}"`, "g")) || []).length, 2);
   }
+  assert.match(
+    styles,
+    /\.sidebar\s*\{[\s\S]*?display:\s*flex[\s\S]*?flex-direction:\s*column/
+  );
+  const sidebarUpdateStyles = styles.slice(
+    styles.indexOf(".sidebarUpdate {"),
+    styles.indexOf("}", styles.indexOf(".sidebarUpdate {")) + 1
+  );
+  assert.match(sidebarUpdateStyles, /position:\s*sticky/);
+  assert.match(sidebarUpdateStyles, /bottom:\s*0/);
+  assert.match(sidebarUpdateStyles, /margin-top:\s*auto/);
+  assert.doesNotMatch(
+    styles,
+    /@media \(max-width:\s*1280px\) \{\r?\n\s{2}\.clientUpdateBadge\s*\{/
+  );
   const updateFetch = main.slice(
     main.indexOf("async function fetchUpdateManifest"),
     main.indexOf("async function checkForUpdate")

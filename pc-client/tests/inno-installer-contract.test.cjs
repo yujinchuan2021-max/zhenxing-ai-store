@@ -86,8 +86,8 @@ test("the Inno script is per-machine, branded, and migrates only the exact legac
   assert.match(source, /^DefaultDirName=\{autopf\}\\aihub-pc-client$/m);
   assert.match(source, /^ArchitecturesAllowed=x64compatible$/m);
   assert.match(source, /^ArchitecturesInstallIn64BitMode=x64compatible$/m);
-  assert.match(source, /^WizardStyle=modern dark hidebevels$/m);
-  assert.match(source, /^WizardBackColor=#071421$/m);
+  assert.match(source, /^WizardStyle=modern hidebevels$/m);
+  assert.match(source, /^WizardBackColor=#F4F8FB$/m);
   assert.doesNotMatch(source, /^WizardBackImageFile=/m);
   assert.match(source, /^SetupIconFile=\.\.\\icon\.ico$/m);
   assert.match(source, /Source: "\{#SourceDir\}\\\*"; DestDir: "\{app\}"; Flags: ignoreversion recursesubdirs createallsubdirs/);
@@ -117,8 +117,19 @@ test("the visible installer is one custom star-over-controls shell instead of th
     "utf8"
   );
 
+  const readNumericConstant = (name) => {
+    const match = source.match(new RegExp(`\\b${name}\\s*=\\s*(\\d+);`));
+    assert.ok(match, `${name} must be declared`);
+    return Number(match[1]);
+  };
+
   assert.match(source, /^DisableWelcomePage=yes$/m);
   assert.match(source, /^DisableReadyPage=yes$/m);
+  assert.match(source, /^Compression=lzma2\/fast$/m);
+  assert.match(source, /^SolidCompression=no$/m);
+  assert.doesNotMatch(source, /^LZMAUseSeparateProcess=/m);
+  assert.match(source, /^CloseApplications=force$/m);
+  assert.match(source, /^RestartApplications=no$/m);
   assert.match(source, /procedure BuildCustomInstallerShell;/);
   assert.match(source, /procedure ShowInstallerState\(State: Integer\);/);
   assert.match(source, /WizardForm\.OuterNotebook\.Hide/);
@@ -132,11 +143,16 @@ test("the visible installer is one custom star-over-controls shell instead of th
   assert.match(source, /PrepareRoundedShell\(ShellFrame, ShellPanel, WizardForm\)/);
   assert.match(source, /PrepareProgressImage\(ShellProgressTrack, ShellPanel/);
   assert.match(source, /ShellProgressFill\.Width := ScaleX\(\(338 \* CurProgress\) div MaxProgress\)/);
-  assert.match(source, /Panel\.Color := \$00362920/);
-  assert.match(source, /ShellAccent\.Color := \$00DCD664/);
+  assert.match(source, /Panel\.Color := \$00FEFCF8/);
+  assert.match(source, /ShellAccent\.Color := \$008B7E08/);
   assert.match(source, /procedure ApplyBorderlessWindow\(FormHandle: HWND\);/);
   assert.match(source, /Style := Style and not \(WSCaption or WSThickFrame or WSSystemMenu/);
   assert.match(source, /ApplyBorderlessWindow\(WizardForm\.Handle\)/);
+  assert.match(source, /procedure ApplyTransparentBackdrop\(FormHandle: HWND\);/);
+  assert.match(source, /SetLayeredWindowAttributes\(FormHandle, TransparentKeyColor, 255, LWAColorKey\)/);
+  assert.match(source, /procedure InstallDragWindowProc\(Form: TSetupForm; var OriginalProc: Longint; var FormHandle: HWND\);/);
+  assert.match(source, /if \(Message = WMNCHitTest\)[\s\S]*Result := HTCaption/);
+  assert.match(source, /InstallDragWindowProc\(WizardForm, WizardOriginalWndProc, WizardDragHandle\)/);
   assert.match(source, /WizardForm\.DirEdit\.Parent := ShellPanel/);
   assert.match(source, /WizardForm\.DirBrowseButton\.Parent := ShellPanel/);
   assert.match(source, /WizardForm\.ProgressGauge\.Parent := ShellPanel/);
@@ -146,15 +162,89 @@ test("the visible installer is one custom star-over-controls shell instead of th
   assert.match(source, /ShellLaunchButton\.Caption := '打开枕星AI助手'/);
   assert.match(source, /WizardForm\.NextButton\.Caption := '关闭窗口'/);
   assert.match(source, /ShellProgressText\.Caption := IntToStr\(\(CurProgress \* 100\) div MaxProgress\) \+ '%'/);
-  assert.match(source, /if CurrentInstallFrame < 7 then[\s\S]*CurrentInstallFrame := CurrentInstallFrame \+ 1/);
+  assert.match(source, /BrandFrameCount = 32;/);
+  assert.match(source, /BrandMaxFrame = BrandFrameCount - 1;/);
+  assert.match(source, /if CurrentInstallFrame < BrandMaxFrame then[\s\S]*CurrentInstallFrame := CurrentInstallFrame \+ 1/);
   assert.match(source, /CurrentUninstallFrame > 0\) then[\s\S]*CurrentUninstallFrame := CurrentUninstallFrame - 1/);
-  assert.match(source, /\(AnimationTickCounter mod 6\) = 0/);
-  assert.match(source, /SetTimer\(0, 0, 180, CreateCallback\(@BrandTimerProc\)\)/);
+  assert.match(source, /procedure AdvanceBrandBreath;/);
+  assert.doesNotMatch(source, /BrandTwinkle := not BrandTwinkle/);
+  assert.match(source, /SetTimer\(0, 0, BrandTimerIntervalMs, CreateCallback\(@BrandTimerProc\)\)/);
+  assert.ok(
+    readNumericConstant("BrandTimerIntervalMs") *
+      readNumericConstant("BrandBreathStepTicks") *
+      readNumericConstant("BrandBreathCycleSteps") >= 4000,
+    "one complete star breathing cycle must last at least four seconds"
+  );
+  assert.ok(
+    readNumericConstant("BrandTimerIntervalMs") <= 125,
+    "the star animation must refresh at least eight times per second"
+  );
+  assert.equal(readNumericConstant("BrandTimerIntervalMs"), 80);
+  assert.equal(readNumericConstant("BrandBrightBaseFrame"), 0);
+  assert.equal(readNumericConstant("BrandBreathAmplitude"), 31);
+  assert.equal(readNumericConstant("BrandTransitionStepTicks"), 1);
   assert.doesNotMatch(source, /CurrentInstallFrame := \(CurProgress \* 7\) div MaxProgress/);
-  assert.match(source, /枕星AI助手将安装到这台电脑，所有用户都可以使用/);
+  assert.doesNotMatch(source, /管理员全机安装 · 保留现有设置 · 可安全卸载/);
+  assert.doesNotMatch(source, /枕星AI助手将安装到这台电脑，所有用户都可以使用/);
+  assert.match(
+    source,
+    /State = ShellInstallingState[\s\S]*WizardForm\.CancelButton\.Caption := '取消安装';[\s\S]*WizardForm\.CancelButton\.Visible := True/
+  );
   assert.match(source, /#ifdef PreviewMode[\s\S]*PrivilegesRequired=lowest[\s\S]*#else[\s\S]*PrivilegesRequired=admin[\s\S]*#endif/);
   assert.match(source, /\{param:ZPREVIEW\|ready\}/);
   assert.doesNotMatch(source, /WelcomeLabel1\.|WelcomeLabel2\./);
+});
+
+test("star animation swaps a fully decoded back buffer and never inserts a blank flash frame", () => {
+  const source = fs.readFileSync(
+    path.join(root, "build/inno/installer.iss"),
+    "utf8"
+  );
+
+  for (const name of [
+    "ShellStarBuffer",
+    "ConfirmStarBuffer",
+    "UninstallStarBuffer",
+    "FinishedStarBuffer",
+  ]) {
+    assert.match(source, new RegExp(`\\b${name}: TBitmapImage;`));
+  }
+  assert.match(
+    source,
+    /procedure LoadBrandFrameBuffered\(var FrontImage: TBitmapImage;\s*var BackImage: TBitmapImage; Frame: Integer\);/
+  );
+  assert.match(
+    source,
+    /BackImage\.PngImage\.LoadFromFile\(FileName\);[\s\S]*SendMessage\(ParentHandle, WMSetRedraw, 0, 0\);[\s\S]*FrontImage\.PngImage\.Assign\(BackImage\.PngImage\);[\s\S]*SendMessage\(ParentHandle, WMSetRedraw, 1, 0\);[\s\S]*RedrawWindow\(ParentHandle/
+  );
+  const bufferedLoader = source.match(
+    /procedure LoadBrandFrameBuffered[\s\S]*?\nend;/
+  )?.[0] || "";
+  assert.doesNotMatch(bufferedLoader, /\.Visible :=|BringToFront/);
+  assert.match(source, /LoadBrandFrameBuffered\(ShellStar, ShellStarBuffer,/);
+  assert.match(source, /LoadBrandFrameBuffered\(ConfirmStar, ConfirmStarBuffer,/);
+  assert.match(source, /LoadBrandFrameBuffered\(UninstallStar, UninstallStarBuffer,/);
+  assert.match(source, /LoadBrandFrameBuffered\(FinishedStar, FinishedStarBuffer,/);
+  assert.match(
+    source,
+    /function BrandBreathTwinkle: Boolean;\s*begin\s*Result := False;\s*end;/
+  );
+});
+
+test("closing the finished installer never launches the client implicitly", () => {
+  const source = fs.readFileSync(
+    path.join(root, "build/inno/installer.iss"),
+    "utf8"
+  );
+
+  assert.match(
+    source,
+    /Flags: nowait postinstall skipifsilent runasoriginaluser unchecked/
+  );
+  assert.match(
+    source,
+    /procedure LaunchInstalledAppClick\(Sender: TObject\);[\s\S]*WizardForm\.RunList\.Checked\[0\] := True;[\s\S]*WizardForm\.NextButton\.OnClick/
+  );
 });
 
 test("the uninstaller uses the same borderless star shell for confirmation, progress, and completion", () => {
@@ -187,6 +277,57 @@ test("the uninstaller uses the same borderless star shell for confirmation, prog
   assert.match(source, /ShowUninstallFinished;/);
 });
 
+test("installer and uninstaller timers fail closed after their controls stop being valid", () => {
+  const source = fs.readFileSync(
+    path.join(root, "build/inno/installer.iss"),
+    "utf8"
+  );
+
+  for (const name of [
+    "InstallerAnimationReady",
+    "ConfirmAnimationReady",
+    "UninstallAnimationReady",
+    "FinishedAnimationReady",
+  ]) {
+    assert.match(source, new RegExp(`\\b${name}: Boolean;`));
+  }
+  assert.match(
+    source,
+    /procedure BrandTimerProc[\s\S]*?begin\s+if not InstallerAnimationReady then\s+Exit;/
+  );
+  assert.match(
+    source,
+    /procedure ConfirmTimerProc[\s\S]*?begin\s+if not ConfirmAnimationReady then\s+Exit;/
+  );
+  assert.match(
+    source,
+    /procedure UninstallTimerProc[\s\S]*?begin\s+if not UninstallAnimationReady then\s+Exit;/
+  );
+  assert.match(
+    source,
+    /procedure FinishedTimerProc[\s\S]*?begin\s+if not FinishedAnimationReady then\s+Exit;/
+  );
+  assert.match(
+    source,
+    /CurUninstallStep = usDone[\s\S]*?UninstallAnimationReady := False;[\s\S]*?KillTimer\(0, UninstallTimerId\)/
+  );
+  assert.match(
+    source,
+    /procedure DeinitializeUninstall;\s*begin\s+ConfirmAnimationReady := False;\s+FinishedAnimationReady := False;\s+UninstallAnimationReady := False;/
+  );
+});
+
+test("installer progress assets use the client mist-blue palette", () => {
+  const source = fs.readFileSync(
+    path.join(root, "scripts/generate-inno-brand-assets.cjs"),
+    "utf8"
+  ).toLowerCase();
+
+  assert.match(source, /#b9cad8/);
+  assert.match(source, /#e8f1f6/);
+  assert.match(source, /#16aabd/);
+});
+
 test("server-connected packaging builds Portable once and hands win-unpacked to Inno", () => {
   const source = fs.readFileSync(
     path.join(root, "scripts/package-server-connected-review.cjs"),
@@ -204,7 +345,11 @@ test("server-connected packaging builds Portable once and hands win-unpacked to 
 });
 
 test("generated installer star frames preserve the supplied star silhouette", async () => {
-  for (const name of ["star-0.png", "star-7.png", "star-7-twinkle.png"]) {
+  const generated = fs.readdirSync(path.join(root, "build", "inno", "brand"));
+  assert.equal(generated.filter((name) => /^star-\d+\.png$/.test(name)).length, 32);
+  assert.equal(generated.filter((name) => /^star-\d+-twinkle\.png$/.test(name)).length, 32);
+
+  for (const name of ["star-0.png", "star-15.png", "star-31.png", "star-31-twinkle.png"]) {
     const file = path.join(root, "build", "inno", "brand", name);
     const { data, info } = await sharp(file)
       .ensureAlpha()

@@ -30,10 +30,10 @@ const aiHubTheme = createTheme({
   colors: { aiHubCyan },
   defaultRadius: "sm",
   fontFamily:
-    '"Segoe UI Variable Text", "Segoe UI", Inter, "Microsoft YaHei UI", sans-serif',
+    'HarmonyOS Sans SC, "HarmonyOS Sans", "Microsoft YaHei UI", sans-serif',
   headings: {
     fontFamily:
-      '"Segoe UI Variable Display", "Segoe UI", Inter, "Microsoft YaHei UI", sans-serif',
+      'HarmonyOS Sans SC, "HarmonyOS Sans", "Microsoft YaHei UI", sans-serif',
     fontWeight: "800"
   },
   cursorType: "pointer",

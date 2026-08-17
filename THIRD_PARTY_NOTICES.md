@@ -24,6 +24,16 @@
 Electron 分发物还包含 Chromium 等第三方组件；正式分发中由 Electron 提供的
 `LICENSE.electron.txt` 和 `LICENSES.chromium.html` 继续适用，不能由本文件替代。
 
+## 随应用分发的字体
+
+- **HarmonyOS Sans SC** — Copyright Huawei Device Co., Ltd.。枕星AI助手随包
+  分发未经修改的字体文件，来源固定在 OpenHarmony
+  `global_system_resources` 仓库提交
+  `1bb2f1c93b0abb791adf13961cd631773a18a8d5`，文件 SHA-256 为
+  `8978e05044e7089ad6a9de38c505c8148305607983487435a916d2610700a7ca`。
+  字体继续受上游 [`LICENSE_Fonts`](https://github.com/openharmony/global_system_resources/blob/master/LICENSE_Fonts)
+  约束；本项目的 Apache-2.0 许可证不替代该字体许可证。
+
 ## 随仓库提供的扩展资源
 
 - `pc-client/extension-resources/codex/chatgpt-apps/` 随附自己的

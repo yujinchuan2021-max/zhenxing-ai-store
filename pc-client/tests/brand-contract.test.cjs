@@ -68,8 +68,9 @@ test("public surfaces use the ZhenXing AI Assistant brand without breaking legac
   assert.match(main, /BRAND\.legacyUserDataDirectory/);
   assert.match(main, /BRAND\.legacyManagedDirectoryName/);
   assert.match(app, /BRAND\.legacyManagedDirectoryName/);
-  assert.match(main, /title: `\$\{BRAND\.name\} Windows`/);
-  assert.match(index, /<title>枕星AI助手 Windows<\/title>/);
+  assert.match(main, /title: BRAND\.name/);
+  assert.doesNotMatch(main, /title: `\$\{BRAND\.name\} Windows`/);
+  assert.match(index, /<title>枕星AI助手<\/title>/);
   assert.equal([...language.matchAll(/"chrome\.pc": "Windows"/g)].length, 2);
   assert.doesNotMatch(app, /<small>\{uiText\("chrome\.pc"\)\}<\/small>/);
   assert.match(app, /data-aihub-brand-easter-egg-trigger/);

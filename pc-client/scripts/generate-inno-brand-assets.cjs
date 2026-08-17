@@ -7,6 +7,7 @@ const sharp = require("sharp");
 const root = path.resolve(__dirname, "..");
 const sourcePath = path.join(root, "assets", "brand", "zhenxing-star.png");
 const outputDir = path.join(root, "build", "inno", "brand");
+const FRAME_COUNT = 32;
 
 function gradient(size, brightness) {
   const low = 56 + Math.round(brightness * 72);
@@ -116,17 +117,17 @@ async function renderBackground() {
 
 async function renderProgressTrack() {
   const border = await sharp({
-    create: { width: 342, height: 16, channels: 4, background: "#354456" },
+    create: { width: 342, height: 16, channels: 4, background: "#b9cad8" },
   }).png().toBuffer();
   const inset = await sharp({
-    create: { width: 340, height: 14, channels: 4, background: "#202936" },
+    create: { width: 340, height: 14, channels: 4, background: "#e8f1f6" },
   }).png().toBuffer();
   return sharp(border).composite([{ input: inset, left: 1, top: 1 }]).png().toBuffer();
 }
 
 async function renderProgressFill() {
   return sharp({
-    create: { width: 4, height: 12, channels: 4, background: "#64d6dc" },
+    create: { width: 4, height: 12, channels: 4, background: "#16aabd" },
   }).png().toBuffer();
 }
 
@@ -135,8 +136,13 @@ async function main() {
     throw new Error("supplied star source asset is missing");
   }
   fs.mkdirSync(outputDir, { recursive: true });
-  for (let index = 0; index < 8; index += 1) {
-    const brightness = index / 7;
+  for (const name of fs.readdirSync(outputDir)) {
+    if (/^star-\d+(?:-twinkle)?\.png$/.test(name)) {
+      fs.rmSync(path.join(outputDir, name));
+    }
+  }
+  for (let index = 0; index < FRAME_COUNT; index += 1) {
+    const brightness = index / (FRAME_COUNT - 1);
     fs.writeFileSync(path.join(outputDir, `star-${index}.png`), await renderStar(320, brightness, false));
     fs.writeFileSync(path.join(outputDir, `star-${index}-twinkle.png`), await renderStar(320, brightness, true));
   }

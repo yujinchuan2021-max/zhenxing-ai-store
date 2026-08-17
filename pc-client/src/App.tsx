@@ -5010,32 +5010,6 @@ export default function App() {
         </form>
 
         <div className="topActions">
-          <div
-            className={`clientUpdateBadge clientUpdateBadge-${updateResult?.status || "checking"}`}
-            data-aihub-client-update-status={updateResult?.status || "checking"}
-          >
-            <span className="clientUpdateCopy">
-              <b>{uiText("update.version", { value1: updateResult?.currentVersion || packageJson.version })}</b>
-              <small>{updateResult ? runtimeMessage(updateResult.message) : uiText("update.checking")}</small>
-            </span>
-            <button
-              type="button"
-              onClick={
-                updateResult?.status === "available"
-                  ? installUpdate
-                  : () => void checkForUpdate(true)
-              }
-              disabled={checkingUpdate || installingUpdate}
-            >
-              {installingUpdate
-                ? uiText("update.installing")
-                : updateResult?.status === "available"
-                  ? uiText("update.installNow")
-                  : checkingUpdate
-                    ? uiText("update.checkingAction")
-                    : uiText("update.checkAction")}
-            </button>
-          </div>
           <button className="quietButton" onClick={openInstalledManagement}>
             {uiText("auto.a8b6c39dcabf")}</button>
           <button
@@ -5252,6 +5226,26 @@ export default function App() {
               <span className="navIcon"><IconPlus size={19} stroke={1.8} /></span>{uiText("resources.submit.nav")}
             </NavButton>
           </div>
+          <footer
+            className={`clientUpdateBadge clientUpdateBadge-${updateResult?.status || "checking"} sidebarUpdate`}
+            data-aihub-client-update-status={updateResult?.status || "checking"}
+            aria-live="polite"
+          >
+            <span className="clientUpdateCopy">
+              <b>{uiText("update.version", { value1: updateResult?.currentVersion || packageJson.version })}</b>
+            </span>
+            {updateResult?.status === "available" && (
+              <button
+                type="button"
+                onClick={installUpdate}
+                disabled={installingUpdate}
+              >
+                {installingUpdate
+                  ? uiText("update.installing")
+                  : uiText("update.availableAction")}
+              </button>
+            )}
+          </footer>
       </AppShell.Navbar>
 
       <AppShell.Main
@@ -5627,10 +5621,12 @@ export default function App() {
           <div className="brandEasterEggStar" aria-hidden="true">
             <BrandMark />
           </div>
-          <p>隐藏彩蛋 · 5 / 5</p>
-          <h2>被你发现了</h2>
-          <blockquote>你咋知道作者有个儿子叫于枕星？哈哈哈！</blockquote>
-          <Button onClick={() => setBrandEasterEggOpen(false)}>哈哈，知道啦</Button>
+          <p>{uiText("brand.easterEggProgress")}</p>
+          <h2>{uiText("brand.easterEggTitle")}</h2>
+          <blockquote>{uiText("brand.easterEggMessage")}</blockquote>
+          <Button onClick={() => setBrandEasterEggOpen(false)}>
+            {uiText("brand.easterEggDismiss")}
+          </Button>
         </section>
       </Modal>
       {pendingDownloadCancellation && (
@@ -12384,6 +12380,10 @@ function SettingsPanel({
               {createLanguage(language).text("settings.language.en")}
             </button>
           </div>
+        </SettingBlock>
+
+        <SettingBlock title={uiText("settings.fontTitle")}>
+          <p className="pathValue">{uiText("settings.fontNotice")}</p>
         </SettingBlock>
       </aside>
     </Drawer>
