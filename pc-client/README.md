@@ -59,7 +59,7 @@ npm.cmd run catalog:publish:local
 - Flarum 社区直接内嵌 PC，使用同一用户身份和独立社区分区，不再打开浏览器。
 - PC 用户通过 60 秒、单次使用票据建立 Flarum 会话，无需再次输入社区密码。
 - Docker 本地运行 PostgreSQL、身份服务、Mailpit、MariaDB、Flarum、后台和只读 HTTPS 发布源。
-- Windows Portable 与 NSIS 安装包、隔离安装/升级/卸载验收脚本。
+- Windows Portable 与 Inno Setup 全机安装包、隔离安装/升级/卸载验收脚本。
 
 ## 常用验证
 
@@ -80,7 +80,7 @@ npm.cmd run release:local:test-client
 npm.cmd run test:packaged-managed-download -- openclaw-windows-hub
 ```
 
-也可以直接运行 `npm.cmd run release:local:upgrade` 完成以上发布链路。本地打包会先校验短期证书配置，再生成 `BUILD.json`，把版本、安装包哈希和源码提交绑定在一起；发布包再用更新密钥签名这份来源证明。`release:local:test-client` 使用隔离 Windows 配置运行，并把真实下载达到 1 MiB 后可暂停作为发布门禁；不会复用或终止用户正在运行的 AI Hub。
+也可以直接运行 `npm.cmd run release:local:upgrade` 完成以上发布链路。本地打包会先校验短期证书配置，再生成 `BUILD.json`；只有在干净工作树中封包时，才能把版本、安装包哈希和源码提交作为同一份可复算来源证明。发布包再用更新密钥签名该证明。`release:local:test-client` 使用隔离 Windows 配置运行，并把真实下载达到 1 MiB 后可暂停作为发布门禁；不会复用或终止用户正在运行的枕星AI助手。
 
 Windows 安装生命周期：
 

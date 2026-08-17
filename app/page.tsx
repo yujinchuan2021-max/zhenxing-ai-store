@@ -2,24 +2,30 @@ import styles from "./official-site.module.css";
 
 /* eslint-disable @next/next/no-img-element -- The official site intentionally serves local brand assets without an image optimization service. */
 
+const windowsPrereleaseUrl =
+  "https://github.com/yujinchuan2021-max/zhenxing-ai-store/releases/tag/v0.1.100";
+
 const platforms = [
   {
     name: "Windows",
-    state: "联机评审候选",
-    detail: "当前仅用于服务连接评审，尚未作为公开版本提供下载。",
-    availability: "尚未公开下载",
+    state: "预发行测试",
+    detail: "v0.1.100 提供 Windows x64 全机安装版与便携测试版；当前制品尚未代码签名。",
+    availability: "查看 v0.1.100 预发行版",
+    href: windowsPrereleaseUrl,
   },
   {
     name: "macOS",
     state: "开发中",
     detail: "桌面体验正在构建中；公开制品准备好后会在这里同步。",
     availability: "敬请期待",
+    href: null,
   },
   {
     name: "Linux",
     state: "开发中",
     detail: "桌面体验正在规划与开发中；不会提供占位下载地址。",
     availability: "敬请期待",
+    href: null,
   },
 ] as const;
 
@@ -102,7 +108,7 @@ export default function Home() {
             </a>
           </div>
           <p className={styles.heroStatus} role="status">
-            <span aria-hidden="true" /> 公开桌面版本尚未发布
+            <span aria-hidden="true" /> Windows v0.1.100 预发行测试版已开放
           </p>
         </div>
 
@@ -125,7 +131,7 @@ export default function Home() {
           <span className={styles.starThree}>✦</span>
           <div className={styles.readout}>
             <span>STATUS</span>
-            <b>LOCAL REVIEW</b>
+            <b>PRERELEASE / 0.1.100</b>
           </div>
         </div>
       </section>
@@ -169,15 +175,26 @@ export default function Home() {
               </div>
               <h3>{platform.name}</h3>
               <p>{platform.detail}</p>
-              <div className={styles.platformAvailability} role="status">
-                <span aria-hidden="true" /> {platform.availability}
-              </div>
+              {platform.href ? (
+                <a
+                  className={styles.platformAvailability}
+                  href={platform.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span aria-hidden="true" /> {platform.availability} ↗
+                </a>
+              ) : (
+                <div className={styles.platformAvailability} role="status">
+                  <span aria-hidden="true" /> {platform.availability}
+                </div>
+              )}
             </article>
           ))}
         </div>
 
         <p className={styles.downloadNote}>
-          公开版本发布后，每个平台卡片都会明确列出版本号、文件名、大小、SHA-256、签名状态与官方 HTTPS 地址。
+          Windows 预发行页已列出版本号、文件名、大小、SHA-256 与签名状态；macOS 和 Linux 仅在真实制品就绪后开放。
         </p>
       </section>
 
@@ -248,7 +265,7 @@ export default function Home() {
         </div>
         <div className={styles.footerStatus}>
           <span>当前状态</span>
-          <b>公开桌面版本尚未发布</b>
+          <b>Windows v0.1.100 预发行测试</b>
         </div>
         <a className={styles.backToTop} href="#top">回到星图顶部 ↑</a>
       </footer>

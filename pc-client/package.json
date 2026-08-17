@@ -1,6 +1,6 @@
 {
   "name": "aihub-pc-client",
-  "version": "0.1.40",
+  "version": "0.1.100",
   "private": true,
   "license": "Apache-2.0",
   "description": "枕星AI助手 Windows client",

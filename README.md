@@ -1,98 +1,48 @@
-# vinext-starter
+# 枕星AI助手
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+枕星AI助手是面向 Windows 的 AI 工具发现、安装、更新与本机管理中心。它统一呈现 AI 厂商、桌面与 CLI 产品，以及 Skill、MCP、插件和连接器等生态资源。
 
-## Prerequisites
+## 当前公开版本
 
-- Node.js `>=22.13.0`
+- [v0.1.100 预发行测试版](https://github.com/yujinchuan2021-max/zhenxing-ai-store/releases/tag/v0.1.100)
+- 提供 Windows x64 全机安装版和便携测试版。
+- 发布页同时提供 SHA-256、BUILD 和 PACKAGE-CONTROL 校验记录。
+- 当前 EXE 尚未代码签名，Windows 可能显示未知发布者或 SmartScreen 提示。
+- 正式 Latest 仍为 v0.1.91；预发行版不会自动替换正式版。
 
-## Quick Start
+## 主要能力
 
-```bash
-npm install
-npm run dev
-npm run build
+- 按厂商浏览 AI 产品与可接入产品。
+- 浏览 Skill、MCP、插件和连接器，并查看用途、兼容宿主与来源。
+- 管理已安装产品、下载任务、安装包和本机运行环境。
+- 为已接入的软件提供版本检测、单项更新与批量更新入口。
+- 在客户端内访问社区、投稿入口和个人中心。
+
+## 项目目录
+
+- `pc-client/`：Windows 桌面客户端、安装器、目录与本地服务。
+- `app/`：枕星AI助手官方网站。
+- `deployment/`：服务端与发布环境配置。
+
+## 参与贡献
+
+欢迎提交错误报告、体验改进、第一方资源证据、固定适配器、文档与翻译。贡献前请阅读 [贡献指南](CONTRIBUTING.md)：我们的原则是降低门槛但不降低安全线，把复杂留给系统，把选择交给用户。
+
+## 本地开发
+
+桌面客户端：
+
+```powershell
+cd pc-client
+npm.cmd install
+npm.cmd run desktop
 ```
 
-This starter does not use `wrangler.jsonc`.
+官方网站：
 
-## Included Shape
-
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```powershell
+npm.cmd install
+npm.cmd run dev
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
-
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
-
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
-
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Useful Commands
-
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+正式发布仍要求代码签名、正式 HTTPS 更新通道和独立发布验收；候选或预发行制品不等于生产发布。
